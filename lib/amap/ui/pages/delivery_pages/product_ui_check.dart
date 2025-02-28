@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/amap/class/product.dart';
 import 'package:titan/amap/tools/constants.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 
 class ProductUi extends ConsumerWidget {
-  final Product product;
+  final AppModulesAmapSchemasAmapProductComplete product;
   final Function onclick;
   final bool isModification;
   const ProductUi({

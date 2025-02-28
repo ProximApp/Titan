@@ -2,6 +2,8 @@ import 'package:titan/amap/providers/delivery_provider.dart';
 import 'package:titan/amap/providers/available_deliveries.dart';
 import 'package:titan/amap/router.dart';
 import 'package:titan/amap/ui/amap.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/widgets/admin_button.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
@@ -11,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/amap/class/order.dart';
 import 'package:titan/amap/providers/delivery_list_provider.dart';
 import 'package:titan/amap/providers/delivery_product_list_provider.dart';
 import 'package:titan/amap/providers/is_amap_admin_provider.dart';
@@ -123,7 +124,7 @@ class AmapMainPage extends HookConsumerWidget {
                       },
                       addOrder: () {
                         balance.whenData((s) {
-                          orderNotifier.setOrder(Order.empty());
+                          orderNotifier.setOrder(OrderReturn.fromJson({}));
                           animation.forward();
                           showPanel.value = true;
                         });
@@ -212,7 +213,7 @@ class AmapMainPage extends HookConsumerWidget {
                               border: Border.all(color: Colors.white, width: 2),
                             ),
                             child: Row(
-                              children: CollectionSlot.values
+                              children: AmapSlotType.values
                                   .map(
                                     (e) => CollectionSlotSelector(
                                       collectionSlot: e,
@@ -223,14 +224,17 @@ class AmapMainPage extends HookConsumerWidget {
                           ),
                         ),
                         const SizedBox(height: 30),
-                        DeliverySection(editable: order.id == Order.empty().id),
+                        DeliverySection(
+                          editable:
+                              order.orderId == OrderReturn.fromJson({}).orderId,
+                        ),
                         const SizedBox(height: 20),
                         WaitingButton(
                           onTap: () async {
                             if (availableDeliveriesIds.contains(delivery.id)) {
                               await tokenExpireWrapper(ref, () async {
                                 await deliveryProductListNotifier
-                                    .loadProductList(delivery.products);
+                                    .loadProductList(delivery.products ?? []);
                               });
                               QR.to(AmapRouter.root + AmapRouter.listProduct);
                             } else {

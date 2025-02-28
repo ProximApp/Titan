@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:titan/amap/class/delivery.dart';
 import 'package:titan/amap/providers/delivery_provider.dart';
 import 'package:titan/amap/tools/constants.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
 
 class DeliveryUi extends HookConsumerWidget {
-  final Delivery delivery;
+  final DeliveryReturn delivery;
   final VoidCallback onTap;
   final bool showSelected;
   const DeliveryUi({
@@ -68,7 +68,7 @@ class DeliveryUi extends HookConsumerWidget {
               ),
               const Spacer(),
               Text(
-                "${delivery.products.length} ${AppLocalizations.of(context)!.amapProduct}${delivery.products.length != 1 ? "s" : ""}",
+                "${delivery.products?.length ?? 0} ${AppLocalizations.of(context)!.amapProduct}${delivery.products?.length != 1 ? "s" : ""}",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,

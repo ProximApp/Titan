@@ -2,23 +2,23 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/amap/class/cash.dart';
-import 'package:titan/amap/class/order.dart';
 import 'package:titan/amap/providers/cash_list_provider.dart';
 import 'package:titan/amap/providers/delivery_order_list_provider.dart';
 import 'package:titan/amap/providers/user_order_list_provider.dart';
 import 'package:titan/amap/tools/constants.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tools/ui/layouts/card_button.dart';
 import 'package:titan/tools/ui/layouts/card_layout.dart';
-import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
-import 'package:titan/l10n/app_localizations.dart';
+import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
+import 'package:titan/user/extensions/core_user_simple.dart';
 
 class DetailOrderUI extends HookConsumerWidget {
-  final Order order;
-  final Cash userCash;
+  final OrderReturn order;
+  final CashComplete userCash;
   final String deliveryId;
   const DetailOrderUI({
     super.key,
@@ -41,7 +41,7 @@ class DetailOrderUI extends HookConsumerWidget {
 
     return CardLayout(
       width: 250,
-      height: 145 + (20.0 * order.products.length),
+      height: 145 + (20.0 * order.productsdetail.length),
       colors: const [
         AMAPColorConstants.lightGradient1,
         AMAPColorConstants.greenGradient1,
@@ -64,12 +64,12 @@ class DetailOrderUI extends HookConsumerWidget {
             ),
           ),
           const SizedBox(height: 10),
-          ...order.products.map(
+          ...order.productsdetail.map(
             (product) => Row(
               children: [
                 Expanded(
                   child: AutoSizeText(
-                    product.name,
+                    product.product.name,
                     maxLines: 1,
                     minFontSize: 10,
                     overflow: TextOverflow.ellipsis,
@@ -83,7 +83,7 @@ class DetailOrderUI extends HookConsumerWidget {
                 SizedBox(
                   width: 90,
                   child: Text(
-                    "${product.quantity} (${(product.quantity * product.price).toStringAsFixed(2)}€)",
+                    "${product.quantity} (${(product.quantity * product.product.price).toStringAsFixed(2)}€)",
                     textAlign: TextAlign.right,
                     style: const TextStyle(
                       fontSize: 17,
@@ -106,7 +106,7 @@ class DetailOrderUI extends HookConsumerWidget {
           Row(
             children: [
               Text(
-                "${order.products.fold<int>(0, (value, product) => value + product.quantity)} ${AppLocalizations.of(context)!.amapProduct}${order.products.fold<int>(0, (value, product) => value + product.quantity) != 1 ? "s" : ""}",
+                "${order.productsdetail.fold<int>(0, (value, product) => value + product.quantity)} ${AppLocalizations.of(context)!.amapProduct}${order.productsdetail.fold<int>(0, (value, product) => value + product.quantity) != 1 ? "s" : ""}",
                 style: const TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w700,
@@ -155,7 +155,7 @@ class DetailOrderUI extends HookConsumerWidget {
                         await tokenExpireWrapper(ref, () async {
                           final index = orderList.maybeWhen(
                             data: (data) => data.indexWhere(
-                              (element) => element.id == order.id,
+                              (element) => element.orderId == order.orderId,
                             ),
                             orElse: () => -1,
                           );

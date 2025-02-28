@@ -1,27 +1,29 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/amap/class/order.dart';
-import 'package:titan/amap/repositories/order_list_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class OrderByDeliveryListNotifier extends ListNotifier<Order> {
-  OrderListRepository get orderListRepository =>
-      ref.watch(orderListRepositoryProvider);
+class OrderByDeliveryListNotifier extends ListNotifierAPI<OrderReturn> {
+  Openapi get orderListRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<List<Order>> build() {
+  AsyncValue<List<OrderReturn>> build() {
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<List<Order>>> loadDeliveryOrderList(
+  Future<AsyncValue<List<OrderReturn>>> loadDeliveryOrderList(
     String deliveryId,
   ) async {
     return await loadList(
-      () async => orderListRepository.getDeliveryOrderList(deliveryId),
+      () async => orderListRepository.amapDeliveriesDeliveryIdOrdersGet(
+        deliveryId: deliveryId,
+      ),
     );
   }
 }
 
 final orderByDeliveryListProvider =
-    NotifierProvider<OrderByDeliveryListNotifier, AsyncValue<List<Order>>>(
-      () => OrderByDeliveryListNotifier(),
-    );
+    NotifierProvider<
+      OrderByDeliveryListNotifier,
+      AsyncValue<List<OrderReturn>>
+    >(OrderByDeliveryListNotifier.new);

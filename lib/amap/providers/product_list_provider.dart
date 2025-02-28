@@ -1,45 +1,64 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/amap/class/product.dart';
-import 'package:titan/amap/repositories/product_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
+import 'package:titan/tools/token_expire_wrapper.dart';
 
-class ProductListNotifier extends ListNotifier<Product> {
-  ProductListRepository get productListRepository =>
-      ref.watch(productListRepositoryProvider);
+class ProductListNotifier
+    extends ListNotifierAPI<AppModulesAmapSchemasAmapProductComplete> {
+  Openapi get productListRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<List<Product>> build() {
+  AsyncValue<List<AppModulesAmapSchemasAmapProductComplete>> build() {
+    tokenExpireWrapperAuth(ref, () async {
+      await loadProductList();
+    });
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<List<Product>>> loadProductList() async {
-    return await loadList(productListRepository.getProductList);
+  Future<AsyncValue<List<AppModulesAmapSchemasAmapProductComplete>>>
+  loadProductList() async {
+    return await loadList(productListRepository.amapProductsGet);
   }
 
-  Future<bool> addProduct(Product product) async {
-    return await add(productListRepository.createProduct, product);
-  }
-
-  Future<bool> updateProduct(Product product) async {
-    return await update(
-      productListRepository.updateProduct,
-      (products, product) =>
-          products..[products.indexWhere((p) => p.id == product.id)] = product,
+  Future<bool> addProduct(ProductSimple product) async {
+    return await add(
+      () => productListRepository.amapProductsPost(body: product),
       product,
     );
   }
 
-  Future<bool> deleteProduct(Product product) async {
-    return await delete(
-      productListRepository.deleteProduct,
-      (products, product) => products..removeWhere((i) => i.id == product.id),
-      product.id,
+  Future<bool> updateProduct(
+    AppModulesAmapSchemasAmapProductComplete product,
+  ) async {
+    return await update(
+      () => productListRepository.amapProductsProductIdPatch(
+        productId: product.id,
+        body: AppModulesAmapSchemasAmapProductEdit(
+          category: product.category,
+          name: product.name,
+          price: product.price,
+        ),
+      ),
+      (product) => product.id,
       product,
+    );
+  }
+
+  Future<bool> deleteProduct(
+    AppModulesAmapSchemasAmapProductComplete product,
+  ) async {
+    return await delete(
+      () => productListRepository.amapProductsProductIdDelete(
+        productId: product.id,
+      ),
+      (product) => product.id,
+      product.id,
     );
   }
 }
 
 final productListProvider =
-    NotifierProvider<ProductListNotifier, AsyncValue<List<Product>>>(
+    NotifierProvider<ProductListNotifier, AsyncValue<List<AppModulesAmapSchemasAmapProductComplete>>>(
       ProductListNotifier.new,
     );

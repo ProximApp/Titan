@@ -1,19 +1,26 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/amap/class/cash.dart';
-import 'package:titan/amap/repositories/amap_user_repository.dart';
-import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/auth/providers/openid_provider.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/single_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
+import 'package:titan/tools/token_expire_wrapper.dart';
 
-class UserCashNotifier extends SingleNotifier<Cash> {
-  AmapUserRepository get amapUserRepository =>
-      ref.watch(amapUserRepositoryProvider);
+class UserCashNotifier extends SingleNotifierAPI<CashComplete> {
+  Openapi get amapUserRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<Cash> build() {
+  AsyncValue<CashComplete> build() {
+    tokenExpireWrapperAuth(ref, () async {
+      final userId = ref.watch(idProvider);
+      userId.whenData((value) async => await loadCashByUser(value));
+    });
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<Cash>> loadCashByUser(String userId) async {
-    return await load(() async => amapUserRepository.getCashByUser(userId));
+  Future<AsyncValue<CashComplete>> loadCashByUser(String userId) async {
+    return await load(
+      () async => amapUserRepository.amapUsersUserIdCashGet(userId: userId),
+    );
   }
 
   Future updateCash(double amount) async {
@@ -35,6 +42,6 @@ class UserCashNotifier extends SingleNotifier<Cash> {
   }
 }
 
-final userAmountProvider = NotifierProvider<UserCashNotifier, AsyncValue<Cash>>(
+final userAmountProvider = NotifierProvider<UserCashNotifier, AsyncValue<CashComplete>>(
   () => UserCashNotifier(),
 );

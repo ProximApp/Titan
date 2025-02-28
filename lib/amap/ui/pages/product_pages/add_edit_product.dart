@@ -1,7 +1,7 @@
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:titan/amap/class/product.dart';
+import 'package:titan/amap/adapters/product_complete.dart';
 import 'package:titan/amap/providers/category_list_provider.dart';
 import 'package:titan/amap/providers/product_provider.dart';
 import 'package:titan/amap/providers/product_list_provider.dart';
@@ -9,6 +9,7 @@ import 'package:titan/amap/providers/selected_category_provider.dart';
 import 'package:titan/amap/providers/selected_list_provider.dart';
 import 'package:titan/amap/tools/constants.dart';
 import 'package:titan/amap/ui/amap.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/layouts/add_edit_button_layout.dart';
@@ -25,7 +26,8 @@ class AddEditProduct extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormState>();
     final product = ref.watch(productProvider);
-    final isEdit = product.id != Product.empty().id;
+    final isEdit =
+        product.id != AppModulesAmapSchemasAmapProductComplete.fromJson({}).id;
     final products = ref.watch(productListProvider);
     final productsNotifier = ref.watch(productListProvider.notifier);
     final categories = ref.watch(categoryListProvider);
@@ -177,15 +179,15 @@ class AddEditProduct extends HookConsumerWidget {
                                   )!.amapCreateCategory
                               ? newCategory.text
                               : categoryController;
-                          Product newProduct = Product(
-                            id: isEdit ? product.id : "",
-                            name: nameController.text,
-                            price: double.parse(
-                              priceController.text.replaceAll(',', '.'),
-                            ),
-                            category: cate,
-                            quantity: 0,
-                          );
+                          AppModulesAmapSchemasAmapProductComplete newProduct =
+                              AppModulesAmapSchemasAmapProductComplete(
+                                id: isEdit ? product.id : "",
+                                name: nameController.text,
+                                price: double.parse(
+                                  priceController.text.replaceAll(',', '.'),
+                                ),
+                                category: cate,
+                              );
                           await tokenExpireWrapper(ref, () async {
                             final updatedProductMsg = isEdit
                                 ? AppLocalizations.of(
@@ -203,7 +205,9 @@ class AddEditProduct extends HookConsumerWidget {
                                 ? await productsNotifier.updateProduct(
                                     newProduct,
                                   )
-                                : await productsNotifier.addProduct(newProduct);
+                                : await productsNotifier.addProduct(
+                                    newProduct.toProductSimple(),
+                                  );
                             if (value) {
                               if (isEdit) {
                                 formKey.currentState!.reset();

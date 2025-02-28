@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:titan/amap/class/delivery.dart';
 import 'package:titan/amap/providers/delivery_id_provider.dart';
 import 'package:titan/amap/providers/delivery_list_provider.dart';
 import 'package:titan/amap/providers/delivery_order_list_provider.dart';
@@ -12,18 +11,20 @@ import 'package:titan/amap/providers/product_list_provider.dart';
 import 'package:titan/amap/providers/selected_list_provider.dart';
 import 'package:titan/amap/router.dart';
 import 'package:titan/amap/tools/constants.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/ui/builders/auto_loader_child.dart';
 import 'package:titan/tools/ui/layouts/card_button.dart';
 import 'package:titan/tools/ui/layouts/card_layout.dart';
-import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
+import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 
 class DeliveryUi extends HookConsumerWidget {
-  final Delivery delivery;
+  final DeliveryReturn delivery;
   const DeliveryUi({super.key, required this.delivery});
 
   @override
@@ -81,7 +82,7 @@ class DeliveryUi extends HookConsumerWidget {
                         onTap: () {
                           deliveryIdNotifier.setId(delivery.id);
                           deliveryProductListNotifier.loadProductList(
-                            delivery.products,
+                            delivery.products ?? [],
                           );
                           QR.to(
                             AmapRouter.root +
@@ -116,7 +117,7 @@ class DeliveryUi extends HookConsumerWidget {
                     },
                   ),
                   Text(
-                    "${delivery.products.length} ${AppLocalizations.of(context)!.amapProduct}${delivery.products.length != 1 ? "s" : ""}",
+                    "${delivery.products?.length ?? 0} ${AppLocalizations.of(context)!.amapProduct}${delivery.products?.length != 1 ? "s" : ""}",
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
@@ -131,11 +132,12 @@ class DeliveryUi extends HookConsumerWidget {
             margin: const EdgeInsets.only(top: 15, bottom: 5),
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: Row(
-              mainAxisAlignment: (delivery.status == DeliveryStatus.creation)
+              mainAxisAlignment:
+                  (delivery.status == DeliveryStatusType.creation)
                   ? MainAxisAlignment.spaceBetween
                   : MainAxisAlignment.center,
               children: [
-                if (delivery.status == DeliveryStatus.creation)
+                if (delivery.status == DeliveryStatusType.creation)
                   GestureDetector(
                     onTap: () async {
                       deliveryIdNotifier.setId(delivery.id);
@@ -144,9 +146,11 @@ class DeliveryUi extends HookConsumerWidget {
                             AmapRouter.admin +
                             AmapRouter.addEditDelivery,
                       );
-                      final deliveryProductsIds = delivery.products
-                          .map((e) => e.id)
-                          .toList(growable: false);
+                      final deliveryProductsIds =
+                          delivery.products
+                              ?.map((e) => e.id)
+                              .toList(growable: false) ??
+                          [];
                       final products = ref.watch(productListProvider);
                       final selectedNotifier = ref.watch(
                         selectedListProvider.notifier,
@@ -174,7 +178,7 @@ class DeliveryUi extends HookConsumerWidget {
                       ),
                     ),
                   ),
-                if (delivery.status == DeliveryStatus.creation)
+                if (delivery.status == DeliveryStatusType.creation)
                   WaitingButton(
                     onTap: () async {
                       await showDialog(
@@ -232,18 +236,19 @@ class DeliveryUi extends HookConsumerWidget {
                     await showDialog(
                       context: context,
                       builder: ((context) => CustomDialogBox(
-                        title: delivery.status == DeliveryStatus.creation
+                        title: delivery.status == DeliveryStatusType.creation
                             ? AppLocalizations.of(context)!.amapOpenDelivery
-                            : delivery.status == DeliveryStatus.available
+                            : delivery.status == DeliveryStatusType.orderable
                             ? AppLocalizations.of(context)!.amapLock
-                            : delivery.status == DeliveryStatus.locked
+                            : delivery.status == DeliveryStatusType.locked
                             ? AppLocalizations.of(context)!.amapDeliver
                             : AppLocalizations.of(context)!.amapArchive,
-                        descriptions: delivery.status == DeliveryStatus.creation
+                        descriptions:
+                            delivery.status == DeliveryStatusType.creation
                             ? AppLocalizations.of(context)!.amapOpenningDelivery
-                            : delivery.status == DeliveryStatus.available
+                            : delivery.status == DeliveryStatusType.orderable
                             ? AppLocalizations.of(context)!.amapLockingDelivery
-                            : delivery.status == DeliveryStatus.locked
+                            : delivery.status == DeliveryStatusType.locked
                             ? AppLocalizations.of(
                                 context,
                               )!.amapDeliveringDelivery
@@ -277,7 +282,7 @@ class DeliveryUi extends HookConsumerWidget {
                           )!.amapDeliveryNotArchived;
                           await tokenExpireWrapper(ref, () async {
                             switch (delivery.status) {
-                              case DeliveryStatus.creation:
+                              case DeliveryStatusType.creation:
                                 final value = await deliveryListNotifier
                                     .openDelivery(delivery);
                                 if (value) {
@@ -292,7 +297,7 @@ class DeliveryUi extends HookConsumerWidget {
                                   );
                                 }
                                 break;
-                              case DeliveryStatus.available:
+                              case DeliveryStatusType.orderable:
                                 final value = await deliveryListNotifier
                                     .lockDelivery(delivery);
                                 if (value) {
@@ -307,7 +312,7 @@ class DeliveryUi extends HookConsumerWidget {
                                   );
                                 }
                                 break;
-                              case DeliveryStatus.locked:
+                              case DeliveryStatusType.locked:
                                 final value = await deliveryListNotifier
                                     .deliverDelivery(delivery);
                                 if (value) {
@@ -322,7 +327,7 @@ class DeliveryUi extends HookConsumerWidget {
                                   );
                                 }
                                 break;
-                              case DeliveryStatus.delivered:
+                              case DeliveryStatusType.delivered:
                                 final value = await deliveryListNotifier
                                     .archiveDelivery(delivery);
                                 if (value) {
@@ -336,6 +341,10 @@ class DeliveryUi extends HookConsumerWidget {
                                     notArchivedDeliveryMsg,
                                   );
                                 }
+                                break;
+                              case DeliveryStatusType.swaggerGeneratedUnknown:
+                                break;
+                              case DeliveryStatusType.archived:
                                 break;
                             }
                           });
@@ -351,7 +360,8 @@ class DeliveryUi extends HookConsumerWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       gradient: LinearGradient(
-                        colors: !(delivery.status == DeliveryStatus.creation)
+                        colors:
+                            !(delivery.status == DeliveryStatusType.creation)
                             ? [
                                 AMAPColorConstants.redGradient1,
                                 AMAPColorConstants.redGradient2,
@@ -365,7 +375,8 @@ class DeliveryUi extends HookConsumerWidget {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: !(delivery.status == DeliveryStatus.creation)
+                          color:
+                              !(delivery.status == DeliveryStatusType.creation)
                               ? AMAPColorConstants.redGradient2.withValues(
                                   alpha: 0.5,
                                 )
@@ -384,11 +395,11 @@ class DeliveryUi extends HookConsumerWidget {
                       Container(
                         padding: const EdgeInsets.only(bottom: 2),
                         child: Text(
-                          delivery.status == DeliveryStatus.creation
+                          delivery.status == DeliveryStatusType.creation
                               ? AppLocalizations.of(context)!.amapOpenDelivery
-                              : delivery.status == DeliveryStatus.available
+                              : delivery.status == DeliveryStatusType.orderable
                               ? AppLocalizations.of(context)!.amapCloseDelivery
-                              : delivery.status == DeliveryStatus.locked
+                              : delivery.status == DeliveryStatusType.locked
                               ? AppLocalizations.of(context)!.amapEndingDelivery
                               : AppLocalizations.of(
                                   context,
@@ -401,11 +412,11 @@ class DeliveryUi extends HookConsumerWidget {
                       ),
                       const SizedBox(width: 10),
                       HeroIcon(
-                        delivery.status == DeliveryStatus.creation
+                        delivery.status == DeliveryStatusType.creation
                             ? HeroIcons.lockOpen
-                            : delivery.status == DeliveryStatus.available
+                            : delivery.status == DeliveryStatusType.orderable
                             ? HeroIcons.lockClosed
-                            : delivery.status == DeliveryStatus.locked
+                            : delivery.status == DeliveryStatusType.locked
                             ? HeroIcons.truck
                             : HeroIcons.archiveBoxArrowDown,
                         color: Colors.white,

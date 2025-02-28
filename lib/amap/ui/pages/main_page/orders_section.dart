@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/amap/class/delivery.dart';
-import 'package:titan/amap/class/order.dart';
 import 'package:titan/amap/providers/delivery_id_provider.dart';
 import 'package:titan/amap/providers/delivery_list_provider.dart';
 import 'package:titan/amap/providers/order_provider.dart';
 import 'package:titan/amap/providers/user_order_list_provider.dart';
 import 'package:titan/amap/tools/constants.dart';
 import 'package:titan/amap/ui/components/order_ui.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/card_layout.dart';
 import 'package:titan/tools/ui/layouts/horizontal_list_view.dart';
-import 'package:titan/l10n/app_localizations.dart';
 
 class OrderSection extends HookConsumerWidget {
   final VoidCallback onTap, addOrder, onEdit;
@@ -30,9 +30,9 @@ class OrderSection extends HookConsumerWidget {
     final orderNotifier = ref.read(orderProvider.notifier);
     final deliveryIdNotifier = ref.read(deliveryIdProvider.notifier);
     final deliveries = ref.watch(deliveryListProvider);
-    final availableDeliveries = deliveries.maybeWhen<List<Delivery>>(
+    final availableDeliveries = deliveries.maybeWhen<List<DeliveryReturn>>(
       data: (data) => data
-          .where((element) => element.status == DeliveryStatus.available)
+          .where((element) => element.status == DeliveryStatusType.orderable)
           .toList(),
       orElse: () => [],
     );
@@ -51,7 +51,7 @@ class OrderSection extends HookConsumerWidget {
             const SizedBox(width: 15),
             GestureDetector(
               onTap: () {
-                final e = Order.empty();
+                final e = OrderReturn.fromJson({});
                 deliveryIdNotifier.setId(e.deliveryId);
                 orderNotifier.setOrder(e);
                 addOrder();

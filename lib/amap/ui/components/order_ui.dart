@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:titan/amap/class/order.dart';
 import 'package:titan/amap/providers/user_amount_provider.dart';
 import 'package:titan/amap/providers/user_order_list_provider.dart';
 import 'package:titan/amap/providers/order_provider.dart';
 import 'package:titan/amap/tools/constants.dart';
-import 'package:titan/amap/tools/functions.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tools/ui/layouts/card_button.dart';
 import 'package:titan/tools/ui/layouts/card_layout.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
-import 'package:titan/l10n/app_localizations.dart';
 
 class OrderUI extends HookConsumerWidget {
-  final Order order;
+  final OrderReturn order;
   final void Function()? onTap, onEdit;
   final bool showButton, isDetail;
   const OrderUI({
@@ -40,7 +40,7 @@ class OrderUI extends HookConsumerWidget {
     }
 
     return CardLayout(
-      id: order.id,
+      id: order.orderId,
       width: 195,
       height: isDetail ? 100 : 150,
       colors: const [
@@ -81,7 +81,7 @@ class OrderUI extends HookConsumerWidget {
           Row(
             children: [
               Text(
-                "${order.products.length} ${AppLocalizations.of(context)!.amapProduct}${order.products.length != 1 ? "s" : ""}",
+                "${order.productsdetail.length} ${AppLocalizations.of(context)!.amapProduct}${order.productsdetail.length != 1 ? "s" : ""}",
                 style: const TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w700,
@@ -101,7 +101,7 @@ class OrderUI extends HookConsumerWidget {
           ),
           const SizedBox(height: 3),
           Text(
-            uiCollectionSlotToString(order.collectionSlot, context),
+            capitalize(order.collectionSlot.name.split('.')[1]),
             style: const TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w700,

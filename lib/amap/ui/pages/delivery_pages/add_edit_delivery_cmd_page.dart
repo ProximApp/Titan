@@ -2,7 +2,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:titan/amap/class/delivery.dart';
+import 'package:titan/amap/adapters/delivery_return.dart';
 import 'package:titan/amap/providers/delivery_list_provider.dart';
 import 'package:titan/amap/providers/delivery_order_list_provider.dart';
 import 'package:titan/amap/providers/delivery_provider.dart';
@@ -12,6 +12,7 @@ import 'package:titan/amap/providers/sorted_by_category_products.dart';
 import 'package:titan/amap/tools/constants.dart';
 import 'package:titan/amap/ui/amap.dart';
 import 'package:titan/amap/ui/pages/delivery_pages/product_ui_check.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/layouts/add_edit_button_layout.dart';
@@ -30,7 +31,7 @@ class AddEditDeliveryPage extends HookConsumerWidget {
     final locale = Localizations.localeOf(context);
     final formKey = GlobalKey<FormState>();
     final delivery = ref.watch(deliveryProvider);
-    final isEdit = delivery.id != Delivery.empty().id;
+    final isEdit = delivery.id != DeliveryReturn.fromJson({}).id;
     final dateController = useTextEditingController(
       text: isEdit ? DateFormat.yMd(locale).format(delivery.deliveryDate) : '',
     );
@@ -134,7 +135,7 @@ class AddEditDeliveryPage extends HookConsumerWidget {
                             onTap: () async {
                               if (formKey.currentState!.validate()) {
                                 final date = dateController.value.text;
-                                final del = Delivery(
+                                final del = DeliveryReturn(
                                   id: isEdit ? delivery.id : '',
                                   products: products
                                       .where(
@@ -145,7 +146,7 @@ class AddEditDeliveryPage extends HookConsumerWidget {
                                   deliveryDate: DateTime.parse(
                                     processDateBack(date, locale.toString()),
                                   ),
-                                  status: DeliveryStatus.creation,
+                                  status: DeliveryStatusType.creation,
                                 );
                                 await tokenExpireWrapper(ref, () async {
                                   final deliveryNotifier = ref.watch(
@@ -168,7 +169,9 @@ class AddEditDeliveryPage extends HookConsumerWidget {
                                       ? await deliveryNotifier.updateDelivery(
                                           del,
                                         )
-                                      : await deliveryNotifier.addDelivery(del);
+                                      : await deliveryNotifier.addDelivery(
+                                          del.toDeliveryBase(),
+                                        );
                                   if (value) {
                                     QR.back();
                                     if (isEdit) {

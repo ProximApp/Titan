@@ -1,12 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/amap/class/product.dart';
 import 'package:titan/amap/providers/product_list_provider.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 
-class SortedByCategoryProvider extends Notifier<Map<String, List<Product>>> {
+class SortedByCategoryProvider
+    extends
+        Notifier<Map<String, List<AppModulesAmapSchemasAmapProductComplete>>> {
   @override
-  Map<String, List<Product>> build() {
+  Map<String, List<AppModulesAmapSchemasAmapProductComplete>> build() {
     final products = ref.watch(productListProvider);
-    final sortedByCategoryProducts = <String, List<Product>>{};
+    final sortedByCategoryProducts =
+        <String, List<AppModulesAmapSchemasAmapProductComplete>>{};
     products.maybeWhen(
       data: (products) {
         for (var product in products) {
@@ -24,6 +27,7 @@ class SortedByCategoryProvider extends Notifier<Map<String, List<Product>>> {
 }
 
 final sortedByCategoryProductsProvider =
-    NotifierProvider<SortedByCategoryProvider, Map<String, List<Product>>>(
-      () => SortedByCategoryProvider(),
-    );
+    NotifierProvider<
+      SortedByCategoryProvider,
+      Map<String, List<AppModulesAmapSchemasAmapProductComplete>>
+    >(() => SortedByCategoryProvider());
