@@ -126,7 +126,7 @@ void main() {
         final cashProvider = CashListProvider(cashRepository: mockRepository);
         final cashList = [
           Cash.empty().copyWith(
-            user: SimpleUser.empty().copyWith(
+            user: CoreUserSimple.empty().copyWith(
               name: 'John',
               firstname: 'Doe',
               nickname: 'JD',
@@ -134,7 +134,7 @@ void main() {
             balance: 100,
           ),
           Cash.empty().copyWith(
-            user: SimpleUser.empty().copyWith(
+            user: CoreUserSimple.empty().copyWith(
               name: 'Jane',
               firstname: 'Doe',
               nickname: 'JD',
@@ -142,7 +142,7 @@ void main() {
             balance: 200,
           ),
           Cash.empty().copyWith(
-            user: SimpleUser.empty().copyWith(
+            user: CoreUserSimple.empty().copyWith(
               name: 'Bob',
               firstname: 'Smith',
               nickname: null,

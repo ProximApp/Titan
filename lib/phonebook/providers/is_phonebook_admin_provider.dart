@@ -10,7 +10,7 @@ import 'package:titan/user/providers/user_provider.dart';
 
 final isPhonebookAdminProvider = Provider<bool>((ref) {
   final user = ref.watch(userProvider);
-  return user.groups
+  return (user.groups ?? [])
       .map((e) => e.id)
       .contains("d3f91313-d7e5-49c6-b01f-c19932a7e09b"); // admin_phonebook
 });
@@ -37,7 +37,7 @@ final isAssociationPresidentProvider = Provider<bool>((ref) {
       final membership = getMembershipForAssociation(member, association);
       return rolesTags.maybeWhen(
         data: (tags) {
-          return membership.roleTags?.contains(tags.first) ?? false;
+          return membership.roleTags?.contains(tags.tags.first) ?? false;
         },
         orElse: () => false,
       );

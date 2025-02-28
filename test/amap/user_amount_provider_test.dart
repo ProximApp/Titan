@@ -19,7 +19,7 @@ void main() {
 
   group('loadCashByUser', () {
     test('returns cash for valid user id', () async {
-      final user = SimpleUser.empty().copyWith(id: '123');
+      final user = CoreUserSimple.empty().copyWith(id: '123');
       final cash = Cash(balance: 100.0, user: user);
       when(
         () => mockRepository.getCashByUser('123'),
@@ -51,7 +51,7 @@ void main() {
 
   group('updateCash', () {
     test('updates cash balance', () async {
-      final cash = Cash(balance: 100.0, user: SimpleUser.empty());
+      final cash = Cash(balance: 100.0, user: CoreUserSimple.empty());
       notifier.state = AsyncValue.data(cash);
 
       await notifier.updateCash(50.0);

@@ -1,5 +1,5 @@
-import 'package:myecl/generated/openapi.models.swagger.dart';
-import 'package:myecl/loan/adapters/item.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/loan/adapters/item.dart';
 
 extension $Loan on Loan {
   LoanCreation toLoanCreation() {

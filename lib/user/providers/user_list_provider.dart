@@ -1,32 +1,33 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/admin/class/simple_group.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
-import 'package:titan/user/class/simple_users.dart';
-import 'package:titan/user/repositories/user_list_repository.dart';
 
-class UserListNotifier extends ListNotifier<SimpleUser> {
-  late final UserListRepository userListRepository;
+class UserListNotifier extends ListNotifierAPI<CoreUserSimple> {
+  Openapi get userListRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<List<SimpleUser>> build() {
-    userListRepository = ref.watch(userListRepositoryProvider);
+  AsyncValue<List<CoreUserSimple>> build() {
     tokenExpireWrapperAuth(ref, () async {
       clear();
     });
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<List<SimpleUser>>> filterUsers(
+  Future<AsyncValue<List<CoreUserSimple>>> filterUsers(
     String query, {
-    List<SimpleGroup>? includeGroup,
-    List<SimpleGroup>? excludeGroup,
+    List<SimpleGroup>? includedGroups,
+    List<SimpleGroup>? excludedGroups,
+    List<AccountType>? includedAccountTypes,
+    List<AccountType>? excludedAccountTypes,
   }) async {
     return await loadList(
-      () async => userListRepository.searchUser(
-        query,
-        includeId: includeGroup?.map((e) => e.id).toList(),
-        excludeId: excludeGroup?.map((e) => e.id).toList(),
+      () async => userListRepository.usersSearchGet(
+        query: query,
+        includedGroups: includedGroups?.map((e) => e.id).toList(),
+        excludedGroups: excludedGroups?.map((e) => e.id).toList(),
       ),
     );
   }
@@ -37,6 +38,6 @@ class UserListNotifier extends ListNotifier<SimpleUser> {
 }
 
 final userList =
-    NotifierProvider<UserListNotifier, AsyncValue<List<SimpleUser>>>(
+    NotifierProvider<UserListNotifier, AsyncValue<List<CoreUserSimple>>>(
       UserListNotifier.new,
     );

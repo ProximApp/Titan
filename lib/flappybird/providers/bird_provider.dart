@@ -33,7 +33,7 @@ class BirdNotifier extends Notifier<Bird> {
     state = state.copyWith(birdImage: birdImage);
   }
 
-  void setUser(SimpleUser user) {
+  void setUser(CoreUserSimple user) {
     state = state.copyWith(user: user);
   }
 

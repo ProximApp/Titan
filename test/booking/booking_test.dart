@@ -92,7 +92,7 @@ void main() {
       newBooking = booking.copyWith(entity: "entity");
       expect(newBooking.entity, "entity");
       newBooking = booking.copyWith(applicant: newUser);
-      expect(newBooking.applicant, isA<SimpleUser>());
+      expect(newBooking.applicant, isA<CoreUserSimple>());
       expect(newBooking.applicant.id, "1");
       newBooking = booking.copyWith(applicantId: "1");
       expect(newBooking.applicantId, "1");
@@ -147,7 +147,7 @@ void main() {
         },
       });
       expect(booking, isA<Booking>());
-      expect(booking.applicant, isA<SimpleUser>());
+      expect(booking.applicant, isA<CoreUserSimple>());
       expect(booking.room, isA<Room>());
       expect(booking.id, "1");
       expect(booking.reason, "reason");
@@ -178,7 +178,7 @@ void main() {
         "applicant_id": "1",
       });
       expect(booking, isA<Booking>());
-      expect(booking.applicant, isA<SimpleUser>());
+      expect(booking.applicant, isA<CoreUserSimple>());
       expect(booking.room, isA<Room>());
       expect(booking.id, "1");
       expect(booking.reason, "reason");

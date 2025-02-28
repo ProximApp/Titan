@@ -1,4 +1,4 @@
-import 'package:myecl/generated/openapi.models.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 
 extension $Applicant on Applicant {
   CoreUserSimple toCoreUserSimple() {

@@ -44,6 +44,7 @@ class AddEditContenderPage extends HookConsumerWidget {
     final description = useTextEditingController(text: contender.description);
     final listType = useState(contender.listType);
     final program = useTextEditingController(text: contender.program);
+    final member = useState(CoreUserSimple.empty());
     final members = ref.watch(contenderMembersProvider);
     final membersNotifier = ref.read(contenderMembersProvider.notifier);
     final contenderLogosNotifier = ref.read(contenderLogosProvider.notifier);

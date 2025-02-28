@@ -12,6 +12,7 @@ import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
+import 'package:titan/user/adapters/core_user.dart';
 import 'package:titan/user/providers/user_provider.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';

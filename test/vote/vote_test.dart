@@ -67,9 +67,9 @@ void main() {
       );
     });
 
-    test('Should return a Member from a SimpleUser', () {
-      final member = Member.fromSimpleUser(
-        SimpleUser(
+    test('Should return a Member from a CoreUserSimple', () {
+      final member = Member.fromCoreUserSimple(
+        CoreUserSimple(
           id: 'id',
           accountType: AccountType(type: 'external'),
           name: 'name',

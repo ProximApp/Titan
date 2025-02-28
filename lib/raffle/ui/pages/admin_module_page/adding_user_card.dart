@@ -4,10 +4,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/raffle/providers/cash_provider.dart';
 import 'package:titan/raffle/tools/constants.dart';
-import 'package:titan/user/class/simple_users.dart';
 
 class AddingUserCard extends HookConsumerWidget {
-  final SimpleUser user;
+  final CoreUserSimple user;
   final VoidCallback onAdd;
   const AddingUserCard({super.key, required this.user, required this.onAdd});
 

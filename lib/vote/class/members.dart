@@ -2,7 +2,7 @@ import 'package:titan/super_admin/class/account_type.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/user/class/simple_users.dart';
 
-class Member extends SimpleUser {
+class Member extends CoreUserSimple {
   late String role;
 
   Member({
@@ -52,7 +52,7 @@ class Member extends SimpleUser {
     );
   }
 
-  factory Member.fromSimpleUser(SimpleUser user, String role) {
+  factory Member.fromCoreUserSimple(CoreUserSimple user, String role) {
     return Member(
       name: user.name,
       firstname: user.firstname,

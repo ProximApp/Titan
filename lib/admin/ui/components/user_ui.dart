@@ -5,7 +5,7 @@ import 'package:titan/tools/constants.dart';
 import 'package:titan/user/class/simple_users.dart';
 
 class UserUi extends HookConsumerWidget {
-  final SimpleUser user;
+  final CoreUserSimple user;
   final void Function() onDelete;
 
   const UserUi({super.key, required this.user, required this.onDelete});

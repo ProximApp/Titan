@@ -114,7 +114,7 @@ void main() {
             quantity: 2,
           ),
         ],
-        borrower: SimpleUser(
+        borrower: CoreUserSimple(
           id: '1',
           accountType: AccountType(type: 'external'),
           name: 'name',
@@ -148,7 +148,7 @@ void main() {
       );
       expect(newLoan.itemsQuantity[0].itemSimple.id, '2');
       newLoan = loan.copyWith(
-        borrower: SimpleUser(
+        borrower: CoreUserSimple(
           id: '2',
           accountType: AccountType(type: 'external'),
           name: 'name2',
@@ -171,7 +171,7 @@ void main() {
       expect(newLoan.notes, 'notes');
       newLoan = loan.copyWith(start: DateTime.parse('2020-01-01'));
       expect(newLoan.start, DateTime.parse('2020-01-01'));
-      newLoan = loan.copyWith(borrower: SimpleUser.empty().copyWith(id: '2'));
+      newLoan = loan.copyWith(borrower: CoreUserSimple.empty().copyWith(id: '2'));
       expect(newLoan.borrower.id, '2');
     });
 
@@ -184,7 +184,7 @@ void main() {
             quantity: 2,
           ),
         ],
-        borrower: SimpleUser(
+        borrower: CoreUserSimple(
           id: '1',
           accountType: AccountType(type: 'external'),
           name: 'name',
@@ -201,7 +201,7 @@ void main() {
       );
       expect(
         loan.toString(),
-        'Loan(id: 1, loaner: Loaner(name: , groupManagerId: , id: ), borrower: SimpleUser {name: name, firstname: , nickname: , id: 1, accountType: external}, notes: , start: 2020-01-01 00:00:00.000, end: 2020-01-01 00:00:00.000, caution: , itemsQuantity: [ItemQuantity(itemSimple: ItemSimple(id: 1, name: name, quantity: 2)], returned: true, returnedDate: 2020-01-01 00:00:00.000)',
+        'Loan(id: 1, loaner: Loaner(name: , groupManagerId: , id: ), borrower: CoreUserSimple {name: name, firstname: , nickname: , id: 1, accountType: external}, notes: , start: 2020-01-01 00:00:00.000, end: 2020-01-01 00:00:00.000, caution: , itemsQuantity: [ItemQuantity(itemSimple: ItemSimple(id: 1, name: name, quantity: 2)], returned: true, returnedDate: 2020-01-01 00:00:00.000)',
       );
     });
 
@@ -253,7 +253,7 @@ void main() {
             quantity: 2,
           ),
         ],
-        borrower: SimpleUser(
+        borrower: CoreUserSimple(
           id: '1',
           accountType: AccountType(type: 'external'),
           name: 'name',

@@ -1,59 +1,84 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/tools/providers/single_notifier.dart';
-import 'package:titan/user/class/user.dart';
-import 'package:titan/user/repositories/user_repository.dart';
+import 'package:titan/auth/providers/openid_provider.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/single_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
+import 'package:titan/user/adapters/core_user.dart';
 
-class UserNotifier extends SingleNotifier<User> {
-  UserRepository get userRepository => ref.watch(userRepositoryProvider);
+class UserNotifier extends SingleNotifierAPI<CoreUser> {
+  Openapi get userRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<User> build() {
+  AsyncValue<CoreUser> build() {
+    final token = ref.watch(tokenProvider);
+    final isLoggedIn = ref.watch(isLoggedInProvider);
+    final id = ref
+        .watch(idProvider)
+        .maybeWhen(data: (value) => value, orElse: () => "");
+    if (isLoggedIn && id != "" && token != "") {
+      loadMe();
+    }
     return const AsyncValue.loading();
   }
 
-  Future<bool> setUser(User user) async {
+  Future<bool> setUser(CoreUser user) async {
     return await add((u) async => u, user);
   }
 
-  Future<AsyncValue<User>> loadUser(String userId) async {
-    return await load(() async => userRepository.getUser(userId));
+  Future<AsyncValue<CoreUser>> loadUser(String userId) async {
+    return await load(
+      () async => userRepository.usersUserIdGet(userId: userId),
+    );
   }
 
-  Future<AsyncValue<User>> loadMe() async {
-    return await load(userRepository.getMe);
+  Future<AsyncValue<CoreUser>> loadMe() async {
+    return await load(userRepository.usersMeGet);
   }
 
-  Future<bool> updateUser(User user) async {
-    return await update(userRepository.updateUser, user);
+  Future<bool> updateUser(CoreUser user) async {
+    return await update(
+      () => userRepository.usersUserIdPatch(
+        body: user.toCoreUserUpdateAdmin(),
+        userId: user.id,
+      ),
+      user,
+    );
   }
 
-  Future<bool> updateMe(User user) async {
-    return await update(userRepository.updateMe, user);
+  Future<bool> updateMe(CoreUser user) async {
+    return await update(
+      () async => userRepository.usersMePatch(body: user.toCoreUserUpdate()),
+      user,
+    );
   }
 
   Future<bool> changePassword(
     String oldPassword,
     String newPassword,
-    User user,
+    CoreUser user,
   ) async {
-    return await userRepository.changePassword(
-      oldPassword,
-      newPassword,
-      user.email,
-    );
+    return (await userRepository.usersChangePasswordPost(
+      body: ChangePasswordRequest(
+        email: user.email,
+        oldPassword: oldPassword,
+        newPassword: newPassword,
+      ),
+    )).isSuccessful;
   }
 
   Future<bool> deletePersonal() async {
-    return await userRepository.deletePersonalData();
+    return await update(userRepository.usersMeAskDeletionPost, state.value!);
   }
 
   Future<bool> askMailMigration(String mail) async {
-    return await userRepository.askMailMigration(mail);
+    return (await userRepository.usersMigrateMailPost(
+      body: MailMigrationRequest(newEmail: mail),
+    )).isSuccessful;
   }
 }
 
-final asyncUserProvider = NotifierProvider<UserNotifier, AsyncValue<User>>(
+final asyncUserProvider = NotifierProvider<UserNotifier, AsyncValue<CoreUser>>(
   UserNotifier.new,
 );
 
@@ -63,7 +88,7 @@ final userProvider = Provider((ref) {
       .maybeWhen(
         data: (user) => user,
         orElse: () {
-          return User.empty();
+          return CoreUser.fromJson({});
         },
       );
 });

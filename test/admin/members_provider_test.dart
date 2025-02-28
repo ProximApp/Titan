@@ -6,7 +6,7 @@ void main() {
   group('MembersNotifier', () {
     test('Adding a user to the list', () {
       final membersNotifier = MembersNotifier();
-      final user = SimpleUser.empty().copyWith(id: '1', name: 'John');
+      final user = CoreUserSimple.empty().copyWith(id: '1', name: 'John');
       membersNotifier.add(user);
       expect(membersNotifier.state.length, 1);
       expect(membersNotifier.state[0], user);
@@ -14,8 +14,8 @@ void main() {
 
     test('Removing a user from the list', () {
       final membersNotifier = MembersNotifier();
-      final user1 = SimpleUser.empty().copyWith(id: '1', name: 'John');
-      final user2 = SimpleUser.empty().copyWith(id: '2', name: 'Jane');
+      final user1 = CoreUserSimple.empty().copyWith(id: '1', name: 'John');
+      final user2 = CoreUserSimple.empty().copyWith(id: '2', name: 'Jane');
       membersNotifier.add(user1);
       membersNotifier.add(user2);
       membersNotifier.remove(user1);
@@ -25,8 +25,8 @@ void main() {
 
     test('Removing a user that doesn\'t exist in the list', () {
       final membersNotifier = MembersNotifier();
-      final user1 = SimpleUser.empty().copyWith(id: '1', name: 'John');
-      final user2 = SimpleUser.empty().copyWith(id: '2', name: 'Jane');
+      final user1 = CoreUserSimple.empty().copyWith(id: '1', name: 'John');
+      final user2 = CoreUserSimple.empty().copyWith(id: '2', name: 'Jane');
       membersNotifier.add(user1);
       membersNotifier.remove(user2);
       expect(membersNotifier.state.length, 1);

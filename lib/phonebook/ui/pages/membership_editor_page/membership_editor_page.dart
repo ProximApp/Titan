@@ -175,11 +175,11 @@ class MembershipEditorPage extends HookConsumerWidget {
                 orElse: () => Text(localizeWithContext.phonebookNoRoleTags),
                 data: (tagList) {
                   return Column(
-                    children: tagList
+                    children: tagList.tags
                         .map(
                           (tag) => ToggleListItem(
                             title: tag,
-                            onTap: tagList.first == tag && !isPhonebookAdmin
+                            onTap: tagList.tags.first == tag && !isPhonebookAdmin
                                 ? () {}
                                 : () {
                                     final tags = [...selectedTags.value];

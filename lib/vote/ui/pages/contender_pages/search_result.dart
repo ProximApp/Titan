@@ -6,7 +6,7 @@ import 'package:titan/user/providers/user_list_provider.dart';
 import 'package:titan/vote/providers/display_results.dart';
 
 class SearchResult extends HookConsumerWidget {
-  final ValueNotifier<SimpleUser> borrower;
+  final ValueNotifier<CoreUserSimple> borrower;
   final TextEditingController queryController;
   const SearchResult({
     super.key,

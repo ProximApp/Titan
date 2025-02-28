@@ -35,7 +35,7 @@ class GroupRepository extends Repository {
     return SimpleGroup.fromJson(await create(group.toJson()));
   }
 
-  Future<bool> addMember(Group group, SimpleUser user) async {
+  Future<bool> addMember(Group group, CoreUserSimple user) async {
     await create({
       "user_id": user.id,
       "group_id": group.id,
@@ -43,7 +43,7 @@ class GroupRepository extends Repository {
     return true;
   }
 
-  Future<bool> deleteMember(Group group, SimpleUser user) async {
+  Future<bool> deleteMember(Group group, CoreUserSimple user) async {
     final response = await http.delete(
       Uri.parse("${Repository.host}${ext}membership"),
       headers: headers,

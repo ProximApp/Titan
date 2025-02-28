@@ -32,7 +32,7 @@ void main() {
       final groupRepository = MockGroupRepository();
       final groupNotifier = GroupNotifier(groupRepository: groupRepository);
       final group = Group.empty().copyWith(id: '1', name: 'Test Group');
-      final user = SimpleUser.empty().copyWith(id: '2', name: 'Test User');
+      final user = CoreUserSimple.empty().copyWith(id: '2', name: 'Test User');
       groupNotifier.state = AsyncData(group);
       when(
         () => groupRepository.addMember(group, user),
@@ -47,7 +47,7 @@ void main() {
       final groupRepository = MockGroupRepository();
       final groupNotifier = GroupNotifier(groupRepository: groupRepository);
       final group = Group.empty().copyWith(id: '1', name: 'Test Group');
-      final user = SimpleUser.empty().copyWith(id: '2', name: 'Test User');
+      final user = CoreUserSimple.empty().copyWith(id: '2', name: 'Test User');
       groupNotifier.state = AsyncData(group);
       when(
         () => groupRepository.deleteMember(group, user),

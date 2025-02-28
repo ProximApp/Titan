@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/purchases/extensions/user_ticket.dart';
 import 'package:titan/purchases/providers/scanner_provider.dart';
 import 'package:titan/purchases/providers/tag_provider.dart';
 import 'package:titan/purchases/providers/ticket_list_provider.dart';
