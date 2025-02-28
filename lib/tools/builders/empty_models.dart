@@ -124,8 +124,8 @@ void registerAllEmptyFactories() {
     () => AdvertiserComplete(name: '', groupManagerId: '', id: 'id'),
   );
 
-  EmptyModels.register<AdvertReturnComplete>(
-    () => AdvertReturnComplete(
+  EmptyModels.register<AdvertComplete>(
+    () => AdvertComplete(
       title: '',
       content: '',
       id: '',

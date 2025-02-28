@@ -28,6 +28,26 @@ enum AccountType {
   const AccountType(this.value);
 }
 
+enum ActivationFormField {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('nickname')
+  nickname('nickname'),
+  @JsonValue('birthdate')
+  birthdate('birthdate'),
+  @JsonValue('phone')
+  phone('phone'),
+  @JsonValue('promotion')
+  promotion('promotion'),
+  @JsonValue('floor')
+  floor('floor');
+
+  final String? value;
+
+  const ActivationFormField(this.value);
+}
+
 enum AmapSlotType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -40,30 +60,6 @@ enum AmapSlotType {
   final String? value;
 
   const AmapSlotType(this.value);
-}
-
-enum CalendarEventType {
-  @JsonValue(null)
-  swaggerGeneratedUnknown(null),
-
-  @JsonValue('Event AE')
-  eventAe('Event AE'),
-  @JsonValue('Event USE')
-  eventUse('Event USE'),
-  @JsonValue('Asso indé')
-  assoInd('Asso indé'),
-  @JsonValue('HH')
-  hh('HH'),
-  @JsonValue('Strass')
-  strass('Strass'),
-  @JsonValue('Rewass')
-  rewass('Rewass'),
-  @JsonValue('Autre')
-  autre('Autre');
-
-  final String? value;
-
-  const CalendarEventType(this.value);
 }
 
 enum CdrStatus {
@@ -82,20 +78,6 @@ enum CdrStatus {
   final String? value;
 
   const CdrStatus(this.value);
-}
-
-enum CompetitionGroupType {
-  @JsonValue(null)
-  swaggerGeneratedUnknown(null),
-
-  @JsonValue('sport_manager')
-  sportManager('sport_manager'),
-  @JsonValue('schools_bds')
-  schoolsBds('schools_bds');
-
-  final String? value;
-
-  const CompetitionGroupType(this.value);
 }
 
 enum Decision {
@@ -202,64 +184,6 @@ enum DocumentValidation {
   const DocumentValidation(this.value);
 }
 
-enum FloorsType {
-  @JsonValue(null)
-  swaggerGeneratedUnknown(null),
-
-  @JsonValue('Autre')
-  autre('Autre'),
-  @JsonValue('Adoma')
-  adoma('Adoma'),
-  @JsonValue('Exte')
-  exte('Exte'),
-  @JsonValue('T1')
-  t1('T1'),
-  @JsonValue('T2')
-  t2('T2'),
-  @JsonValue('T3')
-  t3('T3'),
-  @JsonValue('T4')
-  t4('T4'),
-  @JsonValue('T56')
-  t56('T56'),
-  @JsonValue('U1')
-  u1('U1'),
-  @JsonValue('U2')
-  u2('U2'),
-  @JsonValue('U3')
-  u3('U3'),
-  @JsonValue('U4')
-  u4('U4'),
-  @JsonValue('U56')
-  u56('U56'),
-  @JsonValue('V1')
-  v1('V1'),
-  @JsonValue('V2')
-  v2('V2'),
-  @JsonValue('V3')
-  v3('V3'),
-  @JsonValue('V45')
-  v45('V45'),
-  @JsonValue('V6')
-  v6('V6'),
-  @JsonValue('X1')
-  x1('X1'),
-  @JsonValue('X2')
-  x2('X2'),
-  @JsonValue('X3')
-  x3('X3'),
-  @JsonValue('X4')
-  x4('X4'),
-  @JsonValue('X5')
-  x5('X5'),
-  @JsonValue('X6')
-  x6('X6');
-
-  final String? value;
-
-  const FloorsType(this.value);
-}
-
 enum HistoryType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -278,28 +202,6 @@ enum HistoryType {
   final String? value;
 
   const HistoryType(this.value);
-}
-
-enum Kinds {
-  @JsonValue(null)
-  swaggerGeneratedUnknown(null),
-
-  @JsonValue('Comité')
-  comit('Comité'),
-  @JsonValue('Section AE')
-  sectionAe('Section AE'),
-  @JsonValue('Club AE')
-  clubAe('Club AE'),
-  @JsonValue('Section USE')
-  sectionUse('Section USE'),
-  @JsonValue('Club USE')
-  clubUse('Club USE'),
-  @JsonValue('Asso indé')
-  assoInd('Asso indé');
-
-  final String? value;
-
-  const Kinds(this.value);
 }
 
 enum ListType {
@@ -332,6 +234,22 @@ enum MeetingPlace {
   final String? value;
 
   const MeetingPlace(this.value);
+}
+
+enum NewsStatus {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('waiting_approval')
+  waitingApproval('waiting_approval'),
+  @JsonValue('rejected')
+  rejected('rejected'),
+  @JsonValue('published')
+  published('published');
+
+  final String? value;
+
+  const NewsStatus(this.value);
 }
 
 enum PaymentType {
@@ -368,42 +286,6 @@ enum PlantState {
   final String? value;
 
   const PlantState(this.value);
-}
-
-enum ProductPublicType {
-  @JsonValue(null)
-  swaggerGeneratedUnknown(null),
-
-  @JsonValue('pompom')
-  pompom('pompom'),
-  @JsonValue('fanfare')
-  fanfare('fanfare'),
-  @JsonValue('cameraman')
-  cameraman('cameraman'),
-  @JsonValue('athlete')
-  athlete('athlete'),
-  @JsonValue('volunteer')
-  volunteer('volunteer');
-
-  final String? value;
-
-  const ProductPublicType(this.value);
-}
-
-enum ProductSchoolType {
-  @JsonValue(null)
-  swaggerGeneratedUnknown(null),
-
-  @JsonValue('centrale')
-  centrale('centrale'),
-  @JsonValue('from_lyon')
-  fromLyon('from_lyon'),
-  @JsonValue('others')
-  others('others');
-
-  final String? value;
-
-  const ProductSchoolType(this.value);
 }
 
 enum PropagationMethod {
@@ -482,20 +364,6 @@ enum SpeciesType {
   final String? value;
 
   const SpeciesType(this.value);
-}
-
-enum SportCategory {
-  @JsonValue(null)
-  swaggerGeneratedUnknown(null),
-
-  @JsonValue('masculine')
-  masculine('masculine'),
-  @JsonValue('feminine')
-  feminine('feminine');
-
-  final String? value;
-
-  const SportCategory(this.value);
 }
 
 enum StatusType {

@@ -2894,7 +2894,7 @@ An email will be send to the user, to confirm its new address.
   Future<chopper.Response<AppModulesCdrSchemasCdrProductComplete>>
   cdrSellersSellerIdProductsPost({
     required String? sellerId,
-    required AppModulesCdrSchemasCdrProductBase? body,
+    required ProductBase? body,
   }) {
     generatedMapping.putIfAbsent(
       AppModulesCdrSchemasCdrProductComplete,
@@ -2910,7 +2910,7 @@ An email will be send to the user, to confirm its new address.
   Future<chopper.Response<AppModulesCdrSchemasCdrProductComplete>>
   _cdrSellersSellerIdProductsPost({
     @Path('seller_id') required String? sellerId,
-    @Body() required AppModulesCdrSchemasCdrProductBase? body,
+    @Body() required ProductBase? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Create a product.
@@ -3038,15 +3038,15 @@ An email will be send to the user, to confirm its new address.
   ///Create Product Variant
   ///@param seller_id
   ///@param product_id
-  Future<chopper.Response<AppModulesCdrSchemasCdrProductVariantComplete>>
+  Future<chopper.Response<ProductVariantComplete>>
   cdrSellersSellerIdProductsProductIdVariantsPost({
     required String? sellerId,
     required String? productId,
-    required AppModulesCdrSchemasCdrProductVariantBase? body,
+    required ProductVariantBase? body,
   }) {
     generatedMapping.putIfAbsent(
-      AppModulesCdrSchemasCdrProductVariantComplete,
-      () => AppModulesCdrSchemasCdrProductVariantComplete.fromJsonFactory,
+      ProductVariantComplete,
+      () => ProductVariantComplete.fromJsonFactory,
     );
 
     return _cdrSellersSellerIdProductsProductIdVariantsPost(
@@ -3063,11 +3063,11 @@ An email will be send to the user, to confirm its new address.
     path: '/cdr/sellers/{seller_id}/products/{product_id}/variants/',
     optionalBody: true,
   )
-  Future<chopper.Response<AppModulesCdrSchemasCdrProductVariantComplete>>
+  Future<chopper.Response<ProductVariantComplete>>
   _cdrSellersSellerIdProductsProductIdVariantsPost({
     @Path('seller_id') required String? sellerId,
     @Path('product_id') required String? productId,
-    @Body() required AppModulesCdrSchemasCdrProductVariantBase? body,
+    @Body() required ProductVariantBase? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Create a product variant.
@@ -3093,7 +3093,7 @@ An email will be send to the user, to confirm its new address.
     required String? sellerId,
     required String? productId,
     required String? variantId,
-    required AppModulesCdrSchemasCdrProductVariantEdit? body,
+    required ProductVariantEdit? body,
   }) {
     return _cdrSellersSellerIdProductsProductIdVariantsVariantIdPatch(
       sellerId: sellerId,
@@ -3117,7 +3117,7 @@ An email will be send to the user, to confirm its new address.
     @Path('seller_id') required String? sellerId,
     @Path('product_id') required String? productId,
     @Path('variant_id') required String? variantId,
-    @Body() required AppModulesCdrSchemasCdrProductVariantEdit? body,
+    @Body() required ProductVariantEdit? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Edit a product variant.
@@ -3415,15 +3415,15 @@ An email will be send to the user, to confirm its new address.
   ///Create Purchase
   ///@param user_id
   ///@param product_variant_id
-  Future<chopper.Response<AppModulesCdrSchemasCdrPurchaseComplete>>
+  Future<chopper.Response<PurchaseComplete>>
   cdrUsersUserIdPurchasesProductVariantIdPost({
     required String? userId,
     required String? productVariantId,
-    required AppModulesCdrSchemasCdrPurchaseBase? body,
+    required PurchaseBase? body,
   }) {
     generatedMapping.putIfAbsent(
-      AppModulesCdrSchemasCdrPurchaseComplete,
-      () => AppModulesCdrSchemasCdrPurchaseComplete.fromJsonFactory,
+      PurchaseComplete,
+      () => PurchaseComplete.fromJsonFactory,
     );
 
     return _cdrUsersUserIdPurchasesProductVariantIdPost(
@@ -3440,11 +3440,11 @@ An email will be send to the user, to confirm its new address.
     path: '/cdr/users/{user_id}/purchases/{product_variant_id}/',
     optionalBody: true,
   )
-  Future<chopper.Response<AppModulesCdrSchemasCdrPurchaseComplete>>
+  Future<chopper.Response<PurchaseComplete>>
   _cdrUsersUserIdPurchasesProductVariantIdPost({
     @Path('user_id') required String? userId,
     @Path('product_variant_id') required String? productVariantId,
-    @Body() required AppModulesCdrSchemasCdrPurchaseBase? body,
+    @Body() required PurchaseBase? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Create a purchase.
@@ -3495,32 +3495,6 @@ An email will be send to the user, to confirm its new address.
     ),
   });
 
-  ///Create Purchase Batch
-  Future<chopper.Response> cdrBatchPurchasesPost({
-    required BatchPurchase? body,
-  }) {
-    return _cdrBatchPurchasesPost(body: body);
-  }
-
-  ///Create Purchase Batch
-  @POST(path: '/cdr/batch-purchases/', optionalBody: true)
-  Future<chopper.Response> _cdrBatchPurchasesPost({
-    @Body() required BatchPurchase? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Create a purchase for a list of user.
-
-**User must be part of the seller\'s group to use this endpoint**''',
-      summary: 'Create Purchase Batch',
-      operationId: 'post_cdr_batch-purchases_',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Cdr"],
-      deprecated: false,
-    ),
-  });
-
   ///Mark Purchase As Validated
   ///@param user_id
   ///@param product_variant_id
@@ -3559,30 +3533,6 @@ An email will be send to the user, to confirm its new address.
       summary: 'Mark Purchase As Validated',
       operationId:
           'patch_cdr_users_{user_id}_purchases_{product_variant_id}_validated_',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Cdr"],
-      deprecated: false,
-    ),
-  });
-
-  ///Validate Purchase Batch
-  Future<chopper.Response> cdrBatchValidationPost({
-    required BatchValidation? body,
-  }) {
-    return _cdrBatchValidationPost(body: body);
-  }
-
-  ///Validate Purchase Batch
-  @POST(path: '/cdr/batch-validation/', optionalBody: true)
-  Future<chopper.Response> _cdrBatchValidationPost({
-    @Body() required BatchValidation? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Validate Purchase Batch',
-      operationId: 'post_cdr_batch-validation_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3949,11 +3899,12 @@ An email will be send to the user, to confirm its new address.
 
   ///Get Payments By User Id
   ///@param user_id
-  Future<chopper.Response<List<AppModulesCdrSchemasCdrPaymentComplete>>>
-  cdrUsersUserIdPaymentsGet({required String? userId}) {
+  Future<chopper.Response<List<PaymentComplete>>> cdrUsersUserIdPaymentsGet({
+    required String? userId,
+  }) {
     generatedMapping.putIfAbsent(
-      AppModulesCdrSchemasCdrPaymentComplete,
-      () => AppModulesCdrSchemasCdrPaymentComplete.fromJsonFactory,
+      PaymentComplete,
+      () => PaymentComplete.fromJsonFactory,
     );
 
     return _cdrUsersUserIdPaymentsGet(userId: userId);
@@ -3962,8 +3913,7 @@ An email will be send to the user, to confirm its new address.
   ///Get Payments By User Id
   ///@param user_id
   @GET(path: '/cdr/users/{user_id}/payments/')
-  Future<chopper.Response<List<AppModulesCdrSchemasCdrPaymentComplete>>>
-  _cdrUsersUserIdPaymentsGet({
+  Future<chopper.Response<List<PaymentComplete>>> _cdrUsersUserIdPaymentsGet({
     @Path('user_id') required String? userId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -3982,14 +3932,13 @@ An email will be send to the user, to confirm its new address.
 
   ///Create Payment
   ///@param user_id
-  Future<chopper.Response<AppModulesCdrSchemasCdrPaymentComplete>>
-  cdrUsersUserIdPaymentsPost({
+  Future<chopper.Response<PaymentComplete>> cdrUsersUserIdPaymentsPost({
     required String? userId,
-    required AppModulesCdrSchemasCdrPaymentBase? body,
+    required PaymentBase? body,
   }) {
     generatedMapping.putIfAbsent(
-      AppModulesCdrSchemasCdrPaymentComplete,
-      () => AppModulesCdrSchemasCdrPaymentComplete.fromJsonFactory,
+      PaymentComplete,
+      () => PaymentComplete.fromJsonFactory,
     );
 
     return _cdrUsersUserIdPaymentsPost(userId: userId, body: body);
@@ -3998,10 +3947,9 @@ An email will be send to the user, to confirm its new address.
   ///Create Payment
   ///@param user_id
   @POST(path: '/cdr/users/{user_id}/payments/', optionalBody: true)
-  Future<chopper.Response<AppModulesCdrSchemasCdrPaymentComplete>>
-  _cdrUsersUserIdPaymentsPost({
+  Future<chopper.Response<PaymentComplete>> _cdrUsersUserIdPaymentsPost({
     @Path('user_id') required String? userId,
-    @Body() required AppModulesCdrSchemasCdrPaymentBase? body,
+    @Body() required PaymentBase? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Create a payment.
@@ -4075,51 +4023,6 @@ An email will be send to the user, to confirm its new address.
     ),
   });
 
-  ///Get Cdr Year
-  Future<chopper.Response<CdrYear>> cdrYearGet() {
-    generatedMapping.putIfAbsent(CdrYear, () => CdrYear.fromJsonFactory);
-
-    return _cdrYearGet();
-  }
-
-  ///Get Cdr Year
-  @GET(path: '/cdr/year/')
-  Future<chopper.Response<CdrYear>> _cdrYearGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Cdr Year',
-      operationId: 'get_cdr_year_',
-      consumes: [],
-      produces: [],
-      security: [],
-      tags: ["Cdr"],
-      deprecated: false,
-    ),
-  });
-
-  ///Update Cdr Year
-  Future<chopper.Response> cdrYearPatch({required CdrYear? body}) {
-    return _cdrYearPatch(body: body);
-  }
-
-  ///Update Cdr Year
-  @PATCH(path: '/cdr/year/', optionalBody: true)
-  Future<chopper.Response> _cdrYearPatch({
-    @Body() required CdrYear? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Update Cdr Year',
-      operationId: 'patch_cdr_year_',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Cdr"],
-      deprecated: false,
-    ),
-  });
-
   ///Get Status
   Future<chopper.Response<Status>> cdrStatusGet() {
     generatedMapping.putIfAbsent(Status, () => Status.fromJsonFactory);
@@ -4137,7 +4040,7 @@ An email will be send to the user, to confirm its new address.
       operationId: 'get_cdr_status_',
       consumes: [],
       produces: [],
-      security: [],
+      security: ["AuthorizationCodeAuthentication"],
       tags: ["Cdr"],
       deprecated: false,
     ),
@@ -4617,52 +4520,6 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Create Custom Data Field',
       operationId: 'post_cdr_sellers_{seller_id}_products_{product_id}_data_',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Cdr"],
-      deprecated: false,
-    ),
-  });
-
-  ///Update Custom Data Field
-  ///@param seller_id
-  ///@param product_id
-  ///@param field_id
-  Future<chopper.Response> cdrSellersSellerIdProductsProductIdDataFieldIdPatch({
-    required String? sellerId,
-    required String? productId,
-    required String? fieldId,
-    required CustomDataFieldBase? body,
-  }) {
-    return _cdrSellersSellerIdProductsProductIdDataFieldIdPatch(
-      sellerId: sellerId,
-      productId: productId,
-      fieldId: fieldId,
-      body: body,
-    );
-  }
-
-  ///Update Custom Data Field
-  ///@param seller_id
-  ///@param product_id
-  ///@param field_id
-  @PATCH(
-    path: '/cdr/sellers/{seller_id}/products/{product_id}/data/{field_id}/',
-    optionalBody: true,
-  )
-  Future<chopper.Response>
-  _cdrSellersSellerIdProductsProductIdDataFieldIdPatch({
-    @Path('seller_id') required String? sellerId,
-    @Path('product_id') required String? productId,
-    @Path('field_id') required String? fieldId,
-    @Body() required CustomDataFieldBase? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Update Custom Data Field',
-      operationId:
-          'patch_cdr_sellers_{seller_id}_products_{product_id}_data_{field_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7095,3215 +6952,14 @@ This will remove the loan but won\'t delete any loaner items.
     ),
   });
 
-  ///Get Sports
-  Future<chopper.Response<List<Sport>>> competitionSportsGet() {
-    generatedMapping.putIfAbsent(Sport, () => Sport.fromJsonFactory);
-
-    return _competitionSportsGet();
-  }
-
-  ///Get Sports
-  @GET(path: '/competition/sports')
-  Future<chopper.Response<List<Sport>>> _competitionSportsGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Sports',
-      operationId: 'get_competition_sports',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Create Sport
-  Future<chopper.Response<Sport>> competitionSportsPost({
-    required SportBase? body,
-  }) {
-    generatedMapping.putIfAbsent(Sport, () => Sport.fromJsonFactory);
-
-    return _competitionSportsPost(body: body);
-  }
-
-  ///Create Sport
-  @POST(path: '/competition/sports', optionalBody: true)
-  Future<chopper.Response<Sport>> _competitionSportsPost({
-    @Body() required SportBase? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Create Sport',
-      operationId: 'post_competition_sports',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Edit Sport
-  ///@param sport_id
-  Future<chopper.Response> competitionSportsSportIdPatch({
-    required String? sportId,
-    required SportEdit? body,
-  }) {
-    return _competitionSportsSportIdPatch(sportId: sportId, body: body);
-  }
-
-  ///Edit Sport
-  ///@param sport_id
-  @PATCH(path: '/competition/sports/{sport_id}', optionalBody: true)
-  Future<chopper.Response> _competitionSportsSportIdPatch({
-    @Path('sport_id') required String? sportId,
-    @Body() required SportEdit? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Edit Sport',
-      operationId: 'patch_competition_sports_{sport_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Delete Sport
-  ///@param sport_id
-  Future<chopper.Response> competitionSportsSportIdDelete({
-    required String? sportId,
-  }) {
-    return _competitionSportsSportIdDelete(sportId: sportId);
-  }
-
-  ///Delete Sport
-  ///@param sport_id
-  @DELETE(path: '/competition/sports/{sport_id}')
-  Future<chopper.Response> _competitionSportsSportIdDelete({
-    @Path('sport_id') required String? sportId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Delete Sport',
-      operationId: 'delete_competition_sports_{sport_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Editions
-  Future<chopper.Response<List<CompetitionEdition>>> competitionEditionsGet() {
-    generatedMapping.putIfAbsent(
-      CompetitionEdition,
-      () => CompetitionEdition.fromJsonFactory,
-    );
-
-    return _competitionEditionsGet();
-  }
-
-  ///Get Editions
-  @GET(path: '/competition/editions')
-  Future<chopper.Response<List<CompetitionEdition>>> _competitionEditionsGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Editions',
-      operationId: 'get_competition_editions',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Create Edition
-  Future<chopper.Response<CompetitionEdition>> competitionEditionsPost({
-    required CompetitionEditionBase? body,
-  }) {
-    generatedMapping.putIfAbsent(
-      CompetitionEdition,
-      () => CompetitionEdition.fromJsonFactory,
-    );
-
-    return _competitionEditionsPost(body: body);
-  }
-
-  ///Create Edition
-  @POST(path: '/competition/editions', optionalBody: true)
-  Future<chopper.Response<CompetitionEdition>> _competitionEditionsPost({
-    @Body() required CompetitionEditionBase? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Create Edition',
-      operationId: 'post_competition_editions',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Active Edition
-  Future<chopper.Response> competitionEditionsActiveGet() {
-    return _competitionEditionsActiveGet();
-  }
-
-  ///Get Active Edition
-  @GET(path: '/competition/editions/active')
-  Future<chopper.Response> _competitionEditionsActiveGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get the currently active competition edition.
-Returns None if no edition is active.''',
-      summary: 'Get Active Edition',
-      operationId: 'get_competition_editions_active',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Activate Edition
-  ///@param edition_id
-  Future<chopper.Response> competitionEditionsEditionIdActivatePost({
-    required String? editionId,
-  }) {
-    return _competitionEditionsEditionIdActivatePost(editionId: editionId);
-  }
-
-  ///Activate Edition
-  ///@param edition_id
-  @POST(path: '/competition/editions/{edition_id}/activate', optionalBody: true)
-  Future<chopper.Response> _competitionEditionsEditionIdActivatePost({
-    @Path('edition_id') required String? editionId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Activate a competition edition.
-If another edition is already active, it will be deactivated.''',
-      summary: 'Activate Edition',
-      operationId: 'post_competition_editions_{edition_id}_activate',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Enable Inscription
-  ///@param edition_id
-  Future<chopper.Response> competitionEditionsEditionIdInscriptionPost({
-    required String? editionId,
-    required bool? body,
-  }) {
-    return _competitionEditionsEditionIdInscriptionPost(
-      editionId: editionId,
-      body: body,
-    );
-  }
-
-  ///Enable Inscription
-  ///@param edition_id
-  @POST(
-    path: '/competition/editions/{edition_id}/inscription',
-    optionalBody: true,
-  )
-  Future<chopper.Response> _competitionEditionsEditionIdInscriptionPost({
-    @Path('edition_id') required String? editionId,
-    @Body() required bool? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Enable inscription for a competition edition.
-The edition must already be active.''',
-      summary: 'Enable Inscription',
-      operationId: 'post_competition_editions_{edition_id}_inscription',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Edit Edition
-  ///@param edition_id
-  Future<chopper.Response> competitionEditionsEditionIdPatch({
-    required String? editionId,
-    required CompetitionEditionEdit? body,
-  }) {
-    return _competitionEditionsEditionIdPatch(editionId: editionId, body: body);
-  }
-
-  ///Edit Edition
-  ///@param edition_id
-  @PATCH(path: '/competition/editions/{edition_id}', optionalBody: true)
-  Future<chopper.Response> _competitionEditionsEditionIdPatch({
-    @Path('edition_id') required String? editionId,
-    @Body() required CompetitionEditionEdit? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Edit Edition',
-      operationId: 'patch_competition_editions_{edition_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Competition Users
-  Future<chopper.Response<List<CompetitionUser>>> competitionUsersGet() {
-    generatedMapping.putIfAbsent(
-      CompetitionUser,
-      () => CompetitionUser.fromJsonFactory,
-    );
-
-    return _competitionUsersGet();
-  }
-
-  ///Get Competition Users
-  @GET(path: '/competition/users')
-  Future<chopper.Response<List<CompetitionUser>>> _competitionUsersGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Get all competition users for the current edition.',
-      summary: 'Get Competition Users',
-      operationId: 'get_competition_users',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Create Competition User
-  Future<chopper.Response<CompetitionUserSimple>> competitionUsersPost({
-    required CompetitionUserBase? body,
-  }) {
-    generatedMapping.putIfAbsent(
-      CompetitionUserSimple,
-      () => CompetitionUserSimple.fromJsonFactory,
-    );
-
-    return _competitionUsersPost(body: body);
-  }
-
-  ///Create Competition User
-  @POST(path: '/competition/users', optionalBody: true)
-  Future<chopper.Response<CompetitionUserSimple>> _competitionUsersPost({
-    @Body() required CompetitionUserBase? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Create a competition user for the current edition.
-The user must exist in the core users database.''',
-      summary: 'Create Competition User',
-      operationId: 'post_competition_users',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Competition Users By School
-  ///@param school_id
-  Future<chopper.Response<List<CompetitionUser>>>
-  competitionUsersSchoolsSchoolIdGet({required String? schoolId}) {
-    generatedMapping.putIfAbsent(
-      CompetitionUser,
-      () => CompetitionUser.fromJsonFactory,
-    );
-
-    return _competitionUsersSchoolsSchoolIdGet(schoolId: schoolId);
-  }
-
-  ///Get Competition Users By School
-  ///@param school_id
-  @GET(path: '/competition/users/schools/{school_id}')
-  Future<chopper.Response<List<CompetitionUser>>>
-  _competitionUsersSchoolsSchoolIdGet({
-    @Path('school_id') required String? schoolId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Get all competition users for the current edition by school.',
-      summary: 'Get Competition Users By School',
-      operationId: 'get_competition_users_schools_{school_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Current User Competition
-  Future<chopper.Response<CompetitionUser>> competitionUsersMeGet() {
-    generatedMapping.putIfAbsent(
-      CompetitionUser,
-      () => CompetitionUser.fromJsonFactory,
-    );
-
-    return _competitionUsersMeGet();
-  }
-
-  ///Get Current User Competition
-  @GET(path: '/competition/users/me')
-  Future<chopper.Response<CompetitionUser>> _competitionUsersMeGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get the competition user for the current edition.
-This is the user making the request.''',
-      summary: 'Get Current User Competition',
-      operationId: 'get_competition_users_me',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Edit Current User Competition
-  Future<chopper.Response> competitionUsersMePatch({
-    required CompetitionUserEdit? body,
-  }) {
-    return _competitionUsersMePatch(body: body);
-  }
-
-  ///Edit Current User Competition
-  @PATCH(path: '/competition/users/me', optionalBody: true)
-  Future<chopper.Response> _competitionUsersMePatch({
-    @Body() required CompetitionUserEdit? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Edit the current user\'s competition user for the current edition.
-The user must exist in the core users database.''',
-      summary: 'Edit Current User Competition',
-      operationId: 'patch_competition_users_me',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Competition User
-  ///@param user_id
-  Future<chopper.Response<CompetitionUser>> competitionUsersUserIdGet({
-    required String? userId,
-  }) {
-    generatedMapping.putIfAbsent(
-      CompetitionUser,
-      () => CompetitionUser.fromJsonFactory,
-    );
-
-    return _competitionUsersUserIdGet(userId: userId);
-  }
-
-  ///Get Competition User
-  ///@param user_id
-  @GET(path: '/competition/users/{user_id}')
-  Future<chopper.Response<CompetitionUser>> _competitionUsersUserIdGet({
-    @Path('user_id') required String? userId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Get a competition user by their user ID for the current edition.',
-      summary: 'Get Competition User',
-      operationId: 'get_competition_users_{user_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Edit Competition User
-  ///@param user_id
-  Future<chopper.Response> competitionUsersUserIdPatch({
-    required String? userId,
-    required CompetitionUserEdit? body,
-  }) {
-    return _competitionUsersUserIdPatch(userId: userId, body: body);
-  }
-
-  ///Edit Competition User
-  ///@param user_id
-  @PATCH(path: '/competition/users/{user_id}', optionalBody: true)
-  Future<chopper.Response> _competitionUsersUserIdPatch({
-    @Path('user_id') required String? userId,
-    @Body() required CompetitionUserEdit? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Edit a competition user for the current edition.
-The user must exist in the core users database.''',
-      summary: 'Edit Competition User',
-      operationId: 'patch_competition_users_{user_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Validate Competition User
-  ///@param user_id
-  Future<chopper.Response> competitionUsersUserIdValidatePatch({
-    required String? userId,
-  }) {
-    return _competitionUsersUserIdValidatePatch(userId: userId);
-  }
-
-  ///Validate Competition User
-  ///@param user_id
-  @PATCH(path: '/competition/users/{user_id}/validate', optionalBody: true)
-  Future<chopper.Response> _competitionUsersUserIdValidatePatch({
-    @Path('user_id') required String? userId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Validate Competition User',
-      operationId: 'patch_competition_users_{user_id}_validate',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Invalidate Competition User
-  ///@param user_id
-  Future<chopper.Response> competitionUsersUserIdInvalidatePatch({
-    required String? userId,
-  }) {
-    return _competitionUsersUserIdInvalidatePatch(userId: userId);
-  }
-
-  ///Invalidate Competition User
-  ///@param user_id
-  @PATCH(path: '/competition/users/{user_id}/invalidate', optionalBody: true)
-  Future<chopper.Response> _competitionUsersUserIdInvalidatePatch({
-    @Path('user_id') required String? userId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Invalidate Competition User',
-      operationId: 'patch_competition_users_{user_id}_invalidate',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Group Members
-  ///@param group
-  Future<chopper.Response<List<UserGroupMembershipComplete>>>
-  competitionGroupsGroupGet({required enums.CompetitionGroupType? group}) {
-    generatedMapping.putIfAbsent(
-      UserGroupMembershipComplete,
-      () => UserGroupMembershipComplete.fromJsonFactory,
-    );
-
-    return _competitionGroupsGroupGet(group: group?.value?.toString());
-  }
-
-  ///Get Group Members
-  ///@param group
-  @GET(path: '/competition/groups/{group}')
-  Future<chopper.Response<List<UserGroupMembershipComplete>>>
-  _competitionGroupsGroupGet({
-    @Path('group') required String? group,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Get all users in a specific competition group for the current edition.',
-      summary: 'Get Group Members',
-      operationId: 'get_competition_groups_{group}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Current User Groups
-  Future<chopper.Response<List<UserGroupMembership>>>
-  competitionUsersMeGroupsGet() {
-    generatedMapping.putIfAbsent(
-      UserGroupMembership,
-      () => UserGroupMembership.fromJsonFactory,
-    );
-
-    return _competitionUsersMeGroupsGet();
-  }
-
-  ///Get Current User Groups
-  @GET(path: '/competition/users/me/groups')
-  Future<chopper.Response<List<UserGroupMembership>>>
-  _competitionUsersMeGroupsGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Get all groups the current user is a member of in the current edition.
-This is the user making the request.''',
-      summary: 'Get Current User Groups',
-      operationId: 'get_competition_users_me_groups',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get User Groups
-  ///@param user_id
-  Future<chopper.Response<List<UserGroupMembership>>>
-  competitionUsersUserIdGroupsGet({required String? userId}) {
-    generatedMapping.putIfAbsent(
-      UserGroupMembership,
-      () => UserGroupMembership.fromJsonFactory,
-    );
-
-    return _competitionUsersUserIdGroupsGet(userId: userId);
-  }
-
-  ///Get User Groups
-  ///@param user_id
-  @GET(path: '/competition/users/{user_id}/groups')
-  Future<chopper.Response<List<UserGroupMembership>>>
-  _competitionUsersUserIdGroupsGet({
-    @Path('user_id') required String? userId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Get all groups a user is a member of in the current edition.',
-      summary: 'Get User Groups',
-      operationId: 'get_competition_users_{user_id}_groups',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Add User To Group
-  ///@param group
-  ///@param user_id
-  Future<chopper.Response<UserGroupMembership>>
-  competitionGroupsGroupUsersUserIdPost({
-    required enums.CompetitionGroupType? group,
-    required String? userId,
-  }) {
-    generatedMapping.putIfAbsent(
-      UserGroupMembership,
-      () => UserGroupMembership.fromJsonFactory,
-    );
-
-    return _competitionGroupsGroupUsersUserIdPost(
-      group: group?.value?.toString(),
-      userId: userId,
-    );
-  }
-
-  ///Add User To Group
-  ///@param group
-  ///@param user_id
-  @POST(path: '/competition/groups/{group}/users/{user_id}', optionalBody: true)
-  Future<chopper.Response<UserGroupMembership>>
-  _competitionGroupsGroupUsersUserIdPost({
-    @Path('group') required String? group,
-    @Path('user_id') required String? userId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Add User To Group',
-      operationId: 'post_competition_groups_{group}_users_{user_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Remove User From Group
-  ///@param group
-  ///@param user_id
-  Future<chopper.Response> competitionGroupsGroupUsersUserIdDelete({
-    required enums.CompetitionGroupType? group,
-    required String? userId,
-  }) {
-    return _competitionGroupsGroupUsersUserIdDelete(
-      group: group?.value?.toString(),
-      userId: userId,
-    );
-  }
-
-  ///Remove User From Group
-  ///@param group
-  ///@param user_id
-  @DELETE(path: '/competition/groups/{group}/users/{user_id}')
-  Future<chopper.Response> _competitionGroupsGroupUsersUserIdDelete({
-    @Path('group') required String? group,
-    @Path('user_id') required String? userId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Remove User From Group',
-      operationId: 'delete_competition_groups_{group}_users_{user_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Schools
-  Future<chopper.Response<List<SchoolExtension>>> competitionSchoolsGet() {
-    generatedMapping.putIfAbsent(
-      SchoolExtension,
-      () => SchoolExtension.fromJsonFactory,
-    );
-
-    return _competitionSchoolsGet();
-  }
-
-  ///Get Schools
-  @GET(path: '/competition/schools')
-  Future<chopper.Response<List<SchoolExtension>>> _competitionSchoolsGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Schools',
-      operationId: 'get_competition_schools',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Create School Extension
-  Future<chopper.Response<SchoolExtensionBase>> competitionSchoolsPost({
-    required SchoolExtensionBase? body,
-  }) {
-    generatedMapping.putIfAbsent(
-      SchoolExtensionBase,
-      () => SchoolExtensionBase.fromJsonFactory,
-    );
-
-    return _competitionSchoolsPost(body: body);
-  }
-
-  ///Create School Extension
-  @POST(path: '/competition/schools', optionalBody: true)
-  Future<chopper.Response<SchoolExtensionBase>> _competitionSchoolsPost({
-    @Body() required SchoolExtensionBase? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Create School Extension',
-      operationId: 'post_competition_schools',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get School
-  ///@param school_id
-  Future<chopper.Response<SchoolExtension>> competitionSchoolsSchoolIdGet({
-    required String? schoolId,
-  }) {
-    generatedMapping.putIfAbsent(
-      SchoolExtension,
-      () => SchoolExtension.fromJsonFactory,
-    );
-
-    return _competitionSchoolsSchoolIdGet(schoolId: schoolId);
-  }
-
-  ///Get School
-  ///@param school_id
-  @GET(path: '/competition/schools/{school_id}')
-  Future<chopper.Response<SchoolExtension>> _competitionSchoolsSchoolIdGet({
-    @Path('school_id') required String? schoolId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get School',
-      operationId: 'get_competition_schools_{school_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Edit School Extension
-  ///@param school_id
-  Future<chopper.Response> competitionSchoolsSchoolIdPatch({
-    required String? schoolId,
-    required SchoolExtensionEdit? body,
-  }) {
-    return _competitionSchoolsSchoolIdPatch(schoolId: schoolId, body: body);
-  }
-
-  ///Edit School Extension
-  ///@param school_id
-  @PATCH(path: '/competition/schools/{school_id}', optionalBody: true)
-  Future<chopper.Response> _competitionSchoolsSchoolIdPatch({
-    @Path('school_id') required String? schoolId,
-    @Body() required SchoolExtensionEdit? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Edit School Extension',
-      operationId: 'patch_competition_schools_{school_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Delete School Extension
-  ///@param school_id
-  Future<chopper.Response> competitionSchoolsSchoolIdDelete({
-    required String? schoolId,
-  }) {
-    return _competitionSchoolsSchoolIdDelete(schoolId: schoolId);
-  }
-
-  ///Delete School Extension
-  ///@param school_id
-  @DELETE(path: '/competition/schools/{school_id}')
-  Future<chopper.Response> _competitionSchoolsSchoolIdDelete({
-    @Path('school_id') required String? schoolId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Delete School Extension',
-      operationId: 'delete_competition_schools_{school_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get School General Quota
-  ///@param school_id
-  Future<chopper.Response<SchoolGeneralQuota>>
-  competitionSchoolsSchoolIdGeneralQuotaGet({required String? schoolId}) {
-    generatedMapping.putIfAbsent(
-      SchoolGeneralQuota,
-      () => SchoolGeneralQuota.fromJsonFactory,
-    );
-
-    return _competitionSchoolsSchoolIdGeneralQuotaGet(schoolId: schoolId);
-  }
-
-  ///Get School General Quota
-  ///@param school_id
-  @GET(path: '/competition/schools/{school_id}/general-quota')
-  Future<chopper.Response<SchoolGeneralQuota>>
-  _competitionSchoolsSchoolIdGeneralQuotaGet({
-    @Path('school_id') required String? schoolId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get School General Quota',
-      operationId: 'get_competition_schools_{school_id}_general-quota',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Create School General Quota
-  ///@param school_id
-  Future<chopper.Response<SchoolGeneralQuota>>
-  competitionSchoolsSchoolIdGeneralQuotaPost({
-    required String? schoolId,
-    required SchoolGeneralQuotaBase? body,
-  }) {
-    generatedMapping.putIfAbsent(
-      SchoolGeneralQuota,
-      () => SchoolGeneralQuota.fromJsonFactory,
-    );
-
-    return _competitionSchoolsSchoolIdGeneralQuotaPost(
-      schoolId: schoolId,
-      body: body,
-    );
-  }
-
-  ///Create School General Quota
-  ///@param school_id
-  @POST(
-    path: '/competition/schools/{school_id}/general-quota',
-    optionalBody: true,
-  )
-  Future<chopper.Response<SchoolGeneralQuota>>
-  _competitionSchoolsSchoolIdGeneralQuotaPost({
-    @Path('school_id') required String? schoolId,
-    @Body() required SchoolGeneralQuotaBase? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Create School General Quota',
-      operationId: 'post_competition_schools_{school_id}_general-quota',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Edit School General Quota
-  ///@param school_id
-  Future<chopper.Response> competitionSchoolsSchoolIdGeneralQuotaPatch({
-    required String? schoolId,
-    required SchoolGeneralQuotaBase? body,
-  }) {
-    return _competitionSchoolsSchoolIdGeneralQuotaPatch(
-      schoolId: schoolId,
-      body: body,
-    );
-  }
-
-  ///Edit School General Quota
-  ///@param school_id
-  @PATCH(
-    path: '/competition/schools/{school_id}/general-quota',
-    optionalBody: true,
-  )
-  Future<chopper.Response> _competitionSchoolsSchoolIdGeneralQuotaPatch({
-    @Path('school_id') required String? schoolId,
-    @Body() required SchoolGeneralQuotaBase? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Edit School General Quota',
-      operationId: 'patch_competition_schools_{school_id}_general-quota',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Quotas For Sport
-  ///@param sport_id
-  Future<chopper.Response<List<SchoolSportQuota>>>
-  competitionSportsSportIdQuotasGet({required String? sportId}) {
-    generatedMapping.putIfAbsent(
-      SchoolSportQuota,
-      () => SchoolSportQuota.fromJsonFactory,
-    );
-
-    return _competitionSportsSportIdQuotasGet(sportId: sportId);
-  }
-
-  ///Get Quotas For Sport
-  ///@param sport_id
-  @GET(path: '/competition/sports/{sport_id}/quotas')
-  Future<chopper.Response<List<SchoolSportQuota>>>
-  _competitionSportsSportIdQuotasGet({
-    @Path('sport_id') required String? sportId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Quotas For Sport',
-      operationId: 'get_competition_sports_{sport_id}_quotas',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Quotas For School
-  ///@param school_id
-  Future<chopper.Response<List<SchoolSportQuota>>>
-  competitionSchoolsSchoolIdSportsQuotasGet({required String? schoolId}) {
-    generatedMapping.putIfAbsent(
-      SchoolSportQuota,
-      () => SchoolSportQuota.fromJsonFactory,
-    );
-
-    return _competitionSchoolsSchoolIdSportsQuotasGet(schoolId: schoolId);
-  }
-
-  ///Get Quotas For School
-  ///@param school_id
-  @GET(path: '/competition/schools/{school_id}/sports-quotas')
-  Future<chopper.Response<List<SchoolSportQuota>>>
-  _competitionSchoolsSchoolIdSportsQuotasGet({
-    @Path('school_id') required String? schoolId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Quotas For School',
-      operationId: 'get_competition_schools_{school_id}_sports-quotas',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Create Sport Quota
-  ///@param school_id
-  ///@param sport_id
-  Future<chopper.Response> competitionSchoolsSchoolIdSportsSportIdQuotasPost({
-    required String? schoolId,
-    required String? sportId,
-    required SportQuotaInfo? body,
-  }) {
-    return _competitionSchoolsSchoolIdSportsSportIdQuotasPost(
-      schoolId: schoolId,
-      sportId: sportId,
-      body: body,
-    );
-  }
-
-  ///Create Sport Quota
-  ///@param school_id
-  ///@param sport_id
-  @POST(
-    path: '/competition/schools/{school_id}/sports/{sport_id}/quotas',
-    optionalBody: true,
-  )
-  Future<chopper.Response> _competitionSchoolsSchoolIdSportsSportIdQuotasPost({
-    @Path('school_id') required String? schoolId,
-    @Path('sport_id') required String? sportId,
-    @Body() required SportQuotaInfo? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Create Sport Quota',
-      operationId:
-          'post_competition_schools_{school_id}_sports_{sport_id}_quotas',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Edit Sport Quota
-  ///@param school_id
-  ///@param sport_id
-  Future<chopper.Response> competitionSchoolsSchoolIdSportsSportIdQuotasPatch({
-    required String? schoolId,
-    required String? sportId,
-    required SchoolSportQuotaEdit? body,
-  }) {
-    return _competitionSchoolsSchoolIdSportsSportIdQuotasPatch(
-      schoolId: schoolId,
-      sportId: sportId,
-      body: body,
-    );
-  }
-
-  ///Edit Sport Quota
-  ///@param school_id
-  ///@param sport_id
-  @PATCH(
-    path: '/competition/schools/{school_id}/sports/{sport_id}/quotas',
-    optionalBody: true,
-  )
-  Future<chopper.Response> _competitionSchoolsSchoolIdSportsSportIdQuotasPatch({
-    @Path('school_id') required String? schoolId,
-    @Path('sport_id') required String? sportId,
-    @Body() required SchoolSportQuotaEdit? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Edit Sport Quota',
-      operationId:
-          'patch_competition_schools_{school_id}_sports_{sport_id}_quotas',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Delete Sport Quota
-  ///@param school_id
-  ///@param sport_id
-  Future<chopper.Response> competitionSchoolsSchoolIdSportsSportIdQuotasDelete({
-    required String? schoolId,
-    required String? sportId,
-  }) {
-    return _competitionSchoolsSchoolIdSportsSportIdQuotasDelete(
-      schoolId: schoolId,
-      sportId: sportId,
-    );
-  }
-
-  ///Delete Sport Quota
-  ///@param school_id
-  ///@param sport_id
-  @DELETE(path: '/competition/schools/{school_id}/sports/{sport_id}/quotas')
-  Future<chopper.Response>
-  _competitionSchoolsSchoolIdSportsSportIdQuotasDelete({
-    @Path('school_id') required String? schoolId,
-    @Path('sport_id') required String? sportId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Delete Sport Quota',
-      operationId:
-          'delete_competition_schools_{school_id}_sports_{sport_id}_quotas',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Product Quotas For School
-  ///@param school_id
-  Future<chopper.Response<List<SchoolProductQuota>>>
-  competitionSchoolsSchoolIdProductQuotasGet({required String? schoolId}) {
-    generatedMapping.putIfAbsent(
-      SchoolProductQuota,
-      () => SchoolProductQuota.fromJsonFactory,
-    );
-
-    return _competitionSchoolsSchoolIdProductQuotasGet(schoolId: schoolId);
-  }
-
-  ///Get Product Quotas For School
-  ///@param school_id
-  @GET(path: '/competition/schools/{school_id}/product-quotas')
-  Future<chopper.Response<List<SchoolProductQuota>>>
-  _competitionSchoolsSchoolIdProductQuotasGet({
-    @Path('school_id') required String? schoolId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Product Quotas For School',
-      operationId: 'get_competition_schools_{school_id}_product-quotas',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Create Product Quota
-  ///@param school_id
-  Future<chopper.Response<SchoolProductQuota>>
-  competitionSchoolsSchoolIdProductQuotasPost({
-    required String? schoolId,
-    required SchoolProductQuotaBase? body,
-  }) {
-    generatedMapping.putIfAbsent(
-      SchoolProductQuota,
-      () => SchoolProductQuota.fromJsonFactory,
-    );
-
-    return _competitionSchoolsSchoolIdProductQuotasPost(
-      schoolId: schoolId,
-      body: body,
-    );
-  }
-
-  ///Create Product Quota
-  ///@param school_id
-  @POST(
-    path: '/competition/schools/{school_id}/product-quotas',
-    optionalBody: true,
-  )
-  Future<chopper.Response<SchoolProductQuota>>
-  _competitionSchoolsSchoolIdProductQuotasPost({
-    @Path('school_id') required String? schoolId,
-    @Body() required SchoolProductQuotaBase? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Create Product Quota',
-      operationId: 'post_competition_schools_{school_id}_product-quotas',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Product Quotas For Product
-  ///@param product_id
-  Future<chopper.Response<List<SchoolProductQuota>>>
-  competitionProductsProductIdSchoolsQuotasGet({required String? productId}) {
-    generatedMapping.putIfAbsent(
-      SchoolProductQuota,
-      () => SchoolProductQuota.fromJsonFactory,
-    );
-
-    return _competitionProductsProductIdSchoolsQuotasGet(productId: productId);
-  }
-
-  ///Get Product Quotas For Product
-  ///@param product_id
-  @GET(path: '/competition/products/{product_id}/schools-quotas')
-  Future<chopper.Response<List<SchoolProductQuota>>>
-  _competitionProductsProductIdSchoolsQuotasGet({
-    @Path('product_id') required String? productId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Product Quotas For Product',
-      operationId: 'get_competition_products_{product_id}_schools-quotas',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Edit Product Quota
-  ///@param school_id
-  ///@param product_id
-  Future<chopper.Response>
-  competitionSchoolsSchoolIdProductQuotasProductIdPatch({
-    required String? schoolId,
-    required String? productId,
-    required SchoolProductQuotaEdit? body,
-  }) {
-    return _competitionSchoolsSchoolIdProductQuotasProductIdPatch(
-      schoolId: schoolId,
-      productId: productId,
-      body: body,
-    );
-  }
-
-  ///Edit Product Quota
-  ///@param school_id
-  ///@param product_id
-  @PATCH(
-    path: '/competition/schools/{school_id}/product-quotas/{product_id}',
-    optionalBody: true,
-  )
-  Future<chopper.Response>
-  _competitionSchoolsSchoolIdProductQuotasProductIdPatch({
-    @Path('school_id') required String? schoolId,
-    @Path('product_id') required String? productId,
-    @Body() required SchoolProductQuotaEdit? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Edit Product Quota',
-      operationId:
-          'patch_competition_schools_{school_id}_product-quotas_{product_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Delete Product Quota
-  ///@param school_id
-  ///@param product_id
-  Future<chopper.Response>
-  competitionSchoolsSchoolIdProductQuotasProductIdDelete({
-    required String? schoolId,
-    required String? productId,
-  }) {
-    return _competitionSchoolsSchoolIdProductQuotasProductIdDelete(
-      schoolId: schoolId,
-      productId: productId,
-    );
-  }
-
-  ///Delete Product Quota
-  ///@param school_id
-  ///@param product_id
-  @DELETE(path: '/competition/schools/{school_id}/product-quotas/{product_id}')
-  Future<chopper.Response>
-  _competitionSchoolsSchoolIdProductQuotasProductIdDelete({
-    @Path('school_id') required String? schoolId,
-    @Path('product_id') required String? productId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Delete Product Quota',
-      operationId:
-          'delete_competition_schools_{school_id}_product-quotas_{product_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Current User Team As Captain
-  Future<chopper.Response<TeamComplete>> competitionTeamsMeGet() {
-    generatedMapping.putIfAbsent(
-      TeamComplete,
-      () => TeamComplete.fromJsonFactory,
-    );
-
-    return _competitionTeamsMeGet();
-  }
-
-  ///Get Current User Team As Captain
-  @GET(path: '/competition/teams/me')
-  Future<chopper.Response<TeamComplete>> _competitionTeamsMeGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Current User Team As Captain',
-      operationId: 'get_competition_teams_me',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Teams For Sport
-  ///@param sport_id
-  Future<chopper.Response<List<TeamComplete>>>
-  competitionTeamsSportsSportIdGet({required String? sportId}) {
-    generatedMapping.putIfAbsent(
-      TeamComplete,
-      () => TeamComplete.fromJsonFactory,
-    );
-
-    return _competitionTeamsSportsSportIdGet(sportId: sportId);
-  }
-
-  ///Get Teams For Sport
-  ///@param sport_id
-  @GET(path: '/competition/teams/sports/{sport_id}')
-  Future<chopper.Response<List<TeamComplete>>>
-  _competitionTeamsSportsSportIdGet({
-    @Path('sport_id') required String? sportId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Teams For Sport',
-      operationId: 'get_competition_teams_sports_{sport_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Teams For School
-  ///@param school_id
-  Future<chopper.Response<List<TeamComplete>>>
-  competitionTeamsSchoolsSchoolIdGet({required String? schoolId}) {
-    generatedMapping.putIfAbsent(
-      TeamComplete,
-      () => TeamComplete.fromJsonFactory,
-    );
-
-    return _competitionTeamsSchoolsSchoolIdGet(schoolId: schoolId);
-  }
-
-  ///Get Teams For School
-  ///@param school_id
-  @GET(path: '/competition/teams/schools/{school_id}')
-  Future<chopper.Response<List<TeamComplete>>>
-  _competitionTeamsSchoolsSchoolIdGet({
-    @Path('school_id') required String? schoolId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Teams For School',
-      operationId: 'get_competition_teams_schools_{school_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Sport Teams For School And Sport
-  ///@param school_id
-  ///@param sport_id
-  Future<chopper.Response<List<TeamComplete>>>
-  competitionTeamsSportsSportIdSchoolsSchoolIdGet({
-    required String? schoolId,
-    required String? sportId,
-  }) {
-    generatedMapping.putIfAbsent(
-      TeamComplete,
-      () => TeamComplete.fromJsonFactory,
-    );
-
-    return _competitionTeamsSportsSportIdSchoolsSchoolIdGet(
-      schoolId: schoolId,
-      sportId: sportId,
-    );
-  }
-
-  ///Get Sport Teams For School And Sport
-  ///@param school_id
-  ///@param sport_id
-  @GET(path: '/competition/teams/sports/{sport_id}/schools/{school_id}')
-  Future<chopper.Response<List<TeamComplete>>>
-  _competitionTeamsSportsSportIdSchoolsSchoolIdGet({
-    @Path('school_id') required String? schoolId,
-    @Path('sport_id') required String? sportId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Sport Teams For School And Sport',
-      operationId:
-          'get_competition_teams_sports_{sport_id}_schools_{school_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Create Team
-  Future<chopper.Response<Team>> competitionTeamsPost({
-    required TeamInfo? body,
-  }) {
-    generatedMapping.putIfAbsent(Team, () => Team.fromJsonFactory);
-
-    return _competitionTeamsPost(body: body);
-  }
-
-  ///Create Team
-  @POST(path: '/competition/teams', optionalBody: true)
-  Future<chopper.Response<Team>> _competitionTeamsPost({
-    @Body() required TeamInfo? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Create Team',
-      operationId: 'post_competition_teams',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Edit Team
-  ///@param team_id
-  Future<chopper.Response> competitionTeamsTeamIdPatch({
-    required String? teamId,
-    required TeamEdit? body,
-  }) {
-    return _competitionTeamsTeamIdPatch(teamId: teamId, body: body);
-  }
-
-  ///Edit Team
-  ///@param team_id
-  @PATCH(path: '/competition/teams/{team_id}', optionalBody: true)
-  Future<chopper.Response> _competitionTeamsTeamIdPatch({
-    @Path('team_id') required String? teamId,
-    @Body() required TeamEdit? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Edit Team',
-      operationId: 'patch_competition_teams_{team_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Delete Team
-  ///@param team_id
-  Future<chopper.Response> competitionTeamsTeamIdDelete({
-    required String? teamId,
-  }) {
-    return _competitionTeamsTeamIdDelete(teamId: teamId);
-  }
-
-  ///Delete Team
-  ///@param team_id
-  @DELETE(path: '/competition/teams/{team_id}')
-  Future<chopper.Response> _competitionTeamsTeamIdDelete({
-    @Path('team_id') required String? teamId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Delete Team',
-      operationId: 'delete_competition_teams_{team_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Current User Participant
-  Future<chopper.Response<ParticipantComplete>> competitionParticipantsMeGet() {
-    generatedMapping.putIfAbsent(
-      ParticipantComplete,
-      () => ParticipantComplete.fromJsonFactory,
-    );
-
-    return _competitionParticipantsMeGet();
-  }
-
-  ///Get Current User Participant
-  @GET(path: '/competition/participants/me')
-  Future<chopper.Response<ParticipantComplete>> _competitionParticipantsMeGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Current User Participant',
-      operationId: 'get_competition_participants_me',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Participants For Sport
-  ///@param sport_id
-  Future<chopper.Response<List<ParticipantComplete>>>
-  competitionParticipantsSportsSportIdGet({required String? sportId}) {
-    generatedMapping.putIfAbsent(
-      ParticipantComplete,
-      () => ParticipantComplete.fromJsonFactory,
-    );
-
-    return _competitionParticipantsSportsSportIdGet(sportId: sportId);
-  }
-
-  ///Get Participants For Sport
-  ///@param sport_id
-  @GET(path: '/competition/participants/sports/{sport_id}')
-  Future<chopper.Response<List<ParticipantComplete>>>
-  _competitionParticipantsSportsSportIdGet({
-    @Path('sport_id') required String? sportId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Participants For Sport',
-      operationId: 'get_competition_participants_sports_{sport_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Participants For School
-  ///@param school_id
-  Future<chopper.Response<List<ParticipantComplete>>>
-  competitionParticipantsSchoolsSchoolIdGet({required String? schoolId}) {
-    generatedMapping.putIfAbsent(
-      ParticipantComplete,
-      () => ParticipantComplete.fromJsonFactory,
-    );
-
-    return _competitionParticipantsSchoolsSchoolIdGet(schoolId: schoolId);
-  }
-
-  ///Get Participants For School
-  ///@param school_id
-  @GET(path: '/competition/participants/schools/{school_id}')
-  Future<chopper.Response<List<ParticipantComplete>>>
-  _competitionParticipantsSchoolsSchoolIdGet({
-    @Path('school_id') required String? schoolId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Participants For School',
-      operationId: 'get_competition_participants_schools_{school_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Download Participant Certificate
-  ///@param user_id
-  Future<chopper.Response> competitionParticipantsUsersUserIdCertificateGet({
-    required String? userId,
-  }) {
-    return _competitionParticipantsUsersUserIdCertificateGet(userId: userId);
-  }
-
-  ///Download Participant Certificate
-  ///@param user_id
-  @GET(path: '/competition/participants/users/{user_id}/certificate')
-  Future<chopper.Response> _competitionParticipantsUsersUserIdCertificateGet({
-    @Path('user_id') required String? userId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Download Participant Certificate',
-      operationId: 'get_competition_participants_users_{user_id}_certificate',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Join Sport
-  ///@param sport_id
-  Future<chopper.Response<Participant>>
-  competitionSportsSportIdParticipatePost({
-    required String? sportId,
-    required ParticipantInfo? body,
-  }) {
-    generatedMapping.putIfAbsent(
-      Participant,
-      () => Participant.fromJsonFactory,
-    );
-
-    return _competitionSportsSportIdParticipatePost(
-      sportId: sportId,
-      body: body,
-    );
-  }
-
-  ///Join Sport
-  ///@param sport_id
-  @POST(path: '/competition/sports/{sport_id}/participate', optionalBody: true)
-  Future<chopper.Response<Participant>>
-  _competitionSportsSportIdParticipatePost({
-    @Path('sport_id') required String? sportId,
-    @Body() required ParticipantInfo? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Join Sport',
-      operationId: 'post_competition_sports_{sport_id}_participate',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Upload Participant Certificate
-  ///@param sport_id
-  Future<chopper.Response> competitionParticipantsSportsSportIdCertificatePost({
-    required String? sportId,
-    required BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost
-    body,
-  }) {
-    return _competitionParticipantsSportsSportIdCertificatePost(
-      sportId: sportId,
-      body: body,
-    );
-  }
-
-  ///Upload Participant Certificate
-  ///@param sport_id
-  @POST(
-    path: '/competition/participants/sports/{sport_id}/certificate',
-    optionalBody: true,
-  )
-  @Multipart()
-  Future<chopper.Response>
-  _competitionParticipantsSportsSportIdCertificatePost({
-    @Path('sport_id') required String? sportId,
-    @Part()
-    required BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost
-    body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Upload Participant Certificate',
-      operationId:
-          'post_competition_participants_sports_{sport_id}_certificate',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Delete Participant Certificate File
-  ///@param sport_id
-  Future<chopper.Response>
-  competitionParticipantsSportsSportIdCertificateDelete({
-    required String? sportId,
-  }) {
-    return _competitionParticipantsSportsSportIdCertificateDelete(
-      sportId: sportId,
-    );
-  }
-
-  ///Delete Participant Certificate File
-  ///@param sport_id
-  @DELETE(path: '/competition/participants/sports/{sport_id}/certificate')
-  Future<chopper.Response>
-  _competitionParticipantsSportsSportIdCertificateDelete({
-    @Path('sport_id') required String? sportId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Delete Participant Certificate File',
-      operationId:
-          'delete_competition_participants_sports_{sport_id}_certificate',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Mark Participant License As Valid
-  ///@param sport_id
-  ///@param user_id
-  ///@param is_license_valid
-  Future<chopper.Response>
-  competitionParticipantsSportsSportIdUsersUserIdLicensePatch({
-    required String? sportId,
-    required String? userId,
-    required bool? isLicenseValid,
-  }) {
-    return _competitionParticipantsSportsSportIdUsersUserIdLicensePatch(
-      sportId: sportId,
-      userId: userId,
-      isLicenseValid: isLicenseValid,
-    );
-  }
-
-  ///Mark Participant License As Valid
-  ///@param sport_id
-  ///@param user_id
-  ///@param is_license_valid
-  @PATCH(
-    path: '/competition/participants/sports/{sport_id}/users/{user_id}/license',
-    optionalBody: true,
-  )
-  Future<chopper.Response>
-  _competitionParticipantsSportsSportIdUsersUserIdLicensePatch({
-    @Path('sport_id') required String? sportId,
-    @Path('user_id') required String? userId,
-    @Query('is_license_valid') required bool? isLicenseValid,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Mark Participant License As Valid',
-      operationId:
-          'patch_competition_participants_sports_{sport_id}_users_{user_id}_license',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Withdraw From Sport
-  ///@param sport_id
-  Future<chopper.Response> competitionSportsSportIdWithdrawDelete({
-    required String? sportId,
-  }) {
-    return _competitionSportsSportIdWithdrawDelete(sportId: sportId);
-  }
-
-  ///Withdraw From Sport
-  ///@param sport_id
-  @DELETE(path: '/competition/sports/{sport_id}/withdraw')
-  Future<chopper.Response> _competitionSportsSportIdWithdrawDelete({
-    @Path('sport_id') required String? sportId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Withdraw From Sport',
-      operationId: 'delete_competition_sports_{sport_id}_withdraw',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Delete Participant
-  ///@param user_id
-  ///@param sport_id
-  Future<chopper.Response> competitionParticipantsUserIdSportsSportIdDelete({
-    required String? userId,
-    required String? sportId,
-  }) {
-    return _competitionParticipantsUserIdSportsSportIdDelete(
-      userId: userId,
-      sportId: sportId,
-    );
-  }
-
-  ///Delete Participant
-  ///@param user_id
-  ///@param sport_id
-  @DELETE(path: '/competition/participants/{user_id}/sports/{sport_id}')
-  Future<chopper.Response> _competitionParticipantsUserIdSportsSportIdDelete({
-    @Path('user_id') required String? userId,
-    @Path('sport_id') required String? sportId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Delete Participant',
-      operationId:
-          'delete_competition_participants_{user_id}_sports_{sport_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get All Locations
-  Future<chopper.Response<List<Location>>> competitionLocationsGet() {
-    generatedMapping.putIfAbsent(Location, () => Location.fromJsonFactory);
-
-    return _competitionLocationsGet();
-  }
-
-  ///Get All Locations
-  @GET(path: '/competition/locations')
-  Future<chopper.Response<List<Location>>> _competitionLocationsGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get All Locations',
-      operationId: 'get_competition_locations',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Create Location
-  Future<chopper.Response<Location>> competitionLocationsPost({
-    required LocationBase? body,
-  }) {
-    generatedMapping.putIfAbsent(Location, () => Location.fromJsonFactory);
-
-    return _competitionLocationsPost(body: body);
-  }
-
-  ///Create Location
-  @POST(path: '/competition/locations', optionalBody: true)
-  Future<chopper.Response<Location>> _competitionLocationsPost({
-    @Body() required LocationBase? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Create Location',
-      operationId: 'post_competition_locations',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Location By Id
-  ///@param location_id
-  Future<chopper.Response<LocationComplete>> competitionLocationsLocationIdGet({
-    required String? locationId,
-  }) {
-    generatedMapping.putIfAbsent(
-      LocationComplete,
-      () => LocationComplete.fromJsonFactory,
-    );
-
-    return _competitionLocationsLocationIdGet(locationId: locationId);
-  }
-
-  ///Get Location By Id
-  ///@param location_id
-  @GET(path: '/competition/locations/{location_id}')
-  Future<chopper.Response<LocationComplete>>
-  _competitionLocationsLocationIdGet({
-    @Path('location_id') required String? locationId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Location By Id',
-      operationId: 'get_competition_locations_{location_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Edit Location
-  ///@param location_id
-  Future<chopper.Response> competitionLocationsLocationIdPatch({
-    required String? locationId,
-    required LocationEdit? body,
-  }) {
-    return _competitionLocationsLocationIdPatch(
-      locationId: locationId,
-      body: body,
-    );
-  }
-
-  ///Edit Location
-  ///@param location_id
-  @PATCH(path: '/competition/locations/{location_id}', optionalBody: true)
-  Future<chopper.Response> _competitionLocationsLocationIdPatch({
-    @Path('location_id') required String? locationId,
-    @Body() required LocationEdit? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Edit Location',
-      operationId: 'patch_competition_locations_{location_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Delete Location
-  ///@param location_id
-  Future<chopper.Response> competitionLocationsLocationIdDelete({
-    required String? locationId,
-  }) {
-    return _competitionLocationsLocationIdDelete(locationId: locationId);
-  }
-
-  ///Delete Location
-  ///@param location_id
-  @DELETE(path: '/competition/locations/{location_id}')
-  Future<chopper.Response> _competitionLocationsLocationIdDelete({
-    @Path('location_id') required String? locationId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Delete Location',
-      operationId: 'delete_competition_locations_{location_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Matches For Sport And Edition
-  ///@param sport_id
-  Future<chopper.Response<List<MatchComplete>>>
-  competitionMatchesSportsSportIdGet({required String? sportId}) {
-    generatedMapping.putIfAbsent(
-      MatchComplete,
-      () => MatchComplete.fromJsonFactory,
-    );
-
-    return _competitionMatchesSportsSportIdGet(sportId: sportId);
-  }
-
-  ///Get Matches For Sport And Edition
-  ///@param sport_id
-  @GET(path: '/competition/matches/sports/{sport_id}')
-  Future<chopper.Response<List<MatchComplete>>>
-  _competitionMatchesSportsSportIdGet({
-    @Path('sport_id') required String? sportId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Matches For Sport And Edition',
-      operationId: 'get_competition_matches_sports_{sport_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Create Match
-  ///@param sport_id
-  Future<chopper.Response<Match>> competitionMatchesSportsSportIdPost({
-    required String? sportId,
-    required MatchBase? body,
-  }) {
-    generatedMapping.putIfAbsent(Match, () => Match.fromJsonFactory);
-
-    return _competitionMatchesSportsSportIdPost(sportId: sportId, body: body);
-  }
-
-  ///Create Match
-  ///@param sport_id
-  @POST(path: '/competition/matches/sports/{sport_id}', optionalBody: true)
-  Future<chopper.Response<Match>> _competitionMatchesSportsSportIdPost({
-    @Path('sport_id') required String? sportId,
-    @Body() required MatchBase? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Create Match',
-      operationId: 'post_competition_matches_sports_{sport_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Matches For School Sport And Edition
-  ///@param school_id
-  Future<chopper.Response<List<MatchComplete>>>
-  competitionMatchesSchoolsSchoolIdGet({required String? schoolId}) {
-    generatedMapping.putIfAbsent(
-      MatchComplete,
-      () => MatchComplete.fromJsonFactory,
-    );
-
-    return _competitionMatchesSchoolsSchoolIdGet(schoolId: schoolId);
-  }
-
-  ///Get Matches For School Sport And Edition
-  ///@param school_id
-  @GET(path: '/competition/matches/schools/{school_id}')
-  Future<chopper.Response<List<MatchComplete>>>
-  _competitionMatchesSchoolsSchoolIdGet({
-    @Path('school_id') required String? schoolId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Matches For School Sport And Edition',
-      operationId: 'get_competition_matches_schools_{school_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Edit Match
-  ///@param match_id
-  Future<chopper.Response> competitionMatchesMatchIdPatch({
-    required String? matchId,
-    required MatchEdit? body,
-  }) {
-    return _competitionMatchesMatchIdPatch(matchId: matchId, body: body);
-  }
-
-  ///Edit Match
-  ///@param match_id
-  @PATCH(path: '/competition/matches/{match_id}', optionalBody: true)
-  Future<chopper.Response> _competitionMatchesMatchIdPatch({
-    @Path('match_id') required String? matchId,
-    @Body() required MatchEdit? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Edit Match',
-      operationId: 'patch_competition_matches_{match_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Delete Match
-  ///@param match_id
-  Future<chopper.Response> competitionMatchesMatchIdDelete({
-    required String? matchId,
-  }) {
-    return _competitionMatchesMatchIdDelete(matchId: matchId);
-  }
-
-  ///Delete Match
-  ///@param match_id
-  @DELETE(path: '/competition/matches/{match_id}')
-  Future<chopper.Response> _competitionMatchesMatchIdDelete({
-    @Path('match_id') required String? matchId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Delete Match',
-      operationId: 'delete_competition_matches_{match_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Global Podiums
-  Future<chopper.Response<List<SchoolResult>>> competitionPodiumsGlobalGet() {
-    generatedMapping.putIfAbsent(
-      SchoolResult,
-      () => SchoolResult.fromJsonFactory,
-    );
-
-    return _competitionPodiumsGlobalGet();
-  }
-
-  ///Get Global Podiums
-  @GET(path: '/competition/podiums/global')
-  Future<chopper.Response<List<SchoolResult>>> _competitionPodiumsGlobalGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Get the global podiums for the current edition.',
-      summary: 'Get Global Podiums',
-      operationId: 'get_competition_podiums_global',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Sport Podiums
-  ///@param sport_id
-  Future<chopper.Response<List<TeamSportResultComplete>>>
-  competitionPodiumsSportSportIdGet({required String? sportId}) {
-    generatedMapping.putIfAbsent(
-      TeamSportResultComplete,
-      () => TeamSportResultComplete.fromJsonFactory,
-    );
-
-    return _competitionPodiumsSportSportIdGet(sportId: sportId);
-  }
-
-  ///Get Sport Podiums
-  ///@param sport_id
-  @GET(path: '/competition/podiums/sport/{sport_id}')
-  Future<chopper.Response<List<TeamSportResultComplete>>>
-  _competitionPodiumsSportSportIdGet({
-    @Path('sport_id') required String? sportId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Get the podiums for a specific sport in the current edition.',
-      summary: 'Get Sport Podiums',
-      operationId: 'get_competition_podiums_sport_{sport_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Create Sport Podium
-  ///@param sport_id
-  Future<chopper.Response<List<TeamSportResult>>>
-  competitionPodiumsSportSportIdPost({
-    required String? sportId,
-    required SportPodiumRankings? body,
-  }) {
-    generatedMapping.putIfAbsent(
-      TeamSportResult,
-      () => TeamSportResult.fromJsonFactory,
-    );
-
-    return _competitionPodiumsSportSportIdPost(sportId: sportId, body: body);
-  }
-
-  ///Create Sport Podium
-  ///@param sport_id
-  @POST(path: '/competition/podiums/sport/{sport_id}', optionalBody: true)
-  Future<chopper.Response<List<TeamSportResult>>>
-  _competitionPodiumsSportSportIdPost({
-    @Path('sport_id') required String? sportId,
-    @Body() required SportPodiumRankings? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Create or update the podium for a specific sport in the current edition.',
-      summary: 'Create Sport Podium',
-      operationId: 'post_competition_podiums_sport_{sport_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Delete Sport Podium
-  ///@param sport_id
-  Future<chopper.Response> competitionPodiumsSportSportIdDelete({
-    required String? sportId,
-  }) {
-    return _competitionPodiumsSportSportIdDelete(sportId: sportId);
-  }
-
-  ///Delete Sport Podium
-  ///@param sport_id
-  @DELETE(path: '/competition/podiums/sport/{sport_id}')
-  Future<chopper.Response> _competitionPodiumsSportSportIdDelete({
-    @Path('sport_id') required String? sportId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Delete the podium for a specific sport in the current edition.',
-      summary: 'Delete Sport Podium',
-      operationId: 'delete_competition_podiums_sport_{sport_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get School Podiums
-  ///@param school_id
-  Future<chopper.Response<List<TeamSportResultComplete>>>
-  competitionPodiumsSchoolSchoolIdGet({required String? schoolId}) {
-    generatedMapping.putIfAbsent(
-      TeamSportResultComplete,
-      () => TeamSportResultComplete.fromJsonFactory,
-    );
-
-    return _competitionPodiumsSchoolSchoolIdGet(schoolId: schoolId);
-  }
-
-  ///Get School Podiums
-  ///@param school_id
-  @GET(path: '/competition/podiums/school/{school_id}')
-  Future<chopper.Response<List<TeamSportResultComplete>>>
-  _competitionPodiumsSchoolSchoolIdGet({
-    @Path('school_id') required String? schoolId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Get the podiums for a specific school in the current edition.',
-      summary: 'Get School Podiums',
-      operationId: 'get_competition_podiums_school_{school_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get All Products
-  Future<
-    chopper.Response<
-      List<AppModulesSportCompetitionSchemasSportCompetitionProductComplete>
-    >
-  >
-  competitionProductsGet() {
-    generatedMapping.putIfAbsent(
-      AppModulesSportCompetitionSchemasSportCompetitionProductComplete,
-      () => AppModulesSportCompetitionSchemasSportCompetitionProductComplete
-          .fromJsonFactory,
-    );
-
-    return _competitionProductsGet();
-  }
-
-  ///Get All Products
-  @GET(path: '/competition/products')
-  Future<
-    chopper.Response<
-      List<AppModulesSportCompetitionSchemasSportCompetitionProductComplete>
-    >
-  >
-  _competitionProductsGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Get all products.',
-      summary: 'Get All Products',
-      operationId: 'get_competition_products',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Create Product
-  Future<
-    chopper.Response<
-      AppModulesSportCompetitionSchemasSportCompetitionProductComplete
-    >
-  >
-  competitionProductsPost({
-    required AppModulesSportCompetitionSchemasSportCompetitionProductBase? body,
-  }) {
-    generatedMapping.putIfAbsent(
-      AppModulesSportCompetitionSchemasSportCompetitionProductComplete,
-      () => AppModulesSportCompetitionSchemasSportCompetitionProductComplete
-          .fromJsonFactory,
-    );
-
-    return _competitionProductsPost(body: body);
-  }
-
-  ///Create Product
-  @POST(path: '/competition/products', optionalBody: true)
-  Future<
-    chopper.Response<
-      AppModulesSportCompetitionSchemasSportCompetitionProductComplete
-    >
-  >
-  _competitionProductsPost({
-    @Body()
-    required AppModulesSportCompetitionSchemasSportCompetitionProductBase? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Create a product.',
-      summary: 'Create Product',
-      operationId: 'post_competition_products',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Update Product
-  ///@param product_id
-  Future<chopper.Response> competitionProductsProductIdPatch({
-    required String? productId,
-    required AppModulesSportCompetitionSchemasSportCompetitionProductEdit? body,
-  }) {
-    return _competitionProductsProductIdPatch(productId: productId, body: body);
-  }
-
-  ///Update Product
-  ///@param product_id
-  @PATCH(path: '/competition/products/{product_id}', optionalBody: true)
-  Future<chopper.Response> _competitionProductsProductIdPatch({
-    @Path('product_id') required String? productId,
-    @Body()
-    required AppModulesSportCompetitionSchemasSportCompetitionProductEdit? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Edit a product.
-
-**User must be a competition admin to use this endpoint**''',
-      summary: 'Update Product',
-      operationId: 'patch_competition_products_{product_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Delete Product
-  ///@param product_id
-  Future<chopper.Response> competitionProductsProductIdDelete({
-    required String? productId,
-  }) {
-    return _competitionProductsProductIdDelete(productId: productId);
-  }
-
-  ///Delete Product
-  ///@param product_id
-  @DELETE(path: '/competition/products/{product_id}')
-  Future<chopper.Response> _competitionProductsProductIdDelete({
-    @Path('product_id') required String? productId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Delete a product.
-
-**User must be a competition admin to use this endpoint**''',
-      summary: 'Delete Product',
-      operationId: 'delete_competition_products_{product_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Available Product Variants
-  Future<
-    chopper.Response<
-      List<
-        AppModulesSportCompetitionSchemasSportCompetitionProductVariantComplete
-      >
-    >
-  >
-  competitionProductsAvailableGet() {
-    generatedMapping.putIfAbsent(
-      AppModulesSportCompetitionSchemasSportCompetitionProductVariantComplete,
-      () =>
-          AppModulesSportCompetitionSchemasSportCompetitionProductVariantComplete
-              .fromJsonFactory,
-    );
-
-    return _competitionProductsAvailableGet();
-  }
-
-  ///Get Available Product Variants
-  @GET(path: '/competition/products/available')
-  Future<
-    chopper.Response<
-      List<
-        AppModulesSportCompetitionSchemasSportCompetitionProductVariantComplete
-      >
-    >
-  >
-  _competitionProductsAvailableGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Get all available product variants of the current edition for this user.',
-      summary: 'Get Available Product Variants',
-      operationId: 'get_competition_products_available',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Create Product Variant
-  ///@param product_id
-  Future<chopper.Response<ProductVariant>>
-  competitionProductsProductIdVariantsPost({
-    required String? productId,
-    required AppModulesSportCompetitionSchemasSportCompetitionProductVariantBase?
-    body,
-  }) {
-    generatedMapping.putIfAbsent(
-      ProductVariant,
-      () => ProductVariant.fromJsonFactory,
-    );
-
-    return _competitionProductsProductIdVariantsPost(
-      productId: productId,
-      body: body,
-    );
-  }
-
-  ///Create Product Variant
-  ///@param product_id
-  @POST(path: '/competition/products/{product_id}/variants', optionalBody: true)
-  Future<chopper.Response<ProductVariant>>
-  _competitionProductsProductIdVariantsPost({
-    @Path('product_id') required String? productId,
-    @Body()
-    required AppModulesSportCompetitionSchemasSportCompetitionProductVariantBase?
-    body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Create a product variant.
-
-**User must be a competition admin to use this endpoint**''',
-      summary: 'Create Product Variant',
-      operationId: 'post_competition_products_{product_id}_variants',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Update Product Variant
-  ///@param variant_id
-  Future<chopper.Response> competitionProductsVariantsVariantIdPatch({
-    required String? variantId,
-    required AppModulesSportCompetitionSchemasSportCompetitionProductVariantEdit?
-    body,
-  }) {
-    return _competitionProductsVariantsVariantIdPatch(
-      variantId: variantId,
-      body: body,
-    );
-  }
-
-  ///Update Product Variant
-  ///@param variant_id
-  @PATCH(
-    path: '/competition/products/variants/{variant_id}',
-    optionalBody: true,
-  )
-  Future<chopper.Response> _competitionProductsVariantsVariantIdPatch({
-    @Path('variant_id') required String? variantId,
-    @Body()
-    required AppModulesSportCompetitionSchemasSportCompetitionProductVariantEdit?
-    body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Edit a product variant.
-
-**User must be a competition admin to use this endpoint**''',
-      summary: 'Update Product Variant',
-      operationId: 'patch_competition_products_variants_{variant_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Delete Product Variant
-  ///@param variant_id
-  Future<chopper.Response> competitionProductsVariantsVariantIdDelete({
-    required String? variantId,
-  }) {
-    return _competitionProductsVariantsVariantIdDelete(variantId: variantId);
-  }
-
-  ///Delete Product Variant
-  ///@param variant_id
-  @DELETE(path: '/competition/products/variants/{variant_id}')
-  Future<chopper.Response> _competitionProductsVariantsVariantIdDelete({
-    @Path('variant_id') required String? variantId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Delete a product variant.
-
-**User must be a competition admin to use this endpoint**''',
-      summary: 'Delete Product Variant',
-      operationId: 'delete_competition_products_variants_{variant_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Purchases By School Id
-  ///@param school_id
-  Future<chopper.Response<Object>> competitionPurchasesSchoolsSchoolIdGet({
-    required String? schoolId,
-  }) {
-    return _competitionPurchasesSchoolsSchoolIdGet(schoolId: schoolId);
-  }
-
-  ///Get Purchases By School Id
-  ///@param school_id
-  @GET(path: '/competition/purchases/schools/{school_id}')
-  Future<chopper.Response<Object>> _competitionPurchasesSchoolsSchoolIdGet({
-    @Path('school_id') required String? schoolId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get a school\'s purchases.
-
-**User must be competition admin to use this endpoint**''',
-      summary: 'Get Purchases By School Id',
-      operationId: 'get_competition_purchases_schools_{school_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Purchases By User Id
-  ///@param user_id
-  Future<chopper.Response<List<Purchase>>> competitionPurchasesUsersUserIdGet({
-    required String? userId,
-  }) {
-    generatedMapping.putIfAbsent(Purchase, () => Purchase.fromJsonFactory);
-
-    return _competitionPurchasesUsersUserIdGet(userId: userId);
-  }
-
-  ///Get Purchases By User Id
-  ///@param user_id
-  @GET(path: '/competition/purchases/users/{user_id}')
-  Future<chopper.Response<List<Purchase>>> _competitionPurchasesUsersUserIdGet({
-    @Path('user_id') required String? userId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get a user\'s purchases.
-
-**User must be competition admin to use this endpoint**''',
-      summary: 'Get Purchases By User Id',
-      operationId: 'get_competition_purchases_users_{user_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get My Purchases
-  Future<chopper.Response<List<Purchase>>> competitionPurchasesMeGet() {
-    generatedMapping.putIfAbsent(Purchase, () => Purchase.fromJsonFactory);
-
-    return _competitionPurchasesMeGet();
-  }
-
-  ///Get My Purchases
-  @GET(path: '/competition/purchases/me')
-  Future<chopper.Response<List<Purchase>>> _competitionPurchasesMeGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get My Purchases',
-      operationId: 'get_competition_purchases_me',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Create Purchase
-  Future<chopper.Response<Purchase>> competitionPurchasesMePost({
-    required AppModulesSportCompetitionSchemasSportCompetitionPurchaseBase?
-    body,
-  }) {
-    generatedMapping.putIfAbsent(Purchase, () => Purchase.fromJsonFactory);
-
-    return _competitionPurchasesMePost(body: body);
-  }
-
-  ///Create Purchase
-  @POST(path: '/competition/purchases/me', optionalBody: true)
-  Future<chopper.Response<Purchase>> _competitionPurchasesMePost({
-    @Body()
-    required AppModulesSportCompetitionSchemasSportCompetitionPurchaseBase?
-    body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Create a purchase.
-
-**User must create a purchase for themself**''',
-      summary: 'Create Purchase',
-      operationId: 'post_competition_purchases_me',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Delete Purchase
-  ///@param product_variant_id
-  Future<chopper.Response> competitionPurchasesProductVariantIdDelete({
-    required String? productVariantId,
-  }) {
-    return _competitionPurchasesProductVariantIdDelete(
-      productVariantId: productVariantId,
-    );
-  }
-
-  ///Delete Purchase
-  ///@param product_variant_id
-  @DELETE(path: '/competition/purchases/{product_variant_id}')
-  Future<chopper.Response> _competitionPurchasesProductVariantIdDelete({
-    @Path('product_variant_id') required String? productVariantId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Delete a purchase.
-
-**User must delete their own purchase**''',
-      summary: 'Delete Purchase',
-      operationId: 'delete_competition_purchases_{product_variant_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Users Payments By School Id
-  ///@param school_id
-  Future<chopper.Response<Object>> competitionPaymentsSchoolsSchoolIdGet({
-    required String? schoolId,
-  }) {
-    return _competitionPaymentsSchoolsSchoolIdGet(schoolId: schoolId);
-  }
-
-  ///Get Users Payments By School Id
-  ///@param school_id
-  @GET(path: '/competition/payments/schools/{school_id}')
-  Future<chopper.Response<Object>> _competitionPaymentsSchoolsSchoolIdGet({
-    @Path('school_id') required String? schoolId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get a school\'s users payments.
-
-**User must be competition admin to use this endpoint**''',
-      summary: 'Get Users Payments By School Id',
-      operationId: 'get_competition_payments_schools_{school_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Payments By User Id
-  ///@param user_id
-  Future<
-    chopper.Response<
-      List<AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete>
-    >
-  >
-  competitionUsersUserIdPaymentsGet({required String? userId}) {
-    generatedMapping.putIfAbsent(
-      AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete,
-      () => AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete
-          .fromJsonFactory,
-    );
-
-    return _competitionUsersUserIdPaymentsGet(userId: userId);
-  }
-
-  ///Get Payments By User Id
-  ///@param user_id
-  @GET(path: '/competition/users/{user_id}/payments')
-  Future<
-    chopper.Response<
-      List<AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete>
-    >
-  >
-  _competitionUsersUserIdPaymentsGet({
-    @Path('user_id') required String? userId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get a user\'s payments.
-
-**User must get his own payments or be competition admin to use this endpoint**''',
-      summary: 'Get Payments By User Id',
-      operationId: 'get_competition_users_{user_id}_payments',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Create Payment
-  ///@param user_id
-  Future<
-    chopper.Response<
-      AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete
-    >
-  >
-  competitionUsersUserIdPaymentsPost({
-    required String? userId,
-    required AppModulesSportCompetitionSchemasSportCompetitionPaymentBase? body,
-  }) {
-    generatedMapping.putIfAbsent(
-      AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete,
-      () => AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete
-          .fromJsonFactory,
-    );
-
-    return _competitionUsersUserIdPaymentsPost(userId: userId, body: body);
-  }
-
-  ///Create Payment
-  ///@param user_id
-  @POST(path: '/competition/users/{user_id}/payments', optionalBody: true)
-  Future<
-    chopper.Response<
-      AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete
-    >
-  >
-  _competitionUsersUserIdPaymentsPost({
-    @Path('user_id') required String? userId,
-    @Body()
-    required AppModulesSportCompetitionSchemasSportCompetitionPaymentBase? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Create a payment.
-
-**User must be competition admin to use this endpoint**''',
-      summary: 'Create Payment',
-      operationId: 'post_competition_users_{user_id}_payments',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Delete Payment
-  ///@param user_id
-  ///@param payment_id
-  Future<chopper.Response> competitionUsersUserIdPaymentsPaymentIdDelete({
-    required String? userId,
-    required String? paymentId,
-  }) {
-    return _competitionUsersUserIdPaymentsPaymentIdDelete(
-      userId: userId,
-      paymentId: paymentId,
-    );
-  }
-
-  ///Delete Payment
-  ///@param user_id
-  ///@param payment_id
-  @DELETE(path: '/competition/users/{user_id}/payments/{payment_id}')
-  Future<chopper.Response> _competitionUsersUserIdPaymentsPaymentIdDelete({
-    @Path('user_id') required String? userId,
-    @Path('payment_id') required String? paymentId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Remove a payment.
-
-**User must be competition admin to use this endpoint**''',
-      summary: 'Delete Payment',
-      operationId: 'delete_competition_users_{user_id}_payments_{payment_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Payment Url
-  Future<chopper.Response<PaymentUrl>> competitionPayPost() {
-    generatedMapping.putIfAbsent(PaymentUrl, () => PaymentUrl.fromJsonFactory);
-
-    return _competitionPayPost();
-  }
-
-  ///Get Payment Url
-  @POST(path: '/competition/pay', optionalBody: true)
-  Future<chopper.Response<PaymentUrl>> _competitionPayPost({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Get payment url',
-      summary: 'Get Payment Url',
-      operationId: 'post_competition_pay',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get All Volunteer Shifts
-  Future<chopper.Response<List<VolunteerShiftComplete>>>
-  competitionVolunteersShiftsGet() {
-    generatedMapping.putIfAbsent(
-      VolunteerShiftComplete,
-      () => VolunteerShiftComplete.fromJsonFactory,
-    );
-
-    return _competitionVolunteersShiftsGet();
-  }
-
-  ///Get All Volunteer Shifts
-  @GET(path: '/competition/volunteers/shifts')
-  Future<chopper.Response<List<VolunteerShiftComplete>>>
-  _competitionVolunteersShiftsGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Get all volunteer shifts.',
-      summary: 'Get All Volunteer Shifts',
-      operationId: 'get_competition_volunteers_shifts',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Create Volunteer Shift
-  Future<chopper.Response<VolunteerShift>> competitionVolunteersShiftsPost({
-    required VolunteerShiftBase? body,
-  }) {
-    generatedMapping.putIfAbsent(
-      VolunteerShift,
-      () => VolunteerShift.fromJsonFactory,
-    );
-
-    return _competitionVolunteersShiftsPost(body: body);
-  }
-
-  ///Create Volunteer Shift
-  @POST(path: '/competition/volunteers/shifts', optionalBody: true)
-  Future<chopper.Response<VolunteerShift>> _competitionVolunteersShiftsPost({
-    @Body() required VolunteerShiftBase? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Create a volunteer shift.',
-      summary: 'Create Volunteer Shift',
-      operationId: 'post_competition_volunteers_shifts',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Update Volunteer Shift
-  ///@param shift_id
-  Future<chopper.Response> competitionVolunteersShiftsShiftIdPatch({
-    required String? shiftId,
-    required VolunteerShiftEdit? body,
-  }) {
-    return _competitionVolunteersShiftsShiftIdPatch(
-      shiftId: shiftId,
-      body: body,
-    );
-  }
-
-  ///Update Volunteer Shift
-  ///@param shift_id
-  @PATCH(path: '/competition/volunteers/shifts/{shift_id}', optionalBody: true)
-  Future<chopper.Response> _competitionVolunteersShiftsShiftIdPatch({
-    @Path('shift_id') required String? shiftId,
-    @Body() required VolunteerShiftEdit? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Edit a volunteer shift.
-
-**User must be a competition admin to use this endpoint**''',
-      summary: 'Update Volunteer Shift',
-      operationId: 'patch_competition_volunteers_shifts_{shift_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Delete Volunteer Shift
-  ///@param shift_id
-  Future<chopper.Response> competitionVolunteersShiftsShiftIdDelete({
-    required String? shiftId,
-  }) {
-    return _competitionVolunteersShiftsShiftIdDelete(shiftId: shiftId);
-  }
-
-  ///Delete Volunteer Shift
-  ///@param shift_id
-  @DELETE(path: '/competition/volunteers/shifts/{shift_id}')
-  Future<chopper.Response> _competitionVolunteersShiftsShiftIdDelete({
-    @Path('shift_id') required String? shiftId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Delete a volunteer shift.
-
-**User must be a competition admin to use this endpoint**''',
-      summary: 'Delete Volunteer Shift',
-      operationId: 'delete_competition_volunteers_shifts_{shift_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get My Volunteer Registrations
-  Future<chopper.Response<List<VolunteerRegistrationComplete>>>
-  competitionVolunteersMeGet() {
-    generatedMapping.putIfAbsent(
-      VolunteerRegistrationComplete,
-      () => VolunteerRegistrationComplete.fromJsonFactory,
-    );
-
-    return _competitionVolunteersMeGet();
-  }
-
-  ///Get My Volunteer Registrations
-  @GET(path: '/competition/volunteers/me')
-  Future<chopper.Response<List<VolunteerRegistrationComplete>>>
-  _competitionVolunteersMeGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Get my volunteer registrations.',
-      summary: 'Get My Volunteer Registrations',
-      operationId: 'get_competition_volunteers_me',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Register To Volunteer Shift
-  ///@param shift_id
-  Future<chopper.Response> competitionVolunteersShiftsShiftIdRegisterPost({
-    required String? shiftId,
-  }) {
-    return _competitionVolunteersShiftsShiftIdRegisterPost(shiftId: shiftId);
-  }
-
-  ///Register To Volunteer Shift
-  ///@param shift_id
-  @POST(
-    path: '/competition/volunteers/shifts/{shift_id}/register',
-    optionalBody: true,
-  )
-  Future<chopper.Response> _competitionVolunteersShiftsShiftIdRegisterPost({
-    @Path('shift_id') required String? shiftId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Register to a volunteer shift.',
-      summary: 'Register To Volunteer Shift',
-      operationId: 'post_competition_volunteers_shifts_{shift_id}_register',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  });
-
-  ///Read Advertisers
-  Future<chopper.Response<List<AdvertiserComplete>>> advertAdvertisersGet() {
-    generatedMapping.putIfAbsent(
-      AdvertiserComplete,
-      () => AdvertiserComplete.fromJsonFactory,
-    );
-
-    return _advertAdvertisersGet();
-  }
-
-  ///Read Advertisers
-  @GET(path: '/advert/advertisers')
-  Future<chopper.Response<List<AdvertiserComplete>>> _advertAdvertisersGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get existing advertisers.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Read Advertisers',
-      operationId: 'get_advert_advertisers',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Advert"],
-      deprecated: false,
-    ),
-  });
-
-  ///Create Advertiser
-  Future<chopper.Response<AdvertiserComplete>> advertAdvertisersPost({
-    required AdvertiserBase? body,
-  }) {
-    generatedMapping.putIfAbsent(
-      AdvertiserComplete,
-      () => AdvertiserComplete.fromJsonFactory,
-    );
-
-    return _advertAdvertisersPost(body: body);
-  }
-
-  ///Create Advertiser
-  @POST(path: '/advert/advertisers', optionalBody: true)
-  Future<chopper.Response<AdvertiserComplete>> _advertAdvertisersPost({
-    @Body() required AdvertiserBase? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Create a new advertiser.
-
-Each advertiser is associated with a `manager_group`. Users belonging to this group are able to manage the adverts related to the advertiser.
-
-**This endpoint is only usable by administrators**''',
-      summary: 'Create Advertiser',
-      operationId: 'post_advert_advertisers',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Advert"],
-      deprecated: false,
-    ),
-  });
-
-  ///Delete Advertiser
-  ///@param advertiser_id
-  Future<chopper.Response> advertAdvertisersAdvertiserIdDelete({
-    required String? advertiserId,
-  }) {
-    return _advertAdvertisersAdvertiserIdDelete(advertiserId: advertiserId);
-  }
-
-  ///Delete Advertiser
-  ///@param advertiser_id
-  @DELETE(path: '/advert/advertisers/{advertiser_id}')
-  Future<chopper.Response> _advertAdvertisersAdvertiserIdDelete({
-    @Path('advertiser_id') required String? advertiserId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Delete an advertiser. All adverts associated with the advertiser will also be deleted from the database.
-
-**This endpoint is only usable by administrators**''',
-      summary: 'Delete Advertiser',
-      operationId: 'delete_advert_advertisers_{advertiser_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Advert"],
-      deprecated: false,
-    ),
-  });
-
-  ///Update Advertiser
-  ///@param advertiser_id
-  Future<chopper.Response> advertAdvertisersAdvertiserIdPatch({
-    required String? advertiserId,
-    required AdvertiserUpdate? body,
-  }) {
-    return _advertAdvertisersAdvertiserIdPatch(
-      advertiserId: advertiserId,
-      body: body,
-    );
-  }
-
-  ///Update Advertiser
-  ///@param advertiser_id
-  @PATCH(path: '/advert/advertisers/{advertiser_id}', optionalBody: true)
-  Future<chopper.Response> _advertAdvertisersAdvertiserIdPatch({
-    @Path('advertiser_id') required String? advertiserId,
-    @Body() required AdvertiserUpdate? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Update an advertiser
-
-**This endpoint is only usable by administrators**''',
-      summary: 'Update Advertiser',
-      operationId: 'patch_advert_advertisers_{advertiser_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Advert"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Current User Advertisers
-  Future<chopper.Response<List<AdvertiserComplete>>> advertMeAdvertisersGet() {
-    generatedMapping.putIfAbsent(
-      AdvertiserComplete,
-      () => AdvertiserComplete.fromJsonFactory,
-    );
-
-    return _advertMeAdvertisersGet();
-  }
-
-  ///Get Current User Advertisers
-  @GET(path: '/advert/me/advertisers')
-  Future<chopper.Response<List<AdvertiserComplete>>> _advertMeAdvertisersGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Return all advertisers the current user can manage.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Get Current User Advertisers',
-      operationId: 'get_advert_me_advertisers',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Advert"],
-      deprecated: false,
-    ),
-  });
-
   ///Read Adverts
   ///@param advertisers
-  Future<chopper.Response<List<AdvertReturnComplete>>> advertAdvertsGet({
+  Future<chopper.Response<List<AdvertComplete>>> advertAdvertsGet({
     List<String>? advertisers,
   }) {
     generatedMapping.putIfAbsent(
-      AdvertReturnComplete,
-      () => AdvertReturnComplete.fromJsonFactory,
+      AdvertComplete,
+      () => AdvertComplete.fromJsonFactory,
     );
 
     return _advertAdvertsGet(advertisers: advertisers);
@@ -10312,7 +6968,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   ///Read Adverts
   ///@param advertisers
   @GET(path: '/advert/adverts')
-  Future<chopper.Response<List<AdvertReturnComplete>>> _advertAdvertsGet({
+  Future<chopper.Response<List<AdvertComplete>>> _advertAdvertsGet({
     @Query('advertisers') List<String>? advertisers,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -10331,12 +6987,12 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   });
 
   ///Create Advert
-  Future<chopper.Response<AdvertReturnComplete>> advertAdvertsPost({
+  Future<chopper.Response<AdvertComplete>> advertAdvertsPost({
     required AdvertBase? body,
   }) {
     generatedMapping.putIfAbsent(
-      AdvertReturnComplete,
-      () => AdvertReturnComplete.fromJsonFactory,
+      AdvertComplete,
+      () => AdvertComplete.fromJsonFactory,
     );
 
     return _advertAdvertsPost(body: body);
@@ -10344,13 +7000,13 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
 
   ///Create Advert
   @POST(path: '/advert/adverts', optionalBody: true)
-  Future<chopper.Response<AdvertReturnComplete>> _advertAdvertsPost({
+  Future<chopper.Response<AdvertComplete>> _advertAdvertsPost({
     @Body() required AdvertBase? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Create a new advert
 
-**The user must be a member of the advertiser group_manager to use this endpoint**''',
+**The user must be a member of the advertiser group to use this endpoint**''',
       summary: 'Create Advert',
       operationId: 'post_advert_adverts',
       consumes: [],
@@ -10363,12 +7019,12 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
 
   ///Read Advert
   ///@param advert_id
-  Future<chopper.Response<AdvertReturnComplete>> advertAdvertsAdvertIdGet({
+  Future<chopper.Response<AdvertComplete>> advertAdvertsAdvertIdGet({
     required String? advertId,
   }) {
     generatedMapping.putIfAbsent(
-      AdvertReturnComplete,
-      () => AdvertReturnComplete.fromJsonFactory,
+      AdvertComplete,
+      () => AdvertComplete.fromJsonFactory,
     );
 
     return _advertAdvertsAdvertIdGet(advertId: advertId);
@@ -10377,7 +7033,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   ///Read Advert
   ///@param advert_id
   @GET(path: '/advert/adverts/{advert_id}')
-  Future<chopper.Response<AdvertReturnComplete>> _advertAdvertsAdvertIdGet({
+  Future<chopper.Response<AdvertComplete>> _advertAdvertsAdvertIdGet({
     @Path('advert_id') required String? advertId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -10482,16 +7138,10 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
 
   ///Create Advert Image
   ///@param advert_id
-  Future<chopper.Response<AppTypesStandardResponsesResult>>
-  advertAdvertsAdvertIdPicturePost({
+  Future<chopper.Response> advertAdvertsAdvertIdPicturePost({
     required String? advertId,
     required BodyCreateAdvertImageAdvertAdvertsAdvertIdPicturePost body,
   }) {
-    generatedMapping.putIfAbsent(
-      AppTypesStandardResponsesResult,
-      () => AppTypesStandardResponsesResult.fromJsonFactory,
-    );
-
     return _advertAdvertsAdvertIdPicturePost(advertId: advertId, body: body);
   }
 
@@ -10499,8 +7149,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   ///@param advert_id
   @POST(path: '/advert/adverts/{advert_id}/picture', optionalBody: true)
   @Multipart()
-  Future<chopper.Response<AppTypesStandardResponsesResult>>
-  _advertAdvertsAdvertIdPicturePost({
+  Future<chopper.Response> _advertAdvertsAdvertIdPicturePost({
     @Path('advert_id') required String? advertId,
     @Part() required BodyCreateAdvertImageAdvertAdvertsAdvertIdPicturePost body,
     @chopper.Tag()
@@ -10549,7 +7198,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
 
   ///Create Association
   Future<chopper.Response<AssociationComplete>> phonebookAssociationsPost({
-    required AssociationBase? body,
+    required AppModulesPhonebookSchemasPhonebookAssociationBase? body,
   }) {
     generatedMapping.putIfAbsent(
       AssociationComplete,
@@ -10562,13 +7211,13 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   ///Create Association
   @POST(path: '/phonebook/associations/', optionalBody: true)
   Future<chopper.Response<AssociationComplete>> _phonebookAssociationsPost({
-    @Body() required AssociationBase? body,
+    @Body() required AppModulesPhonebookSchemasPhonebookAssociationBase? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           '''Create a new Association by giving an AssociationBase scheme
 
-**This endpoint is only usable by CAA, BDE**''',
+**This endpoint is only usable by phonebook_admin**''',
       summary: 'Create Association',
       operationId: 'post_phonebook_associations_',
       consumes: [],
@@ -10605,24 +7254,120 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
     ),
   });
 
-  ///Get All Kinds
-  Future<chopper.Response<KindsReturn>> phonebookAssociationsKindsGet() {
+  ///Get All Groupements
+  Future<chopper.Response<List<AssociationGroupement>>>
+  phonebookGroupementsGet() {
     generatedMapping.putIfAbsent(
-      KindsReturn,
-      () => KindsReturn.fromJsonFactory,
+      AssociationGroupement,
+      () => AssociationGroupement.fromJsonFactory,
     );
 
-    return _phonebookAssociationsKindsGet();
+    return _phonebookGroupementsGet();
   }
 
-  ///Get All Kinds
-  @GET(path: '/phonebook/associations/kinds')
-  Future<chopper.Response<KindsReturn>> _phonebookAssociationsKindsGet({
+  ///Get All Groupements
+  @GET(path: '/phonebook/groupements/')
+  Future<chopper.Response<List<AssociationGroupement>>>
+  _phonebookGroupementsGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Return all available kinds of from Kinds enum.',
-      summary: 'Get All Kinds',
-      operationId: 'get_phonebook_associations_kinds',
+      description:
+          'Return all groupements from database as a list of AssociationGroupement schemas',
+      summary: 'Get All Groupements',
+      operationId: 'get_phonebook_groupements_',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Phonebook"],
+      deprecated: false,
+    ),
+  });
+
+  ///Create Groupement
+  Future<chopper.Response<AssociationGroupement>> phonebookGroupementsPost({
+    required AssociationGroupementBase? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      AssociationGroupement,
+      () => AssociationGroupement.fromJsonFactory,
+    );
+
+    return _phonebookGroupementsPost(body: body);
+  }
+
+  ///Create Groupement
+  @POST(path: '/phonebook/groupements/', optionalBody: true)
+  Future<chopper.Response<AssociationGroupement>> _phonebookGroupementsPost({
+    @Body() required AssociationGroupementBase? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''Create a new Groupement by giving an AssociationGroupementBase scheme
+
+**This endpoint is only usable by phonebook_admin**''',
+      summary: 'Create Groupement',
+      operationId: 'post_phonebook_groupements_',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Phonebook"],
+      deprecated: false,
+    ),
+  });
+
+  ///Update Groupement
+  ///@param groupement_id
+  Future<chopper.Response> phonebookGroupementsGroupementIdPatch({
+    required String? groupementId,
+    required AssociationGroupementBase? body,
+  }) {
+    return _phonebookGroupementsGroupementIdPatch(
+      groupementId: groupementId,
+      body: body,
+    );
+  }
+
+  ///Update Groupement
+  ///@param groupement_id
+  @PATCH(path: '/phonebook/groupements/{groupement_id}', optionalBody: true)
+  Future<chopper.Response> _phonebookGroupementsGroupementIdPatch({
+    @Path('groupement_id') required String? groupementId,
+    @Body() required AssociationGroupementBase? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Update a groupement
+
+**This endpoint is only usable by phonebook_admin**''',
+      summary: 'Update Groupement',
+      operationId: 'patch_phonebook_groupements_{groupement_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Phonebook"],
+      deprecated: false,
+    ),
+  });
+
+  ///Delete Groupement
+  ///@param groupement_id
+  Future<chopper.Response> phonebookGroupementsGroupementIdDelete({
+    required String? groupementId,
+  }) {
+    return _phonebookGroupementsGroupementIdDelete(groupementId: groupementId);
+  }
+
+  ///Delete Groupement
+  ///@param groupement_id
+  @DELETE(path: '/phonebook/groupements/{groupement_id}')
+  Future<chopper.Response> _phonebookGroupementsGroupementIdDelete({
+    @Path('groupement_id') required String? groupementId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Delete a groupement
+
+**This endpoint is only usable by phonebook_admin**''',
+      summary: 'Delete Groupement',
+      operationId: 'delete_phonebook_groupements_{groupement_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10653,7 +7398,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Update an Association
 
-**This endpoint is only usable by CAA, BDE and association\'s president**''',
+**This endpoint is only usable by phonebook_admin and association\'s president**''',
       summary: 'Update Association',
       operationId: 'patch_phonebook_associations_{association_id}',
       consumes: [],
@@ -10685,7 +7430,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
 
 [!] Memberships linked to association_id will be deleted too
 
-**This endpoint is only usable by CAA and BDE**''',
+**This endpoint is only usable by phonebook_admin**''',
       summary: 'Delete Association',
       operationId: 'delete_phonebook_associations_{association_id}',
       consumes: [],
@@ -10721,7 +7466,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Update the groups associated with an Association
 
-**This endpoint is only usable by Admins (not BDE and CAA)**''',
+**This endpoint is only usable by admin (not phonebook_admin)**''',
       summary: 'Update Association Groups',
       operationId: 'patch_phonebook_associations_{association_id}_groups',
       consumes: [],
@@ -10754,7 +7499,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Deactivate an Association
 
-**This endpoint is only usable by CAA and BDE**''',
+**This endpoint is only usable by phonebook_admin**''',
       summary: 'Deactivate Association',
       operationId: 'patch_phonebook_associations_{association_id}_deactivate',
       consumes: [],
@@ -10896,7 +7641,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
       description: '''Create a new Membership.
 \'role_tags\' are used to indicate if the members has a main role in the association (president, secretary ...) and \'role_name\' is the display name for this membership
 
-**This endpoint is only usable by CAA, BDE and association\'s president**''',
+**This endpoint is only usable by phonebook_admin and association\'s president**''',
       summary: 'Create Membership',
       operationId: 'post_phonebook_associations_memberships',
       consumes: [],
@@ -10932,7 +7677,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Update a Membership.
 
-**This endpoint is only usable by CAA, BDE and association\'s president**''',
+**This endpoint is only usable by phonebook_admin and association\'s president**''',
       summary: 'Update Membership',
       operationId: 'patch_phonebook_associations_memberships_{membership_id}',
       consumes: [],
@@ -10962,7 +7707,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a membership.
 
-**This endpoint is only usable by CAA, BDE and association\'s president**''',
+**This endpoint is only usable by phonebook_admin and association\'s president**''',
       summary: 'Delete Membership',
       operationId: 'delete_phonebook_associations_memberships_{membership_id}',
       consumes: [],
@@ -11008,7 +7753,8 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Upload a logo for an Association.
-**The user must be a member of the group CAA or BDE to use this endpoint**''',
+
+**The user must be a member of the group phonebook_admin or the president of the association to use this endpoint**''',
       summary: 'Create Association Logo',
       operationId: 'post_phonebook_associations_{association_id}_picture',
       consumes: [],
@@ -11049,12 +7795,12 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
 
   ///Get Participant By Id
   ///@param participant_id
-  Future<chopper.Response<RaidParticipant>> raidParticipantsParticipantIdGet({
+  Future<chopper.Response<Participant>> raidParticipantsParticipantIdGet({
     required String? participantId,
   }) {
     generatedMapping.putIfAbsent(
-      RaidParticipant,
-      () => RaidParticipant.fromJsonFactory,
+      Participant,
+      () => Participant.fromJsonFactory,
     );
 
     return _raidParticipantsParticipantIdGet(participantId: participantId);
@@ -11063,7 +7809,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   ///Get Participant By Id
   ///@param participant_id
   @GET(path: '/raid/participants/{participant_id}')
-  Future<chopper.Response<RaidParticipant>> _raidParticipantsParticipantIdGet({
+  Future<chopper.Response<Participant>> _raidParticipantsParticipantIdGet({
     @Path('participant_id') required String? participantId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -11082,7 +7828,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   ///@param participant_id
   Future<chopper.Response> raidParticipantsParticipantIdPatch({
     required String? participantId,
-    required RaidParticipantUpdate? body,
+    required ParticipantUpdate? body,
   }) {
     return _raidParticipantsParticipantIdPatch(
       participantId: participantId,
@@ -11095,7 +7841,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   @PATCH(path: '/raid/participants/{participant_id}', optionalBody: true)
   Future<chopper.Response> _raidParticipantsParticipantIdPatch({
     @Path('participant_id') required String? participantId,
-    @Body() required RaidParticipantUpdate? body,
+    @Body() required ParticipantUpdate? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update a participant',
@@ -11110,12 +7856,12 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   });
 
   ///Create Participant
-  Future<chopper.Response<RaidParticipant>> raidParticipantsPost({
-    required RaidParticipantBase? body,
+  Future<chopper.Response<Participant>> raidParticipantsPost({
+    required ParticipantBase? body,
   }) {
     generatedMapping.putIfAbsent(
-      RaidParticipant,
-      () => RaidParticipant.fromJsonFactory,
+      Participant,
+      () => Participant.fromJsonFactory,
     );
 
     return _raidParticipantsPost(body: body);
@@ -11123,8 +7869,8 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
 
   ///Create Participant
   @POST(path: '/raid/participants', optionalBody: true)
-  Future<chopper.Response<RaidParticipant>> _raidParticipantsPost({
-    @Body() required RaidParticipantBase? body,
+  Future<chopper.Response<Participant>> _raidParticipantsPost({
+    @Body() required ParticipantBase? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a participant',
@@ -11139,10 +7885,10 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   });
 
   ///Get All Teams
-  Future<chopper.Response<List<RaidTeamPreview>>> raidTeamsGet() {
+  Future<chopper.Response<List<TeamPreview>>> raidTeamsGet() {
     generatedMapping.putIfAbsent(
-      RaidTeamPreview,
-      () => RaidTeamPreview.fromJsonFactory,
+      TeamPreview,
+      () => TeamPreview.fromJsonFactory,
     );
 
     return _raidTeamsGet();
@@ -11150,7 +7896,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
 
   ///Get All Teams
   @GET(path: '/raid/teams')
-  Future<chopper.Response<List<RaidTeamPreview>>> _raidTeamsGet({
+  Future<chopper.Response<List<TeamPreview>>> _raidTeamsGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all teams',
@@ -11165,18 +7911,16 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   });
 
   ///Create Team
-  Future<chopper.Response<RaidTeam>> raidTeamsPost({
-    required RaidTeamBase? body,
-  }) {
-    generatedMapping.putIfAbsent(RaidTeam, () => RaidTeam.fromJsonFactory);
+  Future<chopper.Response<Team>> raidTeamsPost({required TeamBase? body}) {
+    generatedMapping.putIfAbsent(Team, () => Team.fromJsonFactory);
 
     return _raidTeamsPost(body: body);
   }
 
   ///Create Team
   @POST(path: '/raid/teams', optionalBody: true)
-  Future<chopper.Response<RaidTeam>> _raidTeamsPost({
-    @Body() required RaidTeamBase? body,
+  Future<chopper.Response<Team>> _raidTeamsPost({
+    @Body() required TeamBase? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a team',
@@ -11211,12 +7955,35 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
     ),
   });
 
+  ///Generate Teams Pdf
+  Future<chopper.Response> raidTeamsGeneratePdfPost() {
+    return _raidTeamsGeneratePdfPost();
+  }
+
+  ///Generate Teams Pdf
+  @POST(path: '/raid/teams/generate-pdf', optionalBody: true)
+  Future<chopper.Response> _raidTeamsGeneratePdfPost({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''PDF are automatically generated when a team is created or updated.
+This endpoint is used to regenerate all the PDFs.''',
+      summary: 'Generate Teams Pdf',
+      operationId: 'post_raid_teams_generate-pdf',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Raid"],
+      deprecated: false,
+    ),
+  });
+
   ///Get Team By Participant Id
   ///@param participant_id
-  Future<chopper.Response<RaidTeam>> raidParticipantsParticipantIdTeamGet({
+  Future<chopper.Response<Team>> raidParticipantsParticipantIdTeamGet({
     required String? participantId,
   }) {
-    generatedMapping.putIfAbsent(RaidTeam, () => RaidTeam.fromJsonFactory);
+    generatedMapping.putIfAbsent(Team, () => Team.fromJsonFactory);
 
     return _raidParticipantsParticipantIdTeamGet(participantId: participantId);
   }
@@ -11224,7 +7991,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   ///Get Team By Participant Id
   ///@param participant_id
   @GET(path: '/raid/participants/{participant_id}/team')
-  Future<chopper.Response<RaidTeam>> _raidParticipantsParticipantIdTeamGet({
+  Future<chopper.Response<Team>> _raidParticipantsParticipantIdTeamGet({
     @Path('participant_id') required String? participantId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -11241,10 +8008,8 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
 
   ///Get Team By Id
   ///@param team_id
-  Future<chopper.Response<RaidTeam>> raidTeamsTeamIdGet({
-    required String? teamId,
-  }) {
-    generatedMapping.putIfAbsent(RaidTeam, () => RaidTeam.fromJsonFactory);
+  Future<chopper.Response<Team>> raidTeamsTeamIdGet({required String? teamId}) {
+    generatedMapping.putIfAbsent(Team, () => Team.fromJsonFactory);
 
     return _raidTeamsTeamIdGet(teamId: teamId);
   }
@@ -11252,7 +8017,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   ///Get Team By Id
   ///@param team_id
   @GET(path: '/raid/teams/{team_id}')
-  Future<chopper.Response<RaidTeam>> _raidTeamsTeamIdGet({
+  Future<chopper.Response<Team>> _raidTeamsTeamIdGet({
     @Path('team_id') required String? teamId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -11271,7 +8036,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   ///@param team_id
   Future<chopper.Response> raidTeamsTeamIdPatch({
     required String? teamId,
-    required RaidTeamUpdate? body,
+    required TeamUpdate? body,
   }) {
     return _raidTeamsTeamIdPatch(teamId: teamId, body: body);
   }
@@ -11281,7 +8046,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   @PATCH(path: '/raid/teams/{team_id}', optionalBody: true)
   Future<chopper.Response> _raidTeamsTeamIdPatch({
     @Path('team_id') required String? teamId,
-    @Body() required RaidTeamUpdate? body,
+    @Body() required TeamUpdate? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update a team',
@@ -11593,11 +8358,11 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   ///Kick Team Member
   ///@param team_id
   ///@param participant_id
-  Future<chopper.Response<RaidTeam>> raidTeamsTeamIdKickParticipantIdPost({
+  Future<chopper.Response<Team>> raidTeamsTeamIdKickParticipantIdPost({
     required String? teamId,
     required String? participantId,
   }) {
-    generatedMapping.putIfAbsent(RaidTeam, () => RaidTeam.fromJsonFactory);
+    generatedMapping.putIfAbsent(Team, () => Team.fromJsonFactory);
 
     return _raidTeamsTeamIdKickParticipantIdPost(
       teamId: teamId,
@@ -11609,7 +8374,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   ///@param team_id
   ///@param participant_id
   @POST(path: '/raid/teams/{team_id}/kick/{participant_id}', optionalBody: true)
-  Future<chopper.Response<RaidTeam>> _raidTeamsTeamIdKickParticipantIdPost({
+  Future<chopper.Response<Team>> _raidTeamsTeamIdKickParticipantIdPost({
     @Path('team_id') required String? teamId,
     @Path('participant_id') required String? participantId,
     @chopper.Tag()
@@ -11628,11 +8393,11 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   ///Merge Teams
   ///@param team1_id
   ///@param team2_id
-  Future<chopper.Response<RaidTeam>> raidTeamsMergePost({
+  Future<chopper.Response<Team>> raidTeamsMergePost({
     required String? team1Id,
     required String? team2Id,
   }) {
-    generatedMapping.putIfAbsent(RaidTeam, () => RaidTeam.fromJsonFactory);
+    generatedMapping.putIfAbsent(Team, () => Team.fromJsonFactory);
 
     return _raidTeamsMergePost(team1Id: team1Id, team2Id: team2Id);
   }
@@ -11641,7 +8406,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   ///@param team1_id
   ///@param team2_id
   @POST(path: '/raid/teams/merge', optionalBody: true)
-  Future<chopper.Response<RaidTeam>> _raidTeamsMergePost({
+  Future<chopper.Response<Team>> _raidTeamsMergePost({
     @Query('team1_id') required String? team1Id,
     @Query('team2_id') required String? team2Id,
     @chopper.Tag()
@@ -11825,56 +8590,11 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
     ),
   });
 
-  ///Download Security Files Zip
-  Future<chopper.Response> raidSecurityFilesZipGet() {
-    return _raidSecurityFilesZipGet();
-  }
-
-  ///Download Security Files Zip
-  @GET(path: '/raid/security_files_zip')
-  Future<chopper.Response> _raidSecurityFilesZipGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Generate and serve a ZIP file containing all security files.
-Only accessible to raid admins.''',
-      summary: 'Download Security Files Zip',
-      operationId: 'get_raid_security_files_zip',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Raid"],
-      deprecated: false,
-    ),
-  });
-
-  ///Download Team Files Zip
-  Future<chopper.Response> raidTeamFilesZipGet() {
-    return _raidTeamFilesZipGet();
-  }
-
-  ///Download Team Files Zip
-  @GET(path: '/raid/team_files_zip')
-  Future<chopper.Response> _raidTeamFilesZipGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Generate and serve a ZIP file containing all team files.
-Only accessible to raid admins.''',
-      summary: 'Download Team Files Zip',
-      operationId: 'get_raid_team_files_zip',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Raid"],
-      deprecated: false,
-    ),
-  });
-
   ///Get Events
-  Future<chopper.Response<List<EventReturn>>> calendarEventsGet() {
+  Future<chopper.Response<List<EventComplete>>> calendarEventsGet() {
     generatedMapping.putIfAbsent(
-      EventReturn,
-      () => EventReturn.fromJsonFactory,
+      EventComplete,
+      () => EventComplete.fromJsonFactory,
     );
 
     return _calendarEventsGet();
@@ -11882,7 +8602,7 @@ Only accessible to raid admins.''',
 
   ///Get Events
   @GET(path: '/calendar/events/')
-  Future<chopper.Response<List<EventReturn>>> _calendarEventsGet({
+  Future<chopper.Response<List<EventComplete>>> _calendarEventsGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all events from the database.',
@@ -11897,12 +8617,12 @@ Only accessible to raid admins.''',
   });
 
   ///Add Event
-  Future<chopper.Response<EventReturn>> calendarEventsPost({
-    required EventBase? body,
+  Future<chopper.Response<EventCompleteTicketUrl>> calendarEventsPost({
+    required EventBaseCreation? body,
   }) {
     generatedMapping.putIfAbsent(
-      EventReturn,
-      () => EventReturn.fromJsonFactory,
+      EventCompleteTicketUrl,
+      () => EventCompleteTicketUrl.fromJsonFactory,
     );
 
     return _calendarEventsPost(body: body);
@@ -11910,8 +8630,8 @@ Only accessible to raid admins.''',
 
   ///Add Event
   @POST(path: '/calendar/events/', optionalBody: true)
-  Future<chopper.Response<EventReturn>> _calendarEventsPost({
-    @Body() required EventBase? body,
+  Future<chopper.Response<EventCompleteTicketUrl>> _calendarEventsPost({
+    @Body() required EventBaseCreation? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Add an event to the calendar.',
@@ -11953,32 +8673,33 @@ Only accessible to raid admins.''',
     ),
   });
 
-  ///Get Applicant Bookings
-  ///@param applicant_id
-  Future<chopper.Response<List<EventReturn>>> calendarEventsUserApplicantIdGet({
-    required String? applicantId,
-  }) {
+  ///Get Association Events
+  ///@param association_id
+  Future<chopper.Response<List<EventCompleteTicketUrl>>>
+  calendarEventsAssociationsAssociationIdGet({required String? associationId}) {
     generatedMapping.putIfAbsent(
-      EventReturn,
-      () => EventReturn.fromJsonFactory,
+      EventCompleteTicketUrl,
+      () => EventCompleteTicketUrl.fromJsonFactory,
     );
 
-    return _calendarEventsUserApplicantIdGet(applicantId: applicantId);
+    return _calendarEventsAssociationsAssociationIdGet(
+      associationId: associationId,
+    );
   }
 
-  ///Get Applicant Bookings
-  ///@param applicant_id
-  @GET(path: '/calendar/events/user/{applicant_id}')
-  Future<chopper.Response<List<EventReturn>>>
-  _calendarEventsUserApplicantIdGet({
-    @Path('applicant_id') required String? applicantId,
+  ///Get Association Events
+  ///@param association_id
+  @GET(path: '/calendar/events/associations/{association_id}')
+  Future<chopper.Response<List<EventCompleteTicketUrl>>>
+  _calendarEventsAssociationsAssociationIdGet({
+    @Path('association_id') required String? associationId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get one user bookings.
+      description: '''Get the booking of the association
 
-**Usable by the user or admins**''',
-      summary: 'Get Applicant Bookings',
-      operationId: 'get_calendar_events_user_{applicant_id}',
+**Usable by members of the association**''',
+      summary: 'Get Association Events',
+      operationId: 'get_calendar_events_associations_{association_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11989,12 +8710,12 @@ Only accessible to raid admins.''',
 
   ///Get Event By Id
   ///@param event_id
-  Future<chopper.Response<EventComplete>> calendarEventsEventIdGet({
+  Future<chopper.Response<EventCompleteTicketUrl>> calendarEventsEventIdGet({
     required String? eventId,
   }) {
     generatedMapping.putIfAbsent(
-      EventComplete,
-      () => EventComplete.fromJsonFactory,
+      EventCompleteTicketUrl,
+      () => EventCompleteTicketUrl.fromJsonFactory,
     );
 
     return _calendarEventsEventIdGet(eventId: eventId);
@@ -12003,11 +8724,13 @@ Only accessible to raid admins.''',
   ///Get Event By Id
   ///@param event_id
   @GET(path: '/calendar/events/{event_id}')
-  Future<chopper.Response<EventComplete>> _calendarEventsEventIdGet({
+  Future<chopper.Response<EventCompleteTicketUrl>> _calendarEventsEventIdGet({
     @Path('event_id') required String? eventId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Get an event\'s information by its id.',
+      description: '''Get an event\'s information by its id.
+
+**Non approved events are only accessible for BDE or the event\'s association members**''',
       summary: 'Get Event By Id',
       operationId: 'get_calendar_events_{event_id}',
       consumes: [],
@@ -12018,7 +8741,7 @@ Only accessible to raid admins.''',
     ),
   });
 
-  ///Edit Bookings Id
+  ///Edit Envent
   ///@param event_id
   Future<chopper.Response> calendarEventsEventIdPatch({
     required String? eventId,
@@ -12027,7 +8750,7 @@ Only accessible to raid admins.''',
     return _calendarEventsEventIdPatch(eventId: eventId, body: body);
   }
 
-  ///Edit Bookings Id
+  ///Edit Envent
   ///@param event_id
   @PATCH(path: '/calendar/events/{event_id}', optionalBody: true)
   Future<chopper.Response> _calendarEventsEventIdPatch({
@@ -12037,8 +8760,8 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Edit an event.
 
-**Only usable by admins or applicant before decision**''',
-      summary: 'Edit Bookings Id',
+**Only usable by admins or members of the event\'s association**''',
+      summary: 'Edit Envent',
       operationId: 'patch_calendar_events_{event_id}',
       consumes: [],
       produces: [],
@@ -12048,7 +8771,7 @@ Only accessible to raid admins.''',
     ),
   });
 
-  ///Delete Bookings Id
+  ///Delete Event
   ///@param event_id
   Future<chopper.Response> calendarEventsEventIdDelete({
     required Object? eventId,
@@ -12056,7 +8779,7 @@ Only accessible to raid admins.''',
     return _calendarEventsEventIdDelete(eventId: eventId);
   }
 
-  ///Delete Bookings Id
+  ///Delete Event
   ///@param event_id
   @DELETE(path: '/calendar/events/{event_id}')
   Future<chopper.Response> _calendarEventsEventIdDelete({
@@ -12065,8 +8788,8 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Remove an event.
 
-**Only usable by admins or applicant before decision**''',
-      summary: 'Delete Bookings Id',
+**Only usable by admins or, if the event is pending, members of the event\'s association**''',
+      summary: 'Delete Event',
       operationId: 'delete_calendar_events_{event_id}',
       consumes: [],
       produces: [],
@@ -12076,29 +8799,29 @@ Only accessible to raid admins.''',
     ),
   });
 
-  ///Get Event Applicant
+  ///Get Event Ticket Url
   ///@param event_id
-  Future<chopper.Response<EventApplicant>> calendarEventsEventIdApplicantGet({
+  Future<chopper.Response<EventTicketUrl>> calendarEventsEventIdTicketUrlGet({
     required String? eventId,
   }) {
     generatedMapping.putIfAbsent(
-      EventApplicant,
-      () => EventApplicant.fromJsonFactory,
+      EventTicketUrl,
+      () => EventTicketUrl.fromJsonFactory,
     );
 
-    return _calendarEventsEventIdApplicantGet(eventId: eventId);
+    return _calendarEventsEventIdTicketUrlGet(eventId: eventId);
   }
 
-  ///Get Event Applicant
+  ///Get Event Ticket Url
   ///@param event_id
-  @GET(path: '/calendar/events/{event_id}/applicant')
-  Future<chopper.Response<EventApplicant>> _calendarEventsEventIdApplicantGet({
+  @GET(path: '/calendar/events/{event_id}/ticket-url')
+  Future<chopper.Response<EventTicketUrl>> _calendarEventsEventIdTicketUrlGet({
     @Path('event_id') required String? eventId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
-      summary: 'Get Event Applicant',
-      operationId: 'get_calendar_events_{event_id}_applicant',
+      summary: 'Get Event Ticket Url',
+      operationId: 'get_calendar_events_{event_id}_ticket-url',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12107,7 +8830,66 @@ Only accessible to raid admins.''',
     ),
   });
 
-  ///Confirm Booking
+  ///Get Event Image
+  ///@param event_id
+  Future<chopper.Response> calendarEventsEventIdImageGet({
+    required String? eventId,
+  }) {
+    return _calendarEventsEventIdImageGet(eventId: eventId);
+  }
+
+  ///Get Event Image
+  ///@param event_id
+  @GET(path: '/calendar/events/{event_id}/image')
+  Future<chopper.Response> _calendarEventsEventIdImageGet({
+    @Path('event_id') required String? eventId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get the image of an event
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Get Event Image',
+      operationId: 'get_calendar_events_{event_id}_image',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Calendar"],
+      deprecated: false,
+    ),
+  });
+
+  ///Create Event Image
+  ///@param event_id
+  Future<chopper.Response> calendarEventsEventIdImagePost({
+    required String? eventId,
+    required BodyCreateEventImageCalendarEventsEventIdImagePost body,
+  }) {
+    return _calendarEventsEventIdImagePost(eventId: eventId, body: body);
+  }
+
+  ///Create Event Image
+  ///@param event_id
+  @POST(path: '/calendar/events/{event_id}/image', optionalBody: true)
+  @Multipart()
+  Future<chopper.Response> _calendarEventsEventIdImagePost({
+    @Path('event_id') required String? eventId,
+    @Part() required BodyCreateEventImageCalendarEventsEventIdImagePost body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Add an image to an event
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Create Event Image',
+      operationId: 'post_calendar_events_{event_id}_image',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Calendar"],
+      deprecated: false,
+    ),
+  });
+
+  ///Confirm Event
   ///@param event_id
   ///@param decision
   Future<chopper.Response> calendarEventsEventIdReplyDecisionPatch({
@@ -12120,7 +8902,7 @@ Only accessible to raid admins.''',
     );
   }
 
-  ///Confirm Booking
+  ///Confirm Event
   ///@param event_id
   ///@param decision
   @PATCH(
@@ -12135,8 +8917,31 @@ Only accessible to raid admins.''',
       description: '''Give a decision to an event.
 
 **Only usable by admins**''',
-      summary: 'Confirm Booking',
+      summary: 'Confirm Event',
       operationId: 'patch_calendar_events_{event_id}_reply_{decision}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Calendar"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get Ical Url
+  Future<chopper.Response<IcalSecret>> calendarIcalUrlGet() {
+    generatedMapping.putIfAbsent(IcalSecret, () => IcalSecret.fromJsonFactory);
+
+    return _calendarIcalUrlGet();
+  }
+
+  ///Get Ical Url
+  @GET(path: '/calendar/ical-url')
+  Future<chopper.Response<IcalSecret>> _calendarIcalUrlGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Generate a unique ical url for the user',
+      summary: 'Get Ical Url',
+      operationId: 'get_calendar_ical-url',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12169,13 +8974,16 @@ Only accessible to raid admins.''',
   });
 
   ///Get Icalendar File
-  Future<chopper.Response> calendarIcalGet() {
-    return _calendarIcalGet();
+  ///@param secret
+  Future<chopper.Response> calendarIcalGet({required String? secret}) {
+    return _calendarIcalGet(secret: secret);
   }
 
   ///Get Icalendar File
+  ///@param secret
   @GET(path: '/calendar/ical')
   Future<chopper.Response> _calendarIcalGet({
+    @Query('secret') required String? secret,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
@@ -12190,23 +8998,130 @@ Only accessible to raid admins.''',
     ),
   });
 
-  ///Webhook
-  Future<chopper.Response> paymentHelloassoWebhookPost() {
-    return _paymentHelloassoWebhookPost();
+  ///Get Published News
+  Future<chopper.Response<List<News>>> feedNewsGet() {
+    generatedMapping.putIfAbsent(News, () => News.fromJsonFactory);
+
+    return _feedNewsGet();
   }
 
-  ///Webhook
-  @POST(path: '/payment/helloasso/webhook', optionalBody: true)
-  Future<chopper.Response> _paymentHelloassoWebhookPost({
+  ///Get Published News
+  @GET(path: '/feed/news')
+  Future<chopper.Response<List<News>>> _feedNewsGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Webhook',
-      operationId: 'post_payment_helloasso_webhook',
+      description: 'Return published news from the feed',
+      summary: 'Get Published News',
+      operationId: 'get_feed_news',
       consumes: [],
       produces: [],
-      security: [],
-      tags: ["Payments"],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Feed"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get News Image
+  ///@param news_id
+  Future<chopper.Response> feedNewsNewsIdImageGet({required String? newsId}) {
+    return _feedNewsNewsIdImageGet(newsId: newsId);
+  }
+
+  ///Get News Image
+  ///@param news_id
+  @GET(path: '/feed/news/{news_id}/image')
+  Future<chopper.Response> _feedNewsNewsIdImageGet({
+    @Path('news_id') required String? newsId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Return the image of a news',
+      summary: 'Get News Image',
+      operationId: 'get_feed_news_{news_id}_image',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Feed"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get Admin News
+  Future<chopper.Response<List<News>>> feedAdminNewsGet() {
+    generatedMapping.putIfAbsent(News, () => News.fromJsonFactory);
+
+    return _feedAdminNewsGet();
+  }
+
+  ///Get Admin News
+  @GET(path: '/feed/admin/news')
+  Future<chopper.Response<List<News>>> _feedAdminNewsGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Return news from the feed
+
+**This endpoint is only usable by feed administrators**''',
+      summary: 'Get Admin News',
+      operationId: 'get_feed_admin_news',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Feed"],
+      deprecated: false,
+    ),
+  });
+
+  ///Approve News
+  ///@param news_id
+  Future<chopper.Response> feedAdminNewsNewsIdApprovePost({
+    required String? newsId,
+  }) {
+    return _feedAdminNewsNewsIdApprovePost(newsId: newsId);
+  }
+
+  ///Approve News
+  ///@param news_id
+  @POST(path: '/feed/admin/news/{news_id}/approve', optionalBody: true)
+  Future<chopper.Response> _feedAdminNewsNewsIdApprovePost({
+    @Path('news_id') required String? newsId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Approve a news
+
+**This endpoint is only usable by feed administrators**''',
+      summary: 'Approve News',
+      operationId: 'post_feed_admin_news_{news_id}_approve',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Feed"],
+      deprecated: false,
+    ),
+  });
+
+  ///Reject News
+  ///@param news_id
+  Future<chopper.Response> feedAdminNewsNewsIdRejectPost({
+    required String? newsId,
+  }) {
+    return _feedAdminNewsNewsIdRejectPost(newsId: newsId);
+  }
+
+  ///Reject News
+  ///@param news_id
+  @POST(path: '/feed/admin/news/{news_id}/reject', optionalBody: true)
+  Future<chopper.Response> _feedAdminNewsNewsIdRejectPost({
+    @Path('news_id') required String? newsId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Reject a news
+
+**This endpoint is only usable by feed administrators**''',
+      summary: 'Reject News',
+      operationId: 'post_feed_admin_news_{news_id}_reject',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Feed"],
       deprecated: false,
     ),
   });
@@ -12352,6 +9267,191 @@ This will remove the school from all users but won\'t delete any user.
     ),
   });
 
+  ///Read Associations
+  Future<chopper.Response<List<Association>>> associationsGet() {
+    generatedMapping.putIfAbsent(
+      Association,
+      () => Association.fromJsonFactory,
+    );
+
+    return _associationsGet();
+  }
+
+  ///Read Associations
+  @GET(path: '/associations/')
+  Future<chopper.Response<List<Association>>> _associationsGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Return all associations
+
+**User must be authenticated**''',
+      summary: 'Read Associations',
+      operationId: 'get_associations_',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Associations"],
+      deprecated: false,
+    ),
+  });
+
+  ///Create Association
+  Future<chopper.Response<Association>> associationsPost({
+    required AppCoreAssociationsSchemasAssociationsAssociationBase? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      Association,
+      () => Association.fromJsonFactory,
+    );
+
+    return _associationsPost(body: body);
+  }
+
+  ///Create Association
+  @POST(path: '/associations/', optionalBody: true)
+  Future<chopper.Response<Association>> _associationsPost({
+    @Body()
+    required AppCoreAssociationsSchemasAssociationsAssociationBase? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Create a new association
+
+**This endpoint is only usable by administrators**''',
+      summary: 'Create Association',
+      operationId: 'post_associations_',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Associations"],
+      deprecated: false,
+    ),
+  });
+
+  ///Read Associations Me
+  Future<chopper.Response<List<Association>>> associationsMeGet() {
+    generatedMapping.putIfAbsent(
+      Association,
+      () => Association.fromJsonFactory,
+    );
+
+    return _associationsMeGet();
+  }
+
+  ///Read Associations Me
+  @GET(path: '/associations/me')
+  Future<chopper.Response<List<Association>>> _associationsMeGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''Return all associations the current user has the right to manage
+
+**User must be authenticated**''',
+      summary: 'Read Associations Me',
+      operationId: 'get_associations_me',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Associations"],
+      deprecated: false,
+    ),
+  });
+
+  ///Update Association
+  ///@param association_id
+  Future<chopper.Response> associationsAssociationIdPatch({
+    required String? associationId,
+    required AssociationUpdate? body,
+  }) {
+    return _associationsAssociationIdPatch(
+      associationId: associationId,
+      body: body,
+    );
+  }
+
+  ///Update Association
+  ///@param association_id
+  @PATCH(path: '/associations/{association_id}', optionalBody: true)
+  Future<chopper.Response> _associationsAssociationIdPatch({
+    @Path('association_id') required String? associationId,
+    @Body() required AssociationUpdate? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Update the name or the description of a association.
+
+**This endpoint is only usable by administrators**''',
+      summary: 'Update Association',
+      operationId: 'patch_associations_{association_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Associations"],
+      deprecated: false,
+    ),
+  });
+
+  ///Create Association Logo
+  ///@param association_id
+  Future<chopper.Response> associationsAssociationIdLogoPost({
+    required String? associationId,
+    required BodyCreateAssociationLogoAssociationsAssociationIdLogoPost body,
+  }) {
+    return _associationsAssociationIdLogoPost(
+      associationId: associationId,
+      body: body,
+    );
+  }
+
+  ///Create Association Logo
+  ///@param association_id
+  @POST(path: '/associations/{association_id}/logo', optionalBody: true)
+  @Multipart()
+  Future<chopper.Response> _associationsAssociationIdLogoPost({
+    @Path('association_id') required String? associationId,
+    @Part()
+    required BodyCreateAssociationLogoAssociationsAssociationIdLogoPost body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Upload a logo for an association
+
+**This endpoint is only usable by administrators**''',
+      summary: 'Create Association Logo',
+      operationId: 'post_associations_{association_id}_logo',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Associations"],
+      deprecated: false,
+    ),
+  });
+
+  ///Read Association Logo
+  ///@param association_id
+  Future<chopper.Response> associationsAssociationIdLogoGet({
+    required String? associationId,
+  }) {
+    return _associationsAssociationIdLogoGet(associationId: associationId);
+  }
+
+  ///Read Association Logo
+  ///@param association_id
+  @GET(path: '/associations/{association_id}/logo')
+  Future<chopper.Response> _associationsAssociationIdLogoGet({
+    @Path('association_id') required String? associationId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get the logo of an association
+
+**User must be authenticated**''',
+      summary: 'Read Association Logo',
+      operationId: 'get_associations_{association_id}_logo',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Associations"],
+      deprecated: false,
+    ),
+  });
+
   ///Read Users
   ///@param accountTypes
   Future<chopper.Response<List<CoreUserSimple>>> usersGet({
@@ -12477,13 +9577,13 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
   }
 
   ///Get Account Types
-  @GET(path: '/users/account-types/')
+  @GET(path: '/users/account-types')
   Future<chopper.Response<List<AccountType>>> _usersAccountTypesGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all account types hardcoded in the system',
       summary: 'Get Account Types',
-      operationId: 'get_users_account-types_',
+      operationId: 'get_users_account-types',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12604,9 +9704,46 @@ Even for creating **student** or **staff** account a valid ECL email is not requ
 
 The endpoint return a dictionary of unsuccessful user creation: `{email: error message}`.
 
+NOTE: the activation link will only be valid for a limited time. You should probably use `/users/batch-invitation` endpoint instead, which will send an invitation email to the user.
+
 **This endpoint is only usable by administrators**''',
       summary: 'Batch Create Users',
       operationId: 'post_users_batch-creation',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Users"],
+      deprecated: false,
+    ),
+  });
+
+  ///Batch Invite Users
+  Future<chopper.Response<BatchResult>> usersBatchInvitationPost({
+    required List<CoreBatchUserCreateRequest>? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      BatchResult,
+      () => BatchResult.fromJsonFactory,
+    );
+
+    return _usersBatchInvitationPost(body: body);
+  }
+
+  ///Batch Invite Users
+  @POST(path: '/users/batch-invitation', optionalBody: true)
+  Future<chopper.Response<BatchResult>> _usersBatchInvitationPost({
+    @Body() required List<CoreBatchUserCreateRequest>? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''Batch user account invitation process. All users will be sent an email encouraging them to create an account.
+These emails will be whitelisted in Hyperion. If self registration is disabled only whitelisted emails will be able to create an account.
+
+The endpoint return a dictionary of unsuccessful user creation: `{email: error message}`.
+
+**This endpoint is only usable by administrators**''',
+      summary: 'Batch Invite Users',
+      operationId: 'post_users_batch-invitation',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12667,36 +9804,6 @@ It should be used only once, when the S3 bucket is created.''',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
-      tags: ["Users"],
-      deprecated: false,
-    ),
-  });
-
-  ///Make Admin
-  Future<chopper.Response<AppTypesStandardResponsesResult>>
-  usersMakeAdminPost() {
-    generatedMapping.putIfAbsent(
-      AppTypesStandardResponsesResult,
-      () => AppTypesStandardResponsesResult.fromJsonFactory,
-    );
-
-    return _usersMakeAdminPost();
-  }
-
-  ///Make Admin
-  @POST(path: '/users/make-admin', optionalBody: true)
-  Future<chopper.Response<AppTypesStandardResponsesResult>>
-  _usersMakeAdminPost({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''This endpoint is only usable if the database contains exactly one user.
-It will add this user to the `admin` group.''',
-      summary: 'Make Admin',
-      operationId: 'post_users_make-admin',
-      consumes: [],
-      produces: [],
-      security: [],
       tags: ["Users"],
       deprecated: false,
     ),
@@ -12954,6 +10061,35 @@ This manual verification is needed to prevent data from being deleting for other
     ),
   });
 
+  ///Update User As Super Admin
+  ///@param user_id
+  Future<chopper.Response> usersUserIdSuperAdminPatch({
+    required String? userId,
+  }) {
+    return _usersUserIdSuperAdminPatch(userId: userId);
+  }
+
+  ///Update User As Super Admin
+  ///@param user_id
+  @PATCH(path: '/users/{user_id}/super-admin', optionalBody: true)
+  Future<chopper.Response> _usersUserIdSuperAdminPatch({
+    @Path('user_id') required String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''Update an user, the request should contain a JSON with the fields to change (not necessarily all fields) and their new value
+
+**This endpoint is only usable by administrators**''',
+      summary: 'Update User As Super Admin',
+      operationId: 'patch_users_{user_id}_super-admin',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Users"],
+      deprecated: false,
+    ),
+  });
+
   ///Read Own Profile Picture
   Future<chopper.Response> usersMeProfilePictureGet() {
     return _usersMeProfilePictureGet();
@@ -13038,1106 +10174,23 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
     ),
   });
 
-  ///Get Structures
-  Future<chopper.Response<List<Structure>>> myeclpayStructuresGet() {
-    generatedMapping.putIfAbsent(Structure, () => Structure.fromJsonFactory);
-
-    return _myeclpayStructuresGet();
+  ///Webhook
+  Future<chopper.Response> checkoutHelloassoWebhookPost() {
+    return _checkoutHelloassoWebhookPost();
   }
 
-  ///Get Structures
-  @GET(path: '/myeclpay/structures')
-  Future<chopper.Response<List<Structure>>> _myeclpayStructuresGet({
+  ///Webhook
+  @POST(path: '/checkout/helloasso/webhook', optionalBody: true)
+  Future<chopper.Response> _checkoutHelloassoWebhookPost({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Get all structures.',
-      summary: 'Get Structures',
-      operationId: 'get_myeclpay_structures',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Create Structure
-  Future<chopper.Response<Structure>> myeclpayStructuresPost({
-    required StructureBase? body,
-  }) {
-    generatedMapping.putIfAbsent(Structure, () => Structure.fromJsonFactory);
-
-    return _myeclpayStructuresPost(body: body);
-  }
-
-  ///Create Structure
-  @POST(path: '/myeclpay/structures', optionalBody: true)
-  Future<chopper.Response<Structure>> _myeclpayStructuresPost({
-    @Body() required StructureBase? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Create a new structure.
-
-A structure contains:
- - a name
- - an association membership id
- - a manager user id
- - a list of stores
-
-**The user must be an admin to use this endpoint**''',
-      summary: 'Create Structure',
-      operationId: 'post_myeclpay_structures',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Update Structure
-  ///@param structure_id
-  Future<chopper.Response> myeclpayStructuresStructureIdPatch({
-    required String? structureId,
-    required StructureUpdate? body,
-  }) {
-    return _myeclpayStructuresStructureIdPatch(
-      structureId: structureId,
-      body: body,
-    );
-  }
-
-  ///Update Structure
-  ///@param structure_id
-  @PATCH(path: '/myeclpay/structures/{structure_id}', optionalBody: true)
-  Future<chopper.Response> _myeclpayStructuresStructureIdPatch({
-    @Path('structure_id') required String? structureId,
-    @Body() required StructureUpdate? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Update a structure.
-
-**The user must be an admin to use this endpoint**''',
-      summary: 'Update Structure',
-      operationId: 'patch_myeclpay_structures_{structure_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Delete Structure
-  ///@param structure_id
-  Future<chopper.Response> myeclpayStructuresStructureIdDelete({
-    required String? structureId,
-  }) {
-    return _myeclpayStructuresStructureIdDelete(structureId: structureId);
-  }
-
-  ///Delete Structure
-  ///@param structure_id
-  @DELETE(path: '/myeclpay/structures/{structure_id}')
-  Future<chopper.Response> _myeclpayStructuresStructureIdDelete({
-    @Path('structure_id') required String? structureId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Delete a structure. Only structures without stores can be deleted.
-
-**The user must be an admin to use this endpoint**''',
-      summary: 'Delete Structure',
-      operationId: 'delete_myeclpay_structures_{structure_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Init Transfer Structure Manager
-  ///@param structure_id
-  Future<chopper.Response>
-  myeclpayStructuresStructureIdInitManagerTransferPost({
-    required String? structureId,
-    required StructureTranfert? body,
-  }) {
-    return _myeclpayStructuresStructureIdInitManagerTransferPost(
-      structureId: structureId,
-      body: body,
-    );
-  }
-
-  ///Init Transfer Structure Manager
-  ///@param structure_id
-  @POST(
-    path: '/myeclpay/structures/{structure_id}/init-manager-transfer',
-    optionalBody: true,
-  )
-  Future<chopper.Response>
-  _myeclpayStructuresStructureIdInitManagerTransferPost({
-    @Path('structure_id') required String? structureId,
-    @Body() required StructureTranfert? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Initiate the transfer of a structure to a new manager. The current manager will receive an email with a link to confirm the transfer.
-The link will only be valid for a limited time.
-
-**The user must be the manager for this structure**''',
-      summary: 'Init Transfer Structure Manager',
-      operationId:
-          'post_myeclpay_structures_{structure_id}_init-manager-transfer',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Confirm Structure Manager Transfer
-  ///@param token
-  Future<chopper.Response> myeclpayStructuresConfirmManagerTransferGet({
-    required String? token,
-  }) {
-    return _myeclpayStructuresConfirmManagerTransferGet(token: token);
-  }
-
-  ///Confirm Structure Manager Transfer
-  ///@param token
-  @GET(path: '/myeclpay/structures/confirm-manager-transfer')
-  Future<chopper.Response> _myeclpayStructuresConfirmManagerTransferGet({
-    @Query('token') required String? token,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Update a manager for an association
-
-The user must have initiated the update of the manager with `init_update_structure_manager`''',
-      summary: 'Confirm Structure Manager Transfer',
-      operationId: 'get_myeclpay_structures_confirm-manager-transfer',
+      description: '',
+      summary: 'Webhook',
+      operationId: 'post_checkout_helloasso_webhook',
       consumes: [],
       produces: [],
       security: [],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Create Store
-  ///@param structure_id
-  Future<chopper.Response<Store>> myeclpayStructuresStructureIdStoresPost({
-    required String? structureId,
-    required StoreBase? body,
-  }) {
-    generatedMapping.putIfAbsent(Store, () => Store.fromJsonFactory);
-
-    return _myeclpayStructuresStructureIdStoresPost(
-      structureId: structureId,
-      body: body,
-    );
-  }
-
-  ///Create Store
-  ///@param structure_id
-  @POST(path: '/myeclpay/structures/{structure_id}/stores', optionalBody: true)
-  Future<chopper.Response<Store>> _myeclpayStructuresStructureIdStoresPost({
-    @Path('structure_id') required String? structureId,
-    @Body() required StoreBase? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Create a store. The structure manager will be added as a seller for the store.
-
-Stores name should be unique, as an user need to be able to identify a store by its name.
-
-**The user must be the manager for this structure**''',
-      summary: 'Create Store',
-      operationId: 'post_myeclpay_structures_{structure_id}_stores',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Store History
-  ///@param store_id
-  ///@param start_date
-  ///@param end_date
-  Future<chopper.Response<List<History>>> myeclpayStoresStoreIdHistoryGet({
-    required String? storeId,
-    String? startDate,
-    String? endDate,
-  }) {
-    generatedMapping.putIfAbsent(History, () => History.fromJsonFactory);
-
-    return _myeclpayStoresStoreIdHistoryGet(
-      storeId: storeId,
-      startDate: startDate,
-      endDate: endDate,
-    );
-  }
-
-  ///Get Store History
-  ///@param store_id
-  ///@param start_date
-  ///@param end_date
-  @GET(path: '/myeclpay/stores/{store_id}/history')
-  Future<chopper.Response<List<History>>> _myeclpayStoresStoreIdHistoryGet({
-    @Path('store_id') required String? storeId,
-    @Query('start_date') String? startDate,
-    @Query('end_date') String? endDate,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get all transactions for the store.
-
-**The user must be authorized to see the store history**''',
-      summary: 'Get Store History',
-      operationId: 'get_myeclpay_stores_{store_id}_history',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get User Stores
-  Future<chopper.Response<List<UserStore>>> myeclpayUsersMeStoresGet() {
-    generatedMapping.putIfAbsent(UserStore, () => UserStore.fromJsonFactory);
-
-    return _myeclpayUsersMeStoresGet();
-  }
-
-  ///Get User Stores
-  @GET(path: '/myeclpay/users/me/stores')
-  Future<chopper.Response<List<UserStore>>> _myeclpayUsersMeStoresGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get all stores for the current user.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Get User Stores',
-      operationId: 'get_myeclpay_users_me_stores',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Update Store
-  ///@param store_id
-  Future<chopper.Response> myeclpayStoresStoreIdPatch({
-    required String? storeId,
-    required StoreUpdate? body,
-  }) {
-    return _myeclpayStoresStoreIdPatch(storeId: storeId, body: body);
-  }
-
-  ///Update Store
-  ///@param store_id
-  @PATCH(path: '/myeclpay/stores/{store_id}', optionalBody: true)
-  Future<chopper.Response> _myeclpayStoresStoreIdPatch({
-    @Path('store_id') required String? storeId,
-    @Body() required StoreUpdate? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Update a store
-
-**The user must be the manager for this store\'s structure**''',
-      summary: 'Update Store',
-      operationId: 'patch_myeclpay_stores_{store_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Delete Store
-  ///@param store_id
-  Future<chopper.Response> myeclpayStoresStoreIdDelete({
-    required String? storeId,
-  }) {
-    return _myeclpayStoresStoreIdDelete(storeId: storeId);
-  }
-
-  ///Delete Store
-  ///@param store_id
-  @DELETE(path: '/myeclpay/stores/{store_id}')
-  Future<chopper.Response> _myeclpayStoresStoreIdDelete({
-    @Path('store_id') required String? storeId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Delete a store. Only stores without transactions can be deleted.
-
-**The user must be the manager for this store\'s structure**''',
-      summary: 'Delete Store',
-      operationId: 'delete_myeclpay_stores_{store_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Create Store Seller
-  ///@param store_id
-  Future<chopper.Response<Seller>> myeclpayStoresStoreIdSellersPost({
-    required String? storeId,
-    required SellerCreation? body,
-  }) {
-    generatedMapping.putIfAbsent(Seller, () => Seller.fromJsonFactory);
-
-    return _myeclpayStoresStoreIdSellersPost(storeId: storeId, body: body);
-  }
-
-  ///Create Store Seller
-  ///@param store_id
-  @POST(path: '/myeclpay/stores/{store_id}/sellers', optionalBody: true)
-  Future<chopper.Response<Seller>> _myeclpayStoresStoreIdSellersPost({
-    @Path('store_id') required String? storeId,
-    @Body() required SellerCreation? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Create a store seller.
-
-This seller will have authorized permissions among:
-- can_bank
-- can_see_history
-- can_cancel
-- can_manage_sellers
-
-**The user must have the `can_manage_sellers` permission for this store**''',
-      summary: 'Create Store Seller',
-      operationId: 'post_myeclpay_stores_{store_id}_sellers',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Store Sellers
-  ///@param store_id
-  Future<chopper.Response<List<Seller>>> myeclpayStoresStoreIdSellersGet({
-    required String? storeId,
-  }) {
-    generatedMapping.putIfAbsent(Seller, () => Seller.fromJsonFactory);
-
-    return _myeclpayStoresStoreIdSellersGet(storeId: storeId);
-  }
-
-  ///Get Store Sellers
-  ///@param store_id
-  @GET(path: '/myeclpay/stores/{store_id}/sellers')
-  Future<chopper.Response<List<Seller>>> _myeclpayStoresStoreIdSellersGet({
-    @Path('store_id') required String? storeId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get all sellers for the given store.
-
-**The user must have the `can_manage_sellers` permission for this store**''',
-      summary: 'Get Store Sellers',
-      operationId: 'get_myeclpay_stores_{store_id}_sellers',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Update Store Seller
-  ///@param store_id
-  ///@param seller_user_id
-  Future<chopper.Response> myeclpayStoresStoreIdSellersSellerUserIdPatch({
-    required String? storeId,
-    required String? sellerUserId,
-    required SellerUpdate? body,
-  }) {
-    return _myeclpayStoresStoreIdSellersSellerUserIdPatch(
-      storeId: storeId,
-      sellerUserId: sellerUserId,
-      body: body,
-    );
-  }
-
-  ///Update Store Seller
-  ///@param store_id
-  ///@param seller_user_id
-  @PATCH(
-    path: '/myeclpay/stores/{store_id}/sellers/{seller_user_id}',
-    optionalBody: true,
-  )
-  Future<chopper.Response> _myeclpayStoresStoreIdSellersSellerUserIdPatch({
-    @Path('store_id') required String? storeId,
-    @Path('seller_user_id') required String? sellerUserId,
-    @Body() required SellerUpdate? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Update a store seller permissions.
-The structure manager cannot be updated as a seller.
-
-**The user must have the `can_manage_sellers` permission for this store**''',
-      summary: 'Update Store Seller',
-      operationId: 'patch_myeclpay_stores_{store_id}_sellers_{seller_user_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Delete Store Seller
-  ///@param store_id
-  ///@param seller_user_id
-  Future<chopper.Response> myeclpayStoresStoreIdSellersSellerUserIdDelete({
-    required String? storeId,
-    required String? sellerUserId,
-  }) {
-    return _myeclpayStoresStoreIdSellersSellerUserIdDelete(
-      storeId: storeId,
-      sellerUserId: sellerUserId,
-    );
-  }
-
-  ///Delete Store Seller
-  ///@param store_id
-  ///@param seller_user_id
-  @DELETE(path: '/myeclpay/stores/{store_id}/sellers/{seller_user_id}')
-  Future<chopper.Response> _myeclpayStoresStoreIdSellersSellerUserIdDelete({
-    @Path('store_id') required String? storeId,
-    @Path('seller_user_id') required String? sellerUserId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Delete a store seller.
-The structure manager cannot be deleted as a seller.
-
-**The user must have the `can_manage_sellers` permission for this store**''',
-      summary: 'Delete Store Seller',
-      operationId: 'delete_myeclpay_stores_{store_id}_sellers_{seller_user_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Register User
-  Future<chopper.Response> myeclpayUsersMeRegisterPost() {
-    return _myeclpayUsersMeRegisterPost();
-  }
-
-  ///Register User
-  @POST(path: '/myeclpay/users/me/register', optionalBody: true)
-  Future<chopper.Response> _myeclpayUsersMeRegisterPost({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Sign MyECL Pay TOS for the given user.
-
-The user will need to accept the latest TOS version to be able to use MyECL Pay.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Register User',
-      operationId: 'post_myeclpay_users_me_register',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get User Tos
-  Future<chopper.Response<TOSSignatureResponse>> myeclpayUsersMeTosGet() {
-    generatedMapping.putIfAbsent(
-      TOSSignatureResponse,
-      () => TOSSignatureResponse.fromJsonFactory,
-    );
-
-    return _myeclpayUsersMeTosGet();
-  }
-
-  ///Get User Tos
-  @GET(path: '/myeclpay/users/me/tos')
-  Future<chopper.Response<TOSSignatureResponse>> _myeclpayUsersMeTosGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Get the latest TOS version and the user signed TOS version.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Get User Tos',
-      operationId: 'get_myeclpay_users_me_tos',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Sign Tos
-  Future<chopper.Response> myeclpayUsersMeTosPost({
-    required TOSSignature? body,
-  }) {
-    return _myeclpayUsersMeTosPost(body: body);
-  }
-
-  ///Sign Tos
-  @POST(path: '/myeclpay/users/me/tos', optionalBody: true)
-  Future<chopper.Response> _myeclpayUsersMeTosPost({
-    @Body() required TOSSignature? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Sign MyECL Pay TOS for the given user.
-
-If the user is already registered in the MyECLPay system, this will update the TOS version.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Sign Tos',
-      operationId: 'post_myeclpay_users_me_tos',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get User Devices
-  Future<chopper.Response<List<WalletDevice>>>
-  myeclpayUsersMeWalletDevicesGet() {
-    generatedMapping.putIfAbsent(
-      WalletDevice,
-      () => WalletDevice.fromJsonFactory,
-    );
-
-    return _myeclpayUsersMeWalletDevicesGet();
-  }
-
-  ///Get User Devices
-  @GET(path: '/myeclpay/users/me/wallet/devices')
-  Future<chopper.Response<List<WalletDevice>>>
-  _myeclpayUsersMeWalletDevicesGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get user devices.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Get User Devices',
-      operationId: 'get_myeclpay_users_me_wallet_devices',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Create User Devices
-  Future<chopper.Response<WalletDevice>> myeclpayUsersMeWalletDevicesPost({
-    required WalletDeviceCreation? body,
-  }) {
-    generatedMapping.putIfAbsent(
-      WalletDevice,
-      () => WalletDevice.fromJsonFactory,
-    );
-
-    return _myeclpayUsersMeWalletDevicesPost(body: body);
-  }
-
-  ///Create User Devices
-  @POST(path: '/myeclpay/users/me/wallet/devices', optionalBody: true)
-  Future<chopper.Response<WalletDevice>> _myeclpayUsersMeWalletDevicesPost({
-    @Body() required WalletDeviceCreation? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Create a new device for the user.
-The user will need to activate it using a token sent by email.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Create User Devices',
-      operationId: 'post_myeclpay_users_me_wallet_devices',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get User Device
-  ///@param wallet_device_id
-  Future<chopper.Response<WalletDevice>>
-  myeclpayUsersMeWalletDevicesWalletDeviceIdGet({
-    required String? walletDeviceId,
-  }) {
-    generatedMapping.putIfAbsent(
-      WalletDevice,
-      () => WalletDevice.fromJsonFactory,
-    );
-
-    return _myeclpayUsersMeWalletDevicesWalletDeviceIdGet(
-      walletDeviceId: walletDeviceId,
-    );
-  }
-
-  ///Get User Device
-  ///@param wallet_device_id
-  @GET(path: '/myeclpay/users/me/wallet/devices/{wallet_device_id}')
-  Future<chopper.Response<WalletDevice>>
-  _myeclpayUsersMeWalletDevicesWalletDeviceIdGet({
-    @Path('wallet_device_id') required String? walletDeviceId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get user devices.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Get User Device',
-      operationId: 'get_myeclpay_users_me_wallet_devices_{wallet_device_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get User Wallet
-  Future<chopper.Response<Wallet>> myeclpayUsersMeWalletGet() {
-    generatedMapping.putIfAbsent(Wallet, () => Wallet.fromJsonFactory);
-
-    return _myeclpayUsersMeWalletGet();
-  }
-
-  ///Get User Wallet
-  @GET(path: '/myeclpay/users/me/wallet')
-  Future<chopper.Response<Wallet>> _myeclpayUsersMeWalletGet({
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get user wallet.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Get User Wallet',
-      operationId: 'get_myeclpay_users_me_wallet',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Activate User Device
-  ///@param token
-  Future<chopper.Response> myeclpayDevicesActivateGet({
-    required String? token,
-  }) {
-    return _myeclpayDevicesActivateGet(token: token);
-  }
-
-  ///Activate User Device
-  ///@param token
-  @GET(path: '/myeclpay/devices/activate')
-  Future<chopper.Response> _myeclpayDevicesActivateGet({
-    @Query('token') required String? token,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Activate a wallet device',
-      summary: 'Activate User Device',
-      operationId: 'get_myeclpay_devices_activate',
-      consumes: [],
-      produces: [],
-      security: [],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Revoke User Devices
-  ///@param wallet_device_id
-  Future<chopper.Response>
-  myeclpayUsersMeWalletDevicesWalletDeviceIdRevokePost({
-    required String? walletDeviceId,
-  }) {
-    return _myeclpayUsersMeWalletDevicesWalletDeviceIdRevokePost(
-      walletDeviceId: walletDeviceId,
-    );
-  }
-
-  ///Revoke User Devices
-  ///@param wallet_device_id
-  @POST(
-    path: '/myeclpay/users/me/wallet/devices/{wallet_device_id}/revoke',
-    optionalBody: true,
-  )
-  Future<chopper.Response>
-  _myeclpayUsersMeWalletDevicesWalletDeviceIdRevokePost({
-    @Path('wallet_device_id') required String? walletDeviceId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Revoke a device for the user.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Revoke User Devices',
-      operationId:
-          'post_myeclpay_users_me_wallet_devices_{wallet_device_id}_revoke',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get User Wallet History
-  ///@param start_date
-  ///@param end_date
-  Future<chopper.Response<List<History>>> myeclpayUsersMeWalletHistoryGet({
-    String? startDate,
-    String? endDate,
-  }) {
-    generatedMapping.putIfAbsent(History, () => History.fromJsonFactory);
-
-    return _myeclpayUsersMeWalletHistoryGet(
-      startDate: startDate,
-      endDate: endDate,
-    );
-  }
-
-  ///Get User Wallet History
-  ///@param start_date
-  ///@param end_date
-  @GET(path: '/myeclpay/users/me/wallet/history')
-  Future<chopper.Response<List<History>>> _myeclpayUsersMeWalletHistoryGet({
-    @Query('start_date') String? startDate,
-    @Query('end_date') String? endDate,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get all transactions for the current user\'s wallet.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Get User Wallet History',
-      operationId: 'get_myeclpay_users_me_wallet_history',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Init Ha Transfer
-  Future<chopper.Response<PaymentUrl>> myeclpayTransferInitPost({
-    required TransferInfo? body,
-  }) {
-    generatedMapping.putIfAbsent(PaymentUrl, () => PaymentUrl.fromJsonFactory);
-
-    return _myeclpayTransferInitPost(body: body);
-  }
-
-  ///Init Ha Transfer
-  @POST(path: '/myeclpay/transfer/init', optionalBody: true)
-  Future<chopper.Response<PaymentUrl>> _myeclpayTransferInitPost({
-    @Body() required TransferInfo? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Initiate HelloAsso transfer, return a payment url to complete the transaction on HelloAsso website.',
-      summary: 'Init Ha Transfer',
-      operationId: 'post_myeclpay_transfer_init',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Redirect From Ha Transfer
-  ///@param url
-  ///@param checkoutIntentId
-  ///@param code
-  ///@param orderId
-  ///@param error
-  Future<chopper.Response<PaymentUrl>> myeclpayTransferRedirectGet({
-    required String? url,
-    String? checkoutIntentId,
-    String? code,
-    String? orderId,
-    String? error,
-  }) {
-    generatedMapping.putIfAbsent(PaymentUrl, () => PaymentUrl.fromJsonFactory);
-
-    return _myeclpayTransferRedirectGet(
-      url: url,
-      checkoutIntentId: checkoutIntentId,
-      code: code,
-      orderId: orderId,
-      error: error,
-    );
-  }
-
-  ///Redirect From Ha Transfer
-  ///@param url
-  ///@param checkoutIntentId
-  ///@param code
-  ///@param orderId
-  ///@param error
-  @GET(path: '/myeclpay/transfer/redirect')
-  Future<chopper.Response<PaymentUrl>> _myeclpayTransferRedirectGet({
-    @Query('url') required String? url,
-    @Query('checkoutIntentId') String? checkoutIntentId,
-    @Query('code') String? code,
-    @Query('orderId') String? orderId,
-    @Query('error') String? error,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''HelloAsso checkout should be configured to redirect the user to:
- - f"{settings.CLIENT_URL}myeclpay/transfer/redirect?url={redirect_url}"
-Redirect the user to the provided redirect `url`. The parameters `checkoutIntentId`, `code`, `orderId` and `error` passed by HelloAsso will be added to the redirect URL.
-The redirect `url` must be trusted by Hyperion in the dotenv.''',
-      summary: 'Redirect From Ha Transfer',
-      operationId: 'get_myeclpay_transfer_redirect',
-      consumes: [],
-      produces: [],
-      security: [],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Validate Can Scan Qrcode
-  ///@param store_id
-  Future<chopper.Response<AppTypesStandardResponsesResult>>
-  myeclpayStoresStoreIdScanCheckPost({
-    required String? storeId,
-    required ScanInfo? body,
-  }) {
-    generatedMapping.putIfAbsent(
-      AppTypesStandardResponsesResult,
-      () => AppTypesStandardResponsesResult.fromJsonFactory,
-    );
-
-    return _myeclpayStoresStoreIdScanCheckPost(storeId: storeId, body: body);
-  }
-
-  ///Validate Can Scan Qrcode
-  ///@param store_id
-  @POST(path: '/myeclpay/stores/{store_id}/scan/check', optionalBody: true)
-  Future<chopper.Response<AppTypesStandardResponsesResult>>
-  _myeclpayStoresStoreIdScanCheckPost({
-    @Path('store_id') required String? storeId,
-    @Body() required ScanInfo? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Validate if a given QR Code can be scanned by the seller.
-
-The QR Code should be valid, the seller should have the `can_bank` permission for this store,
-and the debited wallet device should be active.
-
-If the store structure has an association membership, the user should be a member of the association.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Validate Can Scan Qrcode',
-      operationId: 'post_myeclpay_stores_{store_id}_scan_check',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Store Scan Qrcode
-  ///@param store_id
-  Future<chopper.Response> myeclpayStoresStoreIdScanPost({
-    required String? storeId,
-    required ScanInfo? body,
-  }) {
-    return _myeclpayStoresStoreIdScanPost(storeId: storeId, body: body);
-  }
-
-  ///Store Scan Qrcode
-  ///@param store_id
-  @POST(path: '/myeclpay/stores/{store_id}/scan', optionalBody: true)
-  Future<chopper.Response> _myeclpayStoresStoreIdScanPost({
-    @Path('store_id') required String? storeId,
-    @Body() required ScanInfo? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Scan and bank a QR code for this store.
-
-`signature` should be a base64 encoded string
- - signed using *ed25519*,
- - where data are a `QRCodeContentData` object:
-    ```
-    {
-        id: UUID
-        tot: int
-        iat: datetime
-        key: UUID
-    }
-    ```
-
-The provided content is checked to ensure:
-    - the QR Code is not already used
-    - the QR Code is not expired
-    - the QR Code is intended to be scanned for a store `scan_info.store`
-    - the signature is valid and correspond to `wallet_device_id` public key
-    - the debited\'s wallet device is active
-    - the debited\'s Wallet balance greater than the QR Code total
-
-**The user must be authenticated to use this endpoint**
-**The user must have the `can_bank` permission for this store**''',
-      summary: 'Store Scan Qrcode',
-      operationId: 'post_myeclpay_stores_{store_id}_scan',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Refund Transaction
-  ///@param transaction_id
-  Future<chopper.Response> myeclpayTransactionsTransactionIdRefundPost({
-    required String? transactionId,
-    required RefundInfo? body,
-  }) {
-    return _myeclpayTransactionsTransactionIdRefundPost(
-      transactionId: transactionId,
-      body: body,
-    );
-  }
-
-  ///Refund Transaction
-  ///@param transaction_id
-  @POST(
-    path: '/myeclpay/transactions/{transaction_id}/refund',
-    optionalBody: true,
-  )
-  Future<chopper.Response> _myeclpayTransactionsTransactionIdRefundPost({
-    @Path('transaction_id') required String? transactionId,
-    @Body() required RefundInfo? body,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Refund a transaction. Only transactions made in the last 30 days can be refunded.
-
-Currently transactions between users are forbidden and can thus not be refunded.
-
-To cancel a transaction made in the last 30 seconds, the endpoint `/myeclpay/transactions/{transaction_id}/cancel` should be used.
-
-**The user must either be the credited user or a seller with cancel permissions of the credited store of the transaction**''',
-      summary: 'Refund Transaction',
-      operationId: 'post_myeclpay_transactions_{transaction_id}_refund',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Cancel Transaction
-  ///@param transaction_id
-  Future<chopper.Response> myeclpayTransactionsTransactionIdCancelPost({
-    required String? transactionId,
-  }) {
-    return _myeclpayTransactionsTransactionIdCancelPost(
-      transactionId: transactionId,
-    );
-  }
-
-  ///Cancel Transaction
-  ///@param transaction_id
-  @POST(
-    path: '/myeclpay/transactions/{transaction_id}/cancel',
-    optionalBody: true,
-  )
-  Future<chopper.Response> _myeclpayTransactionsTransactionIdCancelPost({
-    @Path('transaction_id') required String? transactionId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Cancel a transaction.
-A transaction can be canceled in the first 30 seconds after it has been created.
-
-To refund an older transaction, use the `/myeclpay/transactions/{transaction_id}/refund` endpoint.
-
-**The user must either be the credited user or the seller of the transaction**''',
-      summary: 'Cancel Transaction',
-      operationId: 'post_myeclpay_transactions_{transaction_id}_cancel',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Data For Integrity Check
-  ///@param lastChecked
-  ///@param isInitialisation
-  ///@param x_data_verifier_token
-  Future<chopper.Response<IntegrityCheckData>> myeclpayIntegrityCheckGet({
-    String? lastChecked,
-    bool? isInitialisation,
-    String? xDataVerifierToken,
-  }) {
-    generatedMapping.putIfAbsent(
-      IntegrityCheckData,
-      () => IntegrityCheckData.fromJsonFactory,
-    );
-
-    return _myeclpayIntegrityCheckGet(
-      lastChecked: lastChecked,
-      isInitialisation: isInitialisation,
-      xDataVerifierToken: xDataVerifierToken?.toString(),
-    );
-  }
-
-  ///Get Data For Integrity Check
-  ///@param lastChecked
-  ///@param isInitialisation
-  ///@param x_data_verifier_token
-  @GET(path: '/myeclpay/integrity-check')
-  Future<chopper.Response<IntegrityCheckData>> _myeclpayIntegrityCheckGet({
-    @Query('lastChecked') String? lastChecked,
-    @Query('isInitialisation') bool? isInitialisation,
-    @Header('x_data_verifier_token') String? xDataVerifierToken,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Send all the MyECL Pay data for integrity check.
-Data includes:
-- Wallets deducted of the last 30 seconds transactions
-- Transactions with at least 30 seconds delay
-- Transfers
-- Refunds
-
-**The header must contain the MYECLPAY_DATA_VERIFIER_ACCESS_TOKEN defined in the settings in the `x-data-verifier-token` field**''',
-      summary: 'Get Data For Integrity Check',
-      operationId: 'get_myeclpay_integrity-check',
-      consumes: [],
-      produces: [],
-      security: [],
-      tags: ["MyECLPay"],
+      tags: ["Checkout"],
       deprecated: false,
     ),
   });
@@ -14340,7 +10393,9 @@ Data includes:
     @Path('user_id') required String? userId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Return all memberships for a user.',
+      description: '''Return all memberships for a user.
+
+**This endpoint is only usable by administrators**''',
       summary: 'Read User Memberships',
       operationId: 'get_memberships_users_{user_id}',
       consumes: [],
@@ -14375,7 +10430,7 @@ Data includes:
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Create a new user membership.
 
-**This endpoint is only usable by administrators and membership managers**''',
+**This endpoint is only usable by administrators**''',
       summary: 'Create User Membership',
       operationId: 'post_memberships_users_{user_id}',
       consumes: [],
@@ -14418,7 +10473,7 @@ Data includes:
       description:
           '''Return all user memberships for a specific association membership for a user.
 
-**This endpoint is only usable by administrators and membership managers**''',
+**This endpoint is only usable by administrators**''',
       summary: 'Read User Association Membership History',
       operationId:
           'get_memberships_users_{user_id}_{association_membership_id}',
@@ -14464,7 +10519,7 @@ Data includes:
 
 Return the list of unknown users whose email is not in the database.
 
-**User must be an administrator or a membership manager to use this endpoint.**''',
+**User must be an administrator to use this endpoint.**''',
       summary: 'Add Batch Membership',
       operationId: 'post_memberships_{association_membership_id}_add-batch_',
       consumes: [],
@@ -14497,7 +10552,7 @@ Return the list of unknown users whose email is not in the database.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Update a user membership.
 
-**This endpoint is only usable by administrators and membership managers**''',
+**This endpoint is only usable by administrators**''',
       summary: 'Update User Membership',
       operationId: 'patch_memberships_users_{membership_id}',
       consumes: [],
@@ -14525,7 +10580,7 @@ Return the list of unknown users whose email is not in the database.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a user membership.
 
-**This endpoint is only usable by administrators and membership managers**''',
+**This endpoint is only usable by administrators**''',
       summary: 'Delete User Membership',
       operationId: 'delete_memberships_users_{membership_id}',
       consumes: [],
@@ -14791,6 +10846,63 @@ If an user does not exist it will be ignored.
     ),
   });
 
+  ///Create Group Logo
+  ///@param group_id
+  Future<chopper.Response> groupsGroupIdLogoPost({
+    required String? groupId,
+    required BodyCreateGroupLogoGroupsGroupIdLogoPost body,
+  }) {
+    return _groupsGroupIdLogoPost(groupId: groupId, body: body);
+  }
+
+  ///Create Group Logo
+  ///@param group_id
+  @POST(path: '/groups/{group_id}/logo', optionalBody: true)
+  @Multipart()
+  Future<chopper.Response> _groupsGroupIdLogoPost({
+    @Path('group_id') required String? groupId,
+    @Part() required BodyCreateGroupLogoGroupsGroupIdLogoPost body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Upload a logo for a group.
+
+**This endpoint is only usable by administrators**''',
+      summary: 'Create Group Logo',
+      operationId: 'post_groups_{group_id}_logo',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Groups"],
+      deprecated: false,
+    ),
+  });
+
+  ///Read User Profile Picture
+  ///@param group_id
+  Future<chopper.Response> groupsGroupIdLogoGet({required String? groupId}) {
+    return _groupsGroupIdLogoGet(groupId: groupId);
+  }
+
+  ///Read User Profile Picture
+  ///@param group_id
+  @GET(path: '/groups/{group_id}/logo')
+  Future<chopper.Response> _groupsGroupIdLogoGet({
+    @Path('group_id') required String? groupId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get the logo of a group.
+
+**User must be authenticated**''',
+      summary: 'Read User Profile Picture',
+      operationId: 'get_groups_{group_id}_logo',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Groups"],
+      deprecated: false,
+    ),
+  });
+
   ///Read Information
   Future<chopper.Response<CoreInformation>> informationGet() {
     generatedMapping.putIfAbsent(
@@ -14860,19 +10972,19 @@ If an user does not exist it will be ignored.
     ),
   });
 
-  ///Read Myeclpay Tos
-  Future<chopper.Response> myeclpayTermsOfServiceGet() {
-    return _myeclpayTermsOfServiceGet();
+  ///Read Mypayment Tos
+  Future<chopper.Response> mypaymentTermsOfServiceGet() {
+    return _mypaymentTermsOfServiceGet();
   }
 
-  ///Read Myeclpay Tos
-  @GET(path: '/myeclpay-terms-of-service')
-  Future<chopper.Response> _myeclpayTermsOfServiceGet({
+  ///Read Mypayment Tos
+  @GET(path: '/mypayment-terms-of-service')
+  Future<chopper.Response> _mypaymentTermsOfServiceGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Return MyECLPay latest ToS',
-      summary: 'Read Myeclpay Tos',
-      operationId: 'get_myeclpay-terms-of-service',
+      description: 'Return MyPayment latest ToS',
+      summary: 'Read Mypayment Tos',
+      operationId: 'get_mypayment-terms-of-service',
       consumes: [],
       produces: [],
       security: [],
@@ -14965,22 +11077,45 @@ If an user does not exist it will be ignored.
     ),
   });
 
-  ///Get Style File
-  ///@param file
-  Future<chopper.Response> styleFileCssGet({required String? file}) {
-    return _styleFileCssGet(file: file);
+  ///Read Account Deletion
+  Future<chopper.Response> accountDeletionGet() {
+    return _accountDeletionGet();
   }
 
-  ///Get Style File
-  ///@param file
-  @GET(path: '/style/{file}.css')
-  Future<chopper.Response> _styleFileCssGet({
-    @Path('file') required String? file,
+  ///Read Account Deletion
+  @GET(path: '/account-deletion')
+  Future<chopper.Response> _accountDeletionGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Return Hyperion account deletion information',
+      summary: 'Read Account Deletion',
+      operationId: 'get_account-deletion',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Core"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get Variables
+  Future<chopper.Response<CoreVariables>> variablesGet() {
+    generatedMapping.putIfAbsent(
+      CoreVariables,
+      () => CoreVariables.fromJsonFactory,
+    );
+
+    return _variablesGet();
+  }
+
+  ///Get Variables
+  @GET(path: '/variables')
+  Future<chopper.Response<CoreVariables>> _variablesGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return a style file from the assets folder',
-      summary: 'Get Style File',
-      operationId: 'get_style_{file}.css',
+      summary: 'Get Variables',
+      operationId: 'get_variables',
       consumes: [],
       produces: [],
       security: [],
@@ -15555,6 +11690,35 @@ https://openid.net/specs/openid-connect-core-1_0.html#UserInfo''',
     ),
   });
 
+  ///Get Devices
+  Future<chopper.Response<List<FirebaseDevice>>> notificationDevicesGet() {
+    generatedMapping.putIfAbsent(
+      FirebaseDevice,
+      () => FirebaseDevice.fromJsonFactory,
+    );
+
+    return _notificationDevicesGet();
+  }
+
+  ///Get Devices
+  @GET(path: '/notification/devices')
+  Future<chopper.Response<List<FirebaseDevice>>> _notificationDevicesGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get all devices a user have registered.
+This endpoint is useful to get firebase tokens for debugging purposes.
+
+**Only admins can use this endpoint**''',
+      summary: 'Get Devices',
+      operationId: 'get_notification_devices',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Notifications"],
+      deprecated: false,
+    ),
+  });
+
   ///Register Firebase Device
   Future<chopper.Response> notificationDevicesPost({
     required BodyRegisterFirebaseDeviceNotificationDevicesPost? body,
@@ -15575,40 +11739,6 @@ This endpoint should be called once a month to ensure that the token is still va
 **The user must be authenticated to use this endpoint**''',
       summary: 'Register Firebase Device',
       operationId: 'post_notification_devices',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Notifications"],
-      deprecated: false,
-    ),
-  });
-
-  ///Get Devices
-  ///@param user_id
-  Future<chopper.Response<List<FirebaseDevice>>> notificationDevicesGet({
-    String? userId,
-  }) {
-    generatedMapping.putIfAbsent(
-      FirebaseDevice,
-      () => FirebaseDevice.fromJsonFactory,
-    );
-
-    return _notificationDevicesGet(userId: userId);
-  }
-
-  ///Get Devices
-  ///@param user_id
-  @GET(path: '/notification/devices')
-  Future<chopper.Response<List<FirebaseDevice>>> _notificationDevicesGet({
-    @Query('user_id') String? userId,
-    @chopper.Tag()
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get all devices a user have registered.
-This endpoint is useful to get firebase tokens for debugging purposes.
-
-**Only admins can use this endpoint**''',
-      summary: 'Get Devices',
-      operationId: 'get_notification_devices',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15757,16 +11887,13 @@ If the topic define restrictions, the user must be in the corresponding group or
   });
 
   ///Send Test Notification
-  ///@param user_id
-  Future<chopper.Response> notificationTestSendPost({String? userId}) {
-    return _notificationTestSendPost(userId: userId);
+  Future<chopper.Response> notificationTestSendPost() {
+    return _notificationTestSendPost();
   }
 
   ///Send Test Notification
-  ///@param user_id
   @POST(path: '/notification/test/send', optionalBody: true)
   Future<chopper.Response> _notificationTestSendPost({
-    @Query('user_id') String? userId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Send ourself a test notification.
@@ -15783,16 +11910,13 @@ If the topic define restrictions, the user must be in the corresponding group or
   });
 
   ///Send Test Future Notification
-  ///@param user_id
-  Future<chopper.Response> notificationTestSendFuturePost({String? userId}) {
-    return _notificationTestSendFuturePost(userId: userId);
+  Future<chopper.Response> notificationTestSendFuturePost() {
+    return _notificationTestSendFuturePost();
   }
 
   ///Send Test Future Notification
-  ///@param user_id
   @POST(path: '/notification/test/send/future', optionalBody: true)
   Future<chopper.Response> _notificationTestSendFuturePost({
-    @Query('user_id') String? userId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Send ourself a test notification.
@@ -15850,6 +11974,1419 @@ If the topic define restrictions, the user must be in the corresponding group or
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
       tags: ["Notifications"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get Bank Account Holder
+  Future<chopper.Response<Structure>> mypaymentBankAccountHolderGet() {
+    generatedMapping.putIfAbsent(Structure, () => Structure.fromJsonFactory);
+
+    return _mypaymentBankAccountHolderGet();
+  }
+
+  ///Get Bank Account Holder
+  @GET(path: '/mypayment/bank-account-holder')
+  Future<chopper.Response<Structure>> _mypaymentBankAccountHolderGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Get the current bank account holder information.',
+      summary: 'Get Bank Account Holder',
+      operationId: 'get_mypayment_bank-account-holder',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Set Bank Account Holder
+  Future<chopper.Response<Structure>> mypaymentBankAccountHolderPost({
+    required MyPaymentBankAccountHolder? body,
+  }) {
+    generatedMapping.putIfAbsent(Structure, () => Structure.fromJsonFactory);
+
+    return _mypaymentBankAccountHolderPost(body: body);
+  }
+
+  ///Set Bank Account Holder
+  @POST(path: '/mypayment/bank-account-holder', optionalBody: true)
+  Future<chopper.Response<Structure>> _mypaymentBankAccountHolderPost({
+    @Body() required MyPaymentBankAccountHolder? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Set the bank account holder information.',
+      summary: 'Set Bank Account Holder',
+      operationId: 'post_mypayment_bank-account-holder',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get Structures
+  Future<chopper.Response<List<Structure>>> mypaymentStructuresGet() {
+    generatedMapping.putIfAbsent(Structure, () => Structure.fromJsonFactory);
+
+    return _mypaymentStructuresGet();
+  }
+
+  ///Get Structures
+  @GET(path: '/mypayment/structures')
+  Future<chopper.Response<List<Structure>>> _mypaymentStructuresGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Get all structures.',
+      summary: 'Get Structures',
+      operationId: 'get_mypayment_structures',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Create Structure
+  Future<chopper.Response<Structure>> mypaymentStructuresPost({
+    required StructureBase? body,
+  }) {
+    generatedMapping.putIfAbsent(Structure, () => Structure.fromJsonFactory);
+
+    return _mypaymentStructuresPost(body: body);
+  }
+
+  ///Create Structure
+  @POST(path: '/mypayment/structures', optionalBody: true)
+  Future<chopper.Response<Structure>> _mypaymentStructuresPost({
+    @Body() required StructureBase? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Create a new structure.
+
+A structure contains:
+ - a name
+ - an association membership id
+ - a manager user id
+ - a list of stores
+
+**The user must be an admin to use this endpoint**''',
+      summary: 'Create Structure',
+      operationId: 'post_mypayment_structures',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Update Structure
+  ///@param structure_id
+  Future<chopper.Response> mypaymentStructuresStructureIdPatch({
+    required String? structureId,
+    required StructureUpdate? body,
+  }) {
+    return _mypaymentStructuresStructureIdPatch(
+      structureId: structureId,
+      body: body,
+    );
+  }
+
+  ///Update Structure
+  ///@param structure_id
+  @PATCH(path: '/mypayment/structures/{structure_id}', optionalBody: true)
+  Future<chopper.Response> _mypaymentStructuresStructureIdPatch({
+    @Path('structure_id') required String? structureId,
+    @Body() required StructureUpdate? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Update a structure.
+
+**The user must be an admin to use this endpoint**''',
+      summary: 'Update Structure',
+      operationId: 'patch_mypayment_structures_{structure_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Delete Structure
+  ///@param structure_id
+  Future<chopper.Response> mypaymentStructuresStructureIdDelete({
+    required String? structureId,
+  }) {
+    return _mypaymentStructuresStructureIdDelete(structureId: structureId);
+  }
+
+  ///Delete Structure
+  ///@param structure_id
+  @DELETE(path: '/mypayment/structures/{structure_id}')
+  Future<chopper.Response> _mypaymentStructuresStructureIdDelete({
+    @Path('structure_id') required String? structureId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''Delete a structure. Only structures without stores can be deleted.
+
+**The user must be an admin to use this endpoint**''',
+      summary: 'Delete Structure',
+      operationId: 'delete_mypayment_structures_{structure_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Init Transfer Structure Manager
+  ///@param structure_id
+  Future<chopper.Response>
+  mypaymentStructuresStructureIdInitManagerTransferPost({
+    required String? structureId,
+    required StructureTranfert? body,
+  }) {
+    return _mypaymentStructuresStructureIdInitManagerTransferPost(
+      structureId: structureId,
+      body: body,
+    );
+  }
+
+  ///Init Transfer Structure Manager
+  ///@param structure_id
+  @POST(
+    path: '/mypayment/structures/{structure_id}/init-manager-transfer',
+    optionalBody: true,
+  )
+  Future<chopper.Response>
+  _mypaymentStructuresStructureIdInitManagerTransferPost({
+    @Path('structure_id') required String? structureId,
+    @Body() required StructureTranfert? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''Initiate the transfer of a structure to a new manager. The current manager will receive an email with a link to confirm the transfer.
+The link will only be valid for a limited time.
+
+**The user must be the manager for this structure**''',
+      summary: 'Init Transfer Structure Manager',
+      operationId:
+          'post_mypayment_structures_{structure_id}_init-manager-transfer',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Confirm Structure Manager Transfer
+  ///@param token
+  Future<chopper.Response> mypaymentStructuresConfirmManagerTransferGet({
+    required String? token,
+  }) {
+    return _mypaymentStructuresConfirmManagerTransferGet(token: token);
+  }
+
+  ///Confirm Structure Manager Transfer
+  ///@param token
+  @GET(path: '/mypayment/structures/confirm-manager-transfer')
+  Future<chopper.Response> _mypaymentStructuresConfirmManagerTransferGet({
+    @Query('token') required String? token,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Update a manager for an association
+
+The user must have initiated the update of the manager with `init_update_structure_manager`''',
+      summary: 'Confirm Structure Manager Transfer',
+      operationId: 'get_mypayment_structures_confirm-manager-transfer',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Create Store
+  ///@param structure_id
+  Future<chopper.Response<Store>> mypaymentStructuresStructureIdStoresPost({
+    required String? structureId,
+    required StoreBase? body,
+  }) {
+    generatedMapping.putIfAbsent(Store, () => Store.fromJsonFactory);
+
+    return _mypaymentStructuresStructureIdStoresPost(
+      structureId: structureId,
+      body: body,
+    );
+  }
+
+  ///Create Store
+  ///@param structure_id
+  @POST(path: '/mypayment/structures/{structure_id}/stores', optionalBody: true)
+  Future<chopper.Response<Store>> _mypaymentStructuresStructureIdStoresPost({
+    @Path('structure_id') required String? structureId,
+    @Body() required StoreBase? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''Create a store. The structure manager will be added as a seller for the store.
+
+Stores name should be unique, as an user need to be able to identify a store by its name.
+
+**The user must be the manager for this structure**''',
+      summary: 'Create Store',
+      operationId: 'post_mypayment_structures_{structure_id}_stores',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get Store History
+  ///@param store_id
+  ///@param start_date
+  ///@param end_date
+  Future<chopper.Response<List<History>>> mypaymentStoresStoreIdHistoryGet({
+    required String? storeId,
+    String? startDate,
+    String? endDate,
+  }) {
+    generatedMapping.putIfAbsent(History, () => History.fromJsonFactory);
+
+    return _mypaymentStoresStoreIdHistoryGet(
+      storeId: storeId,
+      startDate: startDate,
+      endDate: endDate,
+    );
+  }
+
+  ///Get Store History
+  ///@param store_id
+  ///@param start_date
+  ///@param end_date
+  @GET(path: '/mypayment/stores/{store_id}/history')
+  Future<chopper.Response<List<History>>> _mypaymentStoresStoreIdHistoryGet({
+    @Path('store_id') required String? storeId,
+    @Query('start_date') String? startDate,
+    @Query('end_date') String? endDate,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get all transactions for the store.
+
+**The user must be authorized to see the store history**''',
+      summary: 'Get Store History',
+      operationId: 'get_mypayment_stores_{store_id}_history',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get User Stores
+  Future<chopper.Response<List<UserStore>>> mypaymentUsersMeStoresGet() {
+    generatedMapping.putIfAbsent(UserStore, () => UserStore.fromJsonFactory);
+
+    return _mypaymentUsersMeStoresGet();
+  }
+
+  ///Get User Stores
+  @GET(path: '/mypayment/users/me/stores')
+  Future<chopper.Response<List<UserStore>>> _mypaymentUsersMeStoresGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get all stores for the current user.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Get User Stores',
+      operationId: 'get_mypayment_users_me_stores',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Update Store
+  ///@param store_id
+  Future<chopper.Response> mypaymentStoresStoreIdPatch({
+    required String? storeId,
+    required StoreUpdate? body,
+  }) {
+    return _mypaymentStoresStoreIdPatch(storeId: storeId, body: body);
+  }
+
+  ///Update Store
+  ///@param store_id
+  @PATCH(path: '/mypayment/stores/{store_id}', optionalBody: true)
+  Future<chopper.Response> _mypaymentStoresStoreIdPatch({
+    @Path('store_id') required String? storeId,
+    @Body() required StoreUpdate? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Update a store
+
+**The user must be the manager for this store\'s structure**''',
+      summary: 'Update Store',
+      operationId: 'patch_mypayment_stores_{store_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Delete Store
+  ///@param store_id
+  Future<chopper.Response> mypaymentStoresStoreIdDelete({
+    required String? storeId,
+  }) {
+    return _mypaymentStoresStoreIdDelete(storeId: storeId);
+  }
+
+  ///Delete Store
+  ///@param store_id
+  @DELETE(path: '/mypayment/stores/{store_id}')
+  Future<chopper.Response> _mypaymentStoresStoreIdDelete({
+    @Path('store_id') required String? storeId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''Delete a store. Only stores without transactions can be deleted.
+
+**The user must be the manager for this store\'s structure**''',
+      summary: 'Delete Store',
+      operationId: 'delete_mypayment_stores_{store_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Create Store Seller
+  ///@param store_id
+  Future<chopper.Response<Seller>> mypaymentStoresStoreIdSellersPost({
+    required String? storeId,
+    required SellerCreation? body,
+  }) {
+    generatedMapping.putIfAbsent(Seller, () => Seller.fromJsonFactory);
+
+    return _mypaymentStoresStoreIdSellersPost(storeId: storeId, body: body);
+  }
+
+  ///Create Store Seller
+  ///@param store_id
+  @POST(path: '/mypayment/stores/{store_id}/sellers', optionalBody: true)
+  Future<chopper.Response<Seller>> _mypaymentStoresStoreIdSellersPost({
+    @Path('store_id') required String? storeId,
+    @Body() required SellerCreation? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Create a store seller.
+
+This seller will have authorized permissions among:
+- can_bank
+- can_see_history
+- can_cancel
+- can_manage_sellers
+
+**The user must have the `can_manage_sellers` permission for this store**''',
+      summary: 'Create Store Seller',
+      operationId: 'post_mypayment_stores_{store_id}_sellers',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get Store Sellers
+  ///@param store_id
+  Future<chopper.Response<List<Seller>>> mypaymentStoresStoreIdSellersGet({
+    required String? storeId,
+  }) {
+    generatedMapping.putIfAbsent(Seller, () => Seller.fromJsonFactory);
+
+    return _mypaymentStoresStoreIdSellersGet(storeId: storeId);
+  }
+
+  ///Get Store Sellers
+  ///@param store_id
+  @GET(path: '/mypayment/stores/{store_id}/sellers')
+  Future<chopper.Response<List<Seller>>> _mypaymentStoresStoreIdSellersGet({
+    @Path('store_id') required String? storeId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get all sellers for the given store.
+
+**The user must have the `can_manage_sellers` permission for this store**''',
+      summary: 'Get Store Sellers',
+      operationId: 'get_mypayment_stores_{store_id}_sellers',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Update Store Seller
+  ///@param store_id
+  ///@param seller_user_id
+  Future<chopper.Response> mypaymentStoresStoreIdSellersSellerUserIdPatch({
+    required String? storeId,
+    required String? sellerUserId,
+    required SellerUpdate? body,
+  }) {
+    return _mypaymentStoresStoreIdSellersSellerUserIdPatch(
+      storeId: storeId,
+      sellerUserId: sellerUserId,
+      body: body,
+    );
+  }
+
+  ///Update Store Seller
+  ///@param store_id
+  ///@param seller_user_id
+  @PATCH(
+    path: '/mypayment/stores/{store_id}/sellers/{seller_user_id}',
+    optionalBody: true,
+  )
+  Future<chopper.Response> _mypaymentStoresStoreIdSellersSellerUserIdPatch({
+    @Path('store_id') required String? storeId,
+    @Path('seller_user_id') required String? sellerUserId,
+    @Body() required SellerUpdate? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Update a store seller permissions.
+The structure manager cannot be updated as a seller.
+
+**The user must have the `can_manage_sellers` permission for this store**''',
+      summary: 'Update Store Seller',
+      operationId: 'patch_mypayment_stores_{store_id}_sellers_{seller_user_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Delete Store Seller
+  ///@param store_id
+  ///@param seller_user_id
+  Future<chopper.Response> mypaymentStoresStoreIdSellersSellerUserIdDelete({
+    required String? storeId,
+    required String? sellerUserId,
+  }) {
+    return _mypaymentStoresStoreIdSellersSellerUserIdDelete(
+      storeId: storeId,
+      sellerUserId: sellerUserId,
+    );
+  }
+
+  ///Delete Store Seller
+  ///@param store_id
+  ///@param seller_user_id
+  @DELETE(path: '/mypayment/stores/{store_id}/sellers/{seller_user_id}')
+  Future<chopper.Response> _mypaymentStoresStoreIdSellersSellerUserIdDelete({
+    @Path('store_id') required String? storeId,
+    @Path('seller_user_id') required String? sellerUserId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Delete a store seller.
+The structure manager cannot be deleted as a seller.
+
+**The user must have the `can_manage_sellers` permission for this store**''',
+      summary: 'Delete Store Seller',
+      operationId:
+          'delete_mypayment_stores_{store_id}_sellers_{seller_user_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Register User
+  Future<chopper.Response> mypaymentUsersMeRegisterPost() {
+    return _mypaymentUsersMeRegisterPost();
+  }
+
+  ///Register User
+  @POST(path: '/mypayment/users/me/register', optionalBody: true)
+  Future<chopper.Response> _mypaymentUsersMeRegisterPost({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Sign MyPayment TOS for the given user.
+
+The user will need to accept the latest TOS version to be able to use MyPayment.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Register User',
+      operationId: 'post_mypayment_users_me_register',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get User Tos
+  Future<chopper.Response<TOSSignatureResponse>> mypaymentUsersMeTosGet() {
+    generatedMapping.putIfAbsent(
+      TOSSignatureResponse,
+      () => TOSSignatureResponse.fromJsonFactory,
+    );
+
+    return _mypaymentUsersMeTosGet();
+  }
+
+  ///Get User Tos
+  @GET(path: '/mypayment/users/me/tos')
+  Future<chopper.Response<TOSSignatureResponse>> _mypaymentUsersMeTosGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''Get the latest TOS version and the user signed TOS version.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Get User Tos',
+      operationId: 'get_mypayment_users_me_tos',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Sign Tos
+  Future<chopper.Response> mypaymentUsersMeTosPost({
+    required TOSSignature? body,
+  }) {
+    return _mypaymentUsersMeTosPost(body: body);
+  }
+
+  ///Sign Tos
+  @POST(path: '/mypayment/users/me/tos', optionalBody: true)
+  Future<chopper.Response> _mypaymentUsersMeTosPost({
+    @Body() required TOSSignature? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Sign MyPayment TOS for the given user.
+
+If the user is already registered in the MyPayment system, this will update the TOS version.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Sign Tos',
+      operationId: 'post_mypayment_users_me_tos',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get User Devices
+  Future<chopper.Response<List<WalletDevice>>>
+  mypaymentUsersMeWalletDevicesGet() {
+    generatedMapping.putIfAbsent(
+      WalletDevice,
+      () => WalletDevice.fromJsonFactory,
+    );
+
+    return _mypaymentUsersMeWalletDevicesGet();
+  }
+
+  ///Get User Devices
+  @GET(path: '/mypayment/users/me/wallet/devices')
+  Future<chopper.Response<List<WalletDevice>>>
+  _mypaymentUsersMeWalletDevicesGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get user devices.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Get User Devices',
+      operationId: 'get_mypayment_users_me_wallet_devices',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Create User Devices
+  Future<chopper.Response<WalletDevice>> mypaymentUsersMeWalletDevicesPost({
+    required WalletDeviceCreation? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      WalletDevice,
+      () => WalletDevice.fromJsonFactory,
+    );
+
+    return _mypaymentUsersMeWalletDevicesPost(body: body);
+  }
+
+  ///Create User Devices
+  @POST(path: '/mypayment/users/me/wallet/devices', optionalBody: true)
+  Future<chopper.Response<WalletDevice>> _mypaymentUsersMeWalletDevicesPost({
+    @Body() required WalletDeviceCreation? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Create a new device for the user.
+The user will need to activate it using a token sent by email.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Create User Devices',
+      operationId: 'post_mypayment_users_me_wallet_devices',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get User Device
+  ///@param wallet_device_id
+  Future<chopper.Response<WalletDevice>>
+  mypaymentUsersMeWalletDevicesWalletDeviceIdGet({
+    required String? walletDeviceId,
+  }) {
+    generatedMapping.putIfAbsent(
+      WalletDevice,
+      () => WalletDevice.fromJsonFactory,
+    );
+
+    return _mypaymentUsersMeWalletDevicesWalletDeviceIdGet(
+      walletDeviceId: walletDeviceId,
+    );
+  }
+
+  ///Get User Device
+  ///@param wallet_device_id
+  @GET(path: '/mypayment/users/me/wallet/devices/{wallet_device_id}')
+  Future<chopper.Response<WalletDevice>>
+  _mypaymentUsersMeWalletDevicesWalletDeviceIdGet({
+    @Path('wallet_device_id') required String? walletDeviceId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get user devices.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Get User Device',
+      operationId: 'get_mypayment_users_me_wallet_devices_{wallet_device_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get User Wallet
+  Future<chopper.Response<Wallet>> mypaymentUsersMeWalletGet() {
+    generatedMapping.putIfAbsent(Wallet, () => Wallet.fromJsonFactory);
+
+    return _mypaymentUsersMeWalletGet();
+  }
+
+  ///Get User Wallet
+  @GET(path: '/mypayment/users/me/wallet')
+  Future<chopper.Response<Wallet>> _mypaymentUsersMeWalletGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get user wallet.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Get User Wallet',
+      operationId: 'get_mypayment_users_me_wallet',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Activate User Device
+  ///@param token
+  Future<chopper.Response> mypaymentDevicesActivateGet({
+    required String? token,
+  }) {
+    return _mypaymentDevicesActivateGet(token: token);
+  }
+
+  ///Activate User Device
+  ///@param token
+  @GET(path: '/mypayment/devices/activate')
+  Future<chopper.Response> _mypaymentDevicesActivateGet({
+    @Query('token') required String? token,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Activate a wallet device',
+      summary: 'Activate User Device',
+      operationId: 'get_mypayment_devices_activate',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Revoke User Devices
+  ///@param wallet_device_id
+  Future<chopper.Response>
+  mypaymentUsersMeWalletDevicesWalletDeviceIdRevokePost({
+    required String? walletDeviceId,
+  }) {
+    return _mypaymentUsersMeWalletDevicesWalletDeviceIdRevokePost(
+      walletDeviceId: walletDeviceId,
+    );
+  }
+
+  ///Revoke User Devices
+  ///@param wallet_device_id
+  @POST(
+    path: '/mypayment/users/me/wallet/devices/{wallet_device_id}/revoke',
+    optionalBody: true,
+  )
+  Future<chopper.Response>
+  _mypaymentUsersMeWalletDevicesWalletDeviceIdRevokePost({
+    @Path('wallet_device_id') required String? walletDeviceId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Revoke a device for the user.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Revoke User Devices',
+      operationId:
+          'post_mypayment_users_me_wallet_devices_{wallet_device_id}_revoke',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get User Wallet History
+  ///@param start_date
+  ///@param end_date
+  Future<chopper.Response<List<History>>> mypaymentUsersMeWalletHistoryGet({
+    String? startDate,
+    String? endDate,
+  }) {
+    generatedMapping.putIfAbsent(History, () => History.fromJsonFactory);
+
+    return _mypaymentUsersMeWalletHistoryGet(
+      startDate: startDate,
+      endDate: endDate,
+    );
+  }
+
+  ///Get User Wallet History
+  ///@param start_date
+  ///@param end_date
+  @GET(path: '/mypayment/users/me/wallet/history')
+  Future<chopper.Response<List<History>>> _mypaymentUsersMeWalletHistoryGet({
+    @Query('start_date') String? startDate,
+    @Query('end_date') String? endDate,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get all transactions for the current user\'s wallet.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Get User Wallet History',
+      operationId: 'get_mypayment_users_me_wallet_history',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Init Ha Transfer
+  Future<chopper.Response<PaymentUrl>> mypaymentTransferInitPost({
+    required TransferInfo? body,
+  }) {
+    generatedMapping.putIfAbsent(PaymentUrl, () => PaymentUrl.fromJsonFactory);
+
+    return _mypaymentTransferInitPost(body: body);
+  }
+
+  ///Init Ha Transfer
+  @POST(path: '/mypayment/transfer/init', optionalBody: true)
+  Future<chopper.Response<PaymentUrl>> _mypaymentTransferInitPost({
+    @Body() required TransferInfo? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          'Initiate HelloAsso transfer, return a payment url to complete the transaction on HelloAsso website.',
+      summary: 'Init Ha Transfer',
+      operationId: 'post_mypayment_transfer_init',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Redirect From Ha Transfer
+  ///@param url
+  ///@param checkoutIntentId
+  ///@param code
+  ///@param orderId
+  ///@param error
+  Future<chopper.Response<PaymentUrl>> mypaymentTransferRedirectGet({
+    required String? url,
+    String? checkoutIntentId,
+    String? code,
+    String? orderId,
+    String? error,
+  }) {
+    generatedMapping.putIfAbsent(PaymentUrl, () => PaymentUrl.fromJsonFactory);
+
+    return _mypaymentTransferRedirectGet(
+      url: url,
+      checkoutIntentId: checkoutIntentId,
+      code: code,
+      orderId: orderId,
+      error: error,
+    );
+  }
+
+  ///Redirect From Ha Transfer
+  ///@param url
+  ///@param checkoutIntentId
+  ///@param code
+  ///@param orderId
+  ///@param error
+  @GET(path: '/mypayment/transfer/redirect')
+  Future<chopper.Response<PaymentUrl>> _mypaymentTransferRedirectGet({
+    @Query('url') required String? url,
+    @Query('checkoutIntentId') String? checkoutIntentId,
+    @Query('code') String? code,
+    @Query('orderId') String? orderId,
+    @Query('error') String? error,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''HelloAsso checkout should be configured to redirect the user to:
+ - f"{settings.CLIENT_URL}mypayment/transfer/redirect?url={redirect_url}"
+Redirect the user to the provided redirect `url`. The parameters `checkoutIntentId`, `code`, `orderId` and `error` passed by HelloAsso will be added to the redirect URL.
+The redirect `url` must be trusted by Hyperion in the dotenv.''',
+      summary: 'Redirect From Ha Transfer',
+      operationId: 'get_mypayment_transfer_redirect',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Validate Can Scan Qrcode
+  ///@param store_id
+  Future<chopper.Response<AppTypesStandardResponsesResult>>
+  mypaymentStoresStoreIdScanCheckPost({
+    required String? storeId,
+    required ScanInfo? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      AppTypesStandardResponsesResult,
+      () => AppTypesStandardResponsesResult.fromJsonFactory,
+    );
+
+    return _mypaymentStoresStoreIdScanCheckPost(storeId: storeId, body: body);
+  }
+
+  ///Validate Can Scan Qrcode
+  ///@param store_id
+  @POST(path: '/mypayment/stores/{store_id}/scan/check', optionalBody: true)
+  Future<chopper.Response<AppTypesStandardResponsesResult>>
+  _mypaymentStoresStoreIdScanCheckPost({
+    @Path('store_id') required String? storeId,
+    @Body() required ScanInfo? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Validate if a given QR Code can be scanned by the seller.
+
+The QR Code should be valid, the seller should have the `can_bank` permission for this store,
+and the debited wallet device should be active.
+
+If the store structure has an association membership, the user should be a member of the association.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Validate Can Scan Qrcode',
+      operationId: 'post_mypayment_stores_{store_id}_scan_check',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Store Scan Qrcode
+  ///@param store_id
+  Future<chopper.Response> mypaymentStoresStoreIdScanPost({
+    required String? storeId,
+    required ScanInfo? body,
+  }) {
+    return _mypaymentStoresStoreIdScanPost(storeId: storeId, body: body);
+  }
+
+  ///Store Scan Qrcode
+  ///@param store_id
+  @POST(path: '/mypayment/stores/{store_id}/scan', optionalBody: true)
+  Future<chopper.Response> _mypaymentStoresStoreIdScanPost({
+    @Path('store_id') required String? storeId,
+    @Body() required ScanInfo? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Scan and bank a QR code for this store.
+
+`signature` should be a base64 encoded string
+ - signed using *ed25519*,
+ - where data are a `QRCodeContentData` object:
+    ```
+    {
+        id: UUID
+        tot: int
+        iat: datetime
+        key: UUID
+    }
+    ```
+
+The provided content is checked to ensure:
+    - the QR Code is not already used
+    - the QR Code is not expired
+    - the QR Code is intended to be scanned for a store `scan_info.store`
+    - the signature is valid and correspond to `wallet_device_id` public key
+    - the debited\'s wallet device is active
+    - the debited\'s Wallet balance greater than the QR Code total
+
+**The user must be authenticated to use this endpoint**
+**The user must have the `can_bank` permission for this store**''',
+      summary: 'Store Scan Qrcode',
+      operationId: 'post_mypayment_stores_{store_id}_scan',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Refund Transaction
+  ///@param transaction_id
+  Future<chopper.Response> mypaymentTransactionsTransactionIdRefundPost({
+    required String? transactionId,
+    required RefundInfo? body,
+  }) {
+    return _mypaymentTransactionsTransactionIdRefundPost(
+      transactionId: transactionId,
+      body: body,
+    );
+  }
+
+  ///Refund Transaction
+  ///@param transaction_id
+  @POST(
+    path: '/mypayment/transactions/{transaction_id}/refund',
+    optionalBody: true,
+  )
+  Future<chopper.Response> _mypaymentTransactionsTransactionIdRefundPost({
+    @Path('transaction_id') required String? transactionId,
+    @Body() required RefundInfo? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''Refund a transaction. Only transactions made in the last 30 days can be refunded.
+
+Currently transactions between users are forbidden and can thus not be refunded.
+
+To cancel a transaction made in the last 30 seconds, the endpoint `/mypayment/transactions/{transaction_id}/cancel` should be used.
+
+**The user must either be the credited user or a seller with cancel permissions of the credited store of the transaction**''',
+      summary: 'Refund Transaction',
+      operationId: 'post_mypayment_transactions_{transaction_id}_refund',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Cancel Transaction
+  ///@param transaction_id
+  Future<chopper.Response> mypaymentTransactionsTransactionIdCancelPost({
+    required String? transactionId,
+  }) {
+    return _mypaymentTransactionsTransactionIdCancelPost(
+      transactionId: transactionId,
+    );
+  }
+
+  ///Cancel Transaction
+  ///@param transaction_id
+  @POST(
+    path: '/mypayment/transactions/{transaction_id}/cancel',
+    optionalBody: true,
+  )
+  Future<chopper.Response> _mypaymentTransactionsTransactionIdCancelPost({
+    @Path('transaction_id') required String? transactionId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Cancel a transaction.
+A transaction can be canceled in the first 30 seconds after it has been created.
+
+To refund an older transaction, use the `/mypayment/transactions/{transaction_id}/refund` endpoint.
+
+**The user must either be the credited user or the seller of the transaction**''',
+      summary: 'Cancel Transaction',
+      operationId: 'post_mypayment_transactions_{transaction_id}_cancel',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get Invoices
+  ///@param page
+  ///@param page_size
+  ///@param structures_ids
+  ///@param start_date
+  ///@param end_date
+  Future<chopper.Response<List<Invoice>>> mypaymentInvoicesGet({
+    int? page,
+    int? pageSize,
+    List? structuresIds,
+    String? startDate,
+    String? endDate,
+  }) {
+    generatedMapping.putIfAbsent(Invoice, () => Invoice.fromJsonFactory);
+
+    return _mypaymentInvoicesGet(
+      page: page,
+      pageSize: pageSize,
+      structuresIds: structuresIds,
+      startDate: startDate,
+      endDate: endDate,
+    );
+  }
+
+  ///Get Invoices
+  ///@param page
+  ///@param page_size
+  ///@param structures_ids
+  ///@param start_date
+  ///@param end_date
+  @GET(path: '/mypayment/invoices')
+  Future<chopper.Response<List<Invoice>>> _mypaymentInvoicesGet({
+    @Query('page') int? page,
+    @Query('page_size') int? pageSize,
+    @Query('structures_ids') List? structuresIds,
+    @Query('start_date') String? startDate,
+    @Query('end_date') String? endDate,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get all invoices.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Get Invoices',
+      operationId: 'get_mypayment_invoices',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get Structure Invoices
+  ///@param structure_id
+  ///@param page
+  ///@param page_size
+  ///@param start_date
+  ///@param end_date
+  Future<chopper.Response<List<Invoice>>>
+  mypaymentInvoicesStructuresStructureIdGet({
+    required String? structureId,
+    int? page,
+    int? pageSize,
+    String? startDate,
+    String? endDate,
+  }) {
+    generatedMapping.putIfAbsent(Invoice, () => Invoice.fromJsonFactory);
+
+    return _mypaymentInvoicesStructuresStructureIdGet(
+      structureId: structureId,
+      page: page,
+      pageSize: pageSize,
+      startDate: startDate,
+      endDate: endDate,
+    );
+  }
+
+  ///Get Structure Invoices
+  ///@param structure_id
+  ///@param page
+  ///@param page_size
+  ///@param start_date
+  ///@param end_date
+  @GET(path: '/mypayment/invoices/structures/{structure_id}')
+  Future<chopper.Response<List<Invoice>>>
+  _mypaymentInvoicesStructuresStructureIdGet({
+    @Path('structure_id') required String? structureId,
+    @Query('page') int? page,
+    @Query('page_size') int? pageSize,
+    @Query('start_date') String? startDate,
+    @Query('end_date') String? endDate,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get all invoices.
+
+**The user must be the structure manager**''',
+      summary: 'Get Structure Invoices',
+      operationId: 'get_mypayment_invoices_structures_{structure_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Create Structure Invoice
+  ///@param structure_id
+  Future<chopper.Response<Invoice>> mypaymentInvoicesStructuresStructureIdPost({
+    required String? structureId,
+  }) {
+    generatedMapping.putIfAbsent(Invoice, () => Invoice.fromJsonFactory);
+
+    return _mypaymentInvoicesStructuresStructureIdPost(
+      structureId: structureId,
+    );
+  }
+
+  ///Create Structure Invoice
+  ///@param structure_id
+  @POST(
+    path: '/mypayment/invoices/structures/{structure_id}',
+    optionalBody: true,
+  )
+  Future<chopper.Response<Invoice>>
+  _mypaymentInvoicesStructuresStructureIdPost({
+    @Path('structure_id') required String? structureId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Create an invoice for a structure.
+
+**The user must be the bank account holder**''',
+      summary: 'Create Structure Invoice',
+      operationId: 'post_mypayment_invoices_structures_{structure_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Download Invoice
+  ///@param invoice_id
+  Future<chopper.Response> mypaymentInvoicesInvoiceIdGet({
+    required String? invoiceId,
+  }) {
+    return _mypaymentInvoicesInvoiceIdGet(invoiceId: invoiceId);
+  }
+
+  ///Download Invoice
+  ///@param invoice_id
+  @GET(path: '/mypayment/invoices/{invoice_id}')
+  Future<chopper.Response> _mypaymentInvoicesInvoiceIdGet({
+    @Path('invoice_id') required String? invoiceId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Download Invoice',
+      operationId: 'get_mypayment_invoices_{invoice_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Delete Structure Invoice
+  ///@param invoice_id
+  Future<chopper.Response> mypaymentInvoicesInvoiceIdDelete({
+    required String? invoiceId,
+  }) {
+    return _mypaymentInvoicesInvoiceIdDelete(invoiceId: invoiceId);
+  }
+
+  ///Delete Structure Invoice
+  ///@param invoice_id
+  @DELETE(path: '/mypayment/invoices/{invoice_id}')
+  Future<chopper.Response> _mypaymentInvoicesInvoiceIdDelete({
+    @Path('invoice_id') required String? invoiceId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Delete a structure invoice.
+
+**The user must be the bank account holder**''',
+      summary: 'Delete Structure Invoice',
+      operationId: 'delete_mypayment_invoices_{invoice_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Update Invoice Paid Status
+  ///@param invoice_id
+  ///@param paid
+  Future<chopper.Response> mypaymentInvoicesInvoiceIdPaidPatch({
+    required String? invoiceId,
+    required bool? paid,
+  }) {
+    return _mypaymentInvoicesInvoiceIdPaidPatch(
+      invoiceId: invoiceId,
+      paid: paid,
+    );
+  }
+
+  ///Update Invoice Paid Status
+  ///@param invoice_id
+  ///@param paid
+  @PATCH(path: '/mypayment/invoices/{invoice_id}/paid', optionalBody: true)
+  Future<chopper.Response> _mypaymentInvoicesInvoiceIdPaidPatch({
+    @Path('invoice_id') required String? invoiceId,
+    @Query('paid') required bool? paid,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Update the paid status of a structure invoice.
+
+**The user must be the bank account holder**''',
+      summary: 'Update Invoice Paid Status',
+      operationId: 'patch_mypayment_invoices_{invoice_id}_paid',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Aknowledge Invoice As Received
+  ///@param invoice_id
+  Future<chopper.Response> mypaymentInvoicesInvoiceIdReceivedPatch({
+    required String? invoiceId,
+  }) {
+    return _mypaymentInvoicesInvoiceIdReceivedPatch(invoiceId: invoiceId);
+  }
+
+  ///Aknowledge Invoice As Received
+  ///@param invoice_id
+  @PATCH(path: '/mypayment/invoices/{invoice_id}/received', optionalBody: true)
+  Future<chopper.Response> _mypaymentInvoicesInvoiceIdReceivedPatch({
+    @Path('invoice_id') required String? invoiceId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Update the received status of a structure invoice.
+
+**The user must be the structure manager**''',
+      summary: 'Aknowledge Invoice As Received',
+      operationId: 'patch_mypayment_invoices_{invoice_id}_received',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get Data For Integrity Check
+  ///@param lastChecked
+  ///@param isInitialisation
+  ///@param x_data_verifier_token
+  Future<chopper.Response<IntegrityCheckData>> mypaymentIntegrityCheckGet({
+    String? lastChecked,
+    bool? isInitialisation,
+    String? xDataVerifierToken,
+  }) {
+    generatedMapping.putIfAbsent(
+      IntegrityCheckData,
+      () => IntegrityCheckData.fromJsonFactory,
+    );
+
+    return _mypaymentIntegrityCheckGet(
+      lastChecked: lastChecked,
+      isInitialisation: isInitialisation,
+      xDataVerifierToken: xDataVerifierToken?.toString(),
+    );
+  }
+
+  ///Get Data For Integrity Check
+  ///@param lastChecked
+  ///@param isInitialisation
+  ///@param x_data_verifier_token
+  @GET(path: '/mypayment/integrity-check')
+  Future<chopper.Response<IntegrityCheckData>> _mypaymentIntegrityCheckGet({
+    @Query('lastChecked') String? lastChecked,
+    @Query('isInitialisation') bool? isInitialisation,
+    @Header('x_data_verifier_token') String? xDataVerifierToken,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Send all the MyPayment data for integrity check.
+Data includes:
+- Wallets deducted of the last 30 seconds transactions
+- Transactions with at least 30 seconds delay
+- Transfers
+- Refunds
+
+**The header must contain the MYPAYMENT_DATA_VERIFIER_ACCESS_TOKEN defined in the settings in the `x-data-verifier-token` field**''',
+      summary: 'Get Data For Integrity Check',
+      operationId: 'get_mypayment_integrity-check',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["MyPayment"],
       deprecated: false,
     ),
   });

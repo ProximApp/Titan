@@ -6,8 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:titan/admin/class/assocation.dart';
-import 'package:titan/advert/class/advert.dart';
+import 'package:titan/advert/adapters/advert_complete.dart';
 import 'package:titan/advert/providers/advert_list_provider.dart';
 import 'package:titan/advert/providers/advert_poster_provider.dart';
 import 'package:titan/advert/providers/advert_posters_provider.dart';
@@ -16,6 +15,7 @@ import 'package:titan/advert/providers/selected_association_provider.dart';
 import 'package:titan/advert/ui/pages/advert.dart';
 import 'package:titan/advert/ui/components/association_bar.dart';
 import 'package:titan/event/ui/pages/event_pages/checkbox_entry.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
@@ -32,7 +32,7 @@ class AdvertAddEditAdvertPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final advert = ref.watch(advertProvider);
     final key = GlobalKey<FormState>();
-    final isEdit = advert.id != Advert.empty().id;
+    final isEdit = advert.id != AdvertComplete.fromJson({}).id;
     final title = useTextEditingController(text: advert.title);
     final content = useTextEditingController(text: advert.content);
 
@@ -52,7 +52,7 @@ class AdvertAddEditAdvertPage extends HookConsumerWidget {
       });
     }
 
-    final postToFeed = useState(isEdit ? advert.postToFeed : false);
+    final postToFeed = useState(isEdit ? advert.postToFeed ?? false : false);
     final notification = useState(isEdit ? advert.notification : true);
 
     final ImagePicker picker = ImagePicker();
@@ -267,9 +267,9 @@ class AdvertAddEditAdvertPage extends HookConsumerWidget {
                             (poster.value != null || isEdit)) {
                           await tokenExpireWrapper(ref, () async {
                             final advertList = ref.watch(advertListProvider);
-                            Advert newAdvert = Advert(
+                            AdvertComplete newAdvert = AdvertComplete(
                               id: isEdit ? advert.id : '',
-                              associationId: selectedAssociation[0].id,
+                              advertiserId: selectedAssociation[0].id,
                               content: content.text,
                               date: isEdit ? advert.date : DateTime.now(),
                               title: title.text,
@@ -289,7 +289,9 @@ class AdvertAddEditAdvertPage extends HookConsumerWidget {
                                 ? await advertListNotifier.updateAdvert(
                                     newAdvert,
                                   )
-                                : await advertListNotifier.addAdvert(newAdvert);
+                                : await advertListNotifier.addAdvert(
+                                    newAdvert.toAdvertBase(),
+                                  );
                             if (value) {
                               QR.back();
                               if (isEdit) {

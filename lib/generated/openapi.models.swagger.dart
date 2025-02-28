@@ -76,7 +76,8 @@ class AdvertBase {
     required this.title,
     required this.content,
     required this.advertiserId,
-    this.tags,
+    this.postToFeed,
+    required this.notification,
   });
 
   factory AdvertBase.fromJson(Map<String, dynamic> json) =>
@@ -91,8 +92,10 @@ class AdvertBase {
   final String content;
   @JsonKey(name: 'advertiser_id', defaultValue: '')
   final String advertiserId;
-  @JsonKey(name: 'tags')
-  final String? tags;
+  @JsonKey(name: 'post_to_feed', defaultValue: false)
+  final bool? postToFeed;
+  @JsonKey(name: 'notification', defaultValue: false)
+  final bool notification;
   static const fromJsonFactory = _$AdvertBaseFromJson;
 
   @override
@@ -111,8 +114,16 @@ class AdvertBase {
                   other.advertiserId,
                   advertiserId,
                 )) &&
-            (identical(other.tags, tags) ||
-                const DeepCollectionEquality().equals(other.tags, tags)));
+            (identical(other.postToFeed, postToFeed) ||
+                const DeepCollectionEquality().equals(
+                  other.postToFeed,
+                  postToFeed,
+                )) &&
+            (identical(other.notification, notification) ||
+                const DeepCollectionEquality().equals(
+                  other.notification,
+                  notification,
+                )));
   }
 
   @override
@@ -123,7 +134,8 @@ class AdvertBase {
       const DeepCollectionEquality().hash(title) ^
       const DeepCollectionEquality().hash(content) ^
       const DeepCollectionEquality().hash(advertiserId) ^
-      const DeepCollectionEquality().hash(tags) ^
+      const DeepCollectionEquality().hash(postToFeed) ^
+      const DeepCollectionEquality().hash(notification) ^
       runtimeType.hashCode;
 }
 
@@ -132,13 +144,15 @@ extension $AdvertBaseExtension on AdvertBase {
     String? title,
     String? content,
     String? advertiserId,
-    String? tags,
+    bool? postToFeed,
+    bool? notification,
   }) {
     return AdvertBase(
       title: title ?? this.title,
       content: content ?? this.content,
       advertiserId: advertiserId ?? this.advertiserId,
-      tags: tags ?? this.tags,
+      postToFeed: postToFeed ?? this.postToFeed,
+      notification: notification ?? this.notification,
     );
   }
 
@@ -146,7 +160,8 @@ extension $AdvertBaseExtension on AdvertBase {
     Wrapped<String>? title,
     Wrapped<String>? content,
     Wrapped<String>? advertiserId,
-    Wrapped<String?>? tags,
+    Wrapped<bool?>? postToFeed,
+    Wrapped<bool>? notification,
   }) {
     return AdvertBase(
       title: (title != null ? title.value : this.title),
@@ -154,28 +169,31 @@ extension $AdvertBaseExtension on AdvertBase {
       advertiserId: (advertiserId != null
           ? advertiserId.value
           : this.advertiserId),
-      tags: (tags != null ? tags.value : this.tags),
+      postToFeed: (postToFeed != null ? postToFeed.value : this.postToFeed),
+      notification: (notification != null
+          ? notification.value
+          : this.notification),
     );
   }
 }
 
 @JsonSerializable(explicitToJson: true)
-class AdvertReturnComplete {
-  const AdvertReturnComplete({
+class AdvertComplete {
+  const AdvertComplete({
     required this.title,
     required this.content,
     required this.advertiserId,
-    this.tags,
+    this.postToFeed,
+    required this.notification,
     required this.id,
-    required this.advertiser,
     this.date,
   });
 
-  factory AdvertReturnComplete.fromJson(Map<String, dynamic> json) =>
-      _$AdvertReturnCompleteFromJson(json);
+  factory AdvertComplete.fromJson(Map<String, dynamic> json) =>
+      _$AdvertCompleteFromJson(json);
 
-  static const toJsonFactory = _$AdvertReturnCompleteToJson;
-  Map<String, dynamic> toJson() => _$AdvertReturnCompleteToJson(this);
+  static const toJsonFactory = _$AdvertCompleteToJson;
+  Map<String, dynamic> toJson() => _$AdvertCompleteToJson(this);
 
   @JsonKey(name: 'title', defaultValue: '')
   final String title;
@@ -183,20 +201,20 @@ class AdvertReturnComplete {
   final String content;
   @JsonKey(name: 'advertiser_id', defaultValue: '')
   final String advertiserId;
-  @JsonKey(name: 'tags')
-  final String? tags;
+  @JsonKey(name: 'post_to_feed', defaultValue: false)
+  final bool? postToFeed;
+  @JsonKey(name: 'notification', defaultValue: false)
+  final bool notification;
   @JsonKey(name: 'id', defaultValue: '')
   final String id;
-  @JsonKey(name: 'advertiser')
-  final AdvertiserComplete advertiser;
   @JsonKey(name: 'date')
   final DateTime? date;
-  static const fromJsonFactory = _$AdvertReturnCompleteFromJson;
+  static const fromJsonFactory = _$AdvertCompleteFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is AdvertReturnComplete &&
+        (other is AdvertComplete &&
             (identical(other.title, title) ||
                 const DeepCollectionEquality().equals(other.title, title)) &&
             (identical(other.content, content) ||
@@ -209,15 +227,18 @@ class AdvertReturnComplete {
                   other.advertiserId,
                   advertiserId,
                 )) &&
-            (identical(other.tags, tags) ||
-                const DeepCollectionEquality().equals(other.tags, tags)) &&
+            (identical(other.postToFeed, postToFeed) ||
+                const DeepCollectionEquality().equals(
+                  other.postToFeed,
+                  postToFeed,
+                )) &&
+            (identical(other.notification, notification) ||
+                const DeepCollectionEquality().equals(
+                  other.notification,
+                  notification,
+                )) &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.advertiser, advertiser) ||
-                const DeepCollectionEquality().equals(
-                  other.advertiser,
-                  advertiser,
-                )) &&
             (identical(other.date, date) ||
                 const DeepCollectionEquality().equals(other.date, date)));
   }
@@ -230,52 +251,54 @@ class AdvertReturnComplete {
       const DeepCollectionEquality().hash(title) ^
       const DeepCollectionEquality().hash(content) ^
       const DeepCollectionEquality().hash(advertiserId) ^
-      const DeepCollectionEquality().hash(tags) ^
+      const DeepCollectionEquality().hash(postToFeed) ^
+      const DeepCollectionEquality().hash(notification) ^
       const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(advertiser) ^
       const DeepCollectionEquality().hash(date) ^
       runtimeType.hashCode;
 }
 
-extension $AdvertReturnCompleteExtension on AdvertReturnComplete {
-  AdvertReturnComplete copyWith({
+extension $AdvertCompleteExtension on AdvertComplete {
+  AdvertComplete copyWith({
     String? title,
     String? content,
     String? advertiserId,
-    String? tags,
+    bool? postToFeed,
+    bool? notification,
     String? id,
-    AdvertiserComplete? advertiser,
     DateTime? date,
   }) {
-    return AdvertReturnComplete(
+    return AdvertComplete(
       title: title ?? this.title,
       content: content ?? this.content,
       advertiserId: advertiserId ?? this.advertiserId,
-      tags: tags ?? this.tags,
+      postToFeed: postToFeed ?? this.postToFeed,
+      notification: notification ?? this.notification,
       id: id ?? this.id,
-      advertiser: advertiser ?? this.advertiser,
       date: date ?? this.date,
     );
   }
 
-  AdvertReturnComplete copyWithWrapped({
+  AdvertComplete copyWithWrapped({
     Wrapped<String>? title,
     Wrapped<String>? content,
     Wrapped<String>? advertiserId,
-    Wrapped<String?>? tags,
+    Wrapped<bool?>? postToFeed,
+    Wrapped<bool>? notification,
     Wrapped<String>? id,
-    Wrapped<AdvertiserComplete>? advertiser,
     Wrapped<DateTime?>? date,
   }) {
-    return AdvertReturnComplete(
+    return AdvertComplete(
       title: (title != null ? title.value : this.title),
       content: (content != null ? content.value : this.content),
       advertiserId: (advertiserId != null
           ? advertiserId.value
           : this.advertiserId),
-      tags: (tags != null ? tags.value : this.tags),
+      postToFeed: (postToFeed != null ? postToFeed.value : this.postToFeed),
+      notification: (notification != null
+          ? notification.value
+          : this.notification),
       id: (id != null ? id.value : this.id),
-      advertiser: (advertiser != null ? advertiser.value : this.advertiser),
       date: (date != null ? date.value : this.date),
     );
   }
@@ -283,7 +306,7 @@ extension $AdvertReturnCompleteExtension on AdvertReturnComplete {
 
 @JsonSerializable(explicitToJson: true)
 class AdvertUpdate {
-  const AdvertUpdate({this.title, this.content, this.tags});
+  const AdvertUpdate({this.title, this.content});
 
   factory AdvertUpdate.fromJson(Map<String, dynamic> json) =>
       _$AdvertUpdateFromJson(json);
@@ -295,8 +318,6 @@ class AdvertUpdate {
   final String? title;
   @JsonKey(name: 'content')
   final String? content;
-  @JsonKey(name: 'tags')
-  final String? tags;
   static const fromJsonFactory = _$AdvertUpdateFromJson;
 
   @override
@@ -306,12 +327,7 @@ class AdvertUpdate {
             (identical(other.title, title) ||
                 const DeepCollectionEquality().equals(other.title, title)) &&
             (identical(other.content, content) ||
-                const DeepCollectionEquality().equals(
-                  other.content,
-                  content,
-                )) &&
-            (identical(other.tags, tags) ||
-                const DeepCollectionEquality().equals(other.tags, tags)));
+                const DeepCollectionEquality().equals(other.content, content)));
   }
 
   @override
@@ -321,224 +337,24 @@ class AdvertUpdate {
   int get hashCode =>
       const DeepCollectionEquality().hash(title) ^
       const DeepCollectionEquality().hash(content) ^
-      const DeepCollectionEquality().hash(tags) ^
       runtimeType.hashCode;
 }
 
 extension $AdvertUpdateExtension on AdvertUpdate {
-  AdvertUpdate copyWith({String? title, String? content, String? tags}) {
+  AdvertUpdate copyWith({String? title, String? content}) {
     return AdvertUpdate(
       title: title ?? this.title,
       content: content ?? this.content,
-      tags: tags ?? this.tags,
     );
   }
 
   AdvertUpdate copyWithWrapped({
     Wrapped<String?>? title,
     Wrapped<String?>? content,
-    Wrapped<String?>? tags,
   }) {
     return AdvertUpdate(
       title: (title != null ? title.value : this.title),
       content: (content != null ? content.value : this.content),
-      tags: (tags != null ? tags.value : this.tags),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class AdvertiserBase {
-  const AdvertiserBase({required this.name, required this.groupManagerId});
-
-  factory AdvertiserBase.fromJson(Map<String, dynamic> json) =>
-      _$AdvertiserBaseFromJson(json);
-
-  static const toJsonFactory = _$AdvertiserBaseToJson;
-  Map<String, dynamic> toJson() => _$AdvertiserBaseToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'group_manager_id', defaultValue: '')
-  final String groupManagerId;
-  static const fromJsonFactory = _$AdvertiserBaseFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is AdvertiserBase &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.groupManagerId, groupManagerId) ||
-                const DeepCollectionEquality().equals(
-                  other.groupManagerId,
-                  groupManagerId,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(groupManagerId) ^
-      runtimeType.hashCode;
-}
-
-extension $AdvertiserBaseExtension on AdvertiserBase {
-  AdvertiserBase copyWith({String? name, String? groupManagerId}) {
-    return AdvertiserBase(
-      name: name ?? this.name,
-      groupManagerId: groupManagerId ?? this.groupManagerId,
-    );
-  }
-
-  AdvertiserBase copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<String>? groupManagerId,
-  }) {
-    return AdvertiserBase(
-      name: (name != null ? name.value : this.name),
-      groupManagerId: (groupManagerId != null
-          ? groupManagerId.value
-          : this.groupManagerId),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class AdvertiserComplete {
-  const AdvertiserComplete({
-    required this.name,
-    required this.groupManagerId,
-    required this.id,
-  });
-
-  factory AdvertiserComplete.fromJson(Map<String, dynamic> json) =>
-      _$AdvertiserCompleteFromJson(json);
-
-  static const toJsonFactory = _$AdvertiserCompleteToJson;
-  Map<String, dynamic> toJson() => _$AdvertiserCompleteToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'group_manager_id', defaultValue: '')
-  final String groupManagerId;
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  static const fromJsonFactory = _$AdvertiserCompleteFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is AdvertiserComplete &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.groupManagerId, groupManagerId) ||
-                const DeepCollectionEquality().equals(
-                  other.groupManagerId,
-                  groupManagerId,
-                )) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(groupManagerId) ^
-      const DeepCollectionEquality().hash(id) ^
-      runtimeType.hashCode;
-}
-
-extension $AdvertiserCompleteExtension on AdvertiserComplete {
-  AdvertiserComplete copyWith({
-    String? name,
-    String? groupManagerId,
-    String? id,
-  }) {
-    return AdvertiserComplete(
-      name: name ?? this.name,
-      groupManagerId: groupManagerId ?? this.groupManagerId,
-      id: id ?? this.id,
-    );
-  }
-
-  AdvertiserComplete copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<String>? groupManagerId,
-    Wrapped<String>? id,
-  }) {
-    return AdvertiserComplete(
-      name: (name != null ? name.value : this.name),
-      groupManagerId: (groupManagerId != null
-          ? groupManagerId.value
-          : this.groupManagerId),
-      id: (id != null ? id.value : this.id),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class AdvertiserUpdate {
-  const AdvertiserUpdate({this.name, this.groupManagerId});
-
-  factory AdvertiserUpdate.fromJson(Map<String, dynamic> json) =>
-      _$AdvertiserUpdateFromJson(json);
-
-  static const toJsonFactory = _$AdvertiserUpdateToJson;
-  Map<String, dynamic> toJson() => _$AdvertiserUpdateToJson(this);
-
-  @JsonKey(name: 'name')
-  final String? name;
-  @JsonKey(name: 'group_manager_id')
-  final String? groupManagerId;
-  static const fromJsonFactory = _$AdvertiserUpdateFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is AdvertiserUpdate &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.groupManagerId, groupManagerId) ||
-                const DeepCollectionEquality().equals(
-                  other.groupManagerId,
-                  groupManagerId,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(groupManagerId) ^
-      runtimeType.hashCode;
-}
-
-extension $AdvertiserUpdateExtension on AdvertiserUpdate {
-  AdvertiserUpdate copyWith({String? name, String? groupManagerId}) {
-    return AdvertiserUpdate(
-      name: name ?? this.name,
-      groupManagerId: groupManagerId ?? this.groupManagerId,
-    );
-  }
-
-  AdvertiserUpdate copyWithWrapped({
-    Wrapped<String?>? name,
-    Wrapped<String?>? groupManagerId,
-  }) {
-    return AdvertiserUpdate(
-      name: (name != null ? name.value : this.name),
-      groupManagerId: (groupManagerId != null
-          ? groupManagerId.value
-          : this.groupManagerId),
     );
   }
 }
@@ -691,64 +507,40 @@ extension $ApplicantExtension on Applicant {
 }
 
 @JsonSerializable(explicitToJson: true)
-class AssociationBase {
-  const AssociationBase({
+class Association {
+  const Association({
     required this.name,
-    required this.kind,
-    required this.mandateYear,
-    this.description,
-    this.associatedGroups,
-    this.deactivated,
+    required this.groupId,
+    required this.id,
   });
 
-  factory AssociationBase.fromJson(Map<String, dynamic> json) =>
-      _$AssociationBaseFromJson(json);
+  factory Association.fromJson(Map<String, dynamic> json) =>
+      _$AssociationFromJson(json);
 
-  static const toJsonFactory = _$AssociationBaseToJson;
-  Map<String, dynamic> toJson() => _$AssociationBaseToJson(this);
+  static const toJsonFactory = _$AssociationToJson;
+  Map<String, dynamic> toJson() => _$AssociationToJson(this);
 
   @JsonKey(name: 'name', defaultValue: '')
   final String name;
-  @JsonKey(name: 'kind', toJson: kindsToJson, fromJson: kindsFromJson)
-  final enums.Kinds kind;
-  @JsonKey(name: 'mandate_year', defaultValue: 0)
-  final int mandateYear;
-  @JsonKey(name: 'description')
-  final String? description;
-  @JsonKey(name: 'associated_groups', defaultValue: <String>[])
-  final List<String>? associatedGroups;
-  @JsonKey(name: 'deactivated', defaultValue: false)
-  final bool? deactivated;
-  static const fromJsonFactory = _$AssociationBaseFromJson;
+  @JsonKey(name: 'group_id', defaultValue: '')
+  final String groupId;
+  @JsonKey(name: 'id', defaultValue: '')
+  final String id;
+  static const fromJsonFactory = _$AssociationFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is AssociationBase &&
+        (other is Association &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.kind, kind) ||
-                const DeepCollectionEquality().equals(other.kind, kind)) &&
-            (identical(other.mandateYear, mandateYear) ||
+            (identical(other.groupId, groupId) ||
                 const DeepCollectionEquality().equals(
-                  other.mandateYear,
-                  mandateYear,
+                  other.groupId,
+                  groupId,
                 )) &&
-            (identical(other.description, description) ||
-                const DeepCollectionEquality().equals(
-                  other.description,
-                  description,
-                )) &&
-            (identical(other.associatedGroups, associatedGroups) ||
-                const DeepCollectionEquality().equals(
-                  other.associatedGroups,
-                  associatedGroups,
-                )) &&
-            (identical(other.deactivated, deactivated) ||
-                const DeepCollectionEquality().equals(
-                  other.deactivated,
-                  deactivated,
-                )));
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)));
   }
 
   @override
@@ -757,50 +549,29 @@ class AssociationBase {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(kind) ^
-      const DeepCollectionEquality().hash(mandateYear) ^
-      const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash(associatedGroups) ^
-      const DeepCollectionEquality().hash(deactivated) ^
+      const DeepCollectionEquality().hash(groupId) ^
+      const DeepCollectionEquality().hash(id) ^
       runtimeType.hashCode;
 }
 
-extension $AssociationBaseExtension on AssociationBase {
-  AssociationBase copyWith({
-    String? name,
-    enums.Kinds? kind,
-    int? mandateYear,
-    String? description,
-    List<String>? associatedGroups,
-    bool? deactivated,
-  }) {
-    return AssociationBase(
+extension $AssociationExtension on Association {
+  Association copyWith({String? name, String? groupId, String? id}) {
+    return Association(
       name: name ?? this.name,
-      kind: kind ?? this.kind,
-      mandateYear: mandateYear ?? this.mandateYear,
-      description: description ?? this.description,
-      associatedGroups: associatedGroups ?? this.associatedGroups,
-      deactivated: deactivated ?? this.deactivated,
+      groupId: groupId ?? this.groupId,
+      id: id ?? this.id,
     );
   }
 
-  AssociationBase copyWithWrapped({
+  Association copyWithWrapped({
     Wrapped<String>? name,
-    Wrapped<enums.Kinds>? kind,
-    Wrapped<int>? mandateYear,
-    Wrapped<String?>? description,
-    Wrapped<List<String>?>? associatedGroups,
-    Wrapped<bool?>? deactivated,
+    Wrapped<String>? groupId,
+    Wrapped<String>? id,
   }) {
-    return AssociationBase(
+    return Association(
       name: (name != null ? name.value : this.name),
-      kind: (kind != null ? kind.value : this.kind),
-      mandateYear: (mandateYear != null ? mandateYear.value : this.mandateYear),
-      description: (description != null ? description.value : this.description),
-      associatedGroups: (associatedGroups != null
-          ? associatedGroups.value
-          : this.associatedGroups),
-      deactivated: (deactivated != null ? deactivated.value : this.deactivated),
+      groupId: (groupId != null ? groupId.value : this.groupId),
+      id: (id != null ? id.value : this.id),
     );
   }
 }
@@ -809,7 +580,7 @@ extension $AssociationBaseExtension on AssociationBase {
 class AssociationComplete {
   const AssociationComplete({
     required this.name,
-    required this.kind,
+    required this.groupementId,
     required this.mandateYear,
     this.description,
     this.associatedGroups,
@@ -825,8 +596,8 @@ class AssociationComplete {
 
   @JsonKey(name: 'name', defaultValue: '')
   final String name;
-  @JsonKey(name: 'kind', toJson: kindsToJson, fromJson: kindsFromJson)
-  final enums.Kinds kind;
+  @JsonKey(name: 'groupement_id', defaultValue: '')
+  final String groupementId;
   @JsonKey(name: 'mandate_year', defaultValue: 0)
   final int mandateYear;
   @JsonKey(name: 'description')
@@ -845,8 +616,11 @@ class AssociationComplete {
         (other is AssociationComplete &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.kind, kind) ||
-                const DeepCollectionEquality().equals(other.kind, kind)) &&
+            (identical(other.groupementId, groupementId) ||
+                const DeepCollectionEquality().equals(
+                  other.groupementId,
+                  groupementId,
+                )) &&
             (identical(other.mandateYear, mandateYear) ||
                 const DeepCollectionEquality().equals(
                   other.mandateYear,
@@ -877,7 +651,7 @@ class AssociationComplete {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(kind) ^
+      const DeepCollectionEquality().hash(groupementId) ^
       const DeepCollectionEquality().hash(mandateYear) ^
       const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(associatedGroups) ^
@@ -889,7 +663,7 @@ class AssociationComplete {
 extension $AssociationCompleteExtension on AssociationComplete {
   AssociationComplete copyWith({
     String? name,
-    enums.Kinds? kind,
+    String? groupementId,
     int? mandateYear,
     String? description,
     List<String>? associatedGroups,
@@ -898,7 +672,7 @@ extension $AssociationCompleteExtension on AssociationComplete {
   }) {
     return AssociationComplete(
       name: name ?? this.name,
-      kind: kind ?? this.kind,
+      groupementId: groupementId ?? this.groupementId,
       mandateYear: mandateYear ?? this.mandateYear,
       description: description ?? this.description,
       associatedGroups: associatedGroups ?? this.associatedGroups,
@@ -909,7 +683,7 @@ extension $AssociationCompleteExtension on AssociationComplete {
 
   AssociationComplete copyWithWrapped({
     Wrapped<String>? name,
-    Wrapped<enums.Kinds>? kind,
+    Wrapped<String>? groupementId,
     Wrapped<int>? mandateYear,
     Wrapped<String?>? description,
     Wrapped<List<String>?>? associatedGroups,
@@ -918,7 +692,9 @@ extension $AssociationCompleteExtension on AssociationComplete {
   }) {
     return AssociationComplete(
       name: (name != null ? name.value : this.name),
-      kind: (kind != null ? kind.value : this.kind),
+      groupementId: (groupementId != null
+          ? groupementId.value
+          : this.groupementId),
       mandateYear: (mandateYear != null ? mandateYear.value : this.mandateYear),
       description: (description != null ? description.value : this.description),
       associatedGroups: (associatedGroups != null
@@ -934,7 +710,7 @@ extension $AssociationCompleteExtension on AssociationComplete {
 class AssociationEdit {
   const AssociationEdit({
     this.name,
-    this.kind,
+    this.groupementId,
     this.description,
     this.mandateYear,
   });
@@ -947,12 +723,8 @@ class AssociationEdit {
 
   @JsonKey(name: 'name')
   final String? name;
-  @JsonKey(
-    name: 'kind',
-    toJson: kindsNullableToJson,
-    fromJson: kindsNullableFromJson,
-  )
-  final enums.Kinds? kind;
+  @JsonKey(name: 'groupement_id')
+  final String? groupementId;
   @JsonKey(name: 'description')
   final String? description;
   @JsonKey(name: 'mandate_year')
@@ -965,8 +737,11 @@ class AssociationEdit {
         (other is AssociationEdit &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.kind, kind) ||
-                const DeepCollectionEquality().equals(other.kind, kind)) &&
+            (identical(other.groupementId, groupementId) ||
+                const DeepCollectionEquality().equals(
+                  other.groupementId,
+                  groupementId,
+                )) &&
             (identical(other.description, description) ||
                 const DeepCollectionEquality().equals(
                   other.description,
@@ -985,7 +760,7 @@ class AssociationEdit {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(kind) ^
+      const DeepCollectionEquality().hash(groupementId) ^
       const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(mandateYear) ^
       runtimeType.hashCode;
@@ -994,13 +769,13 @@ class AssociationEdit {
 extension $AssociationEditExtension on AssociationEdit {
   AssociationEdit copyWith({
     String? name,
-    enums.Kinds? kind,
+    String? groupementId,
     String? description,
     int? mandateYear,
   }) {
     return AssociationEdit(
       name: name ?? this.name,
-      kind: kind ?? this.kind,
+      groupementId: groupementId ?? this.groupementId,
       description: description ?? this.description,
       mandateYear: mandateYear ?? this.mandateYear,
     );
@@ -1008,15 +783,111 @@ extension $AssociationEditExtension on AssociationEdit {
 
   AssociationEdit copyWithWrapped({
     Wrapped<String?>? name,
-    Wrapped<enums.Kinds?>? kind,
+    Wrapped<String?>? groupementId,
     Wrapped<String?>? description,
     Wrapped<int?>? mandateYear,
   }) {
     return AssociationEdit(
       name: (name != null ? name.value : this.name),
-      kind: (kind != null ? kind.value : this.kind),
+      groupementId: (groupementId != null
+          ? groupementId.value
+          : this.groupementId),
       description: (description != null ? description.value : this.description),
       mandateYear: (mandateYear != null ? mandateYear.value : this.mandateYear),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class AssociationGroupement {
+  const AssociationGroupement({required this.name, required this.id});
+
+  factory AssociationGroupement.fromJson(Map<String, dynamic> json) =>
+      _$AssociationGroupementFromJson(json);
+
+  static const toJsonFactory = _$AssociationGroupementToJson;
+  Map<String, dynamic> toJson() => _$AssociationGroupementToJson(this);
+
+  @JsonKey(name: 'name', defaultValue: '')
+  final String name;
+  @JsonKey(name: 'id', defaultValue: '')
+  final String id;
+  static const fromJsonFactory = _$AssociationGroupementFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AssociationGroupement &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(id) ^
+      runtimeType.hashCode;
+}
+
+extension $AssociationGroupementExtension on AssociationGroupement {
+  AssociationGroupement copyWith({String? name, String? id}) {
+    return AssociationGroupement(name: name ?? this.name, id: id ?? this.id);
+  }
+
+  AssociationGroupement copyWithWrapped({
+    Wrapped<String>? name,
+    Wrapped<String>? id,
+  }) {
+    return AssociationGroupement(
+      name: (name != null ? name.value : this.name),
+      id: (id != null ? id.value : this.id),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class AssociationGroupementBase {
+  const AssociationGroupementBase({required this.name});
+
+  factory AssociationGroupementBase.fromJson(Map<String, dynamic> json) =>
+      _$AssociationGroupementBaseFromJson(json);
+
+  static const toJsonFactory = _$AssociationGroupementBaseToJson;
+  Map<String, dynamic> toJson() => _$AssociationGroupementBaseToJson(this);
+
+  @JsonKey(name: 'name', defaultValue: '')
+  final String name;
+  static const fromJsonFactory = _$AssociationGroupementBaseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AssociationGroupementBase &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(name) ^ runtimeType.hashCode;
+}
+
+extension $AssociationGroupementBaseExtension on AssociationGroupementBase {
+  AssociationGroupementBase copyWith({String? name}) {
+    return AssociationGroupementBase(name: name ?? this.name);
+  }
+
+  AssociationGroupementBase copyWithWrapped({Wrapped<String>? name}) {
+    return AssociationGroupementBase(
+      name: (name != null ? name.value : this.name),
     );
   }
 }
@@ -1074,46 +945,29 @@ extension $AssociationGroupsEditExtension on AssociationGroupsEdit {
 }
 
 @JsonSerializable(explicitToJson: true)
-class BatchPurchase {
-  const BatchPurchase({
-    required this.userEmails,
-    required this.productVariantId,
-    required this.quantity,
-  });
+class AssociationUpdate {
+  const AssociationUpdate({this.name, this.groupId});
 
-  factory BatchPurchase.fromJson(Map<String, dynamic> json) =>
-      _$BatchPurchaseFromJson(json);
+  factory AssociationUpdate.fromJson(Map<String, dynamic> json) =>
+      _$AssociationUpdateFromJson(json);
 
-  static const toJsonFactory = _$BatchPurchaseToJson;
-  Map<String, dynamic> toJson() => _$BatchPurchaseToJson(this);
+  static const toJsonFactory = _$AssociationUpdateToJson;
+  Map<String, dynamic> toJson() => _$AssociationUpdateToJson(this);
 
-  @JsonKey(name: 'user_emails', defaultValue: <String>[])
-  final List<String> userEmails;
-  @JsonKey(name: 'product_variant_id', defaultValue: '')
-  final String productVariantId;
-  @JsonKey(name: 'quantity', defaultValue: 0)
-  final int quantity;
-  static const fromJsonFactory = _$BatchPurchaseFromJson;
+  @JsonKey(name: 'name')
+  final String? name;
+  @JsonKey(name: 'group_id')
+  final String? groupId;
+  static const fromJsonFactory = _$AssociationUpdateFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is BatchPurchase &&
-            (identical(other.userEmails, userEmails) ||
-                const DeepCollectionEquality().equals(
-                  other.userEmails,
-                  userEmails,
-                )) &&
-            (identical(other.productVariantId, productVariantId) ||
-                const DeepCollectionEquality().equals(
-                  other.productVariantId,
-                  productVariantId,
-                )) &&
-            (identical(other.quantity, quantity) ||
-                const DeepCollectionEquality().equals(
-                  other.quantity,
-                  quantity,
-                )));
+        (other is AssociationUpdate &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.groupId, groupId) ||
+                const DeepCollectionEquality().equals(other.groupId, groupId)));
   }
 
   @override
@@ -1121,36 +975,26 @@ class BatchPurchase {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(userEmails) ^
-      const DeepCollectionEquality().hash(productVariantId) ^
-      const DeepCollectionEquality().hash(quantity) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(groupId) ^
       runtimeType.hashCode;
 }
 
-extension $BatchPurchaseExtension on BatchPurchase {
-  BatchPurchase copyWith({
-    List<String>? userEmails,
-    String? productVariantId,
-    int? quantity,
-  }) {
-    return BatchPurchase(
-      userEmails: userEmails ?? this.userEmails,
-      productVariantId: productVariantId ?? this.productVariantId,
-      quantity: quantity ?? this.quantity,
+extension $AssociationUpdateExtension on AssociationUpdate {
+  AssociationUpdate copyWith({String? name, String? groupId}) {
+    return AssociationUpdate(
+      name: name ?? this.name,
+      groupId: groupId ?? this.groupId,
     );
   }
 
-  BatchPurchase copyWithWrapped({
-    Wrapped<List<String>>? userEmails,
-    Wrapped<String>? productVariantId,
-    Wrapped<int>? quantity,
+  AssociationUpdate copyWithWrapped({
+    Wrapped<String?>? name,
+    Wrapped<String?>? groupId,
   }) {
-    return BatchPurchase(
-      userEmails: (userEmails != null ? userEmails.value : this.userEmails),
-      productVariantId: (productVariantId != null
-          ? productVariantId.value
-          : this.productVariantId),
-      quantity: (quantity != null ? quantity.value : this.quantity),
+    return AssociationUpdate(
+      name: (name != null ? name.value : this.name),
+      groupId: (groupId != null ? groupId.value : this.groupId),
     );
   }
 }
@@ -1192,88 +1036,6 @@ extension $BatchResultExtension on BatchResult {
 
   BatchResult copyWithWrapped({Wrapped<Map<String, dynamic>>? failed}) {
     return BatchResult(failed: (failed != null ? failed.value : this.failed));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class BatchValidation {
-  const BatchValidation({
-    required this.userEmails,
-    required this.productVariantId,
-    required this.validated,
-  });
-
-  factory BatchValidation.fromJson(Map<String, dynamic> json) =>
-      _$BatchValidationFromJson(json);
-
-  static const toJsonFactory = _$BatchValidationToJson;
-  Map<String, dynamic> toJson() => _$BatchValidationToJson(this);
-
-  @JsonKey(name: 'user_emails', defaultValue: <String>[])
-  final List<String> userEmails;
-  @JsonKey(name: 'product_variant_id', defaultValue: '')
-  final String productVariantId;
-  @JsonKey(name: 'validated', defaultValue: false)
-  final bool validated;
-  static const fromJsonFactory = _$BatchValidationFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is BatchValidation &&
-            (identical(other.userEmails, userEmails) ||
-                const DeepCollectionEquality().equals(
-                  other.userEmails,
-                  userEmails,
-                )) &&
-            (identical(other.productVariantId, productVariantId) ||
-                const DeepCollectionEquality().equals(
-                  other.productVariantId,
-                  productVariantId,
-                )) &&
-            (identical(other.validated, validated) ||
-                const DeepCollectionEquality().equals(
-                  other.validated,
-                  validated,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(userEmails) ^
-      const DeepCollectionEquality().hash(productVariantId) ^
-      const DeepCollectionEquality().hash(validated) ^
-      runtimeType.hashCode;
-}
-
-extension $BatchValidationExtension on BatchValidation {
-  BatchValidation copyWith({
-    List<String>? userEmails,
-    String? productVariantId,
-    bool? validated,
-  }) {
-    return BatchValidation(
-      userEmails: userEmails ?? this.userEmails,
-      productVariantId: productVariantId ?? this.productVariantId,
-      validated: validated ?? this.validated,
-    );
-  }
-
-  BatchValidation copyWithWrapped({
-    Wrapped<List<String>>? userEmails,
-    Wrapped<String>? productVariantId,
-    Wrapped<bool>? validated,
-  }) {
-    return BatchValidation(
-      userEmails: (userEmails != null ? userEmails.value : this.userEmails),
-      productVariantId: (productVariantId != null
-          ? productVariantId.value
-          : this.productVariantId),
-      validated: (validated != null ? validated.value : this.validated),
-    );
   }
 }
 
@@ -1504,6 +1266,63 @@ extension $BodyCreateAdvertImageAdvertAdvertsAdvertIdPicturePostExtension
     Wrapped<String>? image,
   }) {
     return BodyCreateAdvertImageAdvertAdvertsAdvertIdPicturePost(
+      image: (image != null ? image.value : this.image),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BodyCreateAssociationLogoAssociationsAssociationIdLogoPost {
+  const BodyCreateAssociationLogoAssociationsAssociationIdLogoPost({
+    required this.image,
+  });
+
+  factory BodyCreateAssociationLogoAssociationsAssociationIdLogoPost.fromJson(
+    Map<String, dynamic> json,
+  ) => _$BodyCreateAssociationLogoAssociationsAssociationIdLogoPostFromJson(
+    json,
+  );
+
+  static const toJsonFactory =
+      _$BodyCreateAssociationLogoAssociationsAssociationIdLogoPostToJson;
+  Map<String, dynamic> toJson() =>
+      _$BodyCreateAssociationLogoAssociationsAssociationIdLogoPostToJson(this);
+
+  @JsonKey(name: 'image', defaultValue: '')
+  final String image;
+  static const fromJsonFactory =
+      _$BodyCreateAssociationLogoAssociationsAssociationIdLogoPostFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BodyCreateAssociationLogoAssociationsAssociationIdLogoPost &&
+            (identical(other.image, image) ||
+                const DeepCollectionEquality().equals(other.image, image)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
+}
+
+extension $BodyCreateAssociationLogoAssociationsAssociationIdLogoPostExtension
+    on BodyCreateAssociationLogoAssociationsAssociationIdLogoPost {
+  BodyCreateAssociationLogoAssociationsAssociationIdLogoPost copyWith({
+    String? image,
+  }) {
+    return BodyCreateAssociationLogoAssociationsAssociationIdLogoPost(
+      image: image ?? this.image,
+    );
+  }
+
+  BodyCreateAssociationLogoAssociationsAssociationIdLogoPost copyWithWrapped({
+    Wrapped<String>? image,
+  }) {
+    return BodyCreateAssociationLogoAssociationsAssociationIdLogoPost(
       image: (image != null ? image.value : this.image),
     );
   }
@@ -1786,6 +1605,107 @@ extension $BodyCreateCurrentUserProfilePictureUsersMeProfilePicturePostExtension
     Wrapped<String>? image,
   }) {
     return BodyCreateCurrentUserProfilePictureUsersMeProfilePicturePost(
+      image: (image != null ? image.value : this.image),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BodyCreateEventImageCalendarEventsEventIdImagePost {
+  const BodyCreateEventImageCalendarEventsEventIdImagePost({
+    required this.image,
+  });
+
+  factory BodyCreateEventImageCalendarEventsEventIdImagePost.fromJson(
+    Map<String, dynamic> json,
+  ) => _$BodyCreateEventImageCalendarEventsEventIdImagePostFromJson(json);
+
+  static const toJsonFactory =
+      _$BodyCreateEventImageCalendarEventsEventIdImagePostToJson;
+  Map<String, dynamic> toJson() =>
+      _$BodyCreateEventImageCalendarEventsEventIdImagePostToJson(this);
+
+  @JsonKey(name: 'image', defaultValue: '')
+  final String image;
+  static const fromJsonFactory =
+      _$BodyCreateEventImageCalendarEventsEventIdImagePostFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BodyCreateEventImageCalendarEventsEventIdImagePost &&
+            (identical(other.image, image) ||
+                const DeepCollectionEquality().equals(other.image, image)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
+}
+
+extension $BodyCreateEventImageCalendarEventsEventIdImagePostExtension
+    on BodyCreateEventImageCalendarEventsEventIdImagePost {
+  BodyCreateEventImageCalendarEventsEventIdImagePost copyWith({String? image}) {
+    return BodyCreateEventImageCalendarEventsEventIdImagePost(
+      image: image ?? this.image,
+    );
+  }
+
+  BodyCreateEventImageCalendarEventsEventIdImagePost copyWithWrapped({
+    Wrapped<String>? image,
+  }) {
+    return BodyCreateEventImageCalendarEventsEventIdImagePost(
+      image: (image != null ? image.value : this.image),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BodyCreateGroupLogoGroupsGroupIdLogoPost {
+  const BodyCreateGroupLogoGroupsGroupIdLogoPost({required this.image});
+
+  factory BodyCreateGroupLogoGroupsGroupIdLogoPost.fromJson(
+    Map<String, dynamic> json,
+  ) => _$BodyCreateGroupLogoGroupsGroupIdLogoPostFromJson(json);
+
+  static const toJsonFactory = _$BodyCreateGroupLogoGroupsGroupIdLogoPostToJson;
+  Map<String, dynamic> toJson() =>
+      _$BodyCreateGroupLogoGroupsGroupIdLogoPostToJson(this);
+
+  @JsonKey(name: 'image', defaultValue: '')
+  final String image;
+  static const fromJsonFactory =
+      _$BodyCreateGroupLogoGroupsGroupIdLogoPostFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BodyCreateGroupLogoGroupsGroupIdLogoPost &&
+            (identical(other.image, image) ||
+                const DeepCollectionEquality().equals(other.image, image)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
+}
+
+extension $BodyCreateGroupLogoGroupsGroupIdLogoPostExtension
+    on BodyCreateGroupLogoGroupsGroupIdLogoPost {
+  BodyCreateGroupLogoGroupsGroupIdLogoPost copyWith({String? image}) {
+    return BodyCreateGroupLogoGroupsGroupIdLogoPost(image: image ?? this.image);
+  }
+
+  BodyCreateGroupLogoGroupsGroupIdLogoPost copyWithWrapped({
+    Wrapped<String>? image,
+  }) {
+    return BodyCreateGroupLogoGroupsGroupIdLogoPost(
       image: (image != null ? image.value : this.image),
     );
   }
@@ -2607,69 +2527,6 @@ extension $BodyUploadDocumentRaidDocumentDocumentTypePostExtension
   }) {
     return BodyUploadDocumentRaidDocumentDocumentTypePost(
       file: (file != null ? file.value : this.file),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost {
-  const BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost({
-    required this.certificate,
-  });
-
-  factory BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost.fromJson(
-    Map<String, dynamic> json,
-  ) =>
-      _$BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePostFromJson(
-        json,
-      );
-
-  static const toJsonFactory =
-      _$BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePostToJson;
-  Map<String, dynamic> toJson() =>
-      _$BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePostToJson(
-        this,
-      );
-
-  @JsonKey(name: 'certificate', defaultValue: '')
-  final String certificate;
-  static const fromJsonFactory =
-      _$BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePostFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other
-                is BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost &&
-            (identical(other.certificate, certificate) ||
-                const DeepCollectionEquality().equals(
-                  other.certificate,
-                  certificate,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(certificate) ^ runtimeType.hashCode;
-}
-
-extension $BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePostExtension
-    on
-        BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost {
-  BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost
-  copyWith({String? certificate}) {
-    return BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost(
-      certificate: certificate ?? this.certificate,
-    );
-  }
-
-  BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost
-  copyWithWrapped({Wrapped<String>? certificate}) {
-    return BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost(
-      certificate: (certificate != null ? certificate.value : this.certificate),
     );
   }
 }
@@ -3684,12 +3541,8 @@ class CdrUser {
   final DateTime? birthday;
   @JsonKey(name: 'phone')
   final String? phone;
-  @JsonKey(
-    name: 'floor',
-    toJson: floorsTypeNullableToJson,
-    fromJson: floorsTypeNullableFromJson,
-  )
-  final enums.FloorsType? floor;
+  @JsonKey(name: 'floor')
+  final String? floor;
   static const fromJsonFactory = _$CdrUserFromJson;
 
   @override
@@ -3773,7 +3626,7 @@ extension $CdrUserExtension on CdrUser {
     String? email,
     DateTime? birthday,
     String? phone,
-    enums.FloorsType? floor,
+    String? floor,
   }) {
     return CdrUser(
       name: name ?? this.name,
@@ -3803,7 +3656,7 @@ extension $CdrUserExtension on CdrUser {
     Wrapped<String>? email,
     Wrapped<DateTime?>? birthday,
     Wrapped<String?>? phone,
-    Wrapped<enums.FloorsType?>? floor,
+    Wrapped<String?>? floor,
   }) {
     return CdrUser(
       name: (name != null ? name.value : this.name),
@@ -3832,7 +3685,6 @@ class CdrUserPreview {
     required this.accountType,
     required this.schoolId,
     this.curriculum,
-    this.promo,
   });
 
   factory CdrUserPreview.fromJson(Map<String, dynamic> json) =>
@@ -3859,8 +3711,6 @@ class CdrUserPreview {
   final String schoolId;
   @JsonKey(name: 'curriculum')
   final CurriculumComplete? curriculum;
-  @JsonKey(name: 'promo')
-  final int? promo;
   static const fromJsonFactory = _$CdrUserPreviewFromJson;
 
   @override
@@ -3895,9 +3745,7 @@ class CdrUserPreview {
                 const DeepCollectionEquality().equals(
                   other.curriculum,
                   curriculum,
-                )) &&
-            (identical(other.promo, promo) ||
-                const DeepCollectionEquality().equals(other.promo, promo)));
+                )));
   }
 
   @override
@@ -3912,7 +3760,6 @@ class CdrUserPreview {
       const DeepCollectionEquality().hash(accountType) ^
       const DeepCollectionEquality().hash(schoolId) ^
       const DeepCollectionEquality().hash(curriculum) ^
-      const DeepCollectionEquality().hash(promo) ^
       runtimeType.hashCode;
 }
 
@@ -3925,7 +3772,6 @@ extension $CdrUserPreviewExtension on CdrUserPreview {
     enums.AccountType? accountType,
     String? schoolId,
     CurriculumComplete? curriculum,
-    int? promo,
   }) {
     return CdrUserPreview(
       name: name ?? this.name,
@@ -3935,7 +3781,6 @@ extension $CdrUserPreviewExtension on CdrUserPreview {
       accountType: accountType ?? this.accountType,
       schoolId: schoolId ?? this.schoolId,
       curriculum: curriculum ?? this.curriculum,
-      promo: promo ?? this.promo,
     );
   }
 
@@ -3947,7 +3792,6 @@ extension $CdrUserPreviewExtension on CdrUserPreview {
     Wrapped<enums.AccountType>? accountType,
     Wrapped<String>? schoolId,
     Wrapped<CurriculumComplete?>? curriculum,
-    Wrapped<int?>? promo,
   }) {
     return CdrUserPreview(
       name: (name != null ? name.value : this.name),
@@ -3957,7 +3801,6 @@ extension $CdrUserPreviewExtension on CdrUserPreview {
       accountType: (accountType != null ? accountType.value : this.accountType),
       schoolId: (schoolId != null ? schoolId.value : this.schoolId),
       curriculum: (curriculum != null ? curriculum.value : this.curriculum),
-      promo: (promo != null ? promo.value : this.promo),
     );
   }
 }
@@ -3989,12 +3832,8 @@ class CdrUserUpdate {
   final DateTime? birthday;
   @JsonKey(name: 'phone')
   final String? phone;
-  @JsonKey(
-    name: 'floor',
-    toJson: floorsTypeNullableToJson,
-    fromJson: floorsTypeNullableFromJson,
-  )
-  final enums.FloorsType? floor;
+  @JsonKey(name: 'floor')
+  final String? floor;
   static const fromJsonFactory = _$CdrUserUpdateFromJson;
 
   @override
@@ -4042,7 +3881,7 @@ extension $CdrUserUpdateExtension on CdrUserUpdate {
     String? email,
     DateTime? birthday,
     String? phone,
-    enums.FloorsType? floor,
+    String? floor,
   }) {
     return CdrUserUpdate(
       promo: promo ?? this.promo,
@@ -4060,7 +3899,7 @@ extension $CdrUserUpdateExtension on CdrUserUpdate {
     Wrapped<String?>? email,
     Wrapped<DateTime?>? birthday,
     Wrapped<String?>? phone,
-    Wrapped<enums.FloorsType?>? floor,
+    Wrapped<String?>? floor,
   }) {
     return CdrUserUpdate(
       promo: (promo != null ? promo.value : this.promo),
@@ -4070,46 +3909,6 @@ extension $CdrUserUpdateExtension on CdrUserUpdate {
       phone: (phone != null ? phone.value : this.phone),
       floor: (floor != null ? floor.value : this.floor),
     );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class CdrYear {
-  const CdrYear({this.year});
-
-  factory CdrYear.fromJson(Map<String, dynamic> json) =>
-      _$CdrYearFromJson(json);
-
-  static const toJsonFactory = _$CdrYearToJson;
-  Map<String, dynamic> toJson() => _$CdrYearToJson(this);
-
-  @JsonKey(name: 'year', defaultValue: 0)
-  final int? year;
-  static const fromJsonFactory = _$CdrYearFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is CdrYear &&
-            (identical(other.year, year) ||
-                const DeepCollectionEquality().equals(other.year, year)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(year) ^ runtimeType.hashCode;
-}
-
-extension $CdrYearExtension on CdrYear {
-  CdrYear copyWith({int? year}) {
-    return CdrYear(year: year ?? this.year);
-  }
-
-  CdrYear copyWithWrapped({Wrapped<int?>? year}) {
-    return CdrYear(year: (year != null ? year.value : this.year));
   }
 }
 
@@ -4525,945 +4324,6 @@ extension $CineSessionUpdateExtension on CineSessionUpdate {
 }
 
 @JsonSerializable(explicitToJson: true)
-class CompetitionEdition {
-  const CompetitionEdition({
-    required this.name,
-    required this.year,
-    required this.startDate,
-    required this.endDate,
-    this.active,
-    this.inscriptionEnabled,
-    required this.id,
-  });
-
-  factory CompetitionEdition.fromJson(Map<String, dynamic> json) =>
-      _$CompetitionEditionFromJson(json);
-
-  static const toJsonFactory = _$CompetitionEditionToJson;
-  Map<String, dynamic> toJson() => _$CompetitionEditionToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'year', defaultValue: 0)
-  final int year;
-  @JsonKey(name: 'start_date')
-  final DateTime startDate;
-  @JsonKey(name: 'end_date')
-  final DateTime endDate;
-  @JsonKey(name: 'active', defaultValue: true)
-  final bool? active;
-  @JsonKey(name: 'inscription_enabled', defaultValue: false)
-  final bool? inscriptionEnabled;
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  static const fromJsonFactory = _$CompetitionEditionFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is CompetitionEdition &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.year, year) ||
-                const DeepCollectionEquality().equals(other.year, year)) &&
-            (identical(other.startDate, startDate) ||
-                const DeepCollectionEquality().equals(
-                  other.startDate,
-                  startDate,
-                )) &&
-            (identical(other.endDate, endDate) ||
-                const DeepCollectionEquality().equals(
-                  other.endDate,
-                  endDate,
-                )) &&
-            (identical(other.active, active) ||
-                const DeepCollectionEquality().equals(other.active, active)) &&
-            (identical(other.inscriptionEnabled, inscriptionEnabled) ||
-                const DeepCollectionEquality().equals(
-                  other.inscriptionEnabled,
-                  inscriptionEnabled,
-                )) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(year) ^
-      const DeepCollectionEquality().hash(startDate) ^
-      const DeepCollectionEquality().hash(endDate) ^
-      const DeepCollectionEquality().hash(active) ^
-      const DeepCollectionEquality().hash(inscriptionEnabled) ^
-      const DeepCollectionEquality().hash(id) ^
-      runtimeType.hashCode;
-}
-
-extension $CompetitionEditionExtension on CompetitionEdition {
-  CompetitionEdition copyWith({
-    String? name,
-    int? year,
-    DateTime? startDate,
-    DateTime? endDate,
-    bool? active,
-    bool? inscriptionEnabled,
-    String? id,
-  }) {
-    return CompetitionEdition(
-      name: name ?? this.name,
-      year: year ?? this.year,
-      startDate: startDate ?? this.startDate,
-      endDate: endDate ?? this.endDate,
-      active: active ?? this.active,
-      inscriptionEnabled: inscriptionEnabled ?? this.inscriptionEnabled,
-      id: id ?? this.id,
-    );
-  }
-
-  CompetitionEdition copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<int>? year,
-    Wrapped<DateTime>? startDate,
-    Wrapped<DateTime>? endDate,
-    Wrapped<bool?>? active,
-    Wrapped<bool?>? inscriptionEnabled,
-    Wrapped<String>? id,
-  }) {
-    return CompetitionEdition(
-      name: (name != null ? name.value : this.name),
-      year: (year != null ? year.value : this.year),
-      startDate: (startDate != null ? startDate.value : this.startDate),
-      endDate: (endDate != null ? endDate.value : this.endDate),
-      active: (active != null ? active.value : this.active),
-      inscriptionEnabled: (inscriptionEnabled != null
-          ? inscriptionEnabled.value
-          : this.inscriptionEnabled),
-      id: (id != null ? id.value : this.id),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class CompetitionEditionBase {
-  const CompetitionEditionBase({
-    required this.name,
-    required this.year,
-    required this.startDate,
-    required this.endDate,
-    this.active,
-    this.inscriptionEnabled,
-  });
-
-  factory CompetitionEditionBase.fromJson(Map<String, dynamic> json) =>
-      _$CompetitionEditionBaseFromJson(json);
-
-  static const toJsonFactory = _$CompetitionEditionBaseToJson;
-  Map<String, dynamic> toJson() => _$CompetitionEditionBaseToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'year', defaultValue: 0)
-  final int year;
-  @JsonKey(name: 'start_date')
-  final DateTime startDate;
-  @JsonKey(name: 'end_date')
-  final DateTime endDate;
-  @JsonKey(name: 'active', defaultValue: true)
-  final bool? active;
-  @JsonKey(name: 'inscription_enabled', defaultValue: false)
-  final bool? inscriptionEnabled;
-  static const fromJsonFactory = _$CompetitionEditionBaseFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is CompetitionEditionBase &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.year, year) ||
-                const DeepCollectionEquality().equals(other.year, year)) &&
-            (identical(other.startDate, startDate) ||
-                const DeepCollectionEquality().equals(
-                  other.startDate,
-                  startDate,
-                )) &&
-            (identical(other.endDate, endDate) ||
-                const DeepCollectionEquality().equals(
-                  other.endDate,
-                  endDate,
-                )) &&
-            (identical(other.active, active) ||
-                const DeepCollectionEquality().equals(other.active, active)) &&
-            (identical(other.inscriptionEnabled, inscriptionEnabled) ||
-                const DeepCollectionEquality().equals(
-                  other.inscriptionEnabled,
-                  inscriptionEnabled,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(year) ^
-      const DeepCollectionEquality().hash(startDate) ^
-      const DeepCollectionEquality().hash(endDate) ^
-      const DeepCollectionEquality().hash(active) ^
-      const DeepCollectionEquality().hash(inscriptionEnabled) ^
-      runtimeType.hashCode;
-}
-
-extension $CompetitionEditionBaseExtension on CompetitionEditionBase {
-  CompetitionEditionBase copyWith({
-    String? name,
-    int? year,
-    DateTime? startDate,
-    DateTime? endDate,
-    bool? active,
-    bool? inscriptionEnabled,
-  }) {
-    return CompetitionEditionBase(
-      name: name ?? this.name,
-      year: year ?? this.year,
-      startDate: startDate ?? this.startDate,
-      endDate: endDate ?? this.endDate,
-      active: active ?? this.active,
-      inscriptionEnabled: inscriptionEnabled ?? this.inscriptionEnabled,
-    );
-  }
-
-  CompetitionEditionBase copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<int>? year,
-    Wrapped<DateTime>? startDate,
-    Wrapped<DateTime>? endDate,
-    Wrapped<bool?>? active,
-    Wrapped<bool?>? inscriptionEnabled,
-  }) {
-    return CompetitionEditionBase(
-      name: (name != null ? name.value : this.name),
-      year: (year != null ? year.value : this.year),
-      startDate: (startDate != null ? startDate.value : this.startDate),
-      endDate: (endDate != null ? endDate.value : this.endDate),
-      active: (active != null ? active.value : this.active),
-      inscriptionEnabled: (inscriptionEnabled != null
-          ? inscriptionEnabled.value
-          : this.inscriptionEnabled),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class CompetitionEditionEdit {
-  const CompetitionEditionEdit({
-    this.name,
-    this.year,
-    this.startDate,
-    this.endDate,
-  });
-
-  factory CompetitionEditionEdit.fromJson(Map<String, dynamic> json) =>
-      _$CompetitionEditionEditFromJson(json);
-
-  static const toJsonFactory = _$CompetitionEditionEditToJson;
-  Map<String, dynamic> toJson() => _$CompetitionEditionEditToJson(this);
-
-  @JsonKey(name: 'name')
-  final String? name;
-  @JsonKey(name: 'year')
-  final int? year;
-  @JsonKey(name: 'start_date')
-  final DateTime? startDate;
-  @JsonKey(name: 'end_date')
-  final DateTime? endDate;
-  static const fromJsonFactory = _$CompetitionEditionEditFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is CompetitionEditionEdit &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.year, year) ||
-                const DeepCollectionEquality().equals(other.year, year)) &&
-            (identical(other.startDate, startDate) ||
-                const DeepCollectionEquality().equals(
-                  other.startDate,
-                  startDate,
-                )) &&
-            (identical(other.endDate, endDate) ||
-                const DeepCollectionEquality().equals(other.endDate, endDate)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(year) ^
-      const DeepCollectionEquality().hash(startDate) ^
-      const DeepCollectionEquality().hash(endDate) ^
-      runtimeType.hashCode;
-}
-
-extension $CompetitionEditionEditExtension on CompetitionEditionEdit {
-  CompetitionEditionEdit copyWith({
-    String? name,
-    int? year,
-    DateTime? startDate,
-    DateTime? endDate,
-  }) {
-    return CompetitionEditionEdit(
-      name: name ?? this.name,
-      year: year ?? this.year,
-      startDate: startDate ?? this.startDate,
-      endDate: endDate ?? this.endDate,
-    );
-  }
-
-  CompetitionEditionEdit copyWithWrapped({
-    Wrapped<String?>? name,
-    Wrapped<int?>? year,
-    Wrapped<DateTime?>? startDate,
-    Wrapped<DateTime?>? endDate,
-  }) {
-    return CompetitionEditionEdit(
-      name: (name != null ? name.value : this.name),
-      year: (year != null ? year.value : this.year),
-      startDate: (startDate != null ? startDate.value : this.startDate),
-      endDate: (endDate != null ? endDate.value : this.endDate),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class CompetitionUser {
-  const CompetitionUser({
-    required this.sportCategory,
-    this.isPompom,
-    this.isFanfare,
-    this.isCameraman,
-    this.isAthlete,
-    this.isVolunteer,
-    required this.userId,
-    required this.editionId,
-    required this.createdAt,
-    this.validated,
-    required this.user,
-  });
-
-  factory CompetitionUser.fromJson(Map<String, dynamic> json) =>
-      _$CompetitionUserFromJson(json);
-
-  static const toJsonFactory = _$CompetitionUserToJson;
-  Map<String, dynamic> toJson() => _$CompetitionUserToJson(this);
-
-  @JsonKey(
-    name: 'sport_category',
-    toJson: sportCategoryToJson,
-    fromJson: sportCategoryFromJson,
-  )
-  final enums.SportCategory sportCategory;
-  @JsonKey(name: 'is_pompom', defaultValue: false)
-  final bool? isPompom;
-  @JsonKey(name: 'is_fanfare', defaultValue: false)
-  final bool? isFanfare;
-  @JsonKey(name: 'is_cameraman', defaultValue: false)
-  final bool? isCameraman;
-  @JsonKey(name: 'is_athlete', defaultValue: false)
-  final bool? isAthlete;
-  @JsonKey(name: 'is_volunteer', defaultValue: false)
-  final bool? isVolunteer;
-  @JsonKey(name: 'user_id', defaultValue: '')
-  final String userId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  @JsonKey(name: 'created_at')
-  final DateTime createdAt;
-  @JsonKey(name: 'validated', defaultValue: false)
-  final bool? validated;
-  @JsonKey(name: 'user')
-  final CoreUser user;
-  static const fromJsonFactory = _$CompetitionUserFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is CompetitionUser &&
-            (identical(other.sportCategory, sportCategory) ||
-                const DeepCollectionEquality().equals(
-                  other.sportCategory,
-                  sportCategory,
-                )) &&
-            (identical(other.isPompom, isPompom) ||
-                const DeepCollectionEquality().equals(
-                  other.isPompom,
-                  isPompom,
-                )) &&
-            (identical(other.isFanfare, isFanfare) ||
-                const DeepCollectionEquality().equals(
-                  other.isFanfare,
-                  isFanfare,
-                )) &&
-            (identical(other.isCameraman, isCameraman) ||
-                const DeepCollectionEquality().equals(
-                  other.isCameraman,
-                  isCameraman,
-                )) &&
-            (identical(other.isAthlete, isAthlete) ||
-                const DeepCollectionEquality().equals(
-                  other.isAthlete,
-                  isAthlete,
-                )) &&
-            (identical(other.isVolunteer, isVolunteer) ||
-                const DeepCollectionEquality().equals(
-                  other.isVolunteer,
-                  isVolunteer,
-                )) &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )) &&
-            (identical(other.createdAt, createdAt) ||
-                const DeepCollectionEquality().equals(
-                  other.createdAt,
-                  createdAt,
-                )) &&
-            (identical(other.validated, validated) ||
-                const DeepCollectionEquality().equals(
-                  other.validated,
-                  validated,
-                )) &&
-            (identical(other.user, user) ||
-                const DeepCollectionEquality().equals(other.user, user)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(sportCategory) ^
-      const DeepCollectionEquality().hash(isPompom) ^
-      const DeepCollectionEquality().hash(isFanfare) ^
-      const DeepCollectionEquality().hash(isCameraman) ^
-      const DeepCollectionEquality().hash(isAthlete) ^
-      const DeepCollectionEquality().hash(isVolunteer) ^
-      const DeepCollectionEquality().hash(userId) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      const DeepCollectionEquality().hash(createdAt) ^
-      const DeepCollectionEquality().hash(validated) ^
-      const DeepCollectionEquality().hash(user) ^
-      runtimeType.hashCode;
-}
-
-extension $CompetitionUserExtension on CompetitionUser {
-  CompetitionUser copyWith({
-    enums.SportCategory? sportCategory,
-    bool? isPompom,
-    bool? isFanfare,
-    bool? isCameraman,
-    bool? isAthlete,
-    bool? isVolunteer,
-    String? userId,
-    String? editionId,
-    DateTime? createdAt,
-    bool? validated,
-    CoreUser? user,
-  }) {
-    return CompetitionUser(
-      sportCategory: sportCategory ?? this.sportCategory,
-      isPompom: isPompom ?? this.isPompom,
-      isFanfare: isFanfare ?? this.isFanfare,
-      isCameraman: isCameraman ?? this.isCameraman,
-      isAthlete: isAthlete ?? this.isAthlete,
-      isVolunteer: isVolunteer ?? this.isVolunteer,
-      userId: userId ?? this.userId,
-      editionId: editionId ?? this.editionId,
-      createdAt: createdAt ?? this.createdAt,
-      validated: validated ?? this.validated,
-      user: user ?? this.user,
-    );
-  }
-
-  CompetitionUser copyWithWrapped({
-    Wrapped<enums.SportCategory>? sportCategory,
-    Wrapped<bool?>? isPompom,
-    Wrapped<bool?>? isFanfare,
-    Wrapped<bool?>? isCameraman,
-    Wrapped<bool?>? isAthlete,
-    Wrapped<bool?>? isVolunteer,
-    Wrapped<String>? userId,
-    Wrapped<String>? editionId,
-    Wrapped<DateTime>? createdAt,
-    Wrapped<bool?>? validated,
-    Wrapped<CoreUser>? user,
-  }) {
-    return CompetitionUser(
-      sportCategory: (sportCategory != null
-          ? sportCategory.value
-          : this.sportCategory),
-      isPompom: (isPompom != null ? isPompom.value : this.isPompom),
-      isFanfare: (isFanfare != null ? isFanfare.value : this.isFanfare),
-      isCameraman: (isCameraman != null ? isCameraman.value : this.isCameraman),
-      isAthlete: (isAthlete != null ? isAthlete.value : this.isAthlete),
-      isVolunteer: (isVolunteer != null ? isVolunteer.value : this.isVolunteer),
-      userId: (userId != null ? userId.value : this.userId),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-      createdAt: (createdAt != null ? createdAt.value : this.createdAt),
-      validated: (validated != null ? validated.value : this.validated),
-      user: (user != null ? user.value : this.user),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class CompetitionUserBase {
-  const CompetitionUserBase({
-    required this.sportCategory,
-    this.isPompom,
-    this.isFanfare,
-    this.isCameraman,
-    this.isAthlete,
-    this.isVolunteer,
-  });
-
-  factory CompetitionUserBase.fromJson(Map<String, dynamic> json) =>
-      _$CompetitionUserBaseFromJson(json);
-
-  static const toJsonFactory = _$CompetitionUserBaseToJson;
-  Map<String, dynamic> toJson() => _$CompetitionUserBaseToJson(this);
-
-  @JsonKey(
-    name: 'sport_category',
-    toJson: sportCategoryToJson,
-    fromJson: sportCategoryFromJson,
-  )
-  final enums.SportCategory sportCategory;
-  @JsonKey(name: 'is_pompom', defaultValue: false)
-  final bool? isPompom;
-  @JsonKey(name: 'is_fanfare', defaultValue: false)
-  final bool? isFanfare;
-  @JsonKey(name: 'is_cameraman', defaultValue: false)
-  final bool? isCameraman;
-  @JsonKey(name: 'is_athlete', defaultValue: false)
-  final bool? isAthlete;
-  @JsonKey(name: 'is_volunteer', defaultValue: false)
-  final bool? isVolunteer;
-  static const fromJsonFactory = _$CompetitionUserBaseFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is CompetitionUserBase &&
-            (identical(other.sportCategory, sportCategory) ||
-                const DeepCollectionEquality().equals(
-                  other.sportCategory,
-                  sportCategory,
-                )) &&
-            (identical(other.isPompom, isPompom) ||
-                const DeepCollectionEquality().equals(
-                  other.isPompom,
-                  isPompom,
-                )) &&
-            (identical(other.isFanfare, isFanfare) ||
-                const DeepCollectionEquality().equals(
-                  other.isFanfare,
-                  isFanfare,
-                )) &&
-            (identical(other.isCameraman, isCameraman) ||
-                const DeepCollectionEquality().equals(
-                  other.isCameraman,
-                  isCameraman,
-                )) &&
-            (identical(other.isAthlete, isAthlete) ||
-                const DeepCollectionEquality().equals(
-                  other.isAthlete,
-                  isAthlete,
-                )) &&
-            (identical(other.isVolunteer, isVolunteer) ||
-                const DeepCollectionEquality().equals(
-                  other.isVolunteer,
-                  isVolunteer,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(sportCategory) ^
-      const DeepCollectionEquality().hash(isPompom) ^
-      const DeepCollectionEquality().hash(isFanfare) ^
-      const DeepCollectionEquality().hash(isCameraman) ^
-      const DeepCollectionEquality().hash(isAthlete) ^
-      const DeepCollectionEquality().hash(isVolunteer) ^
-      runtimeType.hashCode;
-}
-
-extension $CompetitionUserBaseExtension on CompetitionUserBase {
-  CompetitionUserBase copyWith({
-    enums.SportCategory? sportCategory,
-    bool? isPompom,
-    bool? isFanfare,
-    bool? isCameraman,
-    bool? isAthlete,
-    bool? isVolunteer,
-  }) {
-    return CompetitionUserBase(
-      sportCategory: sportCategory ?? this.sportCategory,
-      isPompom: isPompom ?? this.isPompom,
-      isFanfare: isFanfare ?? this.isFanfare,
-      isCameraman: isCameraman ?? this.isCameraman,
-      isAthlete: isAthlete ?? this.isAthlete,
-      isVolunteer: isVolunteer ?? this.isVolunteer,
-    );
-  }
-
-  CompetitionUserBase copyWithWrapped({
-    Wrapped<enums.SportCategory>? sportCategory,
-    Wrapped<bool?>? isPompom,
-    Wrapped<bool?>? isFanfare,
-    Wrapped<bool?>? isCameraman,
-    Wrapped<bool?>? isAthlete,
-    Wrapped<bool?>? isVolunteer,
-  }) {
-    return CompetitionUserBase(
-      sportCategory: (sportCategory != null
-          ? sportCategory.value
-          : this.sportCategory),
-      isPompom: (isPompom != null ? isPompom.value : this.isPompom),
-      isFanfare: (isFanfare != null ? isFanfare.value : this.isFanfare),
-      isCameraman: (isCameraman != null ? isCameraman.value : this.isCameraman),
-      isAthlete: (isAthlete != null ? isAthlete.value : this.isAthlete),
-      isVolunteer: (isVolunteer != null ? isVolunteer.value : this.isVolunteer),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class CompetitionUserEdit {
-  const CompetitionUserEdit({
-    this.sportCategory,
-    this.validated,
-    this.isPompom,
-    this.isFanfare,
-    this.isCameraman,
-    this.isAthlete,
-    this.isVolunteer,
-  });
-
-  factory CompetitionUserEdit.fromJson(Map<String, dynamic> json) =>
-      _$CompetitionUserEditFromJson(json);
-
-  static const toJsonFactory = _$CompetitionUserEditToJson;
-  Map<String, dynamic> toJson() => _$CompetitionUserEditToJson(this);
-
-  @JsonKey(
-    name: 'sport_category',
-    toJson: sportCategoryNullableToJson,
-    fromJson: sportCategoryNullableFromJson,
-  )
-  final enums.SportCategory? sportCategory;
-  @JsonKey(name: 'validated')
-  final bool? validated;
-  @JsonKey(name: 'is_pompom')
-  final bool? isPompom;
-  @JsonKey(name: 'is_fanfare')
-  final bool? isFanfare;
-  @JsonKey(name: 'is_cameraman')
-  final bool? isCameraman;
-  @JsonKey(name: 'is_athlete')
-  final bool? isAthlete;
-  @JsonKey(name: 'is_volunteer')
-  final bool? isVolunteer;
-  static const fromJsonFactory = _$CompetitionUserEditFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is CompetitionUserEdit &&
-            (identical(other.sportCategory, sportCategory) ||
-                const DeepCollectionEquality().equals(
-                  other.sportCategory,
-                  sportCategory,
-                )) &&
-            (identical(other.validated, validated) ||
-                const DeepCollectionEquality().equals(
-                  other.validated,
-                  validated,
-                )) &&
-            (identical(other.isPompom, isPompom) ||
-                const DeepCollectionEquality().equals(
-                  other.isPompom,
-                  isPompom,
-                )) &&
-            (identical(other.isFanfare, isFanfare) ||
-                const DeepCollectionEquality().equals(
-                  other.isFanfare,
-                  isFanfare,
-                )) &&
-            (identical(other.isCameraman, isCameraman) ||
-                const DeepCollectionEquality().equals(
-                  other.isCameraman,
-                  isCameraman,
-                )) &&
-            (identical(other.isAthlete, isAthlete) ||
-                const DeepCollectionEquality().equals(
-                  other.isAthlete,
-                  isAthlete,
-                )) &&
-            (identical(other.isVolunteer, isVolunteer) ||
-                const DeepCollectionEquality().equals(
-                  other.isVolunteer,
-                  isVolunteer,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(sportCategory) ^
-      const DeepCollectionEquality().hash(validated) ^
-      const DeepCollectionEquality().hash(isPompom) ^
-      const DeepCollectionEquality().hash(isFanfare) ^
-      const DeepCollectionEquality().hash(isCameraman) ^
-      const DeepCollectionEquality().hash(isAthlete) ^
-      const DeepCollectionEquality().hash(isVolunteer) ^
-      runtimeType.hashCode;
-}
-
-extension $CompetitionUserEditExtension on CompetitionUserEdit {
-  CompetitionUserEdit copyWith({
-    enums.SportCategory? sportCategory,
-    bool? validated,
-    bool? isPompom,
-    bool? isFanfare,
-    bool? isCameraman,
-    bool? isAthlete,
-    bool? isVolunteer,
-  }) {
-    return CompetitionUserEdit(
-      sportCategory: sportCategory ?? this.sportCategory,
-      validated: validated ?? this.validated,
-      isPompom: isPompom ?? this.isPompom,
-      isFanfare: isFanfare ?? this.isFanfare,
-      isCameraman: isCameraman ?? this.isCameraman,
-      isAthlete: isAthlete ?? this.isAthlete,
-      isVolunteer: isVolunteer ?? this.isVolunteer,
-    );
-  }
-
-  CompetitionUserEdit copyWithWrapped({
-    Wrapped<enums.SportCategory?>? sportCategory,
-    Wrapped<bool?>? validated,
-    Wrapped<bool?>? isPompom,
-    Wrapped<bool?>? isFanfare,
-    Wrapped<bool?>? isCameraman,
-    Wrapped<bool?>? isAthlete,
-    Wrapped<bool?>? isVolunteer,
-  }) {
-    return CompetitionUserEdit(
-      sportCategory: (sportCategory != null
-          ? sportCategory.value
-          : this.sportCategory),
-      validated: (validated != null ? validated.value : this.validated),
-      isPompom: (isPompom != null ? isPompom.value : this.isPompom),
-      isFanfare: (isFanfare != null ? isFanfare.value : this.isFanfare),
-      isCameraman: (isCameraman != null ? isCameraman.value : this.isCameraman),
-      isAthlete: (isAthlete != null ? isAthlete.value : this.isAthlete),
-      isVolunteer: (isVolunteer != null ? isVolunteer.value : this.isVolunteer),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class CompetitionUserSimple {
-  const CompetitionUserSimple({
-    required this.sportCategory,
-    this.isPompom,
-    this.isFanfare,
-    this.isCameraman,
-    this.isAthlete,
-    this.isVolunteer,
-    required this.userId,
-    required this.editionId,
-    required this.createdAt,
-    this.validated,
-  });
-
-  factory CompetitionUserSimple.fromJson(Map<String, dynamic> json) =>
-      _$CompetitionUserSimpleFromJson(json);
-
-  static const toJsonFactory = _$CompetitionUserSimpleToJson;
-  Map<String, dynamic> toJson() => _$CompetitionUserSimpleToJson(this);
-
-  @JsonKey(
-    name: 'sport_category',
-    toJson: sportCategoryToJson,
-    fromJson: sportCategoryFromJson,
-  )
-  final enums.SportCategory sportCategory;
-  @JsonKey(name: 'is_pompom', defaultValue: false)
-  final bool? isPompom;
-  @JsonKey(name: 'is_fanfare', defaultValue: false)
-  final bool? isFanfare;
-  @JsonKey(name: 'is_cameraman', defaultValue: false)
-  final bool? isCameraman;
-  @JsonKey(name: 'is_athlete', defaultValue: false)
-  final bool? isAthlete;
-  @JsonKey(name: 'is_volunteer', defaultValue: false)
-  final bool? isVolunteer;
-  @JsonKey(name: 'user_id', defaultValue: '')
-  final String userId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  @JsonKey(name: 'created_at')
-  final DateTime createdAt;
-  @JsonKey(name: 'validated', defaultValue: false)
-  final bool? validated;
-  static const fromJsonFactory = _$CompetitionUserSimpleFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is CompetitionUserSimple &&
-            (identical(other.sportCategory, sportCategory) ||
-                const DeepCollectionEquality().equals(
-                  other.sportCategory,
-                  sportCategory,
-                )) &&
-            (identical(other.isPompom, isPompom) ||
-                const DeepCollectionEquality().equals(
-                  other.isPompom,
-                  isPompom,
-                )) &&
-            (identical(other.isFanfare, isFanfare) ||
-                const DeepCollectionEquality().equals(
-                  other.isFanfare,
-                  isFanfare,
-                )) &&
-            (identical(other.isCameraman, isCameraman) ||
-                const DeepCollectionEquality().equals(
-                  other.isCameraman,
-                  isCameraman,
-                )) &&
-            (identical(other.isAthlete, isAthlete) ||
-                const DeepCollectionEquality().equals(
-                  other.isAthlete,
-                  isAthlete,
-                )) &&
-            (identical(other.isVolunteer, isVolunteer) ||
-                const DeepCollectionEquality().equals(
-                  other.isVolunteer,
-                  isVolunteer,
-                )) &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )) &&
-            (identical(other.createdAt, createdAt) ||
-                const DeepCollectionEquality().equals(
-                  other.createdAt,
-                  createdAt,
-                )) &&
-            (identical(other.validated, validated) ||
-                const DeepCollectionEquality().equals(
-                  other.validated,
-                  validated,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(sportCategory) ^
-      const DeepCollectionEquality().hash(isPompom) ^
-      const DeepCollectionEquality().hash(isFanfare) ^
-      const DeepCollectionEquality().hash(isCameraman) ^
-      const DeepCollectionEquality().hash(isAthlete) ^
-      const DeepCollectionEquality().hash(isVolunteer) ^
-      const DeepCollectionEquality().hash(userId) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      const DeepCollectionEquality().hash(createdAt) ^
-      const DeepCollectionEquality().hash(validated) ^
-      runtimeType.hashCode;
-}
-
-extension $CompetitionUserSimpleExtension on CompetitionUserSimple {
-  CompetitionUserSimple copyWith({
-    enums.SportCategory? sportCategory,
-    bool? isPompom,
-    bool? isFanfare,
-    bool? isCameraman,
-    bool? isAthlete,
-    bool? isVolunteer,
-    String? userId,
-    String? editionId,
-    DateTime? createdAt,
-    bool? validated,
-  }) {
-    return CompetitionUserSimple(
-      sportCategory: sportCategory ?? this.sportCategory,
-      isPompom: isPompom ?? this.isPompom,
-      isFanfare: isFanfare ?? this.isFanfare,
-      isCameraman: isCameraman ?? this.isCameraman,
-      isAthlete: isAthlete ?? this.isAthlete,
-      isVolunteer: isVolunteer ?? this.isVolunteer,
-      userId: userId ?? this.userId,
-      editionId: editionId ?? this.editionId,
-      createdAt: createdAt ?? this.createdAt,
-      validated: validated ?? this.validated,
-    );
-  }
-
-  CompetitionUserSimple copyWithWrapped({
-    Wrapped<enums.SportCategory>? sportCategory,
-    Wrapped<bool?>? isPompom,
-    Wrapped<bool?>? isFanfare,
-    Wrapped<bool?>? isCameraman,
-    Wrapped<bool?>? isAthlete,
-    Wrapped<bool?>? isVolunteer,
-    Wrapped<String>? userId,
-    Wrapped<String>? editionId,
-    Wrapped<DateTime>? createdAt,
-    Wrapped<bool?>? validated,
-  }) {
-    return CompetitionUserSimple(
-      sportCategory: (sportCategory != null
-          ? sportCategory.value
-          : this.sportCategory),
-      isPompom: (isPompom != null ? isPompom.value : this.isPompom),
-      isFanfare: (isFanfare != null ? isFanfare.value : this.isFanfare),
-      isCameraman: (isCameraman != null ? isCameraman.value : this.isCameraman),
-      isAthlete: (isAthlete != null ? isAthlete.value : this.isAthlete),
-      isVolunteer: (isVolunteer != null ? isVolunteer.value : this.isVolunteer),
-      userId: (userId != null ? userId.value : this.userId),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-      createdAt: (createdAt != null ? createdAt.value : this.createdAt),
-      validated: (validated != null ? validated.value : this.validated),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
 class CoreBatchDeleteMembership {
   const CoreBatchDeleteMembership({required this.groupId});
 
@@ -5587,7 +4447,7 @@ extension $CoreBatchMembershipExtension on CoreBatchMembership {
 
 @JsonSerializable(explicitToJson: true)
 class CoreBatchUserCreateRequest {
-  const CoreBatchUserCreateRequest({required this.email});
+  const CoreBatchUserCreateRequest({required this.email, this.defaultGroupId});
 
   factory CoreBatchUserCreateRequest.fromJson(Map<String, dynamic> json) =>
       _$CoreBatchUserCreateRequestFromJson(json);
@@ -5597,6 +4457,8 @@ class CoreBatchUserCreateRequest {
 
   @JsonKey(name: 'email', defaultValue: '')
   final String email;
+  @JsonKey(name: 'default_group_id')
+  final String? defaultGroupId;
   static const fromJsonFactory = _$CoreBatchUserCreateRequestFromJson;
 
   @override
@@ -5604,7 +4466,12 @@ class CoreBatchUserCreateRequest {
     return identical(this, other) ||
         (other is CoreBatchUserCreateRequest &&
             (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)));
+                const DeepCollectionEquality().equals(other.email, email)) &&
+            (identical(other.defaultGroupId, defaultGroupId) ||
+                const DeepCollectionEquality().equals(
+                  other.defaultGroupId,
+                  defaultGroupId,
+                )));
   }
 
   @override
@@ -5612,17 +4479,28 @@ class CoreBatchUserCreateRequest {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(email) ^ runtimeType.hashCode;
+      const DeepCollectionEquality().hash(email) ^
+      const DeepCollectionEquality().hash(defaultGroupId) ^
+      runtimeType.hashCode;
 }
 
 extension $CoreBatchUserCreateRequestExtension on CoreBatchUserCreateRequest {
-  CoreBatchUserCreateRequest copyWith({String? email}) {
-    return CoreBatchUserCreateRequest(email: email ?? this.email);
+  CoreBatchUserCreateRequest copyWith({String? email, String? defaultGroupId}) {
+    return CoreBatchUserCreateRequest(
+      email: email ?? this.email,
+      defaultGroupId: defaultGroupId ?? this.defaultGroupId,
+    );
   }
 
-  CoreBatchUserCreateRequest copyWithWrapped({Wrapped<String>? email}) {
+  CoreBatchUserCreateRequest copyWithWrapped({
+    Wrapped<String>? email,
+    Wrapped<String?>? defaultGroupId,
+  }) {
     return CoreBatchUserCreateRequest(
       email: (email != null ? email.value : this.email),
+      defaultGroupId: (defaultGroupId != null
+          ? defaultGroupId.value
+          : this.defaultGroupId),
     );
   }
 }
@@ -6315,6 +5193,7 @@ class CoreUser {
     this.createdOn,
     this.groups,
     this.school,
+    this.isSuperAdmin,
   });
 
   factory CoreUser.fromJson(Map<String, dynamic> json) =>
@@ -6345,12 +5224,8 @@ class CoreUser {
   final DateTime? birthday;
   @JsonKey(name: 'promo')
   final int? promo;
-  @JsonKey(
-    name: 'floor',
-    toJson: floorsTypeNullableToJson,
-    fromJson: floorsTypeNullableFromJson,
-  )
-  final enums.FloorsType? floor;
+  @JsonKey(name: 'floor')
+  final String? floor;
   @JsonKey(name: 'phone')
   final String? phone;
   @JsonKey(name: 'created_on')
@@ -6359,6 +5234,8 @@ class CoreUser {
   final List<CoreGroupSimple>? groups;
   @JsonKey(name: 'school')
   final CoreSchool? school;
+  @JsonKey(name: 'is_super_admin', defaultValue: false)
+  final bool? isSuperAdmin;
   static const fromJsonFactory = _$CoreUserFromJson;
 
   @override
@@ -6410,7 +5287,12 @@ class CoreUser {
             (identical(other.groups, groups) ||
                 const DeepCollectionEquality().equals(other.groups, groups)) &&
             (identical(other.school, school) ||
-                const DeepCollectionEquality().equals(other.school, school)));
+                const DeepCollectionEquality().equals(other.school, school)) &&
+            (identical(other.isSuperAdmin, isSuperAdmin) ||
+                const DeepCollectionEquality().equals(
+                  other.isSuperAdmin,
+                  isSuperAdmin,
+                )));
   }
 
   @override
@@ -6432,6 +5314,7 @@ class CoreUser {
       const DeepCollectionEquality().hash(createdOn) ^
       const DeepCollectionEquality().hash(groups) ^
       const DeepCollectionEquality().hash(school) ^
+      const DeepCollectionEquality().hash(isSuperAdmin) ^
       runtimeType.hashCode;
 }
 
@@ -6446,11 +5329,12 @@ extension $CoreUserExtension on CoreUser {
     String? email,
     DateTime? birthday,
     int? promo,
-    enums.FloorsType? floor,
+    String? floor,
     String? phone,
     DateTime? createdOn,
     List<CoreGroupSimple>? groups,
     CoreSchool? school,
+    bool? isSuperAdmin,
   }) {
     return CoreUser(
       name: name ?? this.name,
@@ -6467,6 +5351,7 @@ extension $CoreUserExtension on CoreUser {
       createdOn: createdOn ?? this.createdOn,
       groups: groups ?? this.groups,
       school: school ?? this.school,
+      isSuperAdmin: isSuperAdmin ?? this.isSuperAdmin,
     );
   }
 
@@ -6480,11 +5365,12 @@ extension $CoreUserExtension on CoreUser {
     Wrapped<String>? email,
     Wrapped<DateTime?>? birthday,
     Wrapped<int?>? promo,
-    Wrapped<enums.FloorsType?>? floor,
+    Wrapped<String?>? floor,
     Wrapped<String?>? phone,
     Wrapped<DateTime?>? createdOn,
     Wrapped<List<CoreGroupSimple>?>? groups,
     Wrapped<CoreSchool?>? school,
+    Wrapped<bool?>? isSuperAdmin,
   }) {
     return CoreUser(
       name: (name != null ? name.value : this.name),
@@ -6501,6 +5387,9 @@ extension $CoreUserExtension on CoreUser {
       createdOn: (createdOn != null ? createdOn.value : this.createdOn),
       groups: (groups != null ? groups.value : this.groups),
       school: (school != null ? school.value : this.school),
+      isSuperAdmin: (isSuperAdmin != null
+          ? isSuperAdmin.value
+          : this.isSuperAdmin),
     );
   }
 }
@@ -6539,12 +5428,8 @@ class CoreUserActivateRequest {
   final DateTime? birthday;
   @JsonKey(name: 'phone')
   final String? phone;
-  @JsonKey(
-    name: 'floor',
-    toJson: floorsTypeNullableToJson,
-    fromJson: floorsTypeNullableFromJson,
-  )
-  final enums.FloorsType? floor;
+  @JsonKey(name: 'floor')
+  final String? floor;
   @JsonKey(name: 'promo')
   final int? promo;
   static const fromJsonFactory = _$CoreUserActivateRequestFromJson;
@@ -6614,7 +5499,7 @@ extension $CoreUserActivateRequestExtension on CoreUserActivateRequest {
     String? password,
     DateTime? birthday,
     String? phone,
-    enums.FloorsType? floor,
+    String? floor,
     int? promo,
   }) {
     return CoreUserActivateRequest(
@@ -6638,7 +5523,7 @@ extension $CoreUserActivateRequestExtension on CoreUserActivateRequest {
     Wrapped<String>? password,
     Wrapped<DateTime?>? birthday,
     Wrapped<String?>? phone,
-    Wrapped<enums.FloorsType?>? floor,
+    Wrapped<String?>? floor,
     Wrapped<int?>? promo,
   }) {
     return CoreUserActivateRequest(
@@ -6922,12 +5807,8 @@ class CoreUserUpdate {
   final DateTime? birthday;
   @JsonKey(name: 'phone')
   final String? phone;
-  @JsonKey(
-    name: 'floor',
-    toJson: floorsTypeNullableToJson,
-    fromJson: floorsTypeNullableFromJson,
-  )
-  final enums.FloorsType? floor;
+  @JsonKey(name: 'floor')
+  final String? floor;
   static const fromJsonFactory = _$CoreUserUpdateFromJson;
 
   @override
@@ -6967,7 +5848,7 @@ extension $CoreUserUpdateExtension on CoreUserUpdate {
     String? nickname,
     DateTime? birthday,
     String? phone,
-    enums.FloorsType? floor,
+    String? floor,
   }) {
     return CoreUserUpdate(
       nickname: nickname ?? this.nickname,
@@ -6981,7 +5862,7 @@ extension $CoreUserUpdateExtension on CoreUserUpdate {
     Wrapped<String?>? nickname,
     Wrapped<DateTime?>? birthday,
     Wrapped<String?>? phone,
-    Wrapped<enums.FloorsType?>? floor,
+    Wrapped<String?>? floor,
   }) {
     return CoreUserUpdate(
       nickname: (nickname != null ? nickname.value : this.nickname),
@@ -7035,12 +5916,8 @@ class CoreUserUpdateAdmin {
   final DateTime? birthday;
   @JsonKey(name: 'phone')
   final String? phone;
-  @JsonKey(
-    name: 'floor',
-    toJson: floorsTypeNullableToJson,
-    fromJson: floorsTypeNullableFromJson,
-  )
-  final enums.FloorsType? floor;
+  @JsonKey(name: 'floor')
+  final String? floor;
   static const fromJsonFactory = _$CoreUserUpdateAdminFromJson;
 
   @override
@@ -7113,7 +5990,7 @@ extension $CoreUserUpdateAdminExtension on CoreUserUpdateAdmin {
     String? nickname,
     DateTime? birthday,
     String? phone,
-    enums.FloorsType? floor,
+    String? floor,
   }) {
     return CoreUserUpdateAdmin(
       email: email ?? this.email,
@@ -7139,7 +6016,7 @@ extension $CoreUserUpdateAdminExtension on CoreUserUpdateAdmin {
     Wrapped<String?>? nickname,
     Wrapped<DateTime?>? birthday,
     Wrapped<String?>? phone,
-    Wrapped<enums.FloorsType?>? floor,
+    Wrapped<String?>? floor,
   }) {
     return CoreUserUpdateAdmin(
       email: (email != null ? email.value : this.email),
@@ -7152,6 +6029,192 @@ extension $CoreUserUpdateAdminExtension on CoreUserUpdateAdmin {
       birthday: (birthday != null ? birthday.value : this.birthday),
       phone: (phone != null ? phone.value : this.phone),
       floor: (floor != null ? floor.value : this.floor),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CoreVariables {
+  const CoreVariables({
+    required this.name,
+    required this.entityName,
+    required this.emailPlaceholder,
+    required this.mainActivationForm,
+    required this.studentEmailRegex,
+    this.staffEmailRegex,
+    this.formerStudentEmailRegex,
+    required this.primaryColor,
+    this.playStoreUrl,
+    this.appStoreUrl,
+  });
+
+  factory CoreVariables.fromJson(Map<String, dynamic> json) =>
+      _$CoreVariablesFromJson(json);
+
+  static const toJsonFactory = _$CoreVariablesToJson;
+  Map<String, dynamic> toJson() => _$CoreVariablesToJson(this);
+
+  @JsonKey(name: 'name', defaultValue: '')
+  final String name;
+  @JsonKey(name: 'entity_name', defaultValue: '')
+  final String entityName;
+  @JsonKey(name: 'email_placeholder', defaultValue: '')
+  final String emailPlaceholder;
+  @JsonKey(name: 'main_activation_form')
+  final MainActivationForm mainActivationForm;
+  @JsonKey(name: 'student_email_regex', defaultValue: '')
+  final String studentEmailRegex;
+  @JsonKey(name: 'staff_email_regex')
+  final String? staffEmailRegex;
+  @JsonKey(name: 'former_student_email_regex')
+  final String? formerStudentEmailRegex;
+  @JsonKey(name: 'primary_color', defaultValue: '')
+  final String primaryColor;
+  @JsonKey(name: 'play_store_url')
+  final String? playStoreUrl;
+  @JsonKey(name: 'app_store_url')
+  final String? appStoreUrl;
+  static const fromJsonFactory = _$CoreVariablesFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is CoreVariables &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.entityName, entityName) ||
+                const DeepCollectionEquality().equals(
+                  other.entityName,
+                  entityName,
+                )) &&
+            (identical(other.emailPlaceholder, emailPlaceholder) ||
+                const DeepCollectionEquality().equals(
+                  other.emailPlaceholder,
+                  emailPlaceholder,
+                )) &&
+            (identical(other.mainActivationForm, mainActivationForm) ||
+                const DeepCollectionEquality().equals(
+                  other.mainActivationForm,
+                  mainActivationForm,
+                )) &&
+            (identical(other.studentEmailRegex, studentEmailRegex) ||
+                const DeepCollectionEquality().equals(
+                  other.studentEmailRegex,
+                  studentEmailRegex,
+                )) &&
+            (identical(other.staffEmailRegex, staffEmailRegex) ||
+                const DeepCollectionEquality().equals(
+                  other.staffEmailRegex,
+                  staffEmailRegex,
+                )) &&
+            (identical(
+                  other.formerStudentEmailRegex,
+                  formerStudentEmailRegex,
+                ) ||
+                const DeepCollectionEquality().equals(
+                  other.formerStudentEmailRegex,
+                  formerStudentEmailRegex,
+                )) &&
+            (identical(other.primaryColor, primaryColor) ||
+                const DeepCollectionEquality().equals(
+                  other.primaryColor,
+                  primaryColor,
+                )) &&
+            (identical(other.playStoreUrl, playStoreUrl) ||
+                const DeepCollectionEquality().equals(
+                  other.playStoreUrl,
+                  playStoreUrl,
+                )) &&
+            (identical(other.appStoreUrl, appStoreUrl) ||
+                const DeepCollectionEquality().equals(
+                  other.appStoreUrl,
+                  appStoreUrl,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(entityName) ^
+      const DeepCollectionEquality().hash(emailPlaceholder) ^
+      const DeepCollectionEquality().hash(mainActivationForm) ^
+      const DeepCollectionEquality().hash(studentEmailRegex) ^
+      const DeepCollectionEquality().hash(staffEmailRegex) ^
+      const DeepCollectionEquality().hash(formerStudentEmailRegex) ^
+      const DeepCollectionEquality().hash(primaryColor) ^
+      const DeepCollectionEquality().hash(playStoreUrl) ^
+      const DeepCollectionEquality().hash(appStoreUrl) ^
+      runtimeType.hashCode;
+}
+
+extension $CoreVariablesExtension on CoreVariables {
+  CoreVariables copyWith({
+    String? name,
+    String? entityName,
+    String? emailPlaceholder,
+    MainActivationForm? mainActivationForm,
+    String? studentEmailRegex,
+    String? staffEmailRegex,
+    String? formerStudentEmailRegex,
+    String? primaryColor,
+    String? playStoreUrl,
+    String? appStoreUrl,
+  }) {
+    return CoreVariables(
+      name: name ?? this.name,
+      entityName: entityName ?? this.entityName,
+      emailPlaceholder: emailPlaceholder ?? this.emailPlaceholder,
+      mainActivationForm: mainActivationForm ?? this.mainActivationForm,
+      studentEmailRegex: studentEmailRegex ?? this.studentEmailRegex,
+      staffEmailRegex: staffEmailRegex ?? this.staffEmailRegex,
+      formerStudentEmailRegex:
+          formerStudentEmailRegex ?? this.formerStudentEmailRegex,
+      primaryColor: primaryColor ?? this.primaryColor,
+      playStoreUrl: playStoreUrl ?? this.playStoreUrl,
+      appStoreUrl: appStoreUrl ?? this.appStoreUrl,
+    );
+  }
+
+  CoreVariables copyWithWrapped({
+    Wrapped<String>? name,
+    Wrapped<String>? entityName,
+    Wrapped<String>? emailPlaceholder,
+    Wrapped<MainActivationForm>? mainActivationForm,
+    Wrapped<String>? studentEmailRegex,
+    Wrapped<String?>? staffEmailRegex,
+    Wrapped<String?>? formerStudentEmailRegex,
+    Wrapped<String>? primaryColor,
+    Wrapped<String?>? playStoreUrl,
+    Wrapped<String?>? appStoreUrl,
+  }) {
+    return CoreVariables(
+      name: (name != null ? name.value : this.name),
+      entityName: (entityName != null ? entityName.value : this.entityName),
+      emailPlaceholder: (emailPlaceholder != null
+          ? emailPlaceholder.value
+          : this.emailPlaceholder),
+      mainActivationForm: (mainActivationForm != null
+          ? mainActivationForm.value
+          : this.mainActivationForm),
+      studentEmailRegex: (studentEmailRegex != null
+          ? studentEmailRegex.value
+          : this.studentEmailRegex),
+      staffEmailRegex: (staffEmailRegex != null
+          ? staffEmailRegex.value
+          : this.staffEmailRegex),
+      formerStudentEmailRegex: (formerStudentEmailRegex != null
+          ? formerStudentEmailRegex.value
+          : this.formerStudentEmailRegex),
+      primaryColor: (primaryColor != null
+          ? primaryColor.value
+          : this.primaryColor),
+      playStoreUrl: (playStoreUrl != null
+          ? playStoreUrl.value
+          : this.playStoreUrl),
+      appStoreUrl: (appStoreUrl != null ? appStoreUrl.value : this.appStoreUrl),
     );
   }
 }
@@ -7376,7 +6439,7 @@ extension $CustomDataCompleteExtension on CustomDataComplete {
 
 @JsonSerializable(explicitToJson: true)
 class CustomDataFieldBase {
-  const CustomDataFieldBase({required this.name, required this.canUserAnswer});
+  const CustomDataFieldBase({required this.name});
 
   factory CustomDataFieldBase.fromJson(Map<String, dynamic> json) =>
       _$CustomDataFieldBaseFromJson(json);
@@ -7386,8 +6449,6 @@ class CustomDataFieldBase {
 
   @JsonKey(name: 'name', defaultValue: '')
   final String name;
-  @JsonKey(name: 'can_user_answer', defaultValue: false)
-  final bool canUserAnswer;
   static const fromJsonFactory = _$CustomDataFieldBaseFromJson;
 
   @override
@@ -7395,12 +6456,7 @@ class CustomDataFieldBase {
     return identical(this, other) ||
         (other is CustomDataFieldBase &&
             (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.canUserAnswer, canUserAnswer) ||
-                const DeepCollectionEquality().equals(
-                  other.canUserAnswer,
-                  canUserAnswer,
-                )));
+                const DeepCollectionEquality().equals(other.name, name)));
   }
 
   @override
@@ -7408,29 +6464,16 @@ class CustomDataFieldBase {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(canUserAnswer) ^
-      runtimeType.hashCode;
+      const DeepCollectionEquality().hash(name) ^ runtimeType.hashCode;
 }
 
 extension $CustomDataFieldBaseExtension on CustomDataFieldBase {
-  CustomDataFieldBase copyWith({String? name, bool? canUserAnswer}) {
-    return CustomDataFieldBase(
-      name: name ?? this.name,
-      canUserAnswer: canUserAnswer ?? this.canUserAnswer,
-    );
+  CustomDataFieldBase copyWith({String? name}) {
+    return CustomDataFieldBase(name: name ?? this.name);
   }
 
-  CustomDataFieldBase copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<bool>? canUserAnswer,
-  }) {
-    return CustomDataFieldBase(
-      name: (name != null ? name.value : this.name),
-      canUserAnswer: (canUserAnswer != null
-          ? canUserAnswer.value
-          : this.canUserAnswer),
-    );
+  CustomDataFieldBase copyWithWrapped({Wrapped<String>? name}) {
+    return CustomDataFieldBase(name: (name != null ? name.value : this.name));
   }
 }
 
@@ -7438,7 +6481,6 @@ extension $CustomDataFieldBaseExtension on CustomDataFieldBase {
 class CustomDataFieldComplete {
   const CustomDataFieldComplete({
     required this.name,
-    required this.canUserAnswer,
     required this.id,
     required this.productId,
   });
@@ -7451,8 +6493,6 @@ class CustomDataFieldComplete {
 
   @JsonKey(name: 'name', defaultValue: '')
   final String name;
-  @JsonKey(name: 'can_user_answer', defaultValue: false)
-  final bool canUserAnswer;
   @JsonKey(name: 'id', defaultValue: '')
   final String id;
   @JsonKey(name: 'product_id', defaultValue: '')
@@ -7465,11 +6505,6 @@ class CustomDataFieldComplete {
         (other is CustomDataFieldComplete &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.canUserAnswer, canUserAnswer) ||
-                const DeepCollectionEquality().equals(
-                  other.canUserAnswer,
-                  canUserAnswer,
-                )) &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.productId, productId) ||
@@ -7485,7 +6520,6 @@ class CustomDataFieldComplete {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(canUserAnswer) ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(productId) ^
       runtimeType.hashCode;
@@ -7494,13 +6528,11 @@ class CustomDataFieldComplete {
 extension $CustomDataFieldCompleteExtension on CustomDataFieldComplete {
   CustomDataFieldComplete copyWith({
     String? name,
-    bool? canUserAnswer,
     String? id,
     String? productId,
   }) {
     return CustomDataFieldComplete(
       name: name ?? this.name,
-      canUserAnswer: canUserAnswer ?? this.canUserAnswer,
       id: id ?? this.id,
       productId: productId ?? this.productId,
     );
@@ -7508,15 +6540,11 @@ extension $CustomDataFieldCompleteExtension on CustomDataFieldComplete {
 
   CustomDataFieldComplete copyWithWrapped({
     Wrapped<String>? name,
-    Wrapped<bool>? canUserAnswer,
     Wrapped<String>? id,
     Wrapped<String>? productId,
   }) {
     return CustomDataFieldComplete(
       name: (name != null ? name.value : this.name),
-      canUserAnswer: (canUserAnswer != null
-          ? canUserAnswer.value
-          : this.canUserAnswer),
       id: (id != null ? id.value : this.id),
       productId: (productId != null ? productId.value : this.productId),
     );
@@ -8096,176 +7124,29 @@ extension $EmergencyContactExtension on EmergencyContact {
 }
 
 @JsonSerializable(explicitToJson: true)
-class EventApplicant {
-  const EventApplicant({
+class EventBaseCreation {
+  const EventBaseCreation({
     required this.name,
-    required this.firstname,
-    this.nickname,
-    required this.id,
-    required this.accountType,
-    required this.schoolId,
-    required this.email,
-    this.promo,
-    this.phone,
-  });
-
-  factory EventApplicant.fromJson(Map<String, dynamic> json) =>
-      _$EventApplicantFromJson(json);
-
-  static const toJsonFactory = _$EventApplicantToJson;
-  Map<String, dynamic> toJson() => _$EventApplicantToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'firstname', defaultValue: '')
-  final String firstname;
-  @JsonKey(name: 'nickname')
-  final String? nickname;
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  @JsonKey(
-    name: 'account_type',
-    toJson: accountTypeToJson,
-    fromJson: accountTypeFromJson,
-  )
-  final enums.AccountType accountType;
-  @JsonKey(name: 'school_id', defaultValue: '')
-  final String schoolId;
-  @JsonKey(name: 'email', defaultValue: '')
-  final String email;
-  @JsonKey(name: 'promo')
-  final int? promo;
-  @JsonKey(name: 'phone')
-  final String? phone;
-  static const fromJsonFactory = _$EventApplicantFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is EventApplicant &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality().equals(
-                  other.firstname,
-                  firstname,
-                )) &&
-            (identical(other.nickname, nickname) ||
-                const DeepCollectionEquality().equals(
-                  other.nickname,
-                  nickname,
-                )) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.accountType, accountType) ||
-                const DeepCollectionEquality().equals(
-                  other.accountType,
-                  accountType,
-                )) &&
-            (identical(other.schoolId, schoolId) ||
-                const DeepCollectionEquality().equals(
-                  other.schoolId,
-                  schoolId,
-                )) &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)) &&
-            (identical(other.promo, promo) ||
-                const DeepCollectionEquality().equals(other.promo, promo)) &&
-            (identical(other.phone, phone) ||
-                const DeepCollectionEquality().equals(other.phone, phone)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(firstname) ^
-      const DeepCollectionEquality().hash(nickname) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(accountType) ^
-      const DeepCollectionEquality().hash(schoolId) ^
-      const DeepCollectionEquality().hash(email) ^
-      const DeepCollectionEquality().hash(promo) ^
-      const DeepCollectionEquality().hash(phone) ^
-      runtimeType.hashCode;
-}
-
-extension $EventApplicantExtension on EventApplicant {
-  EventApplicant copyWith({
-    String? name,
-    String? firstname,
-    String? nickname,
-    String? id,
-    enums.AccountType? accountType,
-    String? schoolId,
-    String? email,
-    int? promo,
-    String? phone,
-  }) {
-    return EventApplicant(
-      name: name ?? this.name,
-      firstname: firstname ?? this.firstname,
-      nickname: nickname ?? this.nickname,
-      id: id ?? this.id,
-      accountType: accountType ?? this.accountType,
-      schoolId: schoolId ?? this.schoolId,
-      email: email ?? this.email,
-      promo: promo ?? this.promo,
-      phone: phone ?? this.phone,
-    );
-  }
-
-  EventApplicant copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<String>? firstname,
-    Wrapped<String?>? nickname,
-    Wrapped<String>? id,
-    Wrapped<enums.AccountType>? accountType,
-    Wrapped<String>? schoolId,
-    Wrapped<String>? email,
-    Wrapped<int?>? promo,
-    Wrapped<String?>? phone,
-  }) {
-    return EventApplicant(
-      name: (name != null ? name.value : this.name),
-      firstname: (firstname != null ? firstname.value : this.firstname),
-      nickname: (nickname != null ? nickname.value : this.nickname),
-      id: (id != null ? id.value : this.id),
-      accountType: (accountType != null ? accountType.value : this.accountType),
-      schoolId: (schoolId != null ? schoolId.value : this.schoolId),
-      email: (email != null ? email.value : this.email),
-      promo: (promo != null ? promo.value : this.promo),
-      phone: (phone != null ? phone.value : this.phone),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class EventBase {
-  const EventBase({
-    required this.name,
-    required this.organizer,
     required this.start,
     required this.end,
     required this.allDay,
     required this.location,
-    required this.type,
-    required this.description,
+    this.description,
     this.recurrenceRule,
+    this.ticketUrlOpening,
+    required this.notification,
+    required this.associationId,
+    this.ticketUrl,
   });
 
-  factory EventBase.fromJson(Map<String, dynamic> json) =>
-      _$EventBaseFromJson(json);
+  factory EventBaseCreation.fromJson(Map<String, dynamic> json) =>
+      _$EventBaseCreationFromJson(json);
 
-  static const toJsonFactory = _$EventBaseToJson;
-  Map<String, dynamic> toJson() => _$EventBaseToJson(this);
+  static const toJsonFactory = _$EventBaseCreationToJson;
+  Map<String, dynamic> toJson() => _$EventBaseCreationToJson(this);
 
   @JsonKey(name: 'name', defaultValue: '')
   final String name;
-  @JsonKey(name: 'organizer', defaultValue: '')
-  final String organizer;
   @JsonKey(name: 'start')
   final DateTime start;
   @JsonKey(name: 'end')
@@ -8274,29 +7155,26 @@ class EventBase {
   final bool allDay;
   @JsonKey(name: 'location', defaultValue: '')
   final String location;
-  @JsonKey(
-    name: 'type',
-    toJson: calendarEventTypeToJson,
-    fromJson: calendarEventTypeFromJson,
-  )
-  final enums.CalendarEventType type;
-  @JsonKey(name: 'description', defaultValue: '')
-  final String description;
+  @JsonKey(name: 'description')
+  final String? description;
   @JsonKey(name: 'recurrence_rule')
   final String? recurrenceRule;
-  static const fromJsonFactory = _$EventBaseFromJson;
+  @JsonKey(name: 'ticket_url_opening')
+  final DateTime? ticketUrlOpening;
+  @JsonKey(name: 'notification', defaultValue: false)
+  final bool notification;
+  @JsonKey(name: 'association_id', defaultValue: '')
+  final String associationId;
+  @JsonKey(name: 'ticket_url')
+  final String? ticketUrl;
+  static const fromJsonFactory = _$EventBaseCreationFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is EventBase &&
+        (other is EventBaseCreation &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.organizer, organizer) ||
-                const DeepCollectionEquality().equals(
-                  other.organizer,
-                  organizer,
-                )) &&
             (identical(other.start, start) ||
                 const DeepCollectionEquality().equals(other.start, start)) &&
             (identical(other.end, end) ||
@@ -8308,8 +7186,6 @@ class EventBase {
                   other.location,
                   location,
                 )) &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)) &&
             (identical(other.description, description) ||
                 const DeepCollectionEquality().equals(
                   other.description,
@@ -8319,6 +7195,26 @@ class EventBase {
                 const DeepCollectionEquality().equals(
                   other.recurrenceRule,
                   recurrenceRule,
+                )) &&
+            (identical(other.ticketUrlOpening, ticketUrlOpening) ||
+                const DeepCollectionEquality().equals(
+                  other.ticketUrlOpening,
+                  ticketUrlOpening,
+                )) &&
+            (identical(other.notification, notification) ||
+                const DeepCollectionEquality().equals(
+                  other.notification,
+                  notification,
+                )) &&
+            (identical(other.associationId, associationId) ||
+                const DeepCollectionEquality().equals(
+                  other.associationId,
+                  associationId,
+                )) &&
+            (identical(other.ticketUrl, ticketUrl) ||
+                const DeepCollectionEquality().equals(
+                  other.ticketUrl,
+                  ticketUrl,
                 )));
   }
 
@@ -8328,65 +7224,81 @@ class EventBase {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(organizer) ^
       const DeepCollectionEquality().hash(start) ^
       const DeepCollectionEquality().hash(end) ^
       const DeepCollectionEquality().hash(allDay) ^
       const DeepCollectionEquality().hash(location) ^
-      const DeepCollectionEquality().hash(type) ^
       const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(recurrenceRule) ^
+      const DeepCollectionEquality().hash(ticketUrlOpening) ^
+      const DeepCollectionEquality().hash(notification) ^
+      const DeepCollectionEquality().hash(associationId) ^
+      const DeepCollectionEquality().hash(ticketUrl) ^
       runtimeType.hashCode;
 }
 
-extension $EventBaseExtension on EventBase {
-  EventBase copyWith({
+extension $EventBaseCreationExtension on EventBaseCreation {
+  EventBaseCreation copyWith({
     String? name,
-    String? organizer,
     DateTime? start,
     DateTime? end,
     bool? allDay,
     String? location,
-    enums.CalendarEventType? type,
     String? description,
     String? recurrenceRule,
+    DateTime? ticketUrlOpening,
+    bool? notification,
+    String? associationId,
+    String? ticketUrl,
   }) {
-    return EventBase(
+    return EventBaseCreation(
       name: name ?? this.name,
-      organizer: organizer ?? this.organizer,
       start: start ?? this.start,
       end: end ?? this.end,
       allDay: allDay ?? this.allDay,
       location: location ?? this.location,
-      type: type ?? this.type,
       description: description ?? this.description,
       recurrenceRule: recurrenceRule ?? this.recurrenceRule,
+      ticketUrlOpening: ticketUrlOpening ?? this.ticketUrlOpening,
+      notification: notification ?? this.notification,
+      associationId: associationId ?? this.associationId,
+      ticketUrl: ticketUrl ?? this.ticketUrl,
     );
   }
 
-  EventBase copyWithWrapped({
+  EventBaseCreation copyWithWrapped({
     Wrapped<String>? name,
-    Wrapped<String>? organizer,
     Wrapped<DateTime>? start,
     Wrapped<DateTime>? end,
     Wrapped<bool>? allDay,
     Wrapped<String>? location,
-    Wrapped<enums.CalendarEventType>? type,
-    Wrapped<String>? description,
+    Wrapped<String?>? description,
     Wrapped<String?>? recurrenceRule,
+    Wrapped<DateTime?>? ticketUrlOpening,
+    Wrapped<bool>? notification,
+    Wrapped<String>? associationId,
+    Wrapped<String?>? ticketUrl,
   }) {
-    return EventBase(
+    return EventBaseCreation(
       name: (name != null ? name.value : this.name),
-      organizer: (organizer != null ? organizer.value : this.organizer),
       start: (start != null ? start.value : this.start),
       end: (end != null ? end.value : this.end),
       allDay: (allDay != null ? allDay.value : this.allDay),
       location: (location != null ? location.value : this.location),
-      type: (type != null ? type.value : this.type),
       description: (description != null ? description.value : this.description),
       recurrenceRule: (recurrenceRule != null
           ? recurrenceRule.value
           : this.recurrenceRule),
+      ticketUrlOpening: (ticketUrlOpening != null
+          ? ticketUrlOpening.value
+          : this.ticketUrlOpening),
+      notification: (notification != null
+          ? notification.value
+          : this.notification),
+      associationId: (associationId != null
+          ? associationId.value
+          : this.associationId),
+      ticketUrl: (ticketUrl != null ? ticketUrl.value : this.ticketUrl),
     );
   }
 }
@@ -8395,17 +7307,18 @@ extension $EventBaseExtension on EventBase {
 class EventComplete {
   const EventComplete({
     required this.name,
-    required this.organizer,
     required this.start,
     required this.end,
     required this.allDay,
     required this.location,
-    required this.type,
-    required this.description,
+    this.description,
     this.recurrenceRule,
+    this.ticketUrlOpening,
+    required this.notification,
+    required this.associationId,
     required this.id,
+    required this.association,
     required this.decision,
-    required this.applicantId,
   });
 
   factory EventComplete.fromJson(Map<String, dynamic> json) =>
@@ -8416,8 +7329,6 @@ class EventComplete {
 
   @JsonKey(name: 'name', defaultValue: '')
   final String name;
-  @JsonKey(name: 'organizer', defaultValue: '')
-  final String organizer;
   @JsonKey(name: 'start')
   final DateTime start;
   @JsonKey(name: 'end')
@@ -8426,22 +7337,22 @@ class EventComplete {
   final bool allDay;
   @JsonKey(name: 'location', defaultValue: '')
   final String location;
-  @JsonKey(
-    name: 'type',
-    toJson: calendarEventTypeToJson,
-    fromJson: calendarEventTypeFromJson,
-  )
-  final enums.CalendarEventType type;
-  @JsonKey(name: 'description', defaultValue: '')
-  final String description;
+  @JsonKey(name: 'description')
+  final String? description;
   @JsonKey(name: 'recurrence_rule')
   final String? recurrenceRule;
+  @JsonKey(name: 'ticket_url_opening')
+  final DateTime? ticketUrlOpening;
+  @JsonKey(name: 'notification', defaultValue: false)
+  final bool notification;
+  @JsonKey(name: 'association_id', defaultValue: '')
+  final String associationId;
   @JsonKey(name: 'id', defaultValue: '')
   final String id;
+  @JsonKey(name: 'association')
+  final Association association;
   @JsonKey(name: 'decision', toJson: decisionToJson, fromJson: decisionFromJson)
   final enums.Decision decision;
-  @JsonKey(name: 'applicant_id', defaultValue: '')
-  final String applicantId;
   static const fromJsonFactory = _$EventCompleteFromJson;
 
   @override
@@ -8450,11 +7361,6 @@ class EventComplete {
         (other is EventComplete &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.organizer, organizer) ||
-                const DeepCollectionEquality().equals(
-                  other.organizer,
-                  organizer,
-                )) &&
             (identical(other.start, start) ||
                 const DeepCollectionEquality().equals(other.start, start)) &&
             (identical(other.end, end) ||
@@ -8466,8 +7372,6 @@ class EventComplete {
                   other.location,
                   location,
                 )) &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)) &&
             (identical(other.description, description) ||
                 const DeepCollectionEquality().equals(
                   other.description,
@@ -8478,17 +7382,32 @@ class EventComplete {
                   other.recurrenceRule,
                   recurrenceRule,
                 )) &&
+            (identical(other.ticketUrlOpening, ticketUrlOpening) ||
+                const DeepCollectionEquality().equals(
+                  other.ticketUrlOpening,
+                  ticketUrlOpening,
+                )) &&
+            (identical(other.notification, notification) ||
+                const DeepCollectionEquality().equals(
+                  other.notification,
+                  notification,
+                )) &&
+            (identical(other.associationId, associationId) ||
+                const DeepCollectionEquality().equals(
+                  other.associationId,
+                  associationId,
+                )) &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.association, association) ||
+                const DeepCollectionEquality().equals(
+                  other.association,
+                  association,
+                )) &&
             (identical(other.decision, decision) ||
                 const DeepCollectionEquality().equals(
                   other.decision,
                   decision,
-                )) &&
-            (identical(other.applicantId, applicantId) ||
-                const DeepCollectionEquality().equals(
-                  other.applicantId,
-                  applicantId,
                 )));
   }
 
@@ -8498,80 +7417,307 @@ class EventComplete {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(organizer) ^
       const DeepCollectionEquality().hash(start) ^
       const DeepCollectionEquality().hash(end) ^
       const DeepCollectionEquality().hash(allDay) ^
       const DeepCollectionEquality().hash(location) ^
-      const DeepCollectionEquality().hash(type) ^
       const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(recurrenceRule) ^
+      const DeepCollectionEquality().hash(ticketUrlOpening) ^
+      const DeepCollectionEquality().hash(notification) ^
+      const DeepCollectionEquality().hash(associationId) ^
       const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(association) ^
       const DeepCollectionEquality().hash(decision) ^
-      const DeepCollectionEquality().hash(applicantId) ^
       runtimeType.hashCode;
 }
 
 extension $EventCompleteExtension on EventComplete {
   EventComplete copyWith({
     String? name,
-    String? organizer,
     DateTime? start,
     DateTime? end,
     bool? allDay,
     String? location,
-    enums.CalendarEventType? type,
     String? description,
     String? recurrenceRule,
+    DateTime? ticketUrlOpening,
+    bool? notification,
+    String? associationId,
     String? id,
+    Association? association,
     enums.Decision? decision,
-    String? applicantId,
   }) {
     return EventComplete(
       name: name ?? this.name,
-      organizer: organizer ?? this.organizer,
       start: start ?? this.start,
       end: end ?? this.end,
       allDay: allDay ?? this.allDay,
       location: location ?? this.location,
-      type: type ?? this.type,
       description: description ?? this.description,
       recurrenceRule: recurrenceRule ?? this.recurrenceRule,
+      ticketUrlOpening: ticketUrlOpening ?? this.ticketUrlOpening,
+      notification: notification ?? this.notification,
+      associationId: associationId ?? this.associationId,
       id: id ?? this.id,
+      association: association ?? this.association,
       decision: decision ?? this.decision,
-      applicantId: applicantId ?? this.applicantId,
     );
   }
 
   EventComplete copyWithWrapped({
     Wrapped<String>? name,
-    Wrapped<String>? organizer,
     Wrapped<DateTime>? start,
     Wrapped<DateTime>? end,
     Wrapped<bool>? allDay,
     Wrapped<String>? location,
-    Wrapped<enums.CalendarEventType>? type,
-    Wrapped<String>? description,
+    Wrapped<String?>? description,
     Wrapped<String?>? recurrenceRule,
+    Wrapped<DateTime?>? ticketUrlOpening,
+    Wrapped<bool>? notification,
+    Wrapped<String>? associationId,
     Wrapped<String>? id,
+    Wrapped<Association>? association,
     Wrapped<enums.Decision>? decision,
-    Wrapped<String>? applicantId,
   }) {
     return EventComplete(
       name: (name != null ? name.value : this.name),
-      organizer: (organizer != null ? organizer.value : this.organizer),
       start: (start != null ? start.value : this.start),
       end: (end != null ? end.value : this.end),
       allDay: (allDay != null ? allDay.value : this.allDay),
       location: (location != null ? location.value : this.location),
-      type: (type != null ? type.value : this.type),
       description: (description != null ? description.value : this.description),
       recurrenceRule: (recurrenceRule != null
           ? recurrenceRule.value
           : this.recurrenceRule),
+      ticketUrlOpening: (ticketUrlOpening != null
+          ? ticketUrlOpening.value
+          : this.ticketUrlOpening),
+      notification: (notification != null
+          ? notification.value
+          : this.notification),
+      associationId: (associationId != null
+          ? associationId.value
+          : this.associationId),
       id: (id != null ? id.value : this.id),
+      association: (association != null ? association.value : this.association),
       decision: (decision != null ? decision.value : this.decision),
-      applicantId: (applicantId != null ? applicantId.value : this.applicantId),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class EventCompleteTicketUrl {
+  const EventCompleteTicketUrl({
+    required this.name,
+    required this.start,
+    required this.end,
+    required this.allDay,
+    required this.location,
+    this.description,
+    this.recurrenceRule,
+    this.ticketUrlOpening,
+    required this.notification,
+    required this.associationId,
+    required this.id,
+    required this.association,
+    required this.decision,
+    this.ticketUrl,
+  });
+
+  factory EventCompleteTicketUrl.fromJson(Map<String, dynamic> json) =>
+      _$EventCompleteTicketUrlFromJson(json);
+
+  static const toJsonFactory = _$EventCompleteTicketUrlToJson;
+  Map<String, dynamic> toJson() => _$EventCompleteTicketUrlToJson(this);
+
+  @JsonKey(name: 'name', defaultValue: '')
+  final String name;
+  @JsonKey(name: 'start')
+  final DateTime start;
+  @JsonKey(name: 'end')
+  final DateTime end;
+  @JsonKey(name: 'all_day', defaultValue: false)
+  final bool allDay;
+  @JsonKey(name: 'location', defaultValue: '')
+  final String location;
+  @JsonKey(name: 'description')
+  final String? description;
+  @JsonKey(name: 'recurrence_rule')
+  final String? recurrenceRule;
+  @JsonKey(name: 'ticket_url_opening')
+  final DateTime? ticketUrlOpening;
+  @JsonKey(name: 'notification', defaultValue: false)
+  final bool notification;
+  @JsonKey(name: 'association_id', defaultValue: '')
+  final String associationId;
+  @JsonKey(name: 'id', defaultValue: '')
+  final String id;
+  @JsonKey(name: 'association')
+  final Association association;
+  @JsonKey(name: 'decision', toJson: decisionToJson, fromJson: decisionFromJson)
+  final enums.Decision decision;
+  @JsonKey(name: 'ticket_url')
+  final String? ticketUrl;
+  static const fromJsonFactory = _$EventCompleteTicketUrlFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is EventCompleteTicketUrl &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.start, start) ||
+                const DeepCollectionEquality().equals(other.start, start)) &&
+            (identical(other.end, end) ||
+                const DeepCollectionEquality().equals(other.end, end)) &&
+            (identical(other.allDay, allDay) ||
+                const DeepCollectionEquality().equals(other.allDay, allDay)) &&
+            (identical(other.location, location) ||
+                const DeepCollectionEquality().equals(
+                  other.location,
+                  location,
+                )) &&
+            (identical(other.description, description) ||
+                const DeepCollectionEquality().equals(
+                  other.description,
+                  description,
+                )) &&
+            (identical(other.recurrenceRule, recurrenceRule) ||
+                const DeepCollectionEquality().equals(
+                  other.recurrenceRule,
+                  recurrenceRule,
+                )) &&
+            (identical(other.ticketUrlOpening, ticketUrlOpening) ||
+                const DeepCollectionEquality().equals(
+                  other.ticketUrlOpening,
+                  ticketUrlOpening,
+                )) &&
+            (identical(other.notification, notification) ||
+                const DeepCollectionEquality().equals(
+                  other.notification,
+                  notification,
+                )) &&
+            (identical(other.associationId, associationId) ||
+                const DeepCollectionEquality().equals(
+                  other.associationId,
+                  associationId,
+                )) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.association, association) ||
+                const DeepCollectionEquality().equals(
+                  other.association,
+                  association,
+                )) &&
+            (identical(other.decision, decision) ||
+                const DeepCollectionEquality().equals(
+                  other.decision,
+                  decision,
+                )) &&
+            (identical(other.ticketUrl, ticketUrl) ||
+                const DeepCollectionEquality().equals(
+                  other.ticketUrl,
+                  ticketUrl,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(start) ^
+      const DeepCollectionEquality().hash(end) ^
+      const DeepCollectionEquality().hash(allDay) ^
+      const DeepCollectionEquality().hash(location) ^
+      const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(recurrenceRule) ^
+      const DeepCollectionEquality().hash(ticketUrlOpening) ^
+      const DeepCollectionEquality().hash(notification) ^
+      const DeepCollectionEquality().hash(associationId) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(association) ^
+      const DeepCollectionEquality().hash(decision) ^
+      const DeepCollectionEquality().hash(ticketUrl) ^
+      runtimeType.hashCode;
+}
+
+extension $EventCompleteTicketUrlExtension on EventCompleteTicketUrl {
+  EventCompleteTicketUrl copyWith({
+    String? name,
+    DateTime? start,
+    DateTime? end,
+    bool? allDay,
+    String? location,
+    String? description,
+    String? recurrenceRule,
+    DateTime? ticketUrlOpening,
+    bool? notification,
+    String? associationId,
+    String? id,
+    Association? association,
+    enums.Decision? decision,
+    String? ticketUrl,
+  }) {
+    return EventCompleteTicketUrl(
+      name: name ?? this.name,
+      start: start ?? this.start,
+      end: end ?? this.end,
+      allDay: allDay ?? this.allDay,
+      location: location ?? this.location,
+      description: description ?? this.description,
+      recurrenceRule: recurrenceRule ?? this.recurrenceRule,
+      ticketUrlOpening: ticketUrlOpening ?? this.ticketUrlOpening,
+      notification: notification ?? this.notification,
+      associationId: associationId ?? this.associationId,
+      id: id ?? this.id,
+      association: association ?? this.association,
+      decision: decision ?? this.decision,
+      ticketUrl: ticketUrl ?? this.ticketUrl,
+    );
+  }
+
+  EventCompleteTicketUrl copyWithWrapped({
+    Wrapped<String>? name,
+    Wrapped<DateTime>? start,
+    Wrapped<DateTime>? end,
+    Wrapped<bool>? allDay,
+    Wrapped<String>? location,
+    Wrapped<String?>? description,
+    Wrapped<String?>? recurrenceRule,
+    Wrapped<DateTime?>? ticketUrlOpening,
+    Wrapped<bool>? notification,
+    Wrapped<String>? associationId,
+    Wrapped<String>? id,
+    Wrapped<Association>? association,
+    Wrapped<enums.Decision>? decision,
+    Wrapped<String?>? ticketUrl,
+  }) {
+    return EventCompleteTicketUrl(
+      name: (name != null ? name.value : this.name),
+      start: (start != null ? start.value : this.start),
+      end: (end != null ? end.value : this.end),
+      allDay: (allDay != null ? allDay.value : this.allDay),
+      location: (location != null ? location.value : this.location),
+      description: (description != null ? description.value : this.description),
+      recurrenceRule: (recurrenceRule != null
+          ? recurrenceRule.value
+          : this.recurrenceRule),
+      ticketUrlOpening: (ticketUrlOpening != null
+          ? ticketUrlOpening.value
+          : this.ticketUrlOpening),
+      notification: (notification != null
+          ? notification.value
+          : this.notification),
+      associationId: (associationId != null
+          ? associationId.value
+          : this.associationId),
+      id: (id != null ? id.value : this.id),
+      association: (association != null ? association.value : this.association),
+      decision: (decision != null ? decision.value : this.decision),
+      ticketUrl: (ticketUrl != null ? ticketUrl.value : this.ticketUrl),
     );
   }
 }
@@ -8580,14 +7726,15 @@ extension $EventCompleteExtension on EventComplete {
 class EventEdit {
   const EventEdit({
     this.name,
-    this.organizer,
     this.start,
     this.end,
     this.allDay,
     this.location,
-    this.type,
     this.description,
     this.recurrenceRule,
+    this.ticketUrlOpening,
+    this.ticketUrl,
+    this.notification,
   });
 
   factory EventEdit.fromJson(Map<String, dynamic> json) =>
@@ -8598,8 +7745,6 @@ class EventEdit {
 
   @JsonKey(name: 'name')
   final String? name;
-  @JsonKey(name: 'organizer')
-  final String? organizer;
   @JsonKey(name: 'start')
   final DateTime? start;
   @JsonKey(name: 'end')
@@ -8608,16 +7753,16 @@ class EventEdit {
   final bool? allDay;
   @JsonKey(name: 'location')
   final String? location;
-  @JsonKey(
-    name: 'type',
-    toJson: calendarEventTypeNullableToJson,
-    fromJson: calendarEventTypeNullableFromJson,
-  )
-  final enums.CalendarEventType? type;
   @JsonKey(name: 'description')
   final String? description;
   @JsonKey(name: 'recurrence_rule')
   final String? recurrenceRule;
+  @JsonKey(name: 'ticket_url_opening')
+  final DateTime? ticketUrlOpening;
+  @JsonKey(name: 'ticket_url')
+  final String? ticketUrl;
+  @JsonKey(name: 'notification')
+  final bool? notification;
   static const fromJsonFactory = _$EventEditFromJson;
 
   @override
@@ -8626,11 +7771,6 @@ class EventEdit {
         (other is EventEdit &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.organizer, organizer) ||
-                const DeepCollectionEquality().equals(
-                  other.organizer,
-                  organizer,
-                )) &&
             (identical(other.start, start) ||
                 const DeepCollectionEquality().equals(other.start, start)) &&
             (identical(other.end, end) ||
@@ -8642,8 +7782,6 @@ class EventEdit {
                   other.location,
                   location,
                 )) &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)) &&
             (identical(other.description, description) ||
                 const DeepCollectionEquality().equals(
                   other.description,
@@ -8653,6 +7791,21 @@ class EventEdit {
                 const DeepCollectionEquality().equals(
                   other.recurrenceRule,
                   recurrenceRule,
+                )) &&
+            (identical(other.ticketUrlOpening, ticketUrlOpening) ||
+                const DeepCollectionEquality().equals(
+                  other.ticketUrlOpening,
+                  ticketUrlOpening,
+                )) &&
+            (identical(other.ticketUrl, ticketUrl) ||
+                const DeepCollectionEquality().equals(
+                  other.ticketUrl,
+                  ticketUrl,
+                )) &&
+            (identical(other.notification, notification) ||
+                const DeepCollectionEquality().equals(
+                  other.notification,
+                  notification,
                 )));
   }
 
@@ -8662,175 +7815,100 @@ class EventEdit {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(organizer) ^
       const DeepCollectionEquality().hash(start) ^
       const DeepCollectionEquality().hash(end) ^
       const DeepCollectionEquality().hash(allDay) ^
       const DeepCollectionEquality().hash(location) ^
-      const DeepCollectionEquality().hash(type) ^
       const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(recurrenceRule) ^
+      const DeepCollectionEquality().hash(ticketUrlOpening) ^
+      const DeepCollectionEquality().hash(ticketUrl) ^
+      const DeepCollectionEquality().hash(notification) ^
       runtimeType.hashCode;
 }
 
 extension $EventEditExtension on EventEdit {
   EventEdit copyWith({
     String? name,
-    String? organizer,
     DateTime? start,
     DateTime? end,
     bool? allDay,
     String? location,
-    enums.CalendarEventType? type,
     String? description,
     String? recurrenceRule,
+    DateTime? ticketUrlOpening,
+    String? ticketUrl,
+    bool? notification,
   }) {
     return EventEdit(
       name: name ?? this.name,
-      organizer: organizer ?? this.organizer,
       start: start ?? this.start,
       end: end ?? this.end,
       allDay: allDay ?? this.allDay,
       location: location ?? this.location,
-      type: type ?? this.type,
       description: description ?? this.description,
       recurrenceRule: recurrenceRule ?? this.recurrenceRule,
+      ticketUrlOpening: ticketUrlOpening ?? this.ticketUrlOpening,
+      ticketUrl: ticketUrl ?? this.ticketUrl,
+      notification: notification ?? this.notification,
     );
   }
 
   EventEdit copyWithWrapped({
     Wrapped<String?>? name,
-    Wrapped<String?>? organizer,
     Wrapped<DateTime?>? start,
     Wrapped<DateTime?>? end,
     Wrapped<bool?>? allDay,
     Wrapped<String?>? location,
-    Wrapped<enums.CalendarEventType?>? type,
     Wrapped<String?>? description,
     Wrapped<String?>? recurrenceRule,
+    Wrapped<DateTime?>? ticketUrlOpening,
+    Wrapped<String?>? ticketUrl,
+    Wrapped<bool?>? notification,
   }) {
     return EventEdit(
       name: (name != null ? name.value : this.name),
-      organizer: (organizer != null ? organizer.value : this.organizer),
       start: (start != null ? start.value : this.start),
       end: (end != null ? end.value : this.end),
       allDay: (allDay != null ? allDay.value : this.allDay),
       location: (location != null ? location.value : this.location),
-      type: (type != null ? type.value : this.type),
       description: (description != null ? description.value : this.description),
       recurrenceRule: (recurrenceRule != null
           ? recurrenceRule.value
           : this.recurrenceRule),
+      ticketUrlOpening: (ticketUrlOpening != null
+          ? ticketUrlOpening.value
+          : this.ticketUrlOpening),
+      ticketUrl: (ticketUrl != null ? ticketUrl.value : this.ticketUrl),
+      notification: (notification != null
+          ? notification.value
+          : this.notification),
     );
   }
 }
 
 @JsonSerializable(explicitToJson: true)
-class EventReturn {
-  const EventReturn({
-    required this.name,
-    required this.organizer,
-    required this.start,
-    required this.end,
-    required this.allDay,
-    required this.location,
-    required this.type,
-    required this.description,
-    this.recurrenceRule,
-    required this.id,
-    required this.decision,
-    required this.applicantId,
-    required this.applicant,
-  });
+class EventTicketUrl {
+  const EventTicketUrl({required this.ticketUrl});
 
-  factory EventReturn.fromJson(Map<String, dynamic> json) =>
-      _$EventReturnFromJson(json);
+  factory EventTicketUrl.fromJson(Map<String, dynamic> json) =>
+      _$EventTicketUrlFromJson(json);
 
-  static const toJsonFactory = _$EventReturnToJson;
-  Map<String, dynamic> toJson() => _$EventReturnToJson(this);
+  static const toJsonFactory = _$EventTicketUrlToJson;
+  Map<String, dynamic> toJson() => _$EventTicketUrlToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'organizer', defaultValue: '')
-  final String organizer;
-  @JsonKey(name: 'start')
-  final DateTime start;
-  @JsonKey(name: 'end')
-  final DateTime end;
-  @JsonKey(name: 'all_day', defaultValue: false)
-  final bool allDay;
-  @JsonKey(name: 'location', defaultValue: '')
-  final String location;
-  @JsonKey(
-    name: 'type',
-    toJson: calendarEventTypeToJson,
-    fromJson: calendarEventTypeFromJson,
-  )
-  final enums.CalendarEventType type;
-  @JsonKey(name: 'description', defaultValue: '')
-  final String description;
-  @JsonKey(name: 'recurrence_rule')
-  final String? recurrenceRule;
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  @JsonKey(name: 'decision', toJson: decisionToJson, fromJson: decisionFromJson)
-  final enums.Decision decision;
-  @JsonKey(name: 'applicant_id', defaultValue: '')
-  final String applicantId;
-  @JsonKey(name: 'applicant')
-  final EventApplicant applicant;
-  static const fromJsonFactory = _$EventReturnFromJson;
+  @JsonKey(name: 'ticket_url', defaultValue: '')
+  final String ticketUrl;
+  static const fromJsonFactory = _$EventTicketUrlFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is EventReturn &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.organizer, organizer) ||
+        (other is EventTicketUrl &&
+            (identical(other.ticketUrl, ticketUrl) ||
                 const DeepCollectionEquality().equals(
-                  other.organizer,
-                  organizer,
-                )) &&
-            (identical(other.start, start) ||
-                const DeepCollectionEquality().equals(other.start, start)) &&
-            (identical(other.end, end) ||
-                const DeepCollectionEquality().equals(other.end, end)) &&
-            (identical(other.allDay, allDay) ||
-                const DeepCollectionEquality().equals(other.allDay, allDay)) &&
-            (identical(other.location, location) ||
-                const DeepCollectionEquality().equals(
-                  other.location,
-                  location,
-                )) &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)) &&
-            (identical(other.description, description) ||
-                const DeepCollectionEquality().equals(
-                  other.description,
-                  description,
-                )) &&
-            (identical(other.recurrenceRule, recurrenceRule) ||
-                const DeepCollectionEquality().equals(
-                  other.recurrenceRule,
-                  recurrenceRule,
-                )) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.decision, decision) ||
-                const DeepCollectionEquality().equals(
-                  other.decision,
-                  decision,
-                )) &&
-            (identical(other.applicantId, applicantId) ||
-                const DeepCollectionEquality().equals(
-                  other.applicantId,
-                  applicantId,
-                )) &&
-            (identical(other.applicant, applicant) ||
-                const DeepCollectionEquality().equals(
-                  other.applicant,
-                  applicant,
+                  other.ticketUrl,
+                  ticketUrl,
                 )));
   }
 
@@ -8839,86 +7917,17 @@ class EventReturn {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(organizer) ^
-      const DeepCollectionEquality().hash(start) ^
-      const DeepCollectionEquality().hash(end) ^
-      const DeepCollectionEquality().hash(allDay) ^
-      const DeepCollectionEquality().hash(location) ^
-      const DeepCollectionEquality().hash(type) ^
-      const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash(recurrenceRule) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(decision) ^
-      const DeepCollectionEquality().hash(applicantId) ^
-      const DeepCollectionEquality().hash(applicant) ^
-      runtimeType.hashCode;
+      const DeepCollectionEquality().hash(ticketUrl) ^ runtimeType.hashCode;
 }
 
-extension $EventReturnExtension on EventReturn {
-  EventReturn copyWith({
-    String? name,
-    String? organizer,
-    DateTime? start,
-    DateTime? end,
-    bool? allDay,
-    String? location,
-    enums.CalendarEventType? type,
-    String? description,
-    String? recurrenceRule,
-    String? id,
-    enums.Decision? decision,
-    String? applicantId,
-    EventApplicant? applicant,
-  }) {
-    return EventReturn(
-      name: name ?? this.name,
-      organizer: organizer ?? this.organizer,
-      start: start ?? this.start,
-      end: end ?? this.end,
-      allDay: allDay ?? this.allDay,
-      location: location ?? this.location,
-      type: type ?? this.type,
-      description: description ?? this.description,
-      recurrenceRule: recurrenceRule ?? this.recurrenceRule,
-      id: id ?? this.id,
-      decision: decision ?? this.decision,
-      applicantId: applicantId ?? this.applicantId,
-      applicant: applicant ?? this.applicant,
-    );
+extension $EventTicketUrlExtension on EventTicketUrl {
+  EventTicketUrl copyWith({String? ticketUrl}) {
+    return EventTicketUrl(ticketUrl: ticketUrl ?? this.ticketUrl);
   }
 
-  EventReturn copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<String>? organizer,
-    Wrapped<DateTime>? start,
-    Wrapped<DateTime>? end,
-    Wrapped<bool>? allDay,
-    Wrapped<String>? location,
-    Wrapped<enums.CalendarEventType>? type,
-    Wrapped<String>? description,
-    Wrapped<String?>? recurrenceRule,
-    Wrapped<String>? id,
-    Wrapped<enums.Decision>? decision,
-    Wrapped<String>? applicantId,
-    Wrapped<EventApplicant>? applicant,
-  }) {
-    return EventReturn(
-      name: (name != null ? name.value : this.name),
-      organizer: (organizer != null ? organizer.value : this.organizer),
-      start: (start != null ? start.value : this.start),
-      end: (end != null ? end.value : this.end),
-      allDay: (allDay != null ? allDay.value : this.allDay),
-      location: (location != null ? location.value : this.location),
-      type: (type != null ? type.value : this.type),
-      description: (description != null ? description.value : this.description),
-      recurrenceRule: (recurrenceRule != null
-          ? recurrenceRule.value
-          : this.recurrenceRule),
-      id: (id != null ? id.value : this.id),
-      decision: (decision != null ? decision.value : this.decision),
-      applicantId: (applicantId != null ? applicantId.value : this.applicantId),
-      applicant: (applicant != null ? applicant.value : this.applicant),
+  EventTicketUrl copyWithWrapped({Wrapped<String>? ticketUrl}) {
+    return EventTicketUrl(
+      ticketUrl: (ticketUrl != null ? ticketUrl.value : this.ticketUrl),
     );
   }
 }
@@ -9674,6 +8683,46 @@ extension $HistoryRefundExtension on HistoryRefund {
 }
 
 @JsonSerializable(explicitToJson: true)
+class IcalSecret {
+  const IcalSecret({required this.secret});
+
+  factory IcalSecret.fromJson(Map<String, dynamic> json) =>
+      _$IcalSecretFromJson(json);
+
+  static const toJsonFactory = _$IcalSecretToJson;
+  Map<String, dynamic> toJson() => _$IcalSecretToJson(this);
+
+  @JsonKey(name: 'secret', defaultValue: '')
+  final String secret;
+  static const fromJsonFactory = _$IcalSecretFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is IcalSecret &&
+            (identical(other.secret, secret) ||
+                const DeepCollectionEquality().equals(other.secret, secret)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(secret) ^ runtimeType.hashCode;
+}
+
+extension $IcalSecretExtension on IcalSecret {
+  IcalSecret copyWith({String? secret}) {
+    return IcalSecret(secret: secret ?? this.secret);
+  }
+
+  IcalSecret copyWithWrapped({Wrapped<String>? secret}) {
+    return IcalSecret(secret: (secret != null ? secret.value : this.secret));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class Information {
   const Information({
     required this.manager,
@@ -10014,6 +9063,265 @@ extension $InviteTokenExtension on InviteToken {
     return InviteToken(
       teamId: (teamId != null ? teamId.value : this.teamId),
       token: (token != null ? token.value : this.token),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class Invoice {
+  const Invoice({
+    required this.id,
+    required this.reference,
+    required this.structureId,
+    required this.creation,
+    required this.startDate,
+    required this.endDate,
+    required this.total,
+    this.paid,
+    this.received,
+    required this.structure,
+    required this.details,
+  });
+
+  factory Invoice.fromJson(Map<String, dynamic> json) =>
+      _$InvoiceFromJson(json);
+
+  static const toJsonFactory = _$InvoiceToJson;
+  Map<String, dynamic> toJson() => _$InvoiceToJson(this);
+
+  @JsonKey(name: 'id', defaultValue: '')
+  final String id;
+  @JsonKey(name: 'reference', defaultValue: '')
+  final String reference;
+  @JsonKey(name: 'structure_id', defaultValue: '')
+  final String structureId;
+  @JsonKey(name: 'creation')
+  final DateTime creation;
+  @JsonKey(name: 'start_date')
+  final DateTime startDate;
+  @JsonKey(name: 'end_date')
+  final DateTime endDate;
+  @JsonKey(name: 'total', defaultValue: 0)
+  final int total;
+  @JsonKey(name: 'paid', defaultValue: false)
+  final bool? paid;
+  @JsonKey(name: 'received', defaultValue: false)
+  final bool? received;
+  @JsonKey(name: 'structure')
+  final Structure structure;
+  @JsonKey(name: 'details', defaultValue: <InvoiceDetail>[])
+  final List<InvoiceDetail> details;
+  static const fromJsonFactory = _$InvoiceFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is Invoice &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.reference, reference) ||
+                const DeepCollectionEquality().equals(
+                  other.reference,
+                  reference,
+                )) &&
+            (identical(other.structureId, structureId) ||
+                const DeepCollectionEquality().equals(
+                  other.structureId,
+                  structureId,
+                )) &&
+            (identical(other.creation, creation) ||
+                const DeepCollectionEquality().equals(
+                  other.creation,
+                  creation,
+                )) &&
+            (identical(other.startDate, startDate) ||
+                const DeepCollectionEquality().equals(
+                  other.startDate,
+                  startDate,
+                )) &&
+            (identical(other.endDate, endDate) ||
+                const DeepCollectionEquality().equals(
+                  other.endDate,
+                  endDate,
+                )) &&
+            (identical(other.total, total) ||
+                const DeepCollectionEquality().equals(other.total, total)) &&
+            (identical(other.paid, paid) ||
+                const DeepCollectionEquality().equals(other.paid, paid)) &&
+            (identical(other.received, received) ||
+                const DeepCollectionEquality().equals(
+                  other.received,
+                  received,
+                )) &&
+            (identical(other.structure, structure) ||
+                const DeepCollectionEquality().equals(
+                  other.structure,
+                  structure,
+                )) &&
+            (identical(other.details, details) ||
+                const DeepCollectionEquality().equals(other.details, details)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(reference) ^
+      const DeepCollectionEquality().hash(structureId) ^
+      const DeepCollectionEquality().hash(creation) ^
+      const DeepCollectionEquality().hash(startDate) ^
+      const DeepCollectionEquality().hash(endDate) ^
+      const DeepCollectionEquality().hash(total) ^
+      const DeepCollectionEquality().hash(paid) ^
+      const DeepCollectionEquality().hash(received) ^
+      const DeepCollectionEquality().hash(structure) ^
+      const DeepCollectionEquality().hash(details) ^
+      runtimeType.hashCode;
+}
+
+extension $InvoiceExtension on Invoice {
+  Invoice copyWith({
+    String? id,
+    String? reference,
+    String? structureId,
+    DateTime? creation,
+    DateTime? startDate,
+    DateTime? endDate,
+    int? total,
+    bool? paid,
+    bool? received,
+    Structure? structure,
+    List<InvoiceDetail>? details,
+  }) {
+    return Invoice(
+      id: id ?? this.id,
+      reference: reference ?? this.reference,
+      structureId: structureId ?? this.structureId,
+      creation: creation ?? this.creation,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      total: total ?? this.total,
+      paid: paid ?? this.paid,
+      received: received ?? this.received,
+      structure: structure ?? this.structure,
+      details: details ?? this.details,
+    );
+  }
+
+  Invoice copyWithWrapped({
+    Wrapped<String>? id,
+    Wrapped<String>? reference,
+    Wrapped<String>? structureId,
+    Wrapped<DateTime>? creation,
+    Wrapped<DateTime>? startDate,
+    Wrapped<DateTime>? endDate,
+    Wrapped<int>? total,
+    Wrapped<bool?>? paid,
+    Wrapped<bool?>? received,
+    Wrapped<Structure>? structure,
+    Wrapped<List<InvoiceDetail>>? details,
+  }) {
+    return Invoice(
+      id: (id != null ? id.value : this.id),
+      reference: (reference != null ? reference.value : this.reference),
+      structureId: (structureId != null ? structureId.value : this.structureId),
+      creation: (creation != null ? creation.value : this.creation),
+      startDate: (startDate != null ? startDate.value : this.startDate),
+      endDate: (endDate != null ? endDate.value : this.endDate),
+      total: (total != null ? total.value : this.total),
+      paid: (paid != null ? paid.value : this.paid),
+      received: (received != null ? received.value : this.received),
+      structure: (structure != null ? structure.value : this.structure),
+      details: (details != null ? details.value : this.details),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class InvoiceDetail {
+  const InvoiceDetail({
+    required this.invoiceId,
+    required this.storeId,
+    required this.total,
+    required this.store,
+  });
+
+  factory InvoiceDetail.fromJson(Map<String, dynamic> json) =>
+      _$InvoiceDetailFromJson(json);
+
+  static const toJsonFactory = _$InvoiceDetailToJson;
+  Map<String, dynamic> toJson() => _$InvoiceDetailToJson(this);
+
+  @JsonKey(name: 'invoice_id', defaultValue: '')
+  final String invoiceId;
+  @JsonKey(name: 'store_id', defaultValue: '')
+  final String storeId;
+  @JsonKey(name: 'total', defaultValue: 0)
+  final int total;
+  @JsonKey(name: 'store')
+  final StoreSimple store;
+  static const fromJsonFactory = _$InvoiceDetailFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is InvoiceDetail &&
+            (identical(other.invoiceId, invoiceId) ||
+                const DeepCollectionEquality().equals(
+                  other.invoiceId,
+                  invoiceId,
+                )) &&
+            (identical(other.storeId, storeId) ||
+                const DeepCollectionEquality().equals(
+                  other.storeId,
+                  storeId,
+                )) &&
+            (identical(other.total, total) ||
+                const DeepCollectionEquality().equals(other.total, total)) &&
+            (identical(other.store, store) ||
+                const DeepCollectionEquality().equals(other.store, store)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(invoiceId) ^
+      const DeepCollectionEquality().hash(storeId) ^
+      const DeepCollectionEquality().hash(total) ^
+      const DeepCollectionEquality().hash(store) ^
+      runtimeType.hashCode;
+}
+
+extension $InvoiceDetailExtension on InvoiceDetail {
+  InvoiceDetail copyWith({
+    String? invoiceId,
+    String? storeId,
+    int? total,
+    StoreSimple? store,
+  }) {
+    return InvoiceDetail(
+      invoiceId: invoiceId ?? this.invoiceId,
+      storeId: storeId ?? this.storeId,
+      total: total ?? this.total,
+      store: store ?? this.store,
+    );
+  }
+
+  InvoiceDetail copyWithWrapped({
+    Wrapped<String>? invoiceId,
+    Wrapped<String>? storeId,
+    Wrapped<int>? total,
+    Wrapped<StoreSimple>? store,
+  }) {
+    return InvoiceDetail(
+      invoiceId: (invoiceId != null ? invoiceId.value : this.invoiceId),
+      storeId: (storeId != null ? storeId.value : this.storeId),
+      total: (total != null ? total.value : this.total),
+      store: (store != null ? store.value : this.store),
     );
   }
 }
@@ -10541,46 +9849,6 @@ extension $ItemUpdateExtension on ItemUpdate {
           ? suggestedLendingDuration.value
           : this.suggestedLendingDuration),
     );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class KindsReturn {
-  const KindsReturn({required this.kinds});
-
-  factory KindsReturn.fromJson(Map<String, dynamic> json) =>
-      _$KindsReturnFromJson(json);
-
-  static const toJsonFactory = _$KindsReturnToJson;
-  Map<String, dynamic> toJson() => _$KindsReturnToJson(this);
-
-  @JsonKey(name: 'kinds', toJson: kindsListToJson, fromJson: kindsListFromJson)
-  final List<enums.Kinds> kinds;
-  static const fromJsonFactory = _$KindsReturnFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is KindsReturn &&
-            (identical(other.kinds, kinds) ||
-                const DeepCollectionEquality().equals(other.kinds, kinds)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(kinds) ^ runtimeType.hashCode;
-}
-
-extension $KindsReturnExtension on KindsReturn {
-  KindsReturn copyWith({List<enums.Kinds>? kinds}) {
-    return KindsReturn(kinds: kinds ?? this.kinds);
-  }
-
-  KindsReturn copyWithWrapped({Wrapped<List<enums.Kinds>>? kinds}) {
-    return KindsReturn(kinds: (kinds != null ? kinds.value : this.kinds));
   }
 }
 
@@ -11724,474 +10992,6 @@ extension $LoanerUpdateExtension on LoanerUpdate {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Location {
-  const Location({
-    required this.name,
-    this.description,
-    this.address,
-    this.latitude,
-    this.longitude,
-    required this.id,
-    required this.editionId,
-  });
-
-  factory Location.fromJson(Map<String, dynamic> json) =>
-      _$LocationFromJson(json);
-
-  static const toJsonFactory = _$LocationToJson;
-  Map<String, dynamic> toJson() => _$LocationToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'description')
-  final String? description;
-  @JsonKey(name: 'address')
-  final String? address;
-  @JsonKey(name: 'latitude')
-  final double? latitude;
-  @JsonKey(name: 'longitude')
-  final double? longitude;
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  static const fromJsonFactory = _$LocationFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is Location &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.description, description) ||
-                const DeepCollectionEquality().equals(
-                  other.description,
-                  description,
-                )) &&
-            (identical(other.address, address) ||
-                const DeepCollectionEquality().equals(
-                  other.address,
-                  address,
-                )) &&
-            (identical(other.latitude, latitude) ||
-                const DeepCollectionEquality().equals(
-                  other.latitude,
-                  latitude,
-                )) &&
-            (identical(other.longitude, longitude) ||
-                const DeepCollectionEquality().equals(
-                  other.longitude,
-                  longitude,
-                )) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash(address) ^
-      const DeepCollectionEquality().hash(latitude) ^
-      const DeepCollectionEquality().hash(longitude) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      runtimeType.hashCode;
-}
-
-extension $LocationExtension on Location {
-  Location copyWith({
-    String? name,
-    String? description,
-    String? address,
-    double? latitude,
-    double? longitude,
-    String? id,
-    String? editionId,
-  }) {
-    return Location(
-      name: name ?? this.name,
-      description: description ?? this.description,
-      address: address ?? this.address,
-      latitude: latitude ?? this.latitude,
-      longitude: longitude ?? this.longitude,
-      id: id ?? this.id,
-      editionId: editionId ?? this.editionId,
-    );
-  }
-
-  Location copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<String?>? description,
-    Wrapped<String?>? address,
-    Wrapped<double?>? latitude,
-    Wrapped<double?>? longitude,
-    Wrapped<String>? id,
-    Wrapped<String>? editionId,
-  }) {
-    return Location(
-      name: (name != null ? name.value : this.name),
-      description: (description != null ? description.value : this.description),
-      address: (address != null ? address.value : this.address),
-      latitude: (latitude != null ? latitude.value : this.latitude),
-      longitude: (longitude != null ? longitude.value : this.longitude),
-      id: (id != null ? id.value : this.id),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class LocationBase {
-  const LocationBase({
-    required this.name,
-    this.description,
-    this.address,
-    this.latitude,
-    this.longitude,
-  });
-
-  factory LocationBase.fromJson(Map<String, dynamic> json) =>
-      _$LocationBaseFromJson(json);
-
-  static const toJsonFactory = _$LocationBaseToJson;
-  Map<String, dynamic> toJson() => _$LocationBaseToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'description')
-  final String? description;
-  @JsonKey(name: 'address')
-  final String? address;
-  @JsonKey(name: 'latitude')
-  final double? latitude;
-  @JsonKey(name: 'longitude')
-  final double? longitude;
-  static const fromJsonFactory = _$LocationBaseFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is LocationBase &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.description, description) ||
-                const DeepCollectionEquality().equals(
-                  other.description,
-                  description,
-                )) &&
-            (identical(other.address, address) ||
-                const DeepCollectionEquality().equals(
-                  other.address,
-                  address,
-                )) &&
-            (identical(other.latitude, latitude) ||
-                const DeepCollectionEquality().equals(
-                  other.latitude,
-                  latitude,
-                )) &&
-            (identical(other.longitude, longitude) ||
-                const DeepCollectionEquality().equals(
-                  other.longitude,
-                  longitude,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash(address) ^
-      const DeepCollectionEquality().hash(latitude) ^
-      const DeepCollectionEquality().hash(longitude) ^
-      runtimeType.hashCode;
-}
-
-extension $LocationBaseExtension on LocationBase {
-  LocationBase copyWith({
-    String? name,
-    String? description,
-    String? address,
-    double? latitude,
-    double? longitude,
-  }) {
-    return LocationBase(
-      name: name ?? this.name,
-      description: description ?? this.description,
-      address: address ?? this.address,
-      latitude: latitude ?? this.latitude,
-      longitude: longitude ?? this.longitude,
-    );
-  }
-
-  LocationBase copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<String?>? description,
-    Wrapped<String?>? address,
-    Wrapped<double?>? latitude,
-    Wrapped<double?>? longitude,
-  }) {
-    return LocationBase(
-      name: (name != null ? name.value : this.name),
-      description: (description != null ? description.value : this.description),
-      address: (address != null ? address.value : this.address),
-      latitude: (latitude != null ? latitude.value : this.latitude),
-      longitude: (longitude != null ? longitude.value : this.longitude),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class LocationComplete {
-  const LocationComplete({
-    required this.name,
-    this.description,
-    this.address,
-    this.latitude,
-    this.longitude,
-    required this.id,
-    required this.editionId,
-    this.matches,
-  });
-
-  factory LocationComplete.fromJson(Map<String, dynamic> json) =>
-      _$LocationCompleteFromJson(json);
-
-  static const toJsonFactory = _$LocationCompleteToJson;
-  Map<String, dynamic> toJson() => _$LocationCompleteToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'description')
-  final String? description;
-  @JsonKey(name: 'address')
-  final String? address;
-  @JsonKey(name: 'latitude')
-  final double? latitude;
-  @JsonKey(name: 'longitude')
-  final double? longitude;
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  @JsonKey(name: 'matches', defaultValue: <MatchComplete>[])
-  final List<MatchComplete>? matches;
-  static const fromJsonFactory = _$LocationCompleteFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is LocationComplete &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.description, description) ||
-                const DeepCollectionEquality().equals(
-                  other.description,
-                  description,
-                )) &&
-            (identical(other.address, address) ||
-                const DeepCollectionEquality().equals(
-                  other.address,
-                  address,
-                )) &&
-            (identical(other.latitude, latitude) ||
-                const DeepCollectionEquality().equals(
-                  other.latitude,
-                  latitude,
-                )) &&
-            (identical(other.longitude, longitude) ||
-                const DeepCollectionEquality().equals(
-                  other.longitude,
-                  longitude,
-                )) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )) &&
-            (identical(other.matches, matches) ||
-                const DeepCollectionEquality().equals(other.matches, matches)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash(address) ^
-      const DeepCollectionEquality().hash(latitude) ^
-      const DeepCollectionEquality().hash(longitude) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      const DeepCollectionEquality().hash(matches) ^
-      runtimeType.hashCode;
-}
-
-extension $LocationCompleteExtension on LocationComplete {
-  LocationComplete copyWith({
-    String? name,
-    String? description,
-    String? address,
-    double? latitude,
-    double? longitude,
-    String? id,
-    String? editionId,
-    List<MatchComplete>? matches,
-  }) {
-    return LocationComplete(
-      name: name ?? this.name,
-      description: description ?? this.description,
-      address: address ?? this.address,
-      latitude: latitude ?? this.latitude,
-      longitude: longitude ?? this.longitude,
-      id: id ?? this.id,
-      editionId: editionId ?? this.editionId,
-      matches: matches ?? this.matches,
-    );
-  }
-
-  LocationComplete copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<String?>? description,
-    Wrapped<String?>? address,
-    Wrapped<double?>? latitude,
-    Wrapped<double?>? longitude,
-    Wrapped<String>? id,
-    Wrapped<String>? editionId,
-    Wrapped<List<MatchComplete>?>? matches,
-  }) {
-    return LocationComplete(
-      name: (name != null ? name.value : this.name),
-      description: (description != null ? description.value : this.description),
-      address: (address != null ? address.value : this.address),
-      latitude: (latitude != null ? latitude.value : this.latitude),
-      longitude: (longitude != null ? longitude.value : this.longitude),
-      id: (id != null ? id.value : this.id),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-      matches: (matches != null ? matches.value : this.matches),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class LocationEdit {
-  const LocationEdit({
-    this.name,
-    this.description,
-    this.address,
-    this.latitude,
-    this.longitude,
-  });
-
-  factory LocationEdit.fromJson(Map<String, dynamic> json) =>
-      _$LocationEditFromJson(json);
-
-  static const toJsonFactory = _$LocationEditToJson;
-  Map<String, dynamic> toJson() => _$LocationEditToJson(this);
-
-  @JsonKey(name: 'name')
-  final String? name;
-  @JsonKey(name: 'description')
-  final String? description;
-  @JsonKey(name: 'address')
-  final String? address;
-  @JsonKey(name: 'latitude')
-  final double? latitude;
-  @JsonKey(name: 'longitude')
-  final double? longitude;
-  static const fromJsonFactory = _$LocationEditFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is LocationEdit &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.description, description) ||
-                const DeepCollectionEquality().equals(
-                  other.description,
-                  description,
-                )) &&
-            (identical(other.address, address) ||
-                const DeepCollectionEquality().equals(
-                  other.address,
-                  address,
-                )) &&
-            (identical(other.latitude, latitude) ||
-                const DeepCollectionEquality().equals(
-                  other.latitude,
-                  latitude,
-                )) &&
-            (identical(other.longitude, longitude) ||
-                const DeepCollectionEquality().equals(
-                  other.longitude,
-                  longitude,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash(address) ^
-      const DeepCollectionEquality().hash(latitude) ^
-      const DeepCollectionEquality().hash(longitude) ^
-      runtimeType.hashCode;
-}
-
-extension $LocationEditExtension on LocationEdit {
-  LocationEdit copyWith({
-    String? name,
-    String? description,
-    String? address,
-    double? latitude,
-    double? longitude,
-  }) {
-    return LocationEdit(
-      name: name ?? this.name,
-      description: description ?? this.description,
-      address: address ?? this.address,
-      latitude: latitude ?? this.latitude,
-      longitude: longitude ?? this.longitude,
-    );
-  }
-
-  LocationEdit copyWithWrapped({
-    Wrapped<String?>? name,
-    Wrapped<String?>? description,
-    Wrapped<String?>? address,
-    Wrapped<double?>? latitude,
-    Wrapped<double?>? longitude,
-  }) {
-    return LocationEdit(
-      name: (name != null ? name.value : this.name),
-      description: (description != null ? description.value : this.description),
-      address: (address != null ? address.value : this.address),
-      latitude: (latitude != null ? latitude.value : this.latitude),
-      longitude: (longitude != null ? longitude.value : this.longitude),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
 class MailMigrationRequest {
   const MailMigrationRequest({required this.newEmail});
 
@@ -12232,6 +11032,91 @@ extension $MailMigrationRequestExtension on MailMigrationRequest {
   MailMigrationRequest copyWithWrapped({Wrapped<String>? newEmail}) {
     return MailMigrationRequest(
       newEmail: (newEmail != null ? newEmail.value : this.newEmail),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class MainActivationForm {
+  const MainActivationForm({
+    required this.fields,
+    this.floorChoices,
+    this.promotionOffset,
+  });
+
+  factory MainActivationForm.fromJson(Map<String, dynamic> json) =>
+      _$MainActivationFormFromJson(json);
+
+  static const toJsonFactory = _$MainActivationFormToJson;
+  Map<String, dynamic> toJson() => _$MainActivationFormToJson(this);
+
+  @JsonKey(
+    name: 'fields',
+    toJson: activationFormFieldListToJson,
+    fromJson: activationFormFieldListFromJson,
+  )
+  final List<enums.ActivationFormField> fields;
+  @JsonKey(name: 'floor_choices', defaultValue: <String>[])
+  final List<String>? floorChoices;
+  @JsonKey(name: 'promotion_offset')
+  final int? promotionOffset;
+  static const fromJsonFactory = _$MainActivationFormFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is MainActivationForm &&
+            (identical(other.fields, fields) ||
+                const DeepCollectionEquality().equals(other.fields, fields)) &&
+            (identical(other.floorChoices, floorChoices) ||
+                const DeepCollectionEquality().equals(
+                  other.floorChoices,
+                  floorChoices,
+                )) &&
+            (identical(other.promotionOffset, promotionOffset) ||
+                const DeepCollectionEquality().equals(
+                  other.promotionOffset,
+                  promotionOffset,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(fields) ^
+      const DeepCollectionEquality().hash(floorChoices) ^
+      const DeepCollectionEquality().hash(promotionOffset) ^
+      runtimeType.hashCode;
+}
+
+extension $MainActivationFormExtension on MainActivationForm {
+  MainActivationForm copyWith({
+    List<enums.ActivationFormField>? fields,
+    List<String>? floorChoices,
+    int? promotionOffset,
+  }) {
+    return MainActivationForm(
+      fields: fields ?? this.fields,
+      floorChoices: floorChoices ?? this.floorChoices,
+      promotionOffset: promotionOffset ?? this.promotionOffset,
+    );
+  }
+
+  MainActivationForm copyWithWrapped({
+    Wrapped<List<enums.ActivationFormField>>? fields,
+    Wrapped<List<String>?>? floorChoices,
+    Wrapped<int?>? promotionOffset,
+  }) {
+    return MainActivationForm(
+      fields: (fields != null ? fields.value : this.fields),
+      floorChoices: (floorChoices != null
+          ? floorChoices.value
+          : this.floorChoices),
+      promotionOffset: (promotionOffset != null
+          ? promotionOffset.value
+          : this.promotionOffset),
     );
   }
 }
@@ -12408,679 +11293,6 @@ extension $ManagerUpdateExtension on ManagerUpdate {
     return ManagerUpdate(
       name: (name != null ? name.value : this.name),
       groupId: (groupId != null ? groupId.value : this.groupId),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class Match {
-  const Match({
-    required this.name,
-    required this.team1Id,
-    required this.team2Id,
-    required this.locationId,
-    required this.date,
-    this.scoreTeam1,
-    this.scoreTeam2,
-    this.winnerId,
-    required this.id,
-    required this.sportId,
-    required this.editionId,
-  });
-
-  factory Match.fromJson(Map<String, dynamic> json) => _$MatchFromJson(json);
-
-  static const toJsonFactory = _$MatchToJson;
-  Map<String, dynamic> toJson() => _$MatchToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'team1_id', defaultValue: '')
-  final String team1Id;
-  @JsonKey(name: 'team2_id', defaultValue: '')
-  final String team2Id;
-  @JsonKey(name: 'location_id', defaultValue: '')
-  final String locationId;
-  @JsonKey(name: 'date')
-  final DateTime date;
-  @JsonKey(name: 'score_team1')
-  final int? scoreTeam1;
-  @JsonKey(name: 'score_team2')
-  final int? scoreTeam2;
-  @JsonKey(name: 'winner_id')
-  final String? winnerId;
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  @JsonKey(name: 'sport_id', defaultValue: '')
-  final String sportId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  static const fromJsonFactory = _$MatchFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is Match &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.team1Id, team1Id) ||
-                const DeepCollectionEquality().equals(
-                  other.team1Id,
-                  team1Id,
-                )) &&
-            (identical(other.team2Id, team2Id) ||
-                const DeepCollectionEquality().equals(
-                  other.team2Id,
-                  team2Id,
-                )) &&
-            (identical(other.locationId, locationId) ||
-                const DeepCollectionEquality().equals(
-                  other.locationId,
-                  locationId,
-                )) &&
-            (identical(other.date, date) ||
-                const DeepCollectionEquality().equals(other.date, date)) &&
-            (identical(other.scoreTeam1, scoreTeam1) ||
-                const DeepCollectionEquality().equals(
-                  other.scoreTeam1,
-                  scoreTeam1,
-                )) &&
-            (identical(other.scoreTeam2, scoreTeam2) ||
-                const DeepCollectionEquality().equals(
-                  other.scoreTeam2,
-                  scoreTeam2,
-                )) &&
-            (identical(other.winnerId, winnerId) ||
-                const DeepCollectionEquality().equals(
-                  other.winnerId,
-                  winnerId,
-                )) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.sportId, sportId) ||
-                const DeepCollectionEquality().equals(
-                  other.sportId,
-                  sportId,
-                )) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(team1Id) ^
-      const DeepCollectionEquality().hash(team2Id) ^
-      const DeepCollectionEquality().hash(locationId) ^
-      const DeepCollectionEquality().hash(date) ^
-      const DeepCollectionEquality().hash(scoreTeam1) ^
-      const DeepCollectionEquality().hash(scoreTeam2) ^
-      const DeepCollectionEquality().hash(winnerId) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(sportId) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      runtimeType.hashCode;
-}
-
-extension $MatchExtension on Match {
-  Match copyWith({
-    String? name,
-    String? team1Id,
-    String? team2Id,
-    String? locationId,
-    DateTime? date,
-    int? scoreTeam1,
-    int? scoreTeam2,
-    String? winnerId,
-    String? id,
-    String? sportId,
-    String? editionId,
-  }) {
-    return Match(
-      name: name ?? this.name,
-      team1Id: team1Id ?? this.team1Id,
-      team2Id: team2Id ?? this.team2Id,
-      locationId: locationId ?? this.locationId,
-      date: date ?? this.date,
-      scoreTeam1: scoreTeam1 ?? this.scoreTeam1,
-      scoreTeam2: scoreTeam2 ?? this.scoreTeam2,
-      winnerId: winnerId ?? this.winnerId,
-      id: id ?? this.id,
-      sportId: sportId ?? this.sportId,
-      editionId: editionId ?? this.editionId,
-    );
-  }
-
-  Match copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<String>? team1Id,
-    Wrapped<String>? team2Id,
-    Wrapped<String>? locationId,
-    Wrapped<DateTime>? date,
-    Wrapped<int?>? scoreTeam1,
-    Wrapped<int?>? scoreTeam2,
-    Wrapped<String?>? winnerId,
-    Wrapped<String>? id,
-    Wrapped<String>? sportId,
-    Wrapped<String>? editionId,
-  }) {
-    return Match(
-      name: (name != null ? name.value : this.name),
-      team1Id: (team1Id != null ? team1Id.value : this.team1Id),
-      team2Id: (team2Id != null ? team2Id.value : this.team2Id),
-      locationId: (locationId != null ? locationId.value : this.locationId),
-      date: (date != null ? date.value : this.date),
-      scoreTeam1: (scoreTeam1 != null ? scoreTeam1.value : this.scoreTeam1),
-      scoreTeam2: (scoreTeam2 != null ? scoreTeam2.value : this.scoreTeam2),
-      winnerId: (winnerId != null ? winnerId.value : this.winnerId),
-      id: (id != null ? id.value : this.id),
-      sportId: (sportId != null ? sportId.value : this.sportId),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class MatchBase {
-  const MatchBase({
-    required this.name,
-    required this.team1Id,
-    required this.team2Id,
-    required this.locationId,
-    required this.date,
-    this.scoreTeam1,
-    this.scoreTeam2,
-    this.winnerId,
-  });
-
-  factory MatchBase.fromJson(Map<String, dynamic> json) =>
-      _$MatchBaseFromJson(json);
-
-  static const toJsonFactory = _$MatchBaseToJson;
-  Map<String, dynamic> toJson() => _$MatchBaseToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'team1_id', defaultValue: '')
-  final String team1Id;
-  @JsonKey(name: 'team2_id', defaultValue: '')
-  final String team2Id;
-  @JsonKey(name: 'location_id', defaultValue: '')
-  final String locationId;
-  @JsonKey(name: 'date')
-  final DateTime date;
-  @JsonKey(name: 'score_team1')
-  final int? scoreTeam1;
-  @JsonKey(name: 'score_team2')
-  final int? scoreTeam2;
-  @JsonKey(name: 'winner_id')
-  final String? winnerId;
-  static const fromJsonFactory = _$MatchBaseFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is MatchBase &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.team1Id, team1Id) ||
-                const DeepCollectionEquality().equals(
-                  other.team1Id,
-                  team1Id,
-                )) &&
-            (identical(other.team2Id, team2Id) ||
-                const DeepCollectionEquality().equals(
-                  other.team2Id,
-                  team2Id,
-                )) &&
-            (identical(other.locationId, locationId) ||
-                const DeepCollectionEquality().equals(
-                  other.locationId,
-                  locationId,
-                )) &&
-            (identical(other.date, date) ||
-                const DeepCollectionEquality().equals(other.date, date)) &&
-            (identical(other.scoreTeam1, scoreTeam1) ||
-                const DeepCollectionEquality().equals(
-                  other.scoreTeam1,
-                  scoreTeam1,
-                )) &&
-            (identical(other.scoreTeam2, scoreTeam2) ||
-                const DeepCollectionEquality().equals(
-                  other.scoreTeam2,
-                  scoreTeam2,
-                )) &&
-            (identical(other.winnerId, winnerId) ||
-                const DeepCollectionEquality().equals(
-                  other.winnerId,
-                  winnerId,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(team1Id) ^
-      const DeepCollectionEquality().hash(team2Id) ^
-      const DeepCollectionEquality().hash(locationId) ^
-      const DeepCollectionEquality().hash(date) ^
-      const DeepCollectionEquality().hash(scoreTeam1) ^
-      const DeepCollectionEquality().hash(scoreTeam2) ^
-      const DeepCollectionEquality().hash(winnerId) ^
-      runtimeType.hashCode;
-}
-
-extension $MatchBaseExtension on MatchBase {
-  MatchBase copyWith({
-    String? name,
-    String? team1Id,
-    String? team2Id,
-    String? locationId,
-    DateTime? date,
-    int? scoreTeam1,
-    int? scoreTeam2,
-    String? winnerId,
-  }) {
-    return MatchBase(
-      name: name ?? this.name,
-      team1Id: team1Id ?? this.team1Id,
-      team2Id: team2Id ?? this.team2Id,
-      locationId: locationId ?? this.locationId,
-      date: date ?? this.date,
-      scoreTeam1: scoreTeam1 ?? this.scoreTeam1,
-      scoreTeam2: scoreTeam2 ?? this.scoreTeam2,
-      winnerId: winnerId ?? this.winnerId,
-    );
-  }
-
-  MatchBase copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<String>? team1Id,
-    Wrapped<String>? team2Id,
-    Wrapped<String>? locationId,
-    Wrapped<DateTime>? date,
-    Wrapped<int?>? scoreTeam1,
-    Wrapped<int?>? scoreTeam2,
-    Wrapped<String?>? winnerId,
-  }) {
-    return MatchBase(
-      name: (name != null ? name.value : this.name),
-      team1Id: (team1Id != null ? team1Id.value : this.team1Id),
-      team2Id: (team2Id != null ? team2Id.value : this.team2Id),
-      locationId: (locationId != null ? locationId.value : this.locationId),
-      date: (date != null ? date.value : this.date),
-      scoreTeam1: (scoreTeam1 != null ? scoreTeam1.value : this.scoreTeam1),
-      scoreTeam2: (scoreTeam2 != null ? scoreTeam2.value : this.scoreTeam2),
-      winnerId: (winnerId != null ? winnerId.value : this.winnerId),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class MatchComplete {
-  const MatchComplete({
-    required this.name,
-    required this.team1Id,
-    required this.team2Id,
-    required this.locationId,
-    required this.date,
-    this.scoreTeam1,
-    this.scoreTeam2,
-    this.winnerId,
-    required this.id,
-    required this.sportId,
-    required this.editionId,
-    required this.team1,
-    required this.team2,
-    required this.location,
-  });
-
-  factory MatchComplete.fromJson(Map<String, dynamic> json) =>
-      _$MatchCompleteFromJson(json);
-
-  static const toJsonFactory = _$MatchCompleteToJson;
-  Map<String, dynamic> toJson() => _$MatchCompleteToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'team1_id', defaultValue: '')
-  final String team1Id;
-  @JsonKey(name: 'team2_id', defaultValue: '')
-  final String team2Id;
-  @JsonKey(name: 'location_id', defaultValue: '')
-  final String locationId;
-  @JsonKey(name: 'date')
-  final DateTime date;
-  @JsonKey(name: 'score_team1')
-  final int? scoreTeam1;
-  @JsonKey(name: 'score_team2')
-  final int? scoreTeam2;
-  @JsonKey(name: 'winner_id')
-  final String? winnerId;
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  @JsonKey(name: 'sport_id', defaultValue: '')
-  final String sportId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  @JsonKey(name: 'team1')
-  final Team team1;
-  @JsonKey(name: 'team2')
-  final Team team2;
-  @JsonKey(name: 'location')
-  final Location location;
-  static const fromJsonFactory = _$MatchCompleteFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is MatchComplete &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.team1Id, team1Id) ||
-                const DeepCollectionEquality().equals(
-                  other.team1Id,
-                  team1Id,
-                )) &&
-            (identical(other.team2Id, team2Id) ||
-                const DeepCollectionEquality().equals(
-                  other.team2Id,
-                  team2Id,
-                )) &&
-            (identical(other.locationId, locationId) ||
-                const DeepCollectionEquality().equals(
-                  other.locationId,
-                  locationId,
-                )) &&
-            (identical(other.date, date) ||
-                const DeepCollectionEquality().equals(other.date, date)) &&
-            (identical(other.scoreTeam1, scoreTeam1) ||
-                const DeepCollectionEquality().equals(
-                  other.scoreTeam1,
-                  scoreTeam1,
-                )) &&
-            (identical(other.scoreTeam2, scoreTeam2) ||
-                const DeepCollectionEquality().equals(
-                  other.scoreTeam2,
-                  scoreTeam2,
-                )) &&
-            (identical(other.winnerId, winnerId) ||
-                const DeepCollectionEquality().equals(
-                  other.winnerId,
-                  winnerId,
-                )) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.sportId, sportId) ||
-                const DeepCollectionEquality().equals(
-                  other.sportId,
-                  sportId,
-                )) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )) &&
-            (identical(other.team1, team1) ||
-                const DeepCollectionEquality().equals(other.team1, team1)) &&
-            (identical(other.team2, team2) ||
-                const DeepCollectionEquality().equals(other.team2, team2)) &&
-            (identical(other.location, location) ||
-                const DeepCollectionEquality().equals(
-                  other.location,
-                  location,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(team1Id) ^
-      const DeepCollectionEquality().hash(team2Id) ^
-      const DeepCollectionEquality().hash(locationId) ^
-      const DeepCollectionEquality().hash(date) ^
-      const DeepCollectionEquality().hash(scoreTeam1) ^
-      const DeepCollectionEquality().hash(scoreTeam2) ^
-      const DeepCollectionEquality().hash(winnerId) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(sportId) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      const DeepCollectionEquality().hash(team1) ^
-      const DeepCollectionEquality().hash(team2) ^
-      const DeepCollectionEquality().hash(location) ^
-      runtimeType.hashCode;
-}
-
-extension $MatchCompleteExtension on MatchComplete {
-  MatchComplete copyWith({
-    String? name,
-    String? team1Id,
-    String? team2Id,
-    String? locationId,
-    DateTime? date,
-    int? scoreTeam1,
-    int? scoreTeam2,
-    String? winnerId,
-    String? id,
-    String? sportId,
-    String? editionId,
-    Team? team1,
-    Team? team2,
-    Location? location,
-  }) {
-    return MatchComplete(
-      name: name ?? this.name,
-      team1Id: team1Id ?? this.team1Id,
-      team2Id: team2Id ?? this.team2Id,
-      locationId: locationId ?? this.locationId,
-      date: date ?? this.date,
-      scoreTeam1: scoreTeam1 ?? this.scoreTeam1,
-      scoreTeam2: scoreTeam2 ?? this.scoreTeam2,
-      winnerId: winnerId ?? this.winnerId,
-      id: id ?? this.id,
-      sportId: sportId ?? this.sportId,
-      editionId: editionId ?? this.editionId,
-      team1: team1 ?? this.team1,
-      team2: team2 ?? this.team2,
-      location: location ?? this.location,
-    );
-  }
-
-  MatchComplete copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<String>? team1Id,
-    Wrapped<String>? team2Id,
-    Wrapped<String>? locationId,
-    Wrapped<DateTime>? date,
-    Wrapped<int?>? scoreTeam1,
-    Wrapped<int?>? scoreTeam2,
-    Wrapped<String?>? winnerId,
-    Wrapped<String>? id,
-    Wrapped<String>? sportId,
-    Wrapped<String>? editionId,
-    Wrapped<Team>? team1,
-    Wrapped<Team>? team2,
-    Wrapped<Location>? location,
-  }) {
-    return MatchComplete(
-      name: (name != null ? name.value : this.name),
-      team1Id: (team1Id != null ? team1Id.value : this.team1Id),
-      team2Id: (team2Id != null ? team2Id.value : this.team2Id),
-      locationId: (locationId != null ? locationId.value : this.locationId),
-      date: (date != null ? date.value : this.date),
-      scoreTeam1: (scoreTeam1 != null ? scoreTeam1.value : this.scoreTeam1),
-      scoreTeam2: (scoreTeam2 != null ? scoreTeam2.value : this.scoreTeam2),
-      winnerId: (winnerId != null ? winnerId.value : this.winnerId),
-      id: (id != null ? id.value : this.id),
-      sportId: (sportId != null ? sportId.value : this.sportId),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-      team1: (team1 != null ? team1.value : this.team1),
-      team2: (team2 != null ? team2.value : this.team2),
-      location: (location != null ? location.value : this.location),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class MatchEdit {
-  const MatchEdit({
-    this.name,
-    this.sportId,
-    this.team1Id,
-    this.team2Id,
-    this.date,
-    this.locationId,
-    this.scoreTeam1,
-    this.scoreTeam2,
-    this.winnerId,
-  });
-
-  factory MatchEdit.fromJson(Map<String, dynamic> json) =>
-      _$MatchEditFromJson(json);
-
-  static const toJsonFactory = _$MatchEditToJson;
-  Map<String, dynamic> toJson() => _$MatchEditToJson(this);
-
-  @JsonKey(name: 'name')
-  final String? name;
-  @JsonKey(name: 'sport_id')
-  final String? sportId;
-  @JsonKey(name: 'team1_id')
-  final String? team1Id;
-  @JsonKey(name: 'team2_id')
-  final String? team2Id;
-  @JsonKey(name: 'date')
-  final DateTime? date;
-  @JsonKey(name: 'location_id')
-  final String? locationId;
-  @JsonKey(name: 'score_team1')
-  final int? scoreTeam1;
-  @JsonKey(name: 'score_team2')
-  final int? scoreTeam2;
-  @JsonKey(name: 'winner_id')
-  final String? winnerId;
-  static const fromJsonFactory = _$MatchEditFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is MatchEdit &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.sportId, sportId) ||
-                const DeepCollectionEquality().equals(
-                  other.sportId,
-                  sportId,
-                )) &&
-            (identical(other.team1Id, team1Id) ||
-                const DeepCollectionEquality().equals(
-                  other.team1Id,
-                  team1Id,
-                )) &&
-            (identical(other.team2Id, team2Id) ||
-                const DeepCollectionEquality().equals(
-                  other.team2Id,
-                  team2Id,
-                )) &&
-            (identical(other.date, date) ||
-                const DeepCollectionEquality().equals(other.date, date)) &&
-            (identical(other.locationId, locationId) ||
-                const DeepCollectionEquality().equals(
-                  other.locationId,
-                  locationId,
-                )) &&
-            (identical(other.scoreTeam1, scoreTeam1) ||
-                const DeepCollectionEquality().equals(
-                  other.scoreTeam1,
-                  scoreTeam1,
-                )) &&
-            (identical(other.scoreTeam2, scoreTeam2) ||
-                const DeepCollectionEquality().equals(
-                  other.scoreTeam2,
-                  scoreTeam2,
-                )) &&
-            (identical(other.winnerId, winnerId) ||
-                const DeepCollectionEquality().equals(
-                  other.winnerId,
-                  winnerId,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(sportId) ^
-      const DeepCollectionEquality().hash(team1Id) ^
-      const DeepCollectionEquality().hash(team2Id) ^
-      const DeepCollectionEquality().hash(date) ^
-      const DeepCollectionEquality().hash(locationId) ^
-      const DeepCollectionEquality().hash(scoreTeam1) ^
-      const DeepCollectionEquality().hash(scoreTeam2) ^
-      const DeepCollectionEquality().hash(winnerId) ^
-      runtimeType.hashCode;
-}
-
-extension $MatchEditExtension on MatchEdit {
-  MatchEdit copyWith({
-    String? name,
-    String? sportId,
-    String? team1Id,
-    String? team2Id,
-    DateTime? date,
-    String? locationId,
-    int? scoreTeam1,
-    int? scoreTeam2,
-    String? winnerId,
-  }) {
-    return MatchEdit(
-      name: name ?? this.name,
-      sportId: sportId ?? this.sportId,
-      team1Id: team1Id ?? this.team1Id,
-      team2Id: team2Id ?? this.team2Id,
-      date: date ?? this.date,
-      locationId: locationId ?? this.locationId,
-      scoreTeam1: scoreTeam1 ?? this.scoreTeam1,
-      scoreTeam2: scoreTeam2 ?? this.scoreTeam2,
-      winnerId: winnerId ?? this.winnerId,
-    );
-  }
-
-  MatchEdit copyWithWrapped({
-    Wrapped<String?>? name,
-    Wrapped<String?>? sportId,
-    Wrapped<String?>? team1Id,
-    Wrapped<String?>? team2Id,
-    Wrapped<DateTime?>? date,
-    Wrapped<String?>? locationId,
-    Wrapped<int?>? scoreTeam1,
-    Wrapped<int?>? scoreTeam2,
-    Wrapped<String?>? winnerId,
-  }) {
-    return MatchEdit(
-      name: (name != null ? name.value : this.name),
-      sportId: (sportId != null ? sportId.value : this.sportId),
-      team1Id: (team1Id != null ? team1Id.value : this.team1Id),
-      team2Id: (team2Id != null ? team2Id.value : this.team2Id),
-      date: (date != null ? date.value : this.date),
-      locationId: (locationId != null ? locationId.value : this.locationId),
-      scoreTeam1: (scoreTeam1 != null ? scoreTeam1.value : this.scoreTeam1),
-      scoreTeam2: (scoreTeam2 != null ? scoreTeam2.value : this.scoreTeam2),
-      winnerId: (winnerId != null ? winnerId.value : this.winnerId),
     );
   }
 }
@@ -13271,7 +11483,7 @@ class MembershipComplete {
   final int mandateYear;
   @JsonKey(name: 'role_name', defaultValue: '')
   final String roleName;
-  @JsonKey(name: 'role_tags')
+  @JsonKey(name: 'role_tags', defaultValue: '')
   final String? roleTags;
   @JsonKey(name: 'member_order', defaultValue: 0)
   final int memberOrder;
@@ -13768,6 +11980,213 @@ extension $ModuleVisibilityCreateExtension on ModuleVisibilityCreate {
       allowedAccountType: (allowedAccountType != null
           ? allowedAccountType.value
           : this.allowedAccountType),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class MyPaymentBankAccountHolder {
+  const MyPaymentBankAccountHolder({required this.holderStructureId});
+
+  factory MyPaymentBankAccountHolder.fromJson(Map<String, dynamic> json) =>
+      _$MyPaymentBankAccountHolderFromJson(json);
+
+  static const toJsonFactory = _$MyPaymentBankAccountHolderToJson;
+  Map<String, dynamic> toJson() => _$MyPaymentBankAccountHolderToJson(this);
+
+  @JsonKey(name: 'holder_structure_id', defaultValue: '')
+  final String holderStructureId;
+  static const fromJsonFactory = _$MyPaymentBankAccountHolderFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is MyPaymentBankAccountHolder &&
+            (identical(other.holderStructureId, holderStructureId) ||
+                const DeepCollectionEquality().equals(
+                  other.holderStructureId,
+                  holderStructureId,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(holderStructureId) ^
+      runtimeType.hashCode;
+}
+
+extension $MyPaymentBankAccountHolderExtension on MyPaymentBankAccountHolder {
+  MyPaymentBankAccountHolder copyWith({String? holderStructureId}) {
+    return MyPaymentBankAccountHolder(
+      holderStructureId: holderStructureId ?? this.holderStructureId,
+    );
+  }
+
+  MyPaymentBankAccountHolder copyWithWrapped({
+    Wrapped<String>? holderStructureId,
+  }) {
+    return MyPaymentBankAccountHolder(
+      holderStructureId: (holderStructureId != null
+          ? holderStructureId.value
+          : this.holderStructureId),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class News {
+  const News({
+    required this.id,
+    required this.title,
+    required this.start,
+    required this.end,
+    required this.entity,
+    required this.location,
+    required this.actionStart,
+    required this.module,
+    required this.moduleObjectId,
+    required this.status,
+  });
+
+  factory News.fromJson(Map<String, dynamic> json) => _$NewsFromJson(json);
+
+  static const toJsonFactory = _$NewsToJson;
+  Map<String, dynamic> toJson() => _$NewsToJson(this);
+
+  @JsonKey(name: 'id', defaultValue: '')
+  final String id;
+  @JsonKey(name: 'title', defaultValue: '')
+  final String title;
+  @JsonKey(name: 'start')
+  final DateTime start;
+  @JsonKey(name: 'end')
+  final DateTime? end;
+  @JsonKey(name: 'entity', defaultValue: '')
+  final String entity;
+  @JsonKey(name: 'location')
+  final String? location;
+  @JsonKey(name: 'action_start')
+  final DateTime? actionStart;
+  @JsonKey(name: 'module', defaultValue: '')
+  final String module;
+  @JsonKey(name: 'module_object_id', defaultValue: '')
+  final String moduleObjectId;
+  @JsonKey(
+    name: 'status',
+    toJson: newsStatusToJson,
+    fromJson: newsStatusFromJson,
+  )
+  final enums.NewsStatus status;
+  static const fromJsonFactory = _$NewsFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is News &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.title, title) ||
+                const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.start, start) ||
+                const DeepCollectionEquality().equals(other.start, start)) &&
+            (identical(other.end, end) ||
+                const DeepCollectionEquality().equals(other.end, end)) &&
+            (identical(other.entity, entity) ||
+                const DeepCollectionEquality().equals(other.entity, entity)) &&
+            (identical(other.location, location) ||
+                const DeepCollectionEquality().equals(
+                  other.location,
+                  location,
+                )) &&
+            (identical(other.actionStart, actionStart) ||
+                const DeepCollectionEquality().equals(
+                  other.actionStart,
+                  actionStart,
+                )) &&
+            (identical(other.module, module) ||
+                const DeepCollectionEquality().equals(other.module, module)) &&
+            (identical(other.moduleObjectId, moduleObjectId) ||
+                const DeepCollectionEquality().equals(
+                  other.moduleObjectId,
+                  moduleObjectId,
+                )) &&
+            (identical(other.status, status) ||
+                const DeepCollectionEquality().equals(other.status, status)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(start) ^
+      const DeepCollectionEquality().hash(end) ^
+      const DeepCollectionEquality().hash(entity) ^
+      const DeepCollectionEquality().hash(location) ^
+      const DeepCollectionEquality().hash(actionStart) ^
+      const DeepCollectionEquality().hash(module) ^
+      const DeepCollectionEquality().hash(moduleObjectId) ^
+      const DeepCollectionEquality().hash(status) ^
+      runtimeType.hashCode;
+}
+
+extension $NewsExtension on News {
+  News copyWith({
+    String? id,
+    String? title,
+    DateTime? start,
+    DateTime? end,
+    String? entity,
+    String? location,
+    DateTime? actionStart,
+    String? module,
+    String? moduleObjectId,
+    enums.NewsStatus? status,
+  }) {
+    return News(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      start: start ?? this.start,
+      end: end ?? this.end,
+      entity: entity ?? this.entity,
+      location: location ?? this.location,
+      actionStart: actionStart ?? this.actionStart,
+      module: module ?? this.module,
+      moduleObjectId: moduleObjectId ?? this.moduleObjectId,
+      status: status ?? this.status,
+    );
+  }
+
+  News copyWithWrapped({
+    Wrapped<String>? id,
+    Wrapped<String>? title,
+    Wrapped<DateTime>? start,
+    Wrapped<DateTime?>? end,
+    Wrapped<String>? entity,
+    Wrapped<String?>? location,
+    Wrapped<DateTime?>? actionStart,
+    Wrapped<String>? module,
+    Wrapped<String>? moduleObjectId,
+    Wrapped<enums.NewsStatus>? status,
+  }) {
+    return News(
+      id: (id != null ? id.value : this.id),
+      title: (title != null ? title.value : this.title),
+      start: (start != null ? start.value : this.start),
+      end: (end != null ? end.value : this.end),
+      entity: (entity != null ? entity.value : this.entity),
+      location: (location != null ? location.value : this.location),
+      actionStart: (actionStart != null ? actionStart.value : this.actionStart),
+      module: (module != null ? module.value : this.module),
+      moduleObjectId: (moduleObjectId != null
+          ? moduleObjectId.value
+          : this.moduleObjectId),
+      status: (status != null ? status.value : this.status),
     );
   }
 }
@@ -14540,15 +12959,32 @@ extension $PaperUpdateExtension on PaperUpdate {
 @JsonSerializable(explicitToJson: true)
 class Participant {
   const Participant({
-    required this.userId,
-    required this.sportId,
-    required this.editionId,
-    required this.schoolId,
-    this.license,
-    this.certificateFileId,
-    required this.isLicenseValid,
-    this.substitute,
-    required this.teamId,
+    required this.name,
+    required this.firstname,
+    required this.birthday,
+    required this.phone,
+    required this.email,
+    required this.id,
+    required this.bikeSize,
+    required this.tShirtSize,
+    required this.situation,
+    required this.validationProgress,
+    required this.payment,
+    required this.tShirtPayment,
+    required this.numberOfDocument,
+    required this.numberOfValidatedDocument,
+    required this.address,
+    this.otherSchool,
+    this.company,
+    this.diet,
+    required this.idCard,
+    required this.medicalCertificate,
+    required this.securityFile,
+    this.studentCard,
+    this.raidRules,
+    this.parentAuthorization,
+    required this.attestationOnHonour,
+    required this.isMinor,
   });
 
   factory Participant.fromJson(Map<String, dynamic> json) =>
@@ -14557,69 +12993,184 @@ class Participant {
   static const toJsonFactory = _$ParticipantToJson;
   Map<String, dynamic> toJson() => _$ParticipantToJson(this);
 
-  @JsonKey(name: 'user_id', defaultValue: '')
-  final String userId;
-  @JsonKey(name: 'sport_id', defaultValue: '')
-  final String sportId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  @JsonKey(name: 'school_id', defaultValue: '')
-  final String schoolId;
-  @JsonKey(name: 'license')
-  final String? license;
-  @JsonKey(name: 'certificate_file_id')
-  final String? certificateFileId;
-  @JsonKey(name: 'is_license_valid', defaultValue: false)
-  final bool isLicenseValid;
-  @JsonKey(name: 'substitute', defaultValue: false)
-  final bool? substitute;
-  @JsonKey(name: 'team_id', defaultValue: '')
-  final String teamId;
+  @JsonKey(name: 'name', defaultValue: '')
+  final String name;
+  @JsonKey(name: 'firstname', defaultValue: '')
+  final String firstname;
+  @JsonKey(name: 'birthday', toJson: _dateToJson)
+  final DateTime birthday;
+  @JsonKey(name: 'phone', defaultValue: '')
+  final String phone;
+  @JsonKey(name: 'email', defaultValue: '')
+  final String email;
+  @JsonKey(name: 'id', defaultValue: '')
+  final String id;
+  @JsonKey(
+    name: 'bike_size',
+    toJson: sizeNullableToJson,
+    fromJson: sizeNullableFromJson,
+  )
+  final enums.Size? bikeSize;
+  @JsonKey(
+    name: 't_shirt_size',
+    toJson: sizeNullableToJson,
+    fromJson: sizeNullableFromJson,
+  )
+  final enums.Size? tShirtSize;
+  @JsonKey(name: 'situation')
+  final String? situation;
+  @JsonKey(name: 'validation_progress', defaultValue: 0.0)
+  final double validationProgress;
+  @JsonKey(name: 'payment', defaultValue: false)
+  final bool payment;
+  @JsonKey(name: 't_shirt_payment', defaultValue: false)
+  final bool tShirtPayment;
+  @JsonKey(name: 'number_of_document', defaultValue: 0)
+  final int numberOfDocument;
+  @JsonKey(name: 'number_of_validated_document', defaultValue: 0)
+  final int numberOfValidatedDocument;
+  @JsonKey(name: 'address')
+  final String? address;
+  @JsonKey(name: 'other_school')
+  final String? otherSchool;
+  @JsonKey(name: 'company')
+  final String? company;
+  @JsonKey(name: 'diet')
+  final String? diet;
+  @JsonKey(name: 'id_card')
+  final Document? idCard;
+  @JsonKey(name: 'medical_certificate')
+  final Document? medicalCertificate;
+  @JsonKey(name: 'security_file')
+  final SecurityFile? securityFile;
+  @JsonKey(name: 'student_card')
+  final Document? studentCard;
+  @JsonKey(name: 'raid_rules')
+  final Document? raidRules;
+  @JsonKey(name: 'parent_authorization')
+  final Document? parentAuthorization;
+  @JsonKey(name: 'attestation_on_honour', defaultValue: false)
+  final bool attestationOnHonour;
+  @JsonKey(name: 'is_minor', defaultValue: false)
+  final bool isMinor;
   static const fromJsonFactory = _$ParticipantFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is Participant &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
-            (identical(other.sportId, sportId) ||
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.firstname, firstname) ||
                 const DeepCollectionEquality().equals(
-                  other.sportId,
-                  sportId,
+                  other.firstname,
+                  firstname,
                 )) &&
-            (identical(other.editionId, editionId) ||
+            (identical(other.birthday, birthday) ||
                 const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
+                  other.birthday,
+                  birthday,
                 )) &&
-            (identical(other.schoolId, schoolId) ||
+            (identical(other.phone, phone) ||
+                const DeepCollectionEquality().equals(other.phone, phone)) &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.bikeSize, bikeSize) ||
                 const DeepCollectionEquality().equals(
-                  other.schoolId,
-                  schoolId,
+                  other.bikeSize,
+                  bikeSize,
                 )) &&
-            (identical(other.license, license) ||
+            (identical(other.tShirtSize, tShirtSize) ||
                 const DeepCollectionEquality().equals(
-                  other.license,
-                  license,
+                  other.tShirtSize,
+                  tShirtSize,
                 )) &&
-            (identical(other.certificateFileId, certificateFileId) ||
+            (identical(other.situation, situation) ||
                 const DeepCollectionEquality().equals(
-                  other.certificateFileId,
-                  certificateFileId,
+                  other.situation,
+                  situation,
                 )) &&
-            (identical(other.isLicenseValid, isLicenseValid) ||
+            (identical(other.validationProgress, validationProgress) ||
                 const DeepCollectionEquality().equals(
-                  other.isLicenseValid,
-                  isLicenseValid,
+                  other.validationProgress,
+                  validationProgress,
                 )) &&
-            (identical(other.substitute, substitute) ||
+            (identical(other.payment, payment) ||
                 const DeepCollectionEquality().equals(
-                  other.substitute,
-                  substitute,
+                  other.payment,
+                  payment,
                 )) &&
-            (identical(other.teamId, teamId) ||
-                const DeepCollectionEquality().equals(other.teamId, teamId)));
+            (identical(other.tShirtPayment, tShirtPayment) ||
+                const DeepCollectionEquality().equals(
+                  other.tShirtPayment,
+                  tShirtPayment,
+                )) &&
+            (identical(other.numberOfDocument, numberOfDocument) ||
+                const DeepCollectionEquality().equals(
+                  other.numberOfDocument,
+                  numberOfDocument,
+                )) &&
+            (identical(
+                  other.numberOfValidatedDocument,
+                  numberOfValidatedDocument,
+                ) ||
+                const DeepCollectionEquality().equals(
+                  other.numberOfValidatedDocument,
+                  numberOfValidatedDocument,
+                )) &&
+            (identical(other.address, address) ||
+                const DeepCollectionEquality().equals(
+                  other.address,
+                  address,
+                )) &&
+            (identical(other.otherSchool, otherSchool) ||
+                const DeepCollectionEquality().equals(
+                  other.otherSchool,
+                  otherSchool,
+                )) &&
+            (identical(other.company, company) ||
+                const DeepCollectionEquality().equals(
+                  other.company,
+                  company,
+                )) &&
+            (identical(other.diet, diet) ||
+                const DeepCollectionEquality().equals(other.diet, diet)) &&
+            (identical(other.idCard, idCard) ||
+                const DeepCollectionEquality().equals(other.idCard, idCard)) &&
+            (identical(other.medicalCertificate, medicalCertificate) ||
+                const DeepCollectionEquality().equals(
+                  other.medicalCertificate,
+                  medicalCertificate,
+                )) &&
+            (identical(other.securityFile, securityFile) ||
+                const DeepCollectionEquality().equals(
+                  other.securityFile,
+                  securityFile,
+                )) &&
+            (identical(other.studentCard, studentCard) ||
+                const DeepCollectionEquality().equals(
+                  other.studentCard,
+                  studentCard,
+                )) &&
+            (identical(other.raidRules, raidRules) ||
+                const DeepCollectionEquality().equals(
+                  other.raidRules,
+                  raidRules,
+                )) &&
+            (identical(other.parentAuthorization, parentAuthorization) ||
+                const DeepCollectionEquality().equals(
+                  other.parentAuthorization,
+                  parentAuthorization,
+                )) &&
+            (identical(other.attestationOnHonour, attestationOnHonour) ||
+                const DeepCollectionEquality().equals(
+                  other.attestationOnHonour,
+                  attestationOnHonour,
+                )) &&
+            (identical(other.isMinor, isMinor) ||
+                const DeepCollectionEquality().equals(other.isMinor, isMinor)));
   }
 
   @override
@@ -14627,165 +13178,218 @@ class Participant {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(userId) ^
-      const DeepCollectionEquality().hash(sportId) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      const DeepCollectionEquality().hash(schoolId) ^
-      const DeepCollectionEquality().hash(license) ^
-      const DeepCollectionEquality().hash(certificateFileId) ^
-      const DeepCollectionEquality().hash(isLicenseValid) ^
-      const DeepCollectionEquality().hash(substitute) ^
-      const DeepCollectionEquality().hash(teamId) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(firstname) ^
+      const DeepCollectionEquality().hash(birthday) ^
+      const DeepCollectionEquality().hash(phone) ^
+      const DeepCollectionEquality().hash(email) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(bikeSize) ^
+      const DeepCollectionEquality().hash(tShirtSize) ^
+      const DeepCollectionEquality().hash(situation) ^
+      const DeepCollectionEquality().hash(validationProgress) ^
+      const DeepCollectionEquality().hash(payment) ^
+      const DeepCollectionEquality().hash(tShirtPayment) ^
+      const DeepCollectionEquality().hash(numberOfDocument) ^
+      const DeepCollectionEquality().hash(numberOfValidatedDocument) ^
+      const DeepCollectionEquality().hash(address) ^
+      const DeepCollectionEquality().hash(otherSchool) ^
+      const DeepCollectionEquality().hash(company) ^
+      const DeepCollectionEquality().hash(diet) ^
+      const DeepCollectionEquality().hash(idCard) ^
+      const DeepCollectionEquality().hash(medicalCertificate) ^
+      const DeepCollectionEquality().hash(securityFile) ^
+      const DeepCollectionEquality().hash(studentCard) ^
+      const DeepCollectionEquality().hash(raidRules) ^
+      const DeepCollectionEquality().hash(parentAuthorization) ^
+      const DeepCollectionEquality().hash(attestationOnHonour) ^
+      const DeepCollectionEquality().hash(isMinor) ^
       runtimeType.hashCode;
 }
 
 extension $ParticipantExtension on Participant {
   Participant copyWith({
-    String? userId,
-    String? sportId,
-    String? editionId,
-    String? schoolId,
-    String? license,
-    String? certificateFileId,
-    bool? isLicenseValid,
-    bool? substitute,
-    String? teamId,
+    String? name,
+    String? firstname,
+    DateTime? birthday,
+    String? phone,
+    String? email,
+    String? id,
+    enums.Size? bikeSize,
+    enums.Size? tShirtSize,
+    String? situation,
+    double? validationProgress,
+    bool? payment,
+    bool? tShirtPayment,
+    int? numberOfDocument,
+    int? numberOfValidatedDocument,
+    String? address,
+    String? otherSchool,
+    String? company,
+    String? diet,
+    Document? idCard,
+    Document? medicalCertificate,
+    SecurityFile? securityFile,
+    Document? studentCard,
+    Document? raidRules,
+    Document? parentAuthorization,
+    bool? attestationOnHonour,
+    bool? isMinor,
   }) {
     return Participant(
-      userId: userId ?? this.userId,
-      sportId: sportId ?? this.sportId,
-      editionId: editionId ?? this.editionId,
-      schoolId: schoolId ?? this.schoolId,
-      license: license ?? this.license,
-      certificateFileId: certificateFileId ?? this.certificateFileId,
-      isLicenseValid: isLicenseValid ?? this.isLicenseValid,
-      substitute: substitute ?? this.substitute,
-      teamId: teamId ?? this.teamId,
+      name: name ?? this.name,
+      firstname: firstname ?? this.firstname,
+      birthday: birthday ?? this.birthday,
+      phone: phone ?? this.phone,
+      email: email ?? this.email,
+      id: id ?? this.id,
+      bikeSize: bikeSize ?? this.bikeSize,
+      tShirtSize: tShirtSize ?? this.tShirtSize,
+      situation: situation ?? this.situation,
+      validationProgress: validationProgress ?? this.validationProgress,
+      payment: payment ?? this.payment,
+      tShirtPayment: tShirtPayment ?? this.tShirtPayment,
+      numberOfDocument: numberOfDocument ?? this.numberOfDocument,
+      numberOfValidatedDocument:
+          numberOfValidatedDocument ?? this.numberOfValidatedDocument,
+      address: address ?? this.address,
+      otherSchool: otherSchool ?? this.otherSchool,
+      company: company ?? this.company,
+      diet: diet ?? this.diet,
+      idCard: idCard ?? this.idCard,
+      medicalCertificate: medicalCertificate ?? this.medicalCertificate,
+      securityFile: securityFile ?? this.securityFile,
+      studentCard: studentCard ?? this.studentCard,
+      raidRules: raidRules ?? this.raidRules,
+      parentAuthorization: parentAuthorization ?? this.parentAuthorization,
+      attestationOnHonour: attestationOnHonour ?? this.attestationOnHonour,
+      isMinor: isMinor ?? this.isMinor,
     );
   }
 
   Participant copyWithWrapped({
-    Wrapped<String>? userId,
-    Wrapped<String>? sportId,
-    Wrapped<String>? editionId,
-    Wrapped<String>? schoolId,
-    Wrapped<String?>? license,
-    Wrapped<String?>? certificateFileId,
-    Wrapped<bool>? isLicenseValid,
-    Wrapped<bool?>? substitute,
-    Wrapped<String>? teamId,
+    Wrapped<String>? name,
+    Wrapped<String>? firstname,
+    Wrapped<DateTime>? birthday,
+    Wrapped<String>? phone,
+    Wrapped<String>? email,
+    Wrapped<String>? id,
+    Wrapped<enums.Size?>? bikeSize,
+    Wrapped<enums.Size?>? tShirtSize,
+    Wrapped<String?>? situation,
+    Wrapped<double>? validationProgress,
+    Wrapped<bool>? payment,
+    Wrapped<bool>? tShirtPayment,
+    Wrapped<int>? numberOfDocument,
+    Wrapped<int>? numberOfValidatedDocument,
+    Wrapped<String?>? address,
+    Wrapped<String?>? otherSchool,
+    Wrapped<String?>? company,
+    Wrapped<String?>? diet,
+    Wrapped<Document?>? idCard,
+    Wrapped<Document?>? medicalCertificate,
+    Wrapped<SecurityFile?>? securityFile,
+    Wrapped<Document?>? studentCard,
+    Wrapped<Document?>? raidRules,
+    Wrapped<Document?>? parentAuthorization,
+    Wrapped<bool>? attestationOnHonour,
+    Wrapped<bool>? isMinor,
   }) {
     return Participant(
-      userId: (userId != null ? userId.value : this.userId),
-      sportId: (sportId != null ? sportId.value : this.sportId),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-      schoolId: (schoolId != null ? schoolId.value : this.schoolId),
-      license: (license != null ? license.value : this.license),
-      certificateFileId: (certificateFileId != null
-          ? certificateFileId.value
-          : this.certificateFileId),
-      isLicenseValid: (isLicenseValid != null
-          ? isLicenseValid.value
-          : this.isLicenseValid),
-      substitute: (substitute != null ? substitute.value : this.substitute),
-      teamId: (teamId != null ? teamId.value : this.teamId),
+      name: (name != null ? name.value : this.name),
+      firstname: (firstname != null ? firstname.value : this.firstname),
+      birthday: (birthday != null ? birthday.value : this.birthday),
+      phone: (phone != null ? phone.value : this.phone),
+      email: (email != null ? email.value : this.email),
+      id: (id != null ? id.value : this.id),
+      bikeSize: (bikeSize != null ? bikeSize.value : this.bikeSize),
+      tShirtSize: (tShirtSize != null ? tShirtSize.value : this.tShirtSize),
+      situation: (situation != null ? situation.value : this.situation),
+      validationProgress: (validationProgress != null
+          ? validationProgress.value
+          : this.validationProgress),
+      payment: (payment != null ? payment.value : this.payment),
+      tShirtPayment: (tShirtPayment != null
+          ? tShirtPayment.value
+          : this.tShirtPayment),
+      numberOfDocument: (numberOfDocument != null
+          ? numberOfDocument.value
+          : this.numberOfDocument),
+      numberOfValidatedDocument: (numberOfValidatedDocument != null
+          ? numberOfValidatedDocument.value
+          : this.numberOfValidatedDocument),
+      address: (address != null ? address.value : this.address),
+      otherSchool: (otherSchool != null ? otherSchool.value : this.otherSchool),
+      company: (company != null ? company.value : this.company),
+      diet: (diet != null ? diet.value : this.diet),
+      idCard: (idCard != null ? idCard.value : this.idCard),
+      medicalCertificate: (medicalCertificate != null
+          ? medicalCertificate.value
+          : this.medicalCertificate),
+      securityFile: (securityFile != null
+          ? securityFile.value
+          : this.securityFile),
+      studentCard: (studentCard != null ? studentCard.value : this.studentCard),
+      raidRules: (raidRules != null ? raidRules.value : this.raidRules),
+      parentAuthorization: (parentAuthorization != null
+          ? parentAuthorization.value
+          : this.parentAuthorization),
+      attestationOnHonour: (attestationOnHonour != null
+          ? attestationOnHonour.value
+          : this.attestationOnHonour),
+      isMinor: (isMinor != null ? isMinor.value : this.isMinor),
     );
   }
 }
 
 @JsonSerializable(explicitToJson: true)
-class ParticipantComplete {
-  const ParticipantComplete({
-    required this.userId,
-    required this.sportId,
-    required this.editionId,
-    required this.schoolId,
-    this.license,
-    this.certificateFileId,
-    required this.isLicenseValid,
-    this.substitute,
-    required this.teamId,
-    required this.user,
-    required this.team,
+class ParticipantBase {
+  const ParticipantBase({
+    required this.name,
+    required this.firstname,
+    required this.birthday,
+    required this.phone,
+    required this.email,
   });
 
-  factory ParticipantComplete.fromJson(Map<String, dynamic> json) =>
-      _$ParticipantCompleteFromJson(json);
+  factory ParticipantBase.fromJson(Map<String, dynamic> json) =>
+      _$ParticipantBaseFromJson(json);
 
-  static const toJsonFactory = _$ParticipantCompleteToJson;
-  Map<String, dynamic> toJson() => _$ParticipantCompleteToJson(this);
+  static const toJsonFactory = _$ParticipantBaseToJson;
+  Map<String, dynamic> toJson() => _$ParticipantBaseToJson(this);
 
-  @JsonKey(name: 'user_id', defaultValue: '')
-  final String userId;
-  @JsonKey(name: 'sport_id', defaultValue: '')
-  final String sportId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  @JsonKey(name: 'school_id', defaultValue: '')
-  final String schoolId;
-  @JsonKey(name: 'license')
-  final String? license;
-  @JsonKey(name: 'certificate_file_id')
-  final String? certificateFileId;
-  @JsonKey(name: 'is_license_valid', defaultValue: false)
-  final bool isLicenseValid;
-  @JsonKey(name: 'substitute', defaultValue: false)
-  final bool? substitute;
-  @JsonKey(name: 'team_id', defaultValue: '')
-  final String teamId;
-  @JsonKey(name: 'user')
-  final CompetitionUser user;
-  @JsonKey(name: 'team')
-  final Team team;
-  static const fromJsonFactory = _$ParticipantCompleteFromJson;
+  @JsonKey(name: 'name', defaultValue: '')
+  final String name;
+  @JsonKey(name: 'firstname', defaultValue: '')
+  final String firstname;
+  @JsonKey(name: 'birthday', toJson: _dateToJson)
+  final DateTime birthday;
+  @JsonKey(name: 'phone', defaultValue: '')
+  final String phone;
+  @JsonKey(name: 'email', defaultValue: '')
+  final String email;
+  static const fromJsonFactory = _$ParticipantBaseFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is ParticipantComplete &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
-            (identical(other.sportId, sportId) ||
+        (other is ParticipantBase &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.firstname, firstname) ||
                 const DeepCollectionEquality().equals(
-                  other.sportId,
-                  sportId,
+                  other.firstname,
+                  firstname,
                 )) &&
-            (identical(other.editionId, editionId) ||
+            (identical(other.birthday, birthday) ||
                 const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
+                  other.birthday,
+                  birthday,
                 )) &&
-            (identical(other.schoolId, schoolId) ||
-                const DeepCollectionEquality().equals(
-                  other.schoolId,
-                  schoolId,
-                )) &&
-            (identical(other.license, license) ||
-                const DeepCollectionEquality().equals(
-                  other.license,
-                  license,
-                )) &&
-            (identical(other.certificateFileId, certificateFileId) ||
-                const DeepCollectionEquality().equals(
-                  other.certificateFileId,
-                  certificateFileId,
-                )) &&
-            (identical(other.isLicenseValid, isLicenseValid) ||
-                const DeepCollectionEquality().equals(
-                  other.isLicenseValid,
-                  isLicenseValid,
-                )) &&
-            (identical(other.substitute, substitute) ||
-                const DeepCollectionEquality().equals(
-                  other.substitute,
-                  substitute,
-                )) &&
-            (identical(other.teamId, teamId) ||
-                const DeepCollectionEquality().equals(other.teamId, teamId)) &&
-            (identical(other.user, user) ||
-                const DeepCollectionEquality().equals(other.user, user)) &&
-            (identical(other.team, team) ||
-                const DeepCollectionEquality().equals(other.team, team)));
+            (identical(other.phone, phone) ||
+                const DeepCollectionEquality().equals(other.phone, phone)) &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)));
   }
 
   @override
@@ -14793,116 +13397,176 @@ class ParticipantComplete {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(userId) ^
-      const DeepCollectionEquality().hash(sportId) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      const DeepCollectionEquality().hash(schoolId) ^
-      const DeepCollectionEquality().hash(license) ^
-      const DeepCollectionEquality().hash(certificateFileId) ^
-      const DeepCollectionEquality().hash(isLicenseValid) ^
-      const DeepCollectionEquality().hash(substitute) ^
-      const DeepCollectionEquality().hash(teamId) ^
-      const DeepCollectionEquality().hash(user) ^
-      const DeepCollectionEquality().hash(team) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(firstname) ^
+      const DeepCollectionEquality().hash(birthday) ^
+      const DeepCollectionEquality().hash(phone) ^
+      const DeepCollectionEquality().hash(email) ^
       runtimeType.hashCode;
 }
 
-extension $ParticipantCompleteExtension on ParticipantComplete {
-  ParticipantComplete copyWith({
-    String? userId,
-    String? sportId,
-    String? editionId,
-    String? schoolId,
-    String? license,
-    String? certificateFileId,
-    bool? isLicenseValid,
-    bool? substitute,
-    String? teamId,
-    CompetitionUser? user,
-    Team? team,
+extension $ParticipantBaseExtension on ParticipantBase {
+  ParticipantBase copyWith({
+    String? name,
+    String? firstname,
+    DateTime? birthday,
+    String? phone,
+    String? email,
   }) {
-    return ParticipantComplete(
-      userId: userId ?? this.userId,
-      sportId: sportId ?? this.sportId,
-      editionId: editionId ?? this.editionId,
-      schoolId: schoolId ?? this.schoolId,
-      license: license ?? this.license,
-      certificateFileId: certificateFileId ?? this.certificateFileId,
-      isLicenseValid: isLicenseValid ?? this.isLicenseValid,
-      substitute: substitute ?? this.substitute,
-      teamId: teamId ?? this.teamId,
-      user: user ?? this.user,
-      team: team ?? this.team,
+    return ParticipantBase(
+      name: name ?? this.name,
+      firstname: firstname ?? this.firstname,
+      birthday: birthday ?? this.birthday,
+      phone: phone ?? this.phone,
+      email: email ?? this.email,
     );
   }
 
-  ParticipantComplete copyWithWrapped({
-    Wrapped<String>? userId,
-    Wrapped<String>? sportId,
-    Wrapped<String>? editionId,
-    Wrapped<String>? schoolId,
-    Wrapped<String?>? license,
-    Wrapped<String?>? certificateFileId,
-    Wrapped<bool>? isLicenseValid,
-    Wrapped<bool?>? substitute,
-    Wrapped<String>? teamId,
-    Wrapped<CompetitionUser>? user,
-    Wrapped<Team>? team,
+  ParticipantBase copyWithWrapped({
+    Wrapped<String>? name,
+    Wrapped<String>? firstname,
+    Wrapped<DateTime>? birthday,
+    Wrapped<String>? phone,
+    Wrapped<String>? email,
   }) {
-    return ParticipantComplete(
-      userId: (userId != null ? userId.value : this.userId),
-      sportId: (sportId != null ? sportId.value : this.sportId),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-      schoolId: (schoolId != null ? schoolId.value : this.schoolId),
-      license: (license != null ? license.value : this.license),
-      certificateFileId: (certificateFileId != null
-          ? certificateFileId.value
-          : this.certificateFileId),
-      isLicenseValid: (isLicenseValid != null
-          ? isLicenseValid.value
-          : this.isLicenseValid),
-      substitute: (substitute != null ? substitute.value : this.substitute),
-      teamId: (teamId != null ? teamId.value : this.teamId),
-      user: (user != null ? user.value : this.user),
-      team: (team != null ? team.value : this.team),
+    return ParticipantBase(
+      name: (name != null ? name.value : this.name),
+      firstname: (firstname != null ? firstname.value : this.firstname),
+      birthday: (birthday != null ? birthday.value : this.birthday),
+      phone: (phone != null ? phone.value : this.phone),
+      email: (email != null ? email.value : this.email),
     );
   }
 }
 
 @JsonSerializable(explicitToJson: true)
-class ParticipantInfo {
-  const ParticipantInfo({this.license, this.substitute, this.teamId});
+class ParticipantPreview {
+  const ParticipantPreview({
+    required this.name,
+    required this.firstname,
+    required this.birthday,
+    required this.phone,
+    required this.email,
+    required this.id,
+    required this.bikeSize,
+    required this.tShirtSize,
+    required this.situation,
+    required this.validationProgress,
+    required this.payment,
+    required this.tShirtPayment,
+    required this.numberOfDocument,
+    required this.numberOfValidatedDocument,
+  });
 
-  factory ParticipantInfo.fromJson(Map<String, dynamic> json) =>
-      _$ParticipantInfoFromJson(json);
+  factory ParticipantPreview.fromJson(Map<String, dynamic> json) =>
+      _$ParticipantPreviewFromJson(json);
 
-  static const toJsonFactory = _$ParticipantInfoToJson;
-  Map<String, dynamic> toJson() => _$ParticipantInfoToJson(this);
+  static const toJsonFactory = _$ParticipantPreviewToJson;
+  Map<String, dynamic> toJson() => _$ParticipantPreviewToJson(this);
 
-  @JsonKey(name: 'license')
-  final String? license;
-  @JsonKey(name: 'substitute', defaultValue: false)
-  final bool? substitute;
-  @JsonKey(name: 'team_id')
-  final String? teamId;
-  static const fromJsonFactory = _$ParticipantInfoFromJson;
+  @JsonKey(name: 'name', defaultValue: '')
+  final String name;
+  @JsonKey(name: 'firstname', defaultValue: '')
+  final String firstname;
+  @JsonKey(name: 'birthday', toJson: _dateToJson)
+  final DateTime birthday;
+  @JsonKey(name: 'phone', defaultValue: '')
+  final String phone;
+  @JsonKey(name: 'email', defaultValue: '')
+  final String email;
+  @JsonKey(name: 'id', defaultValue: '')
+  final String id;
+  @JsonKey(
+    name: 'bike_size',
+    toJson: sizeNullableToJson,
+    fromJson: sizeNullableFromJson,
+  )
+  final enums.Size? bikeSize;
+  @JsonKey(
+    name: 't_shirt_size',
+    toJson: sizeNullableToJson,
+    fromJson: sizeNullableFromJson,
+  )
+  final enums.Size? tShirtSize;
+  @JsonKey(name: 'situation')
+  final String? situation;
+  @JsonKey(name: 'validation_progress', defaultValue: 0.0)
+  final double validationProgress;
+  @JsonKey(name: 'payment', defaultValue: false)
+  final bool payment;
+  @JsonKey(name: 't_shirt_payment', defaultValue: false)
+  final bool tShirtPayment;
+  @JsonKey(name: 'number_of_document', defaultValue: 0)
+  final int numberOfDocument;
+  @JsonKey(name: 'number_of_validated_document', defaultValue: 0)
+  final int numberOfValidatedDocument;
+  static const fromJsonFactory = _$ParticipantPreviewFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is ParticipantInfo &&
-            (identical(other.license, license) ||
+        (other is ParticipantPreview &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.firstname, firstname) ||
                 const DeepCollectionEquality().equals(
-                  other.license,
-                  license,
+                  other.firstname,
+                  firstname,
                 )) &&
-            (identical(other.substitute, substitute) ||
+            (identical(other.birthday, birthday) ||
                 const DeepCollectionEquality().equals(
-                  other.substitute,
-                  substitute,
+                  other.birthday,
+                  birthday,
                 )) &&
-            (identical(other.teamId, teamId) ||
-                const DeepCollectionEquality().equals(other.teamId, teamId)));
+            (identical(other.phone, phone) ||
+                const DeepCollectionEquality().equals(other.phone, phone)) &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.bikeSize, bikeSize) ||
+                const DeepCollectionEquality().equals(
+                  other.bikeSize,
+                  bikeSize,
+                )) &&
+            (identical(other.tShirtSize, tShirtSize) ||
+                const DeepCollectionEquality().equals(
+                  other.tShirtSize,
+                  tShirtSize,
+                )) &&
+            (identical(other.situation, situation) ||
+                const DeepCollectionEquality().equals(
+                  other.situation,
+                  situation,
+                )) &&
+            (identical(other.validationProgress, validationProgress) ||
+                const DeepCollectionEquality().equals(
+                  other.validationProgress,
+                  validationProgress,
+                )) &&
+            (identical(other.payment, payment) ||
+                const DeepCollectionEquality().equals(
+                  other.payment,
+                  payment,
+                )) &&
+            (identical(other.tShirtPayment, tShirtPayment) ||
+                const DeepCollectionEquality().equals(
+                  other.tShirtPayment,
+                  tShirtPayment,
+                )) &&
+            (identical(other.numberOfDocument, numberOfDocument) ||
+                const DeepCollectionEquality().equals(
+                  other.numberOfDocument,
+                  numberOfDocument,
+                )) &&
+            (identical(
+                  other.numberOfValidatedDocument,
+                  numberOfValidatedDocument,
+                ) ||
+                const DeepCollectionEquality().equals(
+                  other.numberOfValidatedDocument,
+                  numberOfValidatedDocument,
+                )));
   }
 
   @override
@@ -14910,34 +13574,543 @@ class ParticipantInfo {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(license) ^
-      const DeepCollectionEquality().hash(substitute) ^
-      const DeepCollectionEquality().hash(teamId) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(firstname) ^
+      const DeepCollectionEquality().hash(birthday) ^
+      const DeepCollectionEquality().hash(phone) ^
+      const DeepCollectionEquality().hash(email) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(bikeSize) ^
+      const DeepCollectionEquality().hash(tShirtSize) ^
+      const DeepCollectionEquality().hash(situation) ^
+      const DeepCollectionEquality().hash(validationProgress) ^
+      const DeepCollectionEquality().hash(payment) ^
+      const DeepCollectionEquality().hash(tShirtPayment) ^
+      const DeepCollectionEquality().hash(numberOfDocument) ^
+      const DeepCollectionEquality().hash(numberOfValidatedDocument) ^
       runtimeType.hashCode;
 }
 
-extension $ParticipantInfoExtension on ParticipantInfo {
-  ParticipantInfo copyWith({
-    String? license,
-    bool? substitute,
-    String? teamId,
+extension $ParticipantPreviewExtension on ParticipantPreview {
+  ParticipantPreview copyWith({
+    String? name,
+    String? firstname,
+    DateTime? birthday,
+    String? phone,
+    String? email,
+    String? id,
+    enums.Size? bikeSize,
+    enums.Size? tShirtSize,
+    String? situation,
+    double? validationProgress,
+    bool? payment,
+    bool? tShirtPayment,
+    int? numberOfDocument,
+    int? numberOfValidatedDocument,
   }) {
-    return ParticipantInfo(
-      license: license ?? this.license,
-      substitute: substitute ?? this.substitute,
-      teamId: teamId ?? this.teamId,
+    return ParticipantPreview(
+      name: name ?? this.name,
+      firstname: firstname ?? this.firstname,
+      birthday: birthday ?? this.birthday,
+      phone: phone ?? this.phone,
+      email: email ?? this.email,
+      id: id ?? this.id,
+      bikeSize: bikeSize ?? this.bikeSize,
+      tShirtSize: tShirtSize ?? this.tShirtSize,
+      situation: situation ?? this.situation,
+      validationProgress: validationProgress ?? this.validationProgress,
+      payment: payment ?? this.payment,
+      tShirtPayment: tShirtPayment ?? this.tShirtPayment,
+      numberOfDocument: numberOfDocument ?? this.numberOfDocument,
+      numberOfValidatedDocument:
+          numberOfValidatedDocument ?? this.numberOfValidatedDocument,
     );
   }
 
-  ParticipantInfo copyWithWrapped({
-    Wrapped<String?>? license,
-    Wrapped<bool?>? substitute,
-    Wrapped<String?>? teamId,
+  ParticipantPreview copyWithWrapped({
+    Wrapped<String>? name,
+    Wrapped<String>? firstname,
+    Wrapped<DateTime>? birthday,
+    Wrapped<String>? phone,
+    Wrapped<String>? email,
+    Wrapped<String>? id,
+    Wrapped<enums.Size?>? bikeSize,
+    Wrapped<enums.Size?>? tShirtSize,
+    Wrapped<String?>? situation,
+    Wrapped<double>? validationProgress,
+    Wrapped<bool>? payment,
+    Wrapped<bool>? tShirtPayment,
+    Wrapped<int>? numberOfDocument,
+    Wrapped<int>? numberOfValidatedDocument,
   }) {
-    return ParticipantInfo(
-      license: (license != null ? license.value : this.license),
-      substitute: (substitute != null ? substitute.value : this.substitute),
-      teamId: (teamId != null ? teamId.value : this.teamId),
+    return ParticipantPreview(
+      name: (name != null ? name.value : this.name),
+      firstname: (firstname != null ? firstname.value : this.firstname),
+      birthday: (birthday != null ? birthday.value : this.birthday),
+      phone: (phone != null ? phone.value : this.phone),
+      email: (email != null ? email.value : this.email),
+      id: (id != null ? id.value : this.id),
+      bikeSize: (bikeSize != null ? bikeSize.value : this.bikeSize),
+      tShirtSize: (tShirtSize != null ? tShirtSize.value : this.tShirtSize),
+      situation: (situation != null ? situation.value : this.situation),
+      validationProgress: (validationProgress != null
+          ? validationProgress.value
+          : this.validationProgress),
+      payment: (payment != null ? payment.value : this.payment),
+      tShirtPayment: (tShirtPayment != null
+          ? tShirtPayment.value
+          : this.tShirtPayment),
+      numberOfDocument: (numberOfDocument != null
+          ? numberOfDocument.value
+          : this.numberOfDocument),
+      numberOfValidatedDocument: (numberOfValidatedDocument != null
+          ? numberOfValidatedDocument.value
+          : this.numberOfValidatedDocument),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ParticipantUpdate {
+  const ParticipantUpdate({
+    this.name,
+    this.firstname,
+    this.birthday,
+    this.address,
+    this.phone,
+    this.email,
+    this.bikeSize,
+    this.tShirtSize,
+    this.situation,
+    this.otherSchool,
+    this.company,
+    this.diet,
+    this.attestationOnHonour,
+    this.idCardId,
+    this.medicalCertificateId,
+    this.securityFileId,
+    this.studentCardId,
+    this.raidRulesId,
+    this.parentAuthorizationId,
+  });
+
+  factory ParticipantUpdate.fromJson(Map<String, dynamic> json) =>
+      _$ParticipantUpdateFromJson(json);
+
+  static const toJsonFactory = _$ParticipantUpdateToJson;
+  Map<String, dynamic> toJson() => _$ParticipantUpdateToJson(this);
+
+  @JsonKey(name: 'name')
+  final String? name;
+  @JsonKey(name: 'firstname')
+  final String? firstname;
+  @JsonKey(name: 'birthday', toJson: _dateToJson)
+  final DateTime? birthday;
+  @JsonKey(name: 'address')
+  final String? address;
+  @JsonKey(name: 'phone')
+  final String? phone;
+  @JsonKey(name: 'email')
+  final String? email;
+  @JsonKey(
+    name: 'bike_size',
+    toJson: sizeNullableToJson,
+    fromJson: sizeNullableFromJson,
+  )
+  final enums.Size? bikeSize;
+  @JsonKey(
+    name: 't_shirt_size',
+    toJson: sizeNullableToJson,
+    fromJson: sizeNullableFromJson,
+  )
+  final enums.Size? tShirtSize;
+  @JsonKey(name: 'situation')
+  final String? situation;
+  @JsonKey(name: 'other_school')
+  final String? otherSchool;
+  @JsonKey(name: 'company')
+  final String? company;
+  @JsonKey(name: 'diet')
+  final String? diet;
+  @JsonKey(name: 'attestation_on_honour')
+  final bool? attestationOnHonour;
+  @JsonKey(name: 'id_card_id')
+  final String? idCardId;
+  @JsonKey(name: 'medical_certificate_id')
+  final String? medicalCertificateId;
+  @JsonKey(name: 'security_file_id')
+  final String? securityFileId;
+  @JsonKey(name: 'student_card_id')
+  final String? studentCardId;
+  @JsonKey(name: 'raid_rules_id')
+  final String? raidRulesId;
+  @JsonKey(name: 'parent_authorization_id')
+  final String? parentAuthorizationId;
+  static const fromJsonFactory = _$ParticipantUpdateFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ParticipantUpdate &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.firstname, firstname) ||
+                const DeepCollectionEquality().equals(
+                  other.firstname,
+                  firstname,
+                )) &&
+            (identical(other.birthday, birthday) ||
+                const DeepCollectionEquality().equals(
+                  other.birthday,
+                  birthday,
+                )) &&
+            (identical(other.address, address) ||
+                const DeepCollectionEquality().equals(
+                  other.address,
+                  address,
+                )) &&
+            (identical(other.phone, phone) ||
+                const DeepCollectionEquality().equals(other.phone, phone)) &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)) &&
+            (identical(other.bikeSize, bikeSize) ||
+                const DeepCollectionEquality().equals(
+                  other.bikeSize,
+                  bikeSize,
+                )) &&
+            (identical(other.tShirtSize, tShirtSize) ||
+                const DeepCollectionEquality().equals(
+                  other.tShirtSize,
+                  tShirtSize,
+                )) &&
+            (identical(other.situation, situation) ||
+                const DeepCollectionEquality().equals(
+                  other.situation,
+                  situation,
+                )) &&
+            (identical(other.otherSchool, otherSchool) ||
+                const DeepCollectionEquality().equals(
+                  other.otherSchool,
+                  otherSchool,
+                )) &&
+            (identical(other.company, company) ||
+                const DeepCollectionEquality().equals(
+                  other.company,
+                  company,
+                )) &&
+            (identical(other.diet, diet) ||
+                const DeepCollectionEquality().equals(other.diet, diet)) &&
+            (identical(other.attestationOnHonour, attestationOnHonour) ||
+                const DeepCollectionEquality().equals(
+                  other.attestationOnHonour,
+                  attestationOnHonour,
+                )) &&
+            (identical(other.idCardId, idCardId) ||
+                const DeepCollectionEquality().equals(
+                  other.idCardId,
+                  idCardId,
+                )) &&
+            (identical(other.medicalCertificateId, medicalCertificateId) ||
+                const DeepCollectionEquality().equals(
+                  other.medicalCertificateId,
+                  medicalCertificateId,
+                )) &&
+            (identical(other.securityFileId, securityFileId) ||
+                const DeepCollectionEquality().equals(
+                  other.securityFileId,
+                  securityFileId,
+                )) &&
+            (identical(other.studentCardId, studentCardId) ||
+                const DeepCollectionEquality().equals(
+                  other.studentCardId,
+                  studentCardId,
+                )) &&
+            (identical(other.raidRulesId, raidRulesId) ||
+                const DeepCollectionEquality().equals(
+                  other.raidRulesId,
+                  raidRulesId,
+                )) &&
+            (identical(other.parentAuthorizationId, parentAuthorizationId) ||
+                const DeepCollectionEquality().equals(
+                  other.parentAuthorizationId,
+                  parentAuthorizationId,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(firstname) ^
+      const DeepCollectionEquality().hash(birthday) ^
+      const DeepCollectionEquality().hash(address) ^
+      const DeepCollectionEquality().hash(phone) ^
+      const DeepCollectionEquality().hash(email) ^
+      const DeepCollectionEquality().hash(bikeSize) ^
+      const DeepCollectionEquality().hash(tShirtSize) ^
+      const DeepCollectionEquality().hash(situation) ^
+      const DeepCollectionEquality().hash(otherSchool) ^
+      const DeepCollectionEquality().hash(company) ^
+      const DeepCollectionEquality().hash(diet) ^
+      const DeepCollectionEquality().hash(attestationOnHonour) ^
+      const DeepCollectionEquality().hash(idCardId) ^
+      const DeepCollectionEquality().hash(medicalCertificateId) ^
+      const DeepCollectionEquality().hash(securityFileId) ^
+      const DeepCollectionEquality().hash(studentCardId) ^
+      const DeepCollectionEquality().hash(raidRulesId) ^
+      const DeepCollectionEquality().hash(parentAuthorizationId) ^
+      runtimeType.hashCode;
+}
+
+extension $ParticipantUpdateExtension on ParticipantUpdate {
+  ParticipantUpdate copyWith({
+    String? name,
+    String? firstname,
+    DateTime? birthday,
+    String? address,
+    String? phone,
+    String? email,
+    enums.Size? bikeSize,
+    enums.Size? tShirtSize,
+    String? situation,
+    String? otherSchool,
+    String? company,
+    String? diet,
+    bool? attestationOnHonour,
+    String? idCardId,
+    String? medicalCertificateId,
+    String? securityFileId,
+    String? studentCardId,
+    String? raidRulesId,
+    String? parentAuthorizationId,
+  }) {
+    return ParticipantUpdate(
+      name: name ?? this.name,
+      firstname: firstname ?? this.firstname,
+      birthday: birthday ?? this.birthday,
+      address: address ?? this.address,
+      phone: phone ?? this.phone,
+      email: email ?? this.email,
+      bikeSize: bikeSize ?? this.bikeSize,
+      tShirtSize: tShirtSize ?? this.tShirtSize,
+      situation: situation ?? this.situation,
+      otherSchool: otherSchool ?? this.otherSchool,
+      company: company ?? this.company,
+      diet: diet ?? this.diet,
+      attestationOnHonour: attestationOnHonour ?? this.attestationOnHonour,
+      idCardId: idCardId ?? this.idCardId,
+      medicalCertificateId: medicalCertificateId ?? this.medicalCertificateId,
+      securityFileId: securityFileId ?? this.securityFileId,
+      studentCardId: studentCardId ?? this.studentCardId,
+      raidRulesId: raidRulesId ?? this.raidRulesId,
+      parentAuthorizationId:
+          parentAuthorizationId ?? this.parentAuthorizationId,
+    );
+  }
+
+  ParticipantUpdate copyWithWrapped({
+    Wrapped<String?>? name,
+    Wrapped<String?>? firstname,
+    Wrapped<DateTime?>? birthday,
+    Wrapped<String?>? address,
+    Wrapped<String?>? phone,
+    Wrapped<String?>? email,
+    Wrapped<enums.Size?>? bikeSize,
+    Wrapped<enums.Size?>? tShirtSize,
+    Wrapped<String?>? situation,
+    Wrapped<String?>? otherSchool,
+    Wrapped<String?>? company,
+    Wrapped<String?>? diet,
+    Wrapped<bool?>? attestationOnHonour,
+    Wrapped<String?>? idCardId,
+    Wrapped<String?>? medicalCertificateId,
+    Wrapped<String?>? securityFileId,
+    Wrapped<String?>? studentCardId,
+    Wrapped<String?>? raidRulesId,
+    Wrapped<String?>? parentAuthorizationId,
+  }) {
+    return ParticipantUpdate(
+      name: (name != null ? name.value : this.name),
+      firstname: (firstname != null ? firstname.value : this.firstname),
+      birthday: (birthday != null ? birthday.value : this.birthday),
+      address: (address != null ? address.value : this.address),
+      phone: (phone != null ? phone.value : this.phone),
+      email: (email != null ? email.value : this.email),
+      bikeSize: (bikeSize != null ? bikeSize.value : this.bikeSize),
+      tShirtSize: (tShirtSize != null ? tShirtSize.value : this.tShirtSize),
+      situation: (situation != null ? situation.value : this.situation),
+      otherSchool: (otherSchool != null ? otherSchool.value : this.otherSchool),
+      company: (company != null ? company.value : this.company),
+      diet: (diet != null ? diet.value : this.diet),
+      attestationOnHonour: (attestationOnHonour != null
+          ? attestationOnHonour.value
+          : this.attestationOnHonour),
+      idCardId: (idCardId != null ? idCardId.value : this.idCardId),
+      medicalCertificateId: (medicalCertificateId != null
+          ? medicalCertificateId.value
+          : this.medicalCertificateId),
+      securityFileId: (securityFileId != null
+          ? securityFileId.value
+          : this.securityFileId),
+      studentCardId: (studentCardId != null
+          ? studentCardId.value
+          : this.studentCardId),
+      raidRulesId: (raidRulesId != null ? raidRulesId.value : this.raidRulesId),
+      parentAuthorizationId: (parentAuthorizationId != null
+          ? parentAuthorizationId.value
+          : this.parentAuthorizationId),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PaymentBase {
+  const PaymentBase({required this.total, required this.paymentType});
+
+  factory PaymentBase.fromJson(Map<String, dynamic> json) =>
+      _$PaymentBaseFromJson(json);
+
+  static const toJsonFactory = _$PaymentBaseToJson;
+  Map<String, dynamic> toJson() => _$PaymentBaseToJson(this);
+
+  @JsonKey(name: 'total', defaultValue: 0)
+  final int total;
+  @JsonKey(
+    name: 'payment_type',
+    toJson: paymentTypeToJson,
+    fromJson: paymentTypeFromJson,
+  )
+  final enums.PaymentType paymentType;
+  static const fromJsonFactory = _$PaymentBaseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PaymentBase &&
+            (identical(other.total, total) ||
+                const DeepCollectionEquality().equals(other.total, total)) &&
+            (identical(other.paymentType, paymentType) ||
+                const DeepCollectionEquality().equals(
+                  other.paymentType,
+                  paymentType,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(total) ^
+      const DeepCollectionEquality().hash(paymentType) ^
+      runtimeType.hashCode;
+}
+
+extension $PaymentBaseExtension on PaymentBase {
+  PaymentBase copyWith({int? total, enums.PaymentType? paymentType}) {
+    return PaymentBase(
+      total: total ?? this.total,
+      paymentType: paymentType ?? this.paymentType,
+    );
+  }
+
+  PaymentBase copyWithWrapped({
+    Wrapped<int>? total,
+    Wrapped<enums.PaymentType>? paymentType,
+  }) {
+    return PaymentBase(
+      total: (total != null ? total.value : this.total),
+      paymentType: (paymentType != null ? paymentType.value : this.paymentType),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PaymentComplete {
+  const PaymentComplete({
+    required this.total,
+    required this.paymentType,
+    required this.id,
+    required this.userId,
+  });
+
+  factory PaymentComplete.fromJson(Map<String, dynamic> json) =>
+      _$PaymentCompleteFromJson(json);
+
+  static const toJsonFactory = _$PaymentCompleteToJson;
+  Map<String, dynamic> toJson() => _$PaymentCompleteToJson(this);
+
+  @JsonKey(name: 'total', defaultValue: 0)
+  final int total;
+  @JsonKey(
+    name: 'payment_type',
+    toJson: paymentTypeToJson,
+    fromJson: paymentTypeFromJson,
+  )
+  final enums.PaymentType paymentType;
+  @JsonKey(name: 'id', defaultValue: '')
+  final String id;
+  @JsonKey(name: 'user_id', defaultValue: '')
+  final String userId;
+  static const fromJsonFactory = _$PaymentCompleteFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PaymentComplete &&
+            (identical(other.total, total) ||
+                const DeepCollectionEquality().equals(other.total, total)) &&
+            (identical(other.paymentType, paymentType) ||
+                const DeepCollectionEquality().equals(
+                  other.paymentType,
+                  paymentType,
+                )) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(total) ^
+      const DeepCollectionEquality().hash(paymentType) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(userId) ^
+      runtimeType.hashCode;
+}
+
+extension $PaymentCompleteExtension on PaymentComplete {
+  PaymentComplete copyWith({
+    int? total,
+    enums.PaymentType? paymentType,
+    String? id,
+    String? userId,
+  }) {
+    return PaymentComplete(
+      total: total ?? this.total,
+      paymentType: paymentType ?? this.paymentType,
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+    );
+  }
+
+  PaymentComplete copyWithWrapped({
+    Wrapped<int>? total,
+    Wrapped<enums.PaymentType>? paymentType,
+    Wrapped<String>? id,
+    Wrapped<String>? userId,
+  }) {
+    return PaymentComplete(
+      total: (total != null ? total.value : this.total),
+      paymentType: (paymentType != null ? paymentType.value : this.paymentType),
+      id: (id != null ? id.value : this.id),
+      userId: (userId != null ? userId.value : this.userId),
     );
   }
 }
@@ -15918,55 +15091,87 @@ extension $PrizeSimpleExtension on PrizeSimple {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Product {
-  const Product({
-    required this.name,
-    this.required,
-    this.description,
-    required this.id,
-    required this.editionId,
+class ProductBase {
+  const ProductBase({
+    required this.nameFr,
+    this.nameEn,
+    this.descriptionFr,
+    this.descriptionEn,
+    required this.availableOnline,
+    this.relatedMembership,
+    this.tickets,
+    required this.productConstraints,
+    required this.documentConstraints,
   });
 
-  factory Product.fromJson(Map<String, dynamic> json) =>
-      _$ProductFromJson(json);
+  factory ProductBase.fromJson(Map<String, dynamic> json) =>
+      _$ProductBaseFromJson(json);
 
-  static const toJsonFactory = _$ProductToJson;
-  Map<String, dynamic> toJson() => _$ProductToJson(this);
+  static const toJsonFactory = _$ProductBaseToJson;
+  Map<String, dynamic> toJson() => _$ProductBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'required', defaultValue: false)
-  final bool? required;
-  @JsonKey(name: 'description')
-  final String? description;
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  static const fromJsonFactory = _$ProductFromJson;
+  @JsonKey(name: 'name_fr', defaultValue: '')
+  final String nameFr;
+  @JsonKey(name: 'name_en')
+  final String? nameEn;
+  @JsonKey(name: 'description_fr')
+  final String? descriptionFr;
+  @JsonKey(name: 'description_en')
+  final String? descriptionEn;
+  @JsonKey(name: 'available_online', defaultValue: false)
+  final bool availableOnline;
+  @JsonKey(name: 'related_membership')
+  final MembershipSimple? relatedMembership;
+  @JsonKey(name: 'tickets', defaultValue: <GenerateTicketBase>[])
+  final List<GenerateTicketBase>? tickets;
+  @JsonKey(name: 'product_constraints', defaultValue: <String>[])
+  final List<String> productConstraints;
+  @JsonKey(name: 'document_constraints', defaultValue: <String>[])
+  final List<String> documentConstraints;
+  static const fromJsonFactory = _$ProductBaseFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is Product &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.required, required) ||
+        (other is ProductBase &&
+            (identical(other.nameFr, nameFr) ||
+                const DeepCollectionEquality().equals(other.nameFr, nameFr)) &&
+            (identical(other.nameEn, nameEn) ||
+                const DeepCollectionEquality().equals(other.nameEn, nameEn)) &&
+            (identical(other.descriptionFr, descriptionFr) ||
                 const DeepCollectionEquality().equals(
-                  other.required,
-                  required,
+                  other.descriptionFr,
+                  descriptionFr,
                 )) &&
-            (identical(other.description, description) ||
+            (identical(other.descriptionEn, descriptionEn) ||
                 const DeepCollectionEquality().equals(
-                  other.description,
-                  description,
+                  other.descriptionEn,
+                  descriptionEn,
                 )) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.editionId, editionId) ||
+            (identical(other.availableOnline, availableOnline) ||
                 const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
+                  other.availableOnline,
+                  availableOnline,
+                )) &&
+            (identical(other.relatedMembership, relatedMembership) ||
+                const DeepCollectionEquality().equals(
+                  other.relatedMembership,
+                  relatedMembership,
+                )) &&
+            (identical(other.tickets, tickets) ||
+                const DeepCollectionEquality().equals(
+                  other.tickets,
+                  tickets,
+                )) &&
+            (identical(other.productConstraints, productConstraints) ||
+                const DeepCollectionEquality().equals(
+                  other.productConstraints,
+                  productConstraints,
+                )) &&
+            (identical(other.documentConstraints, documentConstraints) ||
+                const DeepCollectionEquality().equals(
+                  other.documentConstraints,
+                  documentConstraints,
                 )));
   }
 
@@ -15975,44 +15180,76 @@ class Product {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(required) ^
-      const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(editionId) ^
+      const DeepCollectionEquality().hash(nameFr) ^
+      const DeepCollectionEquality().hash(nameEn) ^
+      const DeepCollectionEquality().hash(descriptionFr) ^
+      const DeepCollectionEquality().hash(descriptionEn) ^
+      const DeepCollectionEquality().hash(availableOnline) ^
+      const DeepCollectionEquality().hash(relatedMembership) ^
+      const DeepCollectionEquality().hash(tickets) ^
+      const DeepCollectionEquality().hash(productConstraints) ^
+      const DeepCollectionEquality().hash(documentConstraints) ^
       runtimeType.hashCode;
 }
 
-extension $ProductExtension on Product {
-  Product copyWith({
-    String? name,
-    bool? required,
-    String? description,
-    String? id,
-    String? editionId,
+extension $ProductBaseExtension on ProductBase {
+  ProductBase copyWith({
+    String? nameFr,
+    String? nameEn,
+    String? descriptionFr,
+    String? descriptionEn,
+    bool? availableOnline,
+    MembershipSimple? relatedMembership,
+    List<GenerateTicketBase>? tickets,
+    List<String>? productConstraints,
+    List<String>? documentConstraints,
   }) {
-    return Product(
-      name: name ?? this.name,
-      required: required ?? this.required,
-      description: description ?? this.description,
-      id: id ?? this.id,
-      editionId: editionId ?? this.editionId,
+    return ProductBase(
+      nameFr: nameFr ?? this.nameFr,
+      nameEn: nameEn ?? this.nameEn,
+      descriptionFr: descriptionFr ?? this.descriptionFr,
+      descriptionEn: descriptionEn ?? this.descriptionEn,
+      availableOnline: availableOnline ?? this.availableOnline,
+      relatedMembership: relatedMembership ?? this.relatedMembership,
+      tickets: tickets ?? this.tickets,
+      productConstraints: productConstraints ?? this.productConstraints,
+      documentConstraints: documentConstraints ?? this.documentConstraints,
     );
   }
 
-  Product copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<bool?>? required,
-    Wrapped<String?>? description,
-    Wrapped<String>? id,
-    Wrapped<String>? editionId,
+  ProductBase copyWithWrapped({
+    Wrapped<String>? nameFr,
+    Wrapped<String?>? nameEn,
+    Wrapped<String?>? descriptionFr,
+    Wrapped<String?>? descriptionEn,
+    Wrapped<bool>? availableOnline,
+    Wrapped<MembershipSimple?>? relatedMembership,
+    Wrapped<List<GenerateTicketBase>?>? tickets,
+    Wrapped<List<String>>? productConstraints,
+    Wrapped<List<String>>? documentConstraints,
   }) {
-    return Product(
-      name: (name != null ? name.value : this.name),
-      required: (required != null ? required.value : this.required),
-      description: (description != null ? description.value : this.description),
-      id: (id != null ? id.value : this.id),
-      editionId: (editionId != null ? editionId.value : this.editionId),
+    return ProductBase(
+      nameFr: (nameFr != null ? nameFr.value : this.nameFr),
+      nameEn: (nameEn != null ? nameEn.value : this.nameEn),
+      descriptionFr: (descriptionFr != null
+          ? descriptionFr.value
+          : this.descriptionFr),
+      descriptionEn: (descriptionEn != null
+          ? descriptionEn.value
+          : this.descriptionEn),
+      availableOnline: (availableOnline != null
+          ? availableOnline.value
+          : this.availableOnline),
+      relatedMembership: (relatedMembership != null
+          ? relatedMembership.value
+          : this.relatedMembership),
+      tickets: (tickets != null ? tickets.value : this.tickets),
+      productConstraints: (productConstraints != null
+          ? productConstraints.value
+          : this.productConstraints),
+      documentConstraints: (documentConstraints != null
+          ? documentConstraints.value
+          : this.documentConstraints),
     );
   }
 }
@@ -16025,8 +15262,6 @@ class ProductCompleteNoConstraint {
     this.descriptionFr,
     this.descriptionEn,
     required this.availableOnline,
-    required this.needsValidation,
-    required this.year,
     required this.id,
     required this.sellerId,
     this.variants,
@@ -16050,19 +15285,12 @@ class ProductCompleteNoConstraint {
   final String? descriptionEn;
   @JsonKey(name: 'available_online', defaultValue: false)
   final bool availableOnline;
-  @JsonKey(name: 'needs_validation', defaultValue: false)
-  final bool needsValidation;
-  @JsonKey(name: 'year', defaultValue: 0)
-  final int year;
   @JsonKey(name: 'id', defaultValue: '')
   final String id;
   @JsonKey(name: 'seller_id', defaultValue: '')
   final String sellerId;
-  @JsonKey(
-    name: 'variants',
-    defaultValue: <AppModulesCdrSchemasCdrProductVariantComplete>[],
-  )
-  final List<AppModulesCdrSchemasCdrProductVariantComplete>? variants;
+  @JsonKey(name: 'variants', defaultValue: <ProductVariantComplete>[])
+  final List<ProductVariantComplete>? variants;
   @JsonKey(name: 'related_membership')
   final MembershipSimple? relatedMembership;
   @JsonKey(name: 'tickets', defaultValue: <GenerateTicketComplete>[])
@@ -16092,13 +15320,6 @@ class ProductCompleteNoConstraint {
                   other.availableOnline,
                   availableOnline,
                 )) &&
-            (identical(other.needsValidation, needsValidation) ||
-                const DeepCollectionEquality().equals(
-                  other.needsValidation,
-                  needsValidation,
-                )) &&
-            (identical(other.year, year) ||
-                const DeepCollectionEquality().equals(other.year, year)) &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.sellerId, sellerId) ||
@@ -16130,8 +15351,6 @@ class ProductCompleteNoConstraint {
       const DeepCollectionEquality().hash(descriptionFr) ^
       const DeepCollectionEquality().hash(descriptionEn) ^
       const DeepCollectionEquality().hash(availableOnline) ^
-      const DeepCollectionEquality().hash(needsValidation) ^
-      const DeepCollectionEquality().hash(year) ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(sellerId) ^
       const DeepCollectionEquality().hash(variants) ^
@@ -16147,11 +15366,9 @@ extension $ProductCompleteNoConstraintExtension on ProductCompleteNoConstraint {
     String? descriptionFr,
     String? descriptionEn,
     bool? availableOnline,
-    bool? needsValidation,
-    int? year,
     String? id,
     String? sellerId,
-    List<AppModulesCdrSchemasCdrProductVariantComplete>? variants,
+    List<ProductVariantComplete>? variants,
     MembershipSimple? relatedMembership,
     List<GenerateTicketComplete>? tickets,
   }) {
@@ -16161,8 +15378,6 @@ extension $ProductCompleteNoConstraintExtension on ProductCompleteNoConstraint {
       descriptionFr: descriptionFr ?? this.descriptionFr,
       descriptionEn: descriptionEn ?? this.descriptionEn,
       availableOnline: availableOnline ?? this.availableOnline,
-      needsValidation: needsValidation ?? this.needsValidation,
-      year: year ?? this.year,
       id: id ?? this.id,
       sellerId: sellerId ?? this.sellerId,
       variants: variants ?? this.variants,
@@ -16177,11 +15392,9 @@ extension $ProductCompleteNoConstraintExtension on ProductCompleteNoConstraint {
     Wrapped<String?>? descriptionFr,
     Wrapped<String?>? descriptionEn,
     Wrapped<bool>? availableOnline,
-    Wrapped<bool>? needsValidation,
-    Wrapped<int>? year,
     Wrapped<String>? id,
     Wrapped<String>? sellerId,
-    Wrapped<List<AppModulesCdrSchemasCdrProductVariantComplete>?>? variants,
+    Wrapped<List<ProductVariantComplete>?>? variants,
     Wrapped<MembershipSimple?>? relatedMembership,
     Wrapped<List<GenerateTicketComplete>>? tickets,
   }) {
@@ -16197,10 +15410,6 @@ extension $ProductCompleteNoConstraintExtension on ProductCompleteNoConstraint {
       availableOnline: (availableOnline != null
           ? availableOnline.value
           : this.availableOnline),
-      needsValidation: (needsValidation != null
-          ? needsValidation.value
-          : this.needsValidation),
-      year: (year != null ? year.value : this.year),
       id: (id != null ? id.value : this.id),
       sellerId: (sellerId != null ? sellerId.value : this.sellerId),
       variants: (variants != null ? variants.value : this.variants),
@@ -16344,71 +15553,62 @@ extension $ProductSimpleExtension on ProductSimple {
 }
 
 @JsonSerializable(explicitToJson: true)
-class ProductVariant {
-  const ProductVariant({
-    required this.productId,
-    required this.name,
-    this.description,
+class ProductVariantBase {
+  const ProductVariantBase({
+    required this.nameFr,
+    this.nameEn,
+    this.descriptionFr,
+    this.descriptionEn,
     required this.price,
-    this.enabled,
+    required this.enabled,
     required this.unique,
-    required this.schoolType,
-    this.publicType,
-    required this.editionId,
-    required this.id,
+    required this.allowedCurriculum,
+    this.relatedMembershipAddedDuration,
   });
 
-  factory ProductVariant.fromJson(Map<String, dynamic> json) =>
-      _$ProductVariantFromJson(json);
+  factory ProductVariantBase.fromJson(Map<String, dynamic> json) =>
+      _$ProductVariantBaseFromJson(json);
 
-  static const toJsonFactory = _$ProductVariantToJson;
-  Map<String, dynamic> toJson() => _$ProductVariantToJson(this);
+  static const toJsonFactory = _$ProductVariantBaseToJson;
+  Map<String, dynamic> toJson() => _$ProductVariantBaseToJson(this);
 
-  @JsonKey(name: 'product_id', defaultValue: '')
-  final String productId;
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'description')
-  final String? description;
+  @JsonKey(name: 'name_fr', defaultValue: '')
+  final String nameFr;
+  @JsonKey(name: 'name_en')
+  final String? nameEn;
+  @JsonKey(name: 'description_fr')
+  final String? descriptionFr;
+  @JsonKey(name: 'description_en')
+  final String? descriptionEn;
   @JsonKey(name: 'price', defaultValue: 0)
   final int price;
-  @JsonKey(name: 'enabled', defaultValue: true)
-  final bool? enabled;
+  @JsonKey(name: 'enabled', defaultValue: false)
+  final bool enabled;
   @JsonKey(name: 'unique', defaultValue: false)
   final bool unique;
-  @JsonKey(
-    name: 'school_type',
-    toJson: productSchoolTypeToJson,
-    fromJson: productSchoolTypeFromJson,
-  )
-  final enums.ProductSchoolType schoolType;
-  @JsonKey(
-    name: 'public_type',
-    toJson: productPublicTypeNullableToJson,
-    fromJson: productPublicTypeNullableFromJson,
-  )
-  final enums.ProductPublicType? publicType;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  static const fromJsonFactory = _$ProductVariantFromJson;
+  @JsonKey(name: 'allowed_curriculum', defaultValue: <String>[])
+  final List<String> allowedCurriculum;
+  @JsonKey(name: 'related_membership_added_duration')
+  final String? relatedMembershipAddedDuration;
+  static const fromJsonFactory = _$ProductVariantBaseFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is ProductVariant &&
-            (identical(other.productId, productId) ||
+        (other is ProductVariantBase &&
+            (identical(other.nameFr, nameFr) ||
+                const DeepCollectionEquality().equals(other.nameFr, nameFr)) &&
+            (identical(other.nameEn, nameEn) ||
+                const DeepCollectionEquality().equals(other.nameEn, nameEn)) &&
+            (identical(other.descriptionFr, descriptionFr) ||
                 const DeepCollectionEquality().equals(
-                  other.productId,
-                  productId,
+                  other.descriptionFr,
+                  descriptionFr,
                 )) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.description, description) ||
+            (identical(other.descriptionEn, descriptionEn) ||
                 const DeepCollectionEquality().equals(
-                  other.description,
-                  description,
+                  other.descriptionEn,
+                  descriptionEn,
                 )) &&
             (identical(other.price, price) ||
                 const DeepCollectionEquality().equals(other.price, price)) &&
@@ -16419,23 +15619,19 @@ class ProductVariant {
                 )) &&
             (identical(other.unique, unique) ||
                 const DeepCollectionEquality().equals(other.unique, unique)) &&
-            (identical(other.schoolType, schoolType) ||
+            (identical(other.allowedCurriculum, allowedCurriculum) ||
                 const DeepCollectionEquality().equals(
-                  other.schoolType,
-                  schoolType,
+                  other.allowedCurriculum,
+                  allowedCurriculum,
                 )) &&
-            (identical(other.publicType, publicType) ||
+            (identical(
+                  other.relatedMembershipAddedDuration,
+                  relatedMembershipAddedDuration,
+                ) ||
                 const DeepCollectionEquality().equals(
-                  other.publicType,
-                  publicType,
-                )) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)));
+                  other.relatedMembershipAddedDuration,
+                  relatedMembershipAddedDuration,
+                )));
   }
 
   @override
@@ -16443,113 +15639,493 @@ class ProductVariant {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(productId) ^
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(nameFr) ^
+      const DeepCollectionEquality().hash(nameEn) ^
+      const DeepCollectionEquality().hash(descriptionFr) ^
+      const DeepCollectionEquality().hash(descriptionEn) ^
       const DeepCollectionEquality().hash(price) ^
       const DeepCollectionEquality().hash(enabled) ^
       const DeepCollectionEquality().hash(unique) ^
-      const DeepCollectionEquality().hash(schoolType) ^
-      const DeepCollectionEquality().hash(publicType) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(allowedCurriculum) ^
+      const DeepCollectionEquality().hash(relatedMembershipAddedDuration) ^
       runtimeType.hashCode;
 }
 
-extension $ProductVariantExtension on ProductVariant {
-  ProductVariant copyWith({
-    String? productId,
-    String? name,
-    String? description,
+extension $ProductVariantBaseExtension on ProductVariantBase {
+  ProductVariantBase copyWith({
+    String? nameFr,
+    String? nameEn,
+    String? descriptionFr,
+    String? descriptionEn,
     int? price,
     bool? enabled,
     bool? unique,
-    enums.ProductSchoolType? schoolType,
-    enums.ProductPublicType? publicType,
-    String? editionId,
-    String? id,
+    List<String>? allowedCurriculum,
+    String? relatedMembershipAddedDuration,
   }) {
-    return ProductVariant(
-      productId: productId ?? this.productId,
-      name: name ?? this.name,
-      description: description ?? this.description,
+    return ProductVariantBase(
+      nameFr: nameFr ?? this.nameFr,
+      nameEn: nameEn ?? this.nameEn,
+      descriptionFr: descriptionFr ?? this.descriptionFr,
+      descriptionEn: descriptionEn ?? this.descriptionEn,
       price: price ?? this.price,
       enabled: enabled ?? this.enabled,
       unique: unique ?? this.unique,
-      schoolType: schoolType ?? this.schoolType,
-      publicType: publicType ?? this.publicType,
-      editionId: editionId ?? this.editionId,
-      id: id ?? this.id,
+      allowedCurriculum: allowedCurriculum ?? this.allowedCurriculum,
+      relatedMembershipAddedDuration:
+          relatedMembershipAddedDuration ?? this.relatedMembershipAddedDuration,
     );
   }
 
-  ProductVariant copyWithWrapped({
-    Wrapped<String>? productId,
-    Wrapped<String>? name,
-    Wrapped<String?>? description,
+  ProductVariantBase copyWithWrapped({
+    Wrapped<String>? nameFr,
+    Wrapped<String?>? nameEn,
+    Wrapped<String?>? descriptionFr,
+    Wrapped<String?>? descriptionEn,
     Wrapped<int>? price,
-    Wrapped<bool?>? enabled,
+    Wrapped<bool>? enabled,
     Wrapped<bool>? unique,
-    Wrapped<enums.ProductSchoolType>? schoolType,
-    Wrapped<enums.ProductPublicType?>? publicType,
-    Wrapped<String>? editionId,
-    Wrapped<String>? id,
+    Wrapped<List<String>>? allowedCurriculum,
+    Wrapped<String?>? relatedMembershipAddedDuration,
   }) {
-    return ProductVariant(
-      productId: (productId != null ? productId.value : this.productId),
-      name: (name != null ? name.value : this.name),
-      description: (description != null ? description.value : this.description),
+    return ProductVariantBase(
+      nameFr: (nameFr != null ? nameFr.value : this.nameFr),
+      nameEn: (nameEn != null ? nameEn.value : this.nameEn),
+      descriptionFr: (descriptionFr != null
+          ? descriptionFr.value
+          : this.descriptionFr),
+      descriptionEn: (descriptionEn != null
+          ? descriptionEn.value
+          : this.descriptionEn),
       price: (price != null ? price.value : this.price),
       enabled: (enabled != null ? enabled.value : this.enabled),
       unique: (unique != null ? unique.value : this.unique),
-      schoolType: (schoolType != null ? schoolType.value : this.schoolType),
-      publicType: (publicType != null ? publicType.value : this.publicType),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-      id: (id != null ? id.value : this.id),
+      allowedCurriculum: (allowedCurriculum != null
+          ? allowedCurriculum.value
+          : this.allowedCurriculum),
+      relatedMembershipAddedDuration: (relatedMembershipAddedDuration != null
+          ? relatedMembershipAddedDuration.value
+          : this.relatedMembershipAddedDuration),
     );
   }
 }
 
 @JsonSerializable(explicitToJson: true)
-class Purchase {
-  const Purchase({
-    required this.productVariantId,
-    required this.quantity,
-    required this.userId,
-    required this.editionId,
-    required this.validated,
-    required this.purchasedOn,
+class ProductVariantComplete {
+  const ProductVariantComplete({
+    required this.id,
+    required this.productId,
+    required this.nameFr,
+    this.nameEn,
+    this.descriptionFr,
+    this.descriptionEn,
+    required this.price,
+    required this.enabled,
+    required this.unique,
+    this.allowedCurriculum,
+    this.relatedMembershipAddedDuration,
   });
 
-  factory Purchase.fromJson(Map<String, dynamic> json) =>
-      _$PurchaseFromJson(json);
+  factory ProductVariantComplete.fromJson(Map<String, dynamic> json) =>
+      _$ProductVariantCompleteFromJson(json);
 
-  static const toJsonFactory = _$PurchaseToJson;
-  Map<String, dynamic> toJson() => _$PurchaseToJson(this);
+  static const toJsonFactory = _$ProductVariantCompleteToJson;
+  Map<String, dynamic> toJson() => _$ProductVariantCompleteToJson(this);
 
-  @JsonKey(name: 'product_variant_id', defaultValue: '')
-  final String productVariantId;
-  @JsonKey(name: 'quantity', defaultValue: 0)
-  final int quantity;
-  @JsonKey(name: 'user_id', defaultValue: '')
-  final String userId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  @JsonKey(name: 'validated', defaultValue: false)
-  final bool validated;
-  @JsonKey(name: 'purchased_on')
-  final DateTime purchasedOn;
-  static const fromJsonFactory = _$PurchaseFromJson;
+  @JsonKey(name: 'id', defaultValue: '')
+  final String id;
+  @JsonKey(name: 'product_id', defaultValue: '')
+  final String productId;
+  @JsonKey(name: 'name_fr', defaultValue: '')
+  final String nameFr;
+  @JsonKey(name: 'name_en')
+  final String? nameEn;
+  @JsonKey(name: 'description_fr')
+  final String? descriptionFr;
+  @JsonKey(name: 'description_en')
+  final String? descriptionEn;
+  @JsonKey(name: 'price', defaultValue: 0)
+  final int price;
+  @JsonKey(name: 'enabled', defaultValue: false)
+  final bool enabled;
+  @JsonKey(name: 'unique', defaultValue: false)
+  final bool unique;
+  @JsonKey(name: 'allowed_curriculum', defaultValue: <CurriculumComplete>[])
+  final List<CurriculumComplete>? allowedCurriculum;
+  @JsonKey(name: 'related_membership_added_duration')
+  final String? relatedMembershipAddedDuration;
+  static const fromJsonFactory = _$ProductVariantCompleteFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is Purchase &&
-            (identical(other.productVariantId, productVariantId) ||
+        (other is ProductVariantComplete &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.productId, productId) ||
                 const DeepCollectionEquality().equals(
-                  other.productVariantId,
-                  productVariantId,
+                  other.productId,
+                  productId,
                 )) &&
+            (identical(other.nameFr, nameFr) ||
+                const DeepCollectionEquality().equals(other.nameFr, nameFr)) &&
+            (identical(other.nameEn, nameEn) ||
+                const DeepCollectionEquality().equals(other.nameEn, nameEn)) &&
+            (identical(other.descriptionFr, descriptionFr) ||
+                const DeepCollectionEquality().equals(
+                  other.descriptionFr,
+                  descriptionFr,
+                )) &&
+            (identical(other.descriptionEn, descriptionEn) ||
+                const DeepCollectionEquality().equals(
+                  other.descriptionEn,
+                  descriptionEn,
+                )) &&
+            (identical(other.price, price) ||
+                const DeepCollectionEquality().equals(other.price, price)) &&
+            (identical(other.enabled, enabled) ||
+                const DeepCollectionEquality().equals(
+                  other.enabled,
+                  enabled,
+                )) &&
+            (identical(other.unique, unique) ||
+                const DeepCollectionEquality().equals(other.unique, unique)) &&
+            (identical(other.allowedCurriculum, allowedCurriculum) ||
+                const DeepCollectionEquality().equals(
+                  other.allowedCurriculum,
+                  allowedCurriculum,
+                )) &&
+            (identical(
+                  other.relatedMembershipAddedDuration,
+                  relatedMembershipAddedDuration,
+                ) ||
+                const DeepCollectionEquality().equals(
+                  other.relatedMembershipAddedDuration,
+                  relatedMembershipAddedDuration,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(productId) ^
+      const DeepCollectionEquality().hash(nameFr) ^
+      const DeepCollectionEquality().hash(nameEn) ^
+      const DeepCollectionEquality().hash(descriptionFr) ^
+      const DeepCollectionEquality().hash(descriptionEn) ^
+      const DeepCollectionEquality().hash(price) ^
+      const DeepCollectionEquality().hash(enabled) ^
+      const DeepCollectionEquality().hash(unique) ^
+      const DeepCollectionEquality().hash(allowedCurriculum) ^
+      const DeepCollectionEquality().hash(relatedMembershipAddedDuration) ^
+      runtimeType.hashCode;
+}
+
+extension $ProductVariantCompleteExtension on ProductVariantComplete {
+  ProductVariantComplete copyWith({
+    String? id,
+    String? productId,
+    String? nameFr,
+    String? nameEn,
+    String? descriptionFr,
+    String? descriptionEn,
+    int? price,
+    bool? enabled,
+    bool? unique,
+    List<CurriculumComplete>? allowedCurriculum,
+    String? relatedMembershipAddedDuration,
+  }) {
+    return ProductVariantComplete(
+      id: id ?? this.id,
+      productId: productId ?? this.productId,
+      nameFr: nameFr ?? this.nameFr,
+      nameEn: nameEn ?? this.nameEn,
+      descriptionFr: descriptionFr ?? this.descriptionFr,
+      descriptionEn: descriptionEn ?? this.descriptionEn,
+      price: price ?? this.price,
+      enabled: enabled ?? this.enabled,
+      unique: unique ?? this.unique,
+      allowedCurriculum: allowedCurriculum ?? this.allowedCurriculum,
+      relatedMembershipAddedDuration:
+          relatedMembershipAddedDuration ?? this.relatedMembershipAddedDuration,
+    );
+  }
+
+  ProductVariantComplete copyWithWrapped({
+    Wrapped<String>? id,
+    Wrapped<String>? productId,
+    Wrapped<String>? nameFr,
+    Wrapped<String?>? nameEn,
+    Wrapped<String?>? descriptionFr,
+    Wrapped<String?>? descriptionEn,
+    Wrapped<int>? price,
+    Wrapped<bool>? enabled,
+    Wrapped<bool>? unique,
+    Wrapped<List<CurriculumComplete>?>? allowedCurriculum,
+    Wrapped<String?>? relatedMembershipAddedDuration,
+  }) {
+    return ProductVariantComplete(
+      id: (id != null ? id.value : this.id),
+      productId: (productId != null ? productId.value : this.productId),
+      nameFr: (nameFr != null ? nameFr.value : this.nameFr),
+      nameEn: (nameEn != null ? nameEn.value : this.nameEn),
+      descriptionFr: (descriptionFr != null
+          ? descriptionFr.value
+          : this.descriptionFr),
+      descriptionEn: (descriptionEn != null
+          ? descriptionEn.value
+          : this.descriptionEn),
+      price: (price != null ? price.value : this.price),
+      enabled: (enabled != null ? enabled.value : this.enabled),
+      unique: (unique != null ? unique.value : this.unique),
+      allowedCurriculum: (allowedCurriculum != null
+          ? allowedCurriculum.value
+          : this.allowedCurriculum),
+      relatedMembershipAddedDuration: (relatedMembershipAddedDuration != null
+          ? relatedMembershipAddedDuration.value
+          : this.relatedMembershipAddedDuration),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ProductVariantEdit {
+  const ProductVariantEdit({
+    this.nameFr,
+    this.nameEn,
+    this.descriptionFr,
+    this.descriptionEn,
+    this.price,
+    this.enabled,
+    this.unique,
+    this.allowedCurriculum,
+    this.relatedMembershipAddedDuration,
+  });
+
+  factory ProductVariantEdit.fromJson(Map<String, dynamic> json) =>
+      _$ProductVariantEditFromJson(json);
+
+  static const toJsonFactory = _$ProductVariantEditToJson;
+  Map<String, dynamic> toJson() => _$ProductVariantEditToJson(this);
+
+  @JsonKey(name: 'name_fr')
+  final String? nameFr;
+  @JsonKey(name: 'name_en')
+  final String? nameEn;
+  @JsonKey(name: 'description_fr')
+  final String? descriptionFr;
+  @JsonKey(name: 'description_en')
+  final String? descriptionEn;
+  @JsonKey(name: 'price')
+  final int? price;
+  @JsonKey(name: 'enabled')
+  final bool? enabled;
+  @JsonKey(name: 'unique')
+  final bool? unique;
+  @JsonKey(name: 'allowed_curriculum')
+  final ListString? allowedCurriculum;
+  @JsonKey(name: 'related_membership_added_duration')
+  final String? relatedMembershipAddedDuration;
+  static const fromJsonFactory = _$ProductVariantEditFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ProductVariantEdit &&
+            (identical(other.nameFr, nameFr) ||
+                const DeepCollectionEquality().equals(other.nameFr, nameFr)) &&
+            (identical(other.nameEn, nameEn) ||
+                const DeepCollectionEquality().equals(other.nameEn, nameEn)) &&
+            (identical(other.descriptionFr, descriptionFr) ||
+                const DeepCollectionEquality().equals(
+                  other.descriptionFr,
+                  descriptionFr,
+                )) &&
+            (identical(other.descriptionEn, descriptionEn) ||
+                const DeepCollectionEquality().equals(
+                  other.descriptionEn,
+                  descriptionEn,
+                )) &&
+            (identical(other.price, price) ||
+                const DeepCollectionEquality().equals(other.price, price)) &&
+            (identical(other.enabled, enabled) ||
+                const DeepCollectionEquality().equals(
+                  other.enabled,
+                  enabled,
+                )) &&
+            (identical(other.unique, unique) ||
+                const DeepCollectionEquality().equals(other.unique, unique)) &&
+            (identical(other.allowedCurriculum, allowedCurriculum) ||
+                const DeepCollectionEquality().equals(
+                  other.allowedCurriculum,
+                  allowedCurriculum,
+                )) &&
+            (identical(
+                  other.relatedMembershipAddedDuration,
+                  relatedMembershipAddedDuration,
+                ) ||
+                const DeepCollectionEquality().equals(
+                  other.relatedMembershipAddedDuration,
+                  relatedMembershipAddedDuration,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(nameFr) ^
+      const DeepCollectionEquality().hash(nameEn) ^
+      const DeepCollectionEquality().hash(descriptionFr) ^
+      const DeepCollectionEquality().hash(descriptionEn) ^
+      const DeepCollectionEquality().hash(price) ^
+      const DeepCollectionEquality().hash(enabled) ^
+      const DeepCollectionEquality().hash(unique) ^
+      const DeepCollectionEquality().hash(allowedCurriculum) ^
+      const DeepCollectionEquality().hash(relatedMembershipAddedDuration) ^
+      runtimeType.hashCode;
+}
+
+extension $ProductVariantEditExtension on ProductVariantEdit {
+  ProductVariantEdit copyWith({
+    String? nameFr,
+    String? nameEn,
+    String? descriptionFr,
+    String? descriptionEn,
+    int? price,
+    bool? enabled,
+    bool? unique,
+    ListString? allowedCurriculum,
+    String? relatedMembershipAddedDuration,
+  }) {
+    return ProductVariantEdit(
+      nameFr: nameFr ?? this.nameFr,
+      nameEn: nameEn ?? this.nameEn,
+      descriptionFr: descriptionFr ?? this.descriptionFr,
+      descriptionEn: descriptionEn ?? this.descriptionEn,
+      price: price ?? this.price,
+      enabled: enabled ?? this.enabled,
+      unique: unique ?? this.unique,
+      allowedCurriculum: allowedCurriculum ?? this.allowedCurriculum,
+      relatedMembershipAddedDuration:
+          relatedMembershipAddedDuration ?? this.relatedMembershipAddedDuration,
+    );
+  }
+
+  ProductVariantEdit copyWithWrapped({
+    Wrapped<String?>? nameFr,
+    Wrapped<String?>? nameEn,
+    Wrapped<String?>? descriptionFr,
+    Wrapped<String?>? descriptionEn,
+    Wrapped<int?>? price,
+    Wrapped<bool?>? enabled,
+    Wrapped<bool?>? unique,
+    Wrapped<ListString?>? allowedCurriculum,
+    Wrapped<String?>? relatedMembershipAddedDuration,
+  }) {
+    return ProductVariantEdit(
+      nameFr: (nameFr != null ? nameFr.value : this.nameFr),
+      nameEn: (nameEn != null ? nameEn.value : this.nameEn),
+      descriptionFr: (descriptionFr != null
+          ? descriptionFr.value
+          : this.descriptionFr),
+      descriptionEn: (descriptionEn != null
+          ? descriptionEn.value
+          : this.descriptionEn),
+      price: (price != null ? price.value : this.price),
+      enabled: (enabled != null ? enabled.value : this.enabled),
+      unique: (unique != null ? unique.value : this.unique),
+      allowedCurriculum: (allowedCurriculum != null
+          ? allowedCurriculum.value
+          : this.allowedCurriculum),
+      relatedMembershipAddedDuration: (relatedMembershipAddedDuration != null
+          ? relatedMembershipAddedDuration.value
+          : this.relatedMembershipAddedDuration),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PurchaseBase {
+  const PurchaseBase({required this.quantity});
+
+  factory PurchaseBase.fromJson(Map<String, dynamic> json) =>
+      _$PurchaseBaseFromJson(json);
+
+  static const toJsonFactory = _$PurchaseBaseToJson;
+  Map<String, dynamic> toJson() => _$PurchaseBaseToJson(this);
+
+  @JsonKey(name: 'quantity', defaultValue: 0)
+  final int quantity;
+  static const fromJsonFactory = _$PurchaseBaseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PurchaseBase &&
+            (identical(other.quantity, quantity) ||
+                const DeepCollectionEquality().equals(
+                  other.quantity,
+                  quantity,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(quantity) ^ runtimeType.hashCode;
+}
+
+extension $PurchaseBaseExtension on PurchaseBase {
+  PurchaseBase copyWith({int? quantity}) {
+    return PurchaseBase(quantity: quantity ?? this.quantity);
+  }
+
+  PurchaseBase copyWithWrapped({Wrapped<int>? quantity}) {
+    return PurchaseBase(
+      quantity: (quantity != null ? quantity.value : this.quantity),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PurchaseComplete {
+  const PurchaseComplete({
+    required this.quantity,
+    required this.userId,
+    required this.productVariantId,
+    required this.validated,
+    required this.purchasedOn,
+  });
+
+  factory PurchaseComplete.fromJson(Map<String, dynamic> json) =>
+      _$PurchaseCompleteFromJson(json);
+
+  static const toJsonFactory = _$PurchaseCompleteToJson;
+  Map<String, dynamic> toJson() => _$PurchaseCompleteToJson(this);
+
+  @JsonKey(name: 'quantity', defaultValue: 0)
+  final int quantity;
+  @JsonKey(name: 'user_id', defaultValue: '')
+  final String userId;
+  @JsonKey(name: 'product_variant_id', defaultValue: '')
+  final String productVariantId;
+  @JsonKey(name: 'validated', defaultValue: false)
+  final bool validated;
+  @JsonKey(name: 'purchased_on')
+  final DateTime purchasedOn;
+  static const fromJsonFactory = _$PurchaseCompleteFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PurchaseComplete &&
             (identical(other.quantity, quantity) ||
                 const DeepCollectionEquality().equals(
                   other.quantity,
@@ -16557,10 +16133,10 @@ class Purchase {
                 )) &&
             (identical(other.userId, userId) ||
                 const DeepCollectionEquality().equals(other.userId, userId)) &&
-            (identical(other.editionId, editionId) ||
+            (identical(other.productVariantId, productVariantId) ||
                 const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
+                  other.productVariantId,
+                  productVariantId,
                 )) &&
             (identical(other.validated, validated) ||
                 const DeepCollectionEquality().equals(
@@ -16579,49 +16155,44 @@ class Purchase {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(productVariantId) ^
       const DeepCollectionEquality().hash(quantity) ^
       const DeepCollectionEquality().hash(userId) ^
-      const DeepCollectionEquality().hash(editionId) ^
+      const DeepCollectionEquality().hash(productVariantId) ^
       const DeepCollectionEquality().hash(validated) ^
       const DeepCollectionEquality().hash(purchasedOn) ^
       runtimeType.hashCode;
 }
 
-extension $PurchaseExtension on Purchase {
-  Purchase copyWith({
-    String? productVariantId,
+extension $PurchaseCompleteExtension on PurchaseComplete {
+  PurchaseComplete copyWith({
     int? quantity,
     String? userId,
-    String? editionId,
+    String? productVariantId,
     bool? validated,
     DateTime? purchasedOn,
   }) {
-    return Purchase(
-      productVariantId: productVariantId ?? this.productVariantId,
+    return PurchaseComplete(
       quantity: quantity ?? this.quantity,
       userId: userId ?? this.userId,
-      editionId: editionId ?? this.editionId,
+      productVariantId: productVariantId ?? this.productVariantId,
       validated: validated ?? this.validated,
       purchasedOn: purchasedOn ?? this.purchasedOn,
     );
   }
 
-  Purchase copyWithWrapped({
-    Wrapped<String>? productVariantId,
+  PurchaseComplete copyWithWrapped({
     Wrapped<int>? quantity,
     Wrapped<String>? userId,
-    Wrapped<String>? editionId,
+    Wrapped<String>? productVariantId,
     Wrapped<bool>? validated,
     Wrapped<DateTime>? purchasedOn,
   }) {
-    return Purchase(
+    return PurchaseComplete(
+      quantity: (quantity != null ? quantity.value : this.quantity),
+      userId: (userId != null ? userId.value : this.userId),
       productVariantId: (productVariantId != null
           ? productVariantId.value
           : this.productVariantId),
-      quantity: (quantity != null ? quantity.value : this.quantity),
-      userId: (userId != null ? userId.value : this.userId),
-      editionId: (editionId != null ? editionId.value : this.editionId),
       validated: (validated != null ? validated.value : this.validated),
       purchasedOn: (purchasedOn != null ? purchasedOn.value : this.purchasedOn),
     );
@@ -17319,1015 +16890,6 @@ extension $RaidInformationExtension on RaidInformation {
 }
 
 @JsonSerializable(explicitToJson: true)
-class RaidParticipant {
-  const RaidParticipant({
-    required this.name,
-    required this.firstname,
-    required this.birthday,
-    required this.phone,
-    required this.email,
-    required this.id,
-    required this.bikeSize,
-    required this.tShirtSize,
-    required this.situation,
-    required this.validationProgress,
-    required this.payment,
-    required this.tShirtPayment,
-    required this.numberOfDocument,
-    required this.numberOfValidatedDocument,
-    required this.address,
-    this.otherSchool,
-    this.company,
-    this.diet,
-    required this.idCard,
-    required this.medicalCertificate,
-    required this.securityFile,
-    this.studentCard,
-    this.raidRules,
-    this.parentAuthorization,
-    required this.attestationOnHonour,
-    required this.isMinor,
-  });
-
-  factory RaidParticipant.fromJson(Map<String, dynamic> json) =>
-      _$RaidParticipantFromJson(json);
-
-  static const toJsonFactory = _$RaidParticipantToJson;
-  Map<String, dynamic> toJson() => _$RaidParticipantToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'firstname', defaultValue: '')
-  final String firstname;
-  @JsonKey(name: 'birthday', toJson: _dateToJson)
-  final DateTime birthday;
-  @JsonKey(name: 'phone', defaultValue: '')
-  final String phone;
-  @JsonKey(name: 'email', defaultValue: '')
-  final String email;
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  @JsonKey(
-    name: 'bike_size',
-    toJson: sizeNullableToJson,
-    fromJson: sizeNullableFromJson,
-  )
-  final enums.Size? bikeSize;
-  @JsonKey(
-    name: 't_shirt_size',
-    toJson: sizeNullableToJson,
-    fromJson: sizeNullableFromJson,
-  )
-  final enums.Size? tShirtSize;
-  @JsonKey(name: 'situation')
-  final String? situation;
-  @JsonKey(name: 'validation_progress', defaultValue: 0.0)
-  final double validationProgress;
-  @JsonKey(name: 'payment', defaultValue: false)
-  final bool payment;
-  @JsonKey(name: 't_shirt_payment', defaultValue: false)
-  final bool tShirtPayment;
-  @JsonKey(name: 'number_of_document', defaultValue: 0)
-  final int numberOfDocument;
-  @JsonKey(name: 'number_of_validated_document', defaultValue: 0)
-  final int numberOfValidatedDocument;
-  @JsonKey(name: 'address')
-  final String? address;
-  @JsonKey(name: 'other_school')
-  final String? otherSchool;
-  @JsonKey(name: 'company')
-  final String? company;
-  @JsonKey(name: 'diet')
-  final String? diet;
-  @JsonKey(name: 'id_card')
-  final Document? idCard;
-  @JsonKey(name: 'medical_certificate')
-  final Document? medicalCertificate;
-  @JsonKey(name: 'security_file')
-  final SecurityFile? securityFile;
-  @JsonKey(name: 'student_card')
-  final Document? studentCard;
-  @JsonKey(name: 'raid_rules')
-  final Document? raidRules;
-  @JsonKey(name: 'parent_authorization')
-  final Document? parentAuthorization;
-  @JsonKey(name: 'attestation_on_honour', defaultValue: false)
-  final bool attestationOnHonour;
-  @JsonKey(name: 'is_minor', defaultValue: false)
-  final bool isMinor;
-  static const fromJsonFactory = _$RaidParticipantFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is RaidParticipant &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality().equals(
-                  other.firstname,
-                  firstname,
-                )) &&
-            (identical(other.birthday, birthday) ||
-                const DeepCollectionEquality().equals(
-                  other.birthday,
-                  birthday,
-                )) &&
-            (identical(other.phone, phone) ||
-                const DeepCollectionEquality().equals(other.phone, phone)) &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.bikeSize, bikeSize) ||
-                const DeepCollectionEquality().equals(
-                  other.bikeSize,
-                  bikeSize,
-                )) &&
-            (identical(other.tShirtSize, tShirtSize) ||
-                const DeepCollectionEquality().equals(
-                  other.tShirtSize,
-                  tShirtSize,
-                )) &&
-            (identical(other.situation, situation) ||
-                const DeepCollectionEquality().equals(
-                  other.situation,
-                  situation,
-                )) &&
-            (identical(other.validationProgress, validationProgress) ||
-                const DeepCollectionEquality().equals(
-                  other.validationProgress,
-                  validationProgress,
-                )) &&
-            (identical(other.payment, payment) ||
-                const DeepCollectionEquality().equals(
-                  other.payment,
-                  payment,
-                )) &&
-            (identical(other.tShirtPayment, tShirtPayment) ||
-                const DeepCollectionEquality().equals(
-                  other.tShirtPayment,
-                  tShirtPayment,
-                )) &&
-            (identical(other.numberOfDocument, numberOfDocument) ||
-                const DeepCollectionEquality().equals(
-                  other.numberOfDocument,
-                  numberOfDocument,
-                )) &&
-            (identical(
-                  other.numberOfValidatedDocument,
-                  numberOfValidatedDocument,
-                ) ||
-                const DeepCollectionEquality().equals(
-                  other.numberOfValidatedDocument,
-                  numberOfValidatedDocument,
-                )) &&
-            (identical(other.address, address) ||
-                const DeepCollectionEquality().equals(
-                  other.address,
-                  address,
-                )) &&
-            (identical(other.otherSchool, otherSchool) ||
-                const DeepCollectionEquality().equals(
-                  other.otherSchool,
-                  otherSchool,
-                )) &&
-            (identical(other.company, company) ||
-                const DeepCollectionEquality().equals(
-                  other.company,
-                  company,
-                )) &&
-            (identical(other.diet, diet) ||
-                const DeepCollectionEquality().equals(other.diet, diet)) &&
-            (identical(other.idCard, idCard) ||
-                const DeepCollectionEquality().equals(other.idCard, idCard)) &&
-            (identical(other.medicalCertificate, medicalCertificate) ||
-                const DeepCollectionEquality().equals(
-                  other.medicalCertificate,
-                  medicalCertificate,
-                )) &&
-            (identical(other.securityFile, securityFile) ||
-                const DeepCollectionEquality().equals(
-                  other.securityFile,
-                  securityFile,
-                )) &&
-            (identical(other.studentCard, studentCard) ||
-                const DeepCollectionEquality().equals(
-                  other.studentCard,
-                  studentCard,
-                )) &&
-            (identical(other.raidRules, raidRules) ||
-                const DeepCollectionEquality().equals(
-                  other.raidRules,
-                  raidRules,
-                )) &&
-            (identical(other.parentAuthorization, parentAuthorization) ||
-                const DeepCollectionEquality().equals(
-                  other.parentAuthorization,
-                  parentAuthorization,
-                )) &&
-            (identical(other.attestationOnHonour, attestationOnHonour) ||
-                const DeepCollectionEquality().equals(
-                  other.attestationOnHonour,
-                  attestationOnHonour,
-                )) &&
-            (identical(other.isMinor, isMinor) ||
-                const DeepCollectionEquality().equals(other.isMinor, isMinor)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(firstname) ^
-      const DeepCollectionEquality().hash(birthday) ^
-      const DeepCollectionEquality().hash(phone) ^
-      const DeepCollectionEquality().hash(email) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(bikeSize) ^
-      const DeepCollectionEquality().hash(tShirtSize) ^
-      const DeepCollectionEquality().hash(situation) ^
-      const DeepCollectionEquality().hash(validationProgress) ^
-      const DeepCollectionEquality().hash(payment) ^
-      const DeepCollectionEquality().hash(tShirtPayment) ^
-      const DeepCollectionEquality().hash(numberOfDocument) ^
-      const DeepCollectionEquality().hash(numberOfValidatedDocument) ^
-      const DeepCollectionEquality().hash(address) ^
-      const DeepCollectionEquality().hash(otherSchool) ^
-      const DeepCollectionEquality().hash(company) ^
-      const DeepCollectionEquality().hash(diet) ^
-      const DeepCollectionEquality().hash(idCard) ^
-      const DeepCollectionEquality().hash(medicalCertificate) ^
-      const DeepCollectionEquality().hash(securityFile) ^
-      const DeepCollectionEquality().hash(studentCard) ^
-      const DeepCollectionEquality().hash(raidRules) ^
-      const DeepCollectionEquality().hash(parentAuthorization) ^
-      const DeepCollectionEquality().hash(attestationOnHonour) ^
-      const DeepCollectionEquality().hash(isMinor) ^
-      runtimeType.hashCode;
-}
-
-extension $RaidParticipantExtension on RaidParticipant {
-  RaidParticipant copyWith({
-    String? name,
-    String? firstname,
-    DateTime? birthday,
-    String? phone,
-    String? email,
-    String? id,
-    enums.Size? bikeSize,
-    enums.Size? tShirtSize,
-    String? situation,
-    double? validationProgress,
-    bool? payment,
-    bool? tShirtPayment,
-    int? numberOfDocument,
-    int? numberOfValidatedDocument,
-    String? address,
-    String? otherSchool,
-    String? company,
-    String? diet,
-    Document? idCard,
-    Document? medicalCertificate,
-    SecurityFile? securityFile,
-    Document? studentCard,
-    Document? raidRules,
-    Document? parentAuthorization,
-    bool? attestationOnHonour,
-    bool? isMinor,
-  }) {
-    return RaidParticipant(
-      name: name ?? this.name,
-      firstname: firstname ?? this.firstname,
-      birthday: birthday ?? this.birthday,
-      phone: phone ?? this.phone,
-      email: email ?? this.email,
-      id: id ?? this.id,
-      bikeSize: bikeSize ?? this.bikeSize,
-      tShirtSize: tShirtSize ?? this.tShirtSize,
-      situation: situation ?? this.situation,
-      validationProgress: validationProgress ?? this.validationProgress,
-      payment: payment ?? this.payment,
-      tShirtPayment: tShirtPayment ?? this.tShirtPayment,
-      numberOfDocument: numberOfDocument ?? this.numberOfDocument,
-      numberOfValidatedDocument:
-          numberOfValidatedDocument ?? this.numberOfValidatedDocument,
-      address: address ?? this.address,
-      otherSchool: otherSchool ?? this.otherSchool,
-      company: company ?? this.company,
-      diet: diet ?? this.diet,
-      idCard: idCard ?? this.idCard,
-      medicalCertificate: medicalCertificate ?? this.medicalCertificate,
-      securityFile: securityFile ?? this.securityFile,
-      studentCard: studentCard ?? this.studentCard,
-      raidRules: raidRules ?? this.raidRules,
-      parentAuthorization: parentAuthorization ?? this.parentAuthorization,
-      attestationOnHonour: attestationOnHonour ?? this.attestationOnHonour,
-      isMinor: isMinor ?? this.isMinor,
-    );
-  }
-
-  RaidParticipant copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<String>? firstname,
-    Wrapped<DateTime>? birthday,
-    Wrapped<String>? phone,
-    Wrapped<String>? email,
-    Wrapped<String>? id,
-    Wrapped<enums.Size?>? bikeSize,
-    Wrapped<enums.Size?>? tShirtSize,
-    Wrapped<String?>? situation,
-    Wrapped<double>? validationProgress,
-    Wrapped<bool>? payment,
-    Wrapped<bool>? tShirtPayment,
-    Wrapped<int>? numberOfDocument,
-    Wrapped<int>? numberOfValidatedDocument,
-    Wrapped<String?>? address,
-    Wrapped<String?>? otherSchool,
-    Wrapped<String?>? company,
-    Wrapped<String?>? diet,
-    Wrapped<Document?>? idCard,
-    Wrapped<Document?>? medicalCertificate,
-    Wrapped<SecurityFile?>? securityFile,
-    Wrapped<Document?>? studentCard,
-    Wrapped<Document?>? raidRules,
-    Wrapped<Document?>? parentAuthorization,
-    Wrapped<bool>? attestationOnHonour,
-    Wrapped<bool>? isMinor,
-  }) {
-    return RaidParticipant(
-      name: (name != null ? name.value : this.name),
-      firstname: (firstname != null ? firstname.value : this.firstname),
-      birthday: (birthday != null ? birthday.value : this.birthday),
-      phone: (phone != null ? phone.value : this.phone),
-      email: (email != null ? email.value : this.email),
-      id: (id != null ? id.value : this.id),
-      bikeSize: (bikeSize != null ? bikeSize.value : this.bikeSize),
-      tShirtSize: (tShirtSize != null ? tShirtSize.value : this.tShirtSize),
-      situation: (situation != null ? situation.value : this.situation),
-      validationProgress: (validationProgress != null
-          ? validationProgress.value
-          : this.validationProgress),
-      payment: (payment != null ? payment.value : this.payment),
-      tShirtPayment: (tShirtPayment != null
-          ? tShirtPayment.value
-          : this.tShirtPayment),
-      numberOfDocument: (numberOfDocument != null
-          ? numberOfDocument.value
-          : this.numberOfDocument),
-      numberOfValidatedDocument: (numberOfValidatedDocument != null
-          ? numberOfValidatedDocument.value
-          : this.numberOfValidatedDocument),
-      address: (address != null ? address.value : this.address),
-      otherSchool: (otherSchool != null ? otherSchool.value : this.otherSchool),
-      company: (company != null ? company.value : this.company),
-      diet: (diet != null ? diet.value : this.diet),
-      idCard: (idCard != null ? idCard.value : this.idCard),
-      medicalCertificate: (medicalCertificate != null
-          ? medicalCertificate.value
-          : this.medicalCertificate),
-      securityFile: (securityFile != null
-          ? securityFile.value
-          : this.securityFile),
-      studentCard: (studentCard != null ? studentCard.value : this.studentCard),
-      raidRules: (raidRules != null ? raidRules.value : this.raidRules),
-      parentAuthorization: (parentAuthorization != null
-          ? parentAuthorization.value
-          : this.parentAuthorization),
-      attestationOnHonour: (attestationOnHonour != null
-          ? attestationOnHonour.value
-          : this.attestationOnHonour),
-      isMinor: (isMinor != null ? isMinor.value : this.isMinor),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class RaidParticipantBase {
-  const RaidParticipantBase({
-    required this.name,
-    required this.firstname,
-    required this.birthday,
-    required this.phone,
-    required this.email,
-  });
-
-  factory RaidParticipantBase.fromJson(Map<String, dynamic> json) =>
-      _$RaidParticipantBaseFromJson(json);
-
-  static const toJsonFactory = _$RaidParticipantBaseToJson;
-  Map<String, dynamic> toJson() => _$RaidParticipantBaseToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'firstname', defaultValue: '')
-  final String firstname;
-  @JsonKey(name: 'birthday', toJson: _dateToJson)
-  final DateTime birthday;
-  @JsonKey(name: 'phone', defaultValue: '')
-  final String phone;
-  @JsonKey(name: 'email', defaultValue: '')
-  final String email;
-  static const fromJsonFactory = _$RaidParticipantBaseFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is RaidParticipantBase &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality().equals(
-                  other.firstname,
-                  firstname,
-                )) &&
-            (identical(other.birthday, birthday) ||
-                const DeepCollectionEquality().equals(
-                  other.birthday,
-                  birthday,
-                )) &&
-            (identical(other.phone, phone) ||
-                const DeepCollectionEquality().equals(other.phone, phone)) &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(firstname) ^
-      const DeepCollectionEquality().hash(birthday) ^
-      const DeepCollectionEquality().hash(phone) ^
-      const DeepCollectionEquality().hash(email) ^
-      runtimeType.hashCode;
-}
-
-extension $RaidParticipantBaseExtension on RaidParticipantBase {
-  RaidParticipantBase copyWith({
-    String? name,
-    String? firstname,
-    DateTime? birthday,
-    String? phone,
-    String? email,
-  }) {
-    return RaidParticipantBase(
-      name: name ?? this.name,
-      firstname: firstname ?? this.firstname,
-      birthday: birthday ?? this.birthday,
-      phone: phone ?? this.phone,
-      email: email ?? this.email,
-    );
-  }
-
-  RaidParticipantBase copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<String>? firstname,
-    Wrapped<DateTime>? birthday,
-    Wrapped<String>? phone,
-    Wrapped<String>? email,
-  }) {
-    return RaidParticipantBase(
-      name: (name != null ? name.value : this.name),
-      firstname: (firstname != null ? firstname.value : this.firstname),
-      birthday: (birthday != null ? birthday.value : this.birthday),
-      phone: (phone != null ? phone.value : this.phone),
-      email: (email != null ? email.value : this.email),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class RaidParticipantPreview {
-  const RaidParticipantPreview({
-    required this.name,
-    required this.firstname,
-    required this.birthday,
-    required this.phone,
-    required this.email,
-    required this.id,
-    required this.bikeSize,
-    required this.tShirtSize,
-    required this.situation,
-    required this.validationProgress,
-    required this.payment,
-    required this.tShirtPayment,
-    required this.numberOfDocument,
-    required this.numberOfValidatedDocument,
-  });
-
-  factory RaidParticipantPreview.fromJson(Map<String, dynamic> json) =>
-      _$RaidParticipantPreviewFromJson(json);
-
-  static const toJsonFactory = _$RaidParticipantPreviewToJson;
-  Map<String, dynamic> toJson() => _$RaidParticipantPreviewToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'firstname', defaultValue: '')
-  final String firstname;
-  @JsonKey(name: 'birthday', toJson: _dateToJson)
-  final DateTime birthday;
-  @JsonKey(name: 'phone', defaultValue: '')
-  final String phone;
-  @JsonKey(name: 'email', defaultValue: '')
-  final String email;
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  @JsonKey(
-    name: 'bike_size',
-    toJson: sizeNullableToJson,
-    fromJson: sizeNullableFromJson,
-  )
-  final enums.Size? bikeSize;
-  @JsonKey(
-    name: 't_shirt_size',
-    toJson: sizeNullableToJson,
-    fromJson: sizeNullableFromJson,
-  )
-  final enums.Size? tShirtSize;
-  @JsonKey(name: 'situation')
-  final String? situation;
-  @JsonKey(name: 'validation_progress', defaultValue: 0.0)
-  final double validationProgress;
-  @JsonKey(name: 'payment', defaultValue: false)
-  final bool payment;
-  @JsonKey(name: 't_shirt_payment', defaultValue: false)
-  final bool tShirtPayment;
-  @JsonKey(name: 'number_of_document', defaultValue: 0)
-  final int numberOfDocument;
-  @JsonKey(name: 'number_of_validated_document', defaultValue: 0)
-  final int numberOfValidatedDocument;
-  static const fromJsonFactory = _$RaidParticipantPreviewFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is RaidParticipantPreview &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality().equals(
-                  other.firstname,
-                  firstname,
-                )) &&
-            (identical(other.birthday, birthday) ||
-                const DeepCollectionEquality().equals(
-                  other.birthday,
-                  birthday,
-                )) &&
-            (identical(other.phone, phone) ||
-                const DeepCollectionEquality().equals(other.phone, phone)) &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.bikeSize, bikeSize) ||
-                const DeepCollectionEquality().equals(
-                  other.bikeSize,
-                  bikeSize,
-                )) &&
-            (identical(other.tShirtSize, tShirtSize) ||
-                const DeepCollectionEquality().equals(
-                  other.tShirtSize,
-                  tShirtSize,
-                )) &&
-            (identical(other.situation, situation) ||
-                const DeepCollectionEquality().equals(
-                  other.situation,
-                  situation,
-                )) &&
-            (identical(other.validationProgress, validationProgress) ||
-                const DeepCollectionEquality().equals(
-                  other.validationProgress,
-                  validationProgress,
-                )) &&
-            (identical(other.payment, payment) ||
-                const DeepCollectionEquality().equals(
-                  other.payment,
-                  payment,
-                )) &&
-            (identical(other.tShirtPayment, tShirtPayment) ||
-                const DeepCollectionEquality().equals(
-                  other.tShirtPayment,
-                  tShirtPayment,
-                )) &&
-            (identical(other.numberOfDocument, numberOfDocument) ||
-                const DeepCollectionEquality().equals(
-                  other.numberOfDocument,
-                  numberOfDocument,
-                )) &&
-            (identical(
-                  other.numberOfValidatedDocument,
-                  numberOfValidatedDocument,
-                ) ||
-                const DeepCollectionEquality().equals(
-                  other.numberOfValidatedDocument,
-                  numberOfValidatedDocument,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(firstname) ^
-      const DeepCollectionEquality().hash(birthday) ^
-      const DeepCollectionEquality().hash(phone) ^
-      const DeepCollectionEquality().hash(email) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(bikeSize) ^
-      const DeepCollectionEquality().hash(tShirtSize) ^
-      const DeepCollectionEquality().hash(situation) ^
-      const DeepCollectionEquality().hash(validationProgress) ^
-      const DeepCollectionEquality().hash(payment) ^
-      const DeepCollectionEquality().hash(tShirtPayment) ^
-      const DeepCollectionEquality().hash(numberOfDocument) ^
-      const DeepCollectionEquality().hash(numberOfValidatedDocument) ^
-      runtimeType.hashCode;
-}
-
-extension $RaidParticipantPreviewExtension on RaidParticipantPreview {
-  RaidParticipantPreview copyWith({
-    String? name,
-    String? firstname,
-    DateTime? birthday,
-    String? phone,
-    String? email,
-    String? id,
-    enums.Size? bikeSize,
-    enums.Size? tShirtSize,
-    String? situation,
-    double? validationProgress,
-    bool? payment,
-    bool? tShirtPayment,
-    int? numberOfDocument,
-    int? numberOfValidatedDocument,
-  }) {
-    return RaidParticipantPreview(
-      name: name ?? this.name,
-      firstname: firstname ?? this.firstname,
-      birthday: birthday ?? this.birthday,
-      phone: phone ?? this.phone,
-      email: email ?? this.email,
-      id: id ?? this.id,
-      bikeSize: bikeSize ?? this.bikeSize,
-      tShirtSize: tShirtSize ?? this.tShirtSize,
-      situation: situation ?? this.situation,
-      validationProgress: validationProgress ?? this.validationProgress,
-      payment: payment ?? this.payment,
-      tShirtPayment: tShirtPayment ?? this.tShirtPayment,
-      numberOfDocument: numberOfDocument ?? this.numberOfDocument,
-      numberOfValidatedDocument:
-          numberOfValidatedDocument ?? this.numberOfValidatedDocument,
-    );
-  }
-
-  RaidParticipantPreview copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<String>? firstname,
-    Wrapped<DateTime>? birthday,
-    Wrapped<String>? phone,
-    Wrapped<String>? email,
-    Wrapped<String>? id,
-    Wrapped<enums.Size?>? bikeSize,
-    Wrapped<enums.Size?>? tShirtSize,
-    Wrapped<String?>? situation,
-    Wrapped<double>? validationProgress,
-    Wrapped<bool>? payment,
-    Wrapped<bool>? tShirtPayment,
-    Wrapped<int>? numberOfDocument,
-    Wrapped<int>? numberOfValidatedDocument,
-  }) {
-    return RaidParticipantPreview(
-      name: (name != null ? name.value : this.name),
-      firstname: (firstname != null ? firstname.value : this.firstname),
-      birthday: (birthday != null ? birthday.value : this.birthday),
-      phone: (phone != null ? phone.value : this.phone),
-      email: (email != null ? email.value : this.email),
-      id: (id != null ? id.value : this.id),
-      bikeSize: (bikeSize != null ? bikeSize.value : this.bikeSize),
-      tShirtSize: (tShirtSize != null ? tShirtSize.value : this.tShirtSize),
-      situation: (situation != null ? situation.value : this.situation),
-      validationProgress: (validationProgress != null
-          ? validationProgress.value
-          : this.validationProgress),
-      payment: (payment != null ? payment.value : this.payment),
-      tShirtPayment: (tShirtPayment != null
-          ? tShirtPayment.value
-          : this.tShirtPayment),
-      numberOfDocument: (numberOfDocument != null
-          ? numberOfDocument.value
-          : this.numberOfDocument),
-      numberOfValidatedDocument: (numberOfValidatedDocument != null
-          ? numberOfValidatedDocument.value
-          : this.numberOfValidatedDocument),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class RaidParticipantUpdate {
-  const RaidParticipantUpdate({
-    this.name,
-    this.firstname,
-    this.birthday,
-    this.address,
-    this.phone,
-    this.email,
-    this.bikeSize,
-    this.tShirtSize,
-    this.situation,
-    this.otherSchool,
-    this.company,
-    this.diet,
-    this.attestationOnHonour,
-    this.idCardId,
-    this.medicalCertificateId,
-    this.securityFileId,
-    this.studentCardId,
-    this.raidRulesId,
-    this.parentAuthorizationId,
-  });
-
-  factory RaidParticipantUpdate.fromJson(Map<String, dynamic> json) =>
-      _$RaidParticipantUpdateFromJson(json);
-
-  static const toJsonFactory = _$RaidParticipantUpdateToJson;
-  Map<String, dynamic> toJson() => _$RaidParticipantUpdateToJson(this);
-
-  @JsonKey(name: 'name')
-  final String? name;
-  @JsonKey(name: 'firstname')
-  final String? firstname;
-  @JsonKey(name: 'birthday', toJson: _dateToJson)
-  final DateTime? birthday;
-  @JsonKey(name: 'address')
-  final String? address;
-  @JsonKey(name: 'phone')
-  final String? phone;
-  @JsonKey(name: 'email')
-  final String? email;
-  @JsonKey(
-    name: 'bike_size',
-    toJson: sizeNullableToJson,
-    fromJson: sizeNullableFromJson,
-  )
-  final enums.Size? bikeSize;
-  @JsonKey(
-    name: 't_shirt_size',
-    toJson: sizeNullableToJson,
-    fromJson: sizeNullableFromJson,
-  )
-  final enums.Size? tShirtSize;
-  @JsonKey(name: 'situation')
-  final String? situation;
-  @JsonKey(name: 'other_school')
-  final String? otherSchool;
-  @JsonKey(name: 'company')
-  final String? company;
-  @JsonKey(name: 'diet')
-  final String? diet;
-  @JsonKey(name: 'attestation_on_honour')
-  final bool? attestationOnHonour;
-  @JsonKey(name: 'id_card_id')
-  final String? idCardId;
-  @JsonKey(name: 'medical_certificate_id')
-  final String? medicalCertificateId;
-  @JsonKey(name: 'security_file_id')
-  final String? securityFileId;
-  @JsonKey(name: 'student_card_id')
-  final String? studentCardId;
-  @JsonKey(name: 'raid_rules_id')
-  final String? raidRulesId;
-  @JsonKey(name: 'parent_authorization_id')
-  final String? parentAuthorizationId;
-  static const fromJsonFactory = _$RaidParticipantUpdateFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is RaidParticipantUpdate &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality().equals(
-                  other.firstname,
-                  firstname,
-                )) &&
-            (identical(other.birthday, birthday) ||
-                const DeepCollectionEquality().equals(
-                  other.birthday,
-                  birthday,
-                )) &&
-            (identical(other.address, address) ||
-                const DeepCollectionEquality().equals(
-                  other.address,
-                  address,
-                )) &&
-            (identical(other.phone, phone) ||
-                const DeepCollectionEquality().equals(other.phone, phone)) &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)) &&
-            (identical(other.bikeSize, bikeSize) ||
-                const DeepCollectionEquality().equals(
-                  other.bikeSize,
-                  bikeSize,
-                )) &&
-            (identical(other.tShirtSize, tShirtSize) ||
-                const DeepCollectionEquality().equals(
-                  other.tShirtSize,
-                  tShirtSize,
-                )) &&
-            (identical(other.situation, situation) ||
-                const DeepCollectionEquality().equals(
-                  other.situation,
-                  situation,
-                )) &&
-            (identical(other.otherSchool, otherSchool) ||
-                const DeepCollectionEquality().equals(
-                  other.otherSchool,
-                  otherSchool,
-                )) &&
-            (identical(other.company, company) ||
-                const DeepCollectionEquality().equals(
-                  other.company,
-                  company,
-                )) &&
-            (identical(other.diet, diet) ||
-                const DeepCollectionEquality().equals(other.diet, diet)) &&
-            (identical(other.attestationOnHonour, attestationOnHonour) ||
-                const DeepCollectionEquality().equals(
-                  other.attestationOnHonour,
-                  attestationOnHonour,
-                )) &&
-            (identical(other.idCardId, idCardId) ||
-                const DeepCollectionEquality().equals(
-                  other.idCardId,
-                  idCardId,
-                )) &&
-            (identical(other.medicalCertificateId, medicalCertificateId) ||
-                const DeepCollectionEquality().equals(
-                  other.medicalCertificateId,
-                  medicalCertificateId,
-                )) &&
-            (identical(other.securityFileId, securityFileId) ||
-                const DeepCollectionEquality().equals(
-                  other.securityFileId,
-                  securityFileId,
-                )) &&
-            (identical(other.studentCardId, studentCardId) ||
-                const DeepCollectionEquality().equals(
-                  other.studentCardId,
-                  studentCardId,
-                )) &&
-            (identical(other.raidRulesId, raidRulesId) ||
-                const DeepCollectionEquality().equals(
-                  other.raidRulesId,
-                  raidRulesId,
-                )) &&
-            (identical(other.parentAuthorizationId, parentAuthorizationId) ||
-                const DeepCollectionEquality().equals(
-                  other.parentAuthorizationId,
-                  parentAuthorizationId,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(firstname) ^
-      const DeepCollectionEquality().hash(birthday) ^
-      const DeepCollectionEquality().hash(address) ^
-      const DeepCollectionEquality().hash(phone) ^
-      const DeepCollectionEquality().hash(email) ^
-      const DeepCollectionEquality().hash(bikeSize) ^
-      const DeepCollectionEquality().hash(tShirtSize) ^
-      const DeepCollectionEquality().hash(situation) ^
-      const DeepCollectionEquality().hash(otherSchool) ^
-      const DeepCollectionEquality().hash(company) ^
-      const DeepCollectionEquality().hash(diet) ^
-      const DeepCollectionEquality().hash(attestationOnHonour) ^
-      const DeepCollectionEquality().hash(idCardId) ^
-      const DeepCollectionEquality().hash(medicalCertificateId) ^
-      const DeepCollectionEquality().hash(securityFileId) ^
-      const DeepCollectionEquality().hash(studentCardId) ^
-      const DeepCollectionEquality().hash(raidRulesId) ^
-      const DeepCollectionEquality().hash(parentAuthorizationId) ^
-      runtimeType.hashCode;
-}
-
-extension $RaidParticipantUpdateExtension on RaidParticipantUpdate {
-  RaidParticipantUpdate copyWith({
-    String? name,
-    String? firstname,
-    DateTime? birthday,
-    String? address,
-    String? phone,
-    String? email,
-    enums.Size? bikeSize,
-    enums.Size? tShirtSize,
-    String? situation,
-    String? otherSchool,
-    String? company,
-    String? diet,
-    bool? attestationOnHonour,
-    String? idCardId,
-    String? medicalCertificateId,
-    String? securityFileId,
-    String? studentCardId,
-    String? raidRulesId,
-    String? parentAuthorizationId,
-  }) {
-    return RaidParticipantUpdate(
-      name: name ?? this.name,
-      firstname: firstname ?? this.firstname,
-      birthday: birthday ?? this.birthday,
-      address: address ?? this.address,
-      phone: phone ?? this.phone,
-      email: email ?? this.email,
-      bikeSize: bikeSize ?? this.bikeSize,
-      tShirtSize: tShirtSize ?? this.tShirtSize,
-      situation: situation ?? this.situation,
-      otherSchool: otherSchool ?? this.otherSchool,
-      company: company ?? this.company,
-      diet: diet ?? this.diet,
-      attestationOnHonour: attestationOnHonour ?? this.attestationOnHonour,
-      idCardId: idCardId ?? this.idCardId,
-      medicalCertificateId: medicalCertificateId ?? this.medicalCertificateId,
-      securityFileId: securityFileId ?? this.securityFileId,
-      studentCardId: studentCardId ?? this.studentCardId,
-      raidRulesId: raidRulesId ?? this.raidRulesId,
-      parentAuthorizationId:
-          parentAuthorizationId ?? this.parentAuthorizationId,
-    );
-  }
-
-  RaidParticipantUpdate copyWithWrapped({
-    Wrapped<String?>? name,
-    Wrapped<String?>? firstname,
-    Wrapped<DateTime?>? birthday,
-    Wrapped<String?>? address,
-    Wrapped<String?>? phone,
-    Wrapped<String?>? email,
-    Wrapped<enums.Size?>? bikeSize,
-    Wrapped<enums.Size?>? tShirtSize,
-    Wrapped<String?>? situation,
-    Wrapped<String?>? otherSchool,
-    Wrapped<String?>? company,
-    Wrapped<String?>? diet,
-    Wrapped<bool?>? attestationOnHonour,
-    Wrapped<String?>? idCardId,
-    Wrapped<String?>? medicalCertificateId,
-    Wrapped<String?>? securityFileId,
-    Wrapped<String?>? studentCardId,
-    Wrapped<String?>? raidRulesId,
-    Wrapped<String?>? parentAuthorizationId,
-  }) {
-    return RaidParticipantUpdate(
-      name: (name != null ? name.value : this.name),
-      firstname: (firstname != null ? firstname.value : this.firstname),
-      birthday: (birthday != null ? birthday.value : this.birthday),
-      address: (address != null ? address.value : this.address),
-      phone: (phone != null ? phone.value : this.phone),
-      email: (email != null ? email.value : this.email),
-      bikeSize: (bikeSize != null ? bikeSize.value : this.bikeSize),
-      tShirtSize: (tShirtSize != null ? tShirtSize.value : this.tShirtSize),
-      situation: (situation != null ? situation.value : this.situation),
-      otherSchool: (otherSchool != null ? otherSchool.value : this.otherSchool),
-      company: (company != null ? company.value : this.company),
-      diet: (diet != null ? diet.value : this.diet),
-      attestationOnHonour: (attestationOnHonour != null
-          ? attestationOnHonour.value
-          : this.attestationOnHonour),
-      idCardId: (idCardId != null ? idCardId.value : this.idCardId),
-      medicalCertificateId: (medicalCertificateId != null
-          ? medicalCertificateId.value
-          : this.medicalCertificateId),
-      securityFileId: (securityFileId != null
-          ? securityFileId.value
-          : this.securityFileId),
-      studentCardId: (studentCardId != null
-          ? studentCardId.value
-          : this.studentCardId),
-      raidRulesId: (raidRulesId != null ? raidRulesId.value : this.raidRulesId),
-      parentAuthorizationId: (parentAuthorizationId != null
-          ? parentAuthorizationId.value
-          : this.parentAuthorizationId),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
 class RaidPrice {
   const RaidPrice({
     this.studentPrice,
@@ -18422,443 +16984,6 @@ extension $RaidPriceExtension on RaidPrice {
           ? externalPrice.value
           : this.externalPrice),
       tShirtPrice: (tShirtPrice != null ? tShirtPrice.value : this.tShirtPrice),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class RaidTeam {
-  const RaidTeam({
-    required this.name,
-    required this.id,
-    required this.number,
-    required this.captain,
-    required this.second,
-    required this.difficulty,
-    required this.meetingPlace,
-    required this.validationProgress,
-    required this.fileId,
-  });
-
-  factory RaidTeam.fromJson(Map<String, dynamic> json) =>
-      _$RaidTeamFromJson(json);
-
-  static const toJsonFactory = _$RaidTeamToJson;
-  Map<String, dynamic> toJson() => _$RaidTeamToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  @JsonKey(name: 'number')
-  final int? number;
-  @JsonKey(name: 'captain')
-  final RaidParticipant captain;
-  @JsonKey(name: 'second')
-  final RaidParticipant? second;
-  @JsonKey(
-    name: 'difficulty',
-    toJson: difficultyNullableToJson,
-    fromJson: difficultyNullableFromJson,
-  )
-  final enums.Difficulty? difficulty;
-  @JsonKey(
-    name: 'meeting_place',
-    toJson: meetingPlaceNullableToJson,
-    fromJson: meetingPlaceNullableFromJson,
-  )
-  final enums.MeetingPlace? meetingPlace;
-  @JsonKey(name: 'validation_progress', defaultValue: 0.0)
-  final double validationProgress;
-  @JsonKey(name: 'file_id')
-  final String? fileId;
-  static const fromJsonFactory = _$RaidTeamFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is RaidTeam &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.number, number) ||
-                const DeepCollectionEquality().equals(other.number, number)) &&
-            (identical(other.captain, captain) ||
-                const DeepCollectionEquality().equals(
-                  other.captain,
-                  captain,
-                )) &&
-            (identical(other.second, second) ||
-                const DeepCollectionEquality().equals(other.second, second)) &&
-            (identical(other.difficulty, difficulty) ||
-                const DeepCollectionEquality().equals(
-                  other.difficulty,
-                  difficulty,
-                )) &&
-            (identical(other.meetingPlace, meetingPlace) ||
-                const DeepCollectionEquality().equals(
-                  other.meetingPlace,
-                  meetingPlace,
-                )) &&
-            (identical(other.validationProgress, validationProgress) ||
-                const DeepCollectionEquality().equals(
-                  other.validationProgress,
-                  validationProgress,
-                )) &&
-            (identical(other.fileId, fileId) ||
-                const DeepCollectionEquality().equals(other.fileId, fileId)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(number) ^
-      const DeepCollectionEquality().hash(captain) ^
-      const DeepCollectionEquality().hash(second) ^
-      const DeepCollectionEquality().hash(difficulty) ^
-      const DeepCollectionEquality().hash(meetingPlace) ^
-      const DeepCollectionEquality().hash(validationProgress) ^
-      const DeepCollectionEquality().hash(fileId) ^
-      runtimeType.hashCode;
-}
-
-extension $RaidTeamExtension on RaidTeam {
-  RaidTeam copyWith({
-    String? name,
-    String? id,
-    int? number,
-    RaidParticipant? captain,
-    RaidParticipant? second,
-    enums.Difficulty? difficulty,
-    enums.MeetingPlace? meetingPlace,
-    double? validationProgress,
-    String? fileId,
-  }) {
-    return RaidTeam(
-      name: name ?? this.name,
-      id: id ?? this.id,
-      number: number ?? this.number,
-      captain: captain ?? this.captain,
-      second: second ?? this.second,
-      difficulty: difficulty ?? this.difficulty,
-      meetingPlace: meetingPlace ?? this.meetingPlace,
-      validationProgress: validationProgress ?? this.validationProgress,
-      fileId: fileId ?? this.fileId,
-    );
-  }
-
-  RaidTeam copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<String>? id,
-    Wrapped<int?>? number,
-    Wrapped<RaidParticipant>? captain,
-    Wrapped<RaidParticipant?>? second,
-    Wrapped<enums.Difficulty?>? difficulty,
-    Wrapped<enums.MeetingPlace?>? meetingPlace,
-    Wrapped<double>? validationProgress,
-    Wrapped<String?>? fileId,
-  }) {
-    return RaidTeam(
-      name: (name != null ? name.value : this.name),
-      id: (id != null ? id.value : this.id),
-      number: (number != null ? number.value : this.number),
-      captain: (captain != null ? captain.value : this.captain),
-      second: (second != null ? second.value : this.second),
-      difficulty: (difficulty != null ? difficulty.value : this.difficulty),
-      meetingPlace: (meetingPlace != null
-          ? meetingPlace.value
-          : this.meetingPlace),
-      validationProgress: (validationProgress != null
-          ? validationProgress.value
-          : this.validationProgress),
-      fileId: (fileId != null ? fileId.value : this.fileId),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class RaidTeamBase {
-  const RaidTeamBase({required this.name});
-
-  factory RaidTeamBase.fromJson(Map<String, dynamic> json) =>
-      _$RaidTeamBaseFromJson(json);
-
-  static const toJsonFactory = _$RaidTeamBaseToJson;
-  Map<String, dynamic> toJson() => _$RaidTeamBaseToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  static const fromJsonFactory = _$RaidTeamBaseFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is RaidTeamBase &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^ runtimeType.hashCode;
-}
-
-extension $RaidTeamBaseExtension on RaidTeamBase {
-  RaidTeamBase copyWith({String? name}) {
-    return RaidTeamBase(name: name ?? this.name);
-  }
-
-  RaidTeamBase copyWithWrapped({Wrapped<String>? name}) {
-    return RaidTeamBase(name: (name != null ? name.value : this.name));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class RaidTeamPreview {
-  const RaidTeamPreview({
-    required this.name,
-    required this.id,
-    required this.number,
-    required this.captain,
-    required this.second,
-    required this.difficulty,
-    required this.meetingPlace,
-    required this.validationProgress,
-  });
-
-  factory RaidTeamPreview.fromJson(Map<String, dynamic> json) =>
-      _$RaidTeamPreviewFromJson(json);
-
-  static const toJsonFactory = _$RaidTeamPreviewToJson;
-  Map<String, dynamic> toJson() => _$RaidTeamPreviewToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  @JsonKey(name: 'number')
-  final int? number;
-  @JsonKey(name: 'captain')
-  final RaidParticipantPreview captain;
-  @JsonKey(name: 'second')
-  final RaidParticipantPreview? second;
-  @JsonKey(
-    name: 'difficulty',
-    toJson: difficultyNullableToJson,
-    fromJson: difficultyNullableFromJson,
-  )
-  final enums.Difficulty? difficulty;
-  @JsonKey(
-    name: 'meeting_place',
-    toJson: meetingPlaceNullableToJson,
-    fromJson: meetingPlaceNullableFromJson,
-  )
-  final enums.MeetingPlace? meetingPlace;
-  @JsonKey(name: 'validation_progress', defaultValue: 0.0)
-  final double validationProgress;
-  static const fromJsonFactory = _$RaidTeamPreviewFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is RaidTeamPreview &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.number, number) ||
-                const DeepCollectionEquality().equals(other.number, number)) &&
-            (identical(other.captain, captain) ||
-                const DeepCollectionEquality().equals(
-                  other.captain,
-                  captain,
-                )) &&
-            (identical(other.second, second) ||
-                const DeepCollectionEquality().equals(other.second, second)) &&
-            (identical(other.difficulty, difficulty) ||
-                const DeepCollectionEquality().equals(
-                  other.difficulty,
-                  difficulty,
-                )) &&
-            (identical(other.meetingPlace, meetingPlace) ||
-                const DeepCollectionEquality().equals(
-                  other.meetingPlace,
-                  meetingPlace,
-                )) &&
-            (identical(other.validationProgress, validationProgress) ||
-                const DeepCollectionEquality().equals(
-                  other.validationProgress,
-                  validationProgress,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(number) ^
-      const DeepCollectionEquality().hash(captain) ^
-      const DeepCollectionEquality().hash(second) ^
-      const DeepCollectionEquality().hash(difficulty) ^
-      const DeepCollectionEquality().hash(meetingPlace) ^
-      const DeepCollectionEquality().hash(validationProgress) ^
-      runtimeType.hashCode;
-}
-
-extension $RaidTeamPreviewExtension on RaidTeamPreview {
-  RaidTeamPreview copyWith({
-    String? name,
-    String? id,
-    int? number,
-    RaidParticipantPreview? captain,
-    RaidParticipantPreview? second,
-    enums.Difficulty? difficulty,
-    enums.MeetingPlace? meetingPlace,
-    double? validationProgress,
-  }) {
-    return RaidTeamPreview(
-      name: name ?? this.name,
-      id: id ?? this.id,
-      number: number ?? this.number,
-      captain: captain ?? this.captain,
-      second: second ?? this.second,
-      difficulty: difficulty ?? this.difficulty,
-      meetingPlace: meetingPlace ?? this.meetingPlace,
-      validationProgress: validationProgress ?? this.validationProgress,
-    );
-  }
-
-  RaidTeamPreview copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<String>? id,
-    Wrapped<int?>? number,
-    Wrapped<RaidParticipantPreview>? captain,
-    Wrapped<RaidParticipantPreview?>? second,
-    Wrapped<enums.Difficulty?>? difficulty,
-    Wrapped<enums.MeetingPlace?>? meetingPlace,
-    Wrapped<double>? validationProgress,
-  }) {
-    return RaidTeamPreview(
-      name: (name != null ? name.value : this.name),
-      id: (id != null ? id.value : this.id),
-      number: (number != null ? number.value : this.number),
-      captain: (captain != null ? captain.value : this.captain),
-      second: (second != null ? second.value : this.second),
-      difficulty: (difficulty != null ? difficulty.value : this.difficulty),
-      meetingPlace: (meetingPlace != null
-          ? meetingPlace.value
-          : this.meetingPlace),
-      validationProgress: (validationProgress != null
-          ? validationProgress.value
-          : this.validationProgress),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class RaidTeamUpdate {
-  const RaidTeamUpdate({
-    this.name,
-    this.number,
-    this.difficulty,
-    this.meetingPlace,
-  });
-
-  factory RaidTeamUpdate.fromJson(Map<String, dynamic> json) =>
-      _$RaidTeamUpdateFromJson(json);
-
-  static const toJsonFactory = _$RaidTeamUpdateToJson;
-  Map<String, dynamic> toJson() => _$RaidTeamUpdateToJson(this);
-
-  @JsonKey(name: 'name')
-  final String? name;
-  @JsonKey(name: 'number')
-  final int? number;
-  @JsonKey(
-    name: 'difficulty',
-    toJson: difficultyNullableToJson,
-    fromJson: difficultyNullableFromJson,
-  )
-  final enums.Difficulty? difficulty;
-  @JsonKey(
-    name: 'meeting_place',
-    toJson: meetingPlaceNullableToJson,
-    fromJson: meetingPlaceNullableFromJson,
-  )
-  final enums.MeetingPlace? meetingPlace;
-  static const fromJsonFactory = _$RaidTeamUpdateFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is RaidTeamUpdate &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.number, number) ||
-                const DeepCollectionEquality().equals(other.number, number)) &&
-            (identical(other.difficulty, difficulty) ||
-                const DeepCollectionEquality().equals(
-                  other.difficulty,
-                  difficulty,
-                )) &&
-            (identical(other.meetingPlace, meetingPlace) ||
-                const DeepCollectionEquality().equals(
-                  other.meetingPlace,
-                  meetingPlace,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(number) ^
-      const DeepCollectionEquality().hash(difficulty) ^
-      const DeepCollectionEquality().hash(meetingPlace) ^
-      runtimeType.hashCode;
-}
-
-extension $RaidTeamUpdateExtension on RaidTeamUpdate {
-  RaidTeamUpdate copyWith({
-    String? name,
-    int? number,
-    enums.Difficulty? difficulty,
-    enums.MeetingPlace? meetingPlace,
-  }) {
-    return RaidTeamUpdate(
-      name: name ?? this.name,
-      number: number ?? this.number,
-      difficulty: difficulty ?? this.difficulty,
-      meetingPlace: meetingPlace ?? this.meetingPlace,
-    );
-  }
-
-  RaidTeamUpdate copyWithWrapped({
-    Wrapped<String?>? name,
-    Wrapped<int?>? number,
-    Wrapped<enums.Difficulty?>? difficulty,
-    Wrapped<enums.MeetingPlace?>? meetingPlace,
-  }) {
-    return RaidTeamUpdate(
-      name: (name != null ? name.value : this.name),
-      number: (number != null ? number.value : this.number),
-      difficulty: (difficulty != null ? difficulty.value : this.difficulty),
-      meetingPlace: (meetingPlace != null
-          ? meetingPlace.value
-          : this.meetingPlace),
     );
   }
 }
@@ -19688,1119 +17813,6 @@ extension $ScanInfoExtension on ScanInfo {
       bypassMembership: (bypassMembership != null
           ? bypassMembership.value
           : this.bypassMembership),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class SchoolExtension {
-  const SchoolExtension({
-    required this.schoolId,
-    required this.fromLyon,
-    this.active,
-    this.inscriptionEnabled,
-    required this.school,
-  });
-
-  factory SchoolExtension.fromJson(Map<String, dynamic> json) =>
-      _$SchoolExtensionFromJson(json);
-
-  static const toJsonFactory = _$SchoolExtensionToJson;
-  Map<String, dynamic> toJson() => _$SchoolExtensionToJson(this);
-
-  @JsonKey(name: 'school_id', defaultValue: '')
-  final String schoolId;
-  @JsonKey(name: 'from_lyon', defaultValue: false)
-  final bool fromLyon;
-  @JsonKey(name: 'active', defaultValue: true)
-  final bool? active;
-  @JsonKey(name: 'inscription_enabled', defaultValue: false)
-  final bool? inscriptionEnabled;
-  @JsonKey(name: 'school')
-  final CoreSchool school;
-  static const fromJsonFactory = _$SchoolExtensionFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is SchoolExtension &&
-            (identical(other.schoolId, schoolId) ||
-                const DeepCollectionEquality().equals(
-                  other.schoolId,
-                  schoolId,
-                )) &&
-            (identical(other.fromLyon, fromLyon) ||
-                const DeepCollectionEquality().equals(
-                  other.fromLyon,
-                  fromLyon,
-                )) &&
-            (identical(other.active, active) ||
-                const DeepCollectionEquality().equals(other.active, active)) &&
-            (identical(other.inscriptionEnabled, inscriptionEnabled) ||
-                const DeepCollectionEquality().equals(
-                  other.inscriptionEnabled,
-                  inscriptionEnabled,
-                )) &&
-            (identical(other.school, school) ||
-                const DeepCollectionEquality().equals(other.school, school)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(schoolId) ^
-      const DeepCollectionEquality().hash(fromLyon) ^
-      const DeepCollectionEquality().hash(active) ^
-      const DeepCollectionEquality().hash(inscriptionEnabled) ^
-      const DeepCollectionEquality().hash(school) ^
-      runtimeType.hashCode;
-}
-
-extension $SchoolExtensionExtension on SchoolExtension {
-  SchoolExtension copyWith({
-    String? schoolId,
-    bool? fromLyon,
-    bool? active,
-    bool? inscriptionEnabled,
-    CoreSchool? school,
-  }) {
-    return SchoolExtension(
-      schoolId: schoolId ?? this.schoolId,
-      fromLyon: fromLyon ?? this.fromLyon,
-      active: active ?? this.active,
-      inscriptionEnabled: inscriptionEnabled ?? this.inscriptionEnabled,
-      school: school ?? this.school,
-    );
-  }
-
-  SchoolExtension copyWithWrapped({
-    Wrapped<String>? schoolId,
-    Wrapped<bool>? fromLyon,
-    Wrapped<bool?>? active,
-    Wrapped<bool?>? inscriptionEnabled,
-    Wrapped<CoreSchool>? school,
-  }) {
-    return SchoolExtension(
-      schoolId: (schoolId != null ? schoolId.value : this.schoolId),
-      fromLyon: (fromLyon != null ? fromLyon.value : this.fromLyon),
-      active: (active != null ? active.value : this.active),
-      inscriptionEnabled: (inscriptionEnabled != null
-          ? inscriptionEnabled.value
-          : this.inscriptionEnabled),
-      school: (school != null ? school.value : this.school),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class SchoolExtensionBase {
-  const SchoolExtensionBase({
-    required this.schoolId,
-    required this.fromLyon,
-    this.active,
-    this.inscriptionEnabled,
-  });
-
-  factory SchoolExtensionBase.fromJson(Map<String, dynamic> json) =>
-      _$SchoolExtensionBaseFromJson(json);
-
-  static const toJsonFactory = _$SchoolExtensionBaseToJson;
-  Map<String, dynamic> toJson() => _$SchoolExtensionBaseToJson(this);
-
-  @JsonKey(name: 'school_id', defaultValue: '')
-  final String schoolId;
-  @JsonKey(name: 'from_lyon', defaultValue: false)
-  final bool fromLyon;
-  @JsonKey(name: 'active', defaultValue: true)
-  final bool? active;
-  @JsonKey(name: 'inscription_enabled', defaultValue: false)
-  final bool? inscriptionEnabled;
-  static const fromJsonFactory = _$SchoolExtensionBaseFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is SchoolExtensionBase &&
-            (identical(other.schoolId, schoolId) ||
-                const DeepCollectionEquality().equals(
-                  other.schoolId,
-                  schoolId,
-                )) &&
-            (identical(other.fromLyon, fromLyon) ||
-                const DeepCollectionEquality().equals(
-                  other.fromLyon,
-                  fromLyon,
-                )) &&
-            (identical(other.active, active) ||
-                const DeepCollectionEquality().equals(other.active, active)) &&
-            (identical(other.inscriptionEnabled, inscriptionEnabled) ||
-                const DeepCollectionEquality().equals(
-                  other.inscriptionEnabled,
-                  inscriptionEnabled,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(schoolId) ^
-      const DeepCollectionEquality().hash(fromLyon) ^
-      const DeepCollectionEquality().hash(active) ^
-      const DeepCollectionEquality().hash(inscriptionEnabled) ^
-      runtimeType.hashCode;
-}
-
-extension $SchoolExtensionBaseExtension on SchoolExtensionBase {
-  SchoolExtensionBase copyWith({
-    String? schoolId,
-    bool? fromLyon,
-    bool? active,
-    bool? inscriptionEnabled,
-  }) {
-    return SchoolExtensionBase(
-      schoolId: schoolId ?? this.schoolId,
-      fromLyon: fromLyon ?? this.fromLyon,
-      active: active ?? this.active,
-      inscriptionEnabled: inscriptionEnabled ?? this.inscriptionEnabled,
-    );
-  }
-
-  SchoolExtensionBase copyWithWrapped({
-    Wrapped<String>? schoolId,
-    Wrapped<bool>? fromLyon,
-    Wrapped<bool?>? active,
-    Wrapped<bool?>? inscriptionEnabled,
-  }) {
-    return SchoolExtensionBase(
-      schoolId: (schoolId != null ? schoolId.value : this.schoolId),
-      fromLyon: (fromLyon != null ? fromLyon.value : this.fromLyon),
-      active: (active != null ? active.value : this.active),
-      inscriptionEnabled: (inscriptionEnabled != null
-          ? inscriptionEnabled.value
-          : this.inscriptionEnabled),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class SchoolExtensionEdit {
-  const SchoolExtensionEdit({
-    this.fromLyon,
-    this.active,
-    this.inscriptionEnabled,
-  });
-
-  factory SchoolExtensionEdit.fromJson(Map<String, dynamic> json) =>
-      _$SchoolExtensionEditFromJson(json);
-
-  static const toJsonFactory = _$SchoolExtensionEditToJson;
-  Map<String, dynamic> toJson() => _$SchoolExtensionEditToJson(this);
-
-  @JsonKey(name: 'from_lyon')
-  final bool? fromLyon;
-  @JsonKey(name: 'active')
-  final bool? active;
-  @JsonKey(name: 'inscription_enabled')
-  final bool? inscriptionEnabled;
-  static const fromJsonFactory = _$SchoolExtensionEditFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is SchoolExtensionEdit &&
-            (identical(other.fromLyon, fromLyon) ||
-                const DeepCollectionEquality().equals(
-                  other.fromLyon,
-                  fromLyon,
-                )) &&
-            (identical(other.active, active) ||
-                const DeepCollectionEquality().equals(other.active, active)) &&
-            (identical(other.inscriptionEnabled, inscriptionEnabled) ||
-                const DeepCollectionEquality().equals(
-                  other.inscriptionEnabled,
-                  inscriptionEnabled,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(fromLyon) ^
-      const DeepCollectionEquality().hash(active) ^
-      const DeepCollectionEquality().hash(inscriptionEnabled) ^
-      runtimeType.hashCode;
-}
-
-extension $SchoolExtensionEditExtension on SchoolExtensionEdit {
-  SchoolExtensionEdit copyWith({
-    bool? fromLyon,
-    bool? active,
-    bool? inscriptionEnabled,
-  }) {
-    return SchoolExtensionEdit(
-      fromLyon: fromLyon ?? this.fromLyon,
-      active: active ?? this.active,
-      inscriptionEnabled: inscriptionEnabled ?? this.inscriptionEnabled,
-    );
-  }
-
-  SchoolExtensionEdit copyWithWrapped({
-    Wrapped<bool?>? fromLyon,
-    Wrapped<bool?>? active,
-    Wrapped<bool?>? inscriptionEnabled,
-  }) {
-    return SchoolExtensionEdit(
-      fromLyon: (fromLyon != null ? fromLyon.value : this.fromLyon),
-      active: (active != null ? active.value : this.active),
-      inscriptionEnabled: (inscriptionEnabled != null
-          ? inscriptionEnabled.value
-          : this.inscriptionEnabled),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class SchoolGeneralQuota {
-  const SchoolGeneralQuota({
-    this.athleteQuota,
-    this.cameramanQuota,
-    this.pompomQuota,
-    this.fanfareQuota,
-    this.athleteCameramanQuota,
-    this.athletePompomQuota,
-    this.athleteFanfareQuota,
-    this.nonAthleteCameramanQuota,
-    this.nonAthletePompomQuota,
-    this.nonAthleteFanfareQuota,
-    required this.schoolId,
-    required this.editionId,
-  });
-
-  factory SchoolGeneralQuota.fromJson(Map<String, dynamic> json) =>
-      _$SchoolGeneralQuotaFromJson(json);
-
-  static const toJsonFactory = _$SchoolGeneralQuotaToJson;
-  Map<String, dynamic> toJson() => _$SchoolGeneralQuotaToJson(this);
-
-  @JsonKey(name: 'athlete_quota')
-  final int? athleteQuota;
-  @JsonKey(name: 'cameraman_quota')
-  final int? cameramanQuota;
-  @JsonKey(name: 'pompom_quota')
-  final int? pompomQuota;
-  @JsonKey(name: 'fanfare_quota')
-  final int? fanfareQuota;
-  @JsonKey(name: 'athlete_cameraman_quota')
-  final int? athleteCameramanQuota;
-  @JsonKey(name: 'athlete_pompom_quota')
-  final int? athletePompomQuota;
-  @JsonKey(name: 'athlete_fanfare_quota')
-  final int? athleteFanfareQuota;
-  @JsonKey(name: 'non_athlete_cameraman_quota')
-  final int? nonAthleteCameramanQuota;
-  @JsonKey(name: 'non_athlete_pompom_quota')
-  final int? nonAthletePompomQuota;
-  @JsonKey(name: 'non_athlete_fanfare_quota')
-  final int? nonAthleteFanfareQuota;
-  @JsonKey(name: 'school_id', defaultValue: '')
-  final String schoolId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  static const fromJsonFactory = _$SchoolGeneralQuotaFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is SchoolGeneralQuota &&
-            (identical(other.athleteQuota, athleteQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.athleteQuota,
-                  athleteQuota,
-                )) &&
-            (identical(other.cameramanQuota, cameramanQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.cameramanQuota,
-                  cameramanQuota,
-                )) &&
-            (identical(other.pompomQuota, pompomQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.pompomQuota,
-                  pompomQuota,
-                )) &&
-            (identical(other.fanfareQuota, fanfareQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.fanfareQuota,
-                  fanfareQuota,
-                )) &&
-            (identical(other.athleteCameramanQuota, athleteCameramanQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.athleteCameramanQuota,
-                  athleteCameramanQuota,
-                )) &&
-            (identical(other.athletePompomQuota, athletePompomQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.athletePompomQuota,
-                  athletePompomQuota,
-                )) &&
-            (identical(other.athleteFanfareQuota, athleteFanfareQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.athleteFanfareQuota,
-                  athleteFanfareQuota,
-                )) &&
-            (identical(
-                  other.nonAthleteCameramanQuota,
-                  nonAthleteCameramanQuota,
-                ) ||
-                const DeepCollectionEquality().equals(
-                  other.nonAthleteCameramanQuota,
-                  nonAthleteCameramanQuota,
-                )) &&
-            (identical(other.nonAthletePompomQuota, nonAthletePompomQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.nonAthletePompomQuota,
-                  nonAthletePompomQuota,
-                )) &&
-            (identical(other.nonAthleteFanfareQuota, nonAthleteFanfareQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.nonAthleteFanfareQuota,
-                  nonAthleteFanfareQuota,
-                )) &&
-            (identical(other.schoolId, schoolId) ||
-                const DeepCollectionEquality().equals(
-                  other.schoolId,
-                  schoolId,
-                )) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(athleteQuota) ^
-      const DeepCollectionEquality().hash(cameramanQuota) ^
-      const DeepCollectionEquality().hash(pompomQuota) ^
-      const DeepCollectionEquality().hash(fanfareQuota) ^
-      const DeepCollectionEquality().hash(athleteCameramanQuota) ^
-      const DeepCollectionEquality().hash(athletePompomQuota) ^
-      const DeepCollectionEquality().hash(athleteFanfareQuota) ^
-      const DeepCollectionEquality().hash(nonAthleteCameramanQuota) ^
-      const DeepCollectionEquality().hash(nonAthletePompomQuota) ^
-      const DeepCollectionEquality().hash(nonAthleteFanfareQuota) ^
-      const DeepCollectionEquality().hash(schoolId) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      runtimeType.hashCode;
-}
-
-extension $SchoolGeneralQuotaExtension on SchoolGeneralQuota {
-  SchoolGeneralQuota copyWith({
-    int? athleteQuota,
-    int? cameramanQuota,
-    int? pompomQuota,
-    int? fanfareQuota,
-    int? athleteCameramanQuota,
-    int? athletePompomQuota,
-    int? athleteFanfareQuota,
-    int? nonAthleteCameramanQuota,
-    int? nonAthletePompomQuota,
-    int? nonAthleteFanfareQuota,
-    String? schoolId,
-    String? editionId,
-  }) {
-    return SchoolGeneralQuota(
-      athleteQuota: athleteQuota ?? this.athleteQuota,
-      cameramanQuota: cameramanQuota ?? this.cameramanQuota,
-      pompomQuota: pompomQuota ?? this.pompomQuota,
-      fanfareQuota: fanfareQuota ?? this.fanfareQuota,
-      athleteCameramanQuota:
-          athleteCameramanQuota ?? this.athleteCameramanQuota,
-      athletePompomQuota: athletePompomQuota ?? this.athletePompomQuota,
-      athleteFanfareQuota: athleteFanfareQuota ?? this.athleteFanfareQuota,
-      nonAthleteCameramanQuota:
-          nonAthleteCameramanQuota ?? this.nonAthleteCameramanQuota,
-      nonAthletePompomQuota:
-          nonAthletePompomQuota ?? this.nonAthletePompomQuota,
-      nonAthleteFanfareQuota:
-          nonAthleteFanfareQuota ?? this.nonAthleteFanfareQuota,
-      schoolId: schoolId ?? this.schoolId,
-      editionId: editionId ?? this.editionId,
-    );
-  }
-
-  SchoolGeneralQuota copyWithWrapped({
-    Wrapped<int?>? athleteQuota,
-    Wrapped<int?>? cameramanQuota,
-    Wrapped<int?>? pompomQuota,
-    Wrapped<int?>? fanfareQuota,
-    Wrapped<int?>? athleteCameramanQuota,
-    Wrapped<int?>? athletePompomQuota,
-    Wrapped<int?>? athleteFanfareQuota,
-    Wrapped<int?>? nonAthleteCameramanQuota,
-    Wrapped<int?>? nonAthletePompomQuota,
-    Wrapped<int?>? nonAthleteFanfareQuota,
-    Wrapped<String>? schoolId,
-    Wrapped<String>? editionId,
-  }) {
-    return SchoolGeneralQuota(
-      athleteQuota: (athleteQuota != null
-          ? athleteQuota.value
-          : this.athleteQuota),
-      cameramanQuota: (cameramanQuota != null
-          ? cameramanQuota.value
-          : this.cameramanQuota),
-      pompomQuota: (pompomQuota != null ? pompomQuota.value : this.pompomQuota),
-      fanfareQuota: (fanfareQuota != null
-          ? fanfareQuota.value
-          : this.fanfareQuota),
-      athleteCameramanQuota: (athleteCameramanQuota != null
-          ? athleteCameramanQuota.value
-          : this.athleteCameramanQuota),
-      athletePompomQuota: (athletePompomQuota != null
-          ? athletePompomQuota.value
-          : this.athletePompomQuota),
-      athleteFanfareQuota: (athleteFanfareQuota != null
-          ? athleteFanfareQuota.value
-          : this.athleteFanfareQuota),
-      nonAthleteCameramanQuota: (nonAthleteCameramanQuota != null
-          ? nonAthleteCameramanQuota.value
-          : this.nonAthleteCameramanQuota),
-      nonAthletePompomQuota: (nonAthletePompomQuota != null
-          ? nonAthletePompomQuota.value
-          : this.nonAthletePompomQuota),
-      nonAthleteFanfareQuota: (nonAthleteFanfareQuota != null
-          ? nonAthleteFanfareQuota.value
-          : this.nonAthleteFanfareQuota),
-      schoolId: (schoolId != null ? schoolId.value : this.schoolId),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class SchoolGeneralQuotaBase {
-  const SchoolGeneralQuotaBase({
-    this.athleteQuota,
-    this.cameramanQuota,
-    this.pompomQuota,
-    this.fanfareQuota,
-    this.athleteCameramanQuota,
-    this.athletePompomQuota,
-    this.athleteFanfareQuota,
-    this.nonAthleteCameramanQuota,
-    this.nonAthletePompomQuota,
-    this.nonAthleteFanfareQuota,
-  });
-
-  factory SchoolGeneralQuotaBase.fromJson(Map<String, dynamic> json) =>
-      _$SchoolGeneralQuotaBaseFromJson(json);
-
-  static const toJsonFactory = _$SchoolGeneralQuotaBaseToJson;
-  Map<String, dynamic> toJson() => _$SchoolGeneralQuotaBaseToJson(this);
-
-  @JsonKey(name: 'athlete_quota')
-  final int? athleteQuota;
-  @JsonKey(name: 'cameraman_quota')
-  final int? cameramanQuota;
-  @JsonKey(name: 'pompom_quota')
-  final int? pompomQuota;
-  @JsonKey(name: 'fanfare_quota')
-  final int? fanfareQuota;
-  @JsonKey(name: 'athlete_cameraman_quota')
-  final int? athleteCameramanQuota;
-  @JsonKey(name: 'athlete_pompom_quota')
-  final int? athletePompomQuota;
-  @JsonKey(name: 'athlete_fanfare_quota')
-  final int? athleteFanfareQuota;
-  @JsonKey(name: 'non_athlete_cameraman_quota')
-  final int? nonAthleteCameramanQuota;
-  @JsonKey(name: 'non_athlete_pompom_quota')
-  final int? nonAthletePompomQuota;
-  @JsonKey(name: 'non_athlete_fanfare_quota')
-  final int? nonAthleteFanfareQuota;
-  static const fromJsonFactory = _$SchoolGeneralQuotaBaseFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is SchoolGeneralQuotaBase &&
-            (identical(other.athleteQuota, athleteQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.athleteQuota,
-                  athleteQuota,
-                )) &&
-            (identical(other.cameramanQuota, cameramanQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.cameramanQuota,
-                  cameramanQuota,
-                )) &&
-            (identical(other.pompomQuota, pompomQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.pompomQuota,
-                  pompomQuota,
-                )) &&
-            (identical(other.fanfareQuota, fanfareQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.fanfareQuota,
-                  fanfareQuota,
-                )) &&
-            (identical(other.athleteCameramanQuota, athleteCameramanQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.athleteCameramanQuota,
-                  athleteCameramanQuota,
-                )) &&
-            (identical(other.athletePompomQuota, athletePompomQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.athletePompomQuota,
-                  athletePompomQuota,
-                )) &&
-            (identical(other.athleteFanfareQuota, athleteFanfareQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.athleteFanfareQuota,
-                  athleteFanfareQuota,
-                )) &&
-            (identical(
-                  other.nonAthleteCameramanQuota,
-                  nonAthleteCameramanQuota,
-                ) ||
-                const DeepCollectionEquality().equals(
-                  other.nonAthleteCameramanQuota,
-                  nonAthleteCameramanQuota,
-                )) &&
-            (identical(other.nonAthletePompomQuota, nonAthletePompomQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.nonAthletePompomQuota,
-                  nonAthletePompomQuota,
-                )) &&
-            (identical(other.nonAthleteFanfareQuota, nonAthleteFanfareQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.nonAthleteFanfareQuota,
-                  nonAthleteFanfareQuota,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(athleteQuota) ^
-      const DeepCollectionEquality().hash(cameramanQuota) ^
-      const DeepCollectionEquality().hash(pompomQuota) ^
-      const DeepCollectionEquality().hash(fanfareQuota) ^
-      const DeepCollectionEquality().hash(athleteCameramanQuota) ^
-      const DeepCollectionEquality().hash(athletePompomQuota) ^
-      const DeepCollectionEquality().hash(athleteFanfareQuota) ^
-      const DeepCollectionEquality().hash(nonAthleteCameramanQuota) ^
-      const DeepCollectionEquality().hash(nonAthletePompomQuota) ^
-      const DeepCollectionEquality().hash(nonAthleteFanfareQuota) ^
-      runtimeType.hashCode;
-}
-
-extension $SchoolGeneralQuotaBaseExtension on SchoolGeneralQuotaBase {
-  SchoolGeneralQuotaBase copyWith({
-    int? athleteQuota,
-    int? cameramanQuota,
-    int? pompomQuota,
-    int? fanfareQuota,
-    int? athleteCameramanQuota,
-    int? athletePompomQuota,
-    int? athleteFanfareQuota,
-    int? nonAthleteCameramanQuota,
-    int? nonAthletePompomQuota,
-    int? nonAthleteFanfareQuota,
-  }) {
-    return SchoolGeneralQuotaBase(
-      athleteQuota: athleteQuota ?? this.athleteQuota,
-      cameramanQuota: cameramanQuota ?? this.cameramanQuota,
-      pompomQuota: pompomQuota ?? this.pompomQuota,
-      fanfareQuota: fanfareQuota ?? this.fanfareQuota,
-      athleteCameramanQuota:
-          athleteCameramanQuota ?? this.athleteCameramanQuota,
-      athletePompomQuota: athletePompomQuota ?? this.athletePompomQuota,
-      athleteFanfareQuota: athleteFanfareQuota ?? this.athleteFanfareQuota,
-      nonAthleteCameramanQuota:
-          nonAthleteCameramanQuota ?? this.nonAthleteCameramanQuota,
-      nonAthletePompomQuota:
-          nonAthletePompomQuota ?? this.nonAthletePompomQuota,
-      nonAthleteFanfareQuota:
-          nonAthleteFanfareQuota ?? this.nonAthleteFanfareQuota,
-    );
-  }
-
-  SchoolGeneralQuotaBase copyWithWrapped({
-    Wrapped<int?>? athleteQuota,
-    Wrapped<int?>? cameramanQuota,
-    Wrapped<int?>? pompomQuota,
-    Wrapped<int?>? fanfareQuota,
-    Wrapped<int?>? athleteCameramanQuota,
-    Wrapped<int?>? athletePompomQuota,
-    Wrapped<int?>? athleteFanfareQuota,
-    Wrapped<int?>? nonAthleteCameramanQuota,
-    Wrapped<int?>? nonAthletePompomQuota,
-    Wrapped<int?>? nonAthleteFanfareQuota,
-  }) {
-    return SchoolGeneralQuotaBase(
-      athleteQuota: (athleteQuota != null
-          ? athleteQuota.value
-          : this.athleteQuota),
-      cameramanQuota: (cameramanQuota != null
-          ? cameramanQuota.value
-          : this.cameramanQuota),
-      pompomQuota: (pompomQuota != null ? pompomQuota.value : this.pompomQuota),
-      fanfareQuota: (fanfareQuota != null
-          ? fanfareQuota.value
-          : this.fanfareQuota),
-      athleteCameramanQuota: (athleteCameramanQuota != null
-          ? athleteCameramanQuota.value
-          : this.athleteCameramanQuota),
-      athletePompomQuota: (athletePompomQuota != null
-          ? athletePompomQuota.value
-          : this.athletePompomQuota),
-      athleteFanfareQuota: (athleteFanfareQuota != null
-          ? athleteFanfareQuota.value
-          : this.athleteFanfareQuota),
-      nonAthleteCameramanQuota: (nonAthleteCameramanQuota != null
-          ? nonAthleteCameramanQuota.value
-          : this.nonAthleteCameramanQuota),
-      nonAthletePompomQuota: (nonAthletePompomQuota != null
-          ? nonAthletePompomQuota.value
-          : this.nonAthletePompomQuota),
-      nonAthleteFanfareQuota: (nonAthleteFanfareQuota != null
-          ? nonAthleteFanfareQuota.value
-          : this.nonAthleteFanfareQuota),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class SchoolProductQuota {
-  const SchoolProductQuota({
-    required this.productId,
-    required this.quota,
-    required this.schoolId,
-    required this.editionId,
-  });
-
-  factory SchoolProductQuota.fromJson(Map<String, dynamic> json) =>
-      _$SchoolProductQuotaFromJson(json);
-
-  static const toJsonFactory = _$SchoolProductQuotaToJson;
-  Map<String, dynamic> toJson() => _$SchoolProductQuotaToJson(this);
-
-  @JsonKey(name: 'product_id', defaultValue: '')
-  final String productId;
-  @JsonKey(name: 'quota', defaultValue: 0)
-  final int quota;
-  @JsonKey(name: 'school_id', defaultValue: '')
-  final String schoolId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  static const fromJsonFactory = _$SchoolProductQuotaFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is SchoolProductQuota &&
-            (identical(other.productId, productId) ||
-                const DeepCollectionEquality().equals(
-                  other.productId,
-                  productId,
-                )) &&
-            (identical(other.quota, quota) ||
-                const DeepCollectionEquality().equals(other.quota, quota)) &&
-            (identical(other.schoolId, schoolId) ||
-                const DeepCollectionEquality().equals(
-                  other.schoolId,
-                  schoolId,
-                )) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(productId) ^
-      const DeepCollectionEquality().hash(quota) ^
-      const DeepCollectionEquality().hash(schoolId) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      runtimeType.hashCode;
-}
-
-extension $SchoolProductQuotaExtension on SchoolProductQuota {
-  SchoolProductQuota copyWith({
-    String? productId,
-    int? quota,
-    String? schoolId,
-    String? editionId,
-  }) {
-    return SchoolProductQuota(
-      productId: productId ?? this.productId,
-      quota: quota ?? this.quota,
-      schoolId: schoolId ?? this.schoolId,
-      editionId: editionId ?? this.editionId,
-    );
-  }
-
-  SchoolProductQuota copyWithWrapped({
-    Wrapped<String>? productId,
-    Wrapped<int>? quota,
-    Wrapped<String>? schoolId,
-    Wrapped<String>? editionId,
-  }) {
-    return SchoolProductQuota(
-      productId: (productId != null ? productId.value : this.productId),
-      quota: (quota != null ? quota.value : this.quota),
-      schoolId: (schoolId != null ? schoolId.value : this.schoolId),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class SchoolProductQuotaBase {
-  const SchoolProductQuotaBase({required this.productId, required this.quota});
-
-  factory SchoolProductQuotaBase.fromJson(Map<String, dynamic> json) =>
-      _$SchoolProductQuotaBaseFromJson(json);
-
-  static const toJsonFactory = _$SchoolProductQuotaBaseToJson;
-  Map<String, dynamic> toJson() => _$SchoolProductQuotaBaseToJson(this);
-
-  @JsonKey(name: 'product_id', defaultValue: '')
-  final String productId;
-  @JsonKey(name: 'quota', defaultValue: 0)
-  final int quota;
-  static const fromJsonFactory = _$SchoolProductQuotaBaseFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is SchoolProductQuotaBase &&
-            (identical(other.productId, productId) ||
-                const DeepCollectionEquality().equals(
-                  other.productId,
-                  productId,
-                )) &&
-            (identical(other.quota, quota) ||
-                const DeepCollectionEquality().equals(other.quota, quota)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(productId) ^
-      const DeepCollectionEquality().hash(quota) ^
-      runtimeType.hashCode;
-}
-
-extension $SchoolProductQuotaBaseExtension on SchoolProductQuotaBase {
-  SchoolProductQuotaBase copyWith({String? productId, int? quota}) {
-    return SchoolProductQuotaBase(
-      productId: productId ?? this.productId,
-      quota: quota ?? this.quota,
-    );
-  }
-
-  SchoolProductQuotaBase copyWithWrapped({
-    Wrapped<String>? productId,
-    Wrapped<int>? quota,
-  }) {
-    return SchoolProductQuotaBase(
-      productId: (productId != null ? productId.value : this.productId),
-      quota: (quota != null ? quota.value : this.quota),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class SchoolProductQuotaEdit {
-  const SchoolProductQuotaEdit({required this.quota});
-
-  factory SchoolProductQuotaEdit.fromJson(Map<String, dynamic> json) =>
-      _$SchoolProductQuotaEditFromJson(json);
-
-  static const toJsonFactory = _$SchoolProductQuotaEditToJson;
-  Map<String, dynamic> toJson() => _$SchoolProductQuotaEditToJson(this);
-
-  @JsonKey(name: 'quota', defaultValue: 0)
-  final int quota;
-  static const fromJsonFactory = _$SchoolProductQuotaEditFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is SchoolProductQuotaEdit &&
-            (identical(other.quota, quota) ||
-                const DeepCollectionEquality().equals(other.quota, quota)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(quota) ^ runtimeType.hashCode;
-}
-
-extension $SchoolProductQuotaEditExtension on SchoolProductQuotaEdit {
-  SchoolProductQuotaEdit copyWith({int? quota}) {
-    return SchoolProductQuotaEdit(quota: quota ?? this.quota);
-  }
-
-  SchoolProductQuotaEdit copyWithWrapped({Wrapped<int>? quota}) {
-    return SchoolProductQuotaEdit(
-      quota: (quota != null ? quota.value : this.quota),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class SchoolResult {
-  const SchoolResult({required this.schoolId, required this.totalPoints});
-
-  factory SchoolResult.fromJson(Map<String, dynamic> json) =>
-      _$SchoolResultFromJson(json);
-
-  static const toJsonFactory = _$SchoolResultToJson;
-  Map<String, dynamic> toJson() => _$SchoolResultToJson(this);
-
-  @JsonKey(name: 'school_id', defaultValue: '')
-  final String schoolId;
-  @JsonKey(name: 'total_points', defaultValue: 0)
-  final int totalPoints;
-  static const fromJsonFactory = _$SchoolResultFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is SchoolResult &&
-            (identical(other.schoolId, schoolId) ||
-                const DeepCollectionEquality().equals(
-                  other.schoolId,
-                  schoolId,
-                )) &&
-            (identical(other.totalPoints, totalPoints) ||
-                const DeepCollectionEquality().equals(
-                  other.totalPoints,
-                  totalPoints,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(schoolId) ^
-      const DeepCollectionEquality().hash(totalPoints) ^
-      runtimeType.hashCode;
-}
-
-extension $SchoolResultExtension on SchoolResult {
-  SchoolResult copyWith({String? schoolId, int? totalPoints}) {
-    return SchoolResult(
-      schoolId: schoolId ?? this.schoolId,
-      totalPoints: totalPoints ?? this.totalPoints,
-    );
-  }
-
-  SchoolResult copyWithWrapped({
-    Wrapped<String>? schoolId,
-    Wrapped<int>? totalPoints,
-  }) {
-    return SchoolResult(
-      schoolId: (schoolId != null ? schoolId.value : this.schoolId),
-      totalPoints: (totalPoints != null ? totalPoints.value : this.totalPoints),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class SchoolSportQuota {
-  const SchoolSportQuota({
-    this.participantQuota,
-    this.teamQuota,
-    required this.schoolId,
-    required this.sportId,
-    required this.editionId,
-  });
-
-  factory SchoolSportQuota.fromJson(Map<String, dynamic> json) =>
-      _$SchoolSportQuotaFromJson(json);
-
-  static const toJsonFactory = _$SchoolSportQuotaToJson;
-  Map<String, dynamic> toJson() => _$SchoolSportQuotaToJson(this);
-
-  @JsonKey(name: 'participant_quota')
-  final int? participantQuota;
-  @JsonKey(name: 'team_quota')
-  final int? teamQuota;
-  @JsonKey(name: 'school_id', defaultValue: '')
-  final String schoolId;
-  @JsonKey(name: 'sport_id', defaultValue: '')
-  final String sportId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  static const fromJsonFactory = _$SchoolSportQuotaFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is SchoolSportQuota &&
-            (identical(other.participantQuota, participantQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.participantQuota,
-                  participantQuota,
-                )) &&
-            (identical(other.teamQuota, teamQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.teamQuota,
-                  teamQuota,
-                )) &&
-            (identical(other.schoolId, schoolId) ||
-                const DeepCollectionEquality().equals(
-                  other.schoolId,
-                  schoolId,
-                )) &&
-            (identical(other.sportId, sportId) ||
-                const DeepCollectionEquality().equals(
-                  other.sportId,
-                  sportId,
-                )) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(participantQuota) ^
-      const DeepCollectionEquality().hash(teamQuota) ^
-      const DeepCollectionEquality().hash(schoolId) ^
-      const DeepCollectionEquality().hash(sportId) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      runtimeType.hashCode;
-}
-
-extension $SchoolSportQuotaExtension on SchoolSportQuota {
-  SchoolSportQuota copyWith({
-    int? participantQuota,
-    int? teamQuota,
-    String? schoolId,
-    String? sportId,
-    String? editionId,
-  }) {
-    return SchoolSportQuota(
-      participantQuota: participantQuota ?? this.participantQuota,
-      teamQuota: teamQuota ?? this.teamQuota,
-      schoolId: schoolId ?? this.schoolId,
-      sportId: sportId ?? this.sportId,
-      editionId: editionId ?? this.editionId,
-    );
-  }
-
-  SchoolSportQuota copyWithWrapped({
-    Wrapped<int?>? participantQuota,
-    Wrapped<int?>? teamQuota,
-    Wrapped<String>? schoolId,
-    Wrapped<String>? sportId,
-    Wrapped<String>? editionId,
-  }) {
-    return SchoolSportQuota(
-      participantQuota: (participantQuota != null
-          ? participantQuota.value
-          : this.participantQuota),
-      teamQuota: (teamQuota != null ? teamQuota.value : this.teamQuota),
-      schoolId: (schoolId != null ? schoolId.value : this.schoolId),
-      sportId: (sportId != null ? sportId.value : this.sportId),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class SchoolSportQuotaEdit {
-  const SchoolSportQuotaEdit({this.participantQuota, this.teamQuota});
-
-  factory SchoolSportQuotaEdit.fromJson(Map<String, dynamic> json) =>
-      _$SchoolSportQuotaEditFromJson(json);
-
-  static const toJsonFactory = _$SchoolSportQuotaEditToJson;
-  Map<String, dynamic> toJson() => _$SchoolSportQuotaEditToJson(this);
-
-  @JsonKey(name: 'participant_quota')
-  final int? participantQuota;
-  @JsonKey(name: 'team_quota')
-  final int? teamQuota;
-  static const fromJsonFactory = _$SchoolSportQuotaEditFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is SchoolSportQuotaEdit &&
-            (identical(other.participantQuota, participantQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.participantQuota,
-                  participantQuota,
-                )) &&
-            (identical(other.teamQuota, teamQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.teamQuota,
-                  teamQuota,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(participantQuota) ^
-      const DeepCollectionEquality().hash(teamQuota) ^
-      runtimeType.hashCode;
-}
-
-extension $SchoolSportQuotaEditExtension on SchoolSportQuotaEdit {
-  SchoolSportQuotaEdit copyWith({int? participantQuota, int? teamQuota}) {
-    return SchoolSportQuotaEdit(
-      participantQuota: participantQuota ?? this.participantQuota,
-      teamQuota: teamQuota ?? this.teamQuota,
-    );
-  }
-
-  SchoolSportQuotaEdit copyWithWrapped({
-    Wrapped<int?>? participantQuota,
-    Wrapped<int?>? teamQuota,
-  }) {
-    return SchoolSportQuotaEdit(
-      participantQuota: (participantQuota != null
-          ? participantQuota.value
-          : this.participantQuota),
-      teamQuota: (teamQuota != null ? teamQuota.value : this.teamQuota),
     );
   }
 }
@@ -22770,449 +19782,6 @@ extension $SpeciesTypesReturnExtension on SpeciesTypesReturn {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Sport {
-  const Sport({
-    required this.name,
-    required this.teamSize,
-    this.substituteMax,
-    this.sportCategory,
-    this.active,
-    required this.id,
-  });
-
-  factory Sport.fromJson(Map<String, dynamic> json) => _$SportFromJson(json);
-
-  static const toJsonFactory = _$SportToJson;
-  Map<String, dynamic> toJson() => _$SportToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'team_size', defaultValue: 0)
-  final int teamSize;
-  @JsonKey(name: 'substitute_max')
-  final int? substituteMax;
-  @JsonKey(
-    name: 'sport_category',
-    toJson: sportCategoryNullableToJson,
-    fromJson: sportCategoryNullableFromJson,
-  )
-  final enums.SportCategory? sportCategory;
-  @JsonKey(name: 'active', defaultValue: true)
-  final bool? active;
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  static const fromJsonFactory = _$SportFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is Sport &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.teamSize, teamSize) ||
-                const DeepCollectionEquality().equals(
-                  other.teamSize,
-                  teamSize,
-                )) &&
-            (identical(other.substituteMax, substituteMax) ||
-                const DeepCollectionEquality().equals(
-                  other.substituteMax,
-                  substituteMax,
-                )) &&
-            (identical(other.sportCategory, sportCategory) ||
-                const DeepCollectionEquality().equals(
-                  other.sportCategory,
-                  sportCategory,
-                )) &&
-            (identical(other.active, active) ||
-                const DeepCollectionEquality().equals(other.active, active)) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(teamSize) ^
-      const DeepCollectionEquality().hash(substituteMax) ^
-      const DeepCollectionEquality().hash(sportCategory) ^
-      const DeepCollectionEquality().hash(active) ^
-      const DeepCollectionEquality().hash(id) ^
-      runtimeType.hashCode;
-}
-
-extension $SportExtension on Sport {
-  Sport copyWith({
-    String? name,
-    int? teamSize,
-    int? substituteMax,
-    enums.SportCategory? sportCategory,
-    bool? active,
-    String? id,
-  }) {
-    return Sport(
-      name: name ?? this.name,
-      teamSize: teamSize ?? this.teamSize,
-      substituteMax: substituteMax ?? this.substituteMax,
-      sportCategory: sportCategory ?? this.sportCategory,
-      active: active ?? this.active,
-      id: id ?? this.id,
-    );
-  }
-
-  Sport copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<int>? teamSize,
-    Wrapped<int?>? substituteMax,
-    Wrapped<enums.SportCategory?>? sportCategory,
-    Wrapped<bool?>? active,
-    Wrapped<String>? id,
-  }) {
-    return Sport(
-      name: (name != null ? name.value : this.name),
-      teamSize: (teamSize != null ? teamSize.value : this.teamSize),
-      substituteMax: (substituteMax != null
-          ? substituteMax.value
-          : this.substituteMax),
-      sportCategory: (sportCategory != null
-          ? sportCategory.value
-          : this.sportCategory),
-      active: (active != null ? active.value : this.active),
-      id: (id != null ? id.value : this.id),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class SportBase {
-  const SportBase({
-    required this.name,
-    required this.teamSize,
-    this.substituteMax,
-    this.sportCategory,
-    this.active,
-  });
-
-  factory SportBase.fromJson(Map<String, dynamic> json) =>
-      _$SportBaseFromJson(json);
-
-  static const toJsonFactory = _$SportBaseToJson;
-  Map<String, dynamic> toJson() => _$SportBaseToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'team_size', defaultValue: 0)
-  final int teamSize;
-  @JsonKey(name: 'substitute_max')
-  final int? substituteMax;
-  @JsonKey(
-    name: 'sport_category',
-    toJson: sportCategoryNullableToJson,
-    fromJson: sportCategoryNullableFromJson,
-  )
-  final enums.SportCategory? sportCategory;
-  @JsonKey(name: 'active', defaultValue: true)
-  final bool? active;
-  static const fromJsonFactory = _$SportBaseFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is SportBase &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.teamSize, teamSize) ||
-                const DeepCollectionEquality().equals(
-                  other.teamSize,
-                  teamSize,
-                )) &&
-            (identical(other.substituteMax, substituteMax) ||
-                const DeepCollectionEquality().equals(
-                  other.substituteMax,
-                  substituteMax,
-                )) &&
-            (identical(other.sportCategory, sportCategory) ||
-                const DeepCollectionEquality().equals(
-                  other.sportCategory,
-                  sportCategory,
-                )) &&
-            (identical(other.active, active) ||
-                const DeepCollectionEquality().equals(other.active, active)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(teamSize) ^
-      const DeepCollectionEquality().hash(substituteMax) ^
-      const DeepCollectionEquality().hash(sportCategory) ^
-      const DeepCollectionEquality().hash(active) ^
-      runtimeType.hashCode;
-}
-
-extension $SportBaseExtension on SportBase {
-  SportBase copyWith({
-    String? name,
-    int? teamSize,
-    int? substituteMax,
-    enums.SportCategory? sportCategory,
-    bool? active,
-  }) {
-    return SportBase(
-      name: name ?? this.name,
-      teamSize: teamSize ?? this.teamSize,
-      substituteMax: substituteMax ?? this.substituteMax,
-      sportCategory: sportCategory ?? this.sportCategory,
-      active: active ?? this.active,
-    );
-  }
-
-  SportBase copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<int>? teamSize,
-    Wrapped<int?>? substituteMax,
-    Wrapped<enums.SportCategory?>? sportCategory,
-    Wrapped<bool?>? active,
-  }) {
-    return SportBase(
-      name: (name != null ? name.value : this.name),
-      teamSize: (teamSize != null ? teamSize.value : this.teamSize),
-      substituteMax: (substituteMax != null
-          ? substituteMax.value
-          : this.substituteMax),
-      sportCategory: (sportCategory != null
-          ? sportCategory.value
-          : this.sportCategory),
-      active: (active != null ? active.value : this.active),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class SportEdit {
-  const SportEdit({
-    this.name,
-    this.teamSize,
-    this.substituteMax,
-    this.sportCategory,
-    this.active,
-  });
-
-  factory SportEdit.fromJson(Map<String, dynamic> json) =>
-      _$SportEditFromJson(json);
-
-  static const toJsonFactory = _$SportEditToJson;
-  Map<String, dynamic> toJson() => _$SportEditToJson(this);
-
-  @JsonKey(name: 'name')
-  final String? name;
-  @JsonKey(name: 'team_size')
-  final int? teamSize;
-  @JsonKey(name: 'substitute_max')
-  final int? substituteMax;
-  @JsonKey(
-    name: 'sport_category',
-    toJson: sportCategoryNullableToJson,
-    fromJson: sportCategoryNullableFromJson,
-  )
-  final enums.SportCategory? sportCategory;
-  @JsonKey(name: 'active')
-  final bool? active;
-  static const fromJsonFactory = _$SportEditFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is SportEdit &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.teamSize, teamSize) ||
-                const DeepCollectionEquality().equals(
-                  other.teamSize,
-                  teamSize,
-                )) &&
-            (identical(other.substituteMax, substituteMax) ||
-                const DeepCollectionEquality().equals(
-                  other.substituteMax,
-                  substituteMax,
-                )) &&
-            (identical(other.sportCategory, sportCategory) ||
-                const DeepCollectionEquality().equals(
-                  other.sportCategory,
-                  sportCategory,
-                )) &&
-            (identical(other.active, active) ||
-                const DeepCollectionEquality().equals(other.active, active)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(teamSize) ^
-      const DeepCollectionEquality().hash(substituteMax) ^
-      const DeepCollectionEquality().hash(sportCategory) ^
-      const DeepCollectionEquality().hash(active) ^
-      runtimeType.hashCode;
-}
-
-extension $SportEditExtension on SportEdit {
-  SportEdit copyWith({
-    String? name,
-    int? teamSize,
-    int? substituteMax,
-    enums.SportCategory? sportCategory,
-    bool? active,
-  }) {
-    return SportEdit(
-      name: name ?? this.name,
-      teamSize: teamSize ?? this.teamSize,
-      substituteMax: substituteMax ?? this.substituteMax,
-      sportCategory: sportCategory ?? this.sportCategory,
-      active: active ?? this.active,
-    );
-  }
-
-  SportEdit copyWithWrapped({
-    Wrapped<String?>? name,
-    Wrapped<int?>? teamSize,
-    Wrapped<int?>? substituteMax,
-    Wrapped<enums.SportCategory?>? sportCategory,
-    Wrapped<bool?>? active,
-  }) {
-    return SportEdit(
-      name: (name != null ? name.value : this.name),
-      teamSize: (teamSize != null ? teamSize.value : this.teamSize),
-      substituteMax: (substituteMax != null
-          ? substituteMax.value
-          : this.substituteMax),
-      sportCategory: (sportCategory != null
-          ? sportCategory.value
-          : this.sportCategory),
-      active: (active != null ? active.value : this.active),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class SportPodiumRankings {
-  const SportPodiumRankings({required this.rankings});
-
-  factory SportPodiumRankings.fromJson(Map<String, dynamic> json) =>
-      _$SportPodiumRankingsFromJson(json);
-
-  static const toJsonFactory = _$SportPodiumRankingsToJson;
-  Map<String, dynamic> toJson() => _$SportPodiumRankingsToJson(this);
-
-  @JsonKey(name: 'rankings', defaultValue: <TeamSportResultBase>[])
-  final List<TeamSportResultBase> rankings;
-  static const fromJsonFactory = _$SportPodiumRankingsFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is SportPodiumRankings &&
-            (identical(other.rankings, rankings) ||
-                const DeepCollectionEquality().equals(
-                  other.rankings,
-                  rankings,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(rankings) ^ runtimeType.hashCode;
-}
-
-extension $SportPodiumRankingsExtension on SportPodiumRankings {
-  SportPodiumRankings copyWith({List<TeamSportResultBase>? rankings}) {
-    return SportPodiumRankings(rankings: rankings ?? this.rankings);
-  }
-
-  SportPodiumRankings copyWithWrapped({
-    Wrapped<List<TeamSportResultBase>>? rankings,
-  }) {
-    return SportPodiumRankings(
-      rankings: (rankings != null ? rankings.value : this.rankings),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class SportQuotaInfo {
-  const SportQuotaInfo({this.participantQuota, this.teamQuota});
-
-  factory SportQuotaInfo.fromJson(Map<String, dynamic> json) =>
-      _$SportQuotaInfoFromJson(json);
-
-  static const toJsonFactory = _$SportQuotaInfoToJson;
-  Map<String, dynamic> toJson() => _$SportQuotaInfoToJson(this);
-
-  @JsonKey(name: 'participant_quota')
-  final int? participantQuota;
-  @JsonKey(name: 'team_quota')
-  final int? teamQuota;
-  static const fromJsonFactory = _$SportQuotaInfoFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is SportQuotaInfo &&
-            (identical(other.participantQuota, participantQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.participantQuota,
-                  participantQuota,
-                )) &&
-            (identical(other.teamQuota, teamQuota) ||
-                const DeepCollectionEquality().equals(
-                  other.teamQuota,
-                  teamQuota,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(participantQuota) ^
-      const DeepCollectionEquality().hash(teamQuota) ^
-      runtimeType.hashCode;
-}
-
-extension $SportQuotaInfoExtension on SportQuotaInfo {
-  SportQuotaInfo copyWith({int? participantQuota, int? teamQuota}) {
-    return SportQuotaInfo(
-      participantQuota: participantQuota ?? this.participantQuota,
-      teamQuota: teamQuota ?? this.teamQuota,
-    );
-  }
-
-  SportQuotaInfo copyWithWrapped({
-    Wrapped<int?>? participantQuota,
-    Wrapped<int?>? teamQuota,
-  }) {
-    return SportQuotaInfo(
-      participantQuota: (participantQuota != null
-          ? participantQuota.value
-          : this.participantQuota),
-      teamQuota: (teamQuota != null ? teamQuota.value : this.teamQuota),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
 class Status {
   const Status({this.status});
 
@@ -23265,6 +19834,7 @@ class Store {
     required this.id,
     required this.structureId,
     required this.walletId,
+    required this.creation,
     required this.structure,
   });
 
@@ -23281,6 +19851,8 @@ class Store {
   final String structureId;
   @JsonKey(name: 'wallet_id', defaultValue: '')
   final String walletId;
+  @JsonKey(name: 'creation')
+  final DateTime creation;
   @JsonKey(name: 'structure')
   final Structure structure;
   static const fromJsonFactory = _$StoreFromJson;
@@ -23303,6 +19875,11 @@ class Store {
                   other.walletId,
                   walletId,
                 )) &&
+            (identical(other.creation, creation) ||
+                const DeepCollectionEquality().equals(
+                  other.creation,
+                  creation,
+                )) &&
             (identical(other.structure, structure) ||
                 const DeepCollectionEquality().equals(
                   other.structure,
@@ -23319,6 +19896,7 @@ class Store {
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(structureId) ^
       const DeepCollectionEquality().hash(walletId) ^
+      const DeepCollectionEquality().hash(creation) ^
       const DeepCollectionEquality().hash(structure) ^
       runtimeType.hashCode;
 }
@@ -23329,6 +19907,7 @@ extension $StoreExtension on Store {
     String? id,
     String? structureId,
     String? walletId,
+    DateTime? creation,
     Structure? structure,
   }) {
     return Store(
@@ -23336,6 +19915,7 @@ extension $StoreExtension on Store {
       id: id ?? this.id,
       structureId: structureId ?? this.structureId,
       walletId: walletId ?? this.walletId,
+      creation: creation ?? this.creation,
       structure: structure ?? this.structure,
     );
   }
@@ -23345,6 +19925,7 @@ extension $StoreExtension on Store {
     Wrapped<String>? id,
     Wrapped<String>? structureId,
     Wrapped<String>? walletId,
+    Wrapped<DateTime>? creation,
     Wrapped<Structure>? structure,
   }) {
     return Store(
@@ -23352,6 +19933,7 @@ extension $StoreExtension on Store {
       id: (id != null ? id.value : this.id),
       structureId: (structureId != null ? structureId.value : this.structureId),
       walletId: (walletId != null ? walletId.value : this.walletId),
+      creation: (creation != null ? creation.value : this.creation),
       structure: (structure != null ? structure.value : this.structure),
     );
   }
@@ -23398,6 +19980,106 @@ extension $StoreBaseExtension on StoreBase {
 }
 
 @JsonSerializable(explicitToJson: true)
+class StoreSimple {
+  const StoreSimple({
+    required this.name,
+    required this.id,
+    required this.structureId,
+    required this.walletId,
+    required this.creation,
+  });
+
+  factory StoreSimple.fromJson(Map<String, dynamic> json) =>
+      _$StoreSimpleFromJson(json);
+
+  static const toJsonFactory = _$StoreSimpleToJson;
+  Map<String, dynamic> toJson() => _$StoreSimpleToJson(this);
+
+  @JsonKey(name: 'name', defaultValue: '')
+  final String name;
+  @JsonKey(name: 'id', defaultValue: '')
+  final String id;
+  @JsonKey(name: 'structure_id', defaultValue: '')
+  final String structureId;
+  @JsonKey(name: 'wallet_id', defaultValue: '')
+  final String walletId;
+  @JsonKey(name: 'creation')
+  final DateTime creation;
+  static const fromJsonFactory = _$StoreSimpleFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is StoreSimple &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.structureId, structureId) ||
+                const DeepCollectionEquality().equals(
+                  other.structureId,
+                  structureId,
+                )) &&
+            (identical(other.walletId, walletId) ||
+                const DeepCollectionEquality().equals(
+                  other.walletId,
+                  walletId,
+                )) &&
+            (identical(other.creation, creation) ||
+                const DeepCollectionEquality().equals(
+                  other.creation,
+                  creation,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(structureId) ^
+      const DeepCollectionEquality().hash(walletId) ^
+      const DeepCollectionEquality().hash(creation) ^
+      runtimeType.hashCode;
+}
+
+extension $StoreSimpleExtension on StoreSimple {
+  StoreSimple copyWith({
+    String? name,
+    String? id,
+    String? structureId,
+    String? walletId,
+    DateTime? creation,
+  }) {
+    return StoreSimple(
+      name: name ?? this.name,
+      id: id ?? this.id,
+      structureId: structureId ?? this.structureId,
+      walletId: walletId ?? this.walletId,
+      creation: creation ?? this.creation,
+    );
+  }
+
+  StoreSimple copyWithWrapped({
+    Wrapped<String>? name,
+    Wrapped<String>? id,
+    Wrapped<String>? structureId,
+    Wrapped<String>? walletId,
+    Wrapped<DateTime>? creation,
+  }) {
+    return StoreSimple(
+      name: (name != null ? name.value : this.name),
+      id: (id != null ? id.value : this.id),
+      structureId: (structureId != null ? structureId.value : this.structureId),
+      walletId: (walletId != null ? walletId.value : this.walletId),
+      creation: (creation != null ? creation.value : this.creation),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class StoreUpdate {
   const StoreUpdate({this.name});
 
@@ -23440,10 +20122,19 @@ extension $StoreUpdateExtension on StoreUpdate {
 @JsonSerializable(explicitToJson: true)
 class Structure {
   const Structure({
+    required this.shortId,
     required this.name,
     this.associationMembershipId,
     required this.managerUserId,
+    required this.siegeAddressStreet,
+    required this.siegeAddressCity,
+    required this.siegeAddressZipcode,
+    required this.siegeAddressCountry,
+    this.siret,
+    required this.iban,
+    required this.bic,
     required this.id,
+    required this.creation,
     required this.managerUser,
     required this.associationMembership,
   });
@@ -23454,14 +20145,32 @@ class Structure {
   static const toJsonFactory = _$StructureToJson;
   Map<String, dynamic> toJson() => _$StructureToJson(this);
 
+  @JsonKey(name: 'short_id', defaultValue: '')
+  final String shortId;
   @JsonKey(name: 'name', defaultValue: '')
   final String name;
   @JsonKey(name: 'association_membership_id')
   final String? associationMembershipId;
   @JsonKey(name: 'manager_user_id', defaultValue: '')
   final String managerUserId;
+  @JsonKey(name: 'siege_address_street', defaultValue: '')
+  final String siegeAddressStreet;
+  @JsonKey(name: 'siege_address_city', defaultValue: '')
+  final String siegeAddressCity;
+  @JsonKey(name: 'siege_address_zipcode', defaultValue: '')
+  final String siegeAddressZipcode;
+  @JsonKey(name: 'siege_address_country', defaultValue: '')
+  final String siegeAddressCountry;
+  @JsonKey(name: 'siret')
+  final String? siret;
+  @JsonKey(name: 'iban', defaultValue: '')
+  final String iban;
+  @JsonKey(name: 'bic', defaultValue: '')
+  final String bic;
   @JsonKey(name: 'id', defaultValue: '')
   final String id;
+  @JsonKey(name: 'creation')
+  final DateTime creation;
   @JsonKey(name: 'manager_user')
   final CoreUserSimple managerUser;
   @JsonKey(name: 'association_membership')
@@ -23472,6 +20181,11 @@ class Structure {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is Structure &&
+            (identical(other.shortId, shortId) ||
+                const DeepCollectionEquality().equals(
+                  other.shortId,
+                  shortId,
+                )) &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(
@@ -23487,8 +20201,39 @@ class Structure {
                   other.managerUserId,
                   managerUserId,
                 )) &&
+            (identical(other.siegeAddressStreet, siegeAddressStreet) ||
+                const DeepCollectionEquality().equals(
+                  other.siegeAddressStreet,
+                  siegeAddressStreet,
+                )) &&
+            (identical(other.siegeAddressCity, siegeAddressCity) ||
+                const DeepCollectionEquality().equals(
+                  other.siegeAddressCity,
+                  siegeAddressCity,
+                )) &&
+            (identical(other.siegeAddressZipcode, siegeAddressZipcode) ||
+                const DeepCollectionEquality().equals(
+                  other.siegeAddressZipcode,
+                  siegeAddressZipcode,
+                )) &&
+            (identical(other.siegeAddressCountry, siegeAddressCountry) ||
+                const DeepCollectionEquality().equals(
+                  other.siegeAddressCountry,
+                  siegeAddressCountry,
+                )) &&
+            (identical(other.siret, siret) ||
+                const DeepCollectionEquality().equals(other.siret, siret)) &&
+            (identical(other.iban, iban) ||
+                const DeepCollectionEquality().equals(other.iban, iban)) &&
+            (identical(other.bic, bic) ||
+                const DeepCollectionEquality().equals(other.bic, bic)) &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.creation, creation) ||
+                const DeepCollectionEquality().equals(
+                  other.creation,
+                  creation,
+                )) &&
             (identical(other.managerUser, managerUser) ||
                 const DeepCollectionEquality().equals(
                   other.managerUser,
@@ -23506,10 +20251,19 @@ class Structure {
 
   @override
   int get hashCode =>
+      const DeepCollectionEquality().hash(shortId) ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(associationMembershipId) ^
       const DeepCollectionEquality().hash(managerUserId) ^
+      const DeepCollectionEquality().hash(siegeAddressStreet) ^
+      const DeepCollectionEquality().hash(siegeAddressCity) ^
+      const DeepCollectionEquality().hash(siegeAddressZipcode) ^
+      const DeepCollectionEquality().hash(siegeAddressCountry) ^
+      const DeepCollectionEquality().hash(siret) ^
+      const DeepCollectionEquality().hash(iban) ^
+      const DeepCollectionEquality().hash(bic) ^
       const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(creation) ^
       const DeepCollectionEquality().hash(managerUser) ^
       const DeepCollectionEquality().hash(associationMembership) ^
       runtimeType.hashCode;
@@ -23517,19 +20271,37 @@ class Structure {
 
 extension $StructureExtension on Structure {
   Structure copyWith({
+    String? shortId,
     String? name,
     String? associationMembershipId,
     String? managerUserId,
+    String? siegeAddressStreet,
+    String? siegeAddressCity,
+    String? siegeAddressZipcode,
+    String? siegeAddressCountry,
+    String? siret,
+    String? iban,
+    String? bic,
     String? id,
+    DateTime? creation,
     CoreUserSimple? managerUser,
     MembershipSimple? associationMembership,
   }) {
     return Structure(
+      shortId: shortId ?? this.shortId,
       name: name ?? this.name,
       associationMembershipId:
           associationMembershipId ?? this.associationMembershipId,
       managerUserId: managerUserId ?? this.managerUserId,
+      siegeAddressStreet: siegeAddressStreet ?? this.siegeAddressStreet,
+      siegeAddressCity: siegeAddressCity ?? this.siegeAddressCity,
+      siegeAddressZipcode: siegeAddressZipcode ?? this.siegeAddressZipcode,
+      siegeAddressCountry: siegeAddressCountry ?? this.siegeAddressCountry,
+      siret: siret ?? this.siret,
+      iban: iban ?? this.iban,
+      bic: bic ?? this.bic,
       id: id ?? this.id,
+      creation: creation ?? this.creation,
       managerUser: managerUser ?? this.managerUser,
       associationMembership:
           associationMembership ?? this.associationMembership,
@@ -23537,14 +20309,24 @@ extension $StructureExtension on Structure {
   }
 
   Structure copyWithWrapped({
+    Wrapped<String>? shortId,
     Wrapped<String>? name,
     Wrapped<String?>? associationMembershipId,
     Wrapped<String>? managerUserId,
+    Wrapped<String>? siegeAddressStreet,
+    Wrapped<String>? siegeAddressCity,
+    Wrapped<String>? siegeAddressZipcode,
+    Wrapped<String>? siegeAddressCountry,
+    Wrapped<String?>? siret,
+    Wrapped<String>? iban,
+    Wrapped<String>? bic,
     Wrapped<String>? id,
+    Wrapped<DateTime>? creation,
     Wrapped<CoreUserSimple>? managerUser,
     Wrapped<MembershipSimple?>? associationMembership,
   }) {
     return Structure(
+      shortId: (shortId != null ? shortId.value : this.shortId),
       name: (name != null ? name.value : this.name),
       associationMembershipId: (associationMembershipId != null
           ? associationMembershipId.value
@@ -23552,7 +20334,23 @@ extension $StructureExtension on Structure {
       managerUserId: (managerUserId != null
           ? managerUserId.value
           : this.managerUserId),
+      siegeAddressStreet: (siegeAddressStreet != null
+          ? siegeAddressStreet.value
+          : this.siegeAddressStreet),
+      siegeAddressCity: (siegeAddressCity != null
+          ? siegeAddressCity.value
+          : this.siegeAddressCity),
+      siegeAddressZipcode: (siegeAddressZipcode != null
+          ? siegeAddressZipcode.value
+          : this.siegeAddressZipcode),
+      siegeAddressCountry: (siegeAddressCountry != null
+          ? siegeAddressCountry.value
+          : this.siegeAddressCountry),
+      siret: (siret != null ? siret.value : this.siret),
+      iban: (iban != null ? iban.value : this.iban),
+      bic: (bic != null ? bic.value : this.bic),
       id: (id != null ? id.value : this.id),
+      creation: (creation != null ? creation.value : this.creation),
       managerUser: (managerUser != null ? managerUser.value : this.managerUser),
       associationMembership: (associationMembership != null
           ? associationMembership.value
@@ -23564,9 +20362,17 @@ extension $StructureExtension on Structure {
 @JsonSerializable(explicitToJson: true)
 class StructureBase {
   const StructureBase({
+    required this.shortId,
     required this.name,
     this.associationMembershipId,
     required this.managerUserId,
+    required this.siegeAddressStreet,
+    required this.siegeAddressCity,
+    required this.siegeAddressZipcode,
+    required this.siegeAddressCountry,
+    this.siret,
+    required this.iban,
+    required this.bic,
   });
 
   factory StructureBase.fromJson(Map<String, dynamic> json) =>
@@ -23575,18 +20381,39 @@ class StructureBase {
   static const toJsonFactory = _$StructureBaseToJson;
   Map<String, dynamic> toJson() => _$StructureBaseToJson(this);
 
+  @JsonKey(name: 'short_id', defaultValue: '')
+  final String shortId;
   @JsonKey(name: 'name', defaultValue: '')
   final String name;
   @JsonKey(name: 'association_membership_id')
   final String? associationMembershipId;
   @JsonKey(name: 'manager_user_id', defaultValue: '')
   final String managerUserId;
+  @JsonKey(name: 'siege_address_street', defaultValue: '')
+  final String siegeAddressStreet;
+  @JsonKey(name: 'siege_address_city', defaultValue: '')
+  final String siegeAddressCity;
+  @JsonKey(name: 'siege_address_zipcode', defaultValue: '')
+  final String siegeAddressZipcode;
+  @JsonKey(name: 'siege_address_country', defaultValue: '')
+  final String siegeAddressCountry;
+  @JsonKey(name: 'siret')
+  final String? siret;
+  @JsonKey(name: 'iban', defaultValue: '')
+  final String iban;
+  @JsonKey(name: 'bic', defaultValue: '')
+  final String bic;
   static const fromJsonFactory = _$StructureBaseFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is StructureBase &&
+            (identical(other.shortId, shortId) ||
+                const DeepCollectionEquality().equals(
+                  other.shortId,
+                  shortId,
+                )) &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(
@@ -23601,7 +20428,33 @@ class StructureBase {
                 const DeepCollectionEquality().equals(
                   other.managerUserId,
                   managerUserId,
-                )));
+                )) &&
+            (identical(other.siegeAddressStreet, siegeAddressStreet) ||
+                const DeepCollectionEquality().equals(
+                  other.siegeAddressStreet,
+                  siegeAddressStreet,
+                )) &&
+            (identical(other.siegeAddressCity, siegeAddressCity) ||
+                const DeepCollectionEquality().equals(
+                  other.siegeAddressCity,
+                  siegeAddressCity,
+                )) &&
+            (identical(other.siegeAddressZipcode, siegeAddressZipcode) ||
+                const DeepCollectionEquality().equals(
+                  other.siegeAddressZipcode,
+                  siegeAddressZipcode,
+                )) &&
+            (identical(other.siegeAddressCountry, siegeAddressCountry) ||
+                const DeepCollectionEquality().equals(
+                  other.siegeAddressCountry,
+                  siegeAddressCountry,
+                )) &&
+            (identical(other.siret, siret) ||
+                const DeepCollectionEquality().equals(other.siret, siret)) &&
+            (identical(other.iban, iban) ||
+                const DeepCollectionEquality().equals(other.iban, iban)) &&
+            (identical(other.bic, bic) ||
+                const DeepCollectionEquality().equals(other.bic, bic)));
   }
 
   @override
@@ -23609,32 +20462,65 @@ class StructureBase {
 
   @override
   int get hashCode =>
+      const DeepCollectionEquality().hash(shortId) ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(associationMembershipId) ^
       const DeepCollectionEquality().hash(managerUserId) ^
+      const DeepCollectionEquality().hash(siegeAddressStreet) ^
+      const DeepCollectionEquality().hash(siegeAddressCity) ^
+      const DeepCollectionEquality().hash(siegeAddressZipcode) ^
+      const DeepCollectionEquality().hash(siegeAddressCountry) ^
+      const DeepCollectionEquality().hash(siret) ^
+      const DeepCollectionEquality().hash(iban) ^
+      const DeepCollectionEquality().hash(bic) ^
       runtimeType.hashCode;
 }
 
 extension $StructureBaseExtension on StructureBase {
   StructureBase copyWith({
+    String? shortId,
     String? name,
     String? associationMembershipId,
     String? managerUserId,
+    String? siegeAddressStreet,
+    String? siegeAddressCity,
+    String? siegeAddressZipcode,
+    String? siegeAddressCountry,
+    String? siret,
+    String? iban,
+    String? bic,
   }) {
     return StructureBase(
+      shortId: shortId ?? this.shortId,
       name: name ?? this.name,
       associationMembershipId:
           associationMembershipId ?? this.associationMembershipId,
       managerUserId: managerUserId ?? this.managerUserId,
+      siegeAddressStreet: siegeAddressStreet ?? this.siegeAddressStreet,
+      siegeAddressCity: siegeAddressCity ?? this.siegeAddressCity,
+      siegeAddressZipcode: siegeAddressZipcode ?? this.siegeAddressZipcode,
+      siegeAddressCountry: siegeAddressCountry ?? this.siegeAddressCountry,
+      siret: siret ?? this.siret,
+      iban: iban ?? this.iban,
+      bic: bic ?? this.bic,
     );
   }
 
   StructureBase copyWithWrapped({
+    Wrapped<String>? shortId,
     Wrapped<String>? name,
     Wrapped<String?>? associationMembershipId,
     Wrapped<String>? managerUserId,
+    Wrapped<String>? siegeAddressStreet,
+    Wrapped<String>? siegeAddressCity,
+    Wrapped<String>? siegeAddressZipcode,
+    Wrapped<String>? siegeAddressCountry,
+    Wrapped<String?>? siret,
+    Wrapped<String>? iban,
+    Wrapped<String>? bic,
   }) {
     return StructureBase(
+      shortId: (shortId != null ? shortId.value : this.shortId),
       name: (name != null ? name.value : this.name),
       associationMembershipId: (associationMembershipId != null
           ? associationMembershipId.value
@@ -23642,6 +20528,21 @@ extension $StructureBaseExtension on StructureBase {
       managerUserId: (managerUserId != null
           ? managerUserId.value
           : this.managerUserId),
+      siegeAddressStreet: (siegeAddressStreet != null
+          ? siegeAddressStreet.value
+          : this.siegeAddressStreet),
+      siegeAddressCity: (siegeAddressCity != null
+          ? siegeAddressCity.value
+          : this.siegeAddressCity),
+      siegeAddressZipcode: (siegeAddressZipcode != null
+          ? siegeAddressZipcode.value
+          : this.siegeAddressZipcode),
+      siegeAddressCountry: (siegeAddressCountry != null
+          ? siegeAddressCountry.value
+          : this.siegeAddressCountry),
+      siret: (siret != null ? siret.value : this.siret),
+      iban: (iban != null ? iban.value : this.iban),
+      bic: (bic != null ? bic.value : this.bic),
     );
   }
 }
@@ -23698,7 +20599,17 @@ extension $StructureTranfertExtension on StructureTranfert {
 
 @JsonSerializable(explicitToJson: true)
 class StructureUpdate {
-  const StructureUpdate({this.name, this.associationMembershipId});
+  const StructureUpdate({
+    this.name,
+    this.associationMembershipId,
+    this.siret,
+    this.siegeAddressStreet,
+    this.siegeAddressCity,
+    this.siegeAddressZipcode,
+    this.siegeAddressCountry,
+    this.iban,
+    this.bic,
+  });
 
   factory StructureUpdate.fromJson(Map<String, dynamic> json) =>
       _$StructureUpdateFromJson(json);
@@ -23710,6 +20621,20 @@ class StructureUpdate {
   final String? name;
   @JsonKey(name: 'association_membership_id')
   final String? associationMembershipId;
+  @JsonKey(name: 'siret')
+  final String? siret;
+  @JsonKey(name: 'siege_address_street')
+  final String? siegeAddressStreet;
+  @JsonKey(name: 'siege_address_city')
+  final String? siegeAddressCity;
+  @JsonKey(name: 'siege_address_zipcode')
+  final String? siegeAddressZipcode;
+  @JsonKey(name: 'siege_address_country')
+  final String? siegeAddressCountry;
+  @JsonKey(name: 'iban')
+  final String? iban;
+  @JsonKey(name: 'bic')
+  final String? bic;
   static const fromJsonFactory = _$StructureUpdateFromJson;
 
   @override
@@ -23725,7 +20650,33 @@ class StructureUpdate {
                 const DeepCollectionEquality().equals(
                   other.associationMembershipId,
                   associationMembershipId,
-                )));
+                )) &&
+            (identical(other.siret, siret) ||
+                const DeepCollectionEquality().equals(other.siret, siret)) &&
+            (identical(other.siegeAddressStreet, siegeAddressStreet) ||
+                const DeepCollectionEquality().equals(
+                  other.siegeAddressStreet,
+                  siegeAddressStreet,
+                )) &&
+            (identical(other.siegeAddressCity, siegeAddressCity) ||
+                const DeepCollectionEquality().equals(
+                  other.siegeAddressCity,
+                  siegeAddressCity,
+                )) &&
+            (identical(other.siegeAddressZipcode, siegeAddressZipcode) ||
+                const DeepCollectionEquality().equals(
+                  other.siegeAddressZipcode,
+                  siegeAddressZipcode,
+                )) &&
+            (identical(other.siegeAddressCountry, siegeAddressCountry) ||
+                const DeepCollectionEquality().equals(
+                  other.siegeAddressCountry,
+                  siegeAddressCountry,
+                )) &&
+            (identical(other.iban, iban) ||
+                const DeepCollectionEquality().equals(other.iban, iban)) &&
+            (identical(other.bic, bic) ||
+                const DeepCollectionEquality().equals(other.bic, bic)));
   }
 
   @override
@@ -23735,27 +20686,73 @@ class StructureUpdate {
   int get hashCode =>
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(associationMembershipId) ^
+      const DeepCollectionEquality().hash(siret) ^
+      const DeepCollectionEquality().hash(siegeAddressStreet) ^
+      const DeepCollectionEquality().hash(siegeAddressCity) ^
+      const DeepCollectionEquality().hash(siegeAddressZipcode) ^
+      const DeepCollectionEquality().hash(siegeAddressCountry) ^
+      const DeepCollectionEquality().hash(iban) ^
+      const DeepCollectionEquality().hash(bic) ^
       runtimeType.hashCode;
 }
 
 extension $StructureUpdateExtension on StructureUpdate {
-  StructureUpdate copyWith({String? name, String? associationMembershipId}) {
+  StructureUpdate copyWith({
+    String? name,
+    String? associationMembershipId,
+    String? siret,
+    String? siegeAddressStreet,
+    String? siegeAddressCity,
+    String? siegeAddressZipcode,
+    String? siegeAddressCountry,
+    String? iban,
+    String? bic,
+  }) {
     return StructureUpdate(
       name: name ?? this.name,
       associationMembershipId:
           associationMembershipId ?? this.associationMembershipId,
+      siret: siret ?? this.siret,
+      siegeAddressStreet: siegeAddressStreet ?? this.siegeAddressStreet,
+      siegeAddressCity: siegeAddressCity ?? this.siegeAddressCity,
+      siegeAddressZipcode: siegeAddressZipcode ?? this.siegeAddressZipcode,
+      siegeAddressCountry: siegeAddressCountry ?? this.siegeAddressCountry,
+      iban: iban ?? this.iban,
+      bic: bic ?? this.bic,
     );
   }
 
   StructureUpdate copyWithWrapped({
     Wrapped<String?>? name,
     Wrapped<String?>? associationMembershipId,
+    Wrapped<String?>? siret,
+    Wrapped<String?>? siegeAddressStreet,
+    Wrapped<String?>? siegeAddressCity,
+    Wrapped<String?>? siegeAddressZipcode,
+    Wrapped<String?>? siegeAddressCountry,
+    Wrapped<String?>? iban,
+    Wrapped<String?>? bic,
   }) {
     return StructureUpdate(
       name: (name != null ? name.value : this.name),
       associationMembershipId: (associationMembershipId != null
           ? associationMembershipId.value
           : this.associationMembershipId),
+      siret: (siret != null ? siret.value : this.siret),
+      siegeAddressStreet: (siegeAddressStreet != null
+          ? siegeAddressStreet.value
+          : this.siegeAddressStreet),
+      siegeAddressCity: (siegeAddressCity != null
+          ? siegeAddressCity.value
+          : this.siegeAddressCity),
+      siegeAddressZipcode: (siegeAddressZipcode != null
+          ? siegeAddressZipcode.value
+          : this.siegeAddressZipcode),
+      siegeAddressCountry: (siegeAddressCountry != null
+          ? siegeAddressCountry.value
+          : this.siegeAddressCountry),
+      iban: (iban != null ? iban.value : this.iban),
+      bic: (bic != null ? bic.value : this.bic),
     );
   }
 }
@@ -23929,12 +20926,14 @@ extension $TOSSignatureResponseExtension on TOSSignatureResponse {
 class Team {
   const Team({
     required this.name,
-    required this.editionId,
-    required this.schoolId,
-    required this.sportId,
-    required this.captainId,
     required this.id,
-    required this.createdAt,
+    required this.number,
+    required this.captain,
+    required this.second,
+    required this.difficulty,
+    required this.meetingPlace,
+    required this.validationProgress,
+    required this.fileId,
   });
 
   factory Team.fromJson(Map<String, dynamic> json) => _$TeamFromJson(json);
@@ -23944,18 +20943,30 @@ class Team {
 
   @JsonKey(name: 'name', defaultValue: '')
   final String name;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  @JsonKey(name: 'school_id', defaultValue: '')
-  final String schoolId;
-  @JsonKey(name: 'sport_id', defaultValue: '')
-  final String sportId;
-  @JsonKey(name: 'captain_id', defaultValue: '')
-  final String captainId;
   @JsonKey(name: 'id', defaultValue: '')
   final String id;
-  @JsonKey(name: 'created_at')
-  final DateTime createdAt;
+  @JsonKey(name: 'number')
+  final int? number;
+  @JsonKey(name: 'captain')
+  final Participant captain;
+  @JsonKey(name: 'second')
+  final Participant? second;
+  @JsonKey(
+    name: 'difficulty',
+    toJson: difficultyNullableToJson,
+    fromJson: difficultyNullableFromJson,
+  )
+  final enums.Difficulty? difficulty;
+  @JsonKey(
+    name: 'meeting_place',
+    toJson: meetingPlaceNullableToJson,
+    fromJson: meetingPlaceNullableFromJson,
+  )
+  final enums.MeetingPlace? meetingPlace;
+  @JsonKey(name: 'validation_progress', defaultValue: 0.0)
+  final double validationProgress;
+  @JsonKey(name: 'file_id')
+  final String? fileId;
   static const fromJsonFactory = _$TeamFromJson;
 
   @override
@@ -23964,33 +20975,34 @@ class Team {
         (other is Team &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )) &&
-            (identical(other.schoolId, schoolId) ||
-                const DeepCollectionEquality().equals(
-                  other.schoolId,
-                  schoolId,
-                )) &&
-            (identical(other.sportId, sportId) ||
-                const DeepCollectionEquality().equals(
-                  other.sportId,
-                  sportId,
-                )) &&
-            (identical(other.captainId, captainId) ||
-                const DeepCollectionEquality().equals(
-                  other.captainId,
-                  captainId,
-                )) &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.createdAt, createdAt) ||
+            (identical(other.number, number) ||
+                const DeepCollectionEquality().equals(other.number, number)) &&
+            (identical(other.captain, captain) ||
                 const DeepCollectionEquality().equals(
-                  other.createdAt,
-                  createdAt,
-                )));
+                  other.captain,
+                  captain,
+                )) &&
+            (identical(other.second, second) ||
+                const DeepCollectionEquality().equals(other.second, second)) &&
+            (identical(other.difficulty, difficulty) ||
+                const DeepCollectionEquality().equals(
+                  other.difficulty,
+                  difficulty,
+                )) &&
+            (identical(other.meetingPlace, meetingPlace) ||
+                const DeepCollectionEquality().equals(
+                  other.meetingPlace,
+                  meetingPlace,
+                )) &&
+            (identical(other.validationProgress, validationProgress) ||
+                const DeepCollectionEquality().equals(
+                  other.validationProgress,
+                  validationProgress,
+                )) &&
+            (identical(other.fileId, fileId) ||
+                const DeepCollectionEquality().equals(other.fileId, fileId)));
   }
 
   @override
@@ -23999,131 +21011,187 @@ class Team {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      const DeepCollectionEquality().hash(schoolId) ^
-      const DeepCollectionEquality().hash(sportId) ^
-      const DeepCollectionEquality().hash(captainId) ^
       const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(createdAt) ^
+      const DeepCollectionEquality().hash(number) ^
+      const DeepCollectionEquality().hash(captain) ^
+      const DeepCollectionEquality().hash(second) ^
+      const DeepCollectionEquality().hash(difficulty) ^
+      const DeepCollectionEquality().hash(meetingPlace) ^
+      const DeepCollectionEquality().hash(validationProgress) ^
+      const DeepCollectionEquality().hash(fileId) ^
       runtimeType.hashCode;
 }
 
 extension $TeamExtension on Team {
   Team copyWith({
     String? name,
-    String? editionId,
-    String? schoolId,
-    String? sportId,
-    String? captainId,
     String? id,
-    DateTime? createdAt,
+    int? number,
+    Participant? captain,
+    Participant? second,
+    enums.Difficulty? difficulty,
+    enums.MeetingPlace? meetingPlace,
+    double? validationProgress,
+    String? fileId,
   }) {
     return Team(
       name: name ?? this.name,
-      editionId: editionId ?? this.editionId,
-      schoolId: schoolId ?? this.schoolId,
-      sportId: sportId ?? this.sportId,
-      captainId: captainId ?? this.captainId,
       id: id ?? this.id,
-      createdAt: createdAt ?? this.createdAt,
+      number: number ?? this.number,
+      captain: captain ?? this.captain,
+      second: second ?? this.second,
+      difficulty: difficulty ?? this.difficulty,
+      meetingPlace: meetingPlace ?? this.meetingPlace,
+      validationProgress: validationProgress ?? this.validationProgress,
+      fileId: fileId ?? this.fileId,
     );
   }
 
   Team copyWithWrapped({
     Wrapped<String>? name,
-    Wrapped<String>? editionId,
-    Wrapped<String>? schoolId,
-    Wrapped<String>? sportId,
-    Wrapped<String>? captainId,
     Wrapped<String>? id,
-    Wrapped<DateTime>? createdAt,
+    Wrapped<int?>? number,
+    Wrapped<Participant>? captain,
+    Wrapped<Participant?>? second,
+    Wrapped<enums.Difficulty?>? difficulty,
+    Wrapped<enums.MeetingPlace?>? meetingPlace,
+    Wrapped<double>? validationProgress,
+    Wrapped<String?>? fileId,
   }) {
     return Team(
       name: (name != null ? name.value : this.name),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-      schoolId: (schoolId != null ? schoolId.value : this.schoolId),
-      sportId: (sportId != null ? sportId.value : this.sportId),
-      captainId: (captainId != null ? captainId.value : this.captainId),
       id: (id != null ? id.value : this.id),
-      createdAt: (createdAt != null ? createdAt.value : this.createdAt),
+      number: (number != null ? number.value : this.number),
+      captain: (captain != null ? captain.value : this.captain),
+      second: (second != null ? second.value : this.second),
+      difficulty: (difficulty != null ? difficulty.value : this.difficulty),
+      meetingPlace: (meetingPlace != null
+          ? meetingPlace.value
+          : this.meetingPlace),
+      validationProgress: (validationProgress != null
+          ? validationProgress.value
+          : this.validationProgress),
+      fileId: (fileId != null ? fileId.value : this.fileId),
     );
   }
 }
 
 @JsonSerializable(explicitToJson: true)
-class TeamComplete {
-  const TeamComplete({
-    required this.name,
-    required this.editionId,
-    required this.schoolId,
-    required this.sportId,
-    required this.captainId,
-    required this.id,
-    required this.createdAt,
-    required this.participants,
-  });
+class TeamBase {
+  const TeamBase({required this.name});
 
-  factory TeamComplete.fromJson(Map<String, dynamic> json) =>
-      _$TeamCompleteFromJson(json);
+  factory TeamBase.fromJson(Map<String, dynamic> json) =>
+      _$TeamBaseFromJson(json);
 
-  static const toJsonFactory = _$TeamCompleteToJson;
-  Map<String, dynamic> toJson() => _$TeamCompleteToJson(this);
+  static const toJsonFactory = _$TeamBaseToJson;
+  Map<String, dynamic> toJson() => _$TeamBaseToJson(this);
 
   @JsonKey(name: 'name', defaultValue: '')
   final String name;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  @JsonKey(name: 'school_id', defaultValue: '')
-  final String schoolId;
-  @JsonKey(name: 'sport_id', defaultValue: '')
-  final String sportId;
-  @JsonKey(name: 'captain_id', defaultValue: '')
-  final String captainId;
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  @JsonKey(name: 'created_at')
-  final DateTime createdAt;
-  @JsonKey(name: 'participants', defaultValue: <ParticipantComplete>[])
-  final List<ParticipantComplete> participants;
-  static const fromJsonFactory = _$TeamCompleteFromJson;
+  static const fromJsonFactory = _$TeamBaseFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is TeamComplete &&
+        (other is TeamBase &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(name) ^ runtimeType.hashCode;
+}
+
+extension $TeamBaseExtension on TeamBase {
+  TeamBase copyWith({String? name}) {
+    return TeamBase(name: name ?? this.name);
+  }
+
+  TeamBase copyWithWrapped({Wrapped<String>? name}) {
+    return TeamBase(name: (name != null ? name.value : this.name));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class TeamPreview {
+  const TeamPreview({
+    required this.name,
+    required this.id,
+    required this.number,
+    required this.captain,
+    required this.second,
+    required this.difficulty,
+    required this.meetingPlace,
+    required this.validationProgress,
+  });
+
+  factory TeamPreview.fromJson(Map<String, dynamic> json) =>
+      _$TeamPreviewFromJson(json);
+
+  static const toJsonFactory = _$TeamPreviewToJson;
+  Map<String, dynamic> toJson() => _$TeamPreviewToJson(this);
+
+  @JsonKey(name: 'name', defaultValue: '')
+  final String name;
+  @JsonKey(name: 'id', defaultValue: '')
+  final String id;
+  @JsonKey(name: 'number')
+  final int? number;
+  @JsonKey(name: 'captain')
+  final ParticipantPreview captain;
+  @JsonKey(name: 'second')
+  final ParticipantPreview? second;
+  @JsonKey(
+    name: 'difficulty',
+    toJson: difficultyNullableToJson,
+    fromJson: difficultyNullableFromJson,
+  )
+  final enums.Difficulty? difficulty;
+  @JsonKey(
+    name: 'meeting_place',
+    toJson: meetingPlaceNullableToJson,
+    fromJson: meetingPlaceNullableFromJson,
+  )
+  final enums.MeetingPlace? meetingPlace;
+  @JsonKey(name: 'validation_progress', defaultValue: 0.0)
+  final double validationProgress;
+  static const fromJsonFactory = _$TeamPreviewFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is TeamPreview &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )) &&
-            (identical(other.schoolId, schoolId) ||
-                const DeepCollectionEquality().equals(
-                  other.schoolId,
-                  schoolId,
-                )) &&
-            (identical(other.sportId, sportId) ||
-                const DeepCollectionEquality().equals(
-                  other.sportId,
-                  sportId,
-                )) &&
-            (identical(other.captainId, captainId) ||
-                const DeepCollectionEquality().equals(
-                  other.captainId,
-                  captainId,
-                )) &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.createdAt, createdAt) ||
+            (identical(other.number, number) ||
+                const DeepCollectionEquality().equals(other.number, number)) &&
+            (identical(other.captain, captain) ||
                 const DeepCollectionEquality().equals(
-                  other.createdAt,
-                  createdAt,
+                  other.captain,
+                  captain,
                 )) &&
-            (identical(other.participants, participants) ||
+            (identical(other.second, second) ||
+                const DeepCollectionEquality().equals(other.second, second)) &&
+            (identical(other.difficulty, difficulty) ||
                 const DeepCollectionEquality().equals(
-                  other.participants,
-                  participants,
+                  other.difficulty,
+                  difficulty,
+                )) &&
+            (identical(other.meetingPlace, meetingPlace) ||
+                const DeepCollectionEquality().equals(
+                  other.meetingPlace,
+                  meetingPlace,
+                )) &&
+            (identical(other.validationProgress, validationProgress) ||
+                const DeepCollectionEquality().equals(
+                  other.validationProgress,
+                  validationProgress,
                 )));
   }
 
@@ -24133,90 +21201,116 @@ class TeamComplete {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      const DeepCollectionEquality().hash(schoolId) ^
-      const DeepCollectionEquality().hash(sportId) ^
-      const DeepCollectionEquality().hash(captainId) ^
       const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(createdAt) ^
-      const DeepCollectionEquality().hash(participants) ^
+      const DeepCollectionEquality().hash(number) ^
+      const DeepCollectionEquality().hash(captain) ^
+      const DeepCollectionEquality().hash(second) ^
+      const DeepCollectionEquality().hash(difficulty) ^
+      const DeepCollectionEquality().hash(meetingPlace) ^
+      const DeepCollectionEquality().hash(validationProgress) ^
       runtimeType.hashCode;
 }
 
-extension $TeamCompleteExtension on TeamComplete {
-  TeamComplete copyWith({
+extension $TeamPreviewExtension on TeamPreview {
+  TeamPreview copyWith({
     String? name,
-    String? editionId,
-    String? schoolId,
-    String? sportId,
-    String? captainId,
     String? id,
-    DateTime? createdAt,
-    List<ParticipantComplete>? participants,
+    int? number,
+    ParticipantPreview? captain,
+    ParticipantPreview? second,
+    enums.Difficulty? difficulty,
+    enums.MeetingPlace? meetingPlace,
+    double? validationProgress,
   }) {
-    return TeamComplete(
+    return TeamPreview(
       name: name ?? this.name,
-      editionId: editionId ?? this.editionId,
-      schoolId: schoolId ?? this.schoolId,
-      sportId: sportId ?? this.sportId,
-      captainId: captainId ?? this.captainId,
       id: id ?? this.id,
-      createdAt: createdAt ?? this.createdAt,
-      participants: participants ?? this.participants,
+      number: number ?? this.number,
+      captain: captain ?? this.captain,
+      second: second ?? this.second,
+      difficulty: difficulty ?? this.difficulty,
+      meetingPlace: meetingPlace ?? this.meetingPlace,
+      validationProgress: validationProgress ?? this.validationProgress,
     );
   }
 
-  TeamComplete copyWithWrapped({
+  TeamPreview copyWithWrapped({
     Wrapped<String>? name,
-    Wrapped<String>? editionId,
-    Wrapped<String>? schoolId,
-    Wrapped<String>? sportId,
-    Wrapped<String>? captainId,
     Wrapped<String>? id,
-    Wrapped<DateTime>? createdAt,
-    Wrapped<List<ParticipantComplete>>? participants,
+    Wrapped<int?>? number,
+    Wrapped<ParticipantPreview>? captain,
+    Wrapped<ParticipantPreview?>? second,
+    Wrapped<enums.Difficulty?>? difficulty,
+    Wrapped<enums.MeetingPlace?>? meetingPlace,
+    Wrapped<double>? validationProgress,
   }) {
-    return TeamComplete(
+    return TeamPreview(
       name: (name != null ? name.value : this.name),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-      schoolId: (schoolId != null ? schoolId.value : this.schoolId),
-      sportId: (sportId != null ? sportId.value : this.sportId),
-      captainId: (captainId != null ? captainId.value : this.captainId),
       id: (id != null ? id.value : this.id),
-      createdAt: (createdAt != null ? createdAt.value : this.createdAt),
-      participants: (participants != null
-          ? participants.value
-          : this.participants),
+      number: (number != null ? number.value : this.number),
+      captain: (captain != null ? captain.value : this.captain),
+      second: (second != null ? second.value : this.second),
+      difficulty: (difficulty != null ? difficulty.value : this.difficulty),
+      meetingPlace: (meetingPlace != null
+          ? meetingPlace.value
+          : this.meetingPlace),
+      validationProgress: (validationProgress != null
+          ? validationProgress.value
+          : this.validationProgress),
     );
   }
 }
 
 @JsonSerializable(explicitToJson: true)
-class TeamEdit {
-  const TeamEdit({this.name, this.captainId});
+class TeamUpdate {
+  const TeamUpdate({
+    this.name,
+    this.number,
+    this.difficulty,
+    this.meetingPlace,
+  });
 
-  factory TeamEdit.fromJson(Map<String, dynamic> json) =>
-      _$TeamEditFromJson(json);
+  factory TeamUpdate.fromJson(Map<String, dynamic> json) =>
+      _$TeamUpdateFromJson(json);
 
-  static const toJsonFactory = _$TeamEditToJson;
-  Map<String, dynamic> toJson() => _$TeamEditToJson(this);
+  static const toJsonFactory = _$TeamUpdateToJson;
+  Map<String, dynamic> toJson() => _$TeamUpdateToJson(this);
 
   @JsonKey(name: 'name')
   final String? name;
-  @JsonKey(name: 'captain_id')
-  final String? captainId;
-  static const fromJsonFactory = _$TeamEditFromJson;
+  @JsonKey(name: 'number')
+  final int? number;
+  @JsonKey(
+    name: 'difficulty',
+    toJson: difficultyNullableToJson,
+    fromJson: difficultyNullableFromJson,
+  )
+  final enums.Difficulty? difficulty;
+  @JsonKey(
+    name: 'meeting_place',
+    toJson: meetingPlaceNullableToJson,
+    fromJson: meetingPlaceNullableFromJson,
+  )
+  final enums.MeetingPlace? meetingPlace;
+  static const fromJsonFactory = _$TeamUpdateFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is TeamEdit &&
+        (other is TeamUpdate &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.captainId, captainId) ||
+            (identical(other.number, number) ||
+                const DeepCollectionEquality().equals(other.number, number)) &&
+            (identical(other.difficulty, difficulty) ||
                 const DeepCollectionEquality().equals(
-                  other.captainId,
-                  captainId,
+                  other.difficulty,
+                  difficulty,
+                )) &&
+            (identical(other.meetingPlace, meetingPlace) ||
+                const DeepCollectionEquality().equals(
+                  other.meetingPlace,
+                  meetingPlace,
                 )));
   }
 
@@ -24226,432 +21320,40 @@ class TeamEdit {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(captainId) ^
+      const DeepCollectionEquality().hash(number) ^
+      const DeepCollectionEquality().hash(difficulty) ^
+      const DeepCollectionEquality().hash(meetingPlace) ^
       runtimeType.hashCode;
 }
 
-extension $TeamEditExtension on TeamEdit {
-  TeamEdit copyWith({String? name, String? captainId}) {
-    return TeamEdit(
-      name: name ?? this.name,
-      captainId: captainId ?? this.captainId,
-    );
-  }
-
-  TeamEdit copyWithWrapped({
-    Wrapped<String?>? name,
-    Wrapped<String?>? captainId,
-  }) {
-    return TeamEdit(
-      name: (name != null ? name.value : this.name),
-      captainId: (captainId != null ? captainId.value : this.captainId),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class TeamInfo {
-  const TeamInfo({
-    required this.name,
-    required this.schoolId,
-    required this.sportId,
-    required this.captainId,
-  });
-
-  factory TeamInfo.fromJson(Map<String, dynamic> json) =>
-      _$TeamInfoFromJson(json);
-
-  static const toJsonFactory = _$TeamInfoToJson;
-  Map<String, dynamic> toJson() => _$TeamInfoToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'school_id', defaultValue: '')
-  final String schoolId;
-  @JsonKey(name: 'sport_id', defaultValue: '')
-  final String sportId;
-  @JsonKey(name: 'captain_id', defaultValue: '')
-  final String captainId;
-  static const fromJsonFactory = _$TeamInfoFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is TeamInfo &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.schoolId, schoolId) ||
-                const DeepCollectionEquality().equals(
-                  other.schoolId,
-                  schoolId,
-                )) &&
-            (identical(other.sportId, sportId) ||
-                const DeepCollectionEquality().equals(
-                  other.sportId,
-                  sportId,
-                )) &&
-            (identical(other.captainId, captainId) ||
-                const DeepCollectionEquality().equals(
-                  other.captainId,
-                  captainId,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(schoolId) ^
-      const DeepCollectionEquality().hash(sportId) ^
-      const DeepCollectionEquality().hash(captainId) ^
-      runtimeType.hashCode;
-}
-
-extension $TeamInfoExtension on TeamInfo {
-  TeamInfo copyWith({
+extension $TeamUpdateExtension on TeamUpdate {
+  TeamUpdate copyWith({
     String? name,
-    String? schoolId,
-    String? sportId,
-    String? captainId,
+    int? number,
+    enums.Difficulty? difficulty,
+    enums.MeetingPlace? meetingPlace,
   }) {
-    return TeamInfo(
+    return TeamUpdate(
       name: name ?? this.name,
-      schoolId: schoolId ?? this.schoolId,
-      sportId: sportId ?? this.sportId,
-      captainId: captainId ?? this.captainId,
+      number: number ?? this.number,
+      difficulty: difficulty ?? this.difficulty,
+      meetingPlace: meetingPlace ?? this.meetingPlace,
     );
   }
 
-  TeamInfo copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<String>? schoolId,
-    Wrapped<String>? sportId,
-    Wrapped<String>? captainId,
+  TeamUpdate copyWithWrapped({
+    Wrapped<String?>? name,
+    Wrapped<int?>? number,
+    Wrapped<enums.Difficulty?>? difficulty,
+    Wrapped<enums.MeetingPlace?>? meetingPlace,
   }) {
-    return TeamInfo(
+    return TeamUpdate(
       name: (name != null ? name.value : this.name),
-      schoolId: (schoolId != null ? schoolId.value : this.schoolId),
-      sportId: (sportId != null ? sportId.value : this.sportId),
-      captainId: (captainId != null ? captainId.value : this.captainId),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class TeamSportResult {
-  const TeamSportResult({
-    required this.schoolId,
-    required this.sportId,
-    required this.teamId,
-    required this.points,
-    required this.editionId,
-    required this.rank,
-  });
-
-  factory TeamSportResult.fromJson(Map<String, dynamic> json) =>
-      _$TeamSportResultFromJson(json);
-
-  static const toJsonFactory = _$TeamSportResultToJson;
-  Map<String, dynamic> toJson() => _$TeamSportResultToJson(this);
-
-  @JsonKey(name: 'school_id', defaultValue: '')
-  final String schoolId;
-  @JsonKey(name: 'sport_id', defaultValue: '')
-  final String sportId;
-  @JsonKey(name: 'team_id', defaultValue: '')
-  final String teamId;
-  @JsonKey(name: 'points', defaultValue: 0)
-  final int points;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  @JsonKey(name: 'rank', defaultValue: 0)
-  final int rank;
-  static const fromJsonFactory = _$TeamSportResultFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is TeamSportResult &&
-            (identical(other.schoolId, schoolId) ||
-                const DeepCollectionEquality().equals(
-                  other.schoolId,
-                  schoolId,
-                )) &&
-            (identical(other.sportId, sportId) ||
-                const DeepCollectionEquality().equals(
-                  other.sportId,
-                  sportId,
-                )) &&
-            (identical(other.teamId, teamId) ||
-                const DeepCollectionEquality().equals(other.teamId, teamId)) &&
-            (identical(other.points, points) ||
-                const DeepCollectionEquality().equals(other.points, points)) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )) &&
-            (identical(other.rank, rank) ||
-                const DeepCollectionEquality().equals(other.rank, rank)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(schoolId) ^
-      const DeepCollectionEquality().hash(sportId) ^
-      const DeepCollectionEquality().hash(teamId) ^
-      const DeepCollectionEquality().hash(points) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      const DeepCollectionEquality().hash(rank) ^
-      runtimeType.hashCode;
-}
-
-extension $TeamSportResultExtension on TeamSportResult {
-  TeamSportResult copyWith({
-    String? schoolId,
-    String? sportId,
-    String? teamId,
-    int? points,
-    String? editionId,
-    int? rank,
-  }) {
-    return TeamSportResult(
-      schoolId: schoolId ?? this.schoolId,
-      sportId: sportId ?? this.sportId,
-      teamId: teamId ?? this.teamId,
-      points: points ?? this.points,
-      editionId: editionId ?? this.editionId,
-      rank: rank ?? this.rank,
-    );
-  }
-
-  TeamSportResult copyWithWrapped({
-    Wrapped<String>? schoolId,
-    Wrapped<String>? sportId,
-    Wrapped<String>? teamId,
-    Wrapped<int>? points,
-    Wrapped<String>? editionId,
-    Wrapped<int>? rank,
-  }) {
-    return TeamSportResult(
-      schoolId: (schoolId != null ? schoolId.value : this.schoolId),
-      sportId: (sportId != null ? sportId.value : this.sportId),
-      teamId: (teamId != null ? teamId.value : this.teamId),
-      points: (points != null ? points.value : this.points),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-      rank: (rank != null ? rank.value : this.rank),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class TeamSportResultBase {
-  const TeamSportResultBase({
-    required this.schoolId,
-    required this.sportId,
-    required this.teamId,
-    required this.points,
-  });
-
-  factory TeamSportResultBase.fromJson(Map<String, dynamic> json) =>
-      _$TeamSportResultBaseFromJson(json);
-
-  static const toJsonFactory = _$TeamSportResultBaseToJson;
-  Map<String, dynamic> toJson() => _$TeamSportResultBaseToJson(this);
-
-  @JsonKey(name: 'school_id', defaultValue: '')
-  final String schoolId;
-  @JsonKey(name: 'sport_id', defaultValue: '')
-  final String sportId;
-  @JsonKey(name: 'team_id', defaultValue: '')
-  final String teamId;
-  @JsonKey(name: 'points', defaultValue: 0)
-  final int points;
-  static const fromJsonFactory = _$TeamSportResultBaseFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is TeamSportResultBase &&
-            (identical(other.schoolId, schoolId) ||
-                const DeepCollectionEquality().equals(
-                  other.schoolId,
-                  schoolId,
-                )) &&
-            (identical(other.sportId, sportId) ||
-                const DeepCollectionEquality().equals(
-                  other.sportId,
-                  sportId,
-                )) &&
-            (identical(other.teamId, teamId) ||
-                const DeepCollectionEquality().equals(other.teamId, teamId)) &&
-            (identical(other.points, points) ||
-                const DeepCollectionEquality().equals(other.points, points)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(schoolId) ^
-      const DeepCollectionEquality().hash(sportId) ^
-      const DeepCollectionEquality().hash(teamId) ^
-      const DeepCollectionEquality().hash(points) ^
-      runtimeType.hashCode;
-}
-
-extension $TeamSportResultBaseExtension on TeamSportResultBase {
-  TeamSportResultBase copyWith({
-    String? schoolId,
-    String? sportId,
-    String? teamId,
-    int? points,
-  }) {
-    return TeamSportResultBase(
-      schoolId: schoolId ?? this.schoolId,
-      sportId: sportId ?? this.sportId,
-      teamId: teamId ?? this.teamId,
-      points: points ?? this.points,
-    );
-  }
-
-  TeamSportResultBase copyWithWrapped({
-    Wrapped<String>? schoolId,
-    Wrapped<String>? sportId,
-    Wrapped<String>? teamId,
-    Wrapped<int>? points,
-  }) {
-    return TeamSportResultBase(
-      schoolId: (schoolId != null ? schoolId.value : this.schoolId),
-      sportId: (sportId != null ? sportId.value : this.sportId),
-      teamId: (teamId != null ? teamId.value : this.teamId),
-      points: (points != null ? points.value : this.points),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class TeamSportResultComplete {
-  const TeamSportResultComplete({
-    required this.schoolId,
-    required this.sportId,
-    required this.teamId,
-    required this.points,
-    required this.editionId,
-    required this.rank,
-    required this.team,
-  });
-
-  factory TeamSportResultComplete.fromJson(Map<String, dynamic> json) =>
-      _$TeamSportResultCompleteFromJson(json);
-
-  static const toJsonFactory = _$TeamSportResultCompleteToJson;
-  Map<String, dynamic> toJson() => _$TeamSportResultCompleteToJson(this);
-
-  @JsonKey(name: 'school_id', defaultValue: '')
-  final String schoolId;
-  @JsonKey(name: 'sport_id', defaultValue: '')
-  final String sportId;
-  @JsonKey(name: 'team_id', defaultValue: '')
-  final String teamId;
-  @JsonKey(name: 'points', defaultValue: 0)
-  final int points;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  @JsonKey(name: 'rank', defaultValue: 0)
-  final int rank;
-  @JsonKey(name: 'team')
-  final Team team;
-  static const fromJsonFactory = _$TeamSportResultCompleteFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is TeamSportResultComplete &&
-            (identical(other.schoolId, schoolId) ||
-                const DeepCollectionEquality().equals(
-                  other.schoolId,
-                  schoolId,
-                )) &&
-            (identical(other.sportId, sportId) ||
-                const DeepCollectionEquality().equals(
-                  other.sportId,
-                  sportId,
-                )) &&
-            (identical(other.teamId, teamId) ||
-                const DeepCollectionEquality().equals(other.teamId, teamId)) &&
-            (identical(other.points, points) ||
-                const DeepCollectionEquality().equals(other.points, points)) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )) &&
-            (identical(other.rank, rank) ||
-                const DeepCollectionEquality().equals(other.rank, rank)) &&
-            (identical(other.team, team) ||
-                const DeepCollectionEquality().equals(other.team, team)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(schoolId) ^
-      const DeepCollectionEquality().hash(sportId) ^
-      const DeepCollectionEquality().hash(teamId) ^
-      const DeepCollectionEquality().hash(points) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      const DeepCollectionEquality().hash(rank) ^
-      const DeepCollectionEquality().hash(team) ^
-      runtimeType.hashCode;
-}
-
-extension $TeamSportResultCompleteExtension on TeamSportResultComplete {
-  TeamSportResultComplete copyWith({
-    String? schoolId,
-    String? sportId,
-    String? teamId,
-    int? points,
-    String? editionId,
-    int? rank,
-    Team? team,
-  }) {
-    return TeamSportResultComplete(
-      schoolId: schoolId ?? this.schoolId,
-      sportId: sportId ?? this.sportId,
-      teamId: teamId ?? this.teamId,
-      points: points ?? this.points,
-      editionId: editionId ?? this.editionId,
-      rank: rank ?? this.rank,
-      team: team ?? this.team,
-    );
-  }
-
-  TeamSportResultComplete copyWithWrapped({
-    Wrapped<String>? schoolId,
-    Wrapped<String>? sportId,
-    Wrapped<String>? teamId,
-    Wrapped<int>? points,
-    Wrapped<String>? editionId,
-    Wrapped<int>? rank,
-    Wrapped<Team>? team,
-  }) {
-    return TeamSportResultComplete(
-      schoolId: (schoolId != null ? schoolId.value : this.schoolId),
-      sportId: (sportId != null ? sportId.value : this.sportId),
-      teamId: (teamId != null ? teamId.value : this.teamId),
-      points: (points != null ? points.value : this.points),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-      rank: (rank != null ? rank.value : this.rank),
-      team: (team != null ? team.value : this.team),
+      number: (number != null ? number.value : this.number),
+      difficulty: (difficulty != null ? difficulty.value : this.difficulty),
+      meetingPlace: (meetingPlace != null
+          ? meetingPlace.value
+          : this.meetingPlace),
     );
   }
 }
@@ -24786,7 +21488,7 @@ class Ticket {
   @JsonKey(name: 'id', defaultValue: '')
   final String id;
   @JsonKey(name: 'product_variant')
-  final AppModulesCdrSchemasCdrProductVariantComplete productVariant;
+  final ProductVariantComplete productVariant;
   @JsonKey(name: 'user')
   final UserTicket user;
   @JsonKey(name: 'scan_left', defaultValue: 0)
@@ -24846,7 +21548,7 @@ class Ticket {
 extension $TicketExtension on Ticket {
   Ticket copyWith({
     String? id,
-    AppModulesCdrSchemasCdrProductVariantComplete? productVariant,
+    ProductVariantComplete? productVariant,
     UserTicket? user,
     int? scanLeft,
     String? tags,
@@ -24866,7 +21568,7 @@ extension $TicketExtension on Ticket {
 
   Ticket copyWithWrapped({
     Wrapped<String>? id,
-    Wrapped<AppModulesCdrSchemasCdrProductVariantComplete>? productVariant,
+    Wrapped<ProductVariantComplete>? productVariant,
     Wrapped<UserTicket>? user,
     Wrapped<int>? scanLeft,
     Wrapped<String>? tags,
@@ -25777,172 +22479,6 @@ extension $TransferInfoExtension on TransferInfo {
 }
 
 @JsonSerializable(explicitToJson: true)
-class UserGroupMembership {
-  const UserGroupMembership({
-    required this.userId,
-    required this.group,
-    required this.editionId,
-  });
-
-  factory UserGroupMembership.fromJson(Map<String, dynamic> json) =>
-      _$UserGroupMembershipFromJson(json);
-
-  static const toJsonFactory = _$UserGroupMembershipToJson;
-  Map<String, dynamic> toJson() => _$UserGroupMembershipToJson(this);
-
-  @JsonKey(name: 'user_id', defaultValue: '')
-  final String userId;
-  @JsonKey(
-    name: 'group',
-    toJson: competitionGroupTypeToJson,
-    fromJson: competitionGroupTypeFromJson,
-  )
-  final enums.CompetitionGroupType group;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  static const fromJsonFactory = _$UserGroupMembershipFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is UserGroupMembership &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
-            (identical(other.group, group) ||
-                const DeepCollectionEquality().equals(other.group, group)) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(userId) ^
-      const DeepCollectionEquality().hash(group) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      runtimeType.hashCode;
-}
-
-extension $UserGroupMembershipExtension on UserGroupMembership {
-  UserGroupMembership copyWith({
-    String? userId,
-    enums.CompetitionGroupType? group,
-    String? editionId,
-  }) {
-    return UserGroupMembership(
-      userId: userId ?? this.userId,
-      group: group ?? this.group,
-      editionId: editionId ?? this.editionId,
-    );
-  }
-
-  UserGroupMembership copyWithWrapped({
-    Wrapped<String>? userId,
-    Wrapped<enums.CompetitionGroupType>? group,
-    Wrapped<String>? editionId,
-  }) {
-    return UserGroupMembership(
-      userId: (userId != null ? userId.value : this.userId),
-      group: (group != null ? group.value : this.group),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class UserGroupMembershipComplete {
-  const UserGroupMembershipComplete({
-    required this.userId,
-    required this.group,
-    required this.editionId,
-    required this.user,
-  });
-
-  factory UserGroupMembershipComplete.fromJson(Map<String, dynamic> json) =>
-      _$UserGroupMembershipCompleteFromJson(json);
-
-  static const toJsonFactory = _$UserGroupMembershipCompleteToJson;
-  Map<String, dynamic> toJson() => _$UserGroupMembershipCompleteToJson(this);
-
-  @JsonKey(name: 'user_id', defaultValue: '')
-  final String userId;
-  @JsonKey(
-    name: 'group',
-    toJson: competitionGroupTypeToJson,
-    fromJson: competitionGroupTypeFromJson,
-  )
-  final enums.CompetitionGroupType group;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  @JsonKey(name: 'user')
-  final CoreUser user;
-  static const fromJsonFactory = _$UserGroupMembershipCompleteFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is UserGroupMembershipComplete &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
-            (identical(other.group, group) ||
-                const DeepCollectionEquality().equals(other.group, group)) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )) &&
-            (identical(other.user, user) ||
-                const DeepCollectionEquality().equals(other.user, user)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(userId) ^
-      const DeepCollectionEquality().hash(group) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      const DeepCollectionEquality().hash(user) ^
-      runtimeType.hashCode;
-}
-
-extension $UserGroupMembershipCompleteExtension on UserGroupMembershipComplete {
-  UserGroupMembershipComplete copyWith({
-    String? userId,
-    enums.CompetitionGroupType? group,
-    String? editionId,
-    CoreUser? user,
-  }) {
-    return UserGroupMembershipComplete(
-      userId: userId ?? this.userId,
-      group: group ?? this.group,
-      editionId: editionId ?? this.editionId,
-      user: user ?? this.user,
-    );
-  }
-
-  UserGroupMembershipComplete copyWithWrapped({
-    Wrapped<String>? userId,
-    Wrapped<enums.CompetitionGroupType>? group,
-    Wrapped<String>? editionId,
-    Wrapped<CoreUser>? user,
-  }) {
-    return UserGroupMembershipComplete(
-      userId: (userId != null ? userId.value : this.userId),
-      group: (group != null ? group.value : this.group),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-      user: (user != null ? user.value : this.user),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
 class UserMembershipBase {
   const UserMembershipBase({
     required this.associationMembershipId,
@@ -26206,6 +22742,7 @@ class UserStore {
     required this.id,
     required this.structureId,
     required this.walletId,
+    required this.creation,
     required this.structure,
     required this.canBank,
     required this.canSeeHistory,
@@ -26227,6 +22764,8 @@ class UserStore {
   final String structureId;
   @JsonKey(name: 'wallet_id', defaultValue: '')
   final String walletId;
+  @JsonKey(name: 'creation')
+  final DateTime creation;
   @JsonKey(name: 'structure')
   final Structure structure;
   @JsonKey(name: 'can_bank', defaultValue: false)
@@ -26256,6 +22795,11 @@ class UserStore {
                 const DeepCollectionEquality().equals(
                   other.walletId,
                   walletId,
+                )) &&
+            (identical(other.creation, creation) ||
+                const DeepCollectionEquality().equals(
+                  other.creation,
+                  creation,
                 )) &&
             (identical(other.structure, structure) ||
                 const DeepCollectionEquality().equals(
@@ -26293,6 +22837,7 @@ class UserStore {
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(structureId) ^
       const DeepCollectionEquality().hash(walletId) ^
+      const DeepCollectionEquality().hash(creation) ^
       const DeepCollectionEquality().hash(structure) ^
       const DeepCollectionEquality().hash(canBank) ^
       const DeepCollectionEquality().hash(canSeeHistory) ^
@@ -26307,6 +22852,7 @@ extension $UserStoreExtension on UserStore {
     String? id,
     String? structureId,
     String? walletId,
+    DateTime? creation,
     Structure? structure,
     bool? canBank,
     bool? canSeeHistory,
@@ -26318,6 +22864,7 @@ extension $UserStoreExtension on UserStore {
       id: id ?? this.id,
       structureId: structureId ?? this.structureId,
       walletId: walletId ?? this.walletId,
+      creation: creation ?? this.creation,
       structure: structure ?? this.structure,
       canBank: canBank ?? this.canBank,
       canSeeHistory: canSeeHistory ?? this.canSeeHistory,
@@ -26331,6 +22878,7 @@ extension $UserStoreExtension on UserStore {
     Wrapped<String>? id,
     Wrapped<String>? structureId,
     Wrapped<String>? walletId,
+    Wrapped<DateTime>? creation,
     Wrapped<Structure>? structure,
     Wrapped<bool>? canBank,
     Wrapped<bool>? canSeeHistory,
@@ -26342,6 +22890,7 @@ extension $UserStoreExtension on UserStore {
       id: (id != null ? id.value : this.id),
       structureId: (structureId != null ? structureId.value : this.structureId),
       walletId: (walletId != null ? walletId.value : this.walletId),
+      creation: (creation != null ? creation.value : this.creation),
       structure: (structure != null ? structure.value : this.structure),
       canBank: (canBank != null ? canBank.value : this.canBank),
       canSeeHistory: (canSeeHistory != null
@@ -26393,12 +22942,8 @@ class UserTicket {
   final String schoolId;
   @JsonKey(name: 'promo')
   final int? promo;
-  @JsonKey(
-    name: 'floor',
-    toJson: floorsTypeNullableToJson,
-    fromJson: floorsTypeNullableFromJson,
-  )
-  final enums.FloorsType? floor;
+  @JsonKey(name: 'floor')
+  final String? floor;
   @JsonKey(name: 'created_on')
   final DateTime? createdOn;
   static const fromJsonFactory = _$UserTicketFromJson;
@@ -26468,7 +23013,7 @@ extension $UserTicketExtension on UserTicket {
     enums.AccountType? accountType,
     String? schoolId,
     int? promo,
-    enums.FloorsType? floor,
+    String? floor,
     DateTime? createdOn,
   }) {
     return UserTicket(
@@ -26492,7 +23037,7 @@ extension $UserTicketExtension on UserTicket {
     Wrapped<enums.AccountType>? accountType,
     Wrapped<String>? schoolId,
     Wrapped<int?>? promo,
-    Wrapped<enums.FloorsType?>? floor,
+    Wrapped<String?>? floor,
     Wrapped<DateTime?>? createdOn,
   }) {
     return UserTicket(
@@ -26572,814 +23117,6 @@ extension $ValidationErrorExtension on ValidationError {
       loc: (loc != null ? loc.value : this.loc),
       msg: (msg != null ? msg.value : this.msg),
       type: (type != null ? type.value : this.type),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class VolunteerRegistrationComplete {
-  const VolunteerRegistrationComplete({
-    required this.userId,
-    required this.editionId,
-    required this.shiftId,
-    required this.registeredAt,
-    required this.validated,
-    required this.shift,
-  });
-
-  factory VolunteerRegistrationComplete.fromJson(Map<String, dynamic> json) =>
-      _$VolunteerRegistrationCompleteFromJson(json);
-
-  static const toJsonFactory = _$VolunteerRegistrationCompleteToJson;
-  Map<String, dynamic> toJson() => _$VolunteerRegistrationCompleteToJson(this);
-
-  @JsonKey(name: 'user_id', defaultValue: '')
-  final String userId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  @JsonKey(name: 'shift_id', defaultValue: '')
-  final String shiftId;
-  @JsonKey(name: 'registered_at')
-  final DateTime registeredAt;
-  @JsonKey(name: 'validated', defaultValue: false)
-  final bool validated;
-  @JsonKey(name: 'shift')
-  final VolunteerShift shift;
-  static const fromJsonFactory = _$VolunteerRegistrationCompleteFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is VolunteerRegistrationComplete &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )) &&
-            (identical(other.shiftId, shiftId) ||
-                const DeepCollectionEquality().equals(
-                  other.shiftId,
-                  shiftId,
-                )) &&
-            (identical(other.registeredAt, registeredAt) ||
-                const DeepCollectionEquality().equals(
-                  other.registeredAt,
-                  registeredAt,
-                )) &&
-            (identical(other.validated, validated) ||
-                const DeepCollectionEquality().equals(
-                  other.validated,
-                  validated,
-                )) &&
-            (identical(other.shift, shift) ||
-                const DeepCollectionEquality().equals(other.shift, shift)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(userId) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      const DeepCollectionEquality().hash(shiftId) ^
-      const DeepCollectionEquality().hash(registeredAt) ^
-      const DeepCollectionEquality().hash(validated) ^
-      const DeepCollectionEquality().hash(shift) ^
-      runtimeType.hashCode;
-}
-
-extension $VolunteerRegistrationCompleteExtension
-    on VolunteerRegistrationComplete {
-  VolunteerRegistrationComplete copyWith({
-    String? userId,
-    String? editionId,
-    String? shiftId,
-    DateTime? registeredAt,
-    bool? validated,
-    VolunteerShift? shift,
-  }) {
-    return VolunteerRegistrationComplete(
-      userId: userId ?? this.userId,
-      editionId: editionId ?? this.editionId,
-      shiftId: shiftId ?? this.shiftId,
-      registeredAt: registeredAt ?? this.registeredAt,
-      validated: validated ?? this.validated,
-      shift: shift ?? this.shift,
-    );
-  }
-
-  VolunteerRegistrationComplete copyWithWrapped({
-    Wrapped<String>? userId,
-    Wrapped<String>? editionId,
-    Wrapped<String>? shiftId,
-    Wrapped<DateTime>? registeredAt,
-    Wrapped<bool>? validated,
-    Wrapped<VolunteerShift>? shift,
-  }) {
-    return VolunteerRegistrationComplete(
-      userId: (userId != null ? userId.value : this.userId),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-      shiftId: (shiftId != null ? shiftId.value : this.shiftId),
-      registeredAt: (registeredAt != null
-          ? registeredAt.value
-          : this.registeredAt),
-      validated: (validated != null ? validated.value : this.validated),
-      shift: (shift != null ? shift.value : this.shift),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class VolunteerRegistrationWithUser {
-  const VolunteerRegistrationWithUser({
-    required this.userId,
-    required this.editionId,
-    required this.shiftId,
-    required this.registeredAt,
-    required this.validated,
-    required this.user,
-  });
-
-  factory VolunteerRegistrationWithUser.fromJson(Map<String, dynamic> json) =>
-      _$VolunteerRegistrationWithUserFromJson(json);
-
-  static const toJsonFactory = _$VolunteerRegistrationWithUserToJson;
-  Map<String, dynamic> toJson() => _$VolunteerRegistrationWithUserToJson(this);
-
-  @JsonKey(name: 'user_id', defaultValue: '')
-  final String userId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  @JsonKey(name: 'shift_id', defaultValue: '')
-  final String shiftId;
-  @JsonKey(name: 'registered_at')
-  final DateTime registeredAt;
-  @JsonKey(name: 'validated', defaultValue: false)
-  final bool validated;
-  @JsonKey(name: 'user')
-  final CompetitionUser user;
-  static const fromJsonFactory = _$VolunteerRegistrationWithUserFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is VolunteerRegistrationWithUser &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )) &&
-            (identical(other.shiftId, shiftId) ||
-                const DeepCollectionEquality().equals(
-                  other.shiftId,
-                  shiftId,
-                )) &&
-            (identical(other.registeredAt, registeredAt) ||
-                const DeepCollectionEquality().equals(
-                  other.registeredAt,
-                  registeredAt,
-                )) &&
-            (identical(other.validated, validated) ||
-                const DeepCollectionEquality().equals(
-                  other.validated,
-                  validated,
-                )) &&
-            (identical(other.user, user) ||
-                const DeepCollectionEquality().equals(other.user, user)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(userId) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      const DeepCollectionEquality().hash(shiftId) ^
-      const DeepCollectionEquality().hash(registeredAt) ^
-      const DeepCollectionEquality().hash(validated) ^
-      const DeepCollectionEquality().hash(user) ^
-      runtimeType.hashCode;
-}
-
-extension $VolunteerRegistrationWithUserExtension
-    on VolunteerRegistrationWithUser {
-  VolunteerRegistrationWithUser copyWith({
-    String? userId,
-    String? editionId,
-    String? shiftId,
-    DateTime? registeredAt,
-    bool? validated,
-    CompetitionUser? user,
-  }) {
-    return VolunteerRegistrationWithUser(
-      userId: userId ?? this.userId,
-      editionId: editionId ?? this.editionId,
-      shiftId: shiftId ?? this.shiftId,
-      registeredAt: registeredAt ?? this.registeredAt,
-      validated: validated ?? this.validated,
-      user: user ?? this.user,
-    );
-  }
-
-  VolunteerRegistrationWithUser copyWithWrapped({
-    Wrapped<String>? userId,
-    Wrapped<String>? editionId,
-    Wrapped<String>? shiftId,
-    Wrapped<DateTime>? registeredAt,
-    Wrapped<bool>? validated,
-    Wrapped<CompetitionUser>? user,
-  }) {
-    return VolunteerRegistrationWithUser(
-      userId: (userId != null ? userId.value : this.userId),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-      shiftId: (shiftId != null ? shiftId.value : this.shiftId),
-      registeredAt: (registeredAt != null
-          ? registeredAt.value
-          : this.registeredAt),
-      validated: (validated != null ? validated.value : this.validated),
-      user: (user != null ? user.value : this.user),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class VolunteerShift {
-  const VolunteerShift({
-    required this.name,
-    this.description,
-    required this.$value,
-    required this.startTime,
-    required this.endTime,
-    this.location,
-    required this.maxVolunteers,
-    required this.id,
-    required this.editionId,
-  });
-
-  factory VolunteerShift.fromJson(Map<String, dynamic> json) =>
-      _$VolunteerShiftFromJson(json);
-
-  static const toJsonFactory = _$VolunteerShiftToJson;
-  Map<String, dynamic> toJson() => _$VolunteerShiftToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'description')
-  final String? description;
-  @JsonKey(name: 'value', defaultValue: 0)
-  final int $value;
-  @JsonKey(name: 'start_time')
-  final DateTime startTime;
-  @JsonKey(name: 'end_time')
-  final DateTime endTime;
-  @JsonKey(name: 'location')
-  final String? location;
-  @JsonKey(name: 'max_volunteers', defaultValue: 0)
-  final int maxVolunteers;
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  static const fromJsonFactory = _$VolunteerShiftFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is VolunteerShift &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.description, description) ||
-                const DeepCollectionEquality().equals(
-                  other.description,
-                  description,
-                )) &&
-            (identical(other.$value, $value) ||
-                const DeepCollectionEquality().equals(other.$value, $value)) &&
-            (identical(other.startTime, startTime) ||
-                const DeepCollectionEquality().equals(
-                  other.startTime,
-                  startTime,
-                )) &&
-            (identical(other.endTime, endTime) ||
-                const DeepCollectionEquality().equals(
-                  other.endTime,
-                  endTime,
-                )) &&
-            (identical(other.location, location) ||
-                const DeepCollectionEquality().equals(
-                  other.location,
-                  location,
-                )) &&
-            (identical(other.maxVolunteers, maxVolunteers) ||
-                const DeepCollectionEquality().equals(
-                  other.maxVolunteers,
-                  maxVolunteers,
-                )) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash($value) ^
-      const DeepCollectionEquality().hash(startTime) ^
-      const DeepCollectionEquality().hash(endTime) ^
-      const DeepCollectionEquality().hash(location) ^
-      const DeepCollectionEquality().hash(maxVolunteers) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      runtimeType.hashCode;
-}
-
-extension $VolunteerShiftExtension on VolunteerShift {
-  VolunteerShift copyWith({
-    String? name,
-    String? description,
-    int? $value,
-    DateTime? startTime,
-    DateTime? endTime,
-    String? location,
-    int? maxVolunteers,
-    String? id,
-    String? editionId,
-  }) {
-    return VolunteerShift(
-      name: name ?? this.name,
-      description: description ?? this.description,
-      $value: $value ?? this.$value,
-      startTime: startTime ?? this.startTime,
-      endTime: endTime ?? this.endTime,
-      location: location ?? this.location,
-      maxVolunteers: maxVolunteers ?? this.maxVolunteers,
-      id: id ?? this.id,
-      editionId: editionId ?? this.editionId,
-    );
-  }
-
-  VolunteerShift copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<String?>? description,
-    Wrapped<int>? $value,
-    Wrapped<DateTime>? startTime,
-    Wrapped<DateTime>? endTime,
-    Wrapped<String?>? location,
-    Wrapped<int>? maxVolunteers,
-    Wrapped<String>? id,
-    Wrapped<String>? editionId,
-  }) {
-    return VolunteerShift(
-      name: (name != null ? name.value : this.name),
-      description: (description != null ? description.value : this.description),
-      $value: ($value != null ? $value.value : this.$value),
-      startTime: (startTime != null ? startTime.value : this.startTime),
-      endTime: (endTime != null ? endTime.value : this.endTime),
-      location: (location != null ? location.value : this.location),
-      maxVolunteers: (maxVolunteers != null
-          ? maxVolunteers.value
-          : this.maxVolunteers),
-      id: (id != null ? id.value : this.id),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class VolunteerShiftBase {
-  const VolunteerShiftBase({
-    required this.name,
-    this.description,
-    required this.$value,
-    required this.startTime,
-    required this.endTime,
-    this.location,
-    required this.maxVolunteers,
-  });
-
-  factory VolunteerShiftBase.fromJson(Map<String, dynamic> json) =>
-      _$VolunteerShiftBaseFromJson(json);
-
-  static const toJsonFactory = _$VolunteerShiftBaseToJson;
-  Map<String, dynamic> toJson() => _$VolunteerShiftBaseToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'description')
-  final String? description;
-  @JsonKey(name: 'value', defaultValue: 0)
-  final int $value;
-  @JsonKey(name: 'start_time')
-  final DateTime startTime;
-  @JsonKey(name: 'end_time')
-  final DateTime endTime;
-  @JsonKey(name: 'location')
-  final String? location;
-  @JsonKey(name: 'max_volunteers', defaultValue: 0)
-  final int maxVolunteers;
-  static const fromJsonFactory = _$VolunteerShiftBaseFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is VolunteerShiftBase &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.description, description) ||
-                const DeepCollectionEquality().equals(
-                  other.description,
-                  description,
-                )) &&
-            (identical(other.$value, $value) ||
-                const DeepCollectionEquality().equals(other.$value, $value)) &&
-            (identical(other.startTime, startTime) ||
-                const DeepCollectionEquality().equals(
-                  other.startTime,
-                  startTime,
-                )) &&
-            (identical(other.endTime, endTime) ||
-                const DeepCollectionEquality().equals(
-                  other.endTime,
-                  endTime,
-                )) &&
-            (identical(other.location, location) ||
-                const DeepCollectionEquality().equals(
-                  other.location,
-                  location,
-                )) &&
-            (identical(other.maxVolunteers, maxVolunteers) ||
-                const DeepCollectionEquality().equals(
-                  other.maxVolunteers,
-                  maxVolunteers,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash($value) ^
-      const DeepCollectionEquality().hash(startTime) ^
-      const DeepCollectionEquality().hash(endTime) ^
-      const DeepCollectionEquality().hash(location) ^
-      const DeepCollectionEquality().hash(maxVolunteers) ^
-      runtimeType.hashCode;
-}
-
-extension $VolunteerShiftBaseExtension on VolunteerShiftBase {
-  VolunteerShiftBase copyWith({
-    String? name,
-    String? description,
-    int? $value,
-    DateTime? startTime,
-    DateTime? endTime,
-    String? location,
-    int? maxVolunteers,
-  }) {
-    return VolunteerShiftBase(
-      name: name ?? this.name,
-      description: description ?? this.description,
-      $value: $value ?? this.$value,
-      startTime: startTime ?? this.startTime,
-      endTime: endTime ?? this.endTime,
-      location: location ?? this.location,
-      maxVolunteers: maxVolunteers ?? this.maxVolunteers,
-    );
-  }
-
-  VolunteerShiftBase copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<String?>? description,
-    Wrapped<int>? $value,
-    Wrapped<DateTime>? startTime,
-    Wrapped<DateTime>? endTime,
-    Wrapped<String?>? location,
-    Wrapped<int>? maxVolunteers,
-  }) {
-    return VolunteerShiftBase(
-      name: (name != null ? name.value : this.name),
-      description: (description != null ? description.value : this.description),
-      $value: ($value != null ? $value.value : this.$value),
-      startTime: (startTime != null ? startTime.value : this.startTime),
-      endTime: (endTime != null ? endTime.value : this.endTime),
-      location: (location != null ? location.value : this.location),
-      maxVolunteers: (maxVolunteers != null
-          ? maxVolunteers.value
-          : this.maxVolunteers),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class VolunteerShiftComplete {
-  const VolunteerShiftComplete({
-    required this.name,
-    this.description,
-    required this.$value,
-    required this.startTime,
-    required this.endTime,
-    this.location,
-    required this.maxVolunteers,
-    required this.id,
-    required this.editionId,
-    this.registrations,
-  });
-
-  factory VolunteerShiftComplete.fromJson(Map<String, dynamic> json) =>
-      _$VolunteerShiftCompleteFromJson(json);
-
-  static const toJsonFactory = _$VolunteerShiftCompleteToJson;
-  Map<String, dynamic> toJson() => _$VolunteerShiftCompleteToJson(this);
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'description')
-  final String? description;
-  @JsonKey(name: 'value', defaultValue: 0)
-  final int $value;
-  @JsonKey(name: 'start_time')
-  final DateTime startTime;
-  @JsonKey(name: 'end_time')
-  final DateTime endTime;
-  @JsonKey(name: 'location')
-  final String? location;
-  @JsonKey(name: 'max_volunteers', defaultValue: 0)
-  final int maxVolunteers;
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  @JsonKey(
-    name: 'registrations',
-    defaultValue: <VolunteerRegistrationWithUser>[],
-  )
-  final List<VolunteerRegistrationWithUser>? registrations;
-  static const fromJsonFactory = _$VolunteerShiftCompleteFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is VolunteerShiftComplete &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.description, description) ||
-                const DeepCollectionEquality().equals(
-                  other.description,
-                  description,
-                )) &&
-            (identical(other.$value, $value) ||
-                const DeepCollectionEquality().equals(other.$value, $value)) &&
-            (identical(other.startTime, startTime) ||
-                const DeepCollectionEquality().equals(
-                  other.startTime,
-                  startTime,
-                )) &&
-            (identical(other.endTime, endTime) ||
-                const DeepCollectionEquality().equals(
-                  other.endTime,
-                  endTime,
-                )) &&
-            (identical(other.location, location) ||
-                const DeepCollectionEquality().equals(
-                  other.location,
-                  location,
-                )) &&
-            (identical(other.maxVolunteers, maxVolunteers) ||
-                const DeepCollectionEquality().equals(
-                  other.maxVolunteers,
-                  maxVolunteers,
-                )) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )) &&
-            (identical(other.registrations, registrations) ||
-                const DeepCollectionEquality().equals(
-                  other.registrations,
-                  registrations,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash($value) ^
-      const DeepCollectionEquality().hash(startTime) ^
-      const DeepCollectionEquality().hash(endTime) ^
-      const DeepCollectionEquality().hash(location) ^
-      const DeepCollectionEquality().hash(maxVolunteers) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      const DeepCollectionEquality().hash(registrations) ^
-      runtimeType.hashCode;
-}
-
-extension $VolunteerShiftCompleteExtension on VolunteerShiftComplete {
-  VolunteerShiftComplete copyWith({
-    String? name,
-    String? description,
-    int? $value,
-    DateTime? startTime,
-    DateTime? endTime,
-    String? location,
-    int? maxVolunteers,
-    String? id,
-    String? editionId,
-    List<VolunteerRegistrationWithUser>? registrations,
-  }) {
-    return VolunteerShiftComplete(
-      name: name ?? this.name,
-      description: description ?? this.description,
-      $value: $value ?? this.$value,
-      startTime: startTime ?? this.startTime,
-      endTime: endTime ?? this.endTime,
-      location: location ?? this.location,
-      maxVolunteers: maxVolunteers ?? this.maxVolunteers,
-      id: id ?? this.id,
-      editionId: editionId ?? this.editionId,
-      registrations: registrations ?? this.registrations,
-    );
-  }
-
-  VolunteerShiftComplete copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<String?>? description,
-    Wrapped<int>? $value,
-    Wrapped<DateTime>? startTime,
-    Wrapped<DateTime>? endTime,
-    Wrapped<String?>? location,
-    Wrapped<int>? maxVolunteers,
-    Wrapped<String>? id,
-    Wrapped<String>? editionId,
-    Wrapped<List<VolunteerRegistrationWithUser>?>? registrations,
-  }) {
-    return VolunteerShiftComplete(
-      name: (name != null ? name.value : this.name),
-      description: (description != null ? description.value : this.description),
-      $value: ($value != null ? $value.value : this.$value),
-      startTime: (startTime != null ? startTime.value : this.startTime),
-      endTime: (endTime != null ? endTime.value : this.endTime),
-      location: (location != null ? location.value : this.location),
-      maxVolunteers: (maxVolunteers != null
-          ? maxVolunteers.value
-          : this.maxVolunteers),
-      id: (id != null ? id.value : this.id),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-      registrations: (registrations != null
-          ? registrations.value
-          : this.registrations),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class VolunteerShiftEdit {
-  const VolunteerShiftEdit({
-    this.name,
-    this.description,
-    this.$value,
-    this.startTime,
-    this.endTime,
-    this.location,
-    this.maxVolunteers,
-  });
-
-  factory VolunteerShiftEdit.fromJson(Map<String, dynamic> json) =>
-      _$VolunteerShiftEditFromJson(json);
-
-  static const toJsonFactory = _$VolunteerShiftEditToJson;
-  Map<String, dynamic> toJson() => _$VolunteerShiftEditToJson(this);
-
-  @JsonKey(name: 'name')
-  final String? name;
-  @JsonKey(name: 'description')
-  final String? description;
-  @JsonKey(name: 'value')
-  final int? $value;
-  @JsonKey(name: 'start_time')
-  final DateTime? startTime;
-  @JsonKey(name: 'end_time')
-  final DateTime? endTime;
-  @JsonKey(name: 'location')
-  final String? location;
-  @JsonKey(name: 'max_volunteers')
-  final int? maxVolunteers;
-  static const fromJsonFactory = _$VolunteerShiftEditFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is VolunteerShiftEdit &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.description, description) ||
-                const DeepCollectionEquality().equals(
-                  other.description,
-                  description,
-                )) &&
-            (identical(other.$value, $value) ||
-                const DeepCollectionEquality().equals(other.$value, $value)) &&
-            (identical(other.startTime, startTime) ||
-                const DeepCollectionEquality().equals(
-                  other.startTime,
-                  startTime,
-                )) &&
-            (identical(other.endTime, endTime) ||
-                const DeepCollectionEquality().equals(
-                  other.endTime,
-                  endTime,
-                )) &&
-            (identical(other.location, location) ||
-                const DeepCollectionEquality().equals(
-                  other.location,
-                  location,
-                )) &&
-            (identical(other.maxVolunteers, maxVolunteers) ||
-                const DeepCollectionEquality().equals(
-                  other.maxVolunteers,
-                  maxVolunteers,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash($value) ^
-      const DeepCollectionEquality().hash(startTime) ^
-      const DeepCollectionEquality().hash(endTime) ^
-      const DeepCollectionEquality().hash(location) ^
-      const DeepCollectionEquality().hash(maxVolunteers) ^
-      runtimeType.hashCode;
-}
-
-extension $VolunteerShiftEditExtension on VolunteerShiftEdit {
-  VolunteerShiftEdit copyWith({
-    String? name,
-    String? description,
-    int? $value,
-    DateTime? startTime,
-    DateTime? endTime,
-    String? location,
-    int? maxVolunteers,
-  }) {
-    return VolunteerShiftEdit(
-      name: name ?? this.name,
-      description: description ?? this.description,
-      $value: $value ?? this.$value,
-      startTime: startTime ?? this.startTime,
-      endTime: endTime ?? this.endTime,
-      location: location ?? this.location,
-      maxVolunteers: maxVolunteers ?? this.maxVolunteers,
-    );
-  }
-
-  VolunteerShiftEdit copyWithWrapped({
-    Wrapped<String?>? name,
-    Wrapped<String?>? description,
-    Wrapped<int?>? $value,
-    Wrapped<DateTime?>? startTime,
-    Wrapped<DateTime?>? endTime,
-    Wrapped<String?>? location,
-    Wrapped<int?>? maxVolunteers,
-  }) {
-    return VolunteerShiftEdit(
-      name: (name != null ? name.value : this.name),
-      description: (description != null ? description.value : this.description),
-      $value: ($value != null ? $value.value : this.$value),
-      startTime: (startTime != null ? startTime.value : this.startTime),
-      endTime: (endTime != null ? endTime.value : this.endTime),
-      location: (location != null ? location.value : this.location),
-      maxVolunteers: (maxVolunteers != null
-          ? maxVolunteers.value
-          : this.maxVolunteers),
     );
   }
 }
@@ -27890,6 +23627,72 @@ extension $WalletDeviceCreationExtension on WalletDeviceCreation {
 }
 
 @JsonSerializable(explicitToJson: true)
+class AppCoreAssociationsSchemasAssociationsAssociationBase {
+  const AppCoreAssociationsSchemasAssociationsAssociationBase({
+    required this.name,
+    required this.groupId,
+  });
+
+  factory AppCoreAssociationsSchemasAssociationsAssociationBase.fromJson(
+    Map<String, dynamic> json,
+  ) => _$AppCoreAssociationsSchemasAssociationsAssociationBaseFromJson(json);
+
+  static const toJsonFactory =
+      _$AppCoreAssociationsSchemasAssociationsAssociationBaseToJson;
+  Map<String, dynamic> toJson() =>
+      _$AppCoreAssociationsSchemasAssociationsAssociationBaseToJson(this);
+
+  @JsonKey(name: 'name', defaultValue: '')
+  final String name;
+  @JsonKey(name: 'group_id', defaultValue: '')
+  final String groupId;
+  static const fromJsonFactory =
+      _$AppCoreAssociationsSchemasAssociationsAssociationBaseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AppCoreAssociationsSchemasAssociationsAssociationBase &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.groupId, groupId) ||
+                const DeepCollectionEquality().equals(other.groupId, groupId)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(groupId) ^
+      runtimeType.hashCode;
+}
+
+extension $AppCoreAssociationsSchemasAssociationsAssociationBaseExtension
+    on AppCoreAssociationsSchemasAssociationsAssociationBase {
+  AppCoreAssociationsSchemasAssociationsAssociationBase copyWith({
+    String? name,
+    String? groupId,
+  }) {
+    return AppCoreAssociationsSchemasAssociationsAssociationBase(
+      name: name ?? this.name,
+      groupId: groupId ?? this.groupId,
+    );
+  }
+
+  AppCoreAssociationsSchemasAssociationsAssociationBase copyWithWrapped({
+    Wrapped<String>? name,
+    Wrapped<String>? groupId,
+  }) {
+    return AppCoreAssociationsSchemasAssociationsAssociationBase(
+      name: (name != null ? name.value : this.name),
+      groupId: (groupId != null ? groupId.value : this.groupId),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class AppCoreMembershipsSchemasMembershipsMembershipBase {
   const AppCoreMembershipsSchemasMembershipsMembershipBase({
     required this.name,
@@ -28191,361 +23994,6 @@ extension $AppModulesCampaignSchemasCampaignResultExtension
 }
 
 @JsonSerializable(explicitToJson: true)
-class AppModulesCdrSchemasCdrPaymentBase {
-  const AppModulesCdrSchemasCdrPaymentBase({
-    required this.total,
-    required this.paymentType,
-  });
-
-  factory AppModulesCdrSchemasCdrPaymentBase.fromJson(
-    Map<String, dynamic> json,
-  ) => _$AppModulesCdrSchemasCdrPaymentBaseFromJson(json);
-
-  static const toJsonFactory = _$AppModulesCdrSchemasCdrPaymentBaseToJson;
-  Map<String, dynamic> toJson() =>
-      _$AppModulesCdrSchemasCdrPaymentBaseToJson(this);
-
-  @JsonKey(name: 'total', defaultValue: 0)
-  final int total;
-  @JsonKey(
-    name: 'payment_type',
-    toJson: paymentTypeToJson,
-    fromJson: paymentTypeFromJson,
-  )
-  final enums.PaymentType paymentType;
-  static const fromJsonFactory = _$AppModulesCdrSchemasCdrPaymentBaseFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is AppModulesCdrSchemasCdrPaymentBase &&
-            (identical(other.total, total) ||
-                const DeepCollectionEquality().equals(other.total, total)) &&
-            (identical(other.paymentType, paymentType) ||
-                const DeepCollectionEquality().equals(
-                  other.paymentType,
-                  paymentType,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(total) ^
-      const DeepCollectionEquality().hash(paymentType) ^
-      runtimeType.hashCode;
-}
-
-extension $AppModulesCdrSchemasCdrPaymentBaseExtension
-    on AppModulesCdrSchemasCdrPaymentBase {
-  AppModulesCdrSchemasCdrPaymentBase copyWith({
-    int? total,
-    enums.PaymentType? paymentType,
-  }) {
-    return AppModulesCdrSchemasCdrPaymentBase(
-      total: total ?? this.total,
-      paymentType: paymentType ?? this.paymentType,
-    );
-  }
-
-  AppModulesCdrSchemasCdrPaymentBase copyWithWrapped({
-    Wrapped<int>? total,
-    Wrapped<enums.PaymentType>? paymentType,
-  }) {
-    return AppModulesCdrSchemasCdrPaymentBase(
-      total: (total != null ? total.value : this.total),
-      paymentType: (paymentType != null ? paymentType.value : this.paymentType),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class AppModulesCdrSchemasCdrPaymentComplete {
-  const AppModulesCdrSchemasCdrPaymentComplete({
-    required this.total,
-    required this.paymentType,
-    required this.id,
-    required this.userId,
-    required this.year,
-  });
-
-  factory AppModulesCdrSchemasCdrPaymentComplete.fromJson(
-    Map<String, dynamic> json,
-  ) => _$AppModulesCdrSchemasCdrPaymentCompleteFromJson(json);
-
-  static const toJsonFactory = _$AppModulesCdrSchemasCdrPaymentCompleteToJson;
-  Map<String, dynamic> toJson() =>
-      _$AppModulesCdrSchemasCdrPaymentCompleteToJson(this);
-
-  @JsonKey(name: 'total', defaultValue: 0)
-  final int total;
-  @JsonKey(
-    name: 'payment_type',
-    toJson: paymentTypeToJson,
-    fromJson: paymentTypeFromJson,
-  )
-  final enums.PaymentType paymentType;
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  @JsonKey(name: 'user_id', defaultValue: '')
-  final String userId;
-  @JsonKey(name: 'year', defaultValue: 0)
-  final int year;
-  static const fromJsonFactory =
-      _$AppModulesCdrSchemasCdrPaymentCompleteFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is AppModulesCdrSchemasCdrPaymentComplete &&
-            (identical(other.total, total) ||
-                const DeepCollectionEquality().equals(other.total, total)) &&
-            (identical(other.paymentType, paymentType) ||
-                const DeepCollectionEquality().equals(
-                  other.paymentType,
-                  paymentType,
-                )) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
-            (identical(other.year, year) ||
-                const DeepCollectionEquality().equals(other.year, year)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(total) ^
-      const DeepCollectionEquality().hash(paymentType) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(userId) ^
-      const DeepCollectionEquality().hash(year) ^
-      runtimeType.hashCode;
-}
-
-extension $AppModulesCdrSchemasCdrPaymentCompleteExtension
-    on AppModulesCdrSchemasCdrPaymentComplete {
-  AppModulesCdrSchemasCdrPaymentComplete copyWith({
-    int? total,
-    enums.PaymentType? paymentType,
-    String? id,
-    String? userId,
-    int? year,
-  }) {
-    return AppModulesCdrSchemasCdrPaymentComplete(
-      total: total ?? this.total,
-      paymentType: paymentType ?? this.paymentType,
-      id: id ?? this.id,
-      userId: userId ?? this.userId,
-      year: year ?? this.year,
-    );
-  }
-
-  AppModulesCdrSchemasCdrPaymentComplete copyWithWrapped({
-    Wrapped<int>? total,
-    Wrapped<enums.PaymentType>? paymentType,
-    Wrapped<String>? id,
-    Wrapped<String>? userId,
-    Wrapped<int>? year,
-  }) {
-    return AppModulesCdrSchemasCdrPaymentComplete(
-      total: (total != null ? total.value : this.total),
-      paymentType: (paymentType != null ? paymentType.value : this.paymentType),
-      id: (id != null ? id.value : this.id),
-      userId: (userId != null ? userId.value : this.userId),
-      year: (year != null ? year.value : this.year),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class AppModulesCdrSchemasCdrProductBase {
-  const AppModulesCdrSchemasCdrProductBase({
-    required this.nameFr,
-    this.nameEn,
-    this.descriptionFr,
-    this.descriptionEn,
-    required this.availableOnline,
-    this.needsValidation,
-    this.relatedMembership,
-    this.tickets,
-    required this.productConstraints,
-    required this.documentConstraints,
-  });
-
-  factory AppModulesCdrSchemasCdrProductBase.fromJson(
-    Map<String, dynamic> json,
-  ) => _$AppModulesCdrSchemasCdrProductBaseFromJson(json);
-
-  static const toJsonFactory = _$AppModulesCdrSchemasCdrProductBaseToJson;
-  Map<String, dynamic> toJson() =>
-      _$AppModulesCdrSchemasCdrProductBaseToJson(this);
-
-  @JsonKey(name: 'name_fr', defaultValue: '')
-  final String nameFr;
-  @JsonKey(name: 'name_en')
-  final String? nameEn;
-  @JsonKey(name: 'description_fr')
-  final String? descriptionFr;
-  @JsonKey(name: 'description_en')
-  final String? descriptionEn;
-  @JsonKey(name: 'available_online', defaultValue: false)
-  final bool availableOnline;
-  @JsonKey(name: 'needs_validation', defaultValue: true)
-  final bool? needsValidation;
-  @JsonKey(name: 'related_membership')
-  final MembershipSimple? relatedMembership;
-  @JsonKey(name: 'tickets', defaultValue: <GenerateTicketBase>[])
-  final List<GenerateTicketBase>? tickets;
-  @JsonKey(name: 'product_constraints', defaultValue: <String>[])
-  final List<String> productConstraints;
-  @JsonKey(name: 'document_constraints', defaultValue: <String>[])
-  final List<String> documentConstraints;
-  static const fromJsonFactory = _$AppModulesCdrSchemasCdrProductBaseFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is AppModulesCdrSchemasCdrProductBase &&
-            (identical(other.nameFr, nameFr) ||
-                const DeepCollectionEquality().equals(other.nameFr, nameFr)) &&
-            (identical(other.nameEn, nameEn) ||
-                const DeepCollectionEquality().equals(other.nameEn, nameEn)) &&
-            (identical(other.descriptionFr, descriptionFr) ||
-                const DeepCollectionEquality().equals(
-                  other.descriptionFr,
-                  descriptionFr,
-                )) &&
-            (identical(other.descriptionEn, descriptionEn) ||
-                const DeepCollectionEquality().equals(
-                  other.descriptionEn,
-                  descriptionEn,
-                )) &&
-            (identical(other.availableOnline, availableOnline) ||
-                const DeepCollectionEquality().equals(
-                  other.availableOnline,
-                  availableOnline,
-                )) &&
-            (identical(other.needsValidation, needsValidation) ||
-                const DeepCollectionEquality().equals(
-                  other.needsValidation,
-                  needsValidation,
-                )) &&
-            (identical(other.relatedMembership, relatedMembership) ||
-                const DeepCollectionEquality().equals(
-                  other.relatedMembership,
-                  relatedMembership,
-                )) &&
-            (identical(other.tickets, tickets) ||
-                const DeepCollectionEquality().equals(
-                  other.tickets,
-                  tickets,
-                )) &&
-            (identical(other.productConstraints, productConstraints) ||
-                const DeepCollectionEquality().equals(
-                  other.productConstraints,
-                  productConstraints,
-                )) &&
-            (identical(other.documentConstraints, documentConstraints) ||
-                const DeepCollectionEquality().equals(
-                  other.documentConstraints,
-                  documentConstraints,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(nameFr) ^
-      const DeepCollectionEquality().hash(nameEn) ^
-      const DeepCollectionEquality().hash(descriptionFr) ^
-      const DeepCollectionEquality().hash(descriptionEn) ^
-      const DeepCollectionEquality().hash(availableOnline) ^
-      const DeepCollectionEquality().hash(needsValidation) ^
-      const DeepCollectionEquality().hash(relatedMembership) ^
-      const DeepCollectionEquality().hash(tickets) ^
-      const DeepCollectionEquality().hash(productConstraints) ^
-      const DeepCollectionEquality().hash(documentConstraints) ^
-      runtimeType.hashCode;
-}
-
-extension $AppModulesCdrSchemasCdrProductBaseExtension
-    on AppModulesCdrSchemasCdrProductBase {
-  AppModulesCdrSchemasCdrProductBase copyWith({
-    String? nameFr,
-    String? nameEn,
-    String? descriptionFr,
-    String? descriptionEn,
-    bool? availableOnline,
-    bool? needsValidation,
-    MembershipSimple? relatedMembership,
-    List<GenerateTicketBase>? tickets,
-    List<String>? productConstraints,
-    List<String>? documentConstraints,
-  }) {
-    return AppModulesCdrSchemasCdrProductBase(
-      nameFr: nameFr ?? this.nameFr,
-      nameEn: nameEn ?? this.nameEn,
-      descriptionFr: descriptionFr ?? this.descriptionFr,
-      descriptionEn: descriptionEn ?? this.descriptionEn,
-      availableOnline: availableOnline ?? this.availableOnline,
-      needsValidation: needsValidation ?? this.needsValidation,
-      relatedMembership: relatedMembership ?? this.relatedMembership,
-      tickets: tickets ?? this.tickets,
-      productConstraints: productConstraints ?? this.productConstraints,
-      documentConstraints: documentConstraints ?? this.documentConstraints,
-    );
-  }
-
-  AppModulesCdrSchemasCdrProductBase copyWithWrapped({
-    Wrapped<String>? nameFr,
-    Wrapped<String?>? nameEn,
-    Wrapped<String?>? descriptionFr,
-    Wrapped<String?>? descriptionEn,
-    Wrapped<bool>? availableOnline,
-    Wrapped<bool?>? needsValidation,
-    Wrapped<MembershipSimple?>? relatedMembership,
-    Wrapped<List<GenerateTicketBase>?>? tickets,
-    Wrapped<List<String>>? productConstraints,
-    Wrapped<List<String>>? documentConstraints,
-  }) {
-    return AppModulesCdrSchemasCdrProductBase(
-      nameFr: (nameFr != null ? nameFr.value : this.nameFr),
-      nameEn: (nameEn != null ? nameEn.value : this.nameEn),
-      descriptionFr: (descriptionFr != null
-          ? descriptionFr.value
-          : this.descriptionFr),
-      descriptionEn: (descriptionEn != null
-          ? descriptionEn.value
-          : this.descriptionEn),
-      availableOnline: (availableOnline != null
-          ? availableOnline.value
-          : this.availableOnline),
-      needsValidation: (needsValidation != null
-          ? needsValidation.value
-          : this.needsValidation),
-      relatedMembership: (relatedMembership != null
-          ? relatedMembership.value
-          : this.relatedMembership),
-      tickets: (tickets != null ? tickets.value : this.tickets),
-      productConstraints: (productConstraints != null
-          ? productConstraints.value
-          : this.productConstraints),
-      documentConstraints: (documentConstraints != null
-          ? documentConstraints.value
-          : this.documentConstraints),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
 class AppModulesCdrSchemasCdrProductComplete {
   const AppModulesCdrSchemasCdrProductComplete({
     required this.nameFr,
@@ -28553,9 +24001,7 @@ class AppModulesCdrSchemasCdrProductComplete {
     this.descriptionFr,
     this.descriptionEn,
     required this.availableOnline,
-    required this.needsValidation,
     required this.id,
-    required this.year,
     required this.sellerId,
     this.variants,
     this.relatedMembership,
@@ -28582,19 +24028,12 @@ class AppModulesCdrSchemasCdrProductComplete {
   final String? descriptionEn;
   @JsonKey(name: 'available_online', defaultValue: false)
   final bool availableOnline;
-  @JsonKey(name: 'needs_validation', defaultValue: false)
-  final bool needsValidation;
   @JsonKey(name: 'id', defaultValue: '')
   final String id;
-  @JsonKey(name: 'year', defaultValue: 0)
-  final int year;
   @JsonKey(name: 'seller_id', defaultValue: '')
   final String sellerId;
-  @JsonKey(
-    name: 'variants',
-    defaultValue: <AppModulesCdrSchemasCdrProductVariantComplete>[],
-  )
-  final List<AppModulesCdrSchemasCdrProductVariantComplete>? variants;
+  @JsonKey(name: 'variants', defaultValue: <ProductVariantComplete>[])
+  final List<ProductVariantComplete>? variants;
   @JsonKey(name: 'related_membership')
   final MembershipSimple? relatedMembership;
   @JsonKey(
@@ -28632,15 +24071,8 @@ class AppModulesCdrSchemasCdrProductComplete {
                   other.availableOnline,
                   availableOnline,
                 )) &&
-            (identical(other.needsValidation, needsValidation) ||
-                const DeepCollectionEquality().equals(
-                  other.needsValidation,
-                  needsValidation,
-                )) &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.year, year) ||
-                const DeepCollectionEquality().equals(other.year, year)) &&
             (identical(other.sellerId, sellerId) ||
                 const DeepCollectionEquality().equals(
                   other.sellerId,
@@ -28680,9 +24112,7 @@ class AppModulesCdrSchemasCdrProductComplete {
       const DeepCollectionEquality().hash(descriptionFr) ^
       const DeepCollectionEquality().hash(descriptionEn) ^
       const DeepCollectionEquality().hash(availableOnline) ^
-      const DeepCollectionEquality().hash(needsValidation) ^
       const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(year) ^
       const DeepCollectionEquality().hash(sellerId) ^
       const DeepCollectionEquality().hash(variants) ^
       const DeepCollectionEquality().hash(relatedMembership) ^
@@ -28700,11 +24130,9 @@ extension $AppModulesCdrSchemasCdrProductCompleteExtension
     String? descriptionFr,
     String? descriptionEn,
     bool? availableOnline,
-    bool? needsValidation,
     String? id,
-    int? year,
     String? sellerId,
-    List<AppModulesCdrSchemasCdrProductVariantComplete>? variants,
+    List<ProductVariantComplete>? variants,
     MembershipSimple? relatedMembership,
     List<ProductCompleteNoConstraint>? productConstraints,
     List<DocumentComplete>? documentConstraints,
@@ -28716,9 +24144,7 @@ extension $AppModulesCdrSchemasCdrProductCompleteExtension
       descriptionFr: descriptionFr ?? this.descriptionFr,
       descriptionEn: descriptionEn ?? this.descriptionEn,
       availableOnline: availableOnline ?? this.availableOnline,
-      needsValidation: needsValidation ?? this.needsValidation,
       id: id ?? this.id,
-      year: year ?? this.year,
       sellerId: sellerId ?? this.sellerId,
       variants: variants ?? this.variants,
       relatedMembership: relatedMembership ?? this.relatedMembership,
@@ -28734,11 +24160,9 @@ extension $AppModulesCdrSchemasCdrProductCompleteExtension
     Wrapped<String?>? descriptionFr,
     Wrapped<String?>? descriptionEn,
     Wrapped<bool>? availableOnline,
-    Wrapped<bool>? needsValidation,
     Wrapped<String>? id,
-    Wrapped<int>? year,
     Wrapped<String>? sellerId,
-    Wrapped<List<AppModulesCdrSchemasCdrProductVariantComplete>?>? variants,
+    Wrapped<List<ProductVariantComplete>?>? variants,
     Wrapped<MembershipSimple?>? relatedMembership,
     Wrapped<List<ProductCompleteNoConstraint>?>? productConstraints,
     Wrapped<List<DocumentComplete>?>? documentConstraints,
@@ -28756,11 +24180,7 @@ extension $AppModulesCdrSchemasCdrProductCompleteExtension
       availableOnline: (availableOnline != null
           ? availableOnline.value
           : this.availableOnline),
-      needsValidation: (needsValidation != null
-          ? needsValidation.value
-          : this.needsValidation),
       id: (id != null ? id.value : this.id),
-      year: (year != null ? year.value : this.year),
       sellerId: (sellerId != null ? sellerId.value : this.sellerId),
       variants: (variants != null ? variants.value : this.variants),
       relatedMembership: (relatedMembership != null
@@ -28945,88 +24365,70 @@ extension $AppModulesCdrSchemasCdrProductEditExtension
 }
 
 @JsonSerializable(explicitToJson: true)
-class AppModulesCdrSchemasCdrProductVariantBase {
-  const AppModulesCdrSchemasCdrProductVariantBase({
-    required this.nameFr,
-    this.nameEn,
-    this.descriptionFr,
-    this.descriptionEn,
-    required this.price,
-    required this.enabled,
-    required this.unique,
-    required this.allowedCurriculum,
-    this.relatedMembershipAddedDuration,
+class AppModulesPhonebookSchemasPhonebookAssociationBase {
+  const AppModulesPhonebookSchemasPhonebookAssociationBase({
+    required this.name,
+    required this.groupementId,
+    required this.mandateYear,
+    this.description,
+    this.associatedGroups,
+    this.deactivated,
   });
 
-  factory AppModulesCdrSchemasCdrProductVariantBase.fromJson(
+  factory AppModulesPhonebookSchemasPhonebookAssociationBase.fromJson(
     Map<String, dynamic> json,
-  ) => _$AppModulesCdrSchemasCdrProductVariantBaseFromJson(json);
+  ) => _$AppModulesPhonebookSchemasPhonebookAssociationBaseFromJson(json);
 
   static const toJsonFactory =
-      _$AppModulesCdrSchemasCdrProductVariantBaseToJson;
+      _$AppModulesPhonebookSchemasPhonebookAssociationBaseToJson;
   Map<String, dynamic> toJson() =>
-      _$AppModulesCdrSchemasCdrProductVariantBaseToJson(this);
+      _$AppModulesPhonebookSchemasPhonebookAssociationBaseToJson(this);
 
-  @JsonKey(name: 'name_fr', defaultValue: '')
-  final String nameFr;
-  @JsonKey(name: 'name_en')
-  final String? nameEn;
-  @JsonKey(name: 'description_fr')
-  final String? descriptionFr;
-  @JsonKey(name: 'description_en')
-  final String? descriptionEn;
-  @JsonKey(name: 'price', defaultValue: 0)
-  final int price;
-  @JsonKey(name: 'enabled', defaultValue: false)
-  final bool enabled;
-  @JsonKey(name: 'unique', defaultValue: false)
-  final bool unique;
-  @JsonKey(name: 'allowed_curriculum', defaultValue: <String>[])
-  final List<String> allowedCurriculum;
-  @JsonKey(name: 'related_membership_added_duration')
-  final String? relatedMembershipAddedDuration;
+  @JsonKey(name: 'name', defaultValue: '')
+  final String name;
+  @JsonKey(name: 'groupement_id', defaultValue: '')
+  final String groupementId;
+  @JsonKey(name: 'mandate_year', defaultValue: 0)
+  final int mandateYear;
+  @JsonKey(name: 'description')
+  final String? description;
+  @JsonKey(name: 'associated_groups', defaultValue: <String>[])
+  final List<String>? associatedGroups;
+  @JsonKey(name: 'deactivated', defaultValue: false)
+  final bool? deactivated;
   static const fromJsonFactory =
-      _$AppModulesCdrSchemasCdrProductVariantBaseFromJson;
+      _$AppModulesPhonebookSchemasPhonebookAssociationBaseFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is AppModulesCdrSchemasCdrProductVariantBase &&
-            (identical(other.nameFr, nameFr) ||
-                const DeepCollectionEquality().equals(other.nameFr, nameFr)) &&
-            (identical(other.nameEn, nameEn) ||
-                const DeepCollectionEquality().equals(other.nameEn, nameEn)) &&
-            (identical(other.descriptionFr, descriptionFr) ||
+        (other is AppModulesPhonebookSchemasPhonebookAssociationBase &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.groupementId, groupementId) ||
                 const DeepCollectionEquality().equals(
-                  other.descriptionFr,
-                  descriptionFr,
+                  other.groupementId,
+                  groupementId,
                 )) &&
-            (identical(other.descriptionEn, descriptionEn) ||
+            (identical(other.mandateYear, mandateYear) ||
                 const DeepCollectionEquality().equals(
-                  other.descriptionEn,
-                  descriptionEn,
+                  other.mandateYear,
+                  mandateYear,
                 )) &&
-            (identical(other.price, price) ||
-                const DeepCollectionEquality().equals(other.price, price)) &&
-            (identical(other.enabled, enabled) ||
+            (identical(other.description, description) ||
                 const DeepCollectionEquality().equals(
-                  other.enabled,
-                  enabled,
+                  other.description,
+                  description,
                 )) &&
-            (identical(other.unique, unique) ||
-                const DeepCollectionEquality().equals(other.unique, unique)) &&
-            (identical(other.allowedCurriculum, allowedCurriculum) ||
+            (identical(other.associatedGroups, associatedGroups) ||
                 const DeepCollectionEquality().equals(
-                  other.allowedCurriculum,
-                  allowedCurriculum,
+                  other.associatedGroups,
+                  associatedGroups,
                 )) &&
-            (identical(
-                  other.relatedMembershipAddedDuration,
-                  relatedMembershipAddedDuration,
-                ) ||
+            (identical(other.deactivated, deactivated) ||
                 const DeepCollectionEquality().equals(
-                  other.relatedMembershipAddedDuration,
-                  relatedMembershipAddedDuration,
+                  other.deactivated,
+                  deactivated,
                 )));
   }
 
@@ -29035,594 +24437,54 @@ class AppModulesCdrSchemasCdrProductVariantBase {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(nameFr) ^
-      const DeepCollectionEquality().hash(nameEn) ^
-      const DeepCollectionEquality().hash(descriptionFr) ^
-      const DeepCollectionEquality().hash(descriptionEn) ^
-      const DeepCollectionEquality().hash(price) ^
-      const DeepCollectionEquality().hash(enabled) ^
-      const DeepCollectionEquality().hash(unique) ^
-      const DeepCollectionEquality().hash(allowedCurriculum) ^
-      const DeepCollectionEquality().hash(relatedMembershipAddedDuration) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(groupementId) ^
+      const DeepCollectionEquality().hash(mandateYear) ^
+      const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(associatedGroups) ^
+      const DeepCollectionEquality().hash(deactivated) ^
       runtimeType.hashCode;
 }
 
-extension $AppModulesCdrSchemasCdrProductVariantBaseExtension
-    on AppModulesCdrSchemasCdrProductVariantBase {
-  AppModulesCdrSchemasCdrProductVariantBase copyWith({
-    String? nameFr,
-    String? nameEn,
-    String? descriptionFr,
-    String? descriptionEn,
-    int? price,
-    bool? enabled,
-    bool? unique,
-    List<String>? allowedCurriculum,
-    String? relatedMembershipAddedDuration,
+extension $AppModulesPhonebookSchemasPhonebookAssociationBaseExtension
+    on AppModulesPhonebookSchemasPhonebookAssociationBase {
+  AppModulesPhonebookSchemasPhonebookAssociationBase copyWith({
+    String? name,
+    String? groupementId,
+    int? mandateYear,
+    String? description,
+    List<String>? associatedGroups,
+    bool? deactivated,
   }) {
-    return AppModulesCdrSchemasCdrProductVariantBase(
-      nameFr: nameFr ?? this.nameFr,
-      nameEn: nameEn ?? this.nameEn,
-      descriptionFr: descriptionFr ?? this.descriptionFr,
-      descriptionEn: descriptionEn ?? this.descriptionEn,
-      price: price ?? this.price,
-      enabled: enabled ?? this.enabled,
-      unique: unique ?? this.unique,
-      allowedCurriculum: allowedCurriculum ?? this.allowedCurriculum,
-      relatedMembershipAddedDuration:
-          relatedMembershipAddedDuration ?? this.relatedMembershipAddedDuration,
+    return AppModulesPhonebookSchemasPhonebookAssociationBase(
+      name: name ?? this.name,
+      groupementId: groupementId ?? this.groupementId,
+      mandateYear: mandateYear ?? this.mandateYear,
+      description: description ?? this.description,
+      associatedGroups: associatedGroups ?? this.associatedGroups,
+      deactivated: deactivated ?? this.deactivated,
     );
   }
 
-  AppModulesCdrSchemasCdrProductVariantBase copyWithWrapped({
-    Wrapped<String>? nameFr,
-    Wrapped<String?>? nameEn,
-    Wrapped<String?>? descriptionFr,
-    Wrapped<String?>? descriptionEn,
-    Wrapped<int>? price,
-    Wrapped<bool>? enabled,
-    Wrapped<bool>? unique,
-    Wrapped<List<String>>? allowedCurriculum,
-    Wrapped<String?>? relatedMembershipAddedDuration,
+  AppModulesPhonebookSchemasPhonebookAssociationBase copyWithWrapped({
+    Wrapped<String>? name,
+    Wrapped<String>? groupementId,
+    Wrapped<int>? mandateYear,
+    Wrapped<String?>? description,
+    Wrapped<List<String>?>? associatedGroups,
+    Wrapped<bool?>? deactivated,
   }) {
-    return AppModulesCdrSchemasCdrProductVariantBase(
-      nameFr: (nameFr != null ? nameFr.value : this.nameFr),
-      nameEn: (nameEn != null ? nameEn.value : this.nameEn),
-      descriptionFr: (descriptionFr != null
-          ? descriptionFr.value
-          : this.descriptionFr),
-      descriptionEn: (descriptionEn != null
-          ? descriptionEn.value
-          : this.descriptionEn),
-      price: (price != null ? price.value : this.price),
-      enabled: (enabled != null ? enabled.value : this.enabled),
-      unique: (unique != null ? unique.value : this.unique),
-      allowedCurriculum: (allowedCurriculum != null
-          ? allowedCurriculum.value
-          : this.allowedCurriculum),
-      relatedMembershipAddedDuration: (relatedMembershipAddedDuration != null
-          ? relatedMembershipAddedDuration.value
-          : this.relatedMembershipAddedDuration),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class AppModulesCdrSchemasCdrProductVariantComplete {
-  const AppModulesCdrSchemasCdrProductVariantComplete({
-    required this.id,
-    required this.year,
-    required this.productId,
-    required this.nameFr,
-    this.nameEn,
-    this.descriptionFr,
-    this.descriptionEn,
-    required this.price,
-    required this.enabled,
-    required this.unique,
-    this.allowedCurriculum,
-    this.relatedMembershipAddedDuration,
-  });
-
-  factory AppModulesCdrSchemasCdrProductVariantComplete.fromJson(
-    Map<String, dynamic> json,
-  ) => _$AppModulesCdrSchemasCdrProductVariantCompleteFromJson(json);
-
-  static const toJsonFactory =
-      _$AppModulesCdrSchemasCdrProductVariantCompleteToJson;
-  Map<String, dynamic> toJson() =>
-      _$AppModulesCdrSchemasCdrProductVariantCompleteToJson(this);
-
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  @JsonKey(name: 'year', defaultValue: 0)
-  final int year;
-  @JsonKey(name: 'product_id', defaultValue: '')
-  final String productId;
-  @JsonKey(name: 'name_fr', defaultValue: '')
-  final String nameFr;
-  @JsonKey(name: 'name_en')
-  final String? nameEn;
-  @JsonKey(name: 'description_fr')
-  final String? descriptionFr;
-  @JsonKey(name: 'description_en')
-  final String? descriptionEn;
-  @JsonKey(name: 'price', defaultValue: 0)
-  final int price;
-  @JsonKey(name: 'enabled', defaultValue: false)
-  final bool enabled;
-  @JsonKey(name: 'unique', defaultValue: false)
-  final bool unique;
-  @JsonKey(name: 'allowed_curriculum', defaultValue: <CurriculumComplete>[])
-  final List<CurriculumComplete>? allowedCurriculum;
-  @JsonKey(name: 'related_membership_added_duration')
-  final String? relatedMembershipAddedDuration;
-  static const fromJsonFactory =
-      _$AppModulesCdrSchemasCdrProductVariantCompleteFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is AppModulesCdrSchemasCdrProductVariantComplete &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.year, year) ||
-                const DeepCollectionEquality().equals(other.year, year)) &&
-            (identical(other.productId, productId) ||
-                const DeepCollectionEquality().equals(
-                  other.productId,
-                  productId,
-                )) &&
-            (identical(other.nameFr, nameFr) ||
-                const DeepCollectionEquality().equals(other.nameFr, nameFr)) &&
-            (identical(other.nameEn, nameEn) ||
-                const DeepCollectionEquality().equals(other.nameEn, nameEn)) &&
-            (identical(other.descriptionFr, descriptionFr) ||
-                const DeepCollectionEquality().equals(
-                  other.descriptionFr,
-                  descriptionFr,
-                )) &&
-            (identical(other.descriptionEn, descriptionEn) ||
-                const DeepCollectionEquality().equals(
-                  other.descriptionEn,
-                  descriptionEn,
-                )) &&
-            (identical(other.price, price) ||
-                const DeepCollectionEquality().equals(other.price, price)) &&
-            (identical(other.enabled, enabled) ||
-                const DeepCollectionEquality().equals(
-                  other.enabled,
-                  enabled,
-                )) &&
-            (identical(other.unique, unique) ||
-                const DeepCollectionEquality().equals(other.unique, unique)) &&
-            (identical(other.allowedCurriculum, allowedCurriculum) ||
-                const DeepCollectionEquality().equals(
-                  other.allowedCurriculum,
-                  allowedCurriculum,
-                )) &&
-            (identical(
-                  other.relatedMembershipAddedDuration,
-                  relatedMembershipAddedDuration,
-                ) ||
-                const DeepCollectionEquality().equals(
-                  other.relatedMembershipAddedDuration,
-                  relatedMembershipAddedDuration,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(year) ^
-      const DeepCollectionEquality().hash(productId) ^
-      const DeepCollectionEquality().hash(nameFr) ^
-      const DeepCollectionEquality().hash(nameEn) ^
-      const DeepCollectionEquality().hash(descriptionFr) ^
-      const DeepCollectionEquality().hash(descriptionEn) ^
-      const DeepCollectionEquality().hash(price) ^
-      const DeepCollectionEquality().hash(enabled) ^
-      const DeepCollectionEquality().hash(unique) ^
-      const DeepCollectionEquality().hash(allowedCurriculum) ^
-      const DeepCollectionEquality().hash(relatedMembershipAddedDuration) ^
-      runtimeType.hashCode;
-}
-
-extension $AppModulesCdrSchemasCdrProductVariantCompleteExtension
-    on AppModulesCdrSchemasCdrProductVariantComplete {
-  AppModulesCdrSchemasCdrProductVariantComplete copyWith({
-    String? id,
-    int? year,
-    String? productId,
-    String? nameFr,
-    String? nameEn,
-    String? descriptionFr,
-    String? descriptionEn,
-    int? price,
-    bool? enabled,
-    bool? unique,
-    List<CurriculumComplete>? allowedCurriculum,
-    String? relatedMembershipAddedDuration,
-  }) {
-    return AppModulesCdrSchemasCdrProductVariantComplete(
-      id: id ?? this.id,
-      year: year ?? this.year,
-      productId: productId ?? this.productId,
-      nameFr: nameFr ?? this.nameFr,
-      nameEn: nameEn ?? this.nameEn,
-      descriptionFr: descriptionFr ?? this.descriptionFr,
-      descriptionEn: descriptionEn ?? this.descriptionEn,
-      price: price ?? this.price,
-      enabled: enabled ?? this.enabled,
-      unique: unique ?? this.unique,
-      allowedCurriculum: allowedCurriculum ?? this.allowedCurriculum,
-      relatedMembershipAddedDuration:
-          relatedMembershipAddedDuration ?? this.relatedMembershipAddedDuration,
-    );
-  }
-
-  AppModulesCdrSchemasCdrProductVariantComplete copyWithWrapped({
-    Wrapped<String>? id,
-    Wrapped<int>? year,
-    Wrapped<String>? productId,
-    Wrapped<String>? nameFr,
-    Wrapped<String?>? nameEn,
-    Wrapped<String?>? descriptionFr,
-    Wrapped<String?>? descriptionEn,
-    Wrapped<int>? price,
-    Wrapped<bool>? enabled,
-    Wrapped<bool>? unique,
-    Wrapped<List<CurriculumComplete>?>? allowedCurriculum,
-    Wrapped<String?>? relatedMembershipAddedDuration,
-  }) {
-    return AppModulesCdrSchemasCdrProductVariantComplete(
-      id: (id != null ? id.value : this.id),
-      year: (year != null ? year.value : this.year),
-      productId: (productId != null ? productId.value : this.productId),
-      nameFr: (nameFr != null ? nameFr.value : this.nameFr),
-      nameEn: (nameEn != null ? nameEn.value : this.nameEn),
-      descriptionFr: (descriptionFr != null
-          ? descriptionFr.value
-          : this.descriptionFr),
-      descriptionEn: (descriptionEn != null
-          ? descriptionEn.value
-          : this.descriptionEn),
-      price: (price != null ? price.value : this.price),
-      enabled: (enabled != null ? enabled.value : this.enabled),
-      unique: (unique != null ? unique.value : this.unique),
-      allowedCurriculum: (allowedCurriculum != null
-          ? allowedCurriculum.value
-          : this.allowedCurriculum),
-      relatedMembershipAddedDuration: (relatedMembershipAddedDuration != null
-          ? relatedMembershipAddedDuration.value
-          : this.relatedMembershipAddedDuration),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class AppModulesCdrSchemasCdrProductVariantEdit {
-  const AppModulesCdrSchemasCdrProductVariantEdit({
-    this.nameFr,
-    this.nameEn,
-    this.descriptionFr,
-    this.descriptionEn,
-    this.price,
-    this.enabled,
-    this.unique,
-    this.allowedCurriculum,
-    this.relatedMembershipAddedDuration,
-  });
-
-  factory AppModulesCdrSchemasCdrProductVariantEdit.fromJson(
-    Map<String, dynamic> json,
-  ) => _$AppModulesCdrSchemasCdrProductVariantEditFromJson(json);
-
-  static const toJsonFactory =
-      _$AppModulesCdrSchemasCdrProductVariantEditToJson;
-  Map<String, dynamic> toJson() =>
-      _$AppModulesCdrSchemasCdrProductVariantEditToJson(this);
-
-  @JsonKey(name: 'name_fr')
-  final String? nameFr;
-  @JsonKey(name: 'name_en')
-  final String? nameEn;
-  @JsonKey(name: 'description_fr')
-  final String? descriptionFr;
-  @JsonKey(name: 'description_en')
-  final String? descriptionEn;
-  @JsonKey(name: 'price')
-  final int? price;
-  @JsonKey(name: 'enabled')
-  final bool? enabled;
-  @JsonKey(name: 'unique')
-  final bool? unique;
-  @JsonKey(name: 'allowed_curriculum')
-  final ListString? allowedCurriculum;
-  @JsonKey(name: 'related_membership_added_duration')
-  final String? relatedMembershipAddedDuration;
-  static const fromJsonFactory =
-      _$AppModulesCdrSchemasCdrProductVariantEditFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is AppModulesCdrSchemasCdrProductVariantEdit &&
-            (identical(other.nameFr, nameFr) ||
-                const DeepCollectionEquality().equals(other.nameFr, nameFr)) &&
-            (identical(other.nameEn, nameEn) ||
-                const DeepCollectionEquality().equals(other.nameEn, nameEn)) &&
-            (identical(other.descriptionFr, descriptionFr) ||
-                const DeepCollectionEquality().equals(
-                  other.descriptionFr,
-                  descriptionFr,
-                )) &&
-            (identical(other.descriptionEn, descriptionEn) ||
-                const DeepCollectionEquality().equals(
-                  other.descriptionEn,
-                  descriptionEn,
-                )) &&
-            (identical(other.price, price) ||
-                const DeepCollectionEquality().equals(other.price, price)) &&
-            (identical(other.enabled, enabled) ||
-                const DeepCollectionEquality().equals(
-                  other.enabled,
-                  enabled,
-                )) &&
-            (identical(other.unique, unique) ||
-                const DeepCollectionEquality().equals(other.unique, unique)) &&
-            (identical(other.allowedCurriculum, allowedCurriculum) ||
-                const DeepCollectionEquality().equals(
-                  other.allowedCurriculum,
-                  allowedCurriculum,
-                )) &&
-            (identical(
-                  other.relatedMembershipAddedDuration,
-                  relatedMembershipAddedDuration,
-                ) ||
-                const DeepCollectionEquality().equals(
-                  other.relatedMembershipAddedDuration,
-                  relatedMembershipAddedDuration,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(nameFr) ^
-      const DeepCollectionEquality().hash(nameEn) ^
-      const DeepCollectionEquality().hash(descriptionFr) ^
-      const DeepCollectionEquality().hash(descriptionEn) ^
-      const DeepCollectionEquality().hash(price) ^
-      const DeepCollectionEquality().hash(enabled) ^
-      const DeepCollectionEquality().hash(unique) ^
-      const DeepCollectionEquality().hash(allowedCurriculum) ^
-      const DeepCollectionEquality().hash(relatedMembershipAddedDuration) ^
-      runtimeType.hashCode;
-}
-
-extension $AppModulesCdrSchemasCdrProductVariantEditExtension
-    on AppModulesCdrSchemasCdrProductVariantEdit {
-  AppModulesCdrSchemasCdrProductVariantEdit copyWith({
-    String? nameFr,
-    String? nameEn,
-    String? descriptionFr,
-    String? descriptionEn,
-    int? price,
-    bool? enabled,
-    bool? unique,
-    ListString? allowedCurriculum,
-    String? relatedMembershipAddedDuration,
-  }) {
-    return AppModulesCdrSchemasCdrProductVariantEdit(
-      nameFr: nameFr ?? this.nameFr,
-      nameEn: nameEn ?? this.nameEn,
-      descriptionFr: descriptionFr ?? this.descriptionFr,
-      descriptionEn: descriptionEn ?? this.descriptionEn,
-      price: price ?? this.price,
-      enabled: enabled ?? this.enabled,
-      unique: unique ?? this.unique,
-      allowedCurriculum: allowedCurriculum ?? this.allowedCurriculum,
-      relatedMembershipAddedDuration:
-          relatedMembershipAddedDuration ?? this.relatedMembershipAddedDuration,
-    );
-  }
-
-  AppModulesCdrSchemasCdrProductVariantEdit copyWithWrapped({
-    Wrapped<String?>? nameFr,
-    Wrapped<String?>? nameEn,
-    Wrapped<String?>? descriptionFr,
-    Wrapped<String?>? descriptionEn,
-    Wrapped<int?>? price,
-    Wrapped<bool?>? enabled,
-    Wrapped<bool?>? unique,
-    Wrapped<ListString?>? allowedCurriculum,
-    Wrapped<String?>? relatedMembershipAddedDuration,
-  }) {
-    return AppModulesCdrSchemasCdrProductVariantEdit(
-      nameFr: (nameFr != null ? nameFr.value : this.nameFr),
-      nameEn: (nameEn != null ? nameEn.value : this.nameEn),
-      descriptionFr: (descriptionFr != null
-          ? descriptionFr.value
-          : this.descriptionFr),
-      descriptionEn: (descriptionEn != null
-          ? descriptionEn.value
-          : this.descriptionEn),
-      price: (price != null ? price.value : this.price),
-      enabled: (enabled != null ? enabled.value : this.enabled),
-      unique: (unique != null ? unique.value : this.unique),
-      allowedCurriculum: (allowedCurriculum != null
-          ? allowedCurriculum.value
-          : this.allowedCurriculum),
-      relatedMembershipAddedDuration: (relatedMembershipAddedDuration != null
-          ? relatedMembershipAddedDuration.value
-          : this.relatedMembershipAddedDuration),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class AppModulesCdrSchemasCdrPurchaseBase {
-  const AppModulesCdrSchemasCdrPurchaseBase({required this.quantity});
-
-  factory AppModulesCdrSchemasCdrPurchaseBase.fromJson(
-    Map<String, dynamic> json,
-  ) => _$AppModulesCdrSchemasCdrPurchaseBaseFromJson(json);
-
-  static const toJsonFactory = _$AppModulesCdrSchemasCdrPurchaseBaseToJson;
-  Map<String, dynamic> toJson() =>
-      _$AppModulesCdrSchemasCdrPurchaseBaseToJson(this);
-
-  @JsonKey(name: 'quantity', defaultValue: 0)
-  final int quantity;
-  static const fromJsonFactory = _$AppModulesCdrSchemasCdrPurchaseBaseFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is AppModulesCdrSchemasCdrPurchaseBase &&
-            (identical(other.quantity, quantity) ||
-                const DeepCollectionEquality().equals(
-                  other.quantity,
-                  quantity,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(quantity) ^ runtimeType.hashCode;
-}
-
-extension $AppModulesCdrSchemasCdrPurchaseBaseExtension
-    on AppModulesCdrSchemasCdrPurchaseBase {
-  AppModulesCdrSchemasCdrPurchaseBase copyWith({int? quantity}) {
-    return AppModulesCdrSchemasCdrPurchaseBase(
-      quantity: quantity ?? this.quantity,
-    );
-  }
-
-  AppModulesCdrSchemasCdrPurchaseBase copyWithWrapped({
-    Wrapped<int>? quantity,
-  }) {
-    return AppModulesCdrSchemasCdrPurchaseBase(
-      quantity: (quantity != null ? quantity.value : this.quantity),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class AppModulesCdrSchemasCdrPurchaseComplete {
-  const AppModulesCdrSchemasCdrPurchaseComplete({
-    required this.quantity,
-    required this.userId,
-    required this.productVariantId,
-    required this.validated,
-    required this.purchasedOn,
-  });
-
-  factory AppModulesCdrSchemasCdrPurchaseComplete.fromJson(
-    Map<String, dynamic> json,
-  ) => _$AppModulesCdrSchemasCdrPurchaseCompleteFromJson(json);
-
-  static const toJsonFactory = _$AppModulesCdrSchemasCdrPurchaseCompleteToJson;
-  Map<String, dynamic> toJson() =>
-      _$AppModulesCdrSchemasCdrPurchaseCompleteToJson(this);
-
-  @JsonKey(name: 'quantity', defaultValue: 0)
-  final int quantity;
-  @JsonKey(name: 'user_id', defaultValue: '')
-  final String userId;
-  @JsonKey(name: 'product_variant_id', defaultValue: '')
-  final String productVariantId;
-  @JsonKey(name: 'validated', defaultValue: false)
-  final bool validated;
-  @JsonKey(name: 'purchased_on')
-  final DateTime purchasedOn;
-  static const fromJsonFactory =
-      _$AppModulesCdrSchemasCdrPurchaseCompleteFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is AppModulesCdrSchemasCdrPurchaseComplete &&
-            (identical(other.quantity, quantity) ||
-                const DeepCollectionEquality().equals(
-                  other.quantity,
-                  quantity,
-                )) &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
-            (identical(other.productVariantId, productVariantId) ||
-                const DeepCollectionEquality().equals(
-                  other.productVariantId,
-                  productVariantId,
-                )) &&
-            (identical(other.validated, validated) ||
-                const DeepCollectionEquality().equals(
-                  other.validated,
-                  validated,
-                )) &&
-            (identical(other.purchasedOn, purchasedOn) ||
-                const DeepCollectionEquality().equals(
-                  other.purchasedOn,
-                  purchasedOn,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(quantity) ^
-      const DeepCollectionEquality().hash(userId) ^
-      const DeepCollectionEquality().hash(productVariantId) ^
-      const DeepCollectionEquality().hash(validated) ^
-      const DeepCollectionEquality().hash(purchasedOn) ^
-      runtimeType.hashCode;
-}
-
-extension $AppModulesCdrSchemasCdrPurchaseCompleteExtension
-    on AppModulesCdrSchemasCdrPurchaseComplete {
-  AppModulesCdrSchemasCdrPurchaseComplete copyWith({
-    int? quantity,
-    String? userId,
-    String? productVariantId,
-    bool? validated,
-    DateTime? purchasedOn,
-  }) {
-    return AppModulesCdrSchemasCdrPurchaseComplete(
-      quantity: quantity ?? this.quantity,
-      userId: userId ?? this.userId,
-      productVariantId: productVariantId ?? this.productVariantId,
-      validated: validated ?? this.validated,
-      purchasedOn: purchasedOn ?? this.purchasedOn,
-    );
-  }
-
-  AppModulesCdrSchemasCdrPurchaseComplete copyWithWrapped({
-    Wrapped<int>? quantity,
-    Wrapped<String>? userId,
-    Wrapped<String>? productVariantId,
-    Wrapped<bool>? validated,
-    Wrapped<DateTime>? purchasedOn,
-  }) {
-    return AppModulesCdrSchemasCdrPurchaseComplete(
-      quantity: (quantity != null ? quantity.value : this.quantity),
-      userId: (userId != null ? userId.value : this.userId),
-      productVariantId: (productVariantId != null
-          ? productVariantId.value
-          : this.productVariantId),
-      validated: (validated != null ? validated.value : this.validated),
-      purchasedOn: (purchasedOn != null ? purchasedOn.value : this.purchasedOn),
+    return AppModulesPhonebookSchemasPhonebookAssociationBase(
+      name: (name != null ? name.value : this.name),
+      groupementId: (groupementId != null
+          ? groupementId.value
+          : this.groupementId),
+      mandateYear: (mandateYear != null ? mandateYear.value : this.mandateYear),
+      description: (description != null ? description.value : this.description),
+      associatedGroups: (associatedGroups != null
+          ? associatedGroups.value
+          : this.associatedGroups),
+      deactivated: (deactivated != null ? deactivated.value : this.deactivated),
     );
   }
 }
@@ -29655,7 +24517,7 @@ class AppModulesPhonebookSchemasPhonebookMembershipBase {
   final int mandateYear;
   @JsonKey(name: 'role_name', defaultValue: '')
   final String roleName;
-  @JsonKey(name: 'role_tags')
+  @JsonKey(name: 'role_tags', defaultValue: '')
   final String? roleTags;
   @JsonKey(name: 'member_order', defaultValue: 0)
   final int memberOrder;
@@ -29746,1171 +24608,6 @@ extension $AppModulesPhonebookSchemasPhonebookMembershipBaseExtension
       roleName: (roleName != null ? roleName.value : this.roleName),
       roleTags: (roleTags != null ? roleTags.value : this.roleTags),
       memberOrder: (memberOrder != null ? memberOrder.value : this.memberOrder),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class AppModulesSportCompetitionSchemasSportCompetitionPaymentBase {
-  const AppModulesSportCompetitionSchemasSportCompetitionPaymentBase({
-    required this.total,
-  });
-
-  factory AppModulesSportCompetitionSchemasSportCompetitionPaymentBase.fromJson(
-    Map<String, dynamic> json,
-  ) => _$AppModulesSportCompetitionSchemasSportCompetitionPaymentBaseFromJson(
-    json,
-  );
-
-  static const toJsonFactory =
-      _$AppModulesSportCompetitionSchemasSportCompetitionPaymentBaseToJson;
-  Map<String, dynamic> toJson() =>
-      _$AppModulesSportCompetitionSchemasSportCompetitionPaymentBaseToJson(
-        this,
-      );
-
-  @JsonKey(name: 'total', defaultValue: 0)
-  final int total;
-  static const fromJsonFactory =
-      _$AppModulesSportCompetitionSchemasSportCompetitionPaymentBaseFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is AppModulesSportCompetitionSchemasSportCompetitionPaymentBase &&
-            (identical(other.total, total) ||
-                const DeepCollectionEquality().equals(other.total, total)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(total) ^ runtimeType.hashCode;
-}
-
-extension $AppModulesSportCompetitionSchemasSportCompetitionPaymentBaseExtension
-    on AppModulesSportCompetitionSchemasSportCompetitionPaymentBase {
-  AppModulesSportCompetitionSchemasSportCompetitionPaymentBase copyWith({
-    int? total,
-  }) {
-    return AppModulesSportCompetitionSchemasSportCompetitionPaymentBase(
-      total: total ?? this.total,
-    );
-  }
-
-  AppModulesSportCompetitionSchemasSportCompetitionPaymentBase copyWithWrapped({
-    Wrapped<int>? total,
-  }) {
-    return AppModulesSportCompetitionSchemasSportCompetitionPaymentBase(
-      total: (total != null ? total.value : this.total),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete {
-  const AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete({
-    required this.total,
-    required this.id,
-    required this.userId,
-    required this.editionId,
-  });
-
-  factory AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete.fromJson(
-    Map<String, dynamic> json,
-  ) =>
-      _$AppModulesSportCompetitionSchemasSportCompetitionPaymentCompleteFromJson(
-        json,
-      );
-
-  static const toJsonFactory =
-      _$AppModulesSportCompetitionSchemasSportCompetitionPaymentCompleteToJson;
-  Map<String, dynamic> toJson() =>
-      _$AppModulesSportCompetitionSchemasSportCompetitionPaymentCompleteToJson(
-        this,
-      );
-
-  @JsonKey(name: 'total', defaultValue: 0)
-  final int total;
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  @JsonKey(name: 'user_id', defaultValue: '')
-  final String userId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  static const fromJsonFactory =
-      _$AppModulesSportCompetitionSchemasSportCompetitionPaymentCompleteFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other
-                is AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete &&
-            (identical(other.total, total) ||
-                const DeepCollectionEquality().equals(other.total, total)) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(total) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(userId) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      runtimeType.hashCode;
-}
-
-extension $AppModulesSportCompetitionSchemasSportCompetitionPaymentCompleteExtension
-    on AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete {
-  AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete copyWith({
-    int? total,
-    String? id,
-    String? userId,
-    String? editionId,
-  }) {
-    return AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete(
-      total: total ?? this.total,
-      id: id ?? this.id,
-      userId: userId ?? this.userId,
-      editionId: editionId ?? this.editionId,
-    );
-  }
-
-  AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete
-  copyWithWrapped({
-    Wrapped<int>? total,
-    Wrapped<String>? id,
-    Wrapped<String>? userId,
-    Wrapped<String>? editionId,
-  }) {
-    return AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete(
-      total: (total != null ? total.value : this.total),
-      id: (id != null ? id.value : this.id),
-      userId: (userId != null ? userId.value : this.userId),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class AppModulesSportCompetitionSchemasSportCompetitionProductBase {
-  const AppModulesSportCompetitionSchemasSportCompetitionProductBase({
-    required this.name,
-    this.required,
-    this.description,
-  });
-
-  factory AppModulesSportCompetitionSchemasSportCompetitionProductBase.fromJson(
-    Map<String, dynamic> json,
-  ) => _$AppModulesSportCompetitionSchemasSportCompetitionProductBaseFromJson(
-    json,
-  );
-
-  static const toJsonFactory =
-      _$AppModulesSportCompetitionSchemasSportCompetitionProductBaseToJson;
-  Map<String, dynamic> toJson() =>
-      _$AppModulesSportCompetitionSchemasSportCompetitionProductBaseToJson(
-        this,
-      );
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'required', defaultValue: false)
-  final bool? required;
-  @JsonKey(name: 'description')
-  final String? description;
-  static const fromJsonFactory =
-      _$AppModulesSportCompetitionSchemasSportCompetitionProductBaseFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other
-                is AppModulesSportCompetitionSchemasSportCompetitionProductBase &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.required, required) ||
-                const DeepCollectionEquality().equals(
-                  other.required,
-                  required,
-                )) &&
-            (identical(other.description, description) ||
-                const DeepCollectionEquality().equals(
-                  other.description,
-                  description,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(required) ^
-      const DeepCollectionEquality().hash(description) ^
-      runtimeType.hashCode;
-}
-
-extension $AppModulesSportCompetitionSchemasSportCompetitionProductBaseExtension
-    on AppModulesSportCompetitionSchemasSportCompetitionProductBase {
-  AppModulesSportCompetitionSchemasSportCompetitionProductBase copyWith({
-    String? name,
-    bool? required,
-    String? description,
-  }) {
-    return AppModulesSportCompetitionSchemasSportCompetitionProductBase(
-      name: name ?? this.name,
-      required: required ?? this.required,
-      description: description ?? this.description,
-    );
-  }
-
-  AppModulesSportCompetitionSchemasSportCompetitionProductBase copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<bool?>? required,
-    Wrapped<String?>? description,
-  }) {
-    return AppModulesSportCompetitionSchemasSportCompetitionProductBase(
-      name: (name != null ? name.value : this.name),
-      required: (required != null ? required.value : this.required),
-      description: (description != null ? description.value : this.description),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class AppModulesSportCompetitionSchemasSportCompetitionProductComplete {
-  const AppModulesSportCompetitionSchemasSportCompetitionProductComplete({
-    required this.name,
-    this.required,
-    this.description,
-    required this.id,
-    required this.editionId,
-    this.variants,
-  });
-
-  factory AppModulesSportCompetitionSchemasSportCompetitionProductComplete.fromJson(
-    Map<String, dynamic> json,
-  ) =>
-      _$AppModulesSportCompetitionSchemasSportCompetitionProductCompleteFromJson(
-        json,
-      );
-
-  static const toJsonFactory =
-      _$AppModulesSportCompetitionSchemasSportCompetitionProductCompleteToJson;
-  Map<String, dynamic> toJson() =>
-      _$AppModulesSportCompetitionSchemasSportCompetitionProductCompleteToJson(
-        this,
-      );
-
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'required', defaultValue: false)
-  final bool? required;
-  @JsonKey(name: 'description')
-  final String? description;
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  @JsonKey(name: 'variants', defaultValue: <ProductVariant>[])
-  final List<ProductVariant>? variants;
-  static const fromJsonFactory =
-      _$AppModulesSportCompetitionSchemasSportCompetitionProductCompleteFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other
-                is AppModulesSportCompetitionSchemasSportCompetitionProductComplete &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.required, required) ||
-                const DeepCollectionEquality().equals(
-                  other.required,
-                  required,
-                )) &&
-            (identical(other.description, description) ||
-                const DeepCollectionEquality().equals(
-                  other.description,
-                  description,
-                )) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )) &&
-            (identical(other.variants, variants) ||
-                const DeepCollectionEquality().equals(
-                  other.variants,
-                  variants,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(required) ^
-      const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      const DeepCollectionEquality().hash(variants) ^
-      runtimeType.hashCode;
-}
-
-extension $AppModulesSportCompetitionSchemasSportCompetitionProductCompleteExtension
-    on AppModulesSportCompetitionSchemasSportCompetitionProductComplete {
-  AppModulesSportCompetitionSchemasSportCompetitionProductComplete copyWith({
-    String? name,
-    bool? required,
-    String? description,
-    String? id,
-    String? editionId,
-    List<ProductVariant>? variants,
-  }) {
-    return AppModulesSportCompetitionSchemasSportCompetitionProductComplete(
-      name: name ?? this.name,
-      required: required ?? this.required,
-      description: description ?? this.description,
-      id: id ?? this.id,
-      editionId: editionId ?? this.editionId,
-      variants: variants ?? this.variants,
-    );
-  }
-
-  AppModulesSportCompetitionSchemasSportCompetitionProductComplete
-  copyWithWrapped({
-    Wrapped<String>? name,
-    Wrapped<bool?>? required,
-    Wrapped<String?>? description,
-    Wrapped<String>? id,
-    Wrapped<String>? editionId,
-    Wrapped<List<ProductVariant>?>? variants,
-  }) {
-    return AppModulesSportCompetitionSchemasSportCompetitionProductComplete(
-      name: (name != null ? name.value : this.name),
-      required: (required != null ? required.value : this.required),
-      description: (description != null ? description.value : this.description),
-      id: (id != null ? id.value : this.id),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-      variants: (variants != null ? variants.value : this.variants),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class AppModulesSportCompetitionSchemasSportCompetitionProductEdit {
-  const AppModulesSportCompetitionSchemasSportCompetitionProductEdit({
-    this.name,
-    this.required,
-    this.description,
-  });
-
-  factory AppModulesSportCompetitionSchemasSportCompetitionProductEdit.fromJson(
-    Map<String, dynamic> json,
-  ) => _$AppModulesSportCompetitionSchemasSportCompetitionProductEditFromJson(
-    json,
-  );
-
-  static const toJsonFactory =
-      _$AppModulesSportCompetitionSchemasSportCompetitionProductEditToJson;
-  Map<String, dynamic> toJson() =>
-      _$AppModulesSportCompetitionSchemasSportCompetitionProductEditToJson(
-        this,
-      );
-
-  @JsonKey(name: 'name')
-  final String? name;
-  @JsonKey(name: 'required')
-  final bool? required;
-  @JsonKey(name: 'description')
-  final String? description;
-  static const fromJsonFactory =
-      _$AppModulesSportCompetitionSchemasSportCompetitionProductEditFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other
-                is AppModulesSportCompetitionSchemasSportCompetitionProductEdit &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.required, required) ||
-                const DeepCollectionEquality().equals(
-                  other.required,
-                  required,
-                )) &&
-            (identical(other.description, description) ||
-                const DeepCollectionEquality().equals(
-                  other.description,
-                  description,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(required) ^
-      const DeepCollectionEquality().hash(description) ^
-      runtimeType.hashCode;
-}
-
-extension $AppModulesSportCompetitionSchemasSportCompetitionProductEditExtension
-    on AppModulesSportCompetitionSchemasSportCompetitionProductEdit {
-  AppModulesSportCompetitionSchemasSportCompetitionProductEdit copyWith({
-    String? name,
-    bool? required,
-    String? description,
-  }) {
-    return AppModulesSportCompetitionSchemasSportCompetitionProductEdit(
-      name: name ?? this.name,
-      required: required ?? this.required,
-      description: description ?? this.description,
-    );
-  }
-
-  AppModulesSportCompetitionSchemasSportCompetitionProductEdit copyWithWrapped({
-    Wrapped<String?>? name,
-    Wrapped<bool?>? required,
-    Wrapped<String?>? description,
-  }) {
-    return AppModulesSportCompetitionSchemasSportCompetitionProductEdit(
-      name: (name != null ? name.value : this.name),
-      required: (required != null ? required.value : this.required),
-      description: (description != null ? description.value : this.description),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class AppModulesSportCompetitionSchemasSportCompetitionProductVariantBase {
-  const AppModulesSportCompetitionSchemasSportCompetitionProductVariantBase({
-    required this.productId,
-    required this.name,
-    this.description,
-    required this.price,
-    this.enabled,
-    required this.unique,
-    required this.schoolType,
-    this.publicType,
-  });
-
-  factory AppModulesSportCompetitionSchemasSportCompetitionProductVariantBase.fromJson(
-    Map<String, dynamic> json,
-  ) =>
-      _$AppModulesSportCompetitionSchemasSportCompetitionProductVariantBaseFromJson(
-        json,
-      );
-
-  static const toJsonFactory =
-      _$AppModulesSportCompetitionSchemasSportCompetitionProductVariantBaseToJson;
-  Map<String, dynamic> toJson() =>
-      _$AppModulesSportCompetitionSchemasSportCompetitionProductVariantBaseToJson(
-        this,
-      );
-
-  @JsonKey(name: 'product_id', defaultValue: '')
-  final String productId;
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'description')
-  final String? description;
-  @JsonKey(name: 'price', defaultValue: 0)
-  final int price;
-  @JsonKey(name: 'enabled', defaultValue: true)
-  final bool? enabled;
-  @JsonKey(name: 'unique', defaultValue: false)
-  final bool unique;
-  @JsonKey(
-    name: 'school_type',
-    toJson: productSchoolTypeToJson,
-    fromJson: productSchoolTypeFromJson,
-  )
-  final enums.ProductSchoolType schoolType;
-  @JsonKey(
-    name: 'public_type',
-    toJson: productPublicTypeNullableToJson,
-    fromJson: productPublicTypeNullableFromJson,
-  )
-  final enums.ProductPublicType? publicType;
-  static const fromJsonFactory =
-      _$AppModulesSportCompetitionSchemasSportCompetitionProductVariantBaseFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other
-                is AppModulesSportCompetitionSchemasSportCompetitionProductVariantBase &&
-            (identical(other.productId, productId) ||
-                const DeepCollectionEquality().equals(
-                  other.productId,
-                  productId,
-                )) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.description, description) ||
-                const DeepCollectionEquality().equals(
-                  other.description,
-                  description,
-                )) &&
-            (identical(other.price, price) ||
-                const DeepCollectionEquality().equals(other.price, price)) &&
-            (identical(other.enabled, enabled) ||
-                const DeepCollectionEquality().equals(
-                  other.enabled,
-                  enabled,
-                )) &&
-            (identical(other.unique, unique) ||
-                const DeepCollectionEquality().equals(other.unique, unique)) &&
-            (identical(other.schoolType, schoolType) ||
-                const DeepCollectionEquality().equals(
-                  other.schoolType,
-                  schoolType,
-                )) &&
-            (identical(other.publicType, publicType) ||
-                const DeepCollectionEquality().equals(
-                  other.publicType,
-                  publicType,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(productId) ^
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash(price) ^
-      const DeepCollectionEquality().hash(enabled) ^
-      const DeepCollectionEquality().hash(unique) ^
-      const DeepCollectionEquality().hash(schoolType) ^
-      const DeepCollectionEquality().hash(publicType) ^
-      runtimeType.hashCode;
-}
-
-extension $AppModulesSportCompetitionSchemasSportCompetitionProductVariantBaseExtension
-    on AppModulesSportCompetitionSchemasSportCompetitionProductVariantBase {
-  AppModulesSportCompetitionSchemasSportCompetitionProductVariantBase copyWith({
-    String? productId,
-    String? name,
-    String? description,
-    int? price,
-    bool? enabled,
-    bool? unique,
-    enums.ProductSchoolType? schoolType,
-    enums.ProductPublicType? publicType,
-  }) {
-    return AppModulesSportCompetitionSchemasSportCompetitionProductVariantBase(
-      productId: productId ?? this.productId,
-      name: name ?? this.name,
-      description: description ?? this.description,
-      price: price ?? this.price,
-      enabled: enabled ?? this.enabled,
-      unique: unique ?? this.unique,
-      schoolType: schoolType ?? this.schoolType,
-      publicType: publicType ?? this.publicType,
-    );
-  }
-
-  AppModulesSportCompetitionSchemasSportCompetitionProductVariantBase
-  copyWithWrapped({
-    Wrapped<String>? productId,
-    Wrapped<String>? name,
-    Wrapped<String?>? description,
-    Wrapped<int>? price,
-    Wrapped<bool?>? enabled,
-    Wrapped<bool>? unique,
-    Wrapped<enums.ProductSchoolType>? schoolType,
-    Wrapped<enums.ProductPublicType?>? publicType,
-  }) {
-    return AppModulesSportCompetitionSchemasSportCompetitionProductVariantBase(
-      productId: (productId != null ? productId.value : this.productId),
-      name: (name != null ? name.value : this.name),
-      description: (description != null ? description.value : this.description),
-      price: (price != null ? price.value : this.price),
-      enabled: (enabled != null ? enabled.value : this.enabled),
-      unique: (unique != null ? unique.value : this.unique),
-      schoolType: (schoolType != null ? schoolType.value : this.schoolType),
-      publicType: (publicType != null ? publicType.value : this.publicType),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class AppModulesSportCompetitionSchemasSportCompetitionProductVariantComplete {
-  const AppModulesSportCompetitionSchemasSportCompetitionProductVariantComplete({
-    required this.productId,
-    required this.name,
-    this.description,
-    required this.price,
-    this.enabled,
-    required this.unique,
-    required this.schoolType,
-    this.publicType,
-    required this.editionId,
-    required this.id,
-    required this.product,
-  });
-
-  factory AppModulesSportCompetitionSchemasSportCompetitionProductVariantComplete.fromJson(
-    Map<String, dynamic> json,
-  ) =>
-      _$AppModulesSportCompetitionSchemasSportCompetitionProductVariantCompleteFromJson(
-        json,
-      );
-
-  static const toJsonFactory =
-      _$AppModulesSportCompetitionSchemasSportCompetitionProductVariantCompleteToJson;
-  Map<String, dynamic> toJson() =>
-      _$AppModulesSportCompetitionSchemasSportCompetitionProductVariantCompleteToJson(
-        this,
-      );
-
-  @JsonKey(name: 'product_id', defaultValue: '')
-  final String productId;
-  @JsonKey(name: 'name', defaultValue: '')
-  final String name;
-  @JsonKey(name: 'description')
-  final String? description;
-  @JsonKey(name: 'price', defaultValue: 0)
-  final int price;
-  @JsonKey(name: 'enabled', defaultValue: true)
-  final bool? enabled;
-  @JsonKey(name: 'unique', defaultValue: false)
-  final bool unique;
-  @JsonKey(
-    name: 'school_type',
-    toJson: productSchoolTypeToJson,
-    fromJson: productSchoolTypeFromJson,
-  )
-  final enums.ProductSchoolType schoolType;
-  @JsonKey(
-    name: 'public_type',
-    toJson: productPublicTypeNullableToJson,
-    fromJson: productPublicTypeNullableFromJson,
-  )
-  final enums.ProductPublicType? publicType;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  @JsonKey(name: 'id', defaultValue: '')
-  final String id;
-  @JsonKey(name: 'product')
-  final Product product;
-  static const fromJsonFactory =
-      _$AppModulesSportCompetitionSchemasSportCompetitionProductVariantCompleteFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other
-                is AppModulesSportCompetitionSchemasSportCompetitionProductVariantComplete &&
-            (identical(other.productId, productId) ||
-                const DeepCollectionEquality().equals(
-                  other.productId,
-                  productId,
-                )) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.description, description) ||
-                const DeepCollectionEquality().equals(
-                  other.description,
-                  description,
-                )) &&
-            (identical(other.price, price) ||
-                const DeepCollectionEquality().equals(other.price, price)) &&
-            (identical(other.enabled, enabled) ||
-                const DeepCollectionEquality().equals(
-                  other.enabled,
-                  enabled,
-                )) &&
-            (identical(other.unique, unique) ||
-                const DeepCollectionEquality().equals(other.unique, unique)) &&
-            (identical(other.schoolType, schoolType) ||
-                const DeepCollectionEquality().equals(
-                  other.schoolType,
-                  schoolType,
-                )) &&
-            (identical(other.publicType, publicType) ||
-                const DeepCollectionEquality().equals(
-                  other.publicType,
-                  publicType,
-                )) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.product, product) ||
-                const DeepCollectionEquality().equals(other.product, product)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(productId) ^
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash(price) ^
-      const DeepCollectionEquality().hash(enabled) ^
-      const DeepCollectionEquality().hash(unique) ^
-      const DeepCollectionEquality().hash(schoolType) ^
-      const DeepCollectionEquality().hash(publicType) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(product) ^
-      runtimeType.hashCode;
-}
-
-extension $AppModulesSportCompetitionSchemasSportCompetitionProductVariantCompleteExtension
-    on AppModulesSportCompetitionSchemasSportCompetitionProductVariantComplete {
-  AppModulesSportCompetitionSchemasSportCompetitionProductVariantComplete
-  copyWith({
-    String? productId,
-    String? name,
-    String? description,
-    int? price,
-    bool? enabled,
-    bool? unique,
-    enums.ProductSchoolType? schoolType,
-    enums.ProductPublicType? publicType,
-    String? editionId,
-    String? id,
-    Product? product,
-  }) {
-    return AppModulesSportCompetitionSchemasSportCompetitionProductVariantComplete(
-      productId: productId ?? this.productId,
-      name: name ?? this.name,
-      description: description ?? this.description,
-      price: price ?? this.price,
-      enabled: enabled ?? this.enabled,
-      unique: unique ?? this.unique,
-      schoolType: schoolType ?? this.schoolType,
-      publicType: publicType ?? this.publicType,
-      editionId: editionId ?? this.editionId,
-      id: id ?? this.id,
-      product: product ?? this.product,
-    );
-  }
-
-  AppModulesSportCompetitionSchemasSportCompetitionProductVariantComplete
-  copyWithWrapped({
-    Wrapped<String>? productId,
-    Wrapped<String>? name,
-    Wrapped<String?>? description,
-    Wrapped<int>? price,
-    Wrapped<bool?>? enabled,
-    Wrapped<bool>? unique,
-    Wrapped<enums.ProductSchoolType>? schoolType,
-    Wrapped<enums.ProductPublicType?>? publicType,
-    Wrapped<String>? editionId,
-    Wrapped<String>? id,
-    Wrapped<Product>? product,
-  }) {
-    return AppModulesSportCompetitionSchemasSportCompetitionProductVariantComplete(
-      productId: (productId != null ? productId.value : this.productId),
-      name: (name != null ? name.value : this.name),
-      description: (description != null ? description.value : this.description),
-      price: (price != null ? price.value : this.price),
-      enabled: (enabled != null ? enabled.value : this.enabled),
-      unique: (unique != null ? unique.value : this.unique),
-      schoolType: (schoolType != null ? schoolType.value : this.schoolType),
-      publicType: (publicType != null ? publicType.value : this.publicType),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-      id: (id != null ? id.value : this.id),
-      product: (product != null ? product.value : this.product),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class AppModulesSportCompetitionSchemasSportCompetitionProductVariantEdit {
-  const AppModulesSportCompetitionSchemasSportCompetitionProductVariantEdit({
-    this.name,
-    this.description,
-    this.price,
-    this.enabled,
-    this.unique,
-    this.schoolType,
-    this.publicType,
-  });
-
-  factory AppModulesSportCompetitionSchemasSportCompetitionProductVariantEdit.fromJson(
-    Map<String, dynamic> json,
-  ) =>
-      _$AppModulesSportCompetitionSchemasSportCompetitionProductVariantEditFromJson(
-        json,
-      );
-
-  static const toJsonFactory =
-      _$AppModulesSportCompetitionSchemasSportCompetitionProductVariantEditToJson;
-  Map<String, dynamic> toJson() =>
-      _$AppModulesSportCompetitionSchemasSportCompetitionProductVariantEditToJson(
-        this,
-      );
-
-  @JsonKey(name: 'name')
-  final String? name;
-  @JsonKey(name: 'description')
-  final String? description;
-  @JsonKey(name: 'price')
-  final int? price;
-  @JsonKey(name: 'enabled')
-  final bool? enabled;
-  @JsonKey(name: 'unique')
-  final bool? unique;
-  @JsonKey(
-    name: 'school_type',
-    toJson: productSchoolTypeNullableToJson,
-    fromJson: productSchoolTypeNullableFromJson,
-  )
-  final enums.ProductSchoolType? schoolType;
-  @JsonKey(
-    name: 'public_type',
-    toJson: productPublicTypeNullableToJson,
-    fromJson: productPublicTypeNullableFromJson,
-  )
-  final enums.ProductPublicType? publicType;
-  static const fromJsonFactory =
-      _$AppModulesSportCompetitionSchemasSportCompetitionProductVariantEditFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other
-                is AppModulesSportCompetitionSchemasSportCompetitionProductVariantEdit &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.description, description) ||
-                const DeepCollectionEquality().equals(
-                  other.description,
-                  description,
-                )) &&
-            (identical(other.price, price) ||
-                const DeepCollectionEquality().equals(other.price, price)) &&
-            (identical(other.enabled, enabled) ||
-                const DeepCollectionEquality().equals(
-                  other.enabled,
-                  enabled,
-                )) &&
-            (identical(other.unique, unique) ||
-                const DeepCollectionEquality().equals(other.unique, unique)) &&
-            (identical(other.schoolType, schoolType) ||
-                const DeepCollectionEquality().equals(
-                  other.schoolType,
-                  schoolType,
-                )) &&
-            (identical(other.publicType, publicType) ||
-                const DeepCollectionEquality().equals(
-                  other.publicType,
-                  publicType,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash(price) ^
-      const DeepCollectionEquality().hash(enabled) ^
-      const DeepCollectionEquality().hash(unique) ^
-      const DeepCollectionEquality().hash(schoolType) ^
-      const DeepCollectionEquality().hash(publicType) ^
-      runtimeType.hashCode;
-}
-
-extension $AppModulesSportCompetitionSchemasSportCompetitionProductVariantEditExtension
-    on AppModulesSportCompetitionSchemasSportCompetitionProductVariantEdit {
-  AppModulesSportCompetitionSchemasSportCompetitionProductVariantEdit copyWith({
-    String? name,
-    String? description,
-    int? price,
-    bool? enabled,
-    bool? unique,
-    enums.ProductSchoolType? schoolType,
-    enums.ProductPublicType? publicType,
-  }) {
-    return AppModulesSportCompetitionSchemasSportCompetitionProductVariantEdit(
-      name: name ?? this.name,
-      description: description ?? this.description,
-      price: price ?? this.price,
-      enabled: enabled ?? this.enabled,
-      unique: unique ?? this.unique,
-      schoolType: schoolType ?? this.schoolType,
-      publicType: publicType ?? this.publicType,
-    );
-  }
-
-  AppModulesSportCompetitionSchemasSportCompetitionProductVariantEdit
-  copyWithWrapped({
-    Wrapped<String?>? name,
-    Wrapped<String?>? description,
-    Wrapped<int?>? price,
-    Wrapped<bool?>? enabled,
-    Wrapped<bool?>? unique,
-    Wrapped<enums.ProductSchoolType?>? schoolType,
-    Wrapped<enums.ProductPublicType?>? publicType,
-  }) {
-    return AppModulesSportCompetitionSchemasSportCompetitionProductVariantEdit(
-      name: (name != null ? name.value : this.name),
-      description: (description != null ? description.value : this.description),
-      price: (price != null ? price.value : this.price),
-      enabled: (enabled != null ? enabled.value : this.enabled),
-      unique: (unique != null ? unique.value : this.unique),
-      schoolType: (schoolType != null ? schoolType.value : this.schoolType),
-      publicType: (publicType != null ? publicType.value : this.publicType),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class AppModulesSportCompetitionSchemasSportCompetitionPurchaseBase {
-  const AppModulesSportCompetitionSchemasSportCompetitionPurchaseBase({
-    required this.productVariantId,
-    required this.quantity,
-  });
-
-  factory AppModulesSportCompetitionSchemasSportCompetitionPurchaseBase.fromJson(
-    Map<String, dynamic> json,
-  ) => _$AppModulesSportCompetitionSchemasSportCompetitionPurchaseBaseFromJson(
-    json,
-  );
-
-  static const toJsonFactory =
-      _$AppModulesSportCompetitionSchemasSportCompetitionPurchaseBaseToJson;
-  Map<String, dynamic> toJson() =>
-      _$AppModulesSportCompetitionSchemasSportCompetitionPurchaseBaseToJson(
-        this,
-      );
-
-  @JsonKey(name: 'product_variant_id', defaultValue: '')
-  final String productVariantId;
-  @JsonKey(name: 'quantity', defaultValue: 0)
-  final int quantity;
-  static const fromJsonFactory =
-      _$AppModulesSportCompetitionSchemasSportCompetitionPurchaseBaseFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other
-                is AppModulesSportCompetitionSchemasSportCompetitionPurchaseBase &&
-            (identical(other.productVariantId, productVariantId) ||
-                const DeepCollectionEquality().equals(
-                  other.productVariantId,
-                  productVariantId,
-                )) &&
-            (identical(other.quantity, quantity) ||
-                const DeepCollectionEquality().equals(
-                  other.quantity,
-                  quantity,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(productVariantId) ^
-      const DeepCollectionEquality().hash(quantity) ^
-      runtimeType.hashCode;
-}
-
-extension $AppModulesSportCompetitionSchemasSportCompetitionPurchaseBaseExtension
-    on AppModulesSportCompetitionSchemasSportCompetitionPurchaseBase {
-  AppModulesSportCompetitionSchemasSportCompetitionPurchaseBase copyWith({
-    String? productVariantId,
-    int? quantity,
-  }) {
-    return AppModulesSportCompetitionSchemasSportCompetitionPurchaseBase(
-      productVariantId: productVariantId ?? this.productVariantId,
-      quantity: quantity ?? this.quantity,
-    );
-  }
-
-  AppModulesSportCompetitionSchemasSportCompetitionPurchaseBase
-  copyWithWrapped({Wrapped<String>? productVariantId, Wrapped<int>? quantity}) {
-    return AppModulesSportCompetitionSchemasSportCompetitionPurchaseBase(
-      productVariantId: (productVariantId != null
-          ? productVariantId.value
-          : this.productVariantId),
-      quantity: (quantity != null ? quantity.value : this.quantity),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class AppModulesSportCompetitionSchemasSportCompetitionPurchaseComplete {
-  const AppModulesSportCompetitionSchemasSportCompetitionPurchaseComplete({
-    required this.productVariantId,
-    required this.quantity,
-    required this.userId,
-    required this.editionId,
-    required this.validated,
-    required this.purchasedOn,
-    required this.productVariant,
-  });
-
-  factory AppModulesSportCompetitionSchemasSportCompetitionPurchaseComplete.fromJson(
-    Map<String, dynamic> json,
-  ) =>
-      _$AppModulesSportCompetitionSchemasSportCompetitionPurchaseCompleteFromJson(
-        json,
-      );
-
-  static const toJsonFactory =
-      _$AppModulesSportCompetitionSchemasSportCompetitionPurchaseCompleteToJson;
-  Map<String, dynamic> toJson() =>
-      _$AppModulesSportCompetitionSchemasSportCompetitionPurchaseCompleteToJson(
-        this,
-      );
-
-  @JsonKey(name: 'product_variant_id', defaultValue: '')
-  final String productVariantId;
-  @JsonKey(name: 'quantity', defaultValue: 0)
-  final int quantity;
-  @JsonKey(name: 'user_id', defaultValue: '')
-  final String userId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
-  final String editionId;
-  @JsonKey(name: 'validated', defaultValue: false)
-  final bool validated;
-  @JsonKey(name: 'purchased_on')
-  final DateTime purchasedOn;
-  @JsonKey(name: 'product_variant')
-  final ProductVariant productVariant;
-  static const fromJsonFactory =
-      _$AppModulesSportCompetitionSchemasSportCompetitionPurchaseCompleteFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other
-                is AppModulesSportCompetitionSchemasSportCompetitionPurchaseComplete &&
-            (identical(other.productVariantId, productVariantId) ||
-                const DeepCollectionEquality().equals(
-                  other.productVariantId,
-                  productVariantId,
-                )) &&
-            (identical(other.quantity, quantity) ||
-                const DeepCollectionEquality().equals(
-                  other.quantity,
-                  quantity,
-                )) &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
-            (identical(other.editionId, editionId) ||
-                const DeepCollectionEquality().equals(
-                  other.editionId,
-                  editionId,
-                )) &&
-            (identical(other.validated, validated) ||
-                const DeepCollectionEquality().equals(
-                  other.validated,
-                  validated,
-                )) &&
-            (identical(other.purchasedOn, purchasedOn) ||
-                const DeepCollectionEquality().equals(
-                  other.purchasedOn,
-                  purchasedOn,
-                )) &&
-            (identical(other.productVariant, productVariant) ||
-                const DeepCollectionEquality().equals(
-                  other.productVariant,
-                  productVariant,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(productVariantId) ^
-      const DeepCollectionEquality().hash(quantity) ^
-      const DeepCollectionEquality().hash(userId) ^
-      const DeepCollectionEquality().hash(editionId) ^
-      const DeepCollectionEquality().hash(validated) ^
-      const DeepCollectionEquality().hash(purchasedOn) ^
-      const DeepCollectionEquality().hash(productVariant) ^
-      runtimeType.hashCode;
-}
-
-extension $AppModulesSportCompetitionSchemasSportCompetitionPurchaseCompleteExtension
-    on AppModulesSportCompetitionSchemasSportCompetitionPurchaseComplete {
-  AppModulesSportCompetitionSchemasSportCompetitionPurchaseComplete copyWith({
-    String? productVariantId,
-    int? quantity,
-    String? userId,
-    String? editionId,
-    bool? validated,
-    DateTime? purchasedOn,
-    ProductVariant? productVariant,
-  }) {
-    return AppModulesSportCompetitionSchemasSportCompetitionPurchaseComplete(
-      productVariantId: productVariantId ?? this.productVariantId,
-      quantity: quantity ?? this.quantity,
-      userId: userId ?? this.userId,
-      editionId: editionId ?? this.editionId,
-      validated: validated ?? this.validated,
-      purchasedOn: purchasedOn ?? this.purchasedOn,
-      productVariant: productVariant ?? this.productVariant,
-    );
-  }
-
-  AppModulesSportCompetitionSchemasSportCompetitionPurchaseComplete
-  copyWithWrapped({
-    Wrapped<String>? productVariantId,
-    Wrapped<int>? quantity,
-    Wrapped<String>? userId,
-    Wrapped<String>? editionId,
-    Wrapped<bool>? validated,
-    Wrapped<DateTime>? purchasedOn,
-    Wrapped<ProductVariant>? productVariant,
-  }) {
-    return AppModulesSportCompetitionSchemasSportCompetitionPurchaseComplete(
-      productVariantId: (productVariantId != null
-          ? productVariantId.value
-          : this.productVariantId),
-      quantity: (quantity != null ? quantity.value : this.quantity),
-      userId: (userId != null ? userId.value : this.userId),
-      editionId: (editionId != null ? editionId.value : this.editionId),
-      validated: (validated != null ? validated.value : this.validated),
-      purchasedOn: (purchasedOn != null ? purchasedOn.value : this.purchasedOn),
-      productVariant: (productVariant != null
-          ? productVariant.value
-          : this.productVariant),
     );
   }
 }
@@ -31025,6 +24722,84 @@ List<enums.AccountType>? accountTypeNullableListFromJson(
   return accountType.map((e) => accountTypeFromJson(e.toString())).toList();
 }
 
+String? activationFormFieldNullableToJson(
+  enums.ActivationFormField? activationFormField,
+) {
+  return activationFormField?.value;
+}
+
+String? activationFormFieldToJson(
+  enums.ActivationFormField activationFormField,
+) {
+  return activationFormField.value;
+}
+
+enums.ActivationFormField activationFormFieldFromJson(
+  Object? activationFormField, [
+  enums.ActivationFormField? defaultValue,
+]) {
+  return enums.ActivationFormField.values.firstWhereOrNull(
+        (e) => e.value == activationFormField,
+      ) ??
+      defaultValue ??
+      enums.ActivationFormField.swaggerGeneratedUnknown;
+}
+
+enums.ActivationFormField? activationFormFieldNullableFromJson(
+  Object? activationFormField, [
+  enums.ActivationFormField? defaultValue,
+]) {
+  if (activationFormField == null) {
+    return null;
+  }
+  return enums.ActivationFormField.values.firstWhereOrNull(
+        (e) => e.value == activationFormField,
+      ) ??
+      defaultValue;
+}
+
+String activationFormFieldExplodedListToJson(
+  List<enums.ActivationFormField>? activationFormField,
+) {
+  return activationFormField?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> activationFormFieldListToJson(
+  List<enums.ActivationFormField>? activationFormField,
+) {
+  if (activationFormField == null) {
+    return [];
+  }
+
+  return activationFormField.map((e) => e.value!).toList();
+}
+
+List<enums.ActivationFormField> activationFormFieldListFromJson(
+  List? activationFormField, [
+  List<enums.ActivationFormField>? defaultValue,
+]) {
+  if (activationFormField == null) {
+    return defaultValue ?? [];
+  }
+
+  return activationFormField
+      .map((e) => activationFormFieldFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.ActivationFormField>? activationFormFieldNullableListFromJson(
+  List? activationFormField, [
+  List<enums.ActivationFormField>? defaultValue,
+]) {
+  if (activationFormField == null) {
+    return defaultValue;
+  }
+
+  return activationFormField
+      .map((e) => activationFormFieldFromJson(e.toString()))
+      .toList();
+}
+
 String? amapSlotTypeNullableToJson(enums.AmapSlotType? amapSlotType) {
   return amapSlotType?.value;
 }
@@ -31091,82 +24866,6 @@ List<enums.AmapSlotType>? amapSlotTypeNullableListFromJson(
   return amapSlotType.map((e) => amapSlotTypeFromJson(e.toString())).toList();
 }
 
-String? calendarEventTypeNullableToJson(
-  enums.CalendarEventType? calendarEventType,
-) {
-  return calendarEventType?.value;
-}
-
-String? calendarEventTypeToJson(enums.CalendarEventType calendarEventType) {
-  return calendarEventType.value;
-}
-
-enums.CalendarEventType calendarEventTypeFromJson(
-  Object? calendarEventType, [
-  enums.CalendarEventType? defaultValue,
-]) {
-  return enums.CalendarEventType.values.firstWhereOrNull(
-        (e) => e.value == calendarEventType,
-      ) ??
-      defaultValue ??
-      enums.CalendarEventType.swaggerGeneratedUnknown;
-}
-
-enums.CalendarEventType? calendarEventTypeNullableFromJson(
-  Object? calendarEventType, [
-  enums.CalendarEventType? defaultValue,
-]) {
-  if (calendarEventType == null) {
-    return null;
-  }
-  return enums.CalendarEventType.values.firstWhereOrNull(
-        (e) => e.value == calendarEventType,
-      ) ??
-      defaultValue;
-}
-
-String calendarEventTypeExplodedListToJson(
-  List<enums.CalendarEventType>? calendarEventType,
-) {
-  return calendarEventType?.map((e) => e.value!).join(',') ?? '';
-}
-
-List<String> calendarEventTypeListToJson(
-  List<enums.CalendarEventType>? calendarEventType,
-) {
-  if (calendarEventType == null) {
-    return [];
-  }
-
-  return calendarEventType.map((e) => e.value!).toList();
-}
-
-List<enums.CalendarEventType> calendarEventTypeListFromJson(
-  List? calendarEventType, [
-  List<enums.CalendarEventType>? defaultValue,
-]) {
-  if (calendarEventType == null) {
-    return defaultValue ?? [];
-  }
-
-  return calendarEventType
-      .map((e) => calendarEventTypeFromJson(e.toString()))
-      .toList();
-}
-
-List<enums.CalendarEventType>? calendarEventTypeNullableListFromJson(
-  List? calendarEventType, [
-  List<enums.CalendarEventType>? defaultValue,
-]) {
-  if (calendarEventType == null) {
-    return defaultValue;
-  }
-
-  return calendarEventType
-      .map((e) => calendarEventTypeFromJson(e.toString()))
-      .toList();
-}
-
 String? cdrStatusNullableToJson(enums.CdrStatus? cdrStatus) {
   return cdrStatus?.value;
 }
@@ -31227,84 +24926,6 @@ List<enums.CdrStatus>? cdrStatusNullableListFromJson(
   }
 
   return cdrStatus.map((e) => cdrStatusFromJson(e.toString())).toList();
-}
-
-String? competitionGroupTypeNullableToJson(
-  enums.CompetitionGroupType? competitionGroupType,
-) {
-  return competitionGroupType?.value;
-}
-
-String? competitionGroupTypeToJson(
-  enums.CompetitionGroupType competitionGroupType,
-) {
-  return competitionGroupType.value;
-}
-
-enums.CompetitionGroupType competitionGroupTypeFromJson(
-  Object? competitionGroupType, [
-  enums.CompetitionGroupType? defaultValue,
-]) {
-  return enums.CompetitionGroupType.values.firstWhereOrNull(
-        (e) => e.value == competitionGroupType,
-      ) ??
-      defaultValue ??
-      enums.CompetitionGroupType.swaggerGeneratedUnknown;
-}
-
-enums.CompetitionGroupType? competitionGroupTypeNullableFromJson(
-  Object? competitionGroupType, [
-  enums.CompetitionGroupType? defaultValue,
-]) {
-  if (competitionGroupType == null) {
-    return null;
-  }
-  return enums.CompetitionGroupType.values.firstWhereOrNull(
-        (e) => e.value == competitionGroupType,
-      ) ??
-      defaultValue;
-}
-
-String competitionGroupTypeExplodedListToJson(
-  List<enums.CompetitionGroupType>? competitionGroupType,
-) {
-  return competitionGroupType?.map((e) => e.value!).join(',') ?? '';
-}
-
-List<String> competitionGroupTypeListToJson(
-  List<enums.CompetitionGroupType>? competitionGroupType,
-) {
-  if (competitionGroupType == null) {
-    return [];
-  }
-
-  return competitionGroupType.map((e) => e.value!).toList();
-}
-
-List<enums.CompetitionGroupType> competitionGroupTypeListFromJson(
-  List? competitionGroupType, [
-  List<enums.CompetitionGroupType>? defaultValue,
-]) {
-  if (competitionGroupType == null) {
-    return defaultValue ?? [];
-  }
-
-  return competitionGroupType
-      .map((e) => competitionGroupTypeFromJson(e.toString()))
-      .toList();
-}
-
-List<enums.CompetitionGroupType>? competitionGroupTypeNullableListFromJson(
-  List? competitionGroupType, [
-  List<enums.CompetitionGroupType>? defaultValue,
-]) {
-  if (competitionGroupType == null) {
-    return defaultValue;
-  }
-
-  return competitionGroupType
-      .map((e) => competitionGroupTypeFromJson(e.toString()))
-      .toList();
 }
 
 String? decisionNullableToJson(enums.Decision? decision) {
@@ -31731,72 +25352,6 @@ List<enums.DocumentValidation>? documentValidationNullableListFromJson(
       .toList();
 }
 
-String? floorsTypeNullableToJson(enums.FloorsType? floorsType) {
-  return floorsType?.value;
-}
-
-String? floorsTypeToJson(enums.FloorsType floorsType) {
-  return floorsType.value;
-}
-
-enums.FloorsType floorsTypeFromJson(
-  Object? floorsType, [
-  enums.FloorsType? defaultValue,
-]) {
-  return enums.FloorsType.values.firstWhereOrNull(
-        (e) => e.value == floorsType,
-      ) ??
-      defaultValue ??
-      enums.FloorsType.swaggerGeneratedUnknown;
-}
-
-enums.FloorsType? floorsTypeNullableFromJson(
-  Object? floorsType, [
-  enums.FloorsType? defaultValue,
-]) {
-  if (floorsType == null) {
-    return null;
-  }
-  return enums.FloorsType.values.firstWhereOrNull(
-        (e) => e.value == floorsType,
-      ) ??
-      defaultValue;
-}
-
-String floorsTypeExplodedListToJson(List<enums.FloorsType>? floorsType) {
-  return floorsType?.map((e) => e.value!).join(',') ?? '';
-}
-
-List<String> floorsTypeListToJson(List<enums.FloorsType>? floorsType) {
-  if (floorsType == null) {
-    return [];
-  }
-
-  return floorsType.map((e) => e.value!).toList();
-}
-
-List<enums.FloorsType> floorsTypeListFromJson(
-  List? floorsType, [
-  List<enums.FloorsType>? defaultValue,
-]) {
-  if (floorsType == null) {
-    return defaultValue ?? [];
-  }
-
-  return floorsType.map((e) => floorsTypeFromJson(e.toString())).toList();
-}
-
-List<enums.FloorsType>? floorsTypeNullableListFromJson(
-  List? floorsType, [
-  List<enums.FloorsType>? defaultValue,
-]) {
-  if (floorsType == null) {
-    return defaultValue;
-  }
-
-  return floorsType.map((e) => floorsTypeFromJson(e.toString())).toList();
-}
-
 String? historyTypeNullableToJson(enums.HistoryType? historyType) {
   return historyType?.value;
 }
@@ -31861,62 +25416,6 @@ List<enums.HistoryType>? historyTypeNullableListFromJson(
   }
 
   return historyType.map((e) => historyTypeFromJson(e.toString())).toList();
-}
-
-String? kindsNullableToJson(enums.Kinds? kinds) {
-  return kinds?.value;
-}
-
-String? kindsToJson(enums.Kinds kinds) {
-  return kinds.value;
-}
-
-enums.Kinds kindsFromJson(Object? kinds, [enums.Kinds? defaultValue]) {
-  return enums.Kinds.values.firstWhereOrNull((e) => e.value == kinds) ??
-      defaultValue ??
-      enums.Kinds.swaggerGeneratedUnknown;
-}
-
-enums.Kinds? kindsNullableFromJson(Object? kinds, [enums.Kinds? defaultValue]) {
-  if (kinds == null) {
-    return null;
-  }
-  return enums.Kinds.values.firstWhereOrNull((e) => e.value == kinds) ??
-      defaultValue;
-}
-
-String kindsExplodedListToJson(List<enums.Kinds>? kinds) {
-  return kinds?.map((e) => e.value!).join(',') ?? '';
-}
-
-List<String> kindsListToJson(List<enums.Kinds>? kinds) {
-  if (kinds == null) {
-    return [];
-  }
-
-  return kinds.map((e) => e.value!).toList();
-}
-
-List<enums.Kinds> kindsListFromJson(
-  List? kinds, [
-  List<enums.Kinds>? defaultValue,
-]) {
-  if (kinds == null) {
-    return defaultValue ?? [];
-  }
-
-  return kinds.map((e) => kindsFromJson(e.toString())).toList();
-}
-
-List<enums.Kinds>? kindsNullableListFromJson(
-  List? kinds, [
-  List<enums.Kinds>? defaultValue,
-]) {
-  if (kinds == null) {
-    return defaultValue;
-  }
-
-  return kinds.map((e) => kindsFromJson(e.toString())).toList();
 }
 
 String? listTypeNullableToJson(enums.ListType? listType) {
@@ -32045,6 +25544,72 @@ List<enums.MeetingPlace>? meetingPlaceNullableListFromJson(
   }
 
   return meetingPlace.map((e) => meetingPlaceFromJson(e.toString())).toList();
+}
+
+String? newsStatusNullableToJson(enums.NewsStatus? newsStatus) {
+  return newsStatus?.value;
+}
+
+String? newsStatusToJson(enums.NewsStatus newsStatus) {
+  return newsStatus.value;
+}
+
+enums.NewsStatus newsStatusFromJson(
+  Object? newsStatus, [
+  enums.NewsStatus? defaultValue,
+]) {
+  return enums.NewsStatus.values.firstWhereOrNull(
+        (e) => e.value == newsStatus,
+      ) ??
+      defaultValue ??
+      enums.NewsStatus.swaggerGeneratedUnknown;
+}
+
+enums.NewsStatus? newsStatusNullableFromJson(
+  Object? newsStatus, [
+  enums.NewsStatus? defaultValue,
+]) {
+  if (newsStatus == null) {
+    return null;
+  }
+  return enums.NewsStatus.values.firstWhereOrNull(
+        (e) => e.value == newsStatus,
+      ) ??
+      defaultValue;
+}
+
+String newsStatusExplodedListToJson(List<enums.NewsStatus>? newsStatus) {
+  return newsStatus?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> newsStatusListToJson(List<enums.NewsStatus>? newsStatus) {
+  if (newsStatus == null) {
+    return [];
+  }
+
+  return newsStatus.map((e) => e.value!).toList();
+}
+
+List<enums.NewsStatus> newsStatusListFromJson(
+  List? newsStatus, [
+  List<enums.NewsStatus>? defaultValue,
+]) {
+  if (newsStatus == null) {
+    return defaultValue ?? [];
+  }
+
+  return newsStatus.map((e) => newsStatusFromJson(e.toString())).toList();
+}
+
+List<enums.NewsStatus>? newsStatusNullableListFromJson(
+  List? newsStatus, [
+  List<enums.NewsStatus>? defaultValue,
+]) {
+  if (newsStatus == null) {
+    return defaultValue;
+  }
+
+  return newsStatus.map((e) => newsStatusFromJson(e.toString())).toList();
 }
 
 String? paymentTypeNullableToJson(enums.PaymentType? paymentType) {
@@ -32177,158 +25742,6 @@ List<enums.PlantState>? plantStateNullableListFromJson(
   }
 
   return plantState.map((e) => plantStateFromJson(e.toString())).toList();
-}
-
-String? productPublicTypeNullableToJson(
-  enums.ProductPublicType? productPublicType,
-) {
-  return productPublicType?.value;
-}
-
-String? productPublicTypeToJson(enums.ProductPublicType productPublicType) {
-  return productPublicType.value;
-}
-
-enums.ProductPublicType productPublicTypeFromJson(
-  Object? productPublicType, [
-  enums.ProductPublicType? defaultValue,
-]) {
-  return enums.ProductPublicType.values.firstWhereOrNull(
-        (e) => e.value == productPublicType,
-      ) ??
-      defaultValue ??
-      enums.ProductPublicType.swaggerGeneratedUnknown;
-}
-
-enums.ProductPublicType? productPublicTypeNullableFromJson(
-  Object? productPublicType, [
-  enums.ProductPublicType? defaultValue,
-]) {
-  if (productPublicType == null) {
-    return null;
-  }
-  return enums.ProductPublicType.values.firstWhereOrNull(
-        (e) => e.value == productPublicType,
-      ) ??
-      defaultValue;
-}
-
-String productPublicTypeExplodedListToJson(
-  List<enums.ProductPublicType>? productPublicType,
-) {
-  return productPublicType?.map((e) => e.value!).join(',') ?? '';
-}
-
-List<String> productPublicTypeListToJson(
-  List<enums.ProductPublicType>? productPublicType,
-) {
-  if (productPublicType == null) {
-    return [];
-  }
-
-  return productPublicType.map((e) => e.value!).toList();
-}
-
-List<enums.ProductPublicType> productPublicTypeListFromJson(
-  List? productPublicType, [
-  List<enums.ProductPublicType>? defaultValue,
-]) {
-  if (productPublicType == null) {
-    return defaultValue ?? [];
-  }
-
-  return productPublicType
-      .map((e) => productPublicTypeFromJson(e.toString()))
-      .toList();
-}
-
-List<enums.ProductPublicType>? productPublicTypeNullableListFromJson(
-  List? productPublicType, [
-  List<enums.ProductPublicType>? defaultValue,
-]) {
-  if (productPublicType == null) {
-    return defaultValue;
-  }
-
-  return productPublicType
-      .map((e) => productPublicTypeFromJson(e.toString()))
-      .toList();
-}
-
-String? productSchoolTypeNullableToJson(
-  enums.ProductSchoolType? productSchoolType,
-) {
-  return productSchoolType?.value;
-}
-
-String? productSchoolTypeToJson(enums.ProductSchoolType productSchoolType) {
-  return productSchoolType.value;
-}
-
-enums.ProductSchoolType productSchoolTypeFromJson(
-  Object? productSchoolType, [
-  enums.ProductSchoolType? defaultValue,
-]) {
-  return enums.ProductSchoolType.values.firstWhereOrNull(
-        (e) => e.value == productSchoolType,
-      ) ??
-      defaultValue ??
-      enums.ProductSchoolType.swaggerGeneratedUnknown;
-}
-
-enums.ProductSchoolType? productSchoolTypeNullableFromJson(
-  Object? productSchoolType, [
-  enums.ProductSchoolType? defaultValue,
-]) {
-  if (productSchoolType == null) {
-    return null;
-  }
-  return enums.ProductSchoolType.values.firstWhereOrNull(
-        (e) => e.value == productSchoolType,
-      ) ??
-      defaultValue;
-}
-
-String productSchoolTypeExplodedListToJson(
-  List<enums.ProductSchoolType>? productSchoolType,
-) {
-  return productSchoolType?.map((e) => e.value!).join(',') ?? '';
-}
-
-List<String> productSchoolTypeListToJson(
-  List<enums.ProductSchoolType>? productSchoolType,
-) {
-  if (productSchoolType == null) {
-    return [];
-  }
-
-  return productSchoolType.map((e) => e.value!).toList();
-}
-
-List<enums.ProductSchoolType> productSchoolTypeListFromJson(
-  List? productSchoolType, [
-  List<enums.ProductSchoolType>? defaultValue,
-]) {
-  if (productSchoolType == null) {
-    return defaultValue ?? [];
-  }
-
-  return productSchoolType
-      .map((e) => productSchoolTypeFromJson(e.toString()))
-      .toList();
-}
-
-List<enums.ProductSchoolType>? productSchoolTypeNullableListFromJson(
-  List? productSchoolType, [
-  List<enums.ProductSchoolType>? defaultValue,
-]) {
-  if (productSchoolType == null) {
-    return defaultValue;
-  }
-
-  return productSchoolType
-      .map((e) => productSchoolTypeFromJson(e.toString()))
-      .toList();
 }
 
 String? propagationMethodNullableToJson(
@@ -32603,74 +26016,6 @@ List<enums.SpeciesType>? speciesTypeNullableListFromJson(
   }
 
   return speciesType.map((e) => speciesTypeFromJson(e.toString())).toList();
-}
-
-String? sportCategoryNullableToJson(enums.SportCategory? sportCategory) {
-  return sportCategory?.value;
-}
-
-String? sportCategoryToJson(enums.SportCategory sportCategory) {
-  return sportCategory.value;
-}
-
-enums.SportCategory sportCategoryFromJson(
-  Object? sportCategory, [
-  enums.SportCategory? defaultValue,
-]) {
-  return enums.SportCategory.values.firstWhereOrNull(
-        (e) => e.value == sportCategory,
-      ) ??
-      defaultValue ??
-      enums.SportCategory.swaggerGeneratedUnknown;
-}
-
-enums.SportCategory? sportCategoryNullableFromJson(
-  Object? sportCategory, [
-  enums.SportCategory? defaultValue,
-]) {
-  if (sportCategory == null) {
-    return null;
-  }
-  return enums.SportCategory.values.firstWhereOrNull(
-        (e) => e.value == sportCategory,
-      ) ??
-      defaultValue;
-}
-
-String sportCategoryExplodedListToJson(
-  List<enums.SportCategory>? sportCategory,
-) {
-  return sportCategory?.map((e) => e.value!).join(',') ?? '';
-}
-
-List<String> sportCategoryListToJson(List<enums.SportCategory>? sportCategory) {
-  if (sportCategory == null) {
-    return [];
-  }
-
-  return sportCategory.map((e) => e.value!).toList();
-}
-
-List<enums.SportCategory> sportCategoryListFromJson(
-  List? sportCategory, [
-  List<enums.SportCategory>? defaultValue,
-]) {
-  if (sportCategory == null) {
-    return defaultValue ?? [];
-  }
-
-  return sportCategory.map((e) => sportCategoryFromJson(e.toString())).toList();
-}
-
-List<enums.SportCategory>? sportCategoryNullableListFromJson(
-  List? sportCategory, [
-  List<enums.SportCategory>? defaultValue,
-]) {
-  if (sportCategory == null) {
-    return defaultValue;
-  }
-
-  return sportCategory.map((e) => sportCategoryFromJson(e.toString())).toList();
 }
 
 String? statusTypeNullableToJson(enums.StatusType? statusType) {

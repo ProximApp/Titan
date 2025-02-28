@@ -10,7 +10,7 @@ targets:
           input_folder: "swaggers/"
           output_folder: "lib/generated/"
           input_urls:
-            - url: "https://hyperion-5.dev.proximapp.fr/openapi.json"
+            - url: "https://hyperion.myemapp.proximapp.fr/openapi.json"
           separate_models: true
           default_values_map:
             - type_name: int

@@ -2680,7 +2680,7 @@ An email will be send to the user, to confirm its new address.
   Future<Response<AppModulesCdrSchemasCdrProductComplete>>
   _cdrSellersSellerIdProductsPost({
     required String? sellerId,
-    required AppModulesCdrSchemasCdrProductBase? body,
+    required ProductBase? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Create a product.
 
@@ -2801,11 +2801,11 @@ An email will be send to the user, to confirm its new address.
   }
 
   @override
-  Future<Response<AppModulesCdrSchemasCdrProductVariantComplete>>
+  Future<Response<ProductVariantComplete>>
   _cdrSellersSellerIdProductsProductIdVariantsPost({
     required String? sellerId,
     required String? productId,
-    required AppModulesCdrSchemasCdrProductVariantBase? body,
+    required ProductVariantBase? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Create a product variant.
 
@@ -2831,10 +2831,9 @@ An email will be send to the user, to confirm its new address.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<
-      AppModulesCdrSchemasCdrProductVariantComplete,
-      AppModulesCdrSchemasCdrProductVariantComplete
-    >($request);
+    return client.send<ProductVariantComplete, ProductVariantComplete>(
+      $request,
+    );
   }
 
   @override
@@ -2843,7 +2842,7 @@ An email will be send to the user, to confirm its new address.
     required String? sellerId,
     required String? productId,
     required String? variantId,
-    required AppModulesCdrSchemasCdrProductVariantEdit? body,
+    required ProductVariantEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Edit a product variant.
 
@@ -3093,11 +3092,11 @@ An email will be send to the user, to confirm its new address.
   }
 
   @override
-  Future<Response<AppModulesCdrSchemasCdrPurchaseComplete>>
+  Future<Response<PurchaseComplete>>
   _cdrUsersUserIdPurchasesProductVariantIdPost({
     required String? userId,
     required String? productVariantId,
-    required AppModulesCdrSchemasCdrPurchaseBase? body,
+    required PurchaseBase? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Create a purchase.
 
@@ -3122,10 +3121,7 @@ An email will be send to the user, to confirm its new address.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<
-      AppModulesCdrSchemasCdrPurchaseComplete,
-      AppModulesCdrSchemasCdrPurchaseComplete
-    >($request);
+    return client.send<PurchaseComplete, PurchaseComplete>($request);
   }
 
   @override
@@ -3152,34 +3148,6 @@ An email will be send to the user, to confirm its new address.
       'DELETE',
       $url,
       client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _cdrBatchPurchasesPost({
-    required BatchPurchase? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Create a purchase for a list of user.
-
-**User must be part of the seller\'s group to use this endpoint**''',
-      summary: 'Create Purchase Batch',
-      operationId: 'post_cdr_batch-purchases_',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Cdr"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/cdr/batch-purchases/');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
       tag: swaggerMetaData,
     );
     return client.send<dynamic, dynamic>($request);
@@ -3216,32 +3184,6 @@ An email will be send to the user, to confirm its new address.
       $url,
       client.baseUrl,
       parameters: $params,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _cdrBatchValidationPost({
-    required BatchValidation? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Validate Purchase Batch',
-      operationId: 'post_cdr_batch-validation_',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Cdr"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/cdr/batch-validation/');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
       tag: swaggerMetaData,
     );
     return client.send<dynamic, dynamic>($request);
@@ -3531,8 +3473,7 @@ An email will be send to the user, to confirm its new address.
   }
 
   @override
-  Future<Response<List<AppModulesCdrSchemasCdrPaymentComplete>>>
-  _cdrUsersUserIdPaymentsGet({
+  Future<Response<List<PaymentComplete>>> _cdrUsersUserIdPaymentsGet({
     required String? userId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Get a user\'s payments.
@@ -3554,17 +3495,13 @@ An email will be send to the user, to confirm its new address.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<
-      List<AppModulesCdrSchemasCdrPaymentComplete>,
-      AppModulesCdrSchemasCdrPaymentComplete
-    >($request);
+    return client.send<List<PaymentComplete>, PaymentComplete>($request);
   }
 
   @override
-  Future<Response<AppModulesCdrSchemasCdrPaymentComplete>>
-  _cdrUsersUserIdPaymentsPost({
+  Future<Response<PaymentComplete>> _cdrUsersUserIdPaymentsPost({
     required String? userId,
-    required AppModulesCdrSchemasCdrPaymentBase? body,
+    required PaymentBase? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Create a payment.
 
@@ -3587,10 +3524,7 @@ An email will be send to the user, to confirm its new address.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<
-      AppModulesCdrSchemasCdrPaymentComplete,
-      AppModulesCdrSchemasCdrPaymentComplete
-    >($request);
+    return client.send<PaymentComplete, PaymentComplete>($request);
   }
 
   @override
@@ -3644,55 +3578,6 @@ An email will be send to the user, to confirm its new address.
   }
 
   @override
-  Future<Response<CdrYear>> _cdrYearGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Cdr Year',
-      operationId: 'get_cdr_year_',
-      consumes: [],
-      produces: [],
-      security: [],
-      tags: ["Cdr"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/cdr/year/');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<CdrYear, CdrYear>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _cdrYearPatch({
-    required CdrYear? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Update Cdr Year',
-      operationId: 'patch_cdr_year_',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Cdr"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/cdr/year/');
-    final $body = body;
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
   Future<Response<Status>> _cdrStatusGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
@@ -3700,7 +3585,7 @@ An email will be send to the user, to confirm its new address.
       operationId: 'get_cdr_status_',
       consumes: [],
       produces: [],
-      security: [],
+      security: ["AuthorizationCodeAuthentication"],
       tags: ["Cdr"],
       deprecated: false,
     ),
@@ -4064,39 +3949,6 @@ An email will be send to the user, to confirm its new address.
     return client.send<CustomDataFieldComplete, CustomDataFieldComplete>(
       $request,
     );
-  }
-
-  @override
-  Future<Response<dynamic>>
-  _cdrSellersSellerIdProductsProductIdDataFieldIdPatch({
-    required String? sellerId,
-    required String? productId,
-    required String? fieldId,
-    required CustomDataFieldBase? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Update Custom Data Field',
-      operationId:
-          'patch_cdr_sellers_{seller_id}_products_{product_id}_data_{field_id}_',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Cdr"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/cdr/sellers/${sellerId}/products/${productId}/data/${fieldId}/',
-    );
-    final $body = body;
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
   }
 
   @override
@@ -6231,2774 +6083,7 @@ This will remove the loan but won\'t delete any loaner items.
   }
 
   @override
-  Future<Response<List<Sport>>> _competitionSportsGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Sports',
-      operationId: 'get_competition_sports',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/sports');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<Sport>, Sport>($request);
-  }
-
-  @override
-  Future<Response<Sport>> _competitionSportsPost({
-    required SportBase? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Create Sport',
-      operationId: 'post_competition_sports',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/sports');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<Sport, Sport>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionSportsSportIdPatch({
-    required String? sportId,
-    required SportEdit? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Edit Sport',
-      operationId: 'patch_competition_sports_{sport_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/sports/${sportId}');
-    final $body = body;
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionSportsSportIdDelete({
-    required String? sportId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Delete Sport',
-      operationId: 'delete_competition_sports_{sport_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/sports/${sportId}');
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<List<CompetitionEdition>>> _competitionEditionsGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Editions',
-      operationId: 'get_competition_editions',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/editions');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<CompetitionEdition>, CompetitionEdition>($request);
-  }
-
-  @override
-  Future<Response<CompetitionEdition>> _competitionEditionsPost({
-    required CompetitionEditionBase? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Create Edition',
-      operationId: 'post_competition_editions',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/editions');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<CompetitionEdition, CompetitionEdition>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionEditionsActiveGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get the currently active competition edition.
-Returns None if no edition is active.''',
-      summary: 'Get Active Edition',
-      operationId: 'get_competition_editions_active',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/editions/active');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionEditionsEditionIdActivatePost({
-    required String? editionId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Activate a competition edition.
-If another edition is already active, it will be deactivated.''',
-      summary: 'Activate Edition',
-      operationId: 'post_competition_editions_{edition_id}_activate',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/editions/${editionId}/activate');
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionEditionsEditionIdInscriptionPost({
-    required String? editionId,
-    required bool? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Enable inscription for a competition edition.
-The edition must already be active.''',
-      summary: 'Enable Inscription',
-      operationId: 'post_competition_editions_{edition_id}_inscription',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/competition/editions/${editionId}/inscription',
-    );
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionEditionsEditionIdPatch({
-    required String? editionId,
-    required CompetitionEditionEdit? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Edit Edition',
-      operationId: 'patch_competition_editions_{edition_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/editions/${editionId}');
-    final $body = body;
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<List<CompetitionUser>>> _competitionUsersGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Get all competition users for the current edition.',
-      summary: 'Get Competition Users',
-      operationId: 'get_competition_users',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/users');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<CompetitionUser>, CompetitionUser>($request);
-  }
-
-  @override
-  Future<Response<CompetitionUserSimple>> _competitionUsersPost({
-    required CompetitionUserBase? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Create a competition user for the current edition.
-The user must exist in the core users database.''',
-      summary: 'Create Competition User',
-      operationId: 'post_competition_users',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/users');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<CompetitionUserSimple, CompetitionUserSimple>($request);
-  }
-
-  @override
-  Future<Response<List<CompetitionUser>>> _competitionUsersSchoolsSchoolIdGet({
-    required String? schoolId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Get all competition users for the current edition by school.',
-      summary: 'Get Competition Users By School',
-      operationId: 'get_competition_users_schools_{school_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/users/schools/${schoolId}');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<CompetitionUser>, CompetitionUser>($request);
-  }
-
-  @override
-  Future<Response<CompetitionUser>> _competitionUsersMeGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get the competition user for the current edition.
-This is the user making the request.''',
-      summary: 'Get Current User Competition',
-      operationId: 'get_competition_users_me',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/users/me');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<CompetitionUser, CompetitionUser>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionUsersMePatch({
-    required CompetitionUserEdit? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Edit the current user\'s competition user for the current edition.
-The user must exist in the core users database.''',
-      summary: 'Edit Current User Competition',
-      operationId: 'patch_competition_users_me',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/users/me');
-    final $body = body;
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<CompetitionUser>> _competitionUsersUserIdGet({
-    required String? userId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Get a competition user by their user ID for the current edition.',
-      summary: 'Get Competition User',
-      operationId: 'get_competition_users_{user_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/users/${userId}');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<CompetitionUser, CompetitionUser>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionUsersUserIdPatch({
-    required String? userId,
-    required CompetitionUserEdit? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Edit a competition user for the current edition.
-The user must exist in the core users database.''',
-      summary: 'Edit Competition User',
-      operationId: 'patch_competition_users_{user_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/users/${userId}');
-    final $body = body;
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionUsersUserIdValidatePatch({
-    required String? userId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Validate Competition User',
-      operationId: 'patch_competition_users_{user_id}_validate',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/users/${userId}/validate');
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionUsersUserIdInvalidatePatch({
-    required String? userId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Invalidate Competition User',
-      operationId: 'patch_competition_users_{user_id}_invalidate',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/users/${userId}/invalidate');
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<List<UserGroupMembershipComplete>>>
-  _competitionGroupsGroupGet({
-    required String? group,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Get all users in a specific competition group for the current edition.',
-      summary: 'Get Group Members',
-      operationId: 'get_competition_groups_{group}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/groups/${group}');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client
-        .send<List<UserGroupMembershipComplete>, UserGroupMembershipComplete>(
-          $request,
-        );
-  }
-
-  @override
-  Future<Response<List<UserGroupMembership>>> _competitionUsersMeGroupsGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Get all groups the current user is a member of in the current edition.
-This is the user making the request.''',
-      summary: 'Get Current User Groups',
-      operationId: 'get_competition_users_me_groups',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/users/me/groups');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<UserGroupMembership>, UserGroupMembership>(
-      $request,
-    );
-  }
-
-  @override
-  Future<Response<List<UserGroupMembership>>> _competitionUsersUserIdGroupsGet({
-    required String? userId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Get all groups a user is a member of in the current edition.',
-      summary: 'Get User Groups',
-      operationId: 'get_competition_users_{user_id}_groups',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/users/${userId}/groups');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<UserGroupMembership>, UserGroupMembership>(
-      $request,
-    );
-  }
-
-  @override
-  Future<Response<UserGroupMembership>> _competitionGroupsGroupUsersUserIdPost({
-    required String? group,
-    required String? userId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Add User To Group',
-      operationId: 'post_competition_groups_{group}_users_{user_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/groups/${group}/users/${userId}');
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<UserGroupMembership, UserGroupMembership>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionGroupsGroupUsersUserIdDelete({
-    required String? group,
-    required String? userId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Remove User From Group',
-      operationId: 'delete_competition_groups_{group}_users_{user_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/groups/${group}/users/${userId}');
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<List<SchoolExtension>>> _competitionSchoolsGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Schools',
-      operationId: 'get_competition_schools',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/schools');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<SchoolExtension>, SchoolExtension>($request);
-  }
-
-  @override
-  Future<Response<SchoolExtensionBase>> _competitionSchoolsPost({
-    required SchoolExtensionBase? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Create School Extension',
-      operationId: 'post_competition_schools',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/schools');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<SchoolExtensionBase, SchoolExtensionBase>($request);
-  }
-
-  @override
-  Future<Response<SchoolExtension>> _competitionSchoolsSchoolIdGet({
-    required String? schoolId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get School',
-      operationId: 'get_competition_schools_{school_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/schools/${schoolId}');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<SchoolExtension, SchoolExtension>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionSchoolsSchoolIdPatch({
-    required String? schoolId,
-    required SchoolExtensionEdit? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Edit School Extension',
-      operationId: 'patch_competition_schools_{school_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/schools/${schoolId}');
-    final $body = body;
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionSchoolsSchoolIdDelete({
-    required String? schoolId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Delete School Extension',
-      operationId: 'delete_competition_schools_{school_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/schools/${schoolId}');
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<SchoolGeneralQuota>>
-  _competitionSchoolsSchoolIdGeneralQuotaGet({
-    required String? schoolId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get School General Quota',
-      operationId: 'get_competition_schools_{school_id}_general-quota',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/competition/schools/${schoolId}/general-quota',
-    );
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<SchoolGeneralQuota, SchoolGeneralQuota>($request);
-  }
-
-  @override
-  Future<Response<SchoolGeneralQuota>>
-  _competitionSchoolsSchoolIdGeneralQuotaPost({
-    required String? schoolId,
-    required SchoolGeneralQuotaBase? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Create School General Quota',
-      operationId: 'post_competition_schools_{school_id}_general-quota',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/competition/schools/${schoolId}/general-quota',
-    );
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<SchoolGeneralQuota, SchoolGeneralQuota>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionSchoolsSchoolIdGeneralQuotaPatch({
-    required String? schoolId,
-    required SchoolGeneralQuotaBase? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Edit School General Quota',
-      operationId: 'patch_competition_schools_{school_id}_general-quota',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/competition/schools/${schoolId}/general-quota',
-    );
-    final $body = body;
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<List<SchoolSportQuota>>> _competitionSportsSportIdQuotasGet({
-    required String? sportId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Quotas For Sport',
-      operationId: 'get_competition_sports_{sport_id}_quotas',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/sports/${sportId}/quotas');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<SchoolSportQuota>, SchoolSportQuota>($request);
-  }
-
-  @override
-  Future<Response<List<SchoolSportQuota>>>
-  _competitionSchoolsSchoolIdSportsQuotasGet({
-    required String? schoolId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Quotas For School',
-      operationId: 'get_competition_schools_{school_id}_sports-quotas',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/competition/schools/${schoolId}/sports-quotas',
-    );
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<SchoolSportQuota>, SchoolSportQuota>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionSchoolsSchoolIdSportsSportIdQuotasPost({
-    required String? schoolId,
-    required String? sportId,
-    required SportQuotaInfo? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Create Sport Quota',
-      operationId:
-          'post_competition_schools_{school_id}_sports_{sport_id}_quotas',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/competition/schools/${schoolId}/sports/${sportId}/quotas',
-    );
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>>
-  _competitionSchoolsSchoolIdSportsSportIdQuotasPatch({
-    required String? schoolId,
-    required String? sportId,
-    required SchoolSportQuotaEdit? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Edit Sport Quota',
-      operationId:
-          'patch_competition_schools_{school_id}_sports_{sport_id}_quotas',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/competition/schools/${schoolId}/sports/${sportId}/quotas',
-    );
-    final $body = body;
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>>
-  _competitionSchoolsSchoolIdSportsSportIdQuotasDelete({
-    required String? schoolId,
-    required String? sportId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Delete Sport Quota',
-      operationId:
-          'delete_competition_schools_{school_id}_sports_{sport_id}_quotas',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/competition/schools/${schoolId}/sports/${sportId}/quotas',
-    );
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<List<SchoolProductQuota>>>
-  _competitionSchoolsSchoolIdProductQuotasGet({
-    required String? schoolId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Product Quotas For School',
-      operationId: 'get_competition_schools_{school_id}_product-quotas',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/competition/schools/${schoolId}/product-quotas',
-    );
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<SchoolProductQuota>, SchoolProductQuota>($request);
-  }
-
-  @override
-  Future<Response<SchoolProductQuota>>
-  _competitionSchoolsSchoolIdProductQuotasPost({
-    required String? schoolId,
-    required SchoolProductQuotaBase? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Create Product Quota',
-      operationId: 'post_competition_schools_{school_id}_product-quotas',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/competition/schools/${schoolId}/product-quotas',
-    );
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<SchoolProductQuota, SchoolProductQuota>($request);
-  }
-
-  @override
-  Future<Response<List<SchoolProductQuota>>>
-  _competitionProductsProductIdSchoolsQuotasGet({
-    required String? productId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Product Quotas For Product',
-      operationId: 'get_competition_products_{product_id}_schools-quotas',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/competition/products/${productId}/schools-quotas',
-    );
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<SchoolProductQuota>, SchoolProductQuota>($request);
-  }
-
-  @override
-  Future<Response<dynamic>>
-  _competitionSchoolsSchoolIdProductQuotasProductIdPatch({
-    required String? schoolId,
-    required String? productId,
-    required SchoolProductQuotaEdit? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Edit Product Quota',
-      operationId:
-          'patch_competition_schools_{school_id}_product-quotas_{product_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/competition/schools/${schoolId}/product-quotas/${productId}',
-    );
-    final $body = body;
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>>
-  _competitionSchoolsSchoolIdProductQuotasProductIdDelete({
-    required String? schoolId,
-    required String? productId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Delete Product Quota',
-      operationId:
-          'delete_competition_schools_{school_id}_product-quotas_{product_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/competition/schools/${schoolId}/product-quotas/${productId}',
-    );
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<TeamComplete>> _competitionTeamsMeGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Current User Team As Captain',
-      operationId: 'get_competition_teams_me',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/teams/me');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<TeamComplete, TeamComplete>($request);
-  }
-
-  @override
-  Future<Response<List<TeamComplete>>> _competitionTeamsSportsSportIdGet({
-    required String? sportId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Teams For Sport',
-      operationId: 'get_competition_teams_sports_{sport_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/teams/sports/${sportId}');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<TeamComplete>, TeamComplete>($request);
-  }
-
-  @override
-  Future<Response<List<TeamComplete>>> _competitionTeamsSchoolsSchoolIdGet({
-    required String? schoolId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Teams For School',
-      operationId: 'get_competition_teams_schools_{school_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/teams/schools/${schoolId}');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<TeamComplete>, TeamComplete>($request);
-  }
-
-  @override
-  Future<Response<List<TeamComplete>>>
-  _competitionTeamsSportsSportIdSchoolsSchoolIdGet({
-    required String? schoolId,
-    required String? sportId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Sport Teams For School And Sport',
-      operationId:
-          'get_competition_teams_sports_{sport_id}_schools_{school_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/competition/teams/sports/${sportId}/schools/${schoolId}',
-    );
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<TeamComplete>, TeamComplete>($request);
-  }
-
-  @override
-  Future<Response<Team>> _competitionTeamsPost({
-    required TeamInfo? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Create Team',
-      operationId: 'post_competition_teams',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/teams');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<Team, Team>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionTeamsTeamIdPatch({
-    required String? teamId,
-    required TeamEdit? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Edit Team',
-      operationId: 'patch_competition_teams_{team_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/teams/${teamId}');
-    final $body = body;
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionTeamsTeamIdDelete({
-    required String? teamId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Delete Team',
-      operationId: 'delete_competition_teams_{team_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/teams/${teamId}');
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<ParticipantComplete>> _competitionParticipantsMeGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Current User Participant',
-      operationId: 'get_competition_participants_me',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/participants/me');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<ParticipantComplete, ParticipantComplete>($request);
-  }
-
-  @override
-  Future<Response<List<ParticipantComplete>>>
-  _competitionParticipantsSportsSportIdGet({
-    required String? sportId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Participants For Sport',
-      operationId: 'get_competition_participants_sports_{sport_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/participants/sports/${sportId}');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<ParticipantComplete>, ParticipantComplete>(
-      $request,
-    );
-  }
-
-  @override
-  Future<Response<List<ParticipantComplete>>>
-  _competitionParticipantsSchoolsSchoolIdGet({
-    required String? schoolId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Participants For School',
-      operationId: 'get_competition_participants_schools_{school_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/participants/schools/${schoolId}');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<ParticipantComplete>, ParticipantComplete>(
-      $request,
-    );
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionParticipantsUsersUserIdCertificateGet({
-    required String? userId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Download Participant Certificate',
-      operationId: 'get_competition_participants_users_{user_id}_certificate',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/competition/participants/users/${userId}/certificate',
-    );
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<Participant>> _competitionSportsSportIdParticipatePost({
-    required String? sportId,
-    required ParticipantInfo? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Join Sport',
-      operationId: 'post_competition_sports_{sport_id}_participate',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/sports/${sportId}/participate');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<Participant, Participant>($request);
-  }
-
-  @override
-  Future<Response<dynamic>>
-  _competitionParticipantsSportsSportIdCertificatePost({
-    required String? sportId,
-    required BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost
-    body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Upload Participant Certificate',
-      operationId:
-          'post_competition_participants_sports_{sport_id}_certificate',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/competition/participants/sports/${sportId}/certificate',
-    );
-    final List<PartValue> $parts = <PartValue>[
-      PartValue<
-        BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost
-      >('body', body),
-    ];
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      parts: $parts,
-      multipart: true,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>>
-  _competitionParticipantsSportsSportIdCertificateDelete({
-    required String? sportId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Delete Participant Certificate File',
-      operationId:
-          'delete_competition_participants_sports_{sport_id}_certificate',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/competition/participants/sports/${sportId}/certificate',
-    );
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>>
-  _competitionParticipantsSportsSportIdUsersUserIdLicensePatch({
-    required String? sportId,
-    required String? userId,
-    required bool? isLicenseValid,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Mark Participant License As Valid',
-      operationId:
-          'patch_competition_participants_sports_{sport_id}_users_{user_id}_license',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/competition/participants/sports/${sportId}/users/${userId}/license',
-    );
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'is_license_valid': isLicenseValid,
-    };
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionSportsSportIdWithdrawDelete({
-    required String? sportId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Withdraw From Sport',
-      operationId: 'delete_competition_sports_{sport_id}_withdraw',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/sports/${sportId}/withdraw');
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionParticipantsUserIdSportsSportIdDelete({
-    required String? userId,
-    required String? sportId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Delete Participant',
-      operationId:
-          'delete_competition_participants_{user_id}_sports_{sport_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/competition/participants/${userId}/sports/${sportId}',
-    );
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<List<Location>>> _competitionLocationsGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get All Locations',
-      operationId: 'get_competition_locations',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/locations');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<Location>, Location>($request);
-  }
-
-  @override
-  Future<Response<Location>> _competitionLocationsPost({
-    required LocationBase? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Create Location',
-      operationId: 'post_competition_locations',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/locations');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<Location, Location>($request);
-  }
-
-  @override
-  Future<Response<LocationComplete>> _competitionLocationsLocationIdGet({
-    required String? locationId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Location By Id',
-      operationId: 'get_competition_locations_{location_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/locations/${locationId}');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<LocationComplete, LocationComplete>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionLocationsLocationIdPatch({
-    required String? locationId,
-    required LocationEdit? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Edit Location',
-      operationId: 'patch_competition_locations_{location_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/locations/${locationId}');
-    final $body = body;
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionLocationsLocationIdDelete({
-    required String? locationId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Delete Location',
-      operationId: 'delete_competition_locations_{location_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/locations/${locationId}');
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<List<MatchComplete>>> _competitionMatchesSportsSportIdGet({
-    required String? sportId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Matches For Sport And Edition',
-      operationId: 'get_competition_matches_sports_{sport_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/matches/sports/${sportId}');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<MatchComplete>, MatchComplete>($request);
-  }
-
-  @override
-  Future<Response<Match>> _competitionMatchesSportsSportIdPost({
-    required String? sportId,
-    required MatchBase? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Create Match',
-      operationId: 'post_competition_matches_sports_{sport_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/matches/sports/${sportId}');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<Match, Match>($request);
-  }
-
-  @override
-  Future<Response<List<MatchComplete>>> _competitionMatchesSchoolsSchoolIdGet({
-    required String? schoolId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get Matches For School Sport And Edition',
-      operationId: 'get_competition_matches_schools_{school_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/matches/schools/${schoolId}');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<MatchComplete>, MatchComplete>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionMatchesMatchIdPatch({
-    required String? matchId,
-    required MatchEdit? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Edit Match',
-      operationId: 'patch_competition_matches_{match_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/matches/${matchId}');
-    final $body = body;
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionMatchesMatchIdDelete({
-    required String? matchId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Delete Match',
-      operationId: 'delete_competition_matches_{match_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/matches/${matchId}');
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<List<SchoolResult>>> _competitionPodiumsGlobalGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Get the global podiums for the current edition.',
-      summary: 'Get Global Podiums',
-      operationId: 'get_competition_podiums_global',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/podiums/global');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<SchoolResult>, SchoolResult>($request);
-  }
-
-  @override
-  Future<Response<List<TeamSportResultComplete>>>
-  _competitionPodiumsSportSportIdGet({
-    required String? sportId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Get the podiums for a specific sport in the current edition.',
-      summary: 'Get Sport Podiums',
-      operationId: 'get_competition_podiums_sport_{sport_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/podiums/sport/${sportId}');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<TeamSportResultComplete>, TeamSportResultComplete>(
-      $request,
-    );
-  }
-
-  @override
-  Future<Response<List<TeamSportResult>>> _competitionPodiumsSportSportIdPost({
-    required String? sportId,
-    required SportPodiumRankings? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Create or update the podium for a specific sport in the current edition.',
-      summary: 'Create Sport Podium',
-      operationId: 'post_competition_podiums_sport_{sport_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/podiums/sport/${sportId}');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<TeamSportResult>, TeamSportResult>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionPodiumsSportSportIdDelete({
-    required String? sportId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Delete the podium for a specific sport in the current edition.',
-      summary: 'Delete Sport Podium',
-      operationId: 'delete_competition_podiums_sport_{sport_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/podiums/sport/${sportId}');
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<List<TeamSportResultComplete>>>
-  _competitionPodiumsSchoolSchoolIdGet({
-    required String? schoolId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Get the podiums for a specific school in the current edition.',
-      summary: 'Get School Podiums',
-      operationId: 'get_competition_podiums_school_{school_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/podiums/school/${schoolId}');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<TeamSportResultComplete>, TeamSportResultComplete>(
-      $request,
-    );
-  }
-
-  @override
-  Future<
-    Response<
-      List<AppModulesSportCompetitionSchemasSportCompetitionProductComplete>
-    >
-  >
-  _competitionProductsGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Get all products.',
-      summary: 'Get All Products',
-      operationId: 'get_competition_products',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/products');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<
-      List<AppModulesSportCompetitionSchemasSportCompetitionProductComplete>,
-      AppModulesSportCompetitionSchemasSportCompetitionProductComplete
-    >($request);
-  }
-
-  @override
-  Future<
-    Response<AppModulesSportCompetitionSchemasSportCompetitionProductComplete>
-  >
-  _competitionProductsPost({
-    required AppModulesSportCompetitionSchemasSportCompetitionProductBase? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Create a product.',
-      summary: 'Create Product',
-      operationId: 'post_competition_products',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/products');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<
-      AppModulesSportCompetitionSchemasSportCompetitionProductComplete,
-      AppModulesSportCompetitionSchemasSportCompetitionProductComplete
-    >($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionProductsProductIdPatch({
-    required String? productId,
-    required AppModulesSportCompetitionSchemasSportCompetitionProductEdit? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Edit a product.
-
-**User must be a competition admin to use this endpoint**''',
-      summary: 'Update Product',
-      operationId: 'patch_competition_products_{product_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/products/${productId}');
-    final $body = body;
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionProductsProductIdDelete({
-    required String? productId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Delete a product.
-
-**User must be a competition admin to use this endpoint**''',
-      summary: 'Delete Product',
-      operationId: 'delete_competition_products_{product_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/products/${productId}');
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<
-    Response<
-      List<
-        AppModulesSportCompetitionSchemasSportCompetitionProductVariantComplete
-      >
-    >
-  >
-  _competitionProductsAvailableGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Get all available product variants of the current edition for this user.',
-      summary: 'Get Available Product Variants',
-      operationId: 'get_competition_products_available',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/products/available');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<
-      List<
-        AppModulesSportCompetitionSchemasSportCompetitionProductVariantComplete
-      >,
-      AppModulesSportCompetitionSchemasSportCompetitionProductVariantComplete
-    >($request);
-  }
-
-  @override
-  Future<Response<ProductVariant>> _competitionProductsProductIdVariantsPost({
-    required String? productId,
-    required AppModulesSportCompetitionSchemasSportCompetitionProductVariantBase?
-    body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Create a product variant.
-
-**User must be a competition admin to use this endpoint**''',
-      summary: 'Create Product Variant',
-      operationId: 'post_competition_products_{product_id}_variants',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/products/${productId}/variants');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<ProductVariant, ProductVariant>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionProductsVariantsVariantIdPatch({
-    required String? variantId,
-    required AppModulesSportCompetitionSchemasSportCompetitionProductVariantEdit?
-    body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Edit a product variant.
-
-**User must be a competition admin to use this endpoint**''',
-      summary: 'Update Product Variant',
-      operationId: 'patch_competition_products_variants_{variant_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/products/variants/${variantId}');
-    final $body = body;
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionProductsVariantsVariantIdDelete({
-    required String? variantId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Delete a product variant.
-
-**User must be a competition admin to use this endpoint**''',
-      summary: 'Delete Product Variant',
-      operationId: 'delete_competition_products_variants_{variant_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/products/variants/${variantId}');
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<Object>> _competitionPurchasesSchoolsSchoolIdGet({
-    required String? schoolId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get a school\'s purchases.
-
-**User must be competition admin to use this endpoint**''',
-      summary: 'Get Purchases By School Id',
-      operationId: 'get_competition_purchases_schools_{school_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/purchases/schools/${schoolId}');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<Object, Object>($request);
-  }
-
-  @override
-  Future<Response<List<Purchase>>> _competitionPurchasesUsersUserIdGet({
-    required String? userId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get a user\'s purchases.
-
-**User must be competition admin to use this endpoint**''',
-      summary: 'Get Purchases By User Id',
-      operationId: 'get_competition_purchases_users_{user_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/purchases/users/${userId}');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<Purchase>, Purchase>($request);
-  }
-
-  @override
-  Future<Response<List<Purchase>>> _competitionPurchasesMeGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Get My Purchases',
-      operationId: 'get_competition_purchases_me',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/purchases/me');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<Purchase>, Purchase>($request);
-  }
-
-  @override
-  Future<Response<Purchase>> _competitionPurchasesMePost({
-    required AppModulesSportCompetitionSchemasSportCompetitionPurchaseBase?
-    body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Create a purchase.
-
-**User must create a purchase for themself**''',
-      summary: 'Create Purchase',
-      operationId: 'post_competition_purchases_me',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/purchases/me');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<Purchase, Purchase>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionPurchasesProductVariantIdDelete({
-    required String? productVariantId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Delete a purchase.
-
-**User must delete their own purchase**''',
-      summary: 'Delete Purchase',
-      operationId: 'delete_competition_purchases_{product_variant_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/purchases/${productVariantId}');
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<Object>> _competitionPaymentsSchoolsSchoolIdGet({
-    required String? schoolId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get a school\'s users payments.
-
-**User must be competition admin to use this endpoint**''',
-      summary: 'Get Users Payments By School Id',
-      operationId: 'get_competition_payments_schools_{school_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/payments/schools/${schoolId}');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<Object, Object>($request);
-  }
-
-  @override
-  Future<
-    Response<
-      List<AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete>
-    >
-  >
-  _competitionUsersUserIdPaymentsGet({
-    required String? userId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get a user\'s payments.
-
-**User must get his own payments or be competition admin to use this endpoint**''',
-      summary: 'Get Payments By User Id',
-      operationId: 'get_competition_users_{user_id}_payments',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/users/${userId}/payments');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<
-      List<AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete>,
-      AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete
-    >($request);
-  }
-
-  @override
-  Future<
-    Response<AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete>
-  >
-  _competitionUsersUserIdPaymentsPost({
-    required String? userId,
-    required AppModulesSportCompetitionSchemasSportCompetitionPaymentBase? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Create a payment.
-
-**User must be competition admin to use this endpoint**''',
-      summary: 'Create Payment',
-      operationId: 'post_competition_users_{user_id}_payments',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/users/${userId}/payments');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<
-      AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete,
-      AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete
-    >($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionUsersUserIdPaymentsPaymentIdDelete({
-    required String? userId,
-    required String? paymentId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Remove a payment.
-
-**User must be competition admin to use this endpoint**''',
-      summary: 'Delete Payment',
-      operationId: 'delete_competition_users_{user_id}_payments_{payment_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/competition/users/${userId}/payments/${paymentId}',
-    );
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<PaymentUrl>> _competitionPayPost({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Get payment url',
-      summary: 'Get Payment Url',
-      operationId: 'post_competition_pay',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/pay');
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<PaymentUrl, PaymentUrl>($request);
-  }
-
-  @override
-  Future<Response<List<VolunteerShiftComplete>>>
-  _competitionVolunteersShiftsGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Get all volunteer shifts.',
-      summary: 'Get All Volunteer Shifts',
-      operationId: 'get_competition_volunteers_shifts',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/volunteers/shifts');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<VolunteerShiftComplete>, VolunteerShiftComplete>(
-      $request,
-    );
-  }
-
-  @override
-  Future<Response<VolunteerShift>> _competitionVolunteersShiftsPost({
-    required VolunteerShiftBase? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Create a volunteer shift.',
-      summary: 'Create Volunteer Shift',
-      operationId: 'post_competition_volunteers_shifts',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/volunteers/shifts');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<VolunteerShift, VolunteerShift>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionVolunteersShiftsShiftIdPatch({
-    required String? shiftId,
-    required VolunteerShiftEdit? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Edit a volunteer shift.
-
-**User must be a competition admin to use this endpoint**''',
-      summary: 'Update Volunteer Shift',
-      operationId: 'patch_competition_volunteers_shifts_{shift_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/volunteers/shifts/${shiftId}');
-    final $body = body;
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionVolunteersShiftsShiftIdDelete({
-    required String? shiftId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Delete a volunteer shift.
-
-**User must be a competition admin to use this endpoint**''',
-      summary: 'Delete Volunteer Shift',
-      operationId: 'delete_competition_volunteers_shifts_{shift_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/volunteers/shifts/${shiftId}');
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<List<VolunteerRegistrationComplete>>>
-  _competitionVolunteersMeGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Get my volunteer registrations.',
-      summary: 'Get My Volunteer Registrations',
-      operationId: 'get_competition_volunteers_me',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/competition/volunteers/me');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<
-      List<VolunteerRegistrationComplete>,
-      VolunteerRegistrationComplete
-    >($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _competitionVolunteersShiftsShiftIdRegisterPost({
-    required String? shiftId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Register to a volunteer shift.',
-      summary: 'Register To Volunteer Shift',
-      operationId: 'post_competition_volunteers_shifts_{shift_id}_register',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Sport Competition"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/competition/volunteers/shifts/${shiftId}/register',
-    );
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<List<AdvertiserComplete>>> _advertAdvertisersGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get existing advertisers.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Read Advertisers',
-      operationId: 'get_advert_advertisers',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Advert"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/advert/advertisers');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<AdvertiserComplete>, AdvertiserComplete>($request);
-  }
-
-  @override
-  Future<Response<AdvertiserComplete>> _advertAdvertisersPost({
-    required AdvertiserBase? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Create a new advertiser.
-
-Each advertiser is associated with a `manager_group`. Users belonging to this group are able to manage the adverts related to the advertiser.
-
-**This endpoint is only usable by administrators**''',
-      summary: 'Create Advertiser',
-      operationId: 'post_advert_advertisers',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Advert"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/advert/advertisers');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<AdvertiserComplete, AdvertiserComplete>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _advertAdvertisersAdvertiserIdDelete({
-    required String? advertiserId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Delete an advertiser. All adverts associated with the advertiser will also be deleted from the database.
-
-**This endpoint is only usable by administrators**''',
-      summary: 'Delete Advertiser',
-      operationId: 'delete_advert_advertisers_{advertiser_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Advert"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/advert/advertisers/${advertiserId}');
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _advertAdvertisersAdvertiserIdPatch({
-    required String? advertiserId,
-    required AdvertiserUpdate? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Update an advertiser
-
-**This endpoint is only usable by administrators**''',
-      summary: 'Update Advertiser',
-      operationId: 'patch_advert_advertisers_{advertiser_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Advert"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/advert/advertisers/${advertiserId}');
-    final $body = body;
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<List<AdvertiserComplete>>> _advertMeAdvertisersGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Return all advertisers the current user can manage.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Get Current User Advertisers',
-      operationId: 'get_advert_me_advertisers',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Advert"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/advert/me/advertisers');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<AdvertiserComplete>, AdvertiserComplete>($request);
-  }
-
-  @override
-  Future<Response<List<AdvertReturnComplete>>> _advertAdvertsGet({
+  Future<Response<List<AdvertComplete>>> _advertAdvertsGet({
     List<String>? advertisers,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
@@ -9025,18 +6110,16 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
       parameters: $params,
       tag: swaggerMetaData,
     );
-    return client.send<List<AdvertReturnComplete>, AdvertReturnComplete>(
-      $request,
-    );
+    return client.send<List<AdvertComplete>, AdvertComplete>($request);
   }
 
   @override
-  Future<Response<AdvertReturnComplete>> _advertAdvertsPost({
+  Future<Response<AdvertComplete>> _advertAdvertsPost({
     required AdvertBase? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Create a new advert
 
-**The user must be a member of the advertiser group_manager to use this endpoint**''',
+**The user must be a member of the advertiser group to use this endpoint**''',
       summary: 'Create Advert',
       operationId: 'post_advert_adverts',
       consumes: [],
@@ -9055,11 +6138,11 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<AdvertReturnComplete, AdvertReturnComplete>($request);
+    return client.send<AdvertComplete, AdvertComplete>($request);
   }
 
   @override
-  Future<Response<AdvertReturnComplete>> _advertAdvertsAdvertIdGet({
+  Future<Response<AdvertComplete>> _advertAdvertsAdvertIdGet({
     required String? advertId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Get an advert
@@ -9081,7 +6164,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<AdvertReturnComplete, AdvertReturnComplete>($request);
+    return client.send<AdvertComplete, AdvertComplete>($request);
   }
 
   @override
@@ -9166,8 +6249,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   }
 
   @override
-  Future<Response<AppTypesStandardResponsesResult>>
-  _advertAdvertsAdvertIdPicturePost({
+  Future<Response<dynamic>> _advertAdvertsAdvertIdPicturePost({
     required String? advertId,
     required BodyCreateAdvertImageAdvertAdvertsAdvertIdPicturePost body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -9198,10 +6280,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
       multipart: true,
       tag: swaggerMetaData,
     );
-    return client
-        .send<AppTypesStandardResponsesResult, AppTypesStandardResponsesResult>(
-          $request,
-        );
+    return client.send<dynamic, dynamic>($request);
   }
 
   @override
@@ -9232,12 +6311,12 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
 
   @override
   Future<Response<AssociationComplete>> _phonebookAssociationsPost({
-    required AssociationBase? body,
+    required AppModulesPhonebookSchemasPhonebookAssociationBase? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           '''Create a new Association by giving an AssociationBase scheme
 
-**This endpoint is only usable by CAA, BDE**''',
+**This endpoint is only usable by phonebook_admin**''',
       summary: 'Create Association',
       operationId: 'post_phonebook_associations_',
       consumes: [],
@@ -9283,11 +6362,12 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   }
 
   @override
-  Future<Response<KindsReturn>> _phonebookAssociationsKindsGet({
+  Future<Response<List<AssociationGroupement>>> _phonebookGroupementsGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Return all available kinds of from Kinds enum.',
-      summary: 'Get All Kinds',
-      operationId: 'get_phonebook_associations_kinds',
+      description:
+          'Return all groupements from database as a list of AssociationGroupement schemas',
+      summary: 'Get All Groupements',
+      operationId: 'get_phonebook_groupements_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9295,14 +6375,100 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
       deprecated: false,
     ),
   }) {
-    final Uri $url = Uri.parse('/phonebook/associations/kinds');
+    final Uri $url = Uri.parse('/phonebook/groupements/');
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<KindsReturn, KindsReturn>($request);
+    return client.send<List<AssociationGroupement>, AssociationGroupement>(
+      $request,
+    );
+  }
+
+  @override
+  Future<Response<AssociationGroupement>> _phonebookGroupementsPost({
+    required AssociationGroupementBase? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''Create a new Groupement by giving an AssociationGroupementBase scheme
+
+**This endpoint is only usable by phonebook_admin**''',
+      summary: 'Create Groupement',
+      operationId: 'post_phonebook_groupements_',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Phonebook"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/phonebook/groupements/');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<AssociationGroupement, AssociationGroupement>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _phonebookGroupementsGroupementIdPatch({
+    required String? groupementId,
+    required AssociationGroupementBase? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Update a groupement
+
+**This endpoint is only usable by phonebook_admin**''',
+      summary: 'Update Groupement',
+      operationId: 'patch_phonebook_groupements_{groupement_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Phonebook"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/phonebook/groupements/${groupementId}');
+    final $body = body;
+    final Request $request = Request(
+      'PATCH',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _phonebookGroupementsGroupementIdDelete({
+    required String? groupementId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Delete a groupement
+
+**This endpoint is only usable by phonebook_admin**''',
+      summary: 'Delete Groupement',
+      operationId: 'delete_phonebook_groupements_{groupement_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Phonebook"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/phonebook/groupements/${groupementId}');
+    final Request $request = Request(
+      'DELETE',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
   }
 
   @override
@@ -9312,7 +6478,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Update an Association
 
-**This endpoint is only usable by CAA, BDE and association\'s president**''',
+**This endpoint is only usable by phonebook_admin and association\'s president**''',
       summary: 'Update Association',
       operationId: 'patch_phonebook_associations_{association_id}',
       consumes: [],
@@ -9342,7 +6508,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
 
 [!] Memberships linked to association_id will be deleted too
 
-**This endpoint is only usable by CAA and BDE**''',
+**This endpoint is only usable by phonebook_admin**''',
       summary: 'Delete Association',
       operationId: 'delete_phonebook_associations_{association_id}',
       consumes: [],
@@ -9369,7 +6535,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Update the groups associated with an Association
 
-**This endpoint is only usable by Admins (not BDE and CAA)**''',
+**This endpoint is only usable by admin (not phonebook_admin)**''',
       summary: 'Update Association Groups',
       operationId: 'patch_phonebook_associations_{association_id}_groups',
       consumes: [],
@@ -9399,7 +6565,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Deactivate an Association
 
-**This endpoint is only usable by CAA and BDE**''',
+**This endpoint is only usable by phonebook_admin**''',
       summary: 'Deactivate Association',
       operationId: 'patch_phonebook_associations_{association_id}_deactivate',
       consumes: [],
@@ -9509,7 +6675,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
       description: '''Create a new Membership.
 \'role_tags\' are used to indicate if the members has a main role in the association (president, secretary ...) and \'role_name\' is the display name for this membership
 
-**This endpoint is only usable by CAA, BDE and association\'s president**''',
+**This endpoint is only usable by phonebook_admin and association\'s president**''',
       summary: 'Create Membership',
       operationId: 'post_phonebook_associations_memberships',
       consumes: [],
@@ -9538,7 +6704,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Update a Membership.
 
-**This endpoint is only usable by CAA, BDE and association\'s president**''',
+**This endpoint is only usable by phonebook_admin and association\'s president**''',
       summary: 'Update Membership',
       operationId: 'patch_phonebook_associations_memberships_{membership_id}',
       consumes: [],
@@ -9569,7 +6735,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a membership.
 
-**This endpoint is only usable by CAA, BDE and association\'s president**''',
+**This endpoint is only usable by phonebook_admin and association\'s president**''',
       summary: 'Delete Membership',
       operationId: 'delete_phonebook_associations_memberships_{membership_id}',
       consumes: [],
@@ -9599,7 +6765,8 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
     body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Upload a logo for an Association.
-**The user must be a member of the group CAA or BDE to use this endpoint**''',
+
+**The user must be a member of the group phonebook_admin or the president of the association to use this endpoint**''',
       summary: 'Create Association Logo',
       operationId: 'post_phonebook_associations_{association_id}_picture',
       consumes: [],
@@ -9658,7 +6825,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   }
 
   @override
-  Future<Response<RaidParticipant>> _raidParticipantsParticipantIdGet({
+  Future<Response<Participant>> _raidParticipantsParticipantIdGet({
     required String? participantId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get a participant by id',
@@ -9678,13 +6845,13 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<RaidParticipant, RaidParticipant>($request);
+    return client.send<Participant, Participant>($request);
   }
 
   @override
   Future<Response<dynamic>> _raidParticipantsParticipantIdPatch({
     required String? participantId,
-    required RaidParticipantUpdate? body,
+    required ParticipantUpdate? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update a participant',
       summary: 'Update Participant',
@@ -9709,8 +6876,8 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   }
 
   @override
-  Future<Response<RaidParticipant>> _raidParticipantsPost({
-    required RaidParticipantBase? body,
+  Future<Response<Participant>> _raidParticipantsPost({
+    required ParticipantBase? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a participant',
       summary: 'Create Participant',
@@ -9731,11 +6898,11 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<RaidParticipant, RaidParticipant>($request);
+    return client.send<Participant, Participant>($request);
   }
 
   @override
-  Future<Response<List<RaidTeamPreview>>> _raidTeamsGet({
+  Future<Response<List<TeamPreview>>> _raidTeamsGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all teams',
       summary: 'Get All Teams',
@@ -9754,12 +6921,12 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<List<RaidTeamPreview>, RaidTeamPreview>($request);
+    return client.send<List<TeamPreview>, TeamPreview>($request);
   }
 
   @override
-  Future<Response<RaidTeam>> _raidTeamsPost({
-    required RaidTeamBase? body,
+  Future<Response<Team>> _raidTeamsPost({
+    required TeamBase? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a team',
       summary: 'Create Team',
@@ -9780,7 +6947,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<RaidTeam, RaidTeam>($request);
+    return client.send<Team, Team>($request);
   }
 
   @override
@@ -9807,7 +6974,32 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   }
 
   @override
-  Future<Response<RaidTeam>> _raidParticipantsParticipantIdTeamGet({
+  Future<Response<dynamic>> _raidTeamsGeneratePdfPost({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''PDF are automatically generated when a team is created or updated.
+This endpoint is used to regenerate all the PDFs.''',
+      summary: 'Generate Teams Pdf',
+      operationId: 'post_raid_teams_generate-pdf',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Raid"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/raid/teams/generate-pdf');
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<Team>> _raidParticipantsParticipantIdTeamGet({
     required String? participantId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get a team by participant id',
@@ -9827,11 +7019,11 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<RaidTeam, RaidTeam>($request);
+    return client.send<Team, Team>($request);
   }
 
   @override
-  Future<Response<RaidTeam>> _raidTeamsTeamIdGet({
+  Future<Response<Team>> _raidTeamsTeamIdGet({
     required String? teamId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get a team by id',
@@ -9851,13 +7043,13 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<RaidTeam, RaidTeam>($request);
+    return client.send<Team, Team>($request);
   }
 
   @override
   Future<Response<dynamic>> _raidTeamsTeamIdPatch({
     required String? teamId,
-    required RaidTeamUpdate? body,
+    required TeamUpdate? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update a team',
       summary: 'Update Team',
@@ -10142,7 +7334,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   }
 
   @override
-  Future<Response<RaidTeam>> _raidTeamsTeamIdKickParticipantIdPost({
+  Future<Response<Team>> _raidTeamsTeamIdKickParticipantIdPost({
     required String? teamId,
     required String? participantId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -10163,11 +7355,11 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<RaidTeam, RaidTeam>($request);
+    return client.send<Team, Team>($request);
   }
 
   @override
-  Future<Response<RaidTeam>> _raidTeamsMergePost({
+  Future<Response<Team>> _raidTeamsMergePost({
     required String? team1Id,
     required String? team2Id,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -10193,7 +7385,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
       parameters: $params,
       tag: swaggerMetaData,
     );
-    return client.send<RaidTeam, RaidTeam>($request);
+    return client.send<Team, Team>($request);
   }
 
   @override
@@ -10369,56 +7561,7 @@ Each advertiser is associated with a `manager_group`. Users belonging to this gr
   }
 
   @override
-  Future<Response<dynamic>> _raidSecurityFilesZipGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Generate and serve a ZIP file containing all security files.
-Only accessible to raid admins.''',
-      summary: 'Download Security Files Zip',
-      operationId: 'get_raid_security_files_zip',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Raid"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/raid/security_files_zip');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _raidTeamFilesZipGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Generate and serve a ZIP file containing all team files.
-Only accessible to raid admins.''',
-      summary: 'Download Team Files Zip',
-      operationId: 'get_raid_team_files_zip',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Raid"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/raid/team_files_zip');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<List<EventReturn>>> _calendarEventsGet({
+  Future<Response<List<EventComplete>>> _calendarEventsGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all events from the database.',
       summary: 'Get Events',
@@ -10437,12 +7580,12 @@ Only accessible to raid admins.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<List<EventReturn>, EventReturn>($request);
+    return client.send<List<EventComplete>, EventComplete>($request);
   }
 
   @override
-  Future<Response<EventReturn>> _calendarEventsPost({
-    required EventBase? body,
+  Future<Response<EventCompleteTicketUrl>> _calendarEventsPost({
+    required EventBaseCreation? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Add an event to the calendar.',
       summary: 'Add Event',
@@ -10463,7 +7606,9 @@ Only accessible to raid admins.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<EventReturn, EventReturn>($request);
+    return client.send<EventCompleteTicketUrl, EventCompleteTicketUrl>(
+      $request,
+    );
   }
 
   @override
@@ -10492,14 +7637,15 @@ Only accessible to raid admins.''',
   }
 
   @override
-  Future<Response<List<EventReturn>>> _calendarEventsUserApplicantIdGet({
-    required String? applicantId,
+  Future<Response<List<EventCompleteTicketUrl>>>
+  _calendarEventsAssociationsAssociationIdGet({
+    required String? associationId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get one user bookings.
+      description: '''Get the booking of the association
 
-**Usable by the user or admins**''',
-      summary: 'Get Applicant Bookings',
-      operationId: 'get_calendar_events_user_{applicant_id}',
+**Usable by members of the association**''',
+      summary: 'Get Association Events',
+      operationId: 'get_calendar_events_associations_{association_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10507,21 +7653,27 @@ Only accessible to raid admins.''',
       deprecated: false,
     ),
   }) {
-    final Uri $url = Uri.parse('/calendar/events/user/${applicantId}');
+    final Uri $url = Uri.parse(
+      '/calendar/events/associations/${associationId}',
+    );
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<List<EventReturn>, EventReturn>($request);
+    return client.send<List<EventCompleteTicketUrl>, EventCompleteTicketUrl>(
+      $request,
+    );
   }
 
   @override
-  Future<Response<EventComplete>> _calendarEventsEventIdGet({
+  Future<Response<EventCompleteTicketUrl>> _calendarEventsEventIdGet({
     required String? eventId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Get an event\'s information by its id.',
+      description: '''Get an event\'s information by its id.
+
+**Non approved events are only accessible for BDE or the event\'s association members**''',
       summary: 'Get Event By Id',
       operationId: 'get_calendar_events_{event_id}',
       consumes: [],
@@ -10538,7 +7690,9 @@ Only accessible to raid admins.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<EventComplete, EventComplete>($request);
+    return client.send<EventCompleteTicketUrl, EventCompleteTicketUrl>(
+      $request,
+    );
   }
 
   @override
@@ -10548,8 +7702,8 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Edit an event.
 
-**Only usable by admins or applicant before decision**''',
-      summary: 'Edit Bookings Id',
+**Only usable by admins or members of the event\'s association**''',
+      summary: 'Edit Envent',
       operationId: 'patch_calendar_events_{event_id}',
       consumes: [],
       produces: [],
@@ -10576,8 +7730,8 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Remove an event.
 
-**Only usable by admins or applicant before decision**''',
-      summary: 'Delete Bookings Id',
+**Only usable by admins or, if the event is pending, members of the event\'s association**''',
+      summary: 'Delete Event',
       operationId: 'delete_calendar_events_{event_id}',
       consumes: [],
       produces: [],
@@ -10597,12 +7751,12 @@ Only accessible to raid admins.''',
   }
 
   @override
-  Future<Response<EventApplicant>> _calendarEventsEventIdApplicantGet({
+  Future<Response<EventTicketUrl>> _calendarEventsEventIdTicketUrlGet({
     required String? eventId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
-      summary: 'Get Event Applicant',
-      operationId: 'get_calendar_events_{event_id}_applicant',
+      summary: 'Get Event Ticket Url',
+      operationId: 'get_calendar_events_{event_id}_ticket-url',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10610,14 +7764,75 @@ Only accessible to raid admins.''',
       deprecated: false,
     ),
   }) {
-    final Uri $url = Uri.parse('/calendar/events/${eventId}/applicant');
+    final Uri $url = Uri.parse('/calendar/events/${eventId}/ticket-url');
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<EventApplicant, EventApplicant>($request);
+    return client.send<EventTicketUrl, EventTicketUrl>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _calendarEventsEventIdImageGet({
+    required String? eventId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get the image of an event
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Get Event Image',
+      operationId: 'get_calendar_events_{event_id}_image',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Calendar"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/calendar/events/${eventId}/image');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _calendarEventsEventIdImagePost({
+    required String? eventId,
+    required BodyCreateEventImageCalendarEventsEventIdImagePost body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Add an image to an event
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Create Event Image',
+      operationId: 'post_calendar_events_{event_id}_image',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Calendar"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/calendar/events/${eventId}/image');
+    final List<PartValue> $parts = <PartValue>[
+      PartValue<BodyCreateEventImageCalendarEventsEventIdImagePost>(
+        'body',
+        body,
+      ),
+    ];
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      parts: $parts,
+      multipart: true,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
   }
 
   @override
@@ -10628,7 +7843,7 @@ Only accessible to raid admins.''',
       description: '''Give a decision to an event.
 
 **Only usable by admins**''',
-      summary: 'Confirm Booking',
+      summary: 'Confirm Event',
       operationId: 'patch_calendar_events_{event_id}_reply_{decision}',
       consumes: [],
       produces: [],
@@ -10645,6 +7860,29 @@ Only accessible to raid admins.''',
       tag: swaggerMetaData,
     );
     return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<IcalSecret>> _calendarIcalUrlGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Generate a unique ical url for the user',
+      summary: 'Get Ical Url',
+      operationId: 'get_calendar_ical-url',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Calendar"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/calendar/ical-url');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<IcalSecret, IcalSecret>($request);
   }
 
   @override
@@ -10674,6 +7912,7 @@ Only accessible to raid admins.''',
 
   @override
   Future<Response<dynamic>> _calendarIcalGet({
+    required String? secret,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           'Get the icalendar file corresponding to the event in the database.',
@@ -10687,6 +7926,55 @@ Only accessible to raid admins.''',
     ),
   }) {
     final Uri $url = Uri.parse('/calendar/ical');
+    final Map<String, dynamic> $params = <String, dynamic>{'secret': secret};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<List<News>>> _feedNewsGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Return published news from the feed',
+      summary: 'Get Published News',
+      operationId: 'get_feed_news',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Feed"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/feed/news');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<List<News>, News>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _feedNewsNewsIdImageGet({
+    required String? newsId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Return the image of a news',
+      summary: 'Get News Image',
+      operationId: 'get_feed_news_{news_id}_image',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Feed"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/feed/news/${newsId}/image');
     final Request $request = Request(
       'GET',
       $url,
@@ -10697,19 +7985,73 @@ Only accessible to raid admins.''',
   }
 
   @override
-  Future<Response<dynamic>> _paymentHelloassoWebhookPost({
+  Future<Response<List<News>>> _feedAdminNewsGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '',
-      summary: 'Webhook',
-      operationId: 'post_payment_helloasso_webhook',
+      description: '''Return news from the feed
+
+**This endpoint is only usable by feed administrators**''',
+      summary: 'Get Admin News',
+      operationId: 'get_feed_admin_news',
       consumes: [],
       produces: [],
-      security: [],
-      tags: ["Payments"],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Feed"],
       deprecated: false,
     ),
   }) {
-    final Uri $url = Uri.parse('/payment/helloasso/webhook');
+    final Uri $url = Uri.parse('/feed/admin/news');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<List<News>, News>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _feedAdminNewsNewsIdApprovePost({
+    required String? newsId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Approve a news
+
+**This endpoint is only usable by feed administrators**''',
+      summary: 'Approve News',
+      operationId: 'post_feed_admin_news_{news_id}_approve',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Feed"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/feed/admin/news/${newsId}/approve');
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _feedAdminNewsNewsIdRejectPost({
+    required String? newsId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Reject a news
+
+**This endpoint is only usable by feed administrators**''',
+      summary: 'Reject News',
+      operationId: 'post_feed_admin_news_{news_id}_reject',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Feed"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/feed/admin/news/${newsId}/reject');
     final Request $request = Request(
       'POST',
       $url,
@@ -10856,6 +8198,175 @@ This will remove the school from all users but won\'t delete any user.
   }
 
   @override
+  Future<Response<List<Association>>> _associationsGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Return all associations
+
+**User must be authenticated**''',
+      summary: 'Read Associations',
+      operationId: 'get_associations_',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Associations"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/associations/');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<List<Association>, Association>($request);
+  }
+
+  @override
+  Future<Response<Association>> _associationsPost({
+    required AppCoreAssociationsSchemasAssociationsAssociationBase? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Create a new association
+
+**This endpoint is only usable by administrators**''',
+      summary: 'Create Association',
+      operationId: 'post_associations_',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Associations"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/associations/');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<Association, Association>($request);
+  }
+
+  @override
+  Future<Response<List<Association>>> _associationsMeGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''Return all associations the current user has the right to manage
+
+**User must be authenticated**''',
+      summary: 'Read Associations Me',
+      operationId: 'get_associations_me',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Associations"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/associations/me');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<List<Association>, Association>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _associationsAssociationIdPatch({
+    required String? associationId,
+    required AssociationUpdate? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Update the name or the description of a association.
+
+**This endpoint is only usable by administrators**''',
+      summary: 'Update Association',
+      operationId: 'patch_associations_{association_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Associations"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/associations/${associationId}');
+    final $body = body;
+    final Request $request = Request(
+      'PATCH',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _associationsAssociationIdLogoPost({
+    required String? associationId,
+    required BodyCreateAssociationLogoAssociationsAssociationIdLogoPost body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Upload a logo for an association
+
+**This endpoint is only usable by administrators**''',
+      summary: 'Create Association Logo',
+      operationId: 'post_associations_{association_id}_logo',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Associations"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/associations/${associationId}/logo');
+    final List<PartValue> $parts = <PartValue>[
+      PartValue<BodyCreateAssociationLogoAssociationsAssociationIdLogoPost>(
+        'body',
+        body,
+      ),
+    ];
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      parts: $parts,
+      multipart: true,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _associationsAssociationIdLogoGet({
+    required String? associationId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get the logo of an association
+
+**User must be authenticated**''',
+      summary: 'Read Association Logo',
+      operationId: 'get_associations_{association_id}_logo',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Associations"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/associations/${associationId}/logo');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<List<CoreUserSimple>>> _usersGet({
     List<Object?>? accountTypes,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -10956,7 +8467,7 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all account types hardcoded in the system',
       summary: 'Get Account Types',
-      operationId: 'get_users_account-types_',
+      operationId: 'get_users_account-types',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10964,7 +8475,7 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
       deprecated: false,
     ),
   }) {
-    final Uri $url = Uri.parse('/users/account-types/');
+    final Uri $url = Uri.parse('/users/account-types');
     final Request $request = Request(
       'GET',
       $url,
@@ -11076,6 +8587,8 @@ Even for creating **student** or **staff** account a valid ECL email is not requ
 
 The endpoint return a dictionary of unsuccessful user creation: `{email: error message}`.
 
+NOTE: the activation link will only be valid for a limited time. You should probably use `/users/batch-invitation` endpoint instead, which will send an invitation email to the user.
+
 **This endpoint is only usable by administrators**''',
       summary: 'Batch Create Users',
       operationId: 'post_users_batch-creation',
@@ -11087,6 +8600,38 @@ The endpoint return a dictionary of unsuccessful user creation: `{email: error m
     ),
   }) {
     final Uri $url = Uri.parse('/users/batch-creation');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<BatchResult, BatchResult>($request);
+  }
+
+  @override
+  Future<Response<BatchResult>> _usersBatchInvitationPost({
+    required List<CoreBatchUserCreateRequest>? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''Batch user account invitation process. All users will be sent an email encouraging them to create an account.
+These emails will be whitelisted in Hyperion. If self registration is disabled only whitelisted emails will be able to create an account.
+
+The endpoint return a dictionary of unsuccessful user creation: `{email: error message}`.
+
+**This endpoint is only usable by administrators**''',
+      summary: 'Batch Invite Users',
+      operationId: 'post_users_batch-invitation',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Users"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/users/batch-invitation');
     final $body = body;
     final Request $request = Request(
       'POST',
@@ -11155,34 +8700,6 @@ It should be used only once, when the S3 bucket is created.''',
       tag: swaggerMetaData,
     );
     return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<AppTypesStandardResponsesResult>> _usersMakeAdminPost({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''This endpoint is only usable if the database contains exactly one user.
-It will add this user to the `admin` group.''',
-      summary: 'Make Admin',
-      operationId: 'post_users_make-admin',
-      consumes: [],
-      produces: [],
-      security: [],
-      tags: ["Users"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/users/make-admin');
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client
-        .send<AppTypesStandardResponsesResult, AppTypesStandardResponsesResult>(
-          $request,
-        );
   }
 
   @override
@@ -11441,6 +8958,33 @@ This manual verification is needed to prevent data from being deleting for other
   }
 
   @override
+  Future<Response<dynamic>> _usersUserIdSuperAdminPatch({
+    required String? userId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''Update an user, the request should contain a JSON with the fields to change (not necessarily all fields) and their new value
+
+**This endpoint is only usable by administrators**''',
+      summary: 'Update User As Super Admin',
+      operationId: 'patch_users_{user_id}_super-admin',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Users"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/users/${userId}/super-admin');
+    final Request $request = Request(
+      'PATCH',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<dynamic>> _usersMeProfilePictureGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get the profile picture of the authenticated user.',
@@ -11527,469 +9071,19 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
   }
 
   @override
-  Future<Response<List<Structure>>> _myeclpayStructuresGet({
+  Future<Response<dynamic>> _checkoutHelloassoWebhookPost({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Get all structures.',
-      summary: 'Get Structures',
-      operationId: 'get_myeclpay_structures',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/structures');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<Structure>, Structure>($request);
-  }
-
-  @override
-  Future<Response<Structure>> _myeclpayStructuresPost({
-    required StructureBase? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Create a new structure.
-
-A structure contains:
- - a name
- - an association membership id
- - a manager user id
- - a list of stores
-
-**The user must be an admin to use this endpoint**''',
-      summary: 'Create Structure',
-      operationId: 'post_myeclpay_structures',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/structures');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<Structure, Structure>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _myeclpayStructuresStructureIdPatch({
-    required String? structureId,
-    required StructureUpdate? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Update a structure.
-
-**The user must be an admin to use this endpoint**''',
-      summary: 'Update Structure',
-      operationId: 'patch_myeclpay_structures_{structure_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/structures/${structureId}');
-    final $body = body;
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _myeclpayStructuresStructureIdDelete({
-    required String? structureId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Delete a structure. Only structures without stores can be deleted.
-
-**The user must be an admin to use this endpoint**''',
-      summary: 'Delete Structure',
-      operationId: 'delete_myeclpay_structures_{structure_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/structures/${structureId}');
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>>
-  _myeclpayStructuresStructureIdInitManagerTransferPost({
-    required String? structureId,
-    required StructureTranfert? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Initiate the transfer of a structure to a new manager. The current manager will receive an email with a link to confirm the transfer.
-The link will only be valid for a limited time.
-
-**The user must be the manager for this structure**''',
-      summary: 'Init Transfer Structure Manager',
-      operationId:
-          'post_myeclpay_structures_{structure_id}_init-manager-transfer',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/myeclpay/structures/${structureId}/init-manager-transfer',
-    );
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _myeclpayStructuresConfirmManagerTransferGet({
-    required String? token,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Update a manager for an association
-
-The user must have initiated the update of the manager with `init_update_structure_manager`''',
-      summary: 'Confirm Structure Manager Transfer',
-      operationId: 'get_myeclpay_structures_confirm-manager-transfer',
+      description: '',
+      summary: 'Webhook',
+      operationId: 'post_checkout_helloasso_webhook',
       consumes: [],
       produces: [],
       security: [],
-      tags: ["MyECLPay"],
+      tags: ["Checkout"],
       deprecated: false,
     ),
   }) {
-    final Uri $url = Uri.parse('/myeclpay/structures/confirm-manager-transfer');
-    final Map<String, dynamic> $params = <String, dynamic>{'token': token};
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<Store>> _myeclpayStructuresStructureIdStoresPost({
-    required String? structureId,
-    required StoreBase? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Create a store. The structure manager will be added as a seller for the store.
-
-Stores name should be unique, as an user need to be able to identify a store by its name.
-
-**The user must be the manager for this structure**''',
-      summary: 'Create Store',
-      operationId: 'post_myeclpay_structures_{structure_id}_stores',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/structures/${structureId}/stores');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<Store, Store>($request);
-  }
-
-  @override
-  Future<Response<List<History>>> _myeclpayStoresStoreIdHistoryGet({
-    required String? storeId,
-    String? startDate,
-    String? endDate,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get all transactions for the store.
-
-**The user must be authorized to see the store history**''',
-      summary: 'Get Store History',
-      operationId: 'get_myeclpay_stores_{store_id}_history',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/stores/${storeId}/history');
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'start_date': startDate,
-      'end_date': endDate,
-    };
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<History>, History>($request);
-  }
-
-  @override
-  Future<Response<List<UserStore>>> _myeclpayUsersMeStoresGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get all stores for the current user.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Get User Stores',
-      operationId: 'get_myeclpay_users_me_stores',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/users/me/stores');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<UserStore>, UserStore>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _myeclpayStoresStoreIdPatch({
-    required String? storeId,
-    required StoreUpdate? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Update a store
-
-**The user must be the manager for this store\'s structure**''',
-      summary: 'Update Store',
-      operationId: 'patch_myeclpay_stores_{store_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/stores/${storeId}');
-    final $body = body;
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _myeclpayStoresStoreIdDelete({
-    required String? storeId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Delete a store. Only stores without transactions can be deleted.
-
-**The user must be the manager for this store\'s structure**''',
-      summary: 'Delete Store',
-      operationId: 'delete_myeclpay_stores_{store_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/stores/${storeId}');
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<Seller>> _myeclpayStoresStoreIdSellersPost({
-    required String? storeId,
-    required SellerCreation? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Create a store seller.
-
-This seller will have authorized permissions among:
-- can_bank
-- can_see_history
-- can_cancel
-- can_manage_sellers
-
-**The user must have the `can_manage_sellers` permission for this store**''',
-      summary: 'Create Store Seller',
-      operationId: 'post_myeclpay_stores_{store_id}_sellers',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/stores/${storeId}/sellers');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<Seller, Seller>($request);
-  }
-
-  @override
-  Future<Response<List<Seller>>> _myeclpayStoresStoreIdSellersGet({
-    required String? storeId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get all sellers for the given store.
-
-**The user must have the `can_manage_sellers` permission for this store**''',
-      summary: 'Get Store Sellers',
-      operationId: 'get_myeclpay_stores_{store_id}_sellers',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/stores/${storeId}/sellers');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<Seller>, Seller>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _myeclpayStoresStoreIdSellersSellerUserIdPatch({
-    required String? storeId,
-    required String? sellerUserId,
-    required SellerUpdate? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Update a store seller permissions.
-The structure manager cannot be updated as a seller.
-
-**The user must have the `can_manage_sellers` permission for this store**''',
-      summary: 'Update Store Seller',
-      operationId: 'patch_myeclpay_stores_{store_id}_sellers_{seller_user_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/myeclpay/stores/${storeId}/sellers/${sellerUserId}',
-    );
-    final $body = body;
-    final Request $request = Request(
-      'PATCH',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _myeclpayStoresStoreIdSellersSellerUserIdDelete({
-    required String? storeId,
-    required String? sellerUserId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Delete a store seller.
-The structure manager cannot be deleted as a seller.
-
-**The user must have the `can_manage_sellers` permission for this store**''',
-      summary: 'Delete Store Seller',
-      operationId: 'delete_myeclpay_stores_{store_id}_sellers_{seller_user_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/myeclpay/stores/${storeId}/sellers/${sellerUserId}',
-    );
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _myeclpayUsersMeRegisterPost({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Sign MyECL Pay TOS for the given user.
-
-The user will need to accept the latest TOS version to be able to use MyECL Pay.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Register User',
-      operationId: 'post_myeclpay_users_me_register',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/users/me/register');
+    final Uri $url = Uri.parse('/checkout/helloasso/webhook');
     final Request $request = Request(
       'POST',
       $url,
@@ -11997,523 +9091,6 @@ The user will need to accept the latest TOS version to be able to use MyECL Pay.
       tag: swaggerMetaData,
     );
     return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<TOSSignatureResponse>> _myeclpayUsersMeTosGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Get the latest TOS version and the user signed TOS version.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Get User Tos',
-      operationId: 'get_myeclpay_users_me_tos',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/users/me/tos');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<TOSSignatureResponse, TOSSignatureResponse>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _myeclpayUsersMeTosPost({
-    required TOSSignature? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Sign MyECL Pay TOS for the given user.
-
-If the user is already registered in the MyECLPay system, this will update the TOS version.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Sign Tos',
-      operationId: 'post_myeclpay_users_me_tos',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/users/me/tos');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<List<WalletDevice>>> _myeclpayUsersMeWalletDevicesGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get user devices.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Get User Devices',
-      operationId: 'get_myeclpay_users_me_wallet_devices',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/users/me/wallet/devices');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<WalletDevice>, WalletDevice>($request);
-  }
-
-  @override
-  Future<Response<WalletDevice>> _myeclpayUsersMeWalletDevicesPost({
-    required WalletDeviceCreation? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Create a new device for the user.
-The user will need to activate it using a token sent by email.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Create User Devices',
-      operationId: 'post_myeclpay_users_me_wallet_devices',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/users/me/wallet/devices');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<WalletDevice, WalletDevice>($request);
-  }
-
-  @override
-  Future<Response<WalletDevice>>
-  _myeclpayUsersMeWalletDevicesWalletDeviceIdGet({
-    required String? walletDeviceId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get user devices.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Get User Device',
-      operationId: 'get_myeclpay_users_me_wallet_devices_{wallet_device_id}',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/myeclpay/users/me/wallet/devices/${walletDeviceId}',
-    );
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<WalletDevice, WalletDevice>($request);
-  }
-
-  @override
-  Future<Response<Wallet>> _myeclpayUsersMeWalletGet({
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get user wallet.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Get User Wallet',
-      operationId: 'get_myeclpay_users_me_wallet',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/users/me/wallet');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<Wallet, Wallet>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _myeclpayDevicesActivateGet({
-    required String? token,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Activate a wallet device',
-      summary: 'Activate User Device',
-      operationId: 'get_myeclpay_devices_activate',
-      consumes: [],
-      produces: [],
-      security: [],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/devices/activate');
-    final Map<String, dynamic> $params = <String, dynamic>{'token': token};
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>>
-  _myeclpayUsersMeWalletDevicesWalletDeviceIdRevokePost({
-    required String? walletDeviceId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Revoke a device for the user.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Revoke User Devices',
-      operationId:
-          'post_myeclpay_users_me_wallet_devices_{wallet_device_id}_revoke',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/myeclpay/users/me/wallet/devices/${walletDeviceId}/revoke',
-    );
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<List<History>>> _myeclpayUsersMeWalletHistoryGet({
-    String? startDate,
-    String? endDate,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get all transactions for the current user\'s wallet.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Get User Wallet History',
-      operationId: 'get_myeclpay_users_me_wallet_history',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/users/me/wallet/history');
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'start_date': startDate,
-      'end_date': endDate,
-    };
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<History>, History>($request);
-  }
-
-  @override
-  Future<Response<PaymentUrl>> _myeclpayTransferInitPost({
-    required TransferInfo? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Initiate HelloAsso transfer, return a payment url to complete the transaction on HelloAsso website.',
-      summary: 'Init Ha Transfer',
-      operationId: 'post_myeclpay_transfer_init',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/transfer/init');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<PaymentUrl, PaymentUrl>($request);
-  }
-
-  @override
-  Future<Response<PaymentUrl>> _myeclpayTransferRedirectGet({
-    required String? url,
-    String? checkoutIntentId,
-    String? code,
-    String? orderId,
-    String? error,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''HelloAsso checkout should be configured to redirect the user to:
- - f"{settings.CLIENT_URL}myeclpay/transfer/redirect?url={redirect_url}"
-Redirect the user to the provided redirect `url`. The parameters `checkoutIntentId`, `code`, `orderId` and `error` passed by HelloAsso will be added to the redirect URL.
-The redirect `url` must be trusted by Hyperion in the dotenv.''',
-      summary: 'Redirect From Ha Transfer',
-      operationId: 'get_myeclpay_transfer_redirect',
-      consumes: [],
-      produces: [],
-      security: [],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/transfer/redirect');
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'url': url,
-      'checkoutIntentId': checkoutIntentId,
-      'code': code,
-      'orderId': orderId,
-      'error': error,
-    };
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-      tag: swaggerMetaData,
-    );
-    return client.send<PaymentUrl, PaymentUrl>($request);
-  }
-
-  @override
-  Future<Response<AppTypesStandardResponsesResult>>
-  _myeclpayStoresStoreIdScanCheckPost({
-    required String? storeId,
-    required ScanInfo? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Validate if a given QR Code can be scanned by the seller.
-
-The QR Code should be valid, the seller should have the `can_bank` permission for this store,
-and the debited wallet device should be active.
-
-If the store structure has an association membership, the user should be a member of the association.
-
-**The user must be authenticated to use this endpoint**''',
-      summary: 'Validate Can Scan Qrcode',
-      operationId: 'post_myeclpay_stores_{store_id}_scan_check',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/stores/${storeId}/scan/check');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client
-        .send<AppTypesStandardResponsesResult, AppTypesStandardResponsesResult>(
-          $request,
-        );
-  }
-
-  @override
-  Future<Response<dynamic>> _myeclpayStoresStoreIdScanPost({
-    required String? storeId,
-    required ScanInfo? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Scan and bank a QR code for this store.
-
-`signature` should be a base64 encoded string
- - signed using *ed25519*,
- - where data are a `QRCodeContentData` object:
-    ```
-    {
-        id: UUID
-        tot: int
-        iat: datetime
-        key: UUID
-    }
-    ```
-
-The provided content is checked to ensure:
-    - the QR Code is not already used
-    - the QR Code is not expired
-    - the QR Code is intended to be scanned for a store `scan_info.store`
-    - the signature is valid and correspond to `wallet_device_id` public key
-    - the debited\'s wallet device is active
-    - the debited\'s Wallet balance greater than the QR Code total
-
-**The user must be authenticated to use this endpoint**
-**The user must have the `can_bank` permission for this store**''',
-      summary: 'Store Scan Qrcode',
-      operationId: 'post_myeclpay_stores_{store_id}_scan',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/stores/${storeId}/scan');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _myeclpayTransactionsTransactionIdRefundPost({
-    required String? transactionId,
-    required RefundInfo? body,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Refund a transaction. Only transactions made in the last 30 days can be refunded.
-
-Currently transactions between users are forbidden and can thus not be refunded.
-
-To cancel a transaction made in the last 30 seconds, the endpoint `/myeclpay/transactions/{transaction_id}/cancel` should be used.
-
-**The user must either be the credited user or a seller with cancel permissions of the credited store of the transaction**''',
-      summary: 'Refund Transaction',
-      operationId: 'post_myeclpay_transactions_{transaction_id}_refund',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/myeclpay/transactions/${transactionId}/refund',
-    );
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _myeclpayTransactionsTransactionIdCancelPost({
-    required String? transactionId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Cancel a transaction.
-A transaction can be canceled in the first 30 seconds after it has been created.
-
-To refund an older transaction, use the `/myeclpay/transactions/{transaction_id}/refund` endpoint.
-
-**The user must either be the credited user or the seller of the transaction**''',
-      summary: 'Cancel Transaction',
-      operationId: 'post_myeclpay_transactions_{transaction_id}_cancel',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse(
-      '/myeclpay/transactions/${transactionId}/cancel',
-    );
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      tag: swaggerMetaData,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<IntegrityCheckData>> _myeclpayIntegrityCheckGet({
-    String? lastChecked,
-    bool? isInitialisation,
-    String? xDataVerifierToken,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Send all the MyECL Pay data for integrity check.
-Data includes:
-- Wallets deducted of the last 30 seconds transactions
-- Transactions with at least 30 seconds delay
-- Transfers
-- Refunds
-
-**The header must contain the MYECLPAY_DATA_VERIFIER_ACCESS_TOKEN defined in the settings in the `x-data-verifier-token` field**''',
-      summary: 'Get Data For Integrity Check',
-      operationId: 'get_myeclpay_integrity-check',
-      consumes: [],
-      produces: [],
-      security: [],
-      tags: ["MyECLPay"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/myeclpay/integrity-check');
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'lastChecked': lastChecked,
-      'isInitialisation': isInitialisation,
-    };
-    final Map<String, String> $headers = {
-      if (xDataVerifierToken != null)
-        'x_data_verifier_token': xDataVerifierToken,
-    };
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-      headers: $headers,
-      tag: swaggerMetaData,
-    );
-    return client.send<IntegrityCheckData, IntegrityCheckData>($request);
   }
 
   @override
@@ -12669,7 +9246,9 @@ Data includes:
   Future<Response<List<UserMembershipComplete>>> _membershipsUsersUserIdGet({
     required String? userId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Return all memberships for a user.',
+      description: '''Return all memberships for a user.
+
+**This endpoint is only usable by administrators**''',
       summary: 'Read User Memberships',
       operationId: 'get_memberships_users_{user_id}',
       consumes: [],
@@ -12698,7 +9277,7 @@ Data includes:
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Create a new user membership.
 
-**This endpoint is only usable by administrators and membership managers**''',
+**This endpoint is only usable by administrators**''',
       summary: 'Create User Membership',
       operationId: 'post_memberships_users_{user_id}',
       consumes: [],
@@ -12731,7 +9310,7 @@ Data includes:
       description:
           '''Return all user memberships for a specific association membership for a user.
 
-**This endpoint is only usable by administrators and membership managers**''',
+**This endpoint is only usable by administrators**''',
       summary: 'Read User Association Membership History',
       operationId:
           'get_memberships_users_{user_id}_{association_membership_id}',
@@ -12766,7 +9345,7 @@ Data includes:
 
 Return the list of unknown users whose email is not in the database.
 
-**User must be an administrator or a membership manager to use this endpoint.**''',
+**User must be an administrator to use this endpoint.**''',
       summary: 'Add Batch Membership',
       operationId: 'post_memberships_{association_membership_id}_add-batch_',
       consumes: [],
@@ -12800,7 +9379,7 @@ Return the list of unknown users whose email is not in the database.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Update a user membership.
 
-**This endpoint is only usable by administrators and membership managers**''',
+**This endpoint is only usable by administrators**''',
       summary: 'Update User Membership',
       operationId: 'patch_memberships_users_{membership_id}',
       consumes: [],
@@ -12828,7 +9407,7 @@ Return the list of unknown users whose email is not in the database.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a user membership.
 
-**This endpoint is only usable by administrators and membership managers**''',
+**This endpoint is only usable by administrators**''',
       summary: 'Delete User Membership',
       operationId: 'delete_memberships_users_{membership_id}',
       consumes: [],
@@ -13099,6 +9678,64 @@ If an user does not exist it will be ignored.
   }
 
   @override
+  Future<Response<dynamic>> _groupsGroupIdLogoPost({
+    required String? groupId,
+    required BodyCreateGroupLogoGroupsGroupIdLogoPost body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Upload a logo for a group.
+
+**This endpoint is only usable by administrators**''',
+      summary: 'Create Group Logo',
+      operationId: 'post_groups_{group_id}_logo',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Groups"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/groups/${groupId}/logo');
+    final List<PartValue> $parts = <PartValue>[
+      PartValue<BodyCreateGroupLogoGroupsGroupIdLogoPost>('body', body),
+    ];
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      parts: $parts,
+      multipart: true,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _groupsGroupIdLogoGet({
+    required String? groupId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get the logo of a group.
+
+**User must be authenticated**''',
+      summary: 'Read User Profile Picture',
+      operationId: 'get_groups_{group_id}_logo',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Groups"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/groups/${groupId}/logo');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<CoreInformation>> _informationGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
@@ -13169,11 +9806,11 @@ If an user does not exist it will be ignored.
   }
 
   @override
-  Future<Response<dynamic>> _myeclpayTermsOfServiceGet({
+  Future<Response<dynamic>> _mypaymentTermsOfServiceGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Return MyECLPay latest ToS',
-      summary: 'Read Myeclpay Tos',
-      operationId: 'get_myeclpay-terms-of-service',
+      description: 'Return MyPayment latest ToS',
+      summary: 'Read Mypayment Tos',
+      operationId: 'get_mypayment-terms-of-service',
       consumes: [],
       produces: [],
       security: [],
@@ -13181,7 +9818,7 @@ If an user does not exist it will be ignored.
       deprecated: false,
     ),
   }) {
-    final Uri $url = Uri.parse('/myeclpay-terms-of-service');
+    final Uri $url = Uri.parse('/mypayment-terms-of-service');
     final Request $request = Request(
       'GET',
       $url,
@@ -13284,12 +9921,11 @@ If an user does not exist it will be ignored.
   }
 
   @override
-  Future<Response<dynamic>> _styleFileCssGet({
-    required String? file,
+  Future<Response<dynamic>> _accountDeletionGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Return a style file from the assets folder',
-      summary: 'Get Style File',
-      operationId: 'get_style_{file}.css',
+      description: 'Return Hyperion account deletion information',
+      summary: 'Read Account Deletion',
+      operationId: 'get_account-deletion',
       consumes: [],
       produces: [],
       security: [],
@@ -13297,7 +9933,7 @@ If an user does not exist it will be ignored.
       deprecated: false,
     ),
   }) {
-    final Uri $url = Uri.parse('/style/${file}.css');
+    final Uri $url = Uri.parse('/account-deletion');
     final Request $request = Request(
       'GET',
       $url,
@@ -13305,6 +9941,29 @@ If an user does not exist it will be ignored.
       tag: swaggerMetaData,
     );
     return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<CoreVariables>> _variablesGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Return a style file from the assets folder',
+      summary: 'Get Variables',
+      operationId: 'get_variables',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Core"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/variables');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<CoreVariables, CoreVariables>($request);
   }
 
   @override
@@ -13862,6 +10521,32 @@ https://openid.net/specs/openid-connect-core-1_0.html#UserInfo''',
   }
 
   @override
+  Future<Response<List<FirebaseDevice>>> _notificationDevicesGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get all devices a user have registered.
+This endpoint is useful to get firebase tokens for debugging purposes.
+
+**Only admins can use this endpoint**''',
+      summary: 'Get Devices',
+      operationId: 'get_notification_devices',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["Notifications"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/notification/devices');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<List<FirebaseDevice>, FirebaseDevice>($request);
+  }
+
+  @override
   Future<Response<dynamic>> _notificationDevicesPost({
     required BodyRegisterFirebaseDeviceNotificationDevicesPost? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -13889,35 +10574,6 @@ This endpoint should be called once a month to ensure that the token is still va
       tag: swaggerMetaData,
     );
     return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<List<FirebaseDevice>>> _notificationDevicesGet({
-    String? userId,
-    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Get all devices a user have registered.
-This endpoint is useful to get firebase tokens for debugging purposes.
-
-**Only admins can use this endpoint**''',
-      summary: 'Get Devices',
-      operationId: 'get_notification_devices',
-      consumes: [],
-      produces: [],
-      security: ["AuthorizationCodeAuthentication"],
-      tags: ["Notifications"],
-      deprecated: false,
-    ),
-  }) {
-    final Uri $url = Uri.parse('/notification/devices');
-    final Map<String, dynamic> $params = <String, dynamic>{'user_id': userId};
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-      tag: swaggerMetaData,
-    );
-    return client.send<List<FirebaseDevice>, FirebaseDevice>($request);
   }
 
   @override
@@ -14055,7 +10711,6 @@ If the topic define restrictions, the user must be in the corresponding group or
 
   @override
   Future<Response<dynamic>> _notificationTestSendPost({
-    String? userId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Send ourself a test notification.
 
@@ -14070,12 +10725,10 @@ If the topic define restrictions, the user must be in the corresponding group or
     ),
   }) {
     final Uri $url = Uri.parse('/notification/test/send');
-    final Map<String, dynamic> $params = <String, dynamic>{'user_id': userId};
     final Request $request = Request(
       'POST',
       $url,
       client.baseUrl,
-      parameters: $params,
       tag: swaggerMetaData,
     );
     return client.send<dynamic, dynamic>($request);
@@ -14083,7 +10736,6 @@ If the topic define restrictions, the user must be in the corresponding group or
 
   @override
   Future<Response<dynamic>> _notificationTestSendFuturePost({
-    String? userId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Send ourself a test notification.
 
@@ -14098,12 +10750,10 @@ If the topic define restrictions, the user must be in the corresponding group or
     ),
   }) {
     final Uri $url = Uri.parse('/notification/test/send/future');
-    final Map<String, dynamic> $params = <String, dynamic>{'user_id': userId};
     final Request $request = Request(
       'POST',
       $url,
       client.baseUrl,
-      parameters: $params,
       tag: swaggerMetaData,
     );
     return client.send<dynamic, dynamic>($request);
@@ -14157,6 +10807,1254 @@ If the topic define restrictions, the user must be in the corresponding group or
       tag: swaggerMetaData,
     );
     return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<Structure>> _mypaymentBankAccountHolderGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Get the current bank account holder information.',
+      summary: 'Get Bank Account Holder',
+      operationId: 'get_mypayment_bank-account-holder',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/bank-account-holder');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<Structure, Structure>($request);
+  }
+
+  @override
+  Future<Response<Structure>> _mypaymentBankAccountHolderPost({
+    required MyPaymentBankAccountHolder? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Set the bank account holder information.',
+      summary: 'Set Bank Account Holder',
+      operationId: 'post_mypayment_bank-account-holder',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/bank-account-holder');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<Structure, Structure>($request);
+  }
+
+  @override
+  Future<Response<List<Structure>>> _mypaymentStructuresGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Get all structures.',
+      summary: 'Get Structures',
+      operationId: 'get_mypayment_structures',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/structures');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<List<Structure>, Structure>($request);
+  }
+
+  @override
+  Future<Response<Structure>> _mypaymentStructuresPost({
+    required StructureBase? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Create a new structure.
+
+A structure contains:
+ - a name
+ - an association membership id
+ - a manager user id
+ - a list of stores
+
+**The user must be an admin to use this endpoint**''',
+      summary: 'Create Structure',
+      operationId: 'post_mypayment_structures',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/structures');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<Structure, Structure>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _mypaymentStructuresStructureIdPatch({
+    required String? structureId,
+    required StructureUpdate? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Update a structure.
+
+**The user must be an admin to use this endpoint**''',
+      summary: 'Update Structure',
+      operationId: 'patch_mypayment_structures_{structure_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/structures/${structureId}');
+    final $body = body;
+    final Request $request = Request(
+      'PATCH',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _mypaymentStructuresStructureIdDelete({
+    required String? structureId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''Delete a structure. Only structures without stores can be deleted.
+
+**The user must be an admin to use this endpoint**''',
+      summary: 'Delete Structure',
+      operationId: 'delete_mypayment_structures_{structure_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/structures/${structureId}');
+    final Request $request = Request(
+      'DELETE',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>>
+  _mypaymentStructuresStructureIdInitManagerTransferPost({
+    required String? structureId,
+    required StructureTranfert? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''Initiate the transfer of a structure to a new manager. The current manager will receive an email with a link to confirm the transfer.
+The link will only be valid for a limited time.
+
+**The user must be the manager for this structure**''',
+      summary: 'Init Transfer Structure Manager',
+      operationId:
+          'post_mypayment_structures_{structure_id}_init-manager-transfer',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/mypayment/structures/${structureId}/init-manager-transfer',
+    );
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _mypaymentStructuresConfirmManagerTransferGet({
+    required String? token,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Update a manager for an association
+
+The user must have initiated the update of the manager with `init_update_structure_manager`''',
+      summary: 'Confirm Structure Manager Transfer',
+      operationId: 'get_mypayment_structures_confirm-manager-transfer',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/mypayment/structures/confirm-manager-transfer',
+    );
+    final Map<String, dynamic> $params = <String, dynamic>{'token': token};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<Store>> _mypaymentStructuresStructureIdStoresPost({
+    required String? structureId,
+    required StoreBase? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''Create a store. The structure manager will be added as a seller for the store.
+
+Stores name should be unique, as an user need to be able to identify a store by its name.
+
+**The user must be the manager for this structure**''',
+      summary: 'Create Store',
+      operationId: 'post_mypayment_structures_{structure_id}_stores',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/structures/${structureId}/stores');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<Store, Store>($request);
+  }
+
+  @override
+  Future<Response<List<History>>> _mypaymentStoresStoreIdHistoryGet({
+    required String? storeId,
+    String? startDate,
+    String? endDate,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get all transactions for the store.
+
+**The user must be authorized to see the store history**''',
+      summary: 'Get Store History',
+      operationId: 'get_mypayment_stores_{store_id}_history',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/stores/${storeId}/history');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'start_date': startDate,
+      'end_date': endDate,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<List<History>, History>($request);
+  }
+
+  @override
+  Future<Response<List<UserStore>>> _mypaymentUsersMeStoresGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get all stores for the current user.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Get User Stores',
+      operationId: 'get_mypayment_users_me_stores',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/users/me/stores');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<List<UserStore>, UserStore>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _mypaymentStoresStoreIdPatch({
+    required String? storeId,
+    required StoreUpdate? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Update a store
+
+**The user must be the manager for this store\'s structure**''',
+      summary: 'Update Store',
+      operationId: 'patch_mypayment_stores_{store_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/stores/${storeId}');
+    final $body = body;
+    final Request $request = Request(
+      'PATCH',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _mypaymentStoresStoreIdDelete({
+    required String? storeId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''Delete a store. Only stores without transactions can be deleted.
+
+**The user must be the manager for this store\'s structure**''',
+      summary: 'Delete Store',
+      operationId: 'delete_mypayment_stores_{store_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/stores/${storeId}');
+    final Request $request = Request(
+      'DELETE',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<Seller>> _mypaymentStoresStoreIdSellersPost({
+    required String? storeId,
+    required SellerCreation? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Create a store seller.
+
+This seller will have authorized permissions among:
+- can_bank
+- can_see_history
+- can_cancel
+- can_manage_sellers
+
+**The user must have the `can_manage_sellers` permission for this store**''',
+      summary: 'Create Store Seller',
+      operationId: 'post_mypayment_stores_{store_id}_sellers',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/stores/${storeId}/sellers');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<Seller, Seller>($request);
+  }
+
+  @override
+  Future<Response<List<Seller>>> _mypaymentStoresStoreIdSellersGet({
+    required String? storeId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get all sellers for the given store.
+
+**The user must have the `can_manage_sellers` permission for this store**''',
+      summary: 'Get Store Sellers',
+      operationId: 'get_mypayment_stores_{store_id}_sellers',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/stores/${storeId}/sellers');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<List<Seller>, Seller>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _mypaymentStoresStoreIdSellersSellerUserIdPatch({
+    required String? storeId,
+    required String? sellerUserId,
+    required SellerUpdate? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Update a store seller permissions.
+The structure manager cannot be updated as a seller.
+
+**The user must have the `can_manage_sellers` permission for this store**''',
+      summary: 'Update Store Seller',
+      operationId: 'patch_mypayment_stores_{store_id}_sellers_{seller_user_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/mypayment/stores/${storeId}/sellers/${sellerUserId}',
+    );
+    final $body = body;
+    final Request $request = Request(
+      'PATCH',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _mypaymentStoresStoreIdSellersSellerUserIdDelete({
+    required String? storeId,
+    required String? sellerUserId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Delete a store seller.
+The structure manager cannot be deleted as a seller.
+
+**The user must have the `can_manage_sellers` permission for this store**''',
+      summary: 'Delete Store Seller',
+      operationId:
+          'delete_mypayment_stores_{store_id}_sellers_{seller_user_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/mypayment/stores/${storeId}/sellers/${sellerUserId}',
+    );
+    final Request $request = Request(
+      'DELETE',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _mypaymentUsersMeRegisterPost({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Sign MyPayment TOS for the given user.
+
+The user will need to accept the latest TOS version to be able to use MyPayment.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Register User',
+      operationId: 'post_mypayment_users_me_register',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/users/me/register');
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<TOSSignatureResponse>> _mypaymentUsersMeTosGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''Get the latest TOS version and the user signed TOS version.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Get User Tos',
+      operationId: 'get_mypayment_users_me_tos',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/users/me/tos');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<TOSSignatureResponse, TOSSignatureResponse>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _mypaymentUsersMeTosPost({
+    required TOSSignature? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Sign MyPayment TOS for the given user.
+
+If the user is already registered in the MyPayment system, this will update the TOS version.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Sign Tos',
+      operationId: 'post_mypayment_users_me_tos',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/users/me/tos');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<List<WalletDevice>>> _mypaymentUsersMeWalletDevicesGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get user devices.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Get User Devices',
+      operationId: 'get_mypayment_users_me_wallet_devices',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/users/me/wallet/devices');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<List<WalletDevice>, WalletDevice>($request);
+  }
+
+  @override
+  Future<Response<WalletDevice>> _mypaymentUsersMeWalletDevicesPost({
+    required WalletDeviceCreation? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Create a new device for the user.
+The user will need to activate it using a token sent by email.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Create User Devices',
+      operationId: 'post_mypayment_users_me_wallet_devices',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/users/me/wallet/devices');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<WalletDevice, WalletDevice>($request);
+  }
+
+  @override
+  Future<Response<WalletDevice>>
+  _mypaymentUsersMeWalletDevicesWalletDeviceIdGet({
+    required String? walletDeviceId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get user devices.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Get User Device',
+      operationId: 'get_mypayment_users_me_wallet_devices_{wallet_device_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/mypayment/users/me/wallet/devices/${walletDeviceId}',
+    );
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<WalletDevice, WalletDevice>($request);
+  }
+
+  @override
+  Future<Response<Wallet>> _mypaymentUsersMeWalletGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get user wallet.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Get User Wallet',
+      operationId: 'get_mypayment_users_me_wallet',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/users/me/wallet');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<Wallet, Wallet>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _mypaymentDevicesActivateGet({
+    required String? token,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Activate a wallet device',
+      summary: 'Activate User Device',
+      operationId: 'get_mypayment_devices_activate',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/devices/activate');
+    final Map<String, dynamic> $params = <String, dynamic>{'token': token};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>>
+  _mypaymentUsersMeWalletDevicesWalletDeviceIdRevokePost({
+    required String? walletDeviceId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Revoke a device for the user.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Revoke User Devices',
+      operationId:
+          'post_mypayment_users_me_wallet_devices_{wallet_device_id}_revoke',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/mypayment/users/me/wallet/devices/${walletDeviceId}/revoke',
+    );
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<List<History>>> _mypaymentUsersMeWalletHistoryGet({
+    String? startDate,
+    String? endDate,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get all transactions for the current user\'s wallet.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Get User Wallet History',
+      operationId: 'get_mypayment_users_me_wallet_history',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/users/me/wallet/history');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'start_date': startDate,
+      'end_date': endDate,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<List<History>, History>($request);
+  }
+
+  @override
+  Future<Response<PaymentUrl>> _mypaymentTransferInitPost({
+    required TransferInfo? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          'Initiate HelloAsso transfer, return a payment url to complete the transaction on HelloAsso website.',
+      summary: 'Init Ha Transfer',
+      operationId: 'post_mypayment_transfer_init',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/transfer/init');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<PaymentUrl, PaymentUrl>($request);
+  }
+
+  @override
+  Future<Response<PaymentUrl>> _mypaymentTransferRedirectGet({
+    required String? url,
+    String? checkoutIntentId,
+    String? code,
+    String? orderId,
+    String? error,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''HelloAsso checkout should be configured to redirect the user to:
+ - f"{settings.CLIENT_URL}mypayment/transfer/redirect?url={redirect_url}"
+Redirect the user to the provided redirect `url`. The parameters `checkoutIntentId`, `code`, `orderId` and `error` passed by HelloAsso will be added to the redirect URL.
+The redirect `url` must be trusted by Hyperion in the dotenv.''',
+      summary: 'Redirect From Ha Transfer',
+      operationId: 'get_mypayment_transfer_redirect',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/transfer/redirect');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'url': url,
+      'checkoutIntentId': checkoutIntentId,
+      'code': code,
+      'orderId': orderId,
+      'error': error,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<PaymentUrl, PaymentUrl>($request);
+  }
+
+  @override
+  Future<Response<AppTypesStandardResponsesResult>>
+  _mypaymentStoresStoreIdScanCheckPost({
+    required String? storeId,
+    required ScanInfo? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Validate if a given QR Code can be scanned by the seller.
+
+The QR Code should be valid, the seller should have the `can_bank` permission for this store,
+and the debited wallet device should be active.
+
+If the store structure has an association membership, the user should be a member of the association.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Validate Can Scan Qrcode',
+      operationId: 'post_mypayment_stores_{store_id}_scan_check',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/stores/${storeId}/scan/check');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client
+        .send<AppTypesStandardResponsesResult, AppTypesStandardResponsesResult>(
+          $request,
+        );
+  }
+
+  @override
+  Future<Response<dynamic>> _mypaymentStoresStoreIdScanPost({
+    required String? storeId,
+    required ScanInfo? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Scan and bank a QR code for this store.
+
+`signature` should be a base64 encoded string
+ - signed using *ed25519*,
+ - where data are a `QRCodeContentData` object:
+    ```
+    {
+        id: UUID
+        tot: int
+        iat: datetime
+        key: UUID
+    }
+    ```
+
+The provided content is checked to ensure:
+    - the QR Code is not already used
+    - the QR Code is not expired
+    - the QR Code is intended to be scanned for a store `scan_info.store`
+    - the signature is valid and correspond to `wallet_device_id` public key
+    - the debited\'s wallet device is active
+    - the debited\'s Wallet balance greater than the QR Code total
+
+**The user must be authenticated to use this endpoint**
+**The user must have the `can_bank` permission for this store**''',
+      summary: 'Store Scan Qrcode',
+      operationId: 'post_mypayment_stores_{store_id}_scan',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/stores/${storeId}/scan');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _mypaymentTransactionsTransactionIdRefundPost({
+    required String? transactionId,
+    required RefundInfo? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''Refund a transaction. Only transactions made in the last 30 days can be refunded.
+
+Currently transactions between users are forbidden and can thus not be refunded.
+
+To cancel a transaction made in the last 30 seconds, the endpoint `/mypayment/transactions/{transaction_id}/cancel` should be used.
+
+**The user must either be the credited user or a seller with cancel permissions of the credited store of the transaction**''',
+      summary: 'Refund Transaction',
+      operationId: 'post_mypayment_transactions_{transaction_id}_refund',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/mypayment/transactions/${transactionId}/refund',
+    );
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _mypaymentTransactionsTransactionIdCancelPost({
+    required String? transactionId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Cancel a transaction.
+A transaction can be canceled in the first 30 seconds after it has been created.
+
+To refund an older transaction, use the `/mypayment/transactions/{transaction_id}/refund` endpoint.
+
+**The user must either be the credited user or the seller of the transaction**''',
+      summary: 'Cancel Transaction',
+      operationId: 'post_mypayment_transactions_{transaction_id}_cancel',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/mypayment/transactions/${transactionId}/cancel',
+    );
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<List<Invoice>>> _mypaymentInvoicesGet({
+    int? page,
+    int? pageSize,
+    List<dynamic>? structuresIds,
+    String? startDate,
+    String? endDate,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get all invoices.
+
+**The user must be authenticated to use this endpoint**''',
+      summary: 'Get Invoices',
+      operationId: 'get_mypayment_invoices',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/invoices');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'page': page,
+      'page_size': pageSize,
+      'structures_ids': structuresIds,
+      'start_date': startDate,
+      'end_date': endDate,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<List<Invoice>, Invoice>($request);
+  }
+
+  @override
+  Future<Response<List<Invoice>>> _mypaymentInvoicesStructuresStructureIdGet({
+    required String? structureId,
+    int? page,
+    int? pageSize,
+    String? startDate,
+    String? endDate,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Get all invoices.
+
+**The user must be the structure manager**''',
+      summary: 'Get Structure Invoices',
+      operationId: 'get_mypayment_invoices_structures_{structure_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/invoices/structures/${structureId}');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'page': page,
+      'page_size': pageSize,
+      'start_date': startDate,
+      'end_date': endDate,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<List<Invoice>, Invoice>($request);
+  }
+
+  @override
+  Future<Response<Invoice>> _mypaymentInvoicesStructuresStructureIdPost({
+    required String? structureId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Create an invoice for a structure.
+
+**The user must be the bank account holder**''',
+      summary: 'Create Structure Invoice',
+      operationId: 'post_mypayment_invoices_structures_{structure_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/invoices/structures/${structureId}');
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<Invoice, Invoice>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _mypaymentInvoicesInvoiceIdGet({
+    required String? invoiceId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Download Invoice',
+      operationId: 'get_mypayment_invoices_{invoice_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/invoices/${invoiceId}');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _mypaymentInvoicesInvoiceIdDelete({
+    required String? invoiceId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Delete a structure invoice.
+
+**The user must be the bank account holder**''',
+      summary: 'Delete Structure Invoice',
+      operationId: 'delete_mypayment_invoices_{invoice_id}',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/invoices/${invoiceId}');
+    final Request $request = Request(
+      'DELETE',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _mypaymentInvoicesInvoiceIdPaidPatch({
+    required String? invoiceId,
+    required bool? paid,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Update the paid status of a structure invoice.
+
+**The user must be the bank account holder**''',
+      summary: 'Update Invoice Paid Status',
+      operationId: 'patch_mypayment_invoices_{invoice_id}_paid',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/invoices/${invoiceId}/paid');
+    final Map<String, dynamic> $params = <String, dynamic>{'paid': paid};
+    final Request $request = Request(
+      'PATCH',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _mypaymentInvoicesInvoiceIdReceivedPatch({
+    required String? invoiceId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Update the received status of a structure invoice.
+
+**The user must be the structure manager**''',
+      summary: 'Aknowledge Invoice As Received',
+      operationId: 'patch_mypayment_invoices_{invoice_id}_received',
+      consumes: [],
+      produces: [],
+      security: ["AuthorizationCodeAuthentication"],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/invoices/${invoiceId}/received');
+    final Request $request = Request(
+      'PATCH',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<IntegrityCheckData>> _mypaymentIntegrityCheckGet({
+    String? lastChecked,
+    bool? isInitialisation,
+    String? xDataVerifierToken,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Send all the MyPayment data for integrity check.
+Data includes:
+- Wallets deducted of the last 30 seconds transactions
+- Transactions with at least 30 seconds delay
+- Transfers
+- Refunds
+
+**The header must contain the MYPAYMENT_DATA_VERIFIER_ACCESS_TOKEN defined in the settings in the `x-data-verifier-token` field**''',
+      summary: 'Get Data For Integrity Check',
+      operationId: 'get_mypayment_integrity-check',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["MyPayment"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/mypayment/integrity-check');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'lastChecked': lastChecked,
+      'isInitialisation': isInitialisation,
+    };
+    final Map<String, String> $headers = {
+      if (xDataVerifierToken != null)
+        'x_data_verifier_token': xDataVerifierToken,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      headers: $headers,
+      tag: swaggerMetaData,
+    );
+    return client.send<IntegrityCheckData, IntegrityCheckData>($request);
   }
 
   @override
