@@ -4,16 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/admin/class/simple_group.dart';
-import 'package:titan/raffle/class/raffle.dart';
-import 'package:titan/raffle/class/raffle_status_type.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/raffle/providers/raffle_list_provider.dart';
 import 'package:titan/raffle/tools/constants.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 
 class ConfirmCreationDialog extends HookConsumerWidget {
-  final SimpleGroup group;
+  final CoreGroupSimple group;
   const ConfirmCreationDialog({super.key, required this.group});
 
   @override
@@ -103,12 +102,14 @@ class ConfirmCreationDialog extends HookConsumerWidget {
                       ),
                       onTap: () async {
                         await tokenExpireWrapper(ref, () async {
+                          // Should not be complete
                           await raffleListNotifier.createRaffle(
-                            Raffle(
+                            RaffleComplete(
                               name: "Tombola : ${group.name}",
-                              group: group,
+                              groupId: group.id,
                               id: '',
-                              raffleStatusType: RaffleStatusType.creation,
+                              status: RaffleStatusType.creation,
+                              description: ""
                             ),
                           );
                           await raffleListNotifier.loadRaffleList();

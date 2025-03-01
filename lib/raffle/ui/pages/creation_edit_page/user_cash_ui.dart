@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/raffle/class/cash.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/raffle/providers/cash_provider.dart';
 import 'package:titan/raffle/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
@@ -14,7 +14,7 @@ import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/l10n/app_localizations.dart';
 
 class UserCashUi extends HookConsumerWidget {
-  final Cash cash;
+  final CashComplete cash;
   const UserCashUi({super.key, required this.cash});
 
   @override

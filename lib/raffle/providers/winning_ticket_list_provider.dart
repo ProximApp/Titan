@@ -1,17 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/raffle/class/prize.dart';
-import 'package:titan/raffle/class/tickets.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/raffle/providers/ticket_list_provider.dart';
-import 'package:titan/raffle/repositories/prize_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class WinningTicketNotifier extends ListNotifier<Ticket> {
-  LotRepository get lotRepository => ref.watch(lotRepositoryProvider);
+class WinningTicketNotifier extends ListNotifier<TicketComplete> {
+  Openapi get prizeRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<List<Ticket>> build() {
+  AsyncValue<List<TicketComplete>> build() {
     final ticketFromRaffle = ref.watch(ticketsListProvider);
-    final winningTickets = ticketFromRaffle.maybeWhen<List<Ticket>>(
+    final winningTickets = ticketFromRaffle.maybeWhen<List<TicketComplete>>(
       data: (data) => data.where((element) => element.prize != null).toList(),
       orElse: () => [],
     );
@@ -20,26 +19,32 @@ class WinningTicketNotifier extends ListNotifier<Ticket> {
     return const AsyncValue.loading();
   }
 
-  void setData(List<Ticket> tickets) {
+  void setData(List<TicketComplete> tickets) {
     state = AsyncValue.data(tickets);
   }
 
-  Future<AsyncValue<List<Ticket>>> drawPrize(Prize lot) async {
-    final drawnList = await lotRepository.drawLot(lot);
-    state.when(
-      data: (list) {
-        state = AsyncValue.data(list + drawnList);
-      },
-      error: (e, s) {},
-      loading: () {
-        state = AsyncValue.data(drawnList);
-      },
+  Future<AsyncValue<List<TicketComplete>>> drawPrize(PrizeSimple prize) async {
+    final drawnList = await prizeRepository.tombolaPrizesPrizeIdDrawPost(
+      prizeId: prize.id,
     );
-    return AsyncData(drawnList);
+    if (drawnList.isSuccessful) {
+      state.when(
+        data: (list) {
+          state = AsyncValue.data(list + drawnList.body!);
+        },
+        error: (e, s) {},
+        loading: () {
+          state = AsyncValue.data(drawnList.body!);
+        },
+      );
+      return AsyncData(drawnList.body!);
+    } else {
+      return AsyncError(drawnList.error!, StackTrace.current);
+    }
   }
 }
 
 final winningTicketListProvider =
-    NotifierProvider<WinningTicketNotifier, AsyncValue<List<Ticket>>>(
+    NotifierProvider<WinningTicketNotifier, AsyncValue<List<TicketComplete>>>(
       WinningTicketNotifier.new,
     );

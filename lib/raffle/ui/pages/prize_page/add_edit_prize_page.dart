@@ -1,7 +1,8 @@
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:titan/raffle/class/prize.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/raffle/adapters/prize.dart';
 import 'package:titan/raffle/providers/prize_list_provider.dart';
 import 'package:titan/raffle/providers/prize_provider.dart';
 import 'package:titan/raffle/providers/raffle_provider.dart';
@@ -25,7 +26,7 @@ class AddEditPrizePage extends HookConsumerWidget {
     final formKey = GlobalKey<FormState>();
     final raffle = ref.watch(raffleProvider);
     final prize = ref.watch(prizeProvider);
-    final isEdit = prize.id != Prize.empty().id;
+    final isEdit = prize.id != PrizeSimple.fromJson({}).id;
     final quantity = useTextEditingController(
       text: isEdit ? prize.quantity.toString() : "1",
     );
@@ -116,7 +117,7 @@ class AddEditPrizePage extends HookConsumerWidget {
                                   )!.raffleAddingError;
                             final value = isEdit
                                 ? await prizeNotifier.updatePrize(newPrize)
-                                : await prizeNotifier.addPrize(newPrize);
+                                : await prizeNotifier.addPrize(newPrize.toPrizeBase());
                             if (value) {
                               QR.back();
                               displayToastWithContext(

@@ -1,18 +1,23 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/raffle/class/cash.dart';
-import 'package:titan/raffle/repositories/cash_repository.dart';
-import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/single_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
+import 'package:titan/user/providers/user_provider.dart';
 
-class UserCashNotifier extends SingleNotifier<Cash> {
-  CashRepository get cashRepository => ref.watch(rafflesCashRepositoryProvider);
+class UserCashNotifier extends SingleNotifierAPI<CashComplete> {
+  Openapi get cashRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<Cash> build() {
+  AsyncValue<CashComplete> build() {
+    final user = ref.watch(userProvider);
+    loadCashByUser(user.id);
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<Cash>> loadCashByUser(String userId) async {
-    return await load(() async => cashRepository.getCash(userId));
+  Future<AsyncValue<CashComplete>> loadCashByUser(String userId) async {
+    return await load(
+      () async => cashRepository.tombolaUsersUserIdCashGet(userId: userId),
+    );
   }
 
   Future updateCash(double amount) async {
@@ -34,6 +39,7 @@ class UserCashNotifier extends SingleNotifier<Cash> {
   }
 }
 
-final userAmountProvider = NotifierProvider<UserCashNotifier, AsyncValue<Cash>>(
-  UserCashNotifier.new,
-);
+final userAmountProvider =
+    NotifierProvider<UserCashNotifier, AsyncValue<CashComplete>>(
+      UserCashNotifier.new,
+    );

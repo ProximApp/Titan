@@ -1,35 +1,27 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/raffle/class/raffle.dart';
-import 'package:titan/raffle/class/stats.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/raffle/providers/raffle_id_provider.dart';
-import 'package:titan/raffle/repositories/raffle_detail_repository.dart';
-import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/tools/builders/empty_models.dart';
+import 'package:titan/tools/providers/single_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class RaffleStatsNotifier extends SingleNotifier<RaffleStats> {
-  RaffleDetailRepository get _raffleDetailRepository =>
-      ref.watch(raffleDetailRepositoryProvider);
-  late String raffleId;
+class RaffleStatsNotifier extends SingleNotifierAPI<RaffleStats> {
+  Openapi get raffleDetailRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<RaffleStats> build() {
     final currentRaffleId = ref.watch(raffleIdProvider);
-    if (currentRaffleId != Raffle.empty().id) {
-      setRaffleId(currentRaffleId);
-      loadRaffleStats();
+    if (currentRaffleId != EmptyModels.empty<RaffleComplete>().id) {
+      loadRaffleStats(currentRaffleId);
     }
     return const AsyncValue.loading();
   }
 
-  void setRaffleId(String raffleId) {
-    this.raffleId = raffleId;
-  }
-
-  Future<AsyncValue<RaffleStats>> loadRaffleStats({
-    String? customRaffleId,
-  }) async {
+  Future<AsyncValue<RaffleStats>> loadRaffleStats(String raffleId) async {
     return await load(
-      () async =>
-          _raffleDetailRepository.getRaffleStats(customRaffleId ?? raffleId),
+      () async => raffleDetailRepository.tombolaRafflesRaffleIdStatsGet(
+        raffleId: raffleId,
+      ),
     );
   }
 }

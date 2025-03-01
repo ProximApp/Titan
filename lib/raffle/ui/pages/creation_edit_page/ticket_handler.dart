@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/raffle/class/pack_ticket.dart';
-import 'package:titan/raffle/class/raffle_status_type.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/raffle/providers/pack_ticket_list_provider.dart';
 import 'package:titan/raffle/providers/pack_ticket_provider.dart';
 import 'package:titan/raffle/providers/raffle_provider.dart';
@@ -49,10 +49,10 @@ class TicketHandler extends HookConsumerWidget {
           child: Row(
             children: [
               const SizedBox(width: 15, height: 125),
-              if (raffle.raffleStatusType == RaffleStatusType.creation)
+              if (raffle.status == RaffleStatusType.creation)
                 GestureDetector(
                   onTap: () {
-                    packTicketNotifier.setPackTicket(PackTicket.empty());
+                    packTicketNotifier.setPackTicket(PackTicketSimple.fromJson({}));
                     QR.to(
                       RaffleRouter.root +
                           RaffleRouter.detail +
@@ -109,7 +109,7 @@ class TicketHandler extends HookConsumerWidget {
                               );
                             },
                             showButton:
-                                raffle.raffleStatusType ==
+                                raffle.status ==
                                 RaffleStatusType.creation,
                             onDelete: () async {
                               await showDialog(

@@ -4,8 +4,8 @@ import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:titan/raffle/class/raffle.dart';
-import 'package:titan/raffle/class/raffle_status_type.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/raffle/providers/cash_provider.dart';
 import 'package:titan/raffle/providers/prize_list_provider.dart';
 import 'package:titan/raffle/providers/raffle_list_provider.dart';
@@ -44,7 +44,8 @@ class CreationPage extends HookConsumerWidget {
     final raffleListNotifier = ref.read(raffleListProvider.notifier);
     final raffleStats = ref.watch(raffleStatsProvider);
     final cashNotifier = ref.read(cashProvider.notifier);
-    final packTicketListNotifier = ref.read(packTicketListProvider.notifier);
+    final packTicketListNotifier =
+        ref.read(packTicketListProvider.notifier);
     final prizeListNotifier = ref.read(prizeListProvider.notifier);
     final prizeList = ref.watch(prizeListProvider);
     final winningTicketListNotifier = ref.watch(
@@ -76,8 +77,8 @@ class CreationPage extends HookConsumerWidget {
         controller: ScrollController(),
         onRefresh: () async {
           await cashNotifier.loadCashList();
-          await packTicketListNotifier.loadPackTicketList();
-          await prizeListNotifier.loadPrizeList();
+          await packTicketListNotifier.loadPackTicketList(raffle.id);
+          await prizeListNotifier.loadPrizeList(raffle.id);
         },
         child: Column(
           children: [
@@ -137,7 +138,7 @@ class CreationPage extends HookConsumerWidget {
                             color: Colors.grey,
                           ),
                   ),
-                  if (raffle.raffleStatusType == RaffleStatusType.creation)
+                  if (raffle.status == RaffleStatusType.creation)
                     Positioned(
                       bottom: 0,
                       left: 0,
@@ -189,8 +190,7 @@ class CreationPage extends HookConsumerWidget {
                   key: formKey,
                   child: TextEntry(
                     label: AppLocalizations.of(context)!.raffleName,
-                    enabled:
-                        raffle.raffleStatusType == RaffleStatusType.creation,
+                    enabled: raffle.status == RaffleStatusType.creation,
                     controller: name,
                     keyboardType: TextInputType.text,
                   ),
@@ -203,13 +203,11 @@ class CreationPage extends HookConsumerWidget {
               child: WaitingButton(
                 builder: (child) => BlueBtn(child: child),
                 onTap: () async {
-                  if (raffle.raffleStatusType == RaffleStatusType.creation &&
+                  if (raffle.status == RaffleStatusType.creation &&
                       formKey.currentState!.validate()) {
                     await tokenExpireWrapper(ref, () async {
-                      Raffle newRaffle = raffle.copyWith(
+                      RaffleComplete newRaffle = raffle.copyWith(
                         name: name.text,
-                        description: raffle.description,
-                        raffleStatusType: raffle.raffleStatusType,
                       );
                       await raffleListNotifier.updateRaffle(newRaffle);
                     });
@@ -229,7 +227,7 @@ class CreationPage extends HookConsumerWidget {
               ),
             ),
             const SizedBox(height: 40),
-            raffle.raffleStatusType != RaffleStatusType.lock
+            raffle.status != RaffleStatusType.lock
                 ? const TicketHandler()
                 : const WinningTicketHandler(),
             const SizedBox(height: 30),
@@ -246,7 +244,7 @@ class CreationPage extends HookConsumerWidget {
                 ),
               ),
             ),
-            raffle.raffleStatusType != RaffleStatusType.lock
+            raffle.status != RaffleStatusType.lock
                 ? Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 30,
@@ -260,8 +258,7 @@ class CreationPage extends HookConsumerWidget {
                             context: context,
                             builder: (context) => CustomDialogBox(
                               title:
-                                  raffle.raffleStatusType ==
-                                      RaffleStatusType.creation
+                                  raffle.status == RaffleStatusType.creation
                                   ? AppLocalizations.of(
                                       context,
                                     )!.raffleOpenRaffle
@@ -269,7 +266,7 @@ class CreationPage extends HookConsumerWidget {
                                       context,
                                     )!.raffleCloseRaffle,
                               descriptions:
-                                  raffle.raffleStatusType ==
+                                  raffle.status ==
                                       RaffleStatusType.creation
                                   ? AppLocalizations.of(
                                       context,
@@ -278,12 +275,11 @@ class CreationPage extends HookConsumerWidget {
                                       context,
                                     )!.raffleCloseRaffleDescription,
                               onYes: () async {
-                                switch (raffle.raffleStatusType) {
+                                switch (raffle.status) {
                                   case RaffleStatusType.creation:
                                     await raffleListNotifier.openRaffle(
                                       raffle.copyWith(
-                                        description: raffle.description,
-                                        raffleStatusType: RaffleStatusType.open,
+                                        status: RaffleStatusType.open,
                                       ),
                                     );
                                     QR.back();
@@ -291,8 +287,7 @@ class CreationPage extends HookConsumerWidget {
                                   case RaffleStatusType.open:
                                     await raffleListNotifier.lockRaffle(
                                       raffle.copyWith(
-                                        description: raffle.description,
-                                        raffleStatusType: RaffleStatusType.lock,
+                                        status: RaffleStatusType.lock,
                                       ),
                                     );
                                     prizeList.whenData((prizes) {
@@ -315,7 +310,7 @@ class CreationPage extends HookConsumerWidget {
                       },
                       child: BlueBtn(
                         child: Text(
-                          raffle.raffleStatusType == RaffleStatusType.open
+                          raffle.status == RaffleStatusType.open
                               ? AppLocalizations.of(context)!.raffleClose
                               : AppLocalizations.of(context)!.raffleOpen,
                         ),

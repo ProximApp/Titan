@@ -1,7 +1,8 @@
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:titan/raffle/class/pack_ticket.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/raffle/adapters/pack_ticket.dart';
 import 'package:titan/raffle/providers/pack_ticket_provider.dart';
 import 'package:titan/raffle/providers/raffle_provider.dart';
 import 'package:titan/raffle/providers/pack_ticket_list_provider.dart';
@@ -22,7 +23,7 @@ class AddEditPackTicketPage extends HookConsumerWidget {
     final formKey = GlobalKey<FormState>();
     final raffle = ref.watch(raffleProvider);
     final packTicket = ref.watch(packTicketProvider);
-    final isEdit = packTicket.id != PackTicket.empty().id;
+    final isEdit = packTicket.id != PackTicketSimple.fromJson({}).id;
     final packSize = useTextEditingController(
       text: isEdit ? packTicket.packSize.toString() : "",
     );
@@ -141,12 +142,10 @@ class AddEditPackTicketPage extends HookConsumerWidget {
                                     context,
                                   )!.raffleAddingError;
                             final value = isEdit
-                                ? await typeTicketNotifier.updatePackTicket(
-                                    newPackTicket,
-                                  )
-                                : await typeTicketNotifier.addPackTicket(
-                                    newPackTicket,
-                                  );
+                                ? await typeTicketNotifier
+                                    .updatePackTicket(newPackTicket)
+                                : await typeTicketNotifier
+                                    .addPackTicket(newPackTicket.toPackTicketBase());
                             if (value) {
                               QR.back();
                               displayToastWithContext(

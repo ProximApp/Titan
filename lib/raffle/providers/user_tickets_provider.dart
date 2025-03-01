@@ -1,50 +1,42 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/auth/providers/openid_provider.dart';
-import 'package:titan/raffle/class/pack_ticket.dart';
-import 'package:titan/raffle/class/tickets.dart';
-import 'package:titan/raffle/repositories/tickets_repository.dart';
-import 'package:titan/raffle/repositories/user_tickets_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 
-class UserTicketListNotifier extends ListNotifier<Ticket> {
-  UserDetailRepository get userDetailRepository =>
-      ref.watch(userDetailRepositoryProvider);
-  TicketRepository get ticketRepository => ref.watch(ticketRepositoryProvider);
-  late String userId;
+class UserTicketListNotifier extends ListNotifierAPI<TicketComplete> {
+  Openapi get userTicketsRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<List<Ticket>> build() {
+  AsyncValue<List<TicketComplete>> build() {
     tokenExpireWrapperAuth(ref, () async {
       final userIdAsync = ref.watch(idProvider);
       userIdAsync.whenData((value) async {
-        setId(value);
-        await loadTicketList();
+        await loadTicketList(value);
       });
     });
 
     return const AsyncValue.loading();
   }
 
-  void setId(String id) {
-    userId = id;
-  }
-
-  Future<AsyncValue<List<Ticket>>> loadTicketList() async {
+  Future<AsyncValue<List<TicketComplete>>> loadTicketList(String userId) async {
     return await loadList(
-      () async => userDetailRepository.getTicketsListByUserId(userId),
+      () => userTicketsRepository.tombolaUsersUserIdTicketsGet(userId: userId),
     );
   }
 
-  Future<bool> buyTicket(PackTicket packTicket) async {
+  Future<bool> buyTicket(PackTicketSimple packTicket) async {
     return addAll(
-      (_) async => ticketRepository.buyTicket(packTicket.id, userId),
+      (_) async => userTicketsRepository.tombolaTicketsBuyPackIdPost(
+        packId: packTicket.id,
+      ),
       [],
     );
   }
 }
 
 final userTicketListProvider =
-    NotifierProvider<UserTicketListNotifier, AsyncValue<List<Ticket>>>(
+    NotifierProvider<UserTicketListNotifier, AsyncValue<List<TicketComplete>>>(
       UserTicketListNotifier.new,
     );

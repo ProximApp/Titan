@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/raffle/class/prize.dart';
-import 'package:titan/raffle/class/raffle_status_type.dart';
-import 'package:titan/raffle/class/tickets.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/raffle/providers/prize_list_provider.dart';
 import 'package:titan/raffle/providers/prize_provider.dart';
 import 'package:titan/raffle/providers/raffle_provider.dart';
@@ -16,6 +15,7 @@ import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
+import 'package:titan/user/extensions/core_user_simple.dart';
 
 class PrizeHandler extends HookConsumerWidget {
   const PrizeHandler({super.key});
@@ -34,7 +34,7 @@ class PrizeHandler extends HookConsumerWidget {
       displayToast(context, type, msg);
     }
 
-    void displayWinningsDialog(List<Ticket> winningTickets) {
+    void displayWinningsDialog(List<TicketComplete> winningTickets) {
       showDialog(
         context: context,
         builder: (context) {
@@ -101,10 +101,10 @@ class PrizeHandler extends HookConsumerWidget {
           child: Row(
             children: [
               const SizedBox(width: 10),
-              if (raffle.raffleStatusType == RaffleStatusType.creation)
+              if (raffle.status == RaffleStatusType.creation)
                 GestureDetector(
                   onTap: () {
-                    prizeNotifier.setPrize(Prize.empty());
+                    prizeNotifier.setPrize(PrizeSimple.fromJson({}));
                     QR.to(
                       RaffleRouter.root +
                           RaffleRouter.detail +
@@ -205,7 +205,7 @@ class PrizeHandler extends HookConsumerWidget {
                                           RaffleRouter.addEditPrize,
                                     );
                                   },
-                                  status: raffle.raffleStatusType,
+                                  status: raffle.status ?? RaffleStatusType.creation,
                                   onDraw: () async {
                                     await showDialog(
                                       context: context,

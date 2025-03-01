@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/raffle/class/cash.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/raffle/providers/cash_provider.dart';
 import 'package:titan/raffle/tools/constants.dart';
 import 'package:titan/user/class/simple_users.dart';
@@ -16,7 +16,13 @@ class AddingUserCard extends HookConsumerWidget {
     final cashNotifier = ref.watch(cashProvider.notifier);
     return GestureDetector(
       onTap: () {
-        cashNotifier.addCash(Cash(balance: 0, user: user));
+        cashNotifier.addCash(
+          CashComplete(
+            balance: 0,
+            user: user,
+            userId: user.id,
+          ),
+        );
         onAdd();
       },
       child: Container(

@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/raffle/class/pack_ticket.dart';
-import 'package:titan/raffle/class/raffle.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/raffle/providers/tombola_logo_provider.dart';
 import 'package:titan/raffle/providers/tombola_logos_provider.dart';
 import 'package:titan/raffle/providers/user_amount_provider.dart';
@@ -18,8 +17,8 @@ import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/l10n/app_localizations.dart';
 
 class ConfirmPaymentDialog extends HookConsumerWidget {
-  final PackTicket packTicket;
-  final Raffle raffle;
+  final PackTicketSimple packTicket;
+  final RaffleComplete raffle;
   const ConfirmPaymentDialog({
     super.key,
     required this.packTicket,
