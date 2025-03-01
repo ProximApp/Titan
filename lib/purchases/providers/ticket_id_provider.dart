@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/purchases/repositories/user_information_repository.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/tools/repository/repository.dart';
 
 class TicketIdNotifier extends SingleNotifier<String> {
-  UserInformationRepository get ticketIdRepository =>
-      ref.watch(userInformationRepositoryProvider);
+  Openapi get ticketIdRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<String> build() {

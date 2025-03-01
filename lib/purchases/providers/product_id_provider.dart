@@ -1,10 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/purchases/repositories/user_information_repository.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
 
 class ProductIdNotifier extends SingleNotifier<String> {
-  UserInformationRepository get productIdRepository =>
-      ref.watch(userInformationRepositoryProvider);
 
   @override
   AsyncValue<String> build() {

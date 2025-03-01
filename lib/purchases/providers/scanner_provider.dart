@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/purchases/class/ticket.dart';
-import 'package:titan/purchases/repositories/scanner_repository.dart';
-import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/single_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class ScannerNotifier extends SingleNotifier<Ticket> {
-  ScannerRepository get scannerRepository =>
-      ref.watch(scannerRepositoryProvider);
+class ScannerNotifier extends SingleNotifierAPI<Ticket> {
+  Openapi get scannerRepository => ref.watch(repositoryProvider);
+  String secret = "";
 
   @override
   AsyncValue<Ticket> build() {
@@ -15,16 +15,16 @@ class ScannerNotifier extends SingleNotifier<Ticket> {
   Future<AsyncValue<Ticket>> scanTicket(
     String sellerId,
     String productId,
-    String ticketSecret,
     String generatorId,
   ) async {
     return await load(
-      () => scannerRepository.scanTicket(
-        sellerId,
-        productId,
-        ticketSecret,
-        generatorId,
-      ),
+      () => scannerRepository
+          .cdrSellersSellerIdProductsProductIdTicketsGeneratorIdSecretGet(
+            sellerId: sellerId,
+            productId: productId,
+            generatorId: generatorId,
+            secret: secret,
+          ),
     );
   }
 
@@ -34,6 +34,11 @@ class ScannerNotifier extends SingleNotifier<Ticket> {
 
   void reset() {
     state = const AsyncValue.loading();
+    secret = "";
+  }
+
+  void setSecret(String secret) {
+    this.secret = secret;
   }
 }
 

@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/purchases/repositories/scanner_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class TagListNotifier extends ListNotifier<String> {
-  ScannerRepository get scannerRepository =>
-      ref.watch(scannerRepositoryProvider);
+class TagListNotifier extends ListNotifierAPI<String> {
+  Openapi get scannerRepository => ref.watch(repositoryProvider);
   AsyncValue<List<String>> tagList = const AsyncValue.loading();
 
   @override
@@ -18,7 +18,12 @@ class TagListNotifier extends ListNotifier<String> {
     String generatorId,
   ) async {
     return await loadList(
-      () => scannerRepository.getTags(sellerId, productId, generatorId),
+      () => scannerRepository
+          .cdrSellersSellerIdProductsProductIdTagsGeneratorIdGet(
+            sellerId: sellerId,
+            productId: productId,
+            generatorId: generatorId,
+          ),
     );
   }
 }

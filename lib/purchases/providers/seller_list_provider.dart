@@ -1,16 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/purchases/class/seller.dart';
-import 'package:titan/purchases/repositories/user_information_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 
-class SellerListNotifier extends ListNotifier<Seller> {
-  UserInformationRepository get sellerRepository =>
-      ref.watch(userInformationRepositoryProvider);
-  AsyncValue<List<Seller>> sellerList = const AsyncValue.loading();
+class SellerListNotifier extends ListNotifierAPI<SellerComplete> {
+  Openapi get sellerRepository => ref.watch(repositoryProvider);
+  AsyncValue<List<SellerComplete>> sellerList = const AsyncValue.loading();
 
   @override
-  AsyncValue<List<Seller>> build() {
+  AsyncValue<List<SellerComplete>> build() {
     tokenExpireWrapperAuth(ref, () async {
       await loadSellers();
     });
@@ -18,12 +17,12 @@ class SellerListNotifier extends ListNotifier<Seller> {
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<List<Seller>>> loadSellers() async {
-    return await loadList(sellerRepository.getSellerList);
+  Future<AsyncValue<List<SellerComplete>>> loadSellers() async {
+    return await loadList(sellerRepository.cdrSellersGet);
   }
 }
 
 final sellerListProvider =
-    NotifierProvider<SellerListNotifier, AsyncValue<List<Seller>>>(
+    NotifierProvider<SellerListNotifier, AsyncValue<List<SellerComplete>>>(
       SellerListNotifier.new,
     );

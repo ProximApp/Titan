@@ -12,6 +12,7 @@ import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/horizontal_list_view.dart';
 import 'package:titan/tools/ui/layouts/item_chip.dart';
 import 'package:titan/tools/ui/layouts/refresher.dart';
+import 'package:titan/user/extensions/core_user_simple.dart';
 
 class UserListPage extends HookConsumerWidget {
   const UserListPage({super.key});

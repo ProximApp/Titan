@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:titan/purchases/class/ticket.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/ui/layouts/card_layout.dart';
 
 class TicketCard extends HookConsumerWidget {
@@ -33,7 +33,7 @@ class TicketCard extends HookConsumerWidget {
                   ),
                 ),
                 Text(
-                  "${ticket.scanLeft} scan${ticket.scanLeft > 1 ? 's' : ""} restant${ticket.scanLeft > 1 ? 's' : ""} - Valide jusqu'au ${DateFormat.yMd(locale).format(ticket.expirationDate)}",
+                  "${ticket.scanLeft} scan${ticket.scanLeft > 1 ? 's' : ""} restant${ticket.scanLeft > 1 ? 's' : ""} - Valide jusqu'au ${DateFormat.yMd(locale).format(ticket.expiration)}",
                   style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,

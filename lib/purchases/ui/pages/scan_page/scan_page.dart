@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/purchases/class/seller.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/purchases/providers/product_list_provider.dart';
 import 'package:titan/purchases/providers/generated_ticket_provider.dart';
 import 'package:titan/purchases/providers/scanner_provider.dart';
@@ -35,7 +35,7 @@ class ScanPage extends HookConsumerWidget {
         controller: ScrollController(),
         onRefresh: () async {
           await sellersNotifier.loadSellers();
-          if (seller != Seller.empty()) {
+          if (seller.id != SellerComplete.fromJson({}).id) {
             await productsNotifier.loadProducts(seller.id);
           }
           scannerNotifier.reset();
@@ -84,8 +84,7 @@ class ScanPage extends HookConsumerWidget {
                             value: products,
                             builder: (context, products) {
                               final scannableProducts = products.where(
-                                (product) =>
-                                    product.ticketGenerators.isNotEmpty,
+                                (product) => (product.tickets ?? []).isNotEmpty,
                               );
                               if (scannableProducts.isEmpty) {
                                 return Text(
@@ -97,7 +96,7 @@ class ScanPage extends HookConsumerWidget {
                               return Column(
                                 children: scannableProducts
                                     .map((product) {
-                                      return product.ticketGenerators.map((
+                                      return (product.tickets ?? []).map((
                                         ticket,
                                       ) {
                                         return TicketCard(

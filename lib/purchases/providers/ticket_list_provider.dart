@@ -1,15 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/purchases/class/ticket.dart';
-import 'package:titan/purchases/repositories/scanner_repository.dart';
-import 'package:titan/purchases/repositories/user_information_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 
-class TicketListNotifier extends ListNotifier<Ticket> {
-  UserInformationRepository get ticketRepository =>
-      ref.watch(userInformationRepositoryProvider);
-  ScannerRepository get scannerRepository =>
-      ref.watch(scannerRepositoryProvider);
+class TicketListNotifier extends ListNotifierAPI<Ticket> {
+  Openapi get ticketRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<Ticket>> build() {
@@ -21,28 +17,32 @@ class TicketListNotifier extends ListNotifier<Ticket> {
   }
 
   Future<AsyncValue<List<Ticket>>> loadTickets() async {
-    return await loadList(ticketRepository.getTicketList);
+    return await loadList(ticketRepository.cdrUsersMeTicketsGet);
   }
 
+  // Need to go back to it
   Future<bool> consumeTicket(
     String sellerId,
+    String productId,
     Ticket ticket,
     String generatorId,
     String tag,
+    String secret,
   ) async {
     return await update(
-      (Ticket fakeTicket) =>
-          scannerRepository.consumeTicket(sellerId, ticket, generatorId, tag),
-      (tickets, ticket) {
-        List<String> tags = ticket.tags;
-        tags.add(tag);
-        return tickets
-          ..[tickets.indexWhere((g) => g.id == ticket.id)] = ticket.copyWith(
-            tags: tags,
-            scanLeft: ticket.scanLeft - 1,
-          );
-      },
-      ticket,
+      () => ticketRepository
+          .cdrSellersSellerIdProductsProductIdTicketsGeneratorIdSecretPatch(
+            sellerId: sellerId,
+            productId: productId,
+            generatorId: generatorId,
+            secret: secret,
+            body: TicketScan(tag: tag),
+          ),
+      (ticket) => ticket.id,
+      ticket.copyWith(
+        tags: "${ticket.tags}, $tag",
+        scanLeft: ticket.scanLeft - 1,
+      ),
     );
   }
 }

@@ -1,11 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/purchases/class/ticket.dart';
-import 'package:titan/purchases/repositories/user_information_repository.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/tools/repository/repository.dart';
 
 class TicketNotifier extends SingleNotifier<Ticket> {
-  UserInformationRepository get ticketRepository =>
-      ref.watch(userInformationRepositoryProvider);
+  Openapi get ticketRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<Ticket> build() {
@@ -16,11 +15,20 @@ class TicketNotifier extends SingleNotifier<Ticket> {
     state = AsyncValue.data(i);
   }
 
-  Future<AsyncValue<Ticket>> loadTicketSecret() async {
-    state.whenData((ticket) async {
-      return await load(() => ticketRepository.getTicketQrCodeSecret(ticket));
-    });
-    return state;
+  Future<AsyncValue<TicketSecret>> loadTicketSecret() async {
+    return state.maybeWhen(
+      orElse: () async {
+        return AsyncValue.error('Ticket is not loaded', StackTrace.current);
+      },
+      data: (value) async {
+        final response = await ticketRepository
+            .cdrUsersMeTicketsTicketIdSecretGet(ticketId: value.id);
+        if (response.isSuccessful) {
+          return AsyncValue.data(response.body!);
+        }
+        return AsyncValue.error(response.error.toString(), StackTrace.current);
+      },
+    );
   }
 }
 
