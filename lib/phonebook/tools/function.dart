@@ -1,29 +1,27 @@
 import 'package:diacritic/diacritic.dart';
-import 'package:titan/phonebook/class/association.dart';
-import 'package:titan/phonebook/class/association_groupement.dart';
-import 'package:titan/phonebook/class/complete_member.dart';
-import 'package:titan/phonebook/class/membership.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 
-Membership getMembershipForAssociation(
-  CompleteMember member,
-  Association association,
+MembershipComplete getMembershipForAssociation(
+  MemberComplete member,
+  AssociationComplete association,
 ) {
   return member.memberships.firstWhere(
     (element) =>
         element.associationId == association.id &&
         element.mandateYear == association.mandateYear,
-    orElse: () => Membership.empty(),
+    orElse: () => EmptyModels.empty<MembershipComplete>(),
   );
 }
 
-int getPosition(CompleteMember member, Association association) {
+int getPosition(MemberComplete member, AssociationComplete association) {
   final membership = getMembershipForAssociation(member, association);
-  return membership.order;
+  return membership.memberOrder;
 }
 
-List<CompleteMember> sortedMembers(
-  List<CompleteMember> members,
-  Association association,
+List<MemberComplete> sortedMembers(
+  List<MemberComplete> members,
+  AssociationComplete association,
 ) {
   return members..sort(
     (a, b) =>
@@ -31,17 +29,17 @@ List<CompleteMember> sortedMembers(
   );
 }
 
-List<Association> sortedAssociationByKind(
-  List<Association> associations,
+List<AssociationComplete> sortedAssociationByKind(
+  List<AssociationComplete> associations,
   List<AssociationGroupement> groupements,
 ) {
-  Map<String, List<Association>> sortedByGroupement = {
+  Map<String, List<AssociationComplete>> sortedByGroupement = {
     for (var groupement in groupements) groupement.id: [],
   };
-  for (Association association in associations) {
+  for (AssociationComplete association in associations) {
     sortedByGroupement[association.groupementId]!.add(association);
   }
-  for (List<Association> list in sortedByGroupement.values) {
+  for (List<AssociationComplete> list in sortedByGroupement.values) {
     list.sort(
       (a, b) => removeDiacritics(
         a.name,

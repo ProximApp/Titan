@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/phonebook/class/membership.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/phonebook/extensions/members.dart';
 import 'package:titan/phonebook/providers/association_member_list_provider.dart';
 import 'package:titan/phonebook/providers/association_provider.dart';
 import 'package:titan/phonebook/providers/membership_provider.dart';
@@ -30,14 +31,13 @@ class MembershipEditorPage extends HookConsumerWidget {
     final member = ref.watch(completeMemberProvider);
     final membership = ref.watch(membershipProvider);
     final association = ref.watch(associationProvider);
-    final isEdit = membership.id != Membership.empty().id;
+    final isEdit = membership.id != MembershipComplete.fromJson({}).id;
     final associationMemberListNotifier = ref.watch(
       associationMemberListProvider.notifier,
     );
     final apparentNameController = useTextEditingController(
-      text: membership.apparentName,
+      text: membership.roleName,
     );
-    final associationMembers = ref.watch(associationMemberListProvider);
     final isPhonebookAdmin = ref.watch(isPhonebookAdminProvider);
 
     void displayToastWithContext(TypeMsg type, String msg) {
@@ -45,7 +45,9 @@ class MembershipEditorPage extends HookConsumerWidget {
     }
 
     final selectedTags = useState<List<String>>(
-      List.from(membership.rolesTags),
+      List.from(
+        membership.roleTags?.split(", ").where((tag) => tag != "") ?? [],
+      ),
     );
 
     final localizeWithContext = AppLocalizations.of(context)!;
@@ -67,17 +69,12 @@ class MembershipEditorPage extends HookConsumerWidget {
         return;
       }
 
-      final membershipAdd = Membership(
-        id: "",
-        memberId: member.member.id,
+      final membershipAdd = AppModulesPhonebookSchemasPhonebookMembershipBase(
         associationId: association.id,
-        rolesTags: selectedTags.value,
-        apparentName: apparentNameController.text,
         mandateYear: association.mandateYear,
-        order: associationMembers.maybeWhen(
-          data: (members) => members.length,
-          orElse: () => 0,
-        ),
+        userId: membership.userId,
+        roleName: apparentNameController.text,
+        memberOrder: membership.memberOrder,
       );
       final value = await associationMemberListNotifier.addMember(
         member,
@@ -98,14 +95,13 @@ class MembershipEditorPage extends HookConsumerWidget {
     }
 
     Future updateMember() async {
-      final membershipEdit = Membership(
+      final membershipEdit = MembershipComplete(
         id: membership.id,
-        memberId: membership.memberId,
         associationId: membership.associationId,
-        rolesTags: selectedTags.value,
-        apparentName: apparentNameController.text,
         mandateYear: membership.mandateYear,
-        order: membership.order,
+        userId: membership.userId,
+        roleName: apparentNameController.text,
+        memberOrder: membership.memberOrder,
       );
       member.memberships[member.memberships.indexWhere(
             (membership) => membership.id == membershipEdit.id,
@@ -152,9 +148,9 @@ class MembershipEditorPage extends HookConsumerWidget {
                 ),
                 const SizedBox(height: 20),
                 ListItem(
-                  title: member.member.id == ""
+                  title: member.id == ""
                       ? localizeWithContext.phonebookSearchUser
-                      : member.member.getName(),
+                      : member.getName(),
                   onTap: () async {
                     showCustomBottomModal(
                       context: context,
@@ -166,7 +162,7 @@ class MembershipEditorPage extends HookConsumerWidget {
               ] else
                 Text(
                   localizeWithContext.phonebookModifyMembership(
-                    member.member.nickname ?? member.getName(),
+                    member.nickname ?? member.getName(),
                   ),
                   style: TextStyle(
                     fontSize: 24,
@@ -218,7 +214,7 @@ class MembershipEditorPage extends HookConsumerWidget {
                     ? localizeWithContext.phonebookEdit
                     : localizeWithContext.phonebookAdd,
                 onPressed: () async {
-                  if (member.member.id == "") {
+                  if (member.id == MemberComplete.fromJson({}).id) {
                     displayToastWithContext(
                       TypeMsg.msg,
                       localizeWithContext.phonebookEmptyMember,

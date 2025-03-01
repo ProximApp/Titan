@@ -83,7 +83,7 @@ class PhonebookMainPage extends HookConsumerWidget {
                   return Column(
                     children: [
                       ...associationFilteredList.map(
-                        (association) => !association.deactivated
+                        (association) => !(association.deactivated ?? false)
                             ? AssociationCard(
                                 association: association,
                                 groupement: associationGroupements.firstWhere(

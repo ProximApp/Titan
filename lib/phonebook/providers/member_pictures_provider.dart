@@ -1,12 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/phonebook/class/complete_member.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/phonebook/providers/association_member_list_provider.dart';
 import 'package:titan/tools/providers/map_provider.dart';
+import 'package:titan/tools/token_expire_wrapper.dart';
 
-class MemberPicturesNotifier extends MapNotifier<CompleteMember, Image> {}
+class MemberPicturesNotifier extends MapNotifier<MemberComplete, Image> {
+  @override
+  Map<MemberComplete, AsyncValue<List<Image>>?> build() {
+    tokenExpireWrapperAuth(ref, () async {
+      ref
+          .watch(associationMemberListProvider)
+          .maybeWhen(
+            data: (member) {
+              loadTList(member);
+            },
+            orElse: () {},
+          );
+    });
+    return state;
+  }
+}
 
 final memberPicturesProvider =
     NotifierProvider<
       MemberPicturesNotifier,
-      Map<CompleteMember, AsyncValue<List<Image>>?>
+      Map<MemberComplete, AsyncValue<List<Image>>?>
     >(() => MemberPicturesNotifier());

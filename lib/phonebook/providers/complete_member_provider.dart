@@ -1,28 +1,31 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/phonebook/class/complete_member.dart';
-import 'package:titan/phonebook/class/member.dart';
-import 'package:titan/phonebook/repositories/member_repository.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class CompleteMemberProvider extends Notifier<CompleteMember> {
-  MemberRepository get memberRepository => ref.watch(memberRepositoryProvider);
+class CompleteMemberProvider extends Notifier<MemberComplete> {
+  Openapi get memberRepository => ref.watch(repositoryProvider);
 
   @override
-  CompleteMember build() {
-    return CompleteMember.empty();
+  MemberComplete build() {
+    return EmptyModels.empty<MemberComplete>();
   }
 
-  void setCompleteMember(CompleteMember i) {
+  void setCompleteMember(MemberComplete i) {
     state = i;
   }
 
-  void setMember(Member i) {
-    state = state.copyWith(member: i);
+  void setMember(MemberComplete i) {
+    state = i;
   }
 
   Future<bool> loadMemberComplete() async {
     try {
-      final data = await memberRepository.getCompleteMember(state.member.id);
-      state = state.copyWith(member: data.member, membership: data.memberships);
+      final data = await memberRepository.phonebookMemberUserIdGet(userId: state.id);
+      if (data.isSuccessful) {
+        state = data.body!;
+        return true;
+      }
       return true;
     } catch (e) {
       return false;
@@ -31,6 +34,6 @@ class CompleteMemberProvider extends Notifier<CompleteMember> {
 }
 
 final completeMemberProvider =
-    NotifierProvider<CompleteMemberProvider, CompleteMember>(
+    NotifierProvider<CompleteMemberProvider, MemberComplete>(
       CompleteMemberProvider.new,
     );

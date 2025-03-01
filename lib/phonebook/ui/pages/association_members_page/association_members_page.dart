@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qlevar_router/qlevar_router.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
-import 'package:titan/phonebook/class/complete_member.dart';
-import 'package:titan/phonebook/class/membership.dart';
 import 'package:titan/phonebook/providers/association_member_list_provider.dart';
 import 'package:titan/phonebook/providers/association_member_sorted_list_provider.dart';
 import 'package:titan/phonebook/providers/association_provider.dart';
@@ -13,6 +12,7 @@ import 'package:titan/phonebook/providers/membership_provider.dart';
 import 'package:titan/phonebook/router.dart';
 import 'package:titan/phonebook/ui/components/member_card.dart';
 import 'package:titan/phonebook/ui/phonebook.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
@@ -67,7 +67,7 @@ class AssociationMembersPage extends HookConsumerWidget {
                   color: ColorConstants.title,
                 ),
               ),
-              if (!association.deactivated) ...[
+              if (association.deactivated != true) ...[
                 SizedBox(height: 20),
                 ListItemTemplate(
                   icon: const HeroIcon(
@@ -79,10 +79,10 @@ class AssociationMembersPage extends HookConsumerWidget {
                   trailing: SizedBox.shrink(),
                   onTap: () async {
                     completeMemberNotifier.setCompleteMember(
-                      CompleteMember.empty(),
+                      EmptyModels.empty<MemberComplete>(),
                     );
                     membershipNotifier.setMembership(
-                      Membership.empty().copyWith(
+                      EmptyModels.empty<MembershipComplete>().copyWith(
                         associationId: association.id,
                       ),
                     );
@@ -109,7 +109,7 @@ class AssociationMembersPage extends HookConsumerWidget {
                 builder: (context, associationMembers) =>
                     associationMembers.isEmpty
                     ? Text(localizeWithContext.phonebookNoMember)
-                    : !association.deactivated
+                    : association.deactivated != true
                     ? SizedBox(
                         height: MediaQuery.of(context).size.height - 120,
                         child: ReorderableListView(
@@ -131,7 +131,7 @@ class AssociationMembersPage extends HookConsumerWidget {
                                               element.mandateYear ==
                                                   association.mandateYear,
                                         )
-                                        .copyWith(order: newIndex),
+                                        .copyWith(memberOrder: newIndex),
                                     oldIndex,
                                     newIndex,
                                   );
@@ -152,7 +152,7 @@ class AssociationMembersPage extends HookConsumerWidget {
                               .map(
                                 (member) => MemberCard(
                                   deactivated: false,
-                                  key: ValueKey(member.member.id),
+                                  key: ValueKey(member.id),
                                   member: member,
                                   association: association,
                                   editable: true,

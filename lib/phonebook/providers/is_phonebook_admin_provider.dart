@@ -1,10 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/admin/providers/is_admin_provider.dart';
-import 'package:titan/phonebook/class/complete_member.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/phonebook/providers/association_member_list_provider.dart';
 import 'package:titan/phonebook/providers/association_provider.dart';
 import 'package:titan/phonebook/providers/roles_tags_provider.dart';
 import 'package:titan/phonebook/tools/function.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/user/providers/user_provider.dart';
 
 final isPhonebookAdminProvider = Provider<bool>((ref) {
@@ -29,14 +30,14 @@ final isAssociationPresidentProvider = Provider<bool>((ref) {
   return membersList.maybeWhen(
     data: (members) {
       final member = members.firstWhere(
-        (m) => m.member.id == me.id,
-        orElse: () => CompleteMember.empty(),
+        (m) => m.id == me.id,
+        orElse: () => EmptyModels.empty<MemberComplete>(),
       );
-      if (member.member.id == "") return false;
+      if (member.id == "") return false;
       final membership = getMembershipForAssociation(member, association);
       return rolesTags.maybeWhen(
         data: (tags) {
-          return membership.rolesTags.contains(tags.first);
+          return membership.roleTags?.contains(tags.first) ?? false;
         },
         orElse: () => false,
       );

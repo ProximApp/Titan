@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:titan/phonebook/extensions/members.dart';
 import 'package:titan/phonebook/providers/association_list_provider.dart';
 import 'package:titan/phonebook/providers/complete_member_provider.dart';
 import 'package:titan/phonebook/providers/member_pictures_provider.dart';
@@ -44,7 +45,7 @@ class MemberDetailPage extends HookConsumerWidget {
                       notifier: memberPicturesNotifier,
                       mapKey: member,
                       loader: (ref) => profilePictureNotifier.getProfilePicture(
-                        member.member.id,
+                        member.id,
                       ),
                       loadingBuilder: (context) => const CircleAvatar(
                         radius: 80,
@@ -56,9 +57,9 @@ class MemberDetailPage extends HookConsumerWidget {
                         backgroundImage: Image(image: data.first.image).image,
                       ),
                     ),
-                    if (member.member.nickname != null) ...[
+                    if (member.nickname != null) ...[
                       Text(
-                        member.member.nickname!,
+                        member.nickname!,
                         style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -81,24 +82,24 @@ class MemberDetailPage extends HookConsumerWidget {
                         ),
                       ),
                     const SizedBox(height: 5),
-                    if (member.member.promotion != 0)
+                    if (member.promo != 0)
                       Text(
                         localizeWithContext.phonebookPromotion(
-                          member.member.promotion < 100
-                              ? member.member.promotion + 2000
-                              : member.member.promotion,
+                          (member.promo ?? 0) < 100
+                              ? member.promo! + 2000
+                              : member.promo!,
                         ),
                         style: const TextStyle(fontSize: 16),
                       ),
                     const SizedBox(height: 20),
                     Text(
-                      member.member.email,
+                      member.email,
                       style: const TextStyle(fontSize: 16),
                     ),
                     const SizedBox(height: 5),
-                    if (member.member.phone != null)
+                    if (member.phone != null)
                       Text(
-                        member.member.phone!,
+                        member.phone!,
                         style: const TextStyle(fontSize: 16),
                       ),
                   ],

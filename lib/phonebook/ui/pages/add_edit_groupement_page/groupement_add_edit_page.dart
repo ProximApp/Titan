@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
-import 'package:titan/phonebook/class/association_groupement.dart';
 import 'package:titan/phonebook/providers/association_groupement_list_provider.dart';
 import 'package:titan/phonebook/providers/association_groupement_provider.dart';
 import 'package:titan/phonebook/ui/phonebook.dart';
@@ -74,6 +74,7 @@ class AssociationGroupementAddEditPage extends HookConsumerWidget {
                   if (associationGroupement.id != "") {
                     final value = await associaitonGroupementListNotifier
                         .updateAssociationGroupement(
+                          associationGroupement.id,
                           AssociationGroupement(
                             id: associationGroupement.id,
                             name: name.text,
@@ -95,7 +96,7 @@ class AssociationGroupementAddEditPage extends HookConsumerWidget {
                   }
                   final value = await associaitonGroupementListNotifier
                       .createAssociationGroupement(
-                        AssociationGroupement(id: "", name: name.text),
+                        AssociationGroupementBase(name: name.text),
                       );
                   if (value) {
                     displayToastWithContext(

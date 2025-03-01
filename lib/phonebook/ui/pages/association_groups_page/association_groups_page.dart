@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/admin/class/simple_group.dart';
 import 'package:titan/admin/providers/group_list_provider.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/phonebook/providers/association_groupement_provider.dart';
 import 'package:titan/phonebook/providers/association_list_provider.dart';
 import 'package:titan/phonebook/providers/association_provider.dart';
@@ -37,7 +38,7 @@ class AssociationGroupsPage extends HookConsumerWidget {
         return useState<List<SimpleGroup>>(
           List.from(
             value.where((element) {
-              return association.associatedGroups.contains(element.id);
+              return association.associatedGroups?.contains(element.id) ?? false;
             }).toList(),
           ),
         );

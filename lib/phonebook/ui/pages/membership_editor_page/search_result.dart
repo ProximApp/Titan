@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/phonebook/class/member.dart';
 import 'package:titan/phonebook/providers/complete_member_provider.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/styleguide/list_item_template.dart';
@@ -29,7 +28,7 @@ class SearchResult extends HookConsumerWidget {
                     title: user.getName(),
                     trailing: const HeroIcon(HeroIcons.plus),
                     onTap: () {
-                      memberNotifier.setMember(Member.fromUser(user));
+                      memberNotifier.setMember(user.toMemberComplete());
                       queryController.text = user.getName();
                       usersNotifier.clear();
                       memberNotifier.loadMemberComplete();

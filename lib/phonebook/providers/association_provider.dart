@@ -1,22 +1,24 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/phonebook/class/association.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 
-class AssociationNotifier extends Notifier<Association> {
+//  Rework for stateNotifier
+class AssociationNotifier extends Notifier<AssociationComplete> {
   @override
-  Association build() {
-    return Association.empty();
+  AssociationComplete build() {
+    return AssociationComplete.fromJson({});
   }
 
-  void setAssociation(Association association) {
+  void setAssociation(AssociationComplete association) {
     state = association;
   }
 
   void resetAssociation() {
-    state = Association.empty();
+    state = EmptyModels.empty<AssociationComplete>();
   }
 }
 
-final associationProvider = NotifierProvider<AssociationNotifier, Association>(
+final associationProvider = NotifierProvider<AssociationNotifier, AssociationComplete>(
   () {
     return AssociationNotifier();
   },
