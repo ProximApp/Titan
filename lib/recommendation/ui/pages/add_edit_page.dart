@@ -6,12 +6,13 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:titan/recommendation/class/recommendation.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/recommendation/adapters/recommendation.dart';
 import 'package:titan/recommendation/providers/recommendation_list_provider.dart';
 import 'package:titan/recommendation/providers/recommendation_logo_map_provider.dart';
 import 'package:titan/recommendation/providers/recommendation_logo_provider.dart';
 import 'package:titan/recommendation/providers/recommendation_provider.dart';
-import 'package:titan/recommendation/ui/widgets/recommendation_template.dart';
+import 'package:titan/recommendation/ui/components/recommendation_template.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/tools/ui/layouts/add_edit_button_layout.dart';
@@ -38,7 +39,7 @@ class AddEditRecommendationPage extends HookConsumerWidget {
     );
     final logoBytes = useState<Uint8List?>(null);
     final logo = useState<Image?>(null);
-    final isEdit = recommendation.id != Recommendation.empty().id;
+    final isEdit = recommendation.id != Recommendation.fromJson({}).id;
 
     final title = useTextEditingController(text: recommendation.title);
     final code = useTextEditingController(text: recommendation.code);
@@ -175,7 +176,7 @@ class AddEditRecommendationPage extends HookConsumerWidget {
                           ? await recommendationListNotifier
                                 .updateRecommendation(newRecommendation)
                           : await recommendationListNotifier.addRecommendation(
-                              newRecommendation,
+                              newRecommendation.toRecommendationBase(),
                             );
                       if (value) {
                         displayAdvertToastWithContext(
@@ -191,7 +192,7 @@ class AddEditRecommendationPage extends HookConsumerWidget {
                               if (logoBytes.value != null) {
                                 recommendationLogoNotifier
                                     .updateRecommendationLogo(
-                                      recommendation.id!,
+                                      recommendation.id,
                                       logoBytes.value!,
                                     );
                               }
@@ -204,7 +205,7 @@ class AddEditRecommendationPage extends HookConsumerWidget {
                               final newRecommendation = list.last;
                               recommendationLogoNotifier
                                   .updateRecommendationLogo(
-                                    newRecommendation.id!,
+                                    newRecommendation.id,
                                     logoBytes.value!,
                                   );
                             },

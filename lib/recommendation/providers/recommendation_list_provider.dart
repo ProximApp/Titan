@@ -1,11 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/recommendation/class/recommendation.dart';
-import 'package:titan/recommendation/repositories/recommendation_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class RecommendationListNotifier extends ListNotifier<Recommendation> {
-  RecommendationRepository get recommendationRepository =>
-      ref.watch(recommendationRepositoryProvider);
+class RecommendationListNotifier extends ListNotifierAPI<Recommendation> {
+  Openapi get recommendationRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<Recommendation>> build() {
@@ -14,33 +13,45 @@ class RecommendationListNotifier extends ListNotifier<Recommendation> {
   }
 
   Future<AsyncValue<List<Recommendation>>> loadRecommendation() async {
-    return await loadList(recommendationRepository.getRecommendationList);
+    return await loadList(
+      recommendationRepository.recommendationRecommendationsGet,
+    );
   }
 
-  Future<bool> addRecommendation(Recommendation recommendation) async {
+  Future<bool> addRecommendation(RecommendationBase recommendation) async {
     return await add(
-      recommendationRepository.createRecommendation,
+      () => recommendationRepository.recommendationRecommendationsPost(
+        body: recommendation,
+      ),
       recommendation,
     );
   }
 
   Future<bool> updateRecommendation(Recommendation recommendation) async {
     return await update(
-      recommendationRepository.updateRecommendation,
-      (recommendations, recommendation) => recommendations
-        ..[recommendations.indexWhere((r) => r.id == recommendation.id)] =
-            recommendation,
+      () => recommendationRepository
+          .recommendationRecommendationsRecommendationIdPatch(
+            recommendationId: recommendation.id,
+            body: RecommendationEdit(
+              title: recommendation.title,
+              description: recommendation.description,
+              summary: recommendation.summary,
+              code: recommendation.code,
+            ),
+          ),
+      (recommendation) => recommendation.id,
       recommendation,
     );
   }
 
   Future<bool> deleteRecommendation(Recommendation recommendation) async {
     return await delete(
-      recommendationRepository.deleteRecommendation,
-      (recommendations, recommendation) =>
-          recommendations..removeWhere((r) => r.id == recommendation.id),
-      recommendation.id!,
-      recommendation,
+      () => recommendationRepository
+          .recommendationRecommendationsRecommendationIdDelete(
+            recommendationId: recommendation.id,
+          ),
+      (recommendation) => recommendation.id,
+      recommendation.id,
     );
   }
 }

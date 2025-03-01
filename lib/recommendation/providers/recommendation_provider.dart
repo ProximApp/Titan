@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/recommendation/class/recommendation.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 
 class RecommendationNotifier extends Notifier<Recommendation> {
   @override
   Recommendation build() {
-    return Recommendation.empty();
+    return Recommendation.fromJson({});
   }
 
   void setRecommendation(Recommendation r) {
