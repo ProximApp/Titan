@@ -1,15 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/ph/class/ph.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 
-class PhNotifier extends Notifier<Ph> {
+class PhNotifier extends Notifier<PaperComplete> {
   @override
-  Ph build() {
-    return Ph.empty();
+  PaperComplete build() {
+    return PaperComplete.fromJson({});
   }
 
-  void setPh(Ph ph) {
+  void setPh(PaperComplete ph) {
     state = ph;
   }
 }
 
-final phProvider = NotifierProvider<PhNotifier, Ph>(PhNotifier.new);
+final phProvider = NotifierProvider<PhNotifier, PaperComplete>(PhNotifier.new);

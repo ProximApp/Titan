@@ -6,7 +6,10 @@ class YearListNotifier extends Notifier<List<int>> {
   List<int> build() {
     final phList = ref.watch(phListProvider);
     return phList.whenData((phList) {
-          final yearList = phList.map((ph) => ph.date.year).toSet().toList();
+          final yearList = phList
+              .map((ph) => ph.releaseDate.year)
+              .toSet()
+              .toList();
           return yearList;
         }).value ??
         [];
