@@ -67,4 +67,15 @@ extension $CoreUserSimple on CoreUserSimple {
       memberships: [],
     );
   }
+
+  EventApplicant toEventApplicant() {
+    return EventApplicant(
+      name: name,
+      firstname: firstname,
+      id: id,
+      accountType: accountType,
+      schoolId: schoolId,
+      email: email,
+    );
+  }
 }

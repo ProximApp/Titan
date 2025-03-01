@@ -1,37 +1,32 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/event/class/event.dart';
-import 'package:titan/event/repositories/event_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class ConfirmedEventListProvider extends ListNotifier<Event> {
-  EventRepository get eventRepository => ref.watch(eventRepositoryProvider);
+class ConfirmedEventListProvider extends ListNotifierAPI<EventComplete> {
+  Openapi get eventRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<List<Event>> build() {
+  AsyncValue<List<EventComplete>> build() {
     loadConfirmedEvent();
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<List<Event>>> loadConfirmedEvent() async {
-    return await loadList(eventRepository.getConfirmedEventList);
+  Future<AsyncValue<List<EventComplete>>> loadConfirmedEvent() async {
+    return await loadList(eventRepository.calendarEventsConfirmedGet);
   }
 
-  Future<bool> addEvent(Event booking) async {
-    return await add((b) async => b, booking);
+  Future<bool> addEvent(EventComplete booking) async {
+    return await localAdd(booking);
   }
 
-  Future<bool> deleteEvent(Event booking) async {
-    return await delete(
-      (_) async => true,
-      (bookings, booking) =>
-          bookings..removeWhere((element) => element.id == booking.id),
-      booking.id,
-      booking,
-    );
+  Future<bool> deleteEvent(EventComplete booking) async {
+    return await localDelete((booking) => booking.id, booking.id);
   }
 }
 
 final confirmedEventListProvider =
-    NotifierProvider<ConfirmedEventListProvider, AsyncValue<List<Event>>>(
-      ConfirmedEventListProvider.new,
-    );
+    NotifierProvider<
+      ConfirmedEventListProvider,
+      AsyncValue<List<EventComplete>>
+    >(ConfirmedEventListProvider.new);

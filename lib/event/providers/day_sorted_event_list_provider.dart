@@ -1,25 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/event/class/event.dart';
 import 'package:titan/event/providers/confirmed_event_list_provider.dart';
 import 'package:titan/event/tools/functions.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/functions.dart';
 
-final daySortedEventListProvider = Provider<Map<DateTime, List<Event>>>((ref) {
+final daySortedEventListProvider = Provider<Map<DateTime, List<EventComplete>>>((ref) {
   final eventList = ref.watch(confirmedEventListProvider);
   final now = DateTime.now();
   final normalizedNow = normalizedDate(now);
-  final sortedEventList = <DateTime, List<Event>>{};
+  final sortedEventList = <DateTime, List<EventComplete>>{};
   return eventList.maybeWhen(
     data: (events) {
       for (final event in events) {
         List<DateTime> normalizedDates = [];
         List<int> deltaDays = [];
-        if (event.recurrenceRule.isEmpty) {
+        if (event.recurrenceRule?.isEmpty ?? true) {
           normalizedDates.add(normalizedDate(event.start));
           deltaDays.add(event.end.difference(event.start).inDays);
         } else {
           for (final date in getDateInRecurrence(
-            event.recurrenceRule,
+            event.recurrenceRule!,
             event.start,
           )) {
             normalizedDates.add(normalizedDate(date));

@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:titan/service/providers/room_list_provider.dart';
+import 'package:titan/booking/providers/room_list_provider.dart';
+import 'package:titan/event/adapters/event.dart';
 import 'package:titan/event/ui/event.dart';
 import 'package:titan/event/ui/pages/event_pages/checkbox_entry.dart';
-import 'package:titan/event/class/event.dart';
 import 'package:titan/event/providers/event_provider.dart';
 import 'package:titan/event/providers/selected_days_provider.dart';
 import 'package:titan/event/providers/user_event_list_provider.dart';
 import 'package:titan/event/tools/constants.dart';
 import 'package:titan/event/tools/functions.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/layouts/add_edit_button_layout.dart';
@@ -21,7 +24,6 @@ import 'package:titan/tools/ui/layouts/horizontal_list_view.dart';
 import 'package:titan/tools/ui/layouts/item_chip.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/tools/ui/widgets/text_entry.dart';
-import 'package:titan/user/providers/user_provider.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:titan/l10n/app_localizations.dart';
@@ -35,16 +37,15 @@ class AddEditEventPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final locale = Localizations.localeOf(context);
     final now = DateTime.now();
-    final user = ref.watch(userProvider);
     final event = ref.watch(eventProvider);
     final eventNotifier = ref.watch(eventProvider.notifier);
     final rooms = ref.watch(roomListProvider);
-    final isEdit = event.id != Event.empty().id;
+    final isEdit = event.id != EventComplete.fromJson({}).id;
     final key = GlobalKey<FormState>();
     final eventListNotifier = ref.watch(eventEventListProvider.notifier);
-    final eventType = useState(event.type);
+    // final eventType = useState(event.type);
     final name = useTextEditingController(text: event.name);
-    final organizer = useTextEditingController(text: event.organizer);
+    final organizer = useTextEditingController(text: event.associationId);
     final description = useTextEditingController(text: event.description);
     final allDay = useState(event.allDay);
     final isRoom = useState(false);
@@ -52,7 +53,7 @@ class AddEditEventPage extends HookConsumerWidget {
 
     final recurrent = useState(
       event.recurrenceRule != ""
-          ? event.recurrenceRule.contains("BYDAY")
+          ? (event.recurrenceRule as String).contains("BYDAY")
           : false,
     );
     final start = useTextEditingController(
@@ -78,15 +79,15 @@ class AddEditEventPage extends HookConsumerWidget {
           : "",
     );
     final interval = useTextEditingController(
-      text: event.recurrenceRule != ""
-          ? event.recurrenceRule.split(";INTERVAL=")[1].split(";")[0]
+      text: event.recurrenceRule != null && event.recurrenceRule != ""
+          ? event.recurrenceRule!.split(";INTERVAL=")[1].split(";")[0]
           : "1",
     );
     final recurrenceEndDate = useTextEditingController(
-      text: event.recurrenceRule != ""
+      text: event.recurrenceRule != null && event.recurrenceRule != ""
           ? DateFormat.yMd(locale).format(
               DateTime.parse(
-                event.recurrenceRule.split(";UNTIL=")[1].split(";")[0],
+                event.recurrenceRule!.split(";UNTIL=")[1].split(";")[0],
               ),
             )
           : "",
@@ -113,28 +114,28 @@ class AddEditEventPage extends HookConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 color: Colors.grey,
               ),
-              const SizedBox(height: 30),
-              HorizontalListView.builder(
-                key: eventTypeScrollKey,
-                height: 40,
-                items: CalendarEventType.values,
-                itemBuilder: (context, value, index) {
-                  final selected = eventType.value == value;
-                  return ItemChip(
-                    selected: selected,
-                    onTap: () async {
-                      eventType.value = value;
-                    },
-                    child: Text(
-                      calendarEventTypeToString(value),
-                      style: TextStyle(
-                        color: selected ? Colors.white : Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  );
-                },
-              ),
+              // const SizedBox(height: 30),
+              // HorizontalListView.builder(
+              //   key: eventTypeScrollKey,
+              //   height: 40,
+              //   items: CalendarEventType.values,
+              //   itemBuilder: (context, value, index) {
+              //     final selected = eventType.value == value;
+              //     return ItemChip(
+              //       selected: selected,
+              //       onTap: () async {
+              //         eventType.value = value;
+              //       },
+              //       child: Text(
+              //         value.name,
+              //         style: TextStyle(
+              //           color: selected ? Colors.white : Colors.black,
+              //           fontWeight: FontWeight.bold,
+              //         ),
+              //       ),
+              //     );
+              //   },
+              // ),
               Column(
                 children: [
                   const SizedBox(height: 20),
@@ -517,7 +518,7 @@ class AddEditEventPage extends HookConsumerWidget {
                                       ),
                                     );
                                   }
-                                  Event newEvent = Event(
+                                  EventComplete newEvent = EventComplete(
                                     id: isEdit ? event.id : "",
                                     description: description.text,
                                     end: DateTime.parse(
@@ -527,7 +528,6 @@ class AddEditEventPage extends HookConsumerWidget {
                                       ),
                                     ),
                                     name: name.text,
-                                    organizer: organizer.text,
                                     allDay: allDay.value,
                                     location: location.text,
                                     start: DateTime.parse(
@@ -536,18 +536,20 @@ class AddEditEventPage extends HookConsumerWidget {
                                         locale.toString(),
                                       ),
                                     ),
-                                    type: eventType.value,
                                     recurrenceRule: recurrenceRule,
-                                    applicantId: user.id,
-                                    applicant: user.toApplicant(),
                                     decision: Decision.pending,
+                                    // TODO: change type when available
+                                    notification: true,
+                                    associationId: organizer.text,
+                                    association:
+                                        EmptyModels.empty<Association>(),
                                   );
                                   final value = isEdit
                                       ? await eventListNotifier.updateEvent(
                                           newEvent,
                                         )
                                       : await eventListNotifier.addEvent(
-                                          newEvent,
+                                          newEvent.toEventBaseCreation(),
                                         );
                                   if (value) {
                                     QR.back();
