@@ -1,17 +1,17 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/cinema/class/session.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 
-class SessionNotifier extends Notifier<Session> {
+class SessionNotifier extends Notifier<CineSessionComplete> {
   @override
-  Session build() {
-    return Session.empty();
+  CineSessionComplete build() {
+    return CineSessionComplete.fromJson({});
   }
 
-  void setSession(Session event) {
+  void setSession(CineSessionComplete event) {
     state = event;
   }
 }
 
-final sessionProvider = NotifierProvider<SessionNotifier, Session>(
+final sessionProvider = NotifierProvider<SessionNotifier, CineSessionComplete>(
   SessionNotifier.new,
 );

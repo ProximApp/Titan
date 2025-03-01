@@ -5,7 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:titan/cinema/class/session.dart';
+import 'package:titan/cinema/adapters/session.dart';
 import 'package:titan/cinema/providers/session_list_provider.dart';
 import 'package:titan/cinema/providers/session_poster_map_provider.dart';
 import 'package:titan/cinema/providers/session_poster_provider.dart';
@@ -14,6 +14,7 @@ import 'package:titan/cinema/providers/the_movie_db_genre_provider.dart';
 import 'package:titan/cinema/tools/functions.dart';
 import 'package:titan/cinema/ui/cinema.dart';
 import 'package:titan/cinema/ui/pages/session_pages/tmdb_button.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/layouts/add_edit_button_layout.dart';
@@ -32,7 +33,7 @@ class AddEditSessionPage extends HookConsumerWidget {
     final locale = Localizations.localeOf(context);
     final session = ref.watch(sessionProvider);
     final movieNotifier = ref.watch(theMovieDBMovieProvider.notifier);
-    final isEdit = session.id != Session.empty().id;
+    final isEdit = session.id != CineSessionComplete.fromJson({}).id;
     final tmdbUrl = useTextEditingController();
     final key = GlobalKey<FormState>();
     final sessionListNotifier = ref.watch(sessionListProvider.notifier);
@@ -42,7 +43,7 @@ class AddEditSessionPage extends HookConsumerWidget {
       text: isEdit ? parseDurationBack(session.duration) : '',
     );
     final genre = useTextEditingController(text: session.genre ?? '');
-    final overview = useTextEditingController(text: session.overview ?? '');
+    final overview = useTextEditingController(text: session.overview);
     final start = useTextEditingController(
       text: isEdit ? DateFormat.yMd(locale).add_Hm().format(session.start) : '',
     );
@@ -116,14 +117,14 @@ class AddEditSessionPage extends HookConsumerWidget {
                                   data: (data) async {
                                     name.text = data.title;
                                     overview.text = data.overview;
-                                    posterUrl.text = data.posterUrl;
+                                    posterUrl.text = data.posterPath;
                                     genre.text = data.genres.join(', ');
                                     tagline.text = data.tagline;
                                     duration.text = parseDurationBack(
                                       data.runtime,
                                     );
                                     logo.value = await getFromUrl(
-                                      data.posterUrl,
+                                      data.posterPath,
                                     );
                                   },
                                   loading: () {},
@@ -258,13 +259,15 @@ class AddEditSessionPage extends HookConsumerWidget {
                         return;
                       }
                       await tokenExpireWrapper(ref, () async {
-                        Session newSession = Session(
+                        CineSessionComplete newSession = CineSessionComplete(
                           name: name.text,
                           duration: parseDuration(duration.text),
                           genre: genre.text.isEmpty ? null : genre.text,
                           id: isEdit ? session.id : '',
                           overview: overview.text.isEmpty
-                              ? null
+                              ? AppLocalizations.of(
+                                  context,
+                                )!.cinemaNoOverview
                               : overview.text,
                           start: DateTime.parse(
                             processDateBackWithHour(
@@ -278,7 +281,8 @@ class AddEditSessionPage extends HookConsumerWidget {
                             ? await sessionListNotifier.updateSession(
                                 newSession,
                               )
-                            : await sessionListNotifier.addSession(newSession);
+                            : await sessionListNotifier
+                                .addSession(newSession.toCineSessionBase());
                         if (value) {
                           QR.back();
                           if (isEdit) {

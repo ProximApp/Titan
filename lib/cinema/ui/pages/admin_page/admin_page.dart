@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/cinema/class/session.dart';
 import 'package:titan/cinema/providers/session_list_provider.dart';
 import 'package:titan/cinema/providers/session_provider.dart';
 import 'package:titan/cinema/router.dart';
 import 'package:titan/cinema/ui/cinema.dart';
 import 'package:titan/cinema/ui/pages/admin_page/admin_session_card.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/card_layout.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
@@ -30,7 +30,7 @@ class AdminPage extends HookConsumerWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  sessionNotifier.setSession(Session.empty());
+                  sessionNotifier.setSession(CineSessionComplete.fromJson({}));
                   QR.to(
                     CinemaRouter.root +
                         CinemaRouter.admin +

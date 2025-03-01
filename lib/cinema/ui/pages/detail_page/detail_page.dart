@@ -9,7 +9,9 @@ import 'package:titan/cinema/providers/cinema_topic_provider.dart';
 import 'package:titan/cinema/providers/session_poster_map_provider.dart';
 import 'package:titan/cinema/providers/session_poster_provider.dart';
 import 'package:titan/cinema/providers/session_provider.dart';
+import 'package:titan/cinema/router.dart';
 import 'package:titan/cinema/tools/functions.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/service/class/message.dart';
 import 'package:titan/service/local_notification_service.dart';
 import 'package:titan/tools/functions.dart';
@@ -151,8 +153,8 @@ class DetailPage extends HookConsumerWidget {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
                       child: Text(
-                        session.overview != null
-                            ? session.overview!
+                        session.overview.isNotEmpty
+                            ? session.overview
                             : AppLocalizations.of(context)!.cinemaNoOverview,
                         textAlign: TextAlign.left,
                         style: const TextStyle(fontSize: 15),
@@ -274,7 +276,15 @@ class DetailPage extends HookConsumerWidget {
                         } else {
                           animation.forward();
                         }
-                        cinemaTopicsNotifier.toggleSubscription(session.id);
+                        cinemaTopicsNotifier.toggleSubscription(
+                          TopicUser(
+                            id: session.id,
+                            name: session.name,
+                            moduleRoot: CinemaRouter.module.getName(context),
+                            topicIdentifier: session.id,
+                            isUserSubscribed: selected,
+                          ),
+                        );
                         if (selected) {
                           localNotificationService.cancelNotificationById(
                             session.id,
