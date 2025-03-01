@@ -1,38 +1,66 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/loan/class/item.dart';
-import 'package:titan/loan/repositories/item_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/loan/providers/loaner_id_provider.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
+import 'package:titan/tools/token_expire_wrapper.dart';
 
-class ItemListNotifier extends ListNotifier<Item> {
-  ItemRepository get itemRepository => ref.watch(itemRepositoryProvider);
+class ItemListNotifier extends ListNotifierAPI<Item> {
+  Openapi get itemRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<Item>> build() {
+    tokenExpireWrapperAuth(ref, () async {
+      final loanerId = ref.watch(loanerIdProvider);
+      if (loanerId != "") {
+        await loadItemList(loanerId);
+      }
+    });
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<List<Item>>> loadItemList(String id) async {
-    return await loadList(() async => itemRepository.getItemList(id));
+  Future<AsyncValue<List<Item>>> loadItemList(String loanerId) async {
+    return await loadList(
+      () async =>
+          itemRepository.loansLoanersLoanerIdItemsGet(loanerId: loanerId),
+    );
   }
 
-  Future<bool> addItem(Item item, String loanerId) async {
-    return await add((i) async => itemRepository.createItem(loanerId, i), item);
+  Future<bool> addItem(ItemBase item, String loanerId) async {
+    return await add(
+      () async => itemRepository.loansLoanersLoanerIdItemsPost(
+        loanerId: loanerId,
+        body: item,
+      ),
+      item,
+    );
   }
 
   Future<bool> updateItem(Item item, String loanerId) async {
     return await update(
-      (i) async => itemRepository.updateItem(loanerId, i),
-      (items, item) => items..[items.indexWhere((i) => i.id == item.id)] = item,
+      () async => itemRepository.loansLoanersLoanerIdItemsItemIdPatch(
+        loanerId: loanerId,
+        itemId: item.id,
+        body: ItemUpdate(
+          name: item.name,
+          suggestedCaution: item.suggestedCaution,
+          totalQuantity: item.totalQuantity,
+          suggestedLendingDuration: item.suggestedLendingDuration,
+        ),
+      ),
+      (item) => item.id,
       item,
     );
   }
 
   Future<bool> deleteItem(Item item, String loanerId) async {
     return await delete(
-      (id) async => itemRepository.deleteItem(loanerId, id),
-      (items, item) => items..removeWhere((i) => i.id == item.id),
+      () async => itemRepository.loansLoanersLoanerIdItemsItemIdDelete(
+        loanerId: loanerId,
+        itemId: item.id,
+      ),
+      (item) => item.id,
       item.id,
-      item,
     );
   }
 

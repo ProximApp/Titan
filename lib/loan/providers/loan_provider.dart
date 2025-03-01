@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/loan/class/loan.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 
 class LoanNotifier extends Notifier<Loan> {
   @override
   Loan build() {
-    return Loan.empty();
+    return Loan.fromJson({});
   }
 
   Future<bool> setLoan(Loan loan) async {

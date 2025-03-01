@@ -1,19 +1,19 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/loan/providers/loan_provider.dart';
-import 'package:titan/user/class/simple_users.dart';
 
-class BorrowerNotifier extends Notifier<SimpleUser> {
+class BorrowerNotifier extends Notifier<CoreUserSimple> {
   @override
-  SimpleUser build() {
+  CoreUserSimple build() {
     final loan = ref.watch(loanProvider);
     return loan.borrower;
   }
 
-  void setBorrower(SimpleUser borrower) {
+  void setBorrower(CoreUserSimple borrower) {
     state = borrower;
   }
 }
 
-final borrowerProvider = NotifierProvider<BorrowerNotifier, SimpleUser>(
+final borrowerProvider = NotifierProvider<BorrowerNotifier, CoreUserSimple>(
   BorrowerNotifier.new,
 );
