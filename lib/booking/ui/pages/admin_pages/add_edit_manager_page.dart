@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:titan/admin/class/simple_group.dart';
 import 'package:titan/admin/providers/group_id_provider.dart';
-import 'package:titan/booking/class/manager.dart';
+import 'package:titan/booking/adapters/manager.dart';
 import 'package:titan/booking/providers/manager_list_provider.dart';
 import 'package:titan/booking/providers/manager_provider.dart';
 import 'package:titan/booking/ui/booking.dart';
 import 'package:titan/booking/ui/pages/admin_pages/admin_entry.dart';
 import 'package:titan/booking/ui/pages/admin_pages/admin_scroll_chips.dart';
 import 'package:titan/booking/ui/pages/admin_pages/admin_shrink_button.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/layouts/item_chip.dart';
@@ -30,7 +30,7 @@ class AddEditManagerPage extends HookConsumerWidget {
     final managerListNotifier = ref.watch(managerListProvider.notifier);
     final manager = ref.watch(managerProvider);
     final key = GlobalKey<FormState>();
-    final isEdit = !manager.isEmpty();
+    final isEdit = manager.id != Manager.fromJson({}).id;
     final name = useTextEditingController(text: manager.name);
     void displayToastWithContext(TypeMsg type, String msg) {
       displayToast(context, type, msg);
@@ -66,12 +66,12 @@ class AddEditManagerPage extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 50),
                   groupList.when(
-                    data: (List<SimpleGroup> data) => AdminScrollChips(
+                    data: (data) => AdminScrollChips(
                       isEdit: isEdit,
                       data: data,
                       dataKey: dataKey,
                       pageStorageKeyName: "group_list",
-                      builder: (SimpleGroup e) {
+                      builder: (e) {
                         final selected = groupId == e.id;
                         return ItemChip(
                           key: selected ? dataKey : null,
@@ -115,7 +115,8 @@ class AddEditManagerPage extends HookConsumerWidget {
                             ? await managerListNotifier.updateManager(
                                 newManager,
                               )
-                            : await managerListNotifier.addManager(newManager);
+                            : await managerListNotifier
+                                .addManager(newManager.toManagerBase());
                         if (value) {
                           QR.back();
                           displayToastWithContext(

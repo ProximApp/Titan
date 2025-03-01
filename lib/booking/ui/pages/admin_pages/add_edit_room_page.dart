@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:titan/booking/class/manager.dart';
-import 'package:titan/service/class/room.dart';
+import 'package:titan/booking/adapters/room.dart';
 import 'package:titan/booking/providers/manager_list_provider.dart';
 import 'package:titan/booking/providers/manager_id_provider.dart';
-import 'package:titan/service/providers/room_list_provider.dart';
+import 'package:titan/booking/providers/room_list_provider.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/booking/providers/room_provider.dart';
 import 'package:titan/booking/ui/booking.dart';
 import 'package:titan/booking/ui/pages/admin_pages/admin_entry.dart';
@@ -30,7 +30,7 @@ class AddEditRoomPage extends HookConsumerWidget {
     final roomListNotifier = ref.watch(roomListProvider.notifier);
     final key = GlobalKey<FormState>();
     final room = ref.watch(roomProvider);
-    final isEdit = room.id != Room.empty().id;
+    final isEdit = room.id != RoomComplete.fromJson({}).id;
     final name = useTextEditingController(text: room.name);
     void displayToastWithContext(TypeMsg type, String msg) {
       displayToast(context, type, msg);
@@ -100,7 +100,7 @@ class AddEditRoomPage extends HookConsumerWidget {
                   AdminShrinkButton(
                     onTap: () async {
                       await tokenExpireWrapper(ref, () async {
-                        Room newRoom = Room(
+                        RoomComplete newRoom = RoomComplete(
                           id: isEdit ? room.id : '',
                           name: name.text,
                           managerId: managerId,
@@ -113,7 +113,7 @@ class AddEditRoomPage extends HookConsumerWidget {
                             : AppLocalizations.of(context)!.bookingAddingError;
                         final value = isEdit
                             ? await roomListNotifier.updateRoom(newRoom)
-                            : await roomListNotifier.addRoom(newRoom);
+                            : await roomListNotifier.addRoom(newRoom.toRoomBase());
                         if (value) {
                           QR.back();
                           displayToastWithContext(TypeMsg.msg, editedRoomMsg);

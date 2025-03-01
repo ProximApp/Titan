@@ -1,48 +1,41 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/booking/class/booking.dart';
-import 'package:titan/booking/repositories/booking_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
+import 'package:titan/tools/token_expire_wrapper.dart';
 
-class ConfirmedBookingListProvider extends ListNotifier<Booking> {
-  BookingRepository get bookingRepository =>
-      ref.watch(bookingRepositoryProvider);
+class ConfirmedBookingListProvider
+    extends ListNotifierAPI<BookingReturnSimpleApplicant> {
+  Openapi get bookingRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<List<Booking>> build() {
+  AsyncValue<List<BookingReturnSimpleApplicant>> build() {
+    tokenExpireWrapperAuth(ref, () async {
+      await loadConfirmedBooking();
+    });
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<List<Booking>>> loadConfirmedBooking() async {
-    return await loadList(
-      () async => bookingRepository.getConfirmedBookingList(),
-    );
+  Future<AsyncValue<List<BookingReturnSimpleApplicant>>>
+  loadConfirmedBooking() async {
+    return await loadList(bookingRepository.bookingBookingsConfirmedGet);
   }
 
-  Future<bool> addBooking(Booking booking) async {
-    return await add((b) async => b, booking);
+  Future<bool> addBooking(BookingReturnSimpleApplicant booking) async {
+    return await localAdd(booking);
   }
 
-  Future<bool> deleteBooking(Booking booking) async {
-    return await delete(
-      (_) async => true,
-      (bookings, booking) =>
-          bookings..removeWhere((element) => element.id == booking.id),
-      booking.id,
-      booking,
-    );
+  Future<bool> deleteBooking(BookingReturnSimpleApplicant booking) async {
+    return await localDelete((booking) => booking.id, booking.id);
   }
 
-  Future<bool> updateBooking(Booking booking) async {
-    return await update(
-      (_) async => true,
-      (bookings, booking) =>
-          bookings..[bookings.indexWhere((b) => b.id == booking.id)] = booking,
-      booking,
-    );
+  Future<bool> updateBooking(BookingReturnSimpleApplicant booking) async {
+    return await localUpdate((booking) => booking.id, booking);
   }
 }
 
 final confirmedBookingListProvider =
-    NotifierProvider<ConfirmedBookingListProvider, AsyncValue<List<Booking>>>(
-      () => ConfirmedBookingListProvider(),
-    );
+    NotifierProvider<
+      ConfirmedBookingListProvider,
+      AsyncValue<List<BookingReturnSimpleApplicant>>
+    >(() => ConfirmedBookingListProvider());

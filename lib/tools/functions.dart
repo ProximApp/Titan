@@ -66,21 +66,6 @@ bool _isValidEmail(String email) {
 
 enum TypeMsg { msg, error }
 
-enum Decision { approved, declined, pending }
-
-Decision stringToDecision(String s) {
-  switch (s) {
-    case "approved":
-      return Decision.approved;
-    case "declined":
-      return Decision.declined;
-    case "pending":
-      return Decision.pending;
-    default:
-      return Decision.pending;
-  }
-}
-
 void displayToast(
   BuildContext context,
   TypeMsg type,

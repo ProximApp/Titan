@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/booking/class/booking.dart';
 import 'package:titan/booking/providers/confirmed_booking_list_provider.dart';
 import 'package:titan/booking/providers/manager_confirmed_booking_list_provider.dart';
 import 'package:titan/booking/ui/calendar/appointment_data_source.dart';
 import 'package:titan/booking/ui/calendar/calendar_dialog.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/navigation/providers/is_web_format_provider.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -25,7 +25,7 @@ class Calendar extends HookConsumerWidget {
     void calendarTapped(CalendarTapDetails details, BuildContext context) {
       if (details.targetElement == CalendarElement.appointment ||
           details.targetElement == CalendarElement.agenda) {
-        final Booking booking = details.appointments![0];
+        final BookingReturnApplicant booking = details.appointments![0];
         showDialog(
           context: context,
           builder: (context) => isManagerPage

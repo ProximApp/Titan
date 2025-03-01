@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:titan/booking/class/booking.dart';
 import 'package:titan/booking/ui/calendar/calendar_dialog_button.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/l10n/app_localizations.dart';
+import 'package:titan/user/extensions/applicants.dart';
 
 class CalendarDialog extends StatelessWidget {
-  final Booking booking;
+  final BookingReturnApplicant booking;
   final bool isManager;
 
   const CalendarDialog({
@@ -40,7 +41,7 @@ class CalendarDialog extends StatelessWidget {
                 formatRecurrenceRule(
                   booking.start,
                   booking.end,
-                  booking.recurrenceRule,
+                  booking.recurrenceRule ?? '',
                   false,
                   locale.toString(),
                 ),

@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/admin/providers/group_id_provider.dart';
-import 'package:titan/booking/class/manager.dart';
-import 'package:titan/service/class/room.dart';
 import 'package:titan/booking/providers/confirmed_booking_list_provider.dart';
 import 'package:titan/booking/providers/manager_list_provider.dart';
 import 'package:titan/booking/providers/manager_id_provider.dart';
 import 'package:titan/booking/providers/manager_provider.dart';
-import 'package:titan/service/providers/room_list_provider.dart';
+import 'package:titan/booking/providers/room_list_provider.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/booking/providers/room_provider.dart';
 import 'package:titan/booking/router.dart';
 import 'package:titan/booking/ui/booking.dart';
@@ -70,7 +69,7 @@ class AdminPage extends HookConsumerWidget {
                 ),
                 const SizedBox(height: 20),
                 roomList.when(
-                  data: (List<Room> data) => SingleChildScrollView(
+                  data: (data) => SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     physics: const BouncingScrollPhysics(),
                     child: Row(
@@ -79,7 +78,7 @@ class AdminPage extends HookConsumerWidget {
                         const SizedBox(width: 15),
                         ItemChip(
                           onTap: () {
-                            roomNotifier.setRoom(Room.empty());
+                            roomNotifier.setRoom(RoomComplete.fromJson({}));
                             managerIdNotifier.setId("");
                             QR.to(
                               BookingRouter.root +
@@ -140,7 +139,7 @@ class AdminPage extends HookConsumerWidget {
                 ),
                 const SizedBox(height: 20),
                 managerList.when(
-                  data: (List<Manager> data) => SingleChildScrollView(
+                  data: (data) => SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     physics: const BouncingScrollPhysics(),
                     child: Row(
@@ -149,7 +148,7 @@ class AdminPage extends HookConsumerWidget {
                         const SizedBox(width: 15),
                         ItemChip(
                           onTap: () {
-                            managerNotifier.setManager(Manager.empty());
+                            managerNotifier.setManager(Manager.fromJson({}));
                             groupIdNotifier.setId("");
                             QR.to(
                               BookingRouter.root +

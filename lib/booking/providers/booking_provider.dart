@@ -1,17 +1,17 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/booking/class/booking.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 
-class BookingNotifier extends Notifier<Booking> {
+class BookingNotifier extends Notifier<BookingReturnApplicant> {
   @override
-  Booking build() {
-    return Booking.empty();
+  BookingReturnApplicant build() {
+    return BookingReturnApplicant.fromJson({});
   }
 
-  void setBooking(Booking booking) {
+  void setBooking(BookingReturnApplicant booking) {
     state = booking;
   }
 }
 
-final bookingProvider = NotifierProvider<BookingNotifier, Booking>(
+final bookingProvider = NotifierProvider<BookingNotifier, BookingReturnApplicant>(
   BookingNotifier.new,
 );

@@ -22,8 +22,8 @@ class AuthRepository {
   final Base64Codec base64 = const Base64Codec.urlSafe();
   final String tokenName = "my_ecl_auth_token";
   final String clientId = "Titan";
-  final String redirectUrl = "fr.myecl.titan://authorized";
-  final String redirectUrlHost = "myecl.fr";
+  final String redirectUrl = "fr.titan.titan://authorized";
+  final String redirectUrlHost = "titan.fr";
   final String discoveryUrl =
       "${getTitanHost()}.well-known/openid-configuration";
   final List<String> scopes = ["API"];

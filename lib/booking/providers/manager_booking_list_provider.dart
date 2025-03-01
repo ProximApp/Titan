@@ -1,42 +1,55 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/booking/class/booking.dart';
-import 'package:titan/booking/repositories/booking_repository.dart';
-import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/booking/adapters/booking_return_applicant.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
+import 'package:titan/tools/token_expire_wrapper.dart';
 
-class ManagerBookingListProvider extends ListNotifier<Booking> {
-  BookingRepository get bookingRepository =>
-      ref.watch(bookingRepositoryProvider);
+class ManagerBookingListProvider
+    extends ListNotifierAPI<BookingReturnApplicant> {
+  Openapi get bookingRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<List<Booking>> build() {
+  AsyncValue<List<BookingReturnApplicant>> build() {
+    tokenExpireWrapperAuth(ref, () async {
+      await loadUserManageBookings();
+    });
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<List<Booking>>> loadUserManageBookings() async {
-    return await loadList(bookingRepository.getUserManageBookingList);
+  Future<AsyncValue<List<BookingReturnApplicant>>>
+  loadUserManageBookings() async {
+    return await loadList(bookingRepository.bookingBookingsUsersMeManageGet);
   }
 
-  Future<bool> updateBooking(Booking booking) async {
+  Future<bool> updateBooking(BookingReturnApplicant booking) async {
     return await update(
-      bookingRepository.updateBooking,
-      (bookings, booking) =>
-          bookings..[bookings.indexWhere((b) => b.id == booking.id)] = booking,
+      () => bookingRepository.bookingBookingsBookingIdPatch(
+        bookingId: booking.id,
+        body: booking.toBookingEdit(),
+      ),
+      (booking) => booking.id,
       booking,
     );
   }
 
-  Future<bool> toggleConfirmed(Booking booking, Decision decision) async {
+  Future<bool> toggleConfirmed(
+    BookingReturnApplicant booking,
+    Decision decision,
+  ) async {
     return await update(
-      (booking) => bookingRepository.confirmBooking(booking, decision),
-      (bookings, booking) =>
-          bookings..[bookings.indexWhere((b) => b.id == booking.id)] = booking,
+      () => bookingRepository.bookingBookingsBookingIdReplyDecisionPatch(
+        bookingId: booking.id,
+        decision: decision,
+      ),
+      (booking) => booking.id,
       booking,
     );
   }
 }
 
 final managerBookingListProvider =
-    NotifierProvider<ManagerBookingListProvider, AsyncValue<List<Booking>>>(
-      () => ManagerBookingListProvider(),
-    );
+    NotifierProvider<
+      ManagerBookingListProvider,
+      AsyncValue<List<BookingReturnApplicant>>
+    >(() => ManagerBookingListProvider());

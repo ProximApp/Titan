@@ -3,13 +3,13 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:titan/booking/class/booking.dart';
-import 'package:titan/service/class/room.dart';
+import 'package:titan/booking/adapters/booking_return_applicant.dart';
+import 'package:titan/booking/providers/room_list_provider.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/booking/providers/booking_provider.dart';
 import 'package:titan/booking/providers/confirmed_booking_list_provider.dart';
 import 'package:titan/booking/providers/manager_booking_list_provider.dart';
 import 'package:titan/booking/providers/manager_confirmed_booking_list_provider.dart';
-import 'package:titan/service/providers/room_list_provider.dart';
 import 'package:titan/booking/providers/selected_days_provider.dart';
 import 'package:titan/booking/providers/user_booking_list_provider.dart';
 import 'package:titan/booking/tools/constants.dart';
@@ -46,11 +46,11 @@ class AddEditBookingPage extends HookConsumerWidget {
     final key = GlobalKey<FormState>();
     final rooms = ref.watch(roomListProvider);
     final booking = ref.watch(bookingProvider);
-    final isEdit = booking.id != Booking.empty().id;
+    final isEdit = booking.id != BookingReturnApplicant.fromJson({}).id;
     final room = useState(booking.room);
     final recurrent = useState(
       booking.recurrenceRule != ""
-          ? booking.recurrenceRule.contains("BYDAY")
+          ? (booking.recurrenceRule as String).contains("BYDAY")
           : false,
     );
     final allDay = useState(
@@ -80,15 +80,15 @@ class AddEditBookingPage extends HookConsumerWidget {
     final selectedDays = ref.watch(selectedDaysProvider);
     final selectedDaysNotifier = ref.watch(selectedDaysProvider.notifier);
     final interval = useTextEditingController(
-      text: booking.recurrenceRule != ""
-          ? booking.recurrenceRule.split(";INTERVAL=")[1].split(";")[0]
+      text: booking.recurrenceRule != null && booking.recurrenceRule != ""
+          ? booking.recurrenceRule!.split(";INTERVAL=")[1].split(";")[0]
           : "1",
     );
     final recurrenceEndDate = useTextEditingController(
-      text: booking.recurrenceRule != ""
+      text: booking.recurrenceRule != null &&  booking.recurrenceRule != ""
           ? DateFormat.yMd(locale).format(
               DateTime.parse(
-                booking.recurrenceRule.split(";UNTIL=")[1].split(";")[0],
+                booking.recurrenceRule!.split(";UNTIL=")[1].split(";")[0],
               ),
             )
           : "",
@@ -123,7 +123,7 @@ class AddEditBookingPage extends HookConsumerWidget {
                   dataKey: dataKey,
                   data: data,
                   pageStorageKeyName: "booking_room_list",
-                  builder: (Room e) {
+                  builder: (e) {
                     final selected = room.value.id == e.id;
                     return ItemChip(
                       key: selected ? dataKey : null,
@@ -423,7 +423,8 @@ class AddEditBookingPage extends HookConsumerWidget {
                               }
                             }
                             await tokenExpireWrapper(ref, () async {
-                              Booking newBooking = Booking(
+                              BookingReturnApplicant newBooking =
+                                  BookingReturnApplicant(
                                 id: isEdit ? booking.id : "",
                                 reason: motif.text,
                                 start: DateTime.parse(
@@ -450,7 +451,7 @@ class AddEditBookingPage extends HookConsumerWidget {
                                     : user.toApplicant(),
                                 applicantId: isManagerPage
                                     ? booking.applicantId
-                                    : user.id,
+                                    : user.id, roomId: room.value.id,
                               );
                               final value = isManagerPage
                                   ? await ref
@@ -461,10 +462,10 @@ class AddEditBookingPage extends HookConsumerWidget {
                                   : isEdit
                                   ? await ref
                                         .read(userBookingListProvider.notifier)
-                                        .updateBooking(newBooking)
+                                        .updateBooking(newBooking.toBookingReturn())
                                   : await ref
                                         .read(userBookingListProvider.notifier)
-                                        .addBooking(newBooking);
+                                        .addBooking(newBooking.toBookingBase());
                               if (value) {
                                 QR.back();
                                 ref

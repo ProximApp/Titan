@@ -1,15 +1,15 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/service/class/room.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 
-class RoomNotifier extends Notifier<Room> {
+class RoomNotifier extends Notifier<RoomComplete> {
   @override
-  Room build() {
-    return Room.empty();
+  RoomComplete build() {
+    return RoomComplete.fromJson({});
   }
 
-  void setRoom(Room room) {
+  void setRoom(RoomComplete room) {
     state = room;
   }
 }
 
-final roomProvider = NotifierProvider<RoomNotifier, Room>(RoomNotifier.new);
+final roomProvider = NotifierProvider<RoomNotifier, RoomComplete>(RoomNotifier.new);

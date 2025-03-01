@@ -1,10 +1,10 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/booking/class/manager.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 
 class ManagerNotifier extends Notifier<Manager> {
   @override
   Manager build() {
-    return Manager.empty();
+    return Manager.fromJson({});
   }
 
   void setManager(Manager manager) {
