@@ -1,39 +1,31 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/vote/class/votes.dart';
-import 'package:titan/vote/repositories/votes_repository.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class VotesProvider extends ListNotifier<Votes> {
-  VotesRepository get votesRepository => ref.watch(votesRepositoryProvider);
+class VotesProvider extends ListNotifier<VoteBase> {
+  Openapi get votesRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<List<Votes>> build() {
+  AsyncValue<List<VoteBase>> build() {
     return const AsyncValue.loading();
   }
 
-  Future<bool> addVote(Votes votes) async {
+  Future<bool> addVote(VoteBase votes) async {
     try {
-      await votesRepository.addVote(votes);
+      await votesRepository.campaignVotesPost(body: votes);
       return true;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<bool> removeVote() async {
-    return await delete(
-      (_) => votesRepository.removeVote(),
-      (listVotes, votes) => [],
-      "",
-      Votes.empty(),
-    );
-  }
-
-  Future<AsyncValue<List<Votes>>> copy() async {
+  Future<AsyncValue<List<VoteBase>>> copy() async {
     return state.whenData((listVotes) => listVotes);
   }
 }
 
-final votesProvider = NotifierProvider<VotesProvider, AsyncValue<List<Votes>>>(
-  VotesProvider.new,
-);
+final votesProvider =
+    NotifierProvider<VotesProvider, AsyncValue<List<VoteBase>>>(
+      VotesProvider.new,
+    );

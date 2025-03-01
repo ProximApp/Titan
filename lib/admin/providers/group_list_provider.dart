@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/admin/class/simple_group.dart';
 import 'package:titan/admin/repositories/group_repository.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class GroupListNotifier extends ListNotifier<SimpleGroup> {
@@ -15,7 +16,7 @@ class GroupListNotifier extends ListNotifier<SimpleGroup> {
     return await loadList(groupRepository.getGroupList);
   }
 
-  Future<AsyncValue<List<SimpleGroup>>> loadGroupsFromUser(User user) async {
+  Future<AsyncValue<List<SimpleGroup>>> loadGroupsFromUser(CoreUser user) async {
     return await loadList(() async => user.groups);
   }
 

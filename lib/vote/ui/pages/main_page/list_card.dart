@@ -2,28 +2,28 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/layouts/card_button.dart';
-import 'package:titan/vote/class/contender.dart';
-import 'package:titan/vote/providers/contender_provider.dart';
+import 'package:titan/vote/providers/list_provider.dart';
 import 'package:titan/vote/providers/sections_provider.dart';
-import 'package:titan/vote/providers/selected_contender_provider.dart';
+import 'package:titan/vote/providers/selected_list_provider.dart';
 import 'package:titan/vote/providers/status_provider.dart';
-import 'package:titan/vote/repositories/status_repository.dart';
 import 'package:titan/vote/router.dart';
-import 'package:titan/vote/ui/components/contender_logo.dart';
+import 'package:titan/vote/ui/components/list_logo.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
 
-class ContenderCard extends HookConsumerWidget {
-  final Contender contender;
+class ListCard extends HookConsumerWidget {
+  final ListReturn list;
   final AnimationController animation;
   final int index;
   final bool enableVote;
   final double votesPercent;
-  const ContenderCard({
+  const ListCard({
     super.key,
-    required this.contender,
+    required this.list,
     required this.animation,
     required this.index,
     required this.enableVote,
@@ -32,20 +32,20 @@ class ContenderCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final contenderNotifier = ref.read(contenderProvider.notifier);
+    final listNotifier = ref.read(listProvider.notifier);
     final sections = ref.watch(sectionsProvider);
-    final selectedContender = ref.watch(selectedContenderProvider);
-    final selectedContenderNotifier = ref.read(
-      selectedContenderProvider.notifier,
+    final selectedList = ref.watch(selectedListProvider);
+    final selectedListNotifier = ref.read(
+      selectedListProvider.notifier,
     );
     final status = ref.watch(statusProvider);
     final s = status.maybeWhen(
-      data: (value) => value,
-      orElse: () => Status.closed,
+      data: (value) => value.status,
+      orElse: () => StatusType.closed,
     );
     return Stack(
       children: [
-        if (s == Status.published)
+        if (s == StatusType.published)
           SlideTransition(
             position:
                 Tween<Offset>(
@@ -149,7 +149,7 @@ class ContenderCard extends HookConsumerWidget {
           child: Container(
             padding: const EdgeInsets.all(10.0),
             margin: const EdgeInsets.only(bottom: 15, left: 10),
-            height: (s == Status.open && enableVote) ? 160 : 120,
+            height: (s == StatusType.open && enableVote) ? 160 : 120,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: const BorderRadius.only(
@@ -174,15 +174,15 @@ class ContenderCard extends HookConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      contender.listType != ListType.blank
-                          ? ContenderLogo(contender)
+                      list.type != ListType.blank
+                          ? ListLogo(list)
                           : const HeroIcon(HeroIcons.cubeTransparent, size: 40),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Column(
                           children: [
                             AutoSizeText(
-                              contender.name,
+                              list.name,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
@@ -193,7 +193,7 @@ class ContenderCard extends HookConsumerWidget {
                             ),
                             Text(
                               capitalize(
-                                contender.listType.toString().split('.').last,
+                                list.type.name,
                               ),
                               style: const TextStyle(
                                 fontSize: 13,
@@ -206,10 +206,10 @@ class ContenderCard extends HookConsumerWidget {
                         ),
                       ),
                       const SizedBox(width: 5),
-                      contender.listType != ListType.blank
+                      list.type != ListType.blank
                           ? GestureDetector(
                               onTap: () {
-                                contenderNotifier.setId(contender);
+                                listNotifier.setId(list);
                                 QR.to(VoteRouter.root + VoteRouter.detail);
                               },
                               child: const HeroIcon(
@@ -223,7 +223,7 @@ class ContenderCard extends HookConsumerWidget {
                   ),
                   Center(
                     child: Text(
-                      contender.description,
+                      list.description,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -234,17 +234,17 @@ class ContenderCard extends HookConsumerWidget {
                     ),
                   ),
                   const Spacer(),
-                  if (s == Status.open && enableVote)
+                  if (s == StatusType.open && enableVote)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        selectedContender.id != contender.id
+                        selectedList.id != list.id
                             ? GestureDetector(
                                 onTap: () {
                                   sections.maybeWhen(
                                     data: (data) {
-                                      selectedContenderNotifier.changeSelection(
-                                        contender,
+                                      selectedListNotifier.changeSelection(
+                                        list,
                                       );
                                     },
                                     orElse: () {},

@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 import 'package:titan/tools/ui/styleguide/button.dart';
 import 'package:titan/tools/ui/styleguide/list_item.dart';
-import 'package:titan/vote/class/contender.dart';
-import 'package:titan/vote/ui/components/contender_logo.dart';
+import 'package:titan/vote/ui/components/list_logo.dart';
 
-class ContenderCard extends HookConsumerWidget {
-  final Contender contender;
+class ListCard extends HookConsumerWidget {
+  final ListReturn list;
   final bool isAdmin, isDetail;
   final Function() onEdit;
   final Future Function() onDelete;
-  const ContenderCard({
+  const ListCard({
     super.key,
-    required this.contender,
+    required this.list,
     required this.onEdit,
     required this.onDelete,
     this.isAdmin = false,
@@ -24,9 +24,9 @@ class ContenderCard extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListItem(
-      title: contender.name,
-      subtitle: contender.listType.name,
-      icon: ContenderLogo(contender),
+      title: list.name,
+      subtitle: list.type.name,
+      icon: ListLogo(list),
       onTap: isAdmin
           ? () async {
               FocusScope.of(context).unfocus();
@@ -38,8 +38,8 @@ class ContenderCard extends HookConsumerWidget {
                 context: ctx,
                 ref: ref,
                 modal: BottomModalTemplate(
-                  title: contender.name,
-                  description: contender.program,
+                  title: list.name,
+                  description: list.program,
                   child: Column(
                     children: [
                       const SizedBox(height: 20),

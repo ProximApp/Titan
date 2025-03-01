@@ -3,11 +3,11 @@ import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
-import 'package:titan/vote/providers/contender_logo_provider.dart';
-import 'package:titan/vote/providers/contender_logos_provider.dart';
-import 'package:titan/vote/providers/contender_provider.dart';
+import 'package:titan/vote/providers/list_logo_provider.dart';
+import 'package:titan/vote/providers/list_logos_provider.dart';
+import 'package:titan/vote/providers/list_provider.dart';
 import 'package:titan/vote/ui/components/member_card.dart';
-import 'package:titan/vote/ui/pages/admin_page/contender_card.dart';
+import 'package:titan/vote/ui/pages/admin_page/list_card.dart';
 import 'package:titan/vote/ui/vote.dart';
 
 class DetailPage extends HookConsumerWidget {
@@ -15,10 +15,10 @@ class DetailPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final contenderLogos = ref.watch(contenderLogosProvider);
-    final contender = ref.watch(contenderProvider);
-    final contenderLogosNotifier = ref.watch(contenderLogosProvider.notifier);
-    final logoNotifier = ref.watch(contenderLogoProvider.notifier);
+    final listLogos = ref.watch(listLogosProvider);
+    final list = ref.watch(listProvider);
+    final listLogosNotifier = ref.watch(listLogosProvider.notifier);
+    final logoNotifier = ref.watch(listLogoProvider.notifier);
     return VoteTemplate(
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -53,20 +53,20 @@ class DetailPage extends HookConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               const SizedBox(height: 30),
-                              if (contenderLogos[contender.id] == null)
+                              if (listLogos[list.id] == null)
                                 const SizedBox.shrink()
                               else
                                 SizedBox(
                                   height: 140,
                                   width: 140,
                                   child: AsyncChild(
-                                    value: contenderLogos[contender.id]!,
+                                    value: listLogos[list.id]!,
                                     builder: (context, data) {
                                       if (data.isEmpty) {
-                                        logoNotifier.getLogo(contender.id).then(
+                                        logoNotifier.getLogo(list.id).then(
                                           (value) {
-                                            contenderLogosNotifier.setTData(
-                                              contender.id,
+                                            listLogosNotifier.setTData(
+                                              list.id,
                                               AsyncData([value]),
                                             );
                                           },
@@ -108,14 +108,14 @@ class DetailPage extends HookConsumerWidget {
                                 ),
                               const SizedBox(height: 20),
                               Text(
-                                contender.section.name,
+                                list.section.name,
                                 style: const TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               AlignLeftText(
-                                contender.description,
+                                list.description,
                                 padding: const EdgeInsets.only(
                                   top: 15,
                                   bottom: 20,
@@ -124,11 +124,11 @@ class DetailPage extends HookConsumerWidget {
                             ],
                           ),
                         ),
-                        contender.members.isNotEmpty
+                        list.members.isNotEmpty
                             ? SingleChildScrollView(
                                 physics: const BouncingScrollPhysics(),
                                 child: Wrap(
-                                  children: contender.members
+                                  children: list.members
                                       .map(
                                         (e) => MemberCard(
                                           member: e,
@@ -144,11 +144,11 @@ class DetailPage extends HookConsumerWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 30.0),
                           child: Text(
-                            contender.program,
+                            list.program ?? "",
                             style: const TextStyle(fontSize: 15),
                           ),
                         ),
-                        if (contender.program.trim().isNotEmpty)
+                        if (list.program?.trim().isNotEmpty ?? false)
                           const SizedBox(height: 20),
                       ],
                     ),
@@ -159,8 +159,8 @@ class DetailPage extends HookConsumerWidget {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Center(
-                child: ContenderCard(
-                  contender: contender,
+                child: ListCard(
+                  list: list,
                   onDelete: () async {},
                   onEdit: () {},
                 ),

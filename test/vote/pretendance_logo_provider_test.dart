@@ -5,8 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/vote/providers/contender_logo_provider.dart';
-import 'package:titan/vote/providers/contender_logos_provider.dart';
-import 'package:titan/vote/repositories/contender_logo_repository.dart';
+import 'package:titan/vote/providers/list_logos_provider.dart';
+import 'package:titan/vote/repositories/list_logo_repository.dart';
 
 class MockContenderLogoRepository extends Mock
     implements ContenderLogoRepository {}

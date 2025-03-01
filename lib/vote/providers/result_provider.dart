@@ -1,27 +1,29 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
-import 'package:titan/vote/class/result.dart';
-import 'package:titan/vote/repositories/result_repository.dart';
 
-class ResultNotifier extends ListNotifier<Result> {
-  late final ResultRepository resultRepository;
+class ResultNotifier
+    extends ListNotifierAPI<AppModulesCampaignSchemasCampaignResult> {
+  Openapi get resultRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<List<Result>> build() {
-    resultRepository = ref.watch(resultRepositoryProvider);
+  AsyncValue<List<AppModulesCampaignSchemasCampaignResult>> build() {
     tokenExpireWrapperAuth(ref, () async {
       await loadResult();
     });
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<List<Result>>> loadResult() async {
-    return await loadList(resultRepository.getResult);
+  Future<AsyncValue<List<AppModulesCampaignSchemasCampaignResult>>>
+  loadResult() async {
+    return await loadList(resultRepository.campaignResultsGet);
   }
 }
 
 final resultProvider =
-    NotifierProvider<ResultNotifier, AsyncValue<List<Result>>>(
-      ResultNotifier.new,
-    );
+    NotifierProvider<
+      ResultNotifier,
+      AsyncValue<List<AppModulesCampaignSchemasCampaignResult>>
+    >(ResultNotifier.new);

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 import 'package:titan/tools/ui/styleguide/button.dart';
 import 'package:titan/tools/ui/styleguide/list_item.dart';
-import 'package:titan/vote/class/members.dart';
+import 'package:titan/user/extensions/core_user_simple.dart';
 
 class MemberCard extends ConsumerWidget {
-  final Member member;
+  final ListMemberComplete member;
   final Function() onEdit, onDelete;
   final bool isAdmin;
   const MemberCard({
@@ -21,7 +22,7 @@ class MemberCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListItem(
-      title: member.getName(),
+      title: member.user.getName(),
       subtitle: member.role,
       onTap: isAdmin
           ? () async {
@@ -34,7 +35,7 @@ class MemberCard extends ConsumerWidget {
                 context: ctx,
                 ref: ref,
                 modal: BottomModalTemplate(
-                  title: member.getName(),
+                  title: member.user.getName(),
                   description: member.role,
                   child: Column(
                     children: [

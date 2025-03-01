@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
-import 'package:titan/vote/class/contender.dart';
-import 'package:titan/vote/providers/contender_list_provider.dart';
+import 'package:titan/vote/providers/list_list_provider.dart';
 import 'package:titan/vote/providers/status_provider.dart';
 
 class OpeningVote extends ConsumerWidget {
@@ -47,7 +47,7 @@ class OpeningVote extends ConsumerWidget {
                   context,
                 )!.voteErrorOpeningVotes;
                 final value = await statusNotifier.openVote();
-                ref.watch(contenderListProvider.notifier).loadContenderList();
+                ref.watch(listListProvider.notifier).loadListList();
                 if (value) {
                   displayVoteToastWithContext(TypeMsg.msg, openVotesMsg);
                 } else {
@@ -98,8 +98,8 @@ class OpeningVote extends ConsumerWidget {
                     )!.voteDeletingError;
                     await tokenExpireWrapper(ref, () async {
                       final value = await ref
-                          .watch(contenderListProvider.notifier)
-                          .deleteContenders();
+                          .watch(listListProvider.notifier)
+                          .deleteLists();
                       if (value) {
                         displayVoteToastWithContext(
                           TypeMsg.msg,
@@ -167,8 +167,8 @@ class OpeningVote extends ConsumerWidget {
                     )!.voteDeletingError;
                     await tokenExpireWrapper(ref, () async {
                       final value = await ref
-                          .watch(contenderListProvider.notifier)
-                          .deleteContenders(type: ListType.fake);
+                          .watch(listListProvider.notifier)
+                          .deleteLists(type: ListType.pipo);
                       if (value) {
                         displayVoteToastWithContext(
                           TypeMsg.msg,

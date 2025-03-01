@@ -4,7 +4,6 @@ import 'package:titan/admin/class/user_association_membership_base.dart';
 import 'package:titan/admin/repositories/association_membership_repository.dart';
 import 'package:titan/admin/repositories/association_membership_user_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/user/class/simple_users.dart';
 
 class AssociationMembershipMembersNotifier
     extends ListNotifier<UserAssociationMembership> {

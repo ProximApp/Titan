@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:titan/vote/class/members.dart';
-import 'package:titan/vote/providers/contender_members.dart';
+import 'package:titan/vote/providers/list_members.dart';
 
 void main() {
   group('ContenderMembersProvider', () {

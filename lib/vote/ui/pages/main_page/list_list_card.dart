@@ -2,26 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/vote/providers/result_provider.dart';
 import 'package:titan/vote/providers/scroll_controller_provider.dart';
-import 'package:titan/vote/providers/sections_contender_provider.dart';
+import 'package:titan/vote/providers/sections_list_provider.dart';
 import 'package:titan/vote/providers/sections_provider.dart';
 import 'package:titan/vote/providers/status_provider.dart';
 import 'package:titan/vote/providers/voted_section_provider.dart';
-import 'package:titan/vote/repositories/status_repository.dart';
-import 'package:titan/vote/ui/pages/main_page/contender_card.dart';
+import 'package:titan/vote/ui/pages/main_page/list_card.dart';
 import 'package:titan/l10n/app_localizations.dart';
 
-class ListContenderCard extends HookConsumerWidget {
+class ListListCard extends HookConsumerWidget {
   final AnimationController animation;
-  const ListContenderCard({super.key, required this.animation});
+  const ListListCard({super.key, required this.animation});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final section = ref.watch(sectionProvider);
-    final sectionsContender = ref.watch(sectionContenderProvider);
+    final sectionsList = ref.watch(sectionListProvider);
     final hideAnimation = useAnimationController(
       duration: const Duration(milliseconds: 200),
       initialValue: 1,
@@ -29,15 +29,15 @@ class ListContenderCard extends HookConsumerWidget {
 
     final status = ref.watch(statusProvider);
     final s = status.maybeWhen(
-      data: (value) => value,
-      orElse: () => Status.closed,
+      data: (value) => value.status,
+      orElse: () => StatusType.closed,
     );
 
     Map<String, int> results = {};
-    if (s == Status.published) {
+    if (s == StatusType.published) {
       ref.watch(resultProvider).whenData((data) {
         for (var i = 0; i < data.length; i++) {
-          results[data[i].id] = data[i].count;
+          results[data[i].listId] = data[i].count;
         }
       });
     }
@@ -46,19 +46,19 @@ class ListContenderCard extends HookConsumerWidget {
     Map<String, double> votesPercent = {};
 
     double h = 0;
-    sectionsContender[section]!.whenData((contenderList) {
+    sectionsList[section]!.whenData((listList) {
       h =
-          contenderList.length *
-              ((s == Status.open || s == Status.published) ? 180 : 140) -
+          listList.length *
+              ((s == StatusType.open || s == StatusType.published) ? 180 : 140) -
           MediaQuery.of(context).size.height +
-          (s == Status.open ? 250 : 150);
+          (s == StatusType.open ? 250 : 150);
       List<int> numberVotes = [];
-      for (var i = 0; i < contenderList.length; i++) {
-        numberVotes.add(results[contenderList[i].id] ?? 0);
+      for (var i = 0; i < listList.length; i++) {
+        numberVotes.add(results[listList[i].id] ?? 0);
       }
       totalVotes = numberVotes.reduce((value, element) => value + element);
       for (var i = 0; i < numberVotes.length; i++) {
-        votesPercent[contenderList[i].id] = totalVotes == 0
+        votesPercent[listList[i].id] = totalVotes == 0
             ? 0
             : numberVotes[i] / totalVotes;
       }
@@ -85,15 +85,15 @@ class ListContenderCard extends HookConsumerWidget {
         SingleChildScrollView(
           controller: scrollController,
           physics: const BouncingScrollPhysics(),
-          child: sectionsContender.isNotEmpty
+          child: sectionsList.isNotEmpty
               ? AsyncChild(
-                  value: sectionsContender[section]!,
-                  builder: (context, contenderList) => Column(
-                    children: contenderList.map((e) {
-                      final index = contenderList.indexOf(e);
-                      return ContenderCard(
+                  value: sectionsList[section]!,
+                  builder: (context, listList) => Column(
+                    children: listList.map((e) {
+                      final index = listList.indexOf(e);
+                      return ListCard(
                         index: index,
-                        contender: e,
+                        list: e,
                         animation: animation,
                         enableVote: !alreadyVotedSection.contains(section.id),
                         votesPercent: votesPercent.keys.contains(e.id)

@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qlevar_router/qlevar_router.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
@@ -10,15 +11,13 @@ import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 import 'package:titan/tools/ui/styleguide/icon_button.dart';
 import 'package:titan/tools/ui/styleguide/text_entry.dart';
-import 'package:titan/user/class/simple_users.dart';
 import 'package:titan/user/providers/user_list_provider.dart';
-import 'package:titan/vote/class/members.dart';
-import 'package:titan/vote/providers/contender_members.dart';
+import 'package:titan/vote/providers/list_members.dart';
 import 'package:titan/vote/providers/display_results.dart';
-import 'package:titan/vote/ui/pages/contender_pages/search_result.dart';
+import 'package:titan/vote/ui/pages/list_pages/search_result.dart';
 
-class ContenderMember extends HookConsumerWidget {
-  const ContenderMember({super.key});
+class ListMember extends HookConsumerWidget {
+  const ListMember({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,8 +25,8 @@ class ContenderMember extends HookConsumerWidget {
     final usersNotifier = ref.read(userList.notifier);
     final queryController = useTextEditingController();
     final role = useTextEditingController();
-    final membersNotifier = ref.read(contenderMembersProvider.notifier);
-    final member = useState(SimpleUser.empty());
+    final membersNotifier = ref.read(listMembersProvider.notifier);
+    final member = useState(CoreUserSimple.fromJson({}));
 
     void displayVoteToastWithContext(TypeMsg type, String msg) {
       displayToast(context, type, msg);
@@ -103,14 +102,15 @@ class ContenderMember extends HookConsumerWidget {
                                     )!.voteAlreadyAddedMember;
                                 if (addMemberKey.currentState!.validate()) {
                                   final value = await membersNotifier.addMember(
-                                    Member.fromSimpleUser(
-                                      member.value,
-                                      role.text,
+                                    ListMemberComplete(
+                                      userId: member.value.id,
+                                      role: role.text,
+                                      user: member.value,
                                     ),
                                   );
                                   if (value) {
                                     role.text = '';
-                                    member.value = SimpleUser.empty();
+                                    member.value = CoreUserSimple.fromJson({});
                                     queryController.text = '';
                                     QR.back();
                                   } else {

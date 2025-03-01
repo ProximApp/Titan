@@ -1,55 +1,49 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
-import 'package:titan/vote/class/section.dart';
 import 'package:titan/vote/providers/section_id_provider.dart';
-import 'package:titan/vote/repositories/section_repository.dart';
 
-class SectionNotifier extends ListNotifier<Section> {
-  late final SectionRepository sectionRepository;
+class SectionNotifier extends ListNotifierAPI<SectionComplete> {
+  Openapi get sectionRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<List<Section>> build() {
-    sectionRepository = ref.watch(sectionRepositoryProvider);
+  AsyncValue<List<SectionComplete>> build() {
     tokenExpireWrapperAuth(ref, () async {
       await loadSectionList();
     });
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<List<Section>>> loadSectionList() async {
-    return await loadList(sectionRepository.getSections);
+  Future<AsyncValue<List<SectionComplete>>> loadSectionList() async {
+    return await loadList(sectionRepository.campaignSectionsGet);
   }
 
-  Future<bool> addSection(Section section) async {
-    return await add(sectionRepository.createSection, section);
-  }
-
-  Future<bool> updateSection(Section section) async {
-    return await update(
-      sectionRepository.updateSection,
-      (sections, section) =>
-          sections..[sections.indexWhere((s) => s.id == section.id)] = section,
+  Future<bool> addSection(SectionBase section) async {
+    return await add(
+      () => sectionRepository.campaignSectionsPost(body: section),
       section,
     );
   }
 
-  Future<bool> deleteSection(Section section) async {
+  Future<bool> deleteSection(SectionComplete section) async {
     return await delete(
-      sectionRepository.deleteSection,
-      (sections, section) => sections..removeWhere((s) => s.id == section.id),
+      () => sectionRepository.campaignSectionsSectionIdDelete(
+        sectionId: section.id,
+      ),
+      (section) => section.id,
       section.id,
-      section,
     );
   }
 }
 
 final sectionsProvider =
-    NotifierProvider<SectionNotifier, AsyncValue<List<Section>>>(
+    NotifierProvider<SectionNotifier, AsyncValue<List<SectionComplete>>>(
       SectionNotifier.new,
     );
 
-final sectionList = Provider<List<Section>>((ref) {
+final sectionList = Provider<List<SectionComplete>>((ref) {
   final sections = ref.watch(sectionsProvider);
   return sections.maybeWhen(
     data: (section) {
@@ -61,10 +55,10 @@ final sectionList = Provider<List<Section>>((ref) {
   );
 });
 
-final sectionProvider = Provider<Section>((ref) {
+final sectionProvider = Provider<SectionComplete>((ref) {
   final sections = ref.watch(sectionList);
   final sectionId = ref.watch(sectionIdProvider);
   return sections.isEmpty
-      ? Section.empty()
+      ? SectionComplete.fromJson({})
       : sections.where((element) => element.id == sectionId).first;
 });

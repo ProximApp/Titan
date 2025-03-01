@@ -4,6 +4,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/navigation/ui/scroll_to_hide_navbar.dart';
 import 'package:titan/settings/ui/pages/main_page/picture_button.dart';
 import 'package:titan/tools/constants.dart';
@@ -14,47 +16,46 @@ import 'package:titan/tools/ui/layouts/horizontal_list_view.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/tools/ui/widgets/image_picker_on_tap.dart';
 import 'package:titan/tools/ui/widgets/text_entry.dart';
-import 'package:titan/vote/class/contender.dart';
-import 'package:titan/vote/providers/contender_logo_provider.dart';
-import 'package:titan/vote/providers/contender_logos_provider.dart';
-import 'package:titan/vote/providers/contender_members.dart';
-import 'package:titan/vote/providers/contender_list_provider.dart';
-import 'package:titan/vote/providers/contender_provider.dart';
-import 'package:titan/vote/providers/sections_contender_provider.dart';
+import 'package:titan/vote/adapters/list_return.dart';
+import 'package:titan/vote/providers/list_logo_provider.dart';
+import 'package:titan/vote/providers/list_logos_provider.dart';
+import 'package:titan/vote/providers/list_members.dart';
+import 'package:titan/vote/providers/list_list_provider.dart';
+import 'package:titan/vote/providers/list_provider.dart';
+import 'package:titan/vote/providers/sections_list_provider.dart';
 import 'package:titan/vote/providers/sections_provider.dart';
 import 'package:titan/vote/ui/components/member_card.dart';
-import 'package:titan/vote/ui/pages/contender_pages/contender_member.dart';
 import 'package:titan/vote/ui/pages/admin_page/section_chip.dart';
+import 'package:titan/vote/ui/pages/list_pages/list_member.dart';
 import 'package:titan/vote/ui/vote.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
 
-class AddEditContenderPage extends HookConsumerWidget {
-  const AddEditContenderPage({super.key});
+class AddEditListPage extends HookConsumerWidget {
+  const AddEditListPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final key = GlobalKey<FormState>();
     final section = useState(ref.watch(sectionProvider));
-    final contenderListNotifier = ref.read(contenderListProvider.notifier);
-    final sectionsNotifier = ref.read(sectionContenderProvider.notifier);
-    final contender = ref.watch(contenderProvider);
-    final isEdit = contender.id != Contender.empty().id;
-    final name = useTextEditingController(text: contender.name);
-    final description = useTextEditingController(text: contender.description);
-    final listType = useState(contender.listType);
-    final program = useTextEditingController(text: contender.program);
-    final member = useState(CoreUserSimple.empty());
-    final members = ref.watch(contenderMembersProvider);
-    final membersNotifier = ref.read(contenderMembersProvider.notifier);
-    final contenderLogosNotifier = ref.read(contenderLogosProvider.notifier);
-    final logoNotifier = ref.read(contenderLogoProvider.notifier);
+    final listListNotifier = ref.read(listListProvider.notifier);
+    final sectionsNotifier = ref.read(sectionListProvider.notifier);
+    final list = ref.watch(listProvider);
+    final isEdit = list.id != ListReturn.fromJson({}).id;
+    final name = useTextEditingController(text: list.name);
+    final description = useTextEditingController(text: list.description);
+    final listType = useState(list.type);
+    final program = useTextEditingController(text: list.program);
+    final members = ref.watch(listMembersProvider);
+    final membersNotifier = ref.read(listMembersProvider.notifier);
+    final listLogosNotifier = ref.read(listLogosProvider.notifier);
+    final logoNotifier = ref.read(listLogoProvider.notifier);
     final logo = useState<Uint8List?>(null);
     final logoFile = useState<Image?>(null);
 
-    final contenderLogos = ref.watch(contenderLogosProvider);
-    if (contenderLogos[contender.id] != null) {
-      contenderLogos[contender.id]!.whenData((data) {
+    final listLogos = ref.watch(listLogosProvider);
+    if (listLogos[list.id] != null) {
+      listLogos[list.id]!.whenData((data) {
         if (data.isNotEmpty) {
           logoFile.value = data.first;
         }
@@ -171,7 +172,7 @@ class AddEditContenderPage extends HookConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                ContenderMember(),
+                ListMember(),
                 const SizedBox(height: 10),
                 members.isEmpty
                     ? Center(
@@ -233,14 +234,14 @@ class AddEditContenderPage extends HookConsumerWidget {
                       }
                       if (key.currentState!.validate()) {
                         await tokenExpireWrapper(ref, () async {
-                          final contenderList = ref.watch(
-                            contenderListProvider,
+                          final listList = ref.watch(
+                            listListProvider,
                           );
-                          Contender newContender = Contender(
+                          ListReturn newList = ListReturn(
                             name: name.text,
-                            id: isEdit ? contender.id : '',
+                            id: isEdit ? list.id : '',
                             description: description.text,
-                            listType: listType.value,
+                            type: listType.value,
                             members: members,
                             section: section.value,
                             program: program.text,
@@ -255,11 +256,11 @@ class AddEditContenderPage extends HookConsumerWidget {
                           final editingPretendanceErrorMsg =
                               AppLocalizations.of(context)!.voteEditingError;
                           final value = isEdit
-                              ? await contenderListNotifier.updateContender(
-                                  newContender,
+                              ? await listListNotifier.updateList(
+                                  newList,
                                 )
-                              : await contenderListNotifier.addContender(
-                                  newContender,
+                              : await listListNotifier.addList(
+                                  newList.toListBase(),
                                 );
                           if (value) {
                             QR.back();
@@ -268,15 +269,15 @@ class AddEditContenderPage extends HookConsumerWidget {
                               editedPretendanceMsg,
                             );
                             if (isEdit) {
-                              contenderList.maybeWhen(
+                              listList.maybeWhen(
                                 data: (list) {
                                   final logoBytes = logo.value;
                                   if (logoBytes != null) {
-                                    contenderLogosNotifier.autoLoad(
+                                    listLogosNotifier.autoLoad(
                                       ref,
-                                      contender.id,
-                                      (contenderId) => logoNotifier.updateLogo(
-                                        contenderId,
+                                      newList.id,
+                                      (listId) => logoNotifier.updateLogo(
+                                        listId,
                                         logoBytes,
                                       ),
                                     );
@@ -285,16 +286,16 @@ class AddEditContenderPage extends HookConsumerWidget {
                                 orElse: () {},
                               );
                             } else {
-                              contenderList.maybeWhen(
+                              listList.maybeWhen(
                                 data: (list) {
-                                  final newContender = list.last;
+                                  final newList = list.last;
                                   final logoBytes = logo.value;
                                   if (logoBytes != null) {
-                                    contenderLogosNotifier.autoLoad(
+                                    listLogosNotifier.autoLoad(
                                       ref,
-                                      newContender.id,
-                                      (contenderId) => logoNotifier.updateLogo(
-                                        contenderId,
+                                      newList.id,
+                                      (listId) => logoNotifier.updateLogo(
+                                        listId,
                                         logoBytes,
                                       ),
                                     );
@@ -306,7 +307,7 @@ class AddEditContenderPage extends HookConsumerWidget {
                             membersNotifier.clearMembers();
                             sectionsNotifier.setTData(
                               section.value,
-                              await contenderListNotifier.copy(),
+                              await listListNotifier.copy(),
                             );
                           } else {
                             displayVoteToastWithContext(

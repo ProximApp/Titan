@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
-import 'package:titan/vote/class/votes.dart';
 import 'package:titan/vote/providers/sections_provider.dart';
-import 'package:titan/vote/providers/selected_contender_provider.dart';
+import 'package:titan/vote/providers/selected_list_provider.dart';
 import 'package:titan/vote/providers/status_provider.dart';
 import 'package:titan/vote/providers/voted_section_provider.dart';
 import 'package:titan/vote/providers/votes_provider.dart';
-import 'package:titan/vote/repositories/status_repository.dart';
 import 'package:titan/l10n/app_localizations.dart';
 
 class VoteButton extends HookConsumerWidget {
@@ -19,9 +19,9 @@ class VoteButton extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final section = ref.watch(sectionProvider);
     final votesNotifier = ref.watch(votesProvider.notifier);
-    final selectedContender = ref.watch(selectedContenderProvider);
-    final selectedContenderNotifier = ref.watch(
-      selectedContenderProvider.notifier,
+    final selectedList = ref.watch(selectedListProvider);
+    final selectedListNotifier = ref.watch(
+      selectedListProvider.notifier,
     );
     final votedSectionNotifier = ref.watch(votedSectionProvider.notifier);
     final votedSection = ref.watch(votedSectionProvider);
@@ -35,8 +35,8 @@ class VoteButton extends HookConsumerWidget {
 
     final status = ref.watch(statusProvider);
     final s = status.maybeWhen(
-      data: (value) => value,
-      orElse: () => Status.closed,
+      data: (value) => value.status,
+      orElse: () => StatusType.closed,
     );
 
     void displayVoteToastWithContext(TypeMsg type, String msg) {
@@ -47,8 +47,8 @@ class VoteButton extends HookConsumerWidget {
       padding: const EdgeInsets.only(right: 30.0),
       child: GestureDetector(
         onTap: () {
-          if (selectedContender.id != "" &&
-              s == Status.open &&
+          if (selectedList.id != "" &&
+              s == StatusType.open &&
               !alreadyVotedSection.contains(section.id)) {
             showDialog(
               context: context,
@@ -65,11 +65,11 @@ class VoteButton extends HookConsumerWidget {
                     )!.voteVoteError;
                     tokenExpireWrapper(ref, () async {
                       final result = await votesNotifier.addVote(
-                        Votes(id: selectedContender.id),
+                        VoteBase(listId: selectedList.id),
                       );
                       if (result) {
                         votedSectionNotifier.addVote(section.id);
-                        selectedContenderNotifier.clear();
+                        selectedListNotifier.clear();
                         displayVoteToastWithContext(
                           TypeMsg.msg,
                           voteSuccessMsg,
@@ -95,7 +95,7 @@ class VoteButton extends HookConsumerWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors:
-                  (selectedContender.id == "" && s != Status.open) ||
+                  (selectedList.id == "" && s != StatusType.open) ||
                       alreadyVotedSection.contains(section.id)
                   ? [Colors.white, Colors.grey.shade50]
                   : [Colors.grey.shade900, Colors.black],
@@ -112,21 +112,21 @@ class VoteButton extends HookConsumerWidget {
           ),
           child: Center(
             child: Text(
-              selectedContender.id != ""
+              selectedList.id != ""
                   ? AppLocalizations.of(context)!.voteVoteFor +
-                        selectedContender.name
+                        selectedList.name
                   : alreadyVotedSection.contains(section.id)
                   ? AppLocalizations.of(context)!.voteAlreadyVoted
-                  : s == Status.open
+                  : s == StatusType.open
                   ? AppLocalizations.of(context)!.voteChooseList
-                  : s == Status.waiting
+                  : s == StatusType.waiting
                   ? AppLocalizations.of(context)!.voteNotOpenedVote
-                  : s == Status.closed
+                  : s == StatusType.closed
                   ? AppLocalizations.of(context)!.voteClosedVote
                   : AppLocalizations.of(context)!.voteOnGoingCount,
               style: TextStyle(
                 color:
-                    (selectedContender.id == "" && s != Status.open) ||
+                    (selectedList.id == "" && s != StatusType.open) ||
                         alreadyVotedSection.contains(section.id)
                     ? Colors.black
                     : Colors.white,
