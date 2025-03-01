@@ -1,42 +1,45 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/service/class/topic.dart';
-import 'package:titan/service/repositories/notification_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 
-class TopicsProvider extends ListNotifier<Topic> {
-  NotificationRepository get notificationRepository =>
-      ref.watch(notificationRepositoryProvider);
+class TopicsProvider extends ListNotifierAPI<TopicUser> {
+  Openapi get notificationRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<List<Topic>> build() {
+  AsyncValue<List<TopicUser>> build() {
     tokenExpireWrapperAuth(ref, () async {
       getTopics();
     });
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<List<Topic>>> getTopics() async {
-    return await loadList(notificationRepository.getTopics);
+  Future<AsyncValue<List<TopicUser>>> getTopics() async {
+    return await loadList(notificationRepository.notificationTopicsGet);
   }
 
-  Future<bool> subscribeTopic(Topic topic) async {
+  Future<bool> subscribeTopic(TopicUser topic) async {
     return await update(
-      notificationRepository.subscribeTopic,
-      (listT, t) => listT..add(t),
+      () => notificationRepository.notificationTopicsTopicIdSubscribePost(
+        topicId: topic.id,
+      ),
+      (topic) => topic.id,
       topic,
     );
   }
 
-  Future<bool> unsubscribeTopic(Topic topic) async {
+  Future<bool> unsubscribeTopic(TopicUser topic) async {
     return await update(
-      notificationRepository.unsubscribeTopic,
-      (listT, t) => listT..remove(t),
+      () => notificationRepository.notificationTopicsTopicIdUnsubscribePost(
+        topicId: topic.id,
+      ),
+      (topic) => topic.id,
       topic,
     );
   }
 
-  Future<bool> toggleSubscription(Topic topic) async {
+  Future<bool> toggleSubscription(TopicUser topic) async {
     return state.maybeWhen(
       data: (data) {
         if (data.contains(topic)) {
@@ -48,19 +51,15 @@ class TopicsProvider extends ListNotifier<Topic> {
     );
   }
 
-  Future<bool> fakeSubscribeTopic(Topic topic) async {
-    return await update((_) async => true, (listT, t) => listT..add(t), topic);
+  Future<bool> fakeSubscribeTopic(TopicUser topic) async {
+    return await localUpdate((topic) => topic.id, topic);
   }
 
-  Future<bool> fakeUnsubscribeTopic(Topic topic) async {
-    return await update(
-      (_) async => true,
-      (listT, t) => listT..remove(t),
-      topic,
-    );
+  Future<bool> fakeUnsubscribeTopic(TopicUser topic) async {
+    return await localUpdate((topic) => topic.id, topic);
   }
 
-  Future<bool> fakeToggleSubscription(Topic topic) async {
+  Future<bool> fakeToggleSubscription(TopicUser topic) async {
     return state.maybeWhen(
       data: (data) {
         if (data.contains(topic)) {
@@ -85,6 +84,6 @@ class TopicsProvider extends ListNotifier<Topic> {
 }
 
 final topicsProvider =
-    NotifierProvider<TopicsProvider, AsyncValue<List<Topic>>>(
+    NotifierProvider<TopicsProvider, AsyncValue<List<TopicUser>>>(
       TopicsProvider.new,
     );
