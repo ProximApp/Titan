@@ -1,27 +1,45 @@
+import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:titan/amap/class/delivery.dart';
 import 'package:titan/amap/providers/delivery_list_provider.dart';
 import 'package:titan/amap/repositories/delivery_list_repository.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:myecl/generated/openapi.swagger.dart';
 
-class MockDeliveryListRepository extends Mock
-    implements DeliveryListRepository {}
+class MockDeliveryListRepository extends Mock implements Openapi {}
 
 void main() {
   group('DeliveryListNotifier', () {
+    final delivery = DeliveryReturn(
+      id: '1',
+      deliveryDate: DateTime.now(),
+      status: DeliveryStatusType.orderable,
+    );
+
+    final deliveries = [
+      DeliveryReturn(
+        id: '2',
+        deliveryDate: DateTime.now(),
+        status: DeliveryStatusType.orderable,
+      ),
+      DeliveryReturn(
+        id: '3',
+        deliveryDate: DateTime.now(),
+        status: DeliveryStatusType.locked,
+      ),
+    ];
+
     test(
-      'loadDeliveriesList should return the list of deliveries from the repository',
-      () async {
-        // Arrange
-        final mockRepository = MockDeliveryListRepository();
-        final deliveries = [Delivery.empty(), Delivery.empty()];
-        when(
-          () => mockRepository.getDeliveryList(),
-        ).thenAnswer((_) async => deliveries);
-        final notifier = DeliveryListNotifier(
-          deliveriesListRepository: mockRepository,
-        );
+        'loadDeliveriesList should return the list of deliveries from the repository',
+        () async {
+      // Arrange
+      final mockRepository = MockDeliveryListRepository();
+      when(() => mockRepository.amapDeliveriesGet()).thenAnswer(
+        (_) async => chopper.Response(http.Response('[]', 200), deliveries),
+      );
+      final notifier =
+          DeliveryListNotifier(deliveriesListRepository: mockRepository);
 
         // Act
         final result = await notifier.loadDeliveriesList();
@@ -41,38 +59,43 @@ void main() {
     test('addDelivery should add a new delivery to the list', () async {
       // Arrange
       final mockRepository = MockDeliveryListRepository();
-      final delivery = Delivery.empty();
-      final deliveries = [Delivery.empty(), Delivery.empty()];
+      final deliveryBase = DeliveryBase(deliveryDate: DateTime.now());
       when(
-        () => mockRepository.createDelivery(delivery),
-      ).thenAnswer((_) async => delivery);
+        () => mockRepository.amapDeliveriesPost(body: any(named: 'body')),
+      ).thenAnswer(
+        (_) async => chopper.Response(http.Response('[]', 200), delivery),
+      );
       final notifier = DeliveryListNotifier(
         deliveriesListRepository: mockRepository,
       );
       notifier.state = AsyncValue.data(deliveries);
 
       // Act
-      final result = await notifier.addDelivery(delivery);
+      final result = await notifier.addDelivery(deliveryBase);
 
       // Assert
       expect(result, true);
     });
 
-    test(
-      'updateDelivery should update an existing delivery in the list',
-      () async {
-        // Arrange
-        final mockRepository = MockDeliveryListRepository();
-        final delivery = Delivery.empty();
-        final updatedDelivery = delivery.copyWith(expanded: true);
-        final deliveries = [delivery];
-        when(
-          () => mockRepository.updateDelivery(updatedDelivery),
-        ).thenAnswer((_) async => true);
-        final notifier = DeliveryListNotifier(
-          deliveriesListRepository: mockRepository,
-        );
-        notifier.state = AsyncValue.data(deliveries);
+    test('updateDelivery should update an existing delivery in the list',
+        () async {
+      // Arrange
+      final mockRepository = MockDeliveryListRepository();
+      final updatedDelivery =
+          delivery.copyWith(status: DeliveryStatusType.locked);
+      final deliveries = [delivery];
+      when(
+        () => mockRepository.amapDeliveriesDeliveryIdPatch(
+          deliveryId: any(named: 'deliveryId'),
+          body: any(named: 'body'),
+        ),
+      ).thenAnswer(
+        (_) async =>
+            chopper.Response(http.Response('[]', 200), updatedDelivery),
+      );
+      final notifier =
+          DeliveryListNotifier(deliveriesListRepository: mockRepository);
+      notifier.state = AsyncValue.data(deliveries);
 
         // Act
         final result = await notifier.updateDelivery(updatedDelivery);
@@ -90,20 +113,25 @@ void main() {
       },
     );
 
-    test(
-      'openDelivery should update the status of a delivery to orderable',
-      () async {
-        // Arrange
-        final mockRepository = MockDeliveryListRepository();
-        final delivery = Delivery.empty();
-        when(
-          () => mockRepository.openDelivery(delivery),
-        ).thenAnswer((_) async => true);
-        final deliveries = [delivery];
-        final notifier = DeliveryListNotifier(
-          deliveriesListRepository: mockRepository,
-        );
-        notifier.state = AsyncValue.data(deliveries);
+    test('openDelivery should update the status of a delivery to orderable',
+        () async {
+      // Arrange
+      final mockRepository = MockDeliveryListRepository();
+      when(
+        () => mockRepository.amapDeliveriesDeliveryIdPatch(
+          deliveryId: any(named: 'deliveryId'),
+          body: any(named: 'body'),
+        ),
+      ).thenAnswer(
+        (_) async => chopper.Response(
+          http.Response('[]', 200),
+          delivery.copyWith(status: DeliveryStatusType.orderable),
+        ),
+      );
+      final deliveries = [delivery];
+      final notifier =
+          DeliveryListNotifier(deliveriesListRepository: mockRepository);
+      notifier.state = AsyncValue.data(deliveries);
 
         // Act
         final result = await notifier.openDelivery(delivery);
@@ -119,25 +147,30 @@ void main() {
               )
               .first
               .status,
-          DeliveryStatus.available,
+          DeliveryStatusType.orderable,
         );
       },
     );
 
-    test(
-      'lockDelivery should update the status of a delivery to locked',
-      () async {
-        // Arrange
-        final mockRepository = MockDeliveryListRepository();
-        final delivery = Delivery.empty();
-        final deliveries = [delivery];
-        when(
-          () => mockRepository.lockDelivery(delivery),
-        ).thenAnswer((_) async => true);
-        final notifier = DeliveryListNotifier(
-          deliveriesListRepository: mockRepository,
-        );
-        notifier.state = AsyncValue.data(deliveries);
+    test('lockDelivery should update the status of a delivery to locked',
+        () async {
+      // Arrange
+      final mockRepository = MockDeliveryListRepository();
+      final deliveries = [delivery];
+      when(
+        () => mockRepository.amapDeliveriesDeliveryIdPatch(
+          deliveryId: any(named: 'deliveryId'),
+          body: any(named: 'body'),
+        ),
+      ).thenAnswer(
+        (_) async => chopper.Response(
+          http.Response('[]', 200),
+          delivery.copyWith(status: DeliveryStatusType.locked),
+        ),
+      );
+      final notifier =
+          DeliveryListNotifier(deliveriesListRepository: mockRepository);
+      notifier.state = AsyncValue.data(deliveries);
 
         // Act
         final result = await notifier.lockDelivery(delivery);
@@ -153,25 +186,30 @@ void main() {
               )
               .first
               .status,
-          DeliveryStatus.locked,
+          DeliveryStatusType.locked,
         );
       },
     );
 
-    test(
-      'deliverDelivery should update the status of a delivery to delivered',
-      () async {
-        // Arrange
-        final mockRepository = MockDeliveryListRepository();
-        final delivery = Delivery.empty();
-        final deliveries = [delivery];
-        when(
-          () => mockRepository.deliverDelivery(delivery),
-        ).thenAnswer((_) async => true);
-        final notifier = DeliveryListNotifier(
-          deliveriesListRepository: mockRepository,
-        );
-        notifier.state = AsyncValue.data(deliveries);
+    test('deliverDelivery should update the status of a delivery to delivered',
+        () async {
+      // Arrange
+      final mockRepository = MockDeliveryListRepository();
+      final deliveries = [delivery];
+      when(
+        () => mockRepository.amapDeliveriesDeliveryIdPatch(
+          deliveryId: any(named: 'deliveryId'),
+          body: any(named: 'body'),
+        ),
+      ).thenAnswer(
+        (_) async => chopper.Response(
+          http.Response('[]', 200),
+          delivery.copyWith(status: DeliveryStatusType.delivered),
+        ),
+      );
+      final notifier =
+          DeliveryListNotifier(deliveriesListRepository: mockRepository);
+      notifier.state = AsyncValue.data(deliveries);
 
         // Act
         final result = await notifier.deliverDelivery(delivery);
@@ -187,7 +225,7 @@ void main() {
               )
               .first
               .status,
-          DeliveryStatus.delivered,
+          DeliveryStatusType.delivered,
         );
       },
     );
@@ -195,14 +233,16 @@ void main() {
     test('archiveDelivery should remove a delivery from the list', () async {
       // Arrange
       final mockRepository = MockDeliveryListRepository();
-      final delivery = Delivery.empty();
       final deliveries = [delivery];
       when(
-        () => mockRepository.archiveDelivery(delivery.id),
-      ).thenAnswer((_) async => true);
-      final notifier = DeliveryListNotifier(
-        deliveriesListRepository: mockRepository,
+        () => mockRepository.amapDeliveriesDeliveryIdDelete(
+          deliveryId: any(named: 'deliveryId'),
+        ),
+      ).thenAnswer(
+        (_) async => chopper.Response(http.Response('[]', 200), true),
       );
+      final notifier =
+          DeliveryListNotifier(deliveriesListRepository: mockRepository);
       notifier.state = AsyncValue.data(deliveries);
 
       // Act
@@ -223,18 +263,20 @@ void main() {
     test('deleteDelivery should remove a delivery from the list', () async {
       // Arrange
       final mockRepository = MockDeliveryListRepository();
-      final delivery = Delivery.empty().copyWith(id: '1');
       final deliveries = [delivery];
       when(
-        () => mockRepository.deleteDelivery(delivery.id),
-      ).thenAnswer((_) async => true);
-      final notifier = DeliveryListNotifier(
-        deliveriesListRepository: mockRepository,
+        () => mockRepository.amapDeliveriesDeliveryIdDelete(
+          deliveryId: any(named: 'deliveryId'),
+        ),
+      ).thenAnswer(
+        (_) async => chopper.Response(http.Response('[]', 200), true),
       );
+      final notifier =
+          DeliveryListNotifier(deliveriesListRepository: mockRepository);
       notifier.state = AsyncValue.data(deliveries);
 
       // Act
-      final result = await notifier.deleteDelivery(delivery);
+      final result = await notifier.deleteDelivery(delivery.id);
 
       // Assert
       expect(result, true);
@@ -298,9 +340,6 @@ void main() {
     );
     test('copy should return a copy of the list of deliveries', () async {
       // Arrange
-      final delivery1 = Delivery.empty().copyWith(id: '1');
-      final delivery2 = Delivery.empty().copyWith(id: '2');
-      final deliveries = [delivery1, delivery2];
       final notifier = DeliveryListNotifier(
         deliveriesListRepository: MockDeliveryListRepository(),
       );
@@ -310,7 +349,7 @@ void main() {
       expect(result1, []);
 
       // Act/Assert (error state)
-      notifier.state = const AsyncValue<List<Delivery>>.error(
+      notifier.state = const AsyncValue<List<DeliveryReturn>>.error(
         'Error',
         StackTrace.empty,
       );

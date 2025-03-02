@@ -1,96 +1,201 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:titan/recommendation/class/recommendation.dart';
+import 'package:titan/recommendation/adapters/recommendation.dart';
 import 'package:titan/recommendation/providers/recommendation_list_provider.dart';
-import 'package:titan/recommendation/repositories/recommendation_repository.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:chopper/chopper.dart' as chopper;
+import 'package:http/http.dart' as http;
 
-class MockRecommendationRepository extends Mock
-    implements RecommendationRepository {}
+class MockRecommendationRepository extends Mock implements Openapi {}
 
 void main() {
-  group('RoomListNotifier', () {
-    test('Should load rooms', () async {
-      final mockRecommendationRepository = MockRecommendationRepository();
-      final newRecommendation = Recommendation.empty().copyWith(id: "1");
-      when(
-        () => mockRecommendationRepository.getRecommendationList(),
-      ).thenAnswer((_) async => [newRecommendation]);
-      final recommendationListProvider = RecommendationListNotifier(
-        recommendationRepository: mockRecommendationRepository,
+  group('RecommendationListNotifier', () {
+    late MockRecommendationRepository mockRepository;
+    late RecommendationListNotifier provider;
+    final recommendations = [
+      Recommendation.fromJson({}).copyWith(id: '1'),
+      Recommendation.fromJson({}).copyWith(id: '2'),
+    ];
+    final newRecommendation = Recommendation.fromJson({}).copyWith(id: '3');
+    final updatedRecommendation =
+        recommendations.first.copyWith(title: 'Updated Recommendation');
+
+    setUp(() {
+      mockRepository = MockRecommendationRepository();
+      provider =
+          RecommendationListNotifier(recommendationRepository: mockRepository);
+    });
+
+    test('loadRecommendation returns expected data', () async {
+      when(() => mockRepository.recommendationRecommendationsGet()).thenAnswer(
+        (_) async => chopper.Response(
+          http.Response('body', 200),
+          recommendations,
+        ),
       );
-      final recommendations = await recommendationListProvider
-          .loadRecommendation();
-      expect(recommendations, isA<AsyncData<List<Recommendation>>>());
+
+      final result = await provider.loadRecommendation();
+
       expect(
-        recommendations
-            .maybeWhen(data: (data) => data, orElse: () => [])
-            .length,
-        1,
+        result.maybeWhen(
+          data: (data) => data,
+          orElse: () => [],
+        ),
+        recommendations,
       );
     });
 
-    test('Should add a recommendation', () async {
-      final mockRecommendationRepository = MockRecommendationRepository();
-      final newRecommendation = Recommendation.empty().copyWith(id: "1");
+    test('loadRecommendation handles error', () async {
+      when(() => mockRepository.recommendationRecommendationsGet())
+          .thenThrow(Exception('Failed to load recommendations'));
+
+      final result = await provider.loadRecommendation();
+
+      expect(
+        result.maybeWhen(
+          error: (error, _) => error,
+          orElse: () => null,
+        ),
+        isA<Exception>(),
+      );
+    });
+
+    test('addRecommendation adds a recommendation to the list', () async {
+      when(() => mockRepository.recommendationRecommendationsGet()).thenAnswer(
+        (_) async => chopper.Response(
+          http.Response('body', 200),
+          recommendations,
+        ),
+      );
       when(
-        () => mockRecommendationRepository.getRecommendationList(),
-      ).thenAnswer((_) async => [Recommendation.empty()]);
-      when(
-        () => mockRecommendationRepository.createRecommendation(
+        () => mockRepository.recommendationRecommendationsPost(
+            body: any(named: 'body')),
+      ).thenAnswer(
+        (_) async => chopper.Response(
+          http.Response('body', 200),
           newRecommendation,
         ),
-      ).thenAnswer((_) async => newRecommendation);
-      final recommendationListProvider = RecommendationListNotifier(
-        recommendationRepository: mockRecommendationRepository,
       );
-      await recommendationListProvider.loadRecommendation();
-      final recommendation = await recommendationListProvider.addRecommendation(
-        newRecommendation,
+
+      await provider.loadRecommendation();
+      final result = await provider
+          .addRecommendation(newRecommendation.toRecommendationBase());
+
+      expect(result, true);
+      expect(
+        provider.state.maybeWhen(
+          data: (data) => data,
+          orElse: () => [],
+        ),
+        [...recommendations, newRecommendation],
       );
-      expect(recommendation, true);
     });
 
-    test('Should update a recommendation', () async {
-      final mockRecommendationRepository = MockRecommendationRepository();
-      final newRecommendation = Recommendation.empty().copyWith(id: "1");
+    test('addRecommendation handles error', () async {
       when(
-        () => mockRecommendationRepository.getRecommendationList(),
-      ).thenAnswer((_) async => [Recommendation.empty(), newRecommendation]);
-      when(
-        () => mockRecommendationRepository.updateRecommendation(
-          newRecommendation,
+        () => mockRepository.recommendationRecommendationsPost(
+          body: any(named: 'body'),
         ),
-      ).thenAnswer((_) async => true);
-      final recommendationListProvider = RecommendationListNotifier(
-        recommendationRepository: mockRecommendationRepository,
-      );
-      await recommendationListProvider.loadRecommendation();
-      final room = await recommendationListProvider.updateRecommendation(
-        newRecommendation,
-      );
-      expect(room, true);
+      ).thenThrow(Exception('Failed to add recommendation'));
+
+      final result = await provider
+          .addRecommendation(newRecommendation.toRecommendationBase());
+
+      expect(result, false);
     });
 
-    test('Should delete a recommendation', () async {
-      final mockRecommendationRepository = MockRecommendationRepository();
-      final newRecommendation = Recommendation.empty().copyWith(id: "1");
-      when(
-        () => mockRecommendationRepository.getRecommendationList(),
-      ).thenAnswer((_) async => [Recommendation.empty(), newRecommendation]);
-      when(
-        () => mockRecommendationRepository.deleteRecommendation(
-          newRecommendation.id!,
+    test('updateRecommendation updates a recommendation in the list', () async {
+      when(() => mockRepository.recommendationRecommendationsGet()).thenAnswer(
+        (_) async => chopper.Response(
+          http.Response('body', 200),
+          recommendations,
         ),
-      ).thenAnswer((_) async => true);
-      final roomListProvider = RecommendationListNotifier(
-        recommendationRepository: mockRecommendationRepository,
       );
-      await roomListProvider.loadRecommendation();
-      final room = await roomListProvider.deleteRecommendation(
-        newRecommendation,
+      when(
+        () => mockRepository.recommendationRecommendationsRecommendationIdPatch(
+          recommendationId: any(named: 'recommendationId'),
+          body: any(named: 'body'),
+        ),
+      ).thenAnswer(
+        (_) async => chopper.Response(
+          http.Response('body', 200),
+          updatedRecommendation,
+        ),
       );
-      expect(room, true);
+
+      await provider.loadRecommendation();
+      final result = await provider.updateRecommendation(updatedRecommendation);
+
+      expect(result, true);
+      expect(
+        provider.state.maybeWhen(
+          data: (data) => data,
+          orElse: () => [],
+        ),
+        [updatedRecommendation, ...recommendations.skip(1)],
+      );
+    });
+
+    test('updateRecommendation handles error', () async {
+      when(
+        () => mockRepository.recommendationRecommendationsRecommendationIdPatch(
+          recommendationId: any(named: 'recommendationId'),
+          body: any(named: 'body'),
+        ),
+      ).thenThrow(Exception('Failed to update recommendation'));
+
+      final result = await provider.updateRecommendation(updatedRecommendation);
+
+      expect(result, false);
+    });
+
+    test('deleteRecommendation removes a recommendation from the list',
+        () async {
+      when(() => mockRepository.recommendationRecommendationsGet()).thenAnswer(
+        (_) async => chopper.Response(
+          http.Response('body', 200),
+          recommendations,
+        ),
+      );
+      when(
+        () =>
+            mockRepository.recommendationRecommendationsRecommendationIdDelete(
+          recommendationId: any(named: 'recommendationId'),
+        ),
+      ).thenAnswer(
+        (_) async => chopper.Response(
+          http.Response('body', 200),
+          null,
+        ),
+      );
+
+      await provider.loadRecommendation();
+      final result =
+          await provider.deleteRecommendation(recommendations.first.id);
+
+      expect(result, true);
+      expect(
+        provider.state.maybeWhen(
+          data: (data) => data,
+          orElse: () => [],
+        ),
+        recommendations.skip(1).toList(),
+      );
+    });
+
+    test('deleteRecommendation handles error', () async {
+      when(
+        () =>
+            mockRepository.recommendationRecommendationsRecommendationIdDelete(
+          recommendationId: recommendations.first.id,
+        ),
+      ).thenThrow(Exception('Failed to delete recommendation'));
+
+      final result =
+          await provider.deleteRecommendation(recommendations.first.id);
+
+      expect(result, false);
     });
   });
 }

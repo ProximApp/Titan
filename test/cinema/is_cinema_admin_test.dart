@@ -11,9 +11,9 @@ void main() {
       final container = ProviderContainer(
         overrides: [
           userProvider.overrideWithValue(
-            User.empty().copyWith(
+            CoreUser.fromJson({}).copyWith(
               groups: [
-                SimpleGroup.empty().copyWith(
+                CoreGroupSimple.fromJson({}).copyWith(
                   id: 'ce5f36e6-5377-489f-9696-de70e2477300',
                   name: 'Cinema Admin',
                 ),
@@ -32,10 +32,12 @@ void main() {
       final container = ProviderContainer(
         overrides: [
           userProvider.overrideWithValue(
-            User.empty().copyWith(
+            CoreUser.fromJson({}).copyWith(
               groups: [
-                SimpleGroup.empty().copyWith(id: '123', name: 'Group 1'),
-                SimpleGroup.empty().copyWith(id: '456', name: 'Group 2'),
+                CoreGroupSimple.fromJson({})
+                    .copyWith(id: '123', name: 'Group 1'),
+                CoreGroupSimple.fromJson({})
+                    .copyWith(id: '456', name: 'Group 2'),
               ],
             ),
           ),

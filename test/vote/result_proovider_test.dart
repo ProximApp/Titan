@@ -5,43 +5,56 @@ import 'package:titan/vote/class/result.dart';
 import 'package:titan/vote/providers/result_provider.dart';
 import 'package:titan/vote/repositories/result_repository.dart';
 
-class MockResultRepository extends Mock implements ResultRepository {}
+class MockResultRepository extends Mock implements Openapi {}
 
 void main() {
-  late MockResultRepository mockResultRepository;
-  late ResultNotifier resultNotifier;
-
-  setUp(() {
-    mockResultRepository = MockResultRepository();
-    resultNotifier = ResultNotifier(resultRepository: mockResultRepository);
-  });
-
   group('ResultNotifier', () {
-    final result = Result.empty().copyWith(id: '1');
+    late MockResultRepository mockRepository;
+    late ResultNotifier provider;
+    final results = [
+      AppModulesCampaignSchemasCampaignResult.fromJson({})
+          .copyWith(listId: '1'),
+      AppModulesCampaignSchemasCampaignResult.fromJson({})
+          .copyWith(listId: '2'),
+    ];
 
-    test('should load result successfully', () async {
-      when(
-        () => mockResultRepository.getResult(),
-      ).thenAnswer((_) async => [result]);
+    setUp(() {
+      mockRepository = MockResultRepository();
+      provider = ResultNotifier(resultRepository: mockRepository);
+    });
 
-      final resultState = await resultNotifier.loadResult();
+    test('loadResult returns expected data', () async {
+      when(() => mockRepository.campaignResultsGet()).thenAnswer(
+        (_) async => chopper.Response(
+          http.Response('body', 200),
+          results,
+        ),
+      );
+
+      final result = await provider.loadResult();
 
       expect(
-        resultState.when(
+        result.maybeWhen(
           data: (data) => data,
-          loading: () => [],
-          error: (_, _) => [],
+          orElse: () => [],
         ),
-        [result],
+        results,
       );
     });
 
-    test('should return error when loading result fails', () async {
-      when(() => mockResultRepository.getResult()).thenThrow(Exception());
+    test('loadResult handles error', () async {
+      when(() => mockRepository.campaignResultsGet())
+          .thenThrow(Exception('Failed to load results'));
 
-      final resultState = await resultNotifier.loadResult();
+      final result = await provider.loadResult();
 
-      expect(resultState, isA<AsyncError>());
+      expect(
+        result.maybeWhen(
+          error: (error, _) => error,
+          orElse: () => null,
+        ),
+        isA<Exception>(),
+      );
     });
   });
 }

@@ -7,26 +7,42 @@ void main() {
   group('ProductNotifier', () {
     late ProductNotifier productNotifier;
 
+    final product = AppModulesAmapSchemasAmapProductComplete(
+      id: '1',
+      name: 'Test Product',
+      category: 'Category 1',
+      price: 10.0,
+    );
+
     setUp(() {
       productNotifier = ProductNotifier();
     });
 
     test('initial state is empty product', () {
-      expect(productNotifier.state, isA<Product>());
-      expect(productNotifier.state.id, Product.empty().id);
+      expect(
+        productNotifier.state,
+        isA<AppModulesAmapSchemasAmapProductComplete>(),
+      );
+      expect(
+        productNotifier.state.id,
+        AppModulesAmapSchemasAmapProductComplete.fromJson({}).id,
+      );
     });
 
     test('setProduct updates state', () {
-      final product = Product.empty().copyWith(
-        name: 'Test Product',
-        price: 10.0,
-      );
       productNotifier.setProduct(product);
       expect(productNotifier.state, product);
     });
   });
 
   group('productProvider', () {
+    final product = AppModulesAmapSchemasAmapProductComplete(
+      id: '1',
+      name: 'Test Product',
+      category: 'Category 1',
+      price: 10.0,
+    );
+
     test('returns ProductNotifier', () {
       final container = ProviderContainer();
       final productNotifier = container.read(productProvider.notifier);
@@ -36,16 +52,15 @@ void main() {
     test('returns empty product initially', () {
       final container = ProviderContainer();
       final product = container.read(productProvider);
-      expect(product, isA<Product>());
-      expect(product.id, Product.empty().id);
+      expect(product, isA<AppModulesAmapSchemasAmapProductComplete>());
+      expect(
+        product.id,
+        AppModulesAmapSchemasAmapProductComplete.fromJson({}).id,
+      );
     });
 
     test('setProduct updates product', () {
       final container = ProviderContainer();
-      final product = Product.empty().copyWith(
-        name: 'Test Product',
-        price: 10.0,
-      );
       container.read(productProvider.notifier).setProduct(product);
       expect(container.read(productProvider), product);
     });

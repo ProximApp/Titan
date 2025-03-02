@@ -6,62 +6,77 @@ import 'package:titan/user/class/simple_users.dart';
 import 'package:titan/user/providers/user_list_provider.dart';
 import 'package:titan/user/repositories/user_list_repository.dart';
 
-class MockUserListRepository extends Mock implements UserListRepository {}
+class MockUserListRepository extends Mock implements Openapi {}
 
 void main() {
   group('UserListNotifier', () {
-    late UserListRepository userListRepository;
-    late UserListNotifier userListNotifier;
+    late MockUserListRepository mockRepository;
+    late UserListNotifier provider;
+    final users = [
+      CoreUserSimple.fromJson({}).copyWith(id: '1'),
+      CoreUserSimple.fromJson({}).copyWith(id: '2'),
+    ];
 
     setUp(() {
-      userListRepository = MockUserListRepository();
-      userListNotifier = UserListNotifier(
-        userListRepository: userListRepository,
-      );
+      mockRepository = MockUserListRepository();
+      provider = UserListNotifier(userListRepository: mockRepository);
     });
 
-    test('initial state is loading', () {
-      expect(userListNotifier.state, isA<AsyncValue<List<CoreUserSimple>>>());
-    });
-
-    test('filterUsers returns list of users', () async {
-      const query = 'test';
-      final includeGroup = [
-        SimpleGroup.empty().copyWith(id: '1', name: 'Group 1'),
-      ];
-      final excludeGroup = [
-        SimpleGroup.empty().copyWith(id: '2', name: 'Group 2'),
-      ];
-      final users = [CoreUserSimple.empty().copyWith(id: '1', name: 'User 1')];
-
+    test('filterUsers returns expected data', () async {
       when(
-        () => userListRepository.searchUser(
-          query,
-          includeId: includeGroup.map((e) => e.id).toList(),
-          excludeId: excludeGroup.map((e) => e.id).toList(),
+        () => mockRepository.usersSearchGet(
+          query: any(named: 'query'),
+          includedGroups: any(named: 'includedGroups'),
+          excludedGroups: any(named: 'excludedGroups'),
         ),
-      ).thenAnswer((_) async => users);
-
-      final result = await userListNotifier.filterUsers(
-        query,
-        includeGroup: includeGroup,
-        excludeGroup: excludeGroup,
+      ).thenAnswer(
+        (_) async => chopper.Response(
+          http.Response('body', 200),
+          users,
+        ),
       );
+
+      final result = await provider.filterUsers('test');
 
       expect(
-        result.when(
+        result.maybeWhen(
           data: (data) => data,
-          loading: () => [],
-          error: (_, _) => [],
+          orElse: () => [],
         ),
         users,
       );
     });
 
-    test('clear sets state to empty list', () async {
-      await userListNotifier.clear();
+    test('filterUsers handles error', () async {
+      when(
+        () => mockRepository.usersSearchGet(
+          query: any(named: 'query'),
+          includedGroups: any(named: 'includedGroups'),
+          excludedGroups: any(named: 'excludedGroups'),
+        ),
+      ).thenThrow(Exception('Failed to filter users'));
 
-      expect(userListNotifier.state, isA<AsyncValue<List<CoreUserSimple>>>());
+      final result = await provider.filterUsers('test');
+
+      expect(
+        result.maybeWhen(
+          error: (error, _) => error,
+          orElse: () => null,
+        ),
+        isA<Exception>(),
+      );
+    });
+
+    test('clear sets state to empty list', () async {
+      await provider.clear();
+
+      expect(
+        provider.state.maybeWhen(
+          data: (data) => data,
+          orElse: () => null,
+        ),
+        [],
+      );
     });
   });
 }

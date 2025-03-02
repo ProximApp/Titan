@@ -5,73 +5,179 @@ import 'package:titan/service/class/room.dart';
 import 'package:titan/service/providers/room_list_provider.dart';
 import 'package:titan/service/repositories/rooms_repository.dart';
 
-class MockRoomRepository extends Mock implements RoomRepository {}
+class MockRoomRepository extends Mock implements Openapi {}
 
 void main() {
   group('RoomListNotifier', () {
-    test('Should load rooms', () async {
-      final mockRoomRepository = MockRoomRepository();
-      final newRoom = Room.empty().copyWith(id: "1");
-      when(
-        () => mockRoomRepository.getRoomList(),
-      ).thenAnswer((_) async => [newRoom]);
-      final roomListProvider = RoomListNotifier(
-        roomRepository: mockRoomRepository,
-      );
-      final rooms = await roomListProvider.loadRooms();
-      expect(rooms, isA<AsyncData<List<Room>>>());
-      expect(rooms.maybeWhen(data: (data) => data, orElse: () => []).length, 1);
+    late MockRoomRepository mockRepository;
+    late RoomListNotifier provider;
+    final rooms = [
+      RoomComplete.fromJson({}).copyWith(id: '1'),
+      RoomComplete.fromJson({}).copyWith(id: '2'),
+    ];
+    final newRoom = RoomComplete.fromJson({}).copyWith(id: '3');
+    final updatedRoom = rooms.first.copyWith(name: 'Updated Room');
+
+    setUp(() {
+      mockRepository = MockRoomRepository();
+      provider = RoomListNotifier(roomRepository: mockRepository);
     });
 
-    test('Should add a room', () async {
-      final mockRoomRepository = MockRoomRepository();
-      final newRoom = Room.empty().copyWith(id: "1");
-      when(
-        () => mockRoomRepository.getRoomList(),
-      ).thenAnswer((_) async => [Room.empty()]);
-      when(
-        () => mockRoomRepository.createRoom(newRoom),
-      ).thenAnswer((_) async => newRoom);
-      final roomListProvider = RoomListNotifier(
-        roomRepository: mockRoomRepository,
+    test('loadRooms returns expected data', () async {
+      when(() => mockRepository.bookingRoomsGet()).thenAnswer(
+        (_) async => chopper.Response(
+          http.Response('body', 200),
+          rooms,
+        ),
       );
-      await roomListProvider.loadRooms();
-      final room = await roomListProvider.addRoom(newRoom);
-      expect(room, true);
+
+      final result = await provider.loadRooms();
+
+      expect(
+        result.maybeWhen(
+          data: (data) => data,
+          orElse: () => [],
+        ),
+        rooms,
+      );
     });
 
-    test('Should update a room', () async {
-      final mockRoomRepository = MockRoomRepository();
-      final newRoom = Room.empty().copyWith(id: "1");
-      when(
-        () => mockRoomRepository.getRoomList(),
-      ).thenAnswer((_) async => [Room.empty(), newRoom]);
-      when(
-        () => mockRoomRepository.updateRoom(newRoom),
-      ).thenAnswer((_) async => true);
-      final roomListProvider = RoomListNotifier(
-        roomRepository: mockRoomRepository,
+    test('loadRooms handles error', () async {
+      when(() => mockRepository.bookingRoomsGet())
+          .thenThrow(Exception('Failed to load rooms'));
+
+      final result = await provider.loadRooms();
+
+      expect(
+        result.maybeWhen(
+          error: (error, _) => error,
+          orElse: () => null,
+        ),
+        isA<Exception>(),
       );
-      await roomListProvider.loadRooms();
-      final room = await roomListProvider.updateRoom(newRoom);
-      expect(room, true);
     });
 
-    test('Should delete a room', () async {
-      final mockRoomRepository = MockRoomRepository();
-      final newRoom = Room.empty().copyWith(id: "1");
-      when(
-        () => mockRoomRepository.getRoomList(),
-      ).thenAnswer((_) async => [Room.empty(), newRoom]);
-      when(
-        () => mockRoomRepository.deleteRoom(newRoom.id),
-      ).thenAnswer((_) async => true);
-      final roomListProvider = RoomListNotifier(
-        roomRepository: mockRoomRepository,
+    test('addRoom adds a room to the list', () async {
+      when(() => mockRepository.bookingRoomsGet()).thenAnswer(
+        (_) async => chopper.Response(
+          http.Response('body', 200),
+          rooms,
+        ),
       );
-      await roomListProvider.loadRooms();
-      final room = await roomListProvider.deleteRoom(newRoom);
-      expect(room, true);
+      when(() => mockRepository.bookingRoomsPost(body: any(named: 'body')))
+          .thenAnswer(
+        (_) async => chopper.Response(
+          http.Response('body', 200),
+          newRoom,
+        ),
+      );
+
+      await provider.loadRooms();
+      final result = await provider.addRoom(newRoom.toRoomBase());
+
+      expect(result, true);
+      expect(
+        provider.state.maybeWhen(
+          data: (data) => data,
+          orElse: () => [],
+        ),
+        [...rooms, newRoom],
+      );
+    });
+
+    test('addRoom handles error', () async {
+      when(() => mockRepository.bookingRoomsPost(body: any(named: 'body')))
+          .thenThrow(Exception('Failed to add room'));
+
+      final result = await provider.addRoom(newRoom.toRoomBase());
+
+      expect(result, false);
+    });
+
+    test('updateRoom updates a room in the list', () async {
+      when(() => mockRepository.bookingRoomsGet()).thenAnswer(
+        (_) async => chopper.Response(
+          http.Response('body', 200),
+          rooms,
+        ),
+      );
+      when(
+        () => mockRepository.bookingRoomsRoomIdPatch(
+          roomId: any(named: 'roomId'),
+          body: any(named: 'body'),
+        ),
+      ).thenAnswer(
+        (_) async => chopper.Response(
+          http.Response('body', 200),
+          updatedRoom,
+        ),
+      );
+
+      await provider.loadRooms();
+      final result = await provider.updateRoom(updatedRoom);
+
+      expect(result, true);
+      expect(
+        provider.state.maybeWhen(
+          data: (data) => data,
+          orElse: () => [],
+        ),
+        [updatedRoom, ...rooms.skip(1)],
+      );
+    });
+
+    test('updateRoom handles error', () async {
+      when(
+        () => mockRepository.bookingRoomsRoomIdPatch(
+          roomId: any(named: 'roomId'),
+          body: any(named: 'body'),
+        ),
+      ).thenThrow(Exception('Failed to update room'));
+
+      final result = await provider.updateRoom(updatedRoom);
+
+      expect(result, false);
+    });
+
+    test('deleteRoom removes a room from the list', () async {
+      when(() => mockRepository.bookingRoomsGet()).thenAnswer(
+        (_) async => chopper.Response(
+          http.Response('body', 200),
+          rooms,
+        ),
+      );
+      when(
+        () => mockRepository.bookingRoomsRoomIdDelete(
+          roomId: any(named: 'roomId'),
+        ),
+      ).thenAnswer(
+        (_) async => chopper.Response(
+          http.Response('body', 200),
+          null,
+        ),
+      );
+
+      await provider.loadRooms();
+      final result = await provider.deleteRoom(rooms.first.id);
+
+      expect(result, true);
+      expect(
+        provider.state.maybeWhen(
+          data: (data) => data,
+          orElse: () => [],
+        ),
+        rooms.skip(1).toList(),
+      );
+    });
+
+    test('deleteRoom handles error', () async {
+      when(
+        () => mockRepository.bookingRoomsRoomIdDelete(roomId: rooms.first.id),
+      ).thenThrow(Exception('Failed to delete room'));
+
+      final result = await provider.deleteRoom(rooms.first.id);
+
+      expect(result, false);
     });
   });
 }

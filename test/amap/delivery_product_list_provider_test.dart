@@ -1,27 +1,48 @@
+import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
-import 'package:titan/amap/providers/delivery_product_list_provider.dart';
+import 'package:myecl/amap/providers/delivery_product_list_provider.dart';
+import 'package:myecl/generated/openapi.swagger.dart';
 
-import 'package:titan/amap/class/product.dart';
-import 'package:titan/amap/repositories/delivery_product_list_repository.dart';
-
-class MockDeliveryProductListRepository extends Mock
-    implements DeliveryProductListRepository {}
+class MockDeliveryProductListRepository extends Mock implements Openapi {}
 
 void main() {
   group('DeliveryProductListNotifier', () {
+    final products = [
+      AppModulesAmapSchemasAmapProductComplete(
+        id: '1',
+        name: 'Product 1',
+        category: 'Category 1',
+        price: 10,
+      ),
+      AppModulesAmapSchemasAmapProductComplete(
+        id: '2',
+        name: 'Product 2',
+        category: 'Category 2',
+        price: 20,
+      ),
+    ];
+
+    final product = AppModulesAmapSchemasAmapProductComplete(
+      id: '3',
+      name: 'New Product',
+      category: 'Category 3',
+      price: 30,
+    );
+
+    final productToAdd = DeliveryProductsUpdate(
+      productsIds: [product.id],
+    );
+
     test(
-      'loadProductList should return AsyncValue with provided list of products',
-      () async {
-        final productListRepository = MockDeliveryProductListRepository();
-        final notifier = DeliveryProductListNotifier(
-          productListRepository: productListRepository,
-        );
-        final products = [
-          Product.empty().copyWith(id: '1', name: 'Product 1'),
-          Product.empty().copyWith(id: '2', name: 'Product 2'),
-        ];
+        'loadProductList should return AsyncValue with provided list of products',
+        () async {
+      final productListRepository = MockDeliveryProductListRepository();
+      final notifier = DeliveryProductListNotifier(
+        productListRepository: productListRepository,
+      );
 
         final result = await notifier.loadProductList(products);
 
@@ -35,21 +56,17 @@ void main() {
         productListRepository: productListRepository,
       );
 
-      final product = Product.empty().copyWith(
-        name: 'New Product',
-        quantity: 1,
-      );
-      final products = [
-        Product.empty().copyWith(id: '1', name: 'Product 1'),
-        Product.empty().copyWith(id: '2', name: 'Product 2'),
-      ];
-
       when(
-        () => productListRepository.createProduct('deliveryId', product),
-      ).thenAnswer((_) async => product);
+        () => productListRepository.amapDeliveriesDeliveryIdProductsPost(
+          deliveryId: any(named: 'deliveryId'),
+          body: any(named: 'body'),
+        ),
+      ).thenAnswer(
+        (_) async => chopper.Response(http.Response('[]', 200), product),
+      );
 
       notifier.state = AsyncValue.data(products.sublist(0));
-      final result = await notifier.addProduct(product, 'deliveryId');
+      final result = await notifier.addProduct(productToAdd, 'deliveryId');
 
       expect(result, true);
       expect(
@@ -101,65 +118,27 @@ void main() {
           productListRepository: productListRepository,
         );
 
-        final product1 = Product.empty().copyWith(id: '1', name: 'Product 1');
-        final product2 = Product.empty().copyWith(id: '2', name: 'Product 2');
+      notifier.state = AsyncValue.data([...products, product]);
 
-        notifier.state = AsyncValue.data([product1, product2]);
+      when(
+        () => productListRepository.amapProductsProductIdDelete(
+          productId: any(named: 'productId'),
+        ),
+      ).thenAnswer(
+        (_) async => chopper.Response(http.Response('[]', 200), true),
+      );
 
-        when(
-          () => productListRepository.deleteProduct('deliveryId', product1.id),
-        ).thenAnswer((_) async => true);
+        final result = await notifier.deleteProduct(product, 'deliveryId');
 
-        final result = await notifier.deleteProduct(product1, 'deliveryId');
-
-        expect(result, true);
-        expect(
-          notifier.state.when(
-            data: (data) => data,
-            error: (e, s) => [],
-            loading: () => [],
-          ),
-          [product2],
-        );
-      },
-    );
-
-    test(
-      'setQuantity should update quantity of product in list and return true',
-      () async {
-        final productListRepository = MockDeliveryProductListRepository();
-        final notifier = DeliveryProductListNotifier(
-          productListRepository: productListRepository,
-        );
-
-        final product1 = Product.empty().copyWith(
-          id: '1',
-          name: 'Product 1',
-          quantity: 1,
-        );
-        final product2 = Product.empty().copyWith(
-          id: '2',
-          name: 'Product 2',
-          quantity: 2,
-        );
-
-        notifier.state = AsyncValue.data([product1, product2]);
-
-        final result = await notifier.setQuantity(product1, 3);
-
-        expect(result, true);
-        expect(
-          notifier.state
-              .when(
-                data: (data) => data,
-                error: (e, s) => [],
-                loading: () => [],
-              )
-              .first
-              .quantity,
-          3,
-        );
-      },
-    );
+      expect(result, true);
+      expect(
+        notifier.state.when(
+          data: (data) => data,
+          error: (e, s) => [],
+          loading: () => [],
+        ),
+        products,
+      );
+    });
   });
 }

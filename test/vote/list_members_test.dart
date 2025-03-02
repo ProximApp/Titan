@@ -3,11 +3,16 @@ import 'package:titan/vote/class/members.dart';
 import 'package:titan/vote/providers/list_members.dart';
 
 void main() {
-  group('ContenderMembersProvider', () {
-    test('addMember should add a member to the state', () async {
-      final provider = ContenderMembersProvider();
-      final member = Member.empty().copyWith(name: 'John Doe', id: '123');
+  group('ListMembersProvider', () {
+    late ListMembersProvider provider;
+    final member = ListMemberComplete.fromJson({}).copyWith(userId: '1');
+    final member2 = ListMemberComplete.fromJson({}).copyWith(userId: '2');
 
+    setUp(() {
+      provider = ListMembersProvider();
+    });
+
+    test('addMember should add a member to the state', () async {
       final result = await provider.addMember(member);
 
       expect(result, true);
@@ -16,9 +21,6 @@ void main() {
     });
 
     test('addMember should not add a member if already in the state', () async {
-      final provider = ContenderMembersProvider();
-      final member = Member.empty().copyWith(name: 'John Doe', id: '123');
-
       await provider.addMember(member);
       final result = await provider.addMember(member);
 
@@ -28,9 +30,6 @@ void main() {
     });
 
     test('removeMember should remove a member from the state', () async {
-      final provider = ContenderMembersProvider();
-      final member = Member.empty().copyWith(name: 'John Doe', id: '123');
-
       await provider.addMember(member);
       provider.removeMember(member);
 
@@ -38,23 +37,15 @@ void main() {
     });
 
     test('clearMembers should clear the state', () async {
-      final provider = ContenderMembersProvider();
-      final member = Member.empty().copyWith(name: 'John Doe', id: '123');
-
       await provider.addMember(member);
       provider.clearMembers();
 
       expect(provider.state.length, 0);
     });
 
-    test(
-      'setMembers should set the state to the given list of members',
-      () async {
-        final provider = ContenderMembersProvider();
-        final members = [
-          Member.empty().copyWith(name: 'John Doe', id: '123'),
-          Member.empty().copyWith(name: 'Jane Doe', id: '456'),
-        ];
+    test('setMembers should set the state to the given list of members',
+        () async {
+      final members = [member, member2];
 
         provider.setMembers(members);
 

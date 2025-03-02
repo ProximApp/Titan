@@ -11,13 +11,14 @@ void main() {
       final container = ProviderContainer(
         overrides: [
           userProvider.overrideWithValue(
-            User.empty().copyWith(
+            CoreUser.fromJson({}).copyWith(
               groups: [
-                SimpleGroup.empty().copyWith(
+                CoreGroupSimple.fromJson({}).copyWith(
                   id: '70db65ee-d533-4f6b-9ffa-a4d70a17b7ef',
                   name: 'Amap Admin',
                 ),
-                SimpleGroup.empty().copyWith(id: '123', name: 'Some Group'),
+                CoreGroupSimple.fromJson({})
+                    .copyWith(id: '123', name: 'Some Group'),
               ],
             ),
           ),
@@ -33,9 +34,10 @@ void main() {
       final container = ProviderContainer(
         overrides: [
           userProvider.overrideWithValue(
-            User.empty().copyWith(
+            CoreUser.fromJson({}).copyWith(
               groups: [
-                SimpleGroup.empty().copyWith(id: '123', name: 'Some Group'),
+                CoreGroupSimple.fromJson({})
+                    .copyWith(id: '123', name: 'Some Group'),
               ],
             ),
           ),
