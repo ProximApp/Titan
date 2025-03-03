@@ -16,6 +16,7 @@ import 'package:titan/loan/providers/start_provider.dart';
 import 'package:titan/loan/router.dart';
 import 'package:titan/loan/ui/pages/admin_page/loan_card.dart';
 import 'package:titan/loan/ui/pages/admin_page/delay_dialog.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
@@ -84,7 +85,7 @@ class OnGoingLoan extends HookConsumerWidget {
               height: 170,
               firstChild: GestureDetector(
                 onTap: () async {
-                  await loanNotifier.setLoan(Loan.fromJson({}));
+                  await loanNotifier.setLoan(EmptyModels.empty<Loan>());
                   startNotifier.setStart(
                     DateFormat.yMd(locale).format(DateTime.now()),
                   );

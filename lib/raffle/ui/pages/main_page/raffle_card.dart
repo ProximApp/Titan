@@ -11,6 +11,7 @@ import 'package:titan/raffle/providers/ticket_list_provider.dart';
 import 'package:titan/raffle/router.dart';
 import 'package:titan/raffle/tools/constants.dart';
 import 'package:titan/raffle/ui/raffle.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/ui/builders/auto_loader_child.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
@@ -91,7 +92,7 @@ class RaffleWidget extends HookConsumerWidget {
                         raffleId,
                       )).maybeWhen(
                         data: (value) => value,
-                        orElse: () => RaffleStats.fromJson({}),
+                        orElse: () => EmptyModels.empty<RaffleStats>(),
                       ),
                   dataBuilder: (context, stats) {
                     final stat = stats.first;

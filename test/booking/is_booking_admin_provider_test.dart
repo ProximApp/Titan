@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:titan/admin/class/simple_group.dart';
 import 'package:titan/booking/providers/is_admin_provider.dart';
 import 'package:titan/user/class/user.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/user/providers/user_provider.dart';
 
 void main() {
@@ -11,14 +12,16 @@ void main() {
       final container = ProviderContainer(
         overrides: [
           userProvider.overrideWithValue(
-            CoreUser.fromJson({}).copyWith(
+            EmptyModels.empty<CoreUser>().copyWith(
               groups: [
-                CoreGroupSimple.fromJson({}).copyWith(
+                EmptyModels.empty<CoreGroupSimple>().copyWith(
                   id: '0a25cb76-4b63-4fd3-b939-da6d9feabf28',
                   name: 'Booking Admin',
                 ),
-                CoreGroupSimple.fromJson({})
-                    .copyWith(id: '123', name: 'Other Group'),
+                EmptyModels.empty<CoreGroupSimple>().copyWith(
+                  id: '123',
+                  name: 'Other Group',
+                ),
               ],
             ),
           ),
@@ -34,10 +37,12 @@ void main() {
       final container = ProviderContainer(
         overrides: [
           userProvider.overrideWithValue(
-            CoreUser.fromJson({}).copyWith(
+            EmptyModels.empty<CoreUser>().copyWith(
               groups: [
-                CoreGroupSimple.fromJson({})
-                    .copyWith(id: '123', name: 'Other Group'),
+                EmptyModels.empty<CoreGroupSimple>().copyWith(
+                  id: '123',
+                  name: 'Other Group',
+                ),
               ],
             ),
           ),

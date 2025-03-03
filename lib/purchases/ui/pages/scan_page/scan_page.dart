@@ -9,6 +9,7 @@ import 'package:titan/purchases/providers/seller_provider.dart';
 import 'package:titan/purchases/ui/pages/scan_page/ticket_card.dart';
 import 'package:titan/purchases/ui/pages/scan_page/scan_dialog.dart';
 import 'package:titan/purchases/ui/purchases.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/horizontal_list_view.dart';
@@ -35,7 +36,7 @@ class ScanPage extends HookConsumerWidget {
         controller: ScrollController(),
         onRefresh: () async {
           await sellersNotifier.loadSellers();
-          if (seller.id != SellerComplete.fromJson({}).id) {
+          if (seller.id != EmptyModels.empty<SellerComplete>().id) {
             await productsNotifier.loadProducts(seller.id);
           }
           scannerNotifier.reset();

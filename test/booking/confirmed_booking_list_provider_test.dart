@@ -4,6 +4,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:titan/booking/class/booking.dart';
 import 'package:titan/booking/providers/confirmed_booking_list_provider.dart';
 import 'package:titan/booking/repositories/booking_repository.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 
 class MockBookingRepository extends Mock implements Openapi {}
 
@@ -12,14 +13,11 @@ void main() {
     test('loadConfirmedBooking returns expected data', () async {
       final mockRepository = MockBookingRepository();
       final bookings = [
-        BookingReturnSimpleApplicant.fromJson({}).copyWith(id: '1'),
-        BookingReturnSimpleApplicant.fromJson({}).copyWith(id: '2'),
+        EmptyModels.empty<BookingReturnSimpleApplicant>().copyWith(id: '1'),
+        EmptyModels.empty<BookingReturnSimpleApplicant>().copyWith(id: '2'),
       ];
       when(() => mockRepository.bookingBookingsConfirmedGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          bookings,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), bookings),
       );
 
       final provider = ConfirmedBookingListProvider(
@@ -35,36 +33,34 @@ void main() {
 
     test('loadConfirmedBooking handles error', () async {
       final mockRepository = MockBookingRepository();
-      when(() => mockRepository.bookingBookingsConfirmedGet())
-          .thenThrow(Exception('Failed to load bookings'));
+      when(
+        () => mockRepository.bookingBookingsConfirmedGet(),
+      ).thenThrow(Exception('Failed to load bookings'));
 
-      final provider =
-          ConfirmedBookingListProvider(bookingRepository: mockRepository);
+      final provider = ConfirmedBookingListProvider(
+        bookingRepository: mockRepository,
+      );
       final result = await provider.loadConfirmedBooking();
 
       expect(
-        result.maybeWhen(
-          error: (error, _) => error,
-          orElse: () => null,
-        ),
+        result.maybeWhen(error: (error, _) => error, orElse: () => null),
         isA<Exception>(),
       );
     });
 
     test('loadConfirmedBooking handles error', () async {
       final mockRepository = MockBookingRepository();
-      when(() => mockRepository.bookingBookingsConfirmedGet())
-          .thenThrow(Exception('Failed to load bookings'));
+      when(
+        () => mockRepository.bookingBookingsConfirmedGet(),
+      ).thenThrow(Exception('Failed to load bookings'));
 
-      final provider =
-          ConfirmedBookingListProvider(bookingRepository: mockRepository);
+      final provider = ConfirmedBookingListProvider(
+        bookingRepository: mockRepository,
+      );
       final result = await provider.loadConfirmedBooking();
 
       expect(
-        result.maybeWhen(
-          error: (error, _) => error,
-          orElse: () => null,
-        ),
+        result.maybeWhen(error: (error, _) => error, orElse: () => null),
         isA<Exception>(),
       );
     });
@@ -72,24 +68,22 @@ void main() {
     test('addBooking adds a booking to the list', () async {
       final mockRepository = MockBookingRepository();
       final bookings = [
-        BookingReturnSimpleApplicant.fromJson({}).copyWith(id: '1'),
-        BookingReturnSimpleApplicant.fromJson({}).copyWith(id: '2'),
+        EmptyModels.empty<BookingReturnSimpleApplicant>().copyWith(id: '1'),
+        EmptyModels.empty<BookingReturnSimpleApplicant>().copyWith(id: '2'),
       ];
-      final newBooking = BookingReturn.fromJson({}).copyWith(id: '3');
-      final newBookingSimple =
-          BookingReturnSimpleApplicant.fromJson({}).copyWith(id: '3');
-      when(() => mockRepository.bookingBookingsConfirmedGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          bookings,
-        ),
+      final newBooking = EmptyModels.empty<BookingReturn>().copyWith(
+        id: '3',
+        reason: 'New booking',
       );
-      when(() => mockRepository.bookingBookingsPost(body: any(named: 'body')))
-          .thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          newBooking,
-        ),
+      final newBookingSimple = EmptyModels.empty<BookingReturnSimpleApplicant>()
+          .copyWith(id: '3');
+      when(() => mockRepository.bookingBookingsConfirmedGet()).thenAnswer(
+        (_) async => chopper.Response(http.Response('body', 200), bookings),
+      );
+      when(
+        () => mockRepository.bookingBookingsPost(body: any(named: 'body')),
+      ).thenAnswer(
+        (_) async => chopper.Response(http.Response('body', 200), newBooking),
       );
 
       final provider = ConfirmedBookingListProvider(
@@ -107,13 +101,16 @@ void main() {
 
     test('addBooking handles error', () async {
       final mockRepository = MockBookingRepository();
-      final newBookingSimple =
-          BookingReturnSimpleApplicant.fromJson({}).copyWith(id: '3');
-      when(() => mockRepository.bookingBookingsPost(body: any(named: 'body')))
-          .thenThrow(Exception('Failed to add booking'));
+      final newBookingSimple = BookingReturnSimpleApplicant.fromJson(
+        {},
+      ).copyWith(id: '3');
+      when(
+        () => mockRepository.bookingBookingsPost(body: any(named: 'body')),
+      ).thenThrow(Exception('Failed to add booking'));
 
-      final provider =
-          ConfirmedBookingListProvider(bookingRepository: mockRepository);
+      final provider = ConfirmedBookingListProvider(
+        bookingRepository: mockRepository,
+      );
       await provider.loadConfirmedBooking();
       final result = await provider.addBooking(newBookingSimple);
 
@@ -122,13 +119,33 @@ void main() {
 
     test('addBooking handles error', () async {
       final mockRepository = MockBookingRepository();
-      final newBookingSimple =
-          BookingReturnSimpleApplicant.fromJson({}).copyWith(id: '3');
-      when(() => mockRepository.bookingBookingsPost(body: any(named: 'body')))
-          .thenThrow(Exception('Failed to add booking'));
+      final newBookingSimple = BookingReturnSimpleApplicant.fromJson(
+        {},
+      ).copyWith(id: '3');
+      when(
+        () => mockRepository.bookingBookingsPost(body: any(named: 'body')),
+      ).thenThrow(Exception('Failed to add booking'));
 
-      final provider =
-          ConfirmedBookingListProvider(bookingRepository: mockRepository);
+      final provider = ConfirmedBookingListProvider(
+        bookingRepository: mockRepository,
+      );
+      await provider.loadConfirmedBooking();
+      final result = await provider.addBooking(newBookingSimple);
+
+      expect(result, false);
+    });
+
+    test('addBooking handles error', () async {
+      final mockRepository = MockBookingRepository();
+      final newBookingSimple = EmptyModels.empty<BookingReturnSimpleApplicant>()
+          .copyWith(id: '3');
+      when(
+        () => mockRepository.bookingBookingsPost(body: any(named: 'body')),
+      ).thenThrow(Exception('Failed to add booking'));
+
+      final provider = ConfirmedBookingListProvider(
+        bookingRepository: mockRepository,
+      );
       final result = await provider.addBooking(newBookingSimple);
 
       expect(result, false);
@@ -137,25 +154,19 @@ void main() {
     test('deleteBooking removes a booking from the list', () async {
       final mockRepository = MockBookingRepository();
       final bookings = [
-        BookingReturnSimpleApplicant.fromJson({}).copyWith(id: '1'),
-        BookingReturnSimpleApplicant.fromJson({}).copyWith(id: '2'),
+        EmptyModels.empty<BookingReturnSimpleApplicant>().copyWith(id: '1'),
+        EmptyModels.empty<BookingReturnSimpleApplicant>().copyWith(id: '2'),
       ];
       final booking = bookings.first;
       when(() => mockRepository.bookingBookingsConfirmedGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          bookings,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), bookings),
       );
       when(
         () => mockRepository.bookingBookingsBookingIdDelete(
           bookingId: any(named: 'bookingId'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          null,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
       final provider = ConfirmedBookingListProvider(
@@ -173,16 +184,17 @@ void main() {
 
     test('deleteBooking handles error', () async {
       final mockRepository = MockBookingRepository();
-      final booking =
-          BookingReturnSimpleApplicant.fromJson({}).copyWith(id: '1');
+      final booking = EmptyModels.empty<BookingReturnSimpleApplicant>()
+          .copyWith(id: '1');
       when(
         () => mockRepository.bookingBookingsBookingIdDelete(
           bookingId: booking.id,
         ),
       ).thenThrow(Exception('Failed to delete booking'));
 
-      final provider =
-          ConfirmedBookingListProvider(bookingRepository: mockRepository);
+      final provider = ConfirmedBookingListProvider(
+        bookingRepository: mockRepository,
+      );
       final result = await provider.deleteBooking(booking);
 
       expect(result, false);
@@ -191,15 +203,12 @@ void main() {
     test('updateBooking updates a booking in the list', () async {
       final mockRepository = MockBookingRepository();
       final bookings = [
-        BookingReturnSimpleApplicant.fromJson({}).copyWith(id: '1'),
-        BookingReturnSimpleApplicant.fromJson({}).copyWith(id: '2'),
+        EmptyModels.empty<BookingReturnSimpleApplicant>().copyWith(id: '1'),
+        EmptyModels.empty<BookingReturnSimpleApplicant>().copyWith(id: '2'),
       ];
       final updatedBooking = bookings.first.copyWith(reason: 'Updated');
       when(() => mockRepository.bookingBookingsConfirmedGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          bookings,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), bookings),
       );
       when(
         () => mockRepository.bookingBookingsBookingIdPatch(
@@ -207,10 +216,8 @@ void main() {
           body: any(named: 'body'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          updatedBooking,
-        ),
+        (_) async =>
+            chopper.Response(http.Response('body', 200), updatedBooking),
       );
 
       final provider = ConfirmedBookingListProvider(
@@ -220,18 +227,15 @@ void main() {
       final result = await provider.updateBooking(updatedBooking);
 
       expect(result, true);
-      expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        [updatedBooking, ...bookings.skip(1)],
-      );
+      expect(provider.state.maybeWhen(data: (data) => data, orElse: () => []), [
+        updatedBooking,
+        ...bookings.skip(1),
+      ]);
     });
 
     test('updateBooking handles error', () async {
       final mockRepository = MockBookingRepository();
-      final updatedBooking = BookingReturnSimpleApplicant.fromJson({})
+      final updatedBooking = EmptyModels.empty<BookingReturnSimpleApplicant>()
           .copyWith(id: '1', reason: 'Updated');
       when(
         () => mockRepository.bookingBookingsBookingIdPatch(
@@ -240,8 +244,9 @@ void main() {
         ),
       ).thenThrow(Exception('Failed to update booking'));
 
-      final provider =
-          ConfirmedBookingListProvider(bookingRepository: mockRepository);
+      final provider = ConfirmedBookingListProvider(
+        bookingRepository: mockRepository,
+      );
       final result = await provider.updateBooking(updatedBooking);
 
       expect(result, false);

@@ -2,16 +2,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/service/class/room.dart';
 import 'package:titan/booking/providers/room_provider.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 
 void main() {
   group('RoomNotifier', () {
     late ProviderContainer container;
     late RoomNotifier notifier;
-    final room = RoomComplete(
-      id: '1',
-      name: 'Test Room',
-      managerId: '123',
-    );
+    final room = RoomComplete(id: '1', name: 'Test Room', managerId: '123');
 
     setUp(() {
       container = ProviderContainer();
@@ -28,7 +25,7 @@ void main() {
 
     test('resetRoom should reset state', () {
       notifier.setRoom(room);
-      notifier.setRoom(RoomComplete.fromJson({}));
+      notifier.setRoom(EmptyModels.empty<RoomComplete>());
 
       expect(container.read(roomProvider).id, equals(''));
       expect(container.read(roomProvider).name, equals(''));

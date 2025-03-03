@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/admin/class/simple_group.dart';
 import 'package:titan/user/class/user.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/user/providers/user_provider.dart';
 import 'package:titan/vote/providers/is_vote_admin_provider.dart';
 
@@ -11,9 +12,9 @@ void main() {
       final container = ProviderContainer(
         overrides: [
           userProvider.overrideWithValue(
-            CoreUser.fromJson({}).copyWith(
+            EmptyModels.empty<CoreUser>().copyWith(
               groups: [
-                CoreGroupSimple.fromJson({}).copyWith(
+                EmptyModels.empty<CoreGroupSimple>().copyWith(
                   id: "2ca57402-605b-4389-a471-f2fea7b27db5",
                 ),
               ],
@@ -31,9 +32,9 @@ void main() {
       final container = ProviderContainer(
         overrides: [
           userProvider.overrideWithValue(
-            CoreUser.fromJson({}).copyWith(
+            EmptyModels.empty<CoreUser>().copyWith(
               groups: [
-                CoreGroupSimple.fromJson({}).copyWith(
+                EmptyModels.empty<CoreGroupSimple>().copyWith(
                   id: '12345678-1234-1234-1234-123456789012',
                 ),
               ],

@@ -7,6 +7,7 @@ import 'package:titan/amap/providers/delivery_id_provider.dart';
 import 'package:titan/amap/providers/user_order_list_provider.dart';
 import 'package:titan/amap/providers/user_amount_provider.dart';
 import 'package:titan/amap/tools/constants.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
@@ -28,7 +29,7 @@ class ProductChoiceButton extends HookConsumerWidget {
     final orderListNotifier = ref.watch(userOrderListProvider.notifier);
     final userAmountNotifier = ref.watch(userAmountProvider.notifier);
     final me = ref.watch(userProvider);
-    final isEdit = order.orderId != OrderReturn.fromJson({}).orderId;
+    final isEdit = order.orderId != EmptyModels.empty<OrderReturn>().orderId;
     void displayToastWithContext(TypeMsg type, String msg) {
       displayToast(context, type, msg);
     }
@@ -164,7 +165,7 @@ class ProductChoiceButton extends HookConsumerWidget {
             ),
             onTap: () {
               if (order.amount != 0.0 ||
-                  order.orderId != OrderReturn.fromJson({}).orderId) {
+                  order.orderId != EmptyModels.empty<OrderReturn>().orderId) {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) => CustomDialogBox(
@@ -173,7 +174,7 @@ class ProductChoiceButton extends HookConsumerWidget {
                     )!.amapDeletingOrder,
                     title: AppLocalizations.of(context)!.amapDeleting,
                     onYes: () {
-                      orderNotifier.setOrder(OrderReturn.fromJson({}));
+                      orderNotifier.setOrder(EmptyModels.empty<OrderReturn>());
                       QR.back();
                     },
                   ),

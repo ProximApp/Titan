@@ -4,6 +4,7 @@ import 'package:titan/booking/class/booking.dart';
 import 'package:titan/booking/repositories/booking_repository.dart';
 import 'package:titan/booking/providers/user_booking_list_provider.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 
 class MockBookingRepository extends Mock implements Openapi {}
 
@@ -12,10 +13,10 @@ void main() {
     late MockBookingRepository mockRepository;
     late UserBookingListProvider provider;
     final bookings = [
-      BookingReturn.fromJson({}).copyWith(id: '1'),
-      BookingReturn.fromJson({}).copyWith(id: '2'),
+      EmptyModels.empty<BookingReturn>().copyWith(id: '1'),
+      EmptyModels.empty<BookingReturn>().copyWith(id: '2'),
     ];
-    final newBooking = BookingReturn.fromJson({}).copyWith(id: '3');
+    final newBooking = EmptyModels.empty<BookingReturn>().copyWith(id: '3');
     final updatedBooking = bookings.first.copyWith(reason: 'Updated');
 
     setUp(() {
@@ -25,69 +26,54 @@ void main() {
 
     test('loadUserBookings returns expected data', () async {
       when(() => mockRepository.bookingBookingsUsersMeGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          bookings,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), bookings),
       );
 
       final result = await provider.loadUserBookings();
 
       expect(
-        result.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
+        result.maybeWhen(data: (data) => data, orElse: () => []),
         bookings,
       );
     });
 
     test('loadUserBookings handles error', () async {
-      when(() => mockRepository.bookingBookingsUsersMeGet())
-          .thenThrow(Exception('Failed to load bookings'));
+      when(
+        () => mockRepository.bookingBookingsUsersMeGet(),
+      ).thenThrow(Exception('Failed to load bookings'));
 
       final result = await provider.loadUserBookings();
 
       expect(
-        result.maybeWhen(
-          error: (error, _) => error,
-          orElse: () => null,
-        ),
+        result.maybeWhen(error: (error, _) => error, orElse: () => null),
         isA<Exception>(),
       );
     });
 
     test('addBooking adds a booking to the list', () async {
       when(() => mockRepository.bookingBookingsUsersMeGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          bookings,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), bookings),
       );
-      when(() => mockRepository.bookingBookingsPost(body: any(named: 'body')))
-          .thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          newBooking,
-        ),
+      when(
+        () => mockRepository.bookingBookingsPost(body: any(named: 'body')),
+      ).thenAnswer(
+        (_) async => chopper.Response(http.Response('body', 200), newBooking),
       );
 
       await provider.loadUserBookings();
       final result = await provider.addBooking(newBooking.toBookingBase());
 
       expect(result, true);
-      expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        [...bookings, newBooking],
-      );
+      expect(provider.state.maybeWhen(data: (data) => data, orElse: () => []), [
+        ...bookings,
+        newBooking,
+      ]);
     });
 
     test('addBooking handles error', () async {
-      when(() => mockRepository.bookingBookingsPost(body: any(named: 'body')))
-          .thenThrow(Exception('Failed to add booking'));
+      when(
+        () => mockRepository.bookingBookingsPost(body: any(named: 'body')),
+      ).thenThrow(Exception('Failed to add booking'));
 
       final result = await provider.addBooking(newBooking.toBookingBase());
 
@@ -96,10 +82,7 @@ void main() {
 
     test('updateBooking updates a booking in the list', () async {
       when(() => mockRepository.bookingBookingsUsersMeGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          bookings,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), bookings),
       );
       when(
         () => mockRepository.bookingBookingsBookingIdPatch(
@@ -107,23 +90,18 @@ void main() {
           body: any(named: 'body'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          updatedBooking,
-        ),
+        (_) async =>
+            chopper.Response(http.Response('body', 200), updatedBooking),
       );
 
       await provider.loadUserBookings();
       final result = await provider.updateBooking(updatedBooking);
 
       expect(result, true);
-      expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        [updatedBooking, ...bookings.skip(1)],
-      );
+      expect(provider.state.maybeWhen(data: (data) => data, orElse: () => []), [
+        updatedBooking,
+        ...bookings.skip(1),
+      ]);
     });
 
     test('updateBooking handles error', () async {
@@ -141,20 +119,14 @@ void main() {
 
     test('deleteBooking removes a booking from the list', () async {
       when(() => mockRepository.bookingBookingsUsersMeGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          bookings,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), bookings),
       );
       when(
         () => mockRepository.bookingBookingsBookingIdDelete(
           bookingId: any(named: 'bookingId'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          null,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
       await provider.loadUserBookings();
@@ -162,10 +134,7 @@ void main() {
 
       expect(result, true);
       expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
+        provider.state.maybeWhen(data: (data) => data, orElse: () => []),
         bookings.skip(1).toList(),
       );
     });

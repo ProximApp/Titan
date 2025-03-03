@@ -15,6 +15,7 @@ import 'package:titan/advert/router.dart';
 import 'package:titan/advert/ui/components/association_bar.dart';
 import 'package:titan/feed/providers/is_user_a_member_of_an_association.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/refresher.dart';
@@ -62,7 +63,9 @@ class AdvertAdminPage extends HookConsumerWidget {
                 SizedBox(width: 5),
                 SpecialActionButton(
                   onTap: () {
-                    advertNotifier.setAdvert(AdvertComplete.fromJson({}));
+                    advertNotifier.setAdvert(
+                      EmptyModels.empty<AdvertComplete>(),
+                    );
                     if (myAssociationList.length == 1 &&
                         selectedAssociations.isEmpty) {
                       selectedAssociationsNotifier.addAssociation(

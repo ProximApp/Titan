@@ -5,6 +5,7 @@ import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/navigation/ui/scroll_to_hide_navbar.dart';
 import 'package:titan/settings/ui/pages/main_page/picture_button.dart';
@@ -41,7 +42,7 @@ class AddEditListPage extends HookConsumerWidget {
     final listListNotifier = ref.read(listListProvider.notifier);
     final sectionsNotifier = ref.read(sectionListProvider.notifier);
     final list = ref.watch(listProvider);
-    final isEdit = list.id != ListReturn.fromJson({}).id;
+    final isEdit = list.id != EmptyModels.empty<ListReturn>().id;
     final name = useTextEditingController(text: list.name);
     final description = useTextEditingController(text: list.description);
     final listType = useState(list.type);
@@ -234,9 +235,7 @@ class AddEditListPage extends HookConsumerWidget {
                       }
                       if (key.currentState!.validate()) {
                         await tokenExpireWrapper(ref, () async {
-                          final listList = ref.watch(
-                            listListProvider,
-                          );
+                          final listList = ref.watch(listListProvider);
                           ListReturn newList = ListReturn(
                             name: name.text,
                             id: isEdit ? list.id : '',
@@ -256,9 +255,7 @@ class AddEditListPage extends HookConsumerWidget {
                           final editingPretendanceErrorMsg =
                               AppLocalizations.of(context)!.voteEditingError;
                           final value = isEdit
-                              ? await listListNotifier.updateList(
-                                  newList,
-                                )
+                              ? await listListNotifier.updateList(newList)
                               : await listListNotifier.addList(
                                   newList.toListBase(),
                                 );

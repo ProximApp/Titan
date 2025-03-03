@@ -8,6 +8,7 @@ import 'package:titan/amap/router.dart';
 import 'package:titan/amap/tools/constants.dart';
 import 'package:titan/amap/ui/pages/admin_page/delivery_ui.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/card_layout.dart';
@@ -38,7 +39,9 @@ class DeliveryHandler extends HookConsumerWidget {
             GestureDetector(
               onTap: () {
                 selectedNotifier.clear();
-                deliveryIdNotifier.setId(DeliveryReturn.fromJson({}).id);
+                deliveryIdNotifier.setId(
+                  EmptyModels.empty<DeliveryReturn>().id,
+                );
                 QR.to(
                   AmapRouter.root +
                       AmapRouter.admin +

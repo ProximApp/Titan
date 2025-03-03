@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/user/class/user.dart';
 import 'package:titan/user/providers/user_provider.dart';
 import 'package:titan/user/repositories/user_repository.dart';
@@ -13,7 +14,7 @@ void main() {
   group('UserNotifier', () {
     late MockUserRepository mockRepository;
     late UserNotifier provider;
-    final user = CoreUser.fromJson({}).copyWith(id: '1');
+    final user = EmptyModels.empty<CoreUser>().copyWith(id: '1');
 
     setUp(() {
       mockRepository = MockUserRepository();
@@ -21,70 +22,49 @@ void main() {
     });
 
     test('loadUser returns expected data', () async {
-      when(() => mockRepository.usersUserIdGet(userId: any(named: 'userId')))
-          .thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          user,
-        ),
+      when(
+        () => mockRepository.usersUserIdGet(userId: any(named: 'userId')),
+      ).thenAnswer(
+        (_) async => chopper.Response(http.Response('body', 200), user),
       );
 
       final result = await provider.loadUser('1');
 
-      expect(
-        result.maybeWhen(
-          data: (data) => data,
-          orElse: () => null,
-        ),
-        user,
-      );
+      expect(result.maybeWhen(data: (data) => data, orElse: () => null), user);
     });
 
     test('loadUser handles error', () async {
-      when(() => mockRepository.usersUserIdGet(userId: any(named: 'userId')))
-          .thenThrow(Exception('Failed to load user'));
+      when(
+        () => mockRepository.usersUserIdGet(userId: any(named: 'userId')),
+      ).thenThrow(Exception('Failed to load user'));
 
       final result = await provider.loadUser('1');
 
       expect(
-        result.maybeWhen(
-          error: (error, _) => error,
-          orElse: () => null,
-        ),
+        result.maybeWhen(error: (error, _) => error, orElse: () => null),
         isA<Exception>(),
       );
     });
 
     test('loadMe returns expected data', () async {
       when(() => mockRepository.usersMeGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          user,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), user),
       );
 
       final result = await provider.loadMe();
 
-      expect(
-        result.maybeWhen(
-          data: (data) => data,
-          orElse: () => null,
-        ),
-        user,
-      );
+      expect(result.maybeWhen(data: (data) => data, orElse: () => null), user);
     });
 
     test('loadMe handles error', () async {
-      when(() => mockRepository.usersMeGet())
-          .thenThrow(Exception('Failed to load user'));
+      when(
+        () => mockRepository.usersMeGet(),
+      ).thenThrow(Exception('Failed to load user'));
 
       final result = await provider.loadMe();
 
       expect(
-        result.maybeWhen(
-          error: (error, _) => error,
-          orElse: () => null,
-        ),
+        result.maybeWhen(error: (error, _) => error, orElse: () => null),
         isA<Exception>(),
       );
     });
@@ -96,10 +76,7 @@ void main() {
           body: any(named: 'body'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          user,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), user),
       );
 
       final result = await provider.updateUser(user);
@@ -121,12 +98,10 @@ void main() {
     });
 
     test('updateMe updates user data', () async {
-      when(() => mockRepository.usersMePatch(body: any(named: 'body')))
-          .thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          user,
-        ),
+      when(
+        () => mockRepository.usersMePatch(body: any(named: 'body')),
+      ).thenAnswer(
+        (_) async => chopper.Response(http.Response('body', 200), user),
       );
 
       final result = await provider.updateMe(user);
@@ -135,8 +110,9 @@ void main() {
     });
 
     test('updateMe handles error', () async {
-      when(() => mockRepository.usersMePatch(body: any(named: 'body')))
-          .thenThrow(Exception('Failed to update user'));
+      when(
+        () => mockRepository.usersMePatch(body: any(named: 'body')),
+      ).thenThrow(Exception('Failed to update user'));
 
       final result = await provider.updateMe(user);
 
@@ -147,14 +123,14 @@ void main() {
       when(
         () => mockRepository.usersChangePasswordPost(body: any(named: 'body')),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          null,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
-      final result =
-          await provider.changePassword('oldPassword', 'newPassword', user);
+      final result = await provider.changePassword(
+        'oldPassword',
+        'newPassword',
+        user,
+      );
 
       expect(result, true);
     });
@@ -164,18 +140,18 @@ void main() {
         () => mockRepository.usersChangePasswordPost(body: any(named: 'body')),
       ).thenThrow(Exception('Failed to change password'));
 
-      final result =
-          await provider.changePassword('oldPassword', 'newPassword', user);
+      final result = await provider.changePassword(
+        'oldPassword',
+        'newPassword',
+        user,
+      );
 
       expect(result, false);
     });
 
     test('deletePersonal deletes user data', () async {
       when(() => mockRepository.usersMeAskDeletionPost()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          null,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
       final result = await provider.deletePersonal();
@@ -184,8 +160,9 @@ void main() {
     });
 
     test('deletePersonal handles error', () async {
-      when(() => mockRepository.usersMeAskDeletionPost())
-          .thenThrow(Exception('Failed to delete personal data'));
+      when(
+        () => mockRepository.usersMeAskDeletionPost(),
+      ).thenThrow(Exception('Failed to delete personal data'));
 
       final result = await provider.deletePersonal();
 
@@ -193,12 +170,10 @@ void main() {
     });
 
     test('askMailMigration requests mail migration', () async {
-      when(() => mockRepository.usersMigrateMailPost(body: any(named: 'body')))
-          .thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          null,
-        ),
+      when(
+        () => mockRepository.usersMigrateMailPost(body: any(named: 'body')),
+      ).thenAnswer(
+        (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
       final result = await provider.askMailMigration('newmail@example.com');
@@ -207,8 +182,9 @@ void main() {
     });
 
     test('askMailMigration handles error', () async {
-      when(() => mockRepository.usersMigrateMailPost(body: any(named: 'body')))
-          .thenThrow(Exception('Failed to request mail migration'));
+      when(
+        () => mockRepository.usersMigrateMailPost(body: any(named: 'body')),
+      ).thenThrow(Exception('Failed to request mail migration'));
 
       final result = await provider.askMailMigration('newmail@example.com');
 

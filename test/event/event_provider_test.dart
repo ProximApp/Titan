@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/event/class/event.dart';
 import 'package:titan/event/providers/event_provider.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 
 void main() {
   group('EventNotifier', () {
@@ -44,7 +45,7 @@ void main() {
 
     test('resetEvent should reset state', () {
       notifier.setEvent(event);
-      notifier.setEvent(EventReturn.fromJson({}));
+      notifier.setEvent(EmptyModels.empty<EventReturn>());
 
       expect(container.read(eventProvider).id, equals(''));
       expect(container.read(eventProvider).name, equals(''));

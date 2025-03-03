@@ -13,6 +13,7 @@ import 'package:titan/ph/providers/edit_pdf_provider.dart';
 import 'package:titan/ph/tools/functions.dart';
 import 'package:titan/ph/ui/pages/file_picker/pdf_picker.dart';
 import 'package:titan/ph/ui/pages/ph.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
@@ -29,7 +30,7 @@ class PhAddEditPhPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final locale = Localizations.localeOf(context).toString();
     final ph = ref.watch(phProvider);
-    final isEdit = ph.id != PaperComplete.fromJson({}).id;
+    final isEdit = ph.id != EmptyModels.empty<PaperComplete>().id;
     final dateController = TextEditingController(
       text: phFormatDateEntry(ph.releaseDate, locale),
     );
@@ -119,7 +120,9 @@ class PhAddEditPhPage extends HookConsumerWidget {
                             );
                             final value = isEdit
                                 ? await phListNotifier.editPh(newPh)
-                                : await phListNotifier.addPh(newPh.toPaperBase());
+                                : await phListNotifier.addPh(
+                                    newPh.toPaperBase(),
+                                  );
 
                             if (value) {
                               SystemChannels.textInput.invokeMethod(

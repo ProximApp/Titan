@@ -1,12 +1,17 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/vote/class/members.dart';
 import 'package:titan/vote/providers/list_members.dart';
 
 void main() {
   group('ListMembersProvider', () {
     late ListMembersProvider provider;
-    final member = ListMemberComplete.fromJson({}).copyWith(userId: '1');
-    final member2 = ListMemberComplete.fromJson({}).copyWith(userId: '2');
+    final member = EmptyModels.empty<ListMemberComplete>().copyWith(
+      userId: '1',
+    );
+    final member2 = EmptyModels.empty<ListMemberComplete>().copyWith(
+      userId: '2',
+    );
 
     setUp(() {
       provider = ListMembersProvider();
@@ -43,9 +48,10 @@ void main() {
       expect(provider.state.length, 0);
     });
 
-    test('setMembers should set the state to the given list of members',
-        () async {
-      final members = [member, member2];
+    test(
+      'setMembers should set the state to the given list of members',
+      () async {
+        final members = [member, member2];
 
         provider.setMembers(members);
 

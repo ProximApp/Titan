@@ -16,6 +16,7 @@ import 'package:titan/booking/ui/booking.dart';
 import 'package:titan/booking/ui/calendar/calendar.dart';
 import 'package:titan/booking/ui/components/booking_card.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/widgets/admin_button.dart';
@@ -123,7 +124,7 @@ class BookingMainPage extends HookConsumerWidget {
                       firstChild: GestureDetector(
                         onTap: () {
                           bookingNotifier.setBooking(
-                            BookingReturnApplicant.fromJson({}),
+                            EmptyModels.empty<BookingReturnApplicant>(),
                           );
                           selectedDaysNotifier.clear();
                           QR.to(BookingRouter.root + BookingRouter.addEdit);

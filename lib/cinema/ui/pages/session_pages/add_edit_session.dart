@@ -15,6 +15,7 @@ import 'package:titan/cinema/tools/functions.dart';
 import 'package:titan/cinema/ui/cinema.dart';
 import 'package:titan/cinema/ui/pages/session_pages/tmdb_button.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/layouts/add_edit_button_layout.dart';
@@ -33,7 +34,7 @@ class AddEditSessionPage extends HookConsumerWidget {
     final locale = Localizations.localeOf(context);
     final session = ref.watch(sessionProvider);
     final movieNotifier = ref.watch(theMovieDBMovieProvider.notifier);
-    final isEdit = session.id != CineSessionComplete.fromJson({}).id;
+    final isEdit = session.id != EmptyModels.empty<CineSessionComplete>().id;
     final tmdbUrl = useTextEditingController();
     final key = GlobalKey<FormState>();
     final sessionListNotifier = ref.watch(sessionListProvider.notifier);
@@ -265,9 +266,7 @@ class AddEditSessionPage extends HookConsumerWidget {
                           genre: genre.text.isEmpty ? null : genre.text,
                           id: isEdit ? session.id : '',
                           overview: overview.text.isEmpty
-                              ? AppLocalizations.of(
-                                  context,
-                                )!.cinemaNoOverview
+                              ? AppLocalizations.of(context)!.cinemaNoOverview
                               : overview.text,
                           start: DateTime.parse(
                             processDateBackWithHour(
@@ -281,8 +280,9 @@ class AddEditSessionPage extends HookConsumerWidget {
                             ? await sessionListNotifier.updateSession(
                                 newSession,
                               )
-                            : await sessionListNotifier
-                                .addSession(newSession.toCineSessionBase());
+                            : await sessionListNotifier.addSession(
+                                newSession.toCineSessionBase(),
+                              );
                         if (value) {
                           QR.back();
                           if (isEdit) {

@@ -8,6 +8,7 @@ import 'package:titan/loan/providers/item_provider.dart';
 import 'package:titan/loan/providers/loaner_provider.dart';
 import 'package:titan/loan/providers/loaners_items_provider.dart';
 import 'package:titan/loan/ui/loan.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/layouts/add_edit_button_layout.dart';
@@ -27,7 +28,7 @@ class AddEditItemPage extends HookConsumerWidget {
     final itemListNotifier = ref.watch(itemListProvider.notifier);
     final loanersItemsNotifier = ref.watch(loanersItemsProvider.notifier);
     final item = ref.watch(itemProvider);
-    final isEdit = item.id != Item.fromJson({}).id;
+    final isEdit = item.id != EmptyModels.empty<Item>().id;
     final name = useTextEditingController(text: item.name);
     final quantity = useTextEditingController(
       text: item.totalQuantity.toString(),

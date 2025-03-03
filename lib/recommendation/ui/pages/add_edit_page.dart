@@ -13,6 +13,7 @@ import 'package:titan/recommendation/providers/recommendation_logo_map_provider.
 import 'package:titan/recommendation/providers/recommendation_logo_provider.dart';
 import 'package:titan/recommendation/providers/recommendation_provider.dart';
 import 'package:titan/recommendation/ui/components/recommendation_template.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/tools/ui/layouts/add_edit_button_layout.dart';
@@ -39,7 +40,7 @@ class AddEditRecommendationPage extends HookConsumerWidget {
     );
     final logoBytes = useState<Uint8List?>(null);
     final logo = useState<Image?>(null);
-    final isEdit = recommendation.id != Recommendation.fromJson({}).id;
+    final isEdit = recommendation.id != EmptyModels.empty<Recommendation>().id;
 
     final title = useTextEditingController(text: recommendation.title);
     final code = useTextEditingController(text: recommendation.code);

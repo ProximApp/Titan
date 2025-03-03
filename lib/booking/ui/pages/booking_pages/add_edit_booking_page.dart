@@ -47,7 +47,7 @@ class AddEditBookingPage extends HookConsumerWidget {
     final key = GlobalKey<FormState>();
     final rooms = ref.watch(roomListProvider);
     final booking = ref.watch(bookingProvider);
-    final isEdit = booking.id != BookingReturnApplicant.fromJson({}).id;
+    final isEdit = booking.id != EmptyModels.empty<BookingReturnApplicant>().id;
     final room = useState(booking.room);
     final recurrent = useState(
       booking.recurrenceRule != ""

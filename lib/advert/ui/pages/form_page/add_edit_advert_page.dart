@@ -16,6 +16,7 @@ import 'package:titan/advert/ui/pages/advert.dart';
 import 'package:titan/advert/ui/components/association_bar.dart';
 import 'package:titan/event/ui/pages/event_pages/checkbox_entry.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
@@ -32,7 +33,7 @@ class AdvertAddEditAdvertPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final advert = ref.watch(advertProvider);
     final key = GlobalKey<FormState>();
-    final isEdit = advert.id != AdvertComplete.fromJson({}).id;
+    final isEdit = advert.id != EmptyModels.empty<AdvertComplete>().id;
     final title = useTextEditingController(text: advert.title);
     final content = useTextEditingController(text: advert.content);
 

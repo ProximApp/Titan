@@ -8,6 +8,7 @@ import 'package:titan/amap/router.dart';
 import 'package:titan/amap/tools/constants.dart';
 import 'package:titan/amap/ui/components/product_ui.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 import 'package:titan/tools/ui/layouts/card_layout.dart';
@@ -51,7 +52,7 @@ class ProductHandler extends HookConsumerWidget {
             GestureDetector(
               onTap: () {
                 productNotifier.setProduct(
-                  AppModulesAmapSchemasAmapProductComplete.fromJson({}),
+                  EmptyModels.empty<AppModulesAmapSchemasAmapProductComplete>(),
                 );
                 QR.to(
                   AmapRouter.root +

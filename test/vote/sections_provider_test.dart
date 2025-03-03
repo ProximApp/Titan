@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/vote/class/section.dart';
 import 'package:titan/vote/providers/sections_provider.dart';
 import 'package:titan/vote/repositories/section_repository.dart';
@@ -12,12 +13,14 @@ void main() {
     late MockSectionRepository mockRepository;
     late SectionNotifier provider;
     final sections = [
-      SectionComplete.fromJson({}).copyWith(id: '1'),
-      SectionComplete.fromJson({}).copyWith(id: '2'),
+      EmptyModels.empty<SectionComplete>().copyWith(id: '1'),
+      EmptyModels.empty<SectionComplete>().copyWith(id: '2'),
     ];
-    final newSection = SectionComplete.fromJson({}).copyWith(id: '3');
-    final newSectionBase =
-        SectionBase(name: newSection.name, description: newSection.description);
+    final newSection = EmptyModels.empty<SectionComplete>().copyWith(id: '3');
+    final newSectionBase = SectionBase(
+      name: newSection.name,
+      description: newSection.description,
+    );
 
     setUp(() {
       mockRepository = MockSectionRepository();
@@ -26,69 +29,54 @@ void main() {
 
     test('loadSectionList returns expected data', () async {
       when(() => mockRepository.campaignSectionsGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          sections,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), sections),
       );
 
       final result = await provider.loadSectionList();
 
       expect(
-        result.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
+        result.maybeWhen(data: (data) => data, orElse: () => []),
         sections,
       );
     });
 
     test('loadSectionList handles error', () async {
-      when(() => mockRepository.campaignSectionsGet())
-          .thenThrow(Exception('Failed to load sections'));
+      when(
+        () => mockRepository.campaignSectionsGet(),
+      ).thenThrow(Exception('Failed to load sections'));
 
       final result = await provider.loadSectionList();
 
       expect(
-        result.maybeWhen(
-          error: (error, _) => error,
-          orElse: () => null,
-        ),
+        result.maybeWhen(error: (error, _) => error, orElse: () => null),
         isA<Exception>(),
       );
     });
 
     test('addSection adds a section to the list', () async {
       when(() => mockRepository.campaignSectionsGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          sections,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), sections),
       );
-      when(() => mockRepository.campaignSectionsPost(body: any(named: 'body')))
-          .thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          newSection,
-        ),
+      when(
+        () => mockRepository.campaignSectionsPost(body: any(named: 'body')),
+      ).thenAnswer(
+        (_) async => chopper.Response(http.Response('body', 200), newSection),
       );
 
       await provider.loadSectionList();
       final result = await provider.addSection(newSectionBase);
 
       expect(result, true);
-      expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        [...sections, newSection],
-      );
+      expect(provider.state.maybeWhen(data: (data) => data, orElse: () => []), [
+        ...sections,
+        newSection,
+      ]);
     });
 
     test('addSection handles error', () async {
-      when(() => mockRepository.campaignSectionsPost(body: any(named: 'body')))
-          .thenThrow(Exception('Failed to add section'));
+      when(
+        () => mockRepository.campaignSectionsPost(body: any(named: 'body')),
+      ).thenThrow(Exception('Failed to add section'));
 
       final result = await provider.addSection(newSectionBase);
 
@@ -97,20 +85,14 @@ void main() {
 
     test('deleteSection removes a section from the list', () async {
       when(() => mockRepository.campaignSectionsGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          sections,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), sections),
       );
       when(
         () => mockRepository.campaignSectionsSectionIdDelete(
           sectionId: any(named: 'sectionId'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          null,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
       await provider.loadSectionList();
@@ -118,10 +100,7 @@ void main() {
 
       expect(result, true);
       expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
+        provider.state.maybeWhen(data: (data) => data, orElse: () => []),
         sections.skip(1).toList(),
       );
     });

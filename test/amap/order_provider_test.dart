@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/amap/class/order.dart';
 import 'package:titan/amap/class/product.dart';
 import 'package:titan/amap/providers/order_provider.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 
 void main() {
   group('OrderNotifier', () {
@@ -10,16 +11,18 @@ void main() {
       final container = ProviderContainer();
       final orderNotifier = container.read(orderProvider.notifier);
 
-      final order = OrderReturn.fromJson({}).copyWith(
+      final order = EmptyModels.empty<OrderReturn>().copyWith(
         orderId: '123',
         productsdetail: [
-          ProductQuantity.fromJson({}).copyWith(
-            product: AppModulesAmapSchemasAmapProductComplete.fromJson({})
-                .copyWith(name: 'Item 1', price: 10),
+          EmptyModels.empty<ProductQuantity>().copyWith(
+            product:
+                EmptyModels.empty<AppModulesAmapSchemasAmapProductComplete>()
+                    .copyWith(name: 'Item 1', price: 10),
           ),
-          ProductQuantity.fromJson({}).copyWith(
-            product: AppModulesAmapSchemasAmapProductComplete.fromJson({})
-                .copyWith(name: 'Item 2', price: 20),
+          EmptyModels.empty<ProductQuantity>().copyWith(
+            product:
+                EmptyModels.empty<AppModulesAmapSchemasAmapProductComplete>()
+                    .copyWith(name: 'Item 2', price: 20),
           ),
         ],
       );

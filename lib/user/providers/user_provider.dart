@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/single_notifier_api.dart';
@@ -88,7 +89,7 @@ final userProvider = Provider((ref) {
       .maybeWhen(
         data: (user) => user,
         orElse: () {
-          return CoreUser.fromJson({});
+          return EmptyModels.empty<CoreUser>();
         },
       );
 });

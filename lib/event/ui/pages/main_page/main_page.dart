@@ -12,6 +12,7 @@ import 'package:titan/tools/ui/layouts/column_refresher.dart';
 import 'package:titan/tools/ui/widgets/admin_button.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/card_layout.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
 
@@ -66,7 +67,7 @@ class EventMainPage extends HookConsumerWidget {
               const SizedBox(height: 20),
               GestureDetector(
                 onTap: () {
-                  eventNotifier.setEvent(EventComplete.fromJson({}));
+                  eventNotifier.setEvent(EmptyModels.empty<EventComplete>());
                   QR.to(EventRouter.root + EventRouter.addEdit);
                 },
                 child: CardLayout(

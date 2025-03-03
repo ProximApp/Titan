@@ -9,6 +9,7 @@ import 'package:titan/recommendation/router.dart';
 import 'package:titan/recommendation/ui/components/recommendation_card.dart';
 import 'package:titan/recommendation/ui/components/recommendation_card_layout.dart';
 import 'package:titan/recommendation/ui/components/recommendation_template.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:qlevar_router/qlevar_router.dart';
@@ -40,7 +41,7 @@ class RecommendationMainPage extends HookConsumerWidget {
                 GestureDetector(
                   onTap: () {
                     recommendationNotifier.setRecommendation(
-                      Recommendation.fromJson({}),
+                      EmptyModels.empty<Recommendation>(),
                     );
                     QR.to(
                       RecommendationRouter.root + RecommendationRouter.addEdit,

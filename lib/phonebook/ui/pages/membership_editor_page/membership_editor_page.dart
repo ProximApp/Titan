@@ -10,6 +10,7 @@ import 'package:titan/phonebook/providers/is_phonebook_admin_provider.dart';
 import 'package:titan/phonebook/providers/roles_tags_provider.dart';
 import 'package:titan/phonebook/ui/pages/membership_editor_page/user_search_modal.dart';
 import 'package:titan/phonebook/ui/phonebook.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
@@ -31,7 +32,7 @@ class MembershipEditorPage extends HookConsumerWidget {
     final member = ref.watch(completeMemberProvider);
     final membership = ref.watch(membershipProvider);
     final association = ref.watch(associationProvider);
-    final isEdit = membership.id != MembershipComplete.fromJson({}).id;
+    final isEdit = membership.id != EmptyModels.empty<MembershipComplete>().id;
     final associationMemberListNotifier = ref.watch(
       associationMemberListProvider.notifier,
     );
@@ -179,7 +180,8 @@ class MembershipEditorPage extends HookConsumerWidget {
                         .map(
                           (tag) => ToggleListItem(
                             title: tag,
-                            onTap: tagList.tags.first == tag && !isPhonebookAdmin
+                            onTap:
+                                tagList.tags.first == tag && !isPhonebookAdmin
                                 ? () {}
                                 : () {
                                     final tags = [...selectedTags.value];
@@ -214,7 +216,7 @@ class MembershipEditorPage extends HookConsumerWidget {
                     ? localizeWithContext.phonebookEdit
                     : localizeWithContext.phonebookAdd,
                 onPressed: () async {
-                  if (member.id == MemberComplete.fromJson({}).id) {
+                  if (member.id == EmptyModels.empty<MemberComplete>().id) {
                     displayToastWithContext(
                       TypeMsg.msg,
                       localizeWithContext.phonebookEmptyMember,

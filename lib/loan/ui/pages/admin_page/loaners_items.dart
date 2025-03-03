@@ -10,6 +10,7 @@ import 'package:titan/loan/providers/loaner_provider.dart';
 import 'package:titan/loan/providers/loaners_items_provider.dart';
 import 'package:titan/loan/router.dart';
 import 'package:titan/loan/ui/pages/admin_page/item_card.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/card_layout.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
@@ -71,7 +72,7 @@ class LoanersItems extends HookConsumerWidget {
               height: 150,
               firstChild: GestureDetector(
                 onTap: () {
-                  itemNotifier.setItem(Item.fromJson({}));
+                  itemNotifier.setItem(EmptyModels.empty<Item>());
                   QR.to(
                     LoanRouter.root + LoanRouter.admin + LoanRouter.addEditItem,
                   );

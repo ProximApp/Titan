@@ -6,6 +6,7 @@ import 'package:titan/loan/providers/item_list_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:http/http.dart' as http;
+import 'package:titan/tools/builders/empty_models.dart';
 
 class MockItemRepository extends Mock implements Openapi {}
 
@@ -14,10 +15,10 @@ void main() {
     late MockItemRepository mockRepository;
     late ItemListNotifier provider;
     final items = [
-      Item.fromJson({}).copyWith(id: '1'),
-      Item.fromJson({}).copyWith(id: '2'),
+      EmptyModels.empty<Item>().copyWith(id: '1'),
+      EmptyModels.empty<Item>().copyWith(id: '2'),
     ];
-    final newItem = Item.fromJson({}).copyWith(id: '3');
+    final newItem = EmptyModels.empty<Item>().copyWith(id: '3');
     final updatedItem = items.first.copyWith(name: 'Updated Item');
 
     setUp(() {
@@ -31,21 +32,12 @@ void main() {
           loanerId: any(named: 'loanerId'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          items,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), items),
       );
 
       final result = await provider.loadItemList('123');
 
-      expect(
-        result.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        items,
-      );
+      expect(result.maybeWhen(data: (data) => data, orElse: () => []), items);
     });
 
     test('loadItemList handles error', () async {
@@ -58,10 +50,7 @@ void main() {
       final result = await provider.loadItemList('123');
 
       expect(
-        result.maybeWhen(
-          error: (error, _) => error,
-          orElse: () => null,
-        ),
+        result.maybeWhen(error: (error, _) => error, orElse: () => null),
         isA<Exception>(),
       );
     });
@@ -72,10 +61,7 @@ void main() {
           loanerId: any(named: 'loanerId'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          items,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), items),
       );
       when(
         () => mockRepository.loansLoanersLoanerIdItemsPost(
@@ -83,23 +69,17 @@ void main() {
           body: any(named: 'body'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          newItem,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), newItem),
       );
 
       await provider.loadItemList('123');
       final result = await provider.addItem(newItem.toItemBase(), '123');
 
       expect(result, true);
-      expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        [...items, newItem],
-      );
+      expect(provider.state.maybeWhen(data: (data) => data, orElse: () => []), [
+        ...items,
+        newItem,
+      ]);
     });
 
     test('addItem handles error', () async {
@@ -121,10 +101,7 @@ void main() {
           loanerId: any(named: 'loanerId'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          items,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), items),
       );
       when(
         () => mockRepository.loansLoanersLoanerIdItemsItemIdPatch(
@@ -133,23 +110,17 @@ void main() {
           body: any(named: 'body'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          updatedItem,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), updatedItem),
       );
 
       await provider.loadItemList('123');
       final result = await provider.updateItem(updatedItem, '123');
 
       expect(result, true);
-      expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        [updatedItem, ...items.skip(1)],
-      );
+      expect(provider.state.maybeWhen(data: (data) => data, orElse: () => []), [
+        updatedItem,
+        ...items.skip(1),
+      ]);
     });
 
     test('updateItem handles error', () async {
@@ -172,10 +143,7 @@ void main() {
           loanerId: any(named: 'loanerId'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          items,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), items),
       );
       when(
         () => mockRepository.loansLoanersLoanerIdItemsItemIdDelete(
@@ -183,10 +151,7 @@ void main() {
           itemId: any(named: 'itemId'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          null,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
       await provider.loadItemList('123');
@@ -194,10 +159,7 @@ void main() {
 
       expect(result, true);
       expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
+        provider.state.maybeWhen(data: (data) => data, orElse: () => []),
         items.skip(1).toList(),
       );
     });
@@ -220,13 +182,9 @@ void main() {
 
       final result = await provider.filterItems('1');
 
-      expect(
-        result.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        [items.first],
-      );
+      expect(result.maybeWhen(data: (data) => data, orElse: () => []), [
+        items.first,
+      ]);
     });
 
     test('copy returns a copy of the current state', () async {
@@ -234,13 +192,7 @@ void main() {
 
       final result = await provider.copy();
 
-      expect(
-        result.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        items,
-      );
+      expect(result.maybeWhen(data: (data) => data, orElse: () => []), items);
     });
 
     test('copy should return a copy of the current state when error', () async {

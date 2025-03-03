@@ -9,6 +9,7 @@ import 'package:titan/raffle/providers/raffle_provider.dart';
 import 'package:titan/raffle/router.dart';
 import 'package:titan/raffle/tools/constants.dart';
 import 'package:titan/raffle/ui/pages/creation_edit_page/ticket_ui.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
@@ -52,7 +53,9 @@ class TicketHandler extends HookConsumerWidget {
               if (raffle.status == RaffleStatusType.creation)
                 GestureDetector(
                   onTap: () {
-                    packTicketNotifier.setPackTicket(PackTicketSimple.fromJson({}));
+                    packTicketNotifier.setPackTicket(
+                      EmptyModels.empty<PackTicketSimple>(),
+                    );
                     QR.to(
                       RaffleRouter.root +
                           RaffleRouter.detail +
@@ -109,8 +112,7 @@ class TicketHandler extends HookConsumerWidget {
                               );
                             },
                             showButton:
-                                raffle.status ==
-                                RaffleStatusType.creation,
+                                raffle.status == RaffleStatusType.creation,
                             onDelete: () async {
                               await showDialog(
                                 context: context,

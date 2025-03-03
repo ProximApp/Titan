@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/admin/class/simple_group.dart';
 import 'package:titan/user/class/simple_users.dart';
 import 'package:titan/user/providers/user_list_provider.dart';
@@ -13,8 +14,8 @@ void main() {
     late MockUserListRepository mockRepository;
     late UserListNotifier provider;
     final users = [
-      CoreUserSimple.fromJson({}).copyWith(id: '1'),
-      CoreUserSimple.fromJson({}).copyWith(id: '2'),
+      EmptyModels.empty<CoreUserSimple>().copyWith(id: '1'),
+      EmptyModels.empty<CoreUserSimple>().copyWith(id: '2'),
     ];
 
     setUp(() {
@@ -30,21 +31,12 @@ void main() {
           excludedGroups: any(named: 'excludedGroups'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          users,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), users),
       );
 
       final result = await provider.filterUsers('test');
 
-      expect(
-        result.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        users,
-      );
+      expect(result.maybeWhen(data: (data) => data, orElse: () => []), users);
     });
 
     test('filterUsers handles error', () async {
@@ -59,10 +51,7 @@ void main() {
       final result = await provider.filterUsers('test');
 
       expect(
-        result.maybeWhen(
-          error: (error, _) => error,
-          orElse: () => null,
-        ),
+        result.maybeWhen(error: (error, _) => error, orElse: () => null),
         isA<Exception>(),
       );
     });
@@ -71,10 +60,7 @@ void main() {
       await provider.clear();
 
       expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => null,
-        ),
+        provider.state.maybeWhen(data: (data) => data, orElse: () => null),
         [],
       );
     });

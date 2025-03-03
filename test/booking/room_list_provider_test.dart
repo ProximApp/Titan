@@ -4,6 +4,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:titan/service/class/room.dart';
 import 'package:titan/service/providers/room_list_provider.dart';
 import 'package:titan/service/repositories/rooms_repository.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 
 class MockRoomRepository extends Mock implements Openapi {}
 
@@ -12,10 +13,10 @@ void main() {
     late MockRoomRepository mockRepository;
     late RoomListNotifier provider;
     final rooms = [
-      RoomComplete.fromJson({}).copyWith(id: '1'),
-      RoomComplete.fromJson({}).copyWith(id: '2'),
+      EmptyModels.empty<RoomComplete>().copyWith(id: '1'),
+      EmptyModels.empty<RoomComplete>().copyWith(id: '2'),
     ];
-    final newRoom = RoomComplete.fromJson({}).copyWith(id: '3');
+    final newRoom = EmptyModels.empty<RoomComplete>().copyWith(id: '3');
     final updatedRoom = rooms.first.copyWith(name: 'Updated Room');
 
     setUp(() {
@@ -25,69 +26,51 @@ void main() {
 
     test('loadRooms returns expected data', () async {
       when(() => mockRepository.bookingRoomsGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          rooms,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), rooms),
       );
 
       final result = await provider.loadRooms();
 
-      expect(
-        result.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        rooms,
-      );
+      expect(result.maybeWhen(data: (data) => data, orElse: () => []), rooms);
     });
 
     test('loadRooms handles error', () async {
-      when(() => mockRepository.bookingRoomsGet())
-          .thenThrow(Exception('Failed to load rooms'));
+      when(
+        () => mockRepository.bookingRoomsGet(),
+      ).thenThrow(Exception('Failed to load rooms'));
 
       final result = await provider.loadRooms();
 
       expect(
-        result.maybeWhen(
-          error: (error, _) => error,
-          orElse: () => null,
-        ),
+        result.maybeWhen(error: (error, _) => error, orElse: () => null),
         isA<Exception>(),
       );
     });
 
     test('addRoom adds a room to the list', () async {
       when(() => mockRepository.bookingRoomsGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          rooms,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), rooms),
       );
-      when(() => mockRepository.bookingRoomsPost(body: any(named: 'body')))
-          .thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          newRoom,
-        ),
+      when(
+        () => mockRepository.bookingRoomsPost(body: any(named: 'body')),
+      ).thenAnswer(
+        (_) async => chopper.Response(http.Response('body', 200), newRoom),
       );
 
       await provider.loadRooms();
       final result = await provider.addRoom(newRoom.toRoomBase());
 
       expect(result, true);
-      expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        [...rooms, newRoom],
-      );
+      expect(provider.state.maybeWhen(data: (data) => data, orElse: () => []), [
+        ...rooms,
+        newRoom,
+      ]);
     });
 
     test('addRoom handles error', () async {
-      when(() => mockRepository.bookingRoomsPost(body: any(named: 'body')))
-          .thenThrow(Exception('Failed to add room'));
+      when(
+        () => mockRepository.bookingRoomsPost(body: any(named: 'body')),
+      ).thenThrow(Exception('Failed to add room'));
 
       final result = await provider.addRoom(newRoom.toRoomBase());
 
@@ -96,10 +79,7 @@ void main() {
 
     test('updateRoom updates a room in the list', () async {
       when(() => mockRepository.bookingRoomsGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          rooms,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), rooms),
       );
       when(
         () => mockRepository.bookingRoomsRoomIdPatch(
@@ -107,23 +87,17 @@ void main() {
           body: any(named: 'body'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          updatedRoom,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), updatedRoom),
       );
 
       await provider.loadRooms();
       final result = await provider.updateRoom(updatedRoom);
 
       expect(result, true);
-      expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        [updatedRoom, ...rooms.skip(1)],
-      );
+      expect(provider.state.maybeWhen(data: (data) => data, orElse: () => []), [
+        updatedRoom,
+        ...rooms.skip(1),
+      ]);
     });
 
     test('updateRoom handles error', () async {
@@ -141,20 +115,14 @@ void main() {
 
     test('deleteRoom removes a room from the list', () async {
       when(() => mockRepository.bookingRoomsGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          rooms,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), rooms),
       );
       when(
         () => mockRepository.bookingRoomsRoomIdDelete(
           roomId: any(named: 'roomId'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          null,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
       await provider.loadRooms();
@@ -162,10 +130,7 @@ void main() {
 
       expect(result, true);
       expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
+        provider.state.maybeWhen(data: (data) => data, orElse: () => []),
         rooms.skip(1).toList(),
       );
     });

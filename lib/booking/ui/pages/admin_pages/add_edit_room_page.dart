@@ -30,7 +30,7 @@ class AddEditRoomPage extends HookConsumerWidget {
     final roomListNotifier = ref.watch(roomListProvider.notifier);
     final key = GlobalKey<FormState>();
     final room = ref.watch(roomProvider);
-    final isEdit = room.id != RoomComplete.fromJson({}).id;
+    final isEdit = room.id != EmptyModels.empty<RoomComplete>().id;
     final name = useTextEditingController(text: room.name);
     void displayToastWithContext(TypeMsg type, String msg) {
       displayToast(context, type, msg);

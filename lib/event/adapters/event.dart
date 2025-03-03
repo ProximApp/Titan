@@ -1,4 +1,5 @@
 import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 
 extension $EventComplete on EventComplete {
   EventBaseCreation toEventBaseCreation() {

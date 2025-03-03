@@ -10,6 +10,7 @@ import 'package:titan/raffle/tools/constants.dart';
 import 'package:titan/raffle/ui/components/blue_btn.dart';
 import 'package:titan/raffle/ui/components/section_title.dart';
 import 'package:titan/raffle/ui/raffle.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
@@ -26,7 +27,7 @@ class AddEditPrizePage extends HookConsumerWidget {
     final formKey = GlobalKey<FormState>();
     final raffle = ref.watch(raffleProvider);
     final prize = ref.watch(prizeProvider);
-    final isEdit = prize.id != PrizeSimple.fromJson({}).id;
+    final isEdit = prize.id != EmptyModels.empty<PrizeSimple>().id;
     final quantity = useTextEditingController(
       text: isEdit ? prize.quantity.toString() : "1",
     );
@@ -117,7 +118,9 @@ class AddEditPrizePage extends HookConsumerWidget {
                                   )!.raffleAddingError;
                             final value = isEdit
                                 ? await prizeNotifier.updatePrize(newPrize)
-                                : await prizeNotifier.addPrize(newPrize.toPrizeBase());
+                                : await prizeNotifier.addPrize(
+                                    newPrize.toPrizeBase(),
+                                  );
                             if (value) {
                               QR.back();
                               displayToastWithContext(

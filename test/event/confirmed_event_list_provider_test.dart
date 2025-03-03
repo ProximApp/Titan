@@ -4,6 +4,7 @@ import 'package:titan/event/class/event.dart';
 import 'package:titan/event/providers/confirmed_event_list_provider.dart';
 import 'package:titan/event/repositories/event_repository.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 
 class MockEventRepository extends Mock implements Openapi {}
 
@@ -12,10 +13,10 @@ void main() {
     late MockEventRepository mockRepository;
     late ConfirmedEventListProvider provider;
     final events = [
-      EventComplete.fromJson({}).copyWith(id: '1'),
-      EventComplete.fromJson({}).copyWith(id: '2'),
+      EmptyModels.empty<EventComplete>().copyWith(id: '1'),
+      EmptyModels.empty<EventComplete>().copyWith(id: '2'),
     ];
-    final newEvent = EventComplete.fromJson({}).copyWith(id: '3');
+    final newEvent = EmptyModels.empty<EventComplete>().copyWith(id: '3');
 
     setUp(() {
       mockRepository = MockEventRepository();
@@ -24,62 +25,46 @@ void main() {
 
     test('loadConfirmedEvent returns expected data', () async {
       when(() => mockRepository.calendarEventsConfirmedGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          events,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), events),
       );
 
       final result = await provider.loadConfirmedEvent();
 
-      expect(
-        result.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        events,
-      );
+      expect(result.maybeWhen(data: (data) => data, orElse: () => []), events);
     });
 
     test('loadConfirmedEvent handles error', () async {
-      when(() => mockRepository.calendarEventsConfirmedGet())
-          .thenThrow(Exception('Failed to load events'));
+      when(
+        () => mockRepository.calendarEventsConfirmedGet(),
+      ).thenThrow(Exception('Failed to load events'));
 
       final result = await provider.loadConfirmedEvent();
 
       expect(
-        result.maybeWhen(
-          error: (error, _) => error,
-          orElse: () => null,
-        ),
+        result.maybeWhen(error: (error, _) => error, orElse: () => null),
         isA<Exception>(),
       );
     });
 
     test('addEvent adds an event to the list', () async {
       when(() => mockRepository.calendarEventsConfirmedGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          events,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), events),
       );
 
       await provider.loadConfirmedEvent();
       final result = await provider.addEvent(newEvent);
 
       expect(result, true);
-      expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        [...events, newEvent],
-      );
+      expect(provider.state.maybeWhen(data: (data) => data, orElse: () => []), [
+        ...events,
+        newEvent,
+      ]);
     });
 
     test('addEvent handles error', () async {
-      when(() => mockRepository.calendarEventsConfirmedGet())
-          .thenThrow(Exception('Failed to add event'));
+      when(
+        () => mockRepository.calendarEventsConfirmedGet(),
+      ).thenThrow(Exception('Failed to add event'));
 
       final result = await provider.addEvent(newEvent);
 
@@ -88,10 +73,7 @@ void main() {
 
     test('deleteEvent removes an event from the list', () async {
       when(() => mockRepository.calendarEventsConfirmedGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          events,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), events),
       );
 
       await provider.loadConfirmedEvent();
@@ -99,17 +81,15 @@ void main() {
 
       expect(result, true);
       expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
+        provider.state.maybeWhen(data: (data) => data, orElse: () => []),
         events.skip(1).toList(),
       );
     });
 
     test('deleteEvent handles error', () async {
-      when(() => mockRepository.calendarEventsConfirmedGet())
-          .thenThrow(Exception('Failed to delete event'));
+      when(
+        () => mockRepository.calendarEventsConfirmedGet(),
+      ).thenThrow(Exception('Failed to delete event'));
 
       final result = await provider.deleteEvent(events.first);
 

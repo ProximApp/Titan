@@ -7,6 +7,7 @@ import 'package:titan/raffle/providers/raffle_list_provider.dart';
 import 'package:titan/raffle/providers/tombola_logo_provider.dart';
 import 'package:titan/raffle/providers/tombola_logos_provider.dart';
 import 'package:titan/raffle/ui/pages/main_page/ticket_card_background.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/l10n/app_localizations.dart';
 
@@ -23,7 +24,7 @@ class TicketWidget extends HookConsumerWidget {
       data: (data) => data.firstWhere(
         (element) => element.id == ticket[0].packTicket.raffleId,
       ),
-      orElse: () => RaffleComplete.fromJson({}),
+      orElse: () => EmptyModels.empty<RaffleComplete>(),
     );
     final tombolaLogos = ref.watch(tombolaLogosProvider);
     final tombolaLogosNotifier = ref.watch(tombolaLogosProvider.notifier);

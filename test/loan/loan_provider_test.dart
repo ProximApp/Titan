@@ -2,7 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/generated/openapi.enums.swagger.dart';
 import 'package:titan/loan/providers/loan_provider.dart';
-import 'package:myecl/generated/openapi.models.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 
 void main() {
   group('LoanNotifier', () {
@@ -20,11 +21,7 @@ void main() {
         schoolId: 'school123',
       ),
       borrowerId: 'borrower1',
-      loaner: Loaner(
-        name: 'Loaner',
-        groupManagerId: 'manager1',
-        id: 'loaner1',
-      ),
+      loaner: Loaner(name: 'Loaner', groupManagerId: 'manager1', id: 'loaner1'),
       loanerId: 'loaner1',
       returned: false,
       returnedDate: DateTime.now().add(Duration(days: 7)),
@@ -46,7 +43,7 @@ void main() {
 
     test('resetLoan should reset state', () {
       notifier.setLoan(loan);
-      notifier.setLoan(Loan.fromJson({}));
+      notifier.setLoan(EmptyModels.empty<Loan>());
 
       expect(container.read(loanProvider).id, equals(''));
       expect(container.read(loanProvider).borrowerId, equals(''));

@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
-import 'package:myecl/amap/providers/delivery_product_list_provider.dart';
-import 'package:myecl/generated/openapi.swagger.dart';
+import 'package:titan/amap/providers/delivery_product_list_provider.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 
 class MockDeliveryProductListRepository extends Mock implements Openapi {}
 
@@ -32,17 +32,15 @@ void main() {
       price: 30,
     );
 
-    final productToAdd = DeliveryProductsUpdate(
-      productsIds: [product.id],
-    );
+    final productToAdd = DeliveryProductsUpdate(productsIds: [product.id]);
 
     test(
-        'loadProductList should return AsyncValue with provided list of products',
-        () async {
-      final productListRepository = MockDeliveryProductListRepository();
-      final notifier = DeliveryProductListNotifier(
-        productListRepository: productListRepository,
-      );
+      'loadProductList should return AsyncValue with provided list of products',
+      () async {
+        final productListRepository = MockDeliveryProductListRepository();
+        final notifier = DeliveryProductListNotifier(
+          productListRepository: productListRepository,
+        );
 
         final result = await notifier.loadProductList(products);
 
@@ -118,27 +116,28 @@ void main() {
           productListRepository: productListRepository,
         );
 
-      notifier.state = AsyncValue.data([...products, product]);
+        notifier.state = AsyncValue.data([...products, product]);
 
-      when(
-        () => productListRepository.amapProductsProductIdDelete(
-          productId: any(named: 'productId'),
-        ),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('[]', 200), true),
-      );
+        when(
+          () => productListRepository.amapProductsProductIdDelete(
+            productId: any(named: 'productId'),
+          ),
+        ).thenAnswer(
+          (_) async => chopper.Response(http.Response('[]', 200), true),
+        );
 
         final result = await notifier.deleteProduct(product, 'deliveryId');
 
-      expect(result, true);
-      expect(
-        notifier.state.when(
-          data: (data) => data,
-          error: (e, s) => [],
-          loading: () => [],
-        ),
-        products,
-      );
-    });
+        expect(result, true);
+        expect(
+          notifier.state.when(
+            data: (data) => data,
+            error: (e, s) => [],
+            loading: () => [],
+          ),
+          products,
+        );
+      },
+    );
   });
 }

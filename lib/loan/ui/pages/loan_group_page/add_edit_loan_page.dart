@@ -15,6 +15,7 @@ import 'package:titan/loan/ui/pages/loan_group_page/item_bar.dart';
 import 'package:titan/loan/ui/pages/loan_group_page/number_selected_text.dart';
 import 'package:titan/loan/ui/pages/loan_group_page/search_result.dart';
 import 'package:titan/loan/ui/pages/loan_group_page/start_date_entry.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/widgets/styled_search_bar.dart';
@@ -30,7 +31,7 @@ class AddEditLoanPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final key = GlobalKey<FormState>();
     final loan = ref.watch(loanProvider);
-    final isEdit = loan.id != Loan.fromJson({}).id;
+    final isEdit = loan.id != EmptyModels.empty<Loan>().id;
     final note = useTextEditingController(text: loan.notes);
     final caution = ref.watch(cautionProvider);
     final cautionNotifier = ref.watch(cautionProvider.notifier);

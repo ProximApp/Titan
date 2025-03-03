@@ -4,6 +4,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:titan/loan/class/loaner.dart';
 import 'package:titan/loan/providers/user_loaner_list_provider.dart';
 import 'package:titan/loan/repositories/loaner_repository.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 
 class MockLoanerRepository extends Mock implements Openapi {}
 
@@ -12,11 +13,11 @@ void main() {
     late MockLoanerRepository mockRepository;
     late UserLoanerListNotifier provider;
     final loaners = [
-      Loaner.fromJson({}).copyWith(id: '1'),
-      Loaner.fromJson({}).copyWith(id: '2'),
+      EmptyModels.empty<Loaner>().copyWith(id: '1'),
+      EmptyModels.empty<Loaner>().copyWith(id: '2'),
     ];
-    final newLoaner = Loaner.fromJson({}).copyWith(id: '3');
-    final newLoanerBase = LoanerBase.fromJson({}).copyWith(
+    final newLoaner = EmptyModels.empty<Loaner>().copyWith(id: '3');
+    final newLoanerBase = LoanerBase(
       name: newLoaner.name,
       groupManagerId: newLoaner.groupManagerId,
     );
@@ -29,21 +30,12 @@ void main() {
 
     test('loadMyLoanerList returns expected data', () async {
       when(() => mockRepository.loansUsersMeLoanersGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          loaners,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), loaners),
       );
 
       final result = await provider.loadMyLoanerList();
 
-      expect(
-        result.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        loaners,
-      );
+      expect(result.maybeWhen(data: (data) => data, orElse: () => []), loaners);
     });
 
     test('loadMyLoanerList handles error', () async {
@@ -54,45 +46,35 @@ void main() {
       final result = await provider.loadMyLoanerList();
 
       expect(
-        result.maybeWhen(
-          error: (error, _) => error,
-          orElse: () => null,
-        ),
+        result.maybeWhen(error: (error, _) => error, orElse: () => null),
         isA<Exception>(),
       );
     });
 
     test('addLoaner adds a loaner to the list', () async {
       when(() => mockRepository.loansUsersMeLoanersGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          loaners,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), loaners),
       );
-      when(() => mockRepository.loansLoanersPost(body: any(named: 'body')))
-          .thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          newLoaner,
-        ),
+      when(
+        () => mockRepository.loansLoanersPost(body: any(named: 'body')),
+      ).thenAnswer(
+        (_) async => chopper.Response(http.Response('body', 200), newLoaner),
       );
 
       await provider.loadMyLoanerList();
       final result = await provider.addLoaner(newLoanerBase);
 
       expect(result, true);
-      expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        [...loaners, newLoaner],
-      );
+      expect(provider.state.maybeWhen(data: (data) => data, orElse: () => []), [
+        ...loaners,
+        newLoaner,
+      ]);
     });
 
     test('addLoaner handles error', () async {
-      when(() => mockRepository.loansLoanersPost(body: any(named: 'body')))
-          .thenThrow(Exception('Failed to add loaner'));
+      when(
+        () => mockRepository.loansLoanersPost(body: any(named: 'body')),
+      ).thenThrow(Exception('Failed to add loaner'));
 
       final result = await provider.addLoaner(newLoanerBase);
 
@@ -101,10 +83,7 @@ void main() {
 
     test('updateLoaner updates a loaner in the list', () async {
       when(() => mockRepository.loansUsersMeLoanersGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          loaners,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), loaners),
       );
       when(
         () => mockRepository.loansLoanersLoanerIdPatch(
@@ -112,23 +91,18 @@ void main() {
           body: any(named: 'body'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          updatedLoaner,
-        ),
+        (_) async =>
+            chopper.Response(http.Response('body', 200), updatedLoaner),
       );
 
       await provider.loadMyLoanerList();
       final result = await provider.updateLoaner(updatedLoaner);
 
       expect(result, true);
-      expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        [updatedLoaner, ...loaners.skip(1)],
-      );
+      expect(provider.state.maybeWhen(data: (data) => data, orElse: () => []), [
+        updatedLoaner,
+        ...loaners.skip(1),
+      ]);
     });
 
     test('updateLoaner handles error', () async {
@@ -146,20 +120,14 @@ void main() {
 
     test('deleteLoaner removes a loaner from the list', () async {
       when(() => mockRepository.loansUsersMeLoanersGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          loaners,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), loaners),
       );
       when(
         () => mockRepository.loansLoanersLoanerIdDelete(
           loanerId: any(named: 'loanerId'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          null,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
       await provider.loadMyLoanerList();
@@ -167,10 +135,7 @@ void main() {
 
       expect(result, true);
       expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
+        provider.state.maybeWhen(data: (data) => data, orElse: () => []),
         loaners.skip(1).toList(),
       );
     });

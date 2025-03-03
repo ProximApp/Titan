@@ -1,9 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:myecl/vote/adapters/list.dart';
-import 'package:myecl/vote/providers/list_list_provider.dart';
-import 'package:myecl/generated/openapi.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
+import 'package:titan/vote/adapters/list.dart';
+import 'package:titan/vote/providers/list_list_provider.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:http/http.dart' as http;
 
@@ -14,10 +15,10 @@ void main() {
     late MockListRepository mockRepository;
     late ListListNotifier provider;
     final lists = [
-      ListReturn.fromJson({}).copyWith(id: '1'),
-      ListReturn.fromJson({}).copyWith(id: '2'),
+      EmptyModels.empty<ListReturn>().copyWith(id: '1'),
+      EmptyModels.empty<ListReturn>().copyWith(id: '2'),
     ];
-    final newList = ListReturn.fromJson({}).copyWith(id: '3');
+    final newList = EmptyModels.empty<ListReturn>().copyWith(id: '3');
     final updatedList = lists.first.copyWith(name: 'Updated List');
 
     setUp(() {
@@ -27,69 +28,51 @@ void main() {
 
     test('loadListList returns expected data', () async {
       when(() => mockRepository.campaignListsGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          lists,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), lists),
       );
 
       final result = await provider.loadListList();
 
-      expect(
-        result.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        lists,
-      );
+      expect(result.maybeWhen(data: (data) => data, orElse: () => []), lists);
     });
 
     test('loadListList handles error', () async {
-      when(() => mockRepository.campaignListsGet())
-          .thenThrow(Exception('Failed to load lists'));
+      when(
+        () => mockRepository.campaignListsGet(),
+      ).thenThrow(Exception('Failed to load lists'));
 
       final result = await provider.loadListList();
 
       expect(
-        result.maybeWhen(
-          error: (error, _) => error,
-          orElse: () => null,
-        ),
+        result.maybeWhen(error: (error, _) => error, orElse: () => null),
         isA<Exception>(),
       );
     });
 
     test('addList adds a list to the list', () async {
       when(() => mockRepository.campaignListsGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          lists,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), lists),
       );
-      when(() => mockRepository.campaignListsPost(body: any(named: 'body')))
-          .thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          newList,
-        ),
+      when(
+        () => mockRepository.campaignListsPost(body: any(named: 'body')),
+      ).thenAnswer(
+        (_) async => chopper.Response(http.Response('body', 200), newList),
       );
 
       await provider.loadListList();
       final result = await provider.addList(newList.toListBase());
 
       expect(result, true);
-      expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        [...lists, newList],
-      );
+      expect(provider.state.maybeWhen(data: (data) => data, orElse: () => []), [
+        ...lists,
+        newList,
+      ]);
     });
 
     test('addList handles error', () async {
-      when(() => mockRepository.campaignListsPost(body: any(named: 'body')))
-          .thenThrow(Exception('Failed to add list'));
+      when(
+        () => mockRepository.campaignListsPost(body: any(named: 'body')),
+      ).thenThrow(Exception('Failed to add list'));
 
       final result = await provider.addList(newList.toListBase());
 
@@ -98,10 +81,7 @@ void main() {
 
     test('updateList updates a list in the list', () async {
       when(() => mockRepository.campaignListsGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          lists,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), lists),
       );
       when(
         () => mockRepository.campaignListsListIdPatch(
@@ -109,23 +89,17 @@ void main() {
           body: any(named: 'body'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          updatedList,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), updatedList),
       );
 
       await provider.loadListList();
       final result = await provider.updateList(updatedList);
 
       expect(result, true);
-      expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        [updatedList, ...lists.skip(1)],
-      );
+      expect(provider.state.maybeWhen(data: (data) => data, orElse: () => []), [
+        updatedList,
+        ...lists.skip(1),
+      ]);
     });
 
     test('updateList handles error', () async {
@@ -143,20 +117,14 @@ void main() {
 
     test('deleteList removes a list from the list', () async {
       when(() => mockRepository.campaignListsGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          lists,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), lists),
       );
       when(
         () => mockRepository.campaignListsListIdDelete(
           listId: any(named: 'listId'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          null,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
       await provider.loadListList();
@@ -164,10 +132,7 @@ void main() {
 
       expect(result, true);
       expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
+        provider.state.maybeWhen(data: (data) => data, orElse: () => []),
         lists.skip(1).toList(),
       );
     });
@@ -187,13 +152,7 @@ void main() {
 
       final result = await provider.copy();
 
-      expect(
-        result.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        lists,
-      );
+      expect(result.maybeWhen(data: (data) => data, orElse: () => []), lists);
     });
 
     test('shuffle shuffles the lists', () {
@@ -202,10 +161,7 @@ void main() {
       provider.shuffle();
 
       expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
+        provider.state.maybeWhen(data: (data) => data, orElse: () => []),
         isNot(equals(lists)),
       );
     });

@@ -9,6 +9,7 @@ import 'package:titan/amap/tools/constants.dart';
 import 'package:titan/amap/ui/components/order_ui.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
@@ -51,7 +52,7 @@ class OrderSection extends HookConsumerWidget {
             const SizedBox(width: 15),
             GestureDetector(
               onTap: () {
-                final e = OrderReturn.fromJson({});
+                final e = EmptyModels.empty<OrderReturn>();
                 deliveryIdNotifier.setId(e.deliveryId);
                 orderNotifier.setOrder(e);
                 addOrder();

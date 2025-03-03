@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:titan/vote/providers/section_id_provider.dart';
 import 'package:titan/vote/providers/sections_provider.dart';
@@ -22,9 +23,7 @@ class ListSideItem extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final sectionIdNotifier = ref.watch(sectionIdProvider.notifier);
     final selectedList = ref.watch(selectedListProvider);
-    final selectedListNotifier = ref.watch(
-      selectedListProvider.notifier,
-    );
+    final selectedListNotifier = ref.watch(selectedListProvider.notifier);
     final section = ref.watch(sectionProvider);
     List<String> votedSections = [];
     ref.watch(votedSectionProvider).whenData((value) {
@@ -39,7 +38,7 @@ class ListSideItem extends HookConsumerWidget {
             isSelected: e.id == section.id,
             alreadyVoted: votedSections.contains(e.id),
             onTap: () async {
-              if (selectedList.id == ListReturn.fromJson({}).id) {
+              if (selectedList.id == EmptyModels.empty<ListReturn>().id) {
                 animation.forward(from: 0);
                 sectionIdNotifier.setId(e.id);
               } else {

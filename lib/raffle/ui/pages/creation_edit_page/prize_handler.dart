@@ -10,6 +10,7 @@ import 'package:titan/raffle/providers/winning_ticket_list_provider.dart';
 import 'package:titan/raffle/router.dart';
 import 'package:titan/raffle/tools/constants.dart';
 import 'package:titan/raffle/ui/pages/creation_edit_page/prize_card.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
@@ -104,7 +105,7 @@ class PrizeHandler extends HookConsumerWidget {
               if (raffle.status == RaffleStatusType.creation)
                 GestureDetector(
                   onTap: () {
-                    prizeNotifier.setPrize(PrizeSimple.fromJson({}));
+                    prizeNotifier.setPrize(EmptyModels.empty<PrizeSimple>());
                     QR.to(
                       RaffleRouter.root +
                           RaffleRouter.detail +
@@ -205,7 +206,9 @@ class PrizeHandler extends HookConsumerWidget {
                                           RaffleRouter.addEditPrize,
                                     );
                                   },
-                                  status: raffle.status ?? RaffleStatusType.creation,
+                                  status:
+                                      raffle.status ??
+                                      RaffleStatusType.creation,
                                   onDraw: () async {
                                     await showDialog(
                                       context: context,

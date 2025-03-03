@@ -11,6 +11,7 @@ import 'package:titan/ph/ui/button.dart';
 import 'package:titan/ph/ui/components/year_bar.dart';
 import 'package:titan/ph/ui/pages/admin_page/admin_ph_list.dart';
 import 'package:titan/ph/ui/pages/ph.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
 
@@ -30,7 +31,7 @@ class AdminPage extends HookConsumerWidget {
           const SizedBox(height: 20),
           GestureDetector(
             onTap: () {
-              phNotifier.setPh(PaperComplete.fromJson({}));
+              phNotifier.setPh(EmptyModels.empty<PaperComplete>());
               phSendPdfNotifier.set(Uint8List(0));
               resultNotifier.setFilePickerResult(null);
               QR.to(PhRouter.root + PhRouter.admin + PhRouter.add_ph);

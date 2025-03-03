@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/admin/class/simple_group.dart';
 import 'package:titan/admin/providers/is_admin_provider.dart';
 import 'package:titan/user/class/user.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/user/providers/user_provider.dart';
 
 void main() {
@@ -40,9 +41,7 @@ void main() {
 
     test('Should return true if user is an event admin', () {
       final container = ProviderContainer(
-        overrides: [
-          userProvider.overrideWithValue(eventAdmin),
-        ],
+        overrides: [userProvider.overrideWithValue(eventAdmin)],
       );
 
       final isAdmin = container.read(isEventAdminProvider);
@@ -51,9 +50,7 @@ void main() {
 
     test('Should return false if user is not an event admin', () {
       final container = ProviderContainer(
-        overrides: [
-          userProvider.overrideWithValue(notEventAdmin),
-        ],
+        overrides: [userProvider.overrideWithValue(notEventAdmin)],
       );
 
       final isAdmin = container.read(isEventAdminProvider);
@@ -62,9 +59,7 @@ void main() {
 
     test('Should return false if user has no groups', () {
       final container = ProviderContainer(
-        overrides: [
-          userProvider.overrideWithValue(noGroupUser),
-        ],
+        overrides: [userProvider.overrideWithValue(noGroupUser)],
       );
 
       final isAdmin = container.read(isEventAdminProvider);
@@ -74,7 +69,7 @@ void main() {
     test('Should return false if user is null', () {
       final container = ProviderContainer(
         overrides: [
-          userProvider.overrideWithValue(CoreUser.fromJson({})),
+          userProvider.overrideWithValue(EmptyModels.empty<CoreUser>()),
         ],
       );
 

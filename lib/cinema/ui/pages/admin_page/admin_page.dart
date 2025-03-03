@@ -7,6 +7,7 @@ import 'package:titan/cinema/router.dart';
 import 'package:titan/cinema/ui/cinema.dart';
 import 'package:titan/cinema/ui/pages/admin_page/admin_session_card.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/card_layout.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
@@ -30,7 +31,9 @@ class AdminPage extends HookConsumerWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  sessionNotifier.setSession(CineSessionComplete.fromJson({}));
+                  sessionNotifier.setSession(
+                    EmptyModels.empty<CineSessionComplete>(),
+                  );
                   QR.to(
                     CinemaRouter.root +
                         CinemaRouter.admin +

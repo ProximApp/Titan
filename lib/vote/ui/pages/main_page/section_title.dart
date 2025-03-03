@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 import 'package:titan/vote/providers/sections_provider.dart';
 import 'package:titan/l10n/app_localizations.dart';
@@ -13,7 +14,7 @@ class SectionTitle extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final section = ref.watch(sectionProvider);
     return AlignLeftText(
-      section.id != SectionComplete.fromJson({}).id
+      section.id != EmptyModels.empty<SectionComplete>().id
           ? section.name
           : AppLocalizations.of(context)!.voteNoSection,
       padding: const EdgeInsets.only(left: 20),

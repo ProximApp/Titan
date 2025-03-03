@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/admin/class/simple_group.dart';
 import 'package:titan/cinema/providers/is_cinema_admin.dart';
 import 'package:titan/user/class/user.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/user/providers/user_provider.dart';
 
 void main() {
@@ -11,9 +12,9 @@ void main() {
       final container = ProviderContainer(
         overrides: [
           userProvider.overrideWithValue(
-            CoreUser.fromJson({}).copyWith(
+            EmptyModels.empty<CoreUser>().copyWith(
               groups: [
-                CoreGroupSimple.fromJson({}).copyWith(
+                EmptyModels.empty<CoreGroupSimple>().copyWith(
                   id: 'ce5f36e6-5377-489f-9696-de70e2477300',
                   name: 'Cinema Admin',
                 ),
@@ -32,12 +33,16 @@ void main() {
       final container = ProviderContainer(
         overrides: [
           userProvider.overrideWithValue(
-            CoreUser.fromJson({}).copyWith(
+            EmptyModels.empty<CoreUser>().copyWith(
               groups: [
-                CoreGroupSimple.fromJson({})
-                    .copyWith(id: '123', name: 'Group 1'),
-                CoreGroupSimple.fromJson({})
-                    .copyWith(id: '456', name: 'Group 2'),
+                EmptyModels.empty<CoreGroupSimple>().copyWith(
+                  id: '123',
+                  name: 'Group 1',
+                ),
+                EmptyModels.empty<CoreGroupSimple>().copyWith(
+                  id: '456',
+                  name: 'Group 2',
+                ),
               ],
             ),
           ),

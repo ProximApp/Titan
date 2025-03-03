@@ -5,6 +5,7 @@ import 'package:titan/booking/class/booking.dart';
 import 'package:titan/booking/providers/manager_booking_list_provider.dart';
 import 'package:titan/booking/repositories/booking_repository.dart';
 import 'package:titan/tools/functions.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 
 class MockBookingRepository extends Mock implements Openapi {}
 
@@ -13,8 +14,8 @@ void main() {
     late MockBookingRepository mockRepository;
     late ManagerBookingListProvider provider;
     final bookings = [
-      BookingReturnApplicant.fromJson({}).copyWith(id: '1'),
-      BookingReturnApplicant.fromJson({}).copyWith(id: '2'),
+      EmptyModels.empty<BookingReturnApplicant>().copyWith(id: '1'),
+      EmptyModels.empty<BookingReturnApplicant>().copyWith(id: '2'),
     ];
     final updatedBooking = bookings.first.copyWith(reason: 'Updated');
     final booking = bookings.first.copyWith(decision: Decision.approved);
@@ -26,43 +27,32 @@ void main() {
 
     test('loadUserManageBookings returns expected data', () async {
       when(() => mockRepository.bookingBookingsUsersMeManageGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          bookings,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), bookings),
       );
 
       final result = await provider.loadUserManageBookings();
 
       expect(
-        result.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
+        result.maybeWhen(data: (data) => data, orElse: () => []),
         bookings,
       );
     });
 
     test('loadUserManageBookings handles error', () async {
-      when(() => mockRepository.bookingBookingsUsersMeManageGet())
-          .thenThrow(Exception('Failed to load bookings'));
+      when(
+        () => mockRepository.bookingBookingsUsersMeManageGet(),
+      ).thenThrow(Exception('Failed to load bookings'));
 
       final result = await provider.loadUserManageBookings();
 
       expect(
-        result.maybeWhen(
-          error: (error, _) => error,
-          orElse: () => null,
-        ),
+        result.maybeWhen(error: (error, _) => error, orElse: () => null),
         isA<Exception>(),
       );
     });
     test('updateBooking updates a booking in the list', () async {
       when(() => mockRepository.bookingBookingsUsersMeManageGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          bookings,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), bookings),
       );
       when(
         () => mockRepository.bookingBookingsBookingIdPatch(
@@ -70,23 +60,18 @@ void main() {
           body: any(named: 'body'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          updatedBooking,
-        ),
+        (_) async =>
+            chopper.Response(http.Response('body', 200), updatedBooking),
       );
 
       await provider.loadUserManageBookings();
       final result = await provider.updateBooking(updatedBooking);
 
       expect(result, true);
-      expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        [updatedBooking, ...bookings.skip(1)],
-      );
+      expect(provider.state.maybeWhen(data: (data) => data, orElse: () => []), [
+        updatedBooking,
+        ...bookings.skip(1),
+      ]);
     });
 
     test('updateBooking handles error', () async {
@@ -104,10 +89,7 @@ void main() {
 
     test('toggleConfirmed confirms a booking', () async {
       when(() => mockRepository.bookingBookingsUsersMeManageGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          bookings,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), bookings),
       );
       when(
         () => mockRepository.bookingBookingsBookingIdPatch(
@@ -115,23 +97,17 @@ void main() {
           body: any(named: 'body'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          booking,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), booking),
       );
 
       await provider.loadUserManageBookings();
       final result = await provider.toggleConfirmed(booking, Decision.approved);
 
       expect(result, true);
-      expect(
-        provider.state.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        [booking, ...bookings.skip(1)],
-      );
+      expect(provider.state.maybeWhen(data: (data) => data, orElse: () => []), [
+        booking,
+        ...bookings.skip(1),
+      ]);
     });
 
     test('toggleConfirmed handles error', () async {

@@ -17,7 +17,7 @@ class TombolaHandler extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final groupList = ref.watch(allGroupListProvider);
     final raffleList = ref.watch(raffleListProvider);
-    final groupChoosen = useState(CoreGroupSimple.fromJson({}));
+    final groupChoosen = useState(EmptyModels.empty<CoreGroupSimple>());
 
     void displayWinningsDialog(List<CoreGroupSimple> groups, Function callback) {
       showDialog(
@@ -128,7 +128,7 @@ class TombolaHandler extends HookConsumerWidget {
                             data: (data) {
                               displayWinningsDialog(data, () {
                                 if (groupChoosen.value.id !=
-                                    CoreGroupSimple.fromJson({}).id) {
+                                    EmptyModels.empty<CoreGroupSimple>().id) {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {

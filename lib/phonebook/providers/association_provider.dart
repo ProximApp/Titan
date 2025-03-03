@@ -6,7 +6,7 @@ import 'package:titan/tools/builders/empty_models.dart';
 class AssociationNotifier extends Notifier<AssociationComplete> {
   @override
   AssociationComplete build() {
-    return AssociationComplete.fromJson({});
+    return EmptyModels.empty<AssociationComplete>();
   }
 
   void setAssociation(AssociationComplete association) {
