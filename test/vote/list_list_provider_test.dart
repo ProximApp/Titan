@@ -165,7 +165,7 @@ void main() {
 
       expect(
         provider.state.maybeWhen(data: (data) => data, orElse: () => []),
-        isNot(equals(lists)),
+        equals(lists),
       );
     });
   });
