@@ -4,9 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/amap/providers/user_amount_provider.dart';
-import 'package:titan/user/class/simple_users.dart';
-import 'package:titan/amap/class/cash.dart';
-import 'package:titan/amap/repositories/amap_user_repository.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 
 class MockAmapUserRepository extends Mock implements Openapi {}
 
@@ -22,15 +20,11 @@ void main() {
     accountType: AccountType.$external,
     schoolId: 'schoolId',
   );
-  final cash = CashComplete(
-    balance: 100.0,
-    userId: '123',
-    user: user,
-  );
+  final cash = CashComplete(balance: 100.0, userId: '123', user: user);
 
   setUp(() {
     mockRepository = MockAmapUserRepository();
-    notifier = UserCashNotifier(amapUserRepository: mockRepository);
+    notifier = UserCashNotifier();
   });
 
   group('loadCashByUser', () {
@@ -51,20 +45,23 @@ void main() {
         ),
         equals(100.0),
       );
-      verify(() => mockRepository.amapUsersUserIdCashGet(userId: '123'))
-          .called(1);
+      verify(
+        () => mockRepository.amapUsersUserIdCashGet(userId: '123'),
+      ).called(1);
     });
 
     test('returns error for invalid user id', () async {
       const error = 'User not found';
-      when(() => mockRepository.amapUsersUserIdCashGet(userId: '123'))
-          .thenThrow(Exception(error));
+      when(
+        () => mockRepository.amapUsersUserIdCashGet(userId: '123'),
+      ).thenThrow(Exception(error));
 
       final result = await notifier.loadCashByUser('123');
 
       expect(result, isA<AsyncError>());
-      verify(() => mockRepository.amapUsersUserIdCashGet(userId: '123'))
-          .called(1);
+      verify(
+        () => mockRepository.amapUsersUserIdCashGet(userId: '123'),
+      ).called(1);
     });
   });
 

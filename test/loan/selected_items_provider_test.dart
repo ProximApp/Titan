@@ -4,7 +4,7 @@ import 'package:titan/loan/providers/selected_items_provider.dart';
 void main() {
   group('SelectedListProvider', () {
     test('should initialize with false values', () {
-      final provider = SelectedListProvider([1, 2, 3]);
+      final provider = SelectedListProvider();
       expect(provider.state, [0, 0, 0]);
     });
 

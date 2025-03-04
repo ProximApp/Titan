@@ -3,10 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/builders/empty_models.dart';
-import 'package:titan/user/class/user.dart';
 import 'package:titan/user/providers/user_provider.dart';
-import 'package:titan/user/repositories/user_repository.dart';
 
 class MockUserRepository extends Mock implements Openapi {}
 
@@ -18,7 +17,7 @@ void main() {
 
     setUp(() {
       mockRepository = MockUserRepository();
-      provider = UserNotifier(userRepository: mockRepository);
+      provider = UserNotifier();
     });
 
     test('loadUser returns expected data', () async {
@@ -79,6 +78,7 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), user),
       );
 
+      provider.state = AsyncValue.data(user);
       final result = await provider.updateUser(user);
 
       expect(result, true);
@@ -92,6 +92,7 @@ void main() {
         ),
       ).thenThrow(Exception('Failed to update user'));
 
+      provider.state = AsyncValue.data(user);
       final result = await provider.updateUser(user);
 
       expect(result, false);
@@ -104,6 +105,7 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), user),
       );
 
+      provider.state = AsyncValue.data(user);
       final result = await provider.updateMe(user);
 
       expect(result, true);
@@ -114,6 +116,7 @@ void main() {
         () => mockRepository.usersMePatch(body: any(named: 'body')),
       ).thenThrow(Exception('Failed to update user'));
 
+      provider.state = AsyncValue.data(user);
       final result = await provider.updateMe(user);
 
       expect(result, false);
@@ -126,6 +129,7 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
+      provider.state = AsyncValue.data(user);
       final result = await provider.changePassword(
         'oldPassword',
         'newPassword',
@@ -154,6 +158,7 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
+      provider.state = AsyncValue.data(user);
       final result = await provider.deletePersonal();
 
       expect(result, true);
@@ -164,6 +169,7 @@ void main() {
         () => mockRepository.usersMeAskDeletionPost(),
       ).thenThrow(Exception('Failed to delete personal data'));
 
+      provider.state = AsyncValue.data(user);
       final result = await provider.deletePersonal();
 
       expect(result, false);
@@ -176,6 +182,7 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
+      provider.state = AsyncValue.data(user);
       final result = await provider.askMailMigration('newmail@example.com');
 
       expect(result, true);

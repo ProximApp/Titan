@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/loan/providers/end_provider.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 
@@ -18,7 +19,7 @@ void main() {
         EmptyModels.empty<Item>().copyWith(suggestedLendingDuration: 14),
         EmptyModels.empty<Item>().copyWith(suggestedLendingDuration: 21),
       ];
-      endNotifier.setEndFromSelected(start, selected);
+      endNotifier.setEndFromSelected(start, selected, "fr");
       expect(endNotifier.state, '08/01/2022');
     });
 

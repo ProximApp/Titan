@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/super_admin/providers/members_provider.dart';
-import 'package:titan/user/class/simple_users.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 
 void main() {

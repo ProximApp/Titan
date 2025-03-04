@@ -6,7 +6,7 @@ void main() {
     test(
       'SelectedListProvider toggle should toggle the value at the given index',
       () {
-        final provider = SelectedListProvider([1, 2, 3]);
+        final provider = SelectedListProvider();
         expect(provider.state, [true, true, true]);
         provider.toggle(1);
         expect(provider.state, [true, false, true]);
@@ -14,7 +14,7 @@ void main() {
     );
 
     test('SelectedListProvider clear should set all values to true', () {
-      final provider = SelectedListProvider([1, 2, 3]);
+      final provider = SelectedListProvider();
       provider.toggle(1);
       expect(provider.state, [true, false, true]);
       provider.clear();
@@ -24,7 +24,7 @@ void main() {
     test(
       'SelectedListProvider rebuild should generate a new list of true values',
       () {
-        final provider = SelectedListProvider([1, 2, 3]);
+        final provider = SelectedListProvider();
         provider.toggle(1);
         expect(provider.state, [true, false, true]);
         provider.rebuild([4, 5, 6]);

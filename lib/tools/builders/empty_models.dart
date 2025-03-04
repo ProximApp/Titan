@@ -277,6 +277,22 @@ void registerAllEmptyFactories() {
     ),
   );
 
+  EmptyModels.register<EventComplete>(
+    () => EventComplete(
+      name: '',
+      organizer: '',
+      start: DateTime.now(),
+      end: DateTime.now(),
+      allDay: false,
+      location: '',
+      type: CalendarEventType.autre,
+      description: '',
+      id: '',
+      decision: Decision.approved,
+      applicantId: '',
+    ),
+  );
+
   EmptyModels.register<EventReturn>(
     () => EventReturn(
       name: '',

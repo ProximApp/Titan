@@ -3,10 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
-import 'package:titan/amap/class/product.dart';
 import 'package:titan/amap/providers/category_list_provider.dart';
 import 'package:titan/amap/providers/product_list_provider.dart';
-import 'package:titan/amap/repositories/product_repository.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 
 class MockProductListRepository extends Mock implements Openapi {}
 
@@ -34,13 +33,9 @@ void main() {
     ];
 
     test('returns a list of categories when productListProvider is loaded', () {
-      final mockProductListRepository = MockProductListRepository();
-      final productListNotifier =
-          ProductListNotifier(productListRepository: mockProductListRepository);
-      productListNotifier.state = AsyncValue.data(products);
       final container = ProviderContainer(
         overrides: [
-          productListProvider.overrideWith((ref) => productListNotifier),
+          productListProvider.overrideWith(ProductListNotifier.new),
         ],
       );
 
@@ -50,14 +45,9 @@ void main() {
     });
 
     test('returns an empty list when productListProvider is loading', () {
-      final mockProductListRepository = MockProductListRepository();
-      final productListNotifier = ProductListNotifier(
-        productListRepository: mockProductListRepository,
-      );
-      productListNotifier.state = const AsyncValue.loading();
       final container = ProviderContainer(
         overrides: [
-          productListProvider.overrideWith((ref) => productListNotifier),
+          productListProvider.overrideWith(ProductListNotifier.new),
         ],
       );
 
@@ -67,17 +57,9 @@ void main() {
     });
 
     test('returns an empty list when productListProvider has an error', () {
-      final mockProductListRepository = MockProductListRepository();
-      final productListNotifier = ProductListNotifier(
-        productListRepository: mockProductListRepository,
-      );
-      productListNotifier.state = const AsyncValue.error(
-        "test",
-        StackTrace.empty,
-      );
       final container = ProviderContainer(
         overrides: [
-          productListProvider.overrideWith((ref) => productListNotifier),
+          productListProvider.overrideWith(ProductListNotifier.new),
         ],
       );
 
@@ -86,24 +68,25 @@ void main() {
       expect(result, []);
     });
 
-    test('returns a list of categories when productListProvider is refreshed',
-        () async {
-      final mockProductListRepository = MockProductListRepository();
-      final productListNotifier =
-          ProductListNotifier(productListRepository: mockProductListRepository);
-      when(() => mockProductListRepository.amapProductsGet()).thenAnswer(
-        (_) async => chopper.Response(http.Response('[]', 200), products),
-      );
-      final container = ProviderContainer(
-        overrides: [
-          productListProvider.overrideWith((ref) => productListNotifier),
-        ],
-      );
+    test(
+      'returns a list of categories when productListProvider is refreshed',
+      () async {
+        final mockProductListRepository = MockProductListRepository();
+        final productListNotifier = ProductListNotifier();
+        when(() => mockProductListRepository.amapProductsGet()).thenAnswer(
+          (_) async => chopper.Response(http.Response('[]', 200), products),
+        );
+        final container = ProviderContainer(
+          overrides: [
+            productListProvider.overrideWith(ProductListNotifier.new),
+          ],
+        );
 
-      await productListNotifier.loadProductList();
-      final result = container.read(categoryListProvider);
+        await productListNotifier.loadProductList();
+        final result = container.read(categoryListProvider);
 
-      expect(result, ['Category A', 'Category B']);
-    });
+        expect(result, ['Category A', 'Category B']);
+      },
+    );
   });
 }

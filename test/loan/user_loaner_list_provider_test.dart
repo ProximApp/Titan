@@ -1,9 +1,10 @@
+import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
-import 'package:titan/loan/class/loaner.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/loan/providers/user_loaner_list_provider.dart';
-import 'package:titan/loan/repositories/loaner_repository.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 
 class MockLoanerRepository extends Mock implements Openapi {}
@@ -25,7 +26,7 @@ void main() {
 
     setUp(() {
       mockRepository = MockLoanerRepository();
-      provider = UserLoanerListNotifier(loanerRepository: mockRepository);
+      provider = UserLoanerListNotifier();
     });
 
     test('loadMyLoanerList returns expected data', () async {
@@ -61,7 +62,7 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), newLoaner),
       );
 
-      await provider.loadMyLoanerList();
+      provider.state = AsyncValue.data([...loaners]);
       final result = await provider.addLoaner(newLoanerBase);
 
       expect(result, true);
@@ -76,6 +77,7 @@ void main() {
         () => mockRepository.loansLoanersPost(body: any(named: 'body')),
       ).thenThrow(Exception('Failed to add loaner'));
 
+      provider.state = AsyncValue.data([...loaners]);
       final result = await provider.addLoaner(newLoanerBase);
 
       expect(result, false);
@@ -95,7 +97,7 @@ void main() {
             chopper.Response(http.Response('body', 200), updatedLoaner),
       );
 
-      await provider.loadMyLoanerList();
+      provider.state = AsyncValue.data([...loaners]);
       final result = await provider.updateLoaner(updatedLoaner);
 
       expect(result, true);
@@ -113,6 +115,7 @@ void main() {
         ),
       ).thenThrow(Exception('Failed to update loaner'));
 
+      provider.state = AsyncValue.data([...loaners]);
       final result = await provider.updateLoaner(updatedLoaner);
 
       expect(result, false);
@@ -130,8 +133,8 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
-      await provider.loadMyLoanerList();
-      final result = await provider.deleteLoaner(loaners.first.id);
+      provider.state = AsyncValue.data([...loaners]);
+      final result = await provider.deleteLoaner(loaners.first);
 
       expect(result, true);
       expect(
@@ -147,7 +150,8 @@ void main() {
         ),
       ).thenThrow(Exception('Failed to delete loaner'));
 
-      final result = await provider.deleteLoaner(loaners.first.id);
+      provider.state = AsyncValue.data([...loaners]);
+      final result = await provider.deleteLoaner(loaners.first);
 
       expect(result, false);
     });

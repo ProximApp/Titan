@@ -1,9 +1,10 @@
+import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
-import 'package:titan/vote/class/votes.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/vote/providers/votes_provider.dart';
-import 'package:titan/vote/repositories/votes_repository.dart';
 
 class MockVotesRepository extends Mock implements Openapi {}
 
@@ -15,17 +16,14 @@ void main() {
 
     setUp(() {
       mockRepository = MockVotesRepository();
-      provider = VotesProvider(votesRepository: mockRepository);
+      provider = VotesProvider();
     });
 
     test('addVote returns true when successful', () async {
       when(
         () => mockRepository.campaignVotesPost(body: any(named: 'body')),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          votes,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), votes),
       );
 
       final result = await provider.addVote(votes);
@@ -34,8 +32,9 @@ void main() {
     });
 
     test('addVote handles error', () async {
-      when(() => mockRepository.campaignVotesPost(body: any(named: 'body')))
-          .thenThrow(Exception('Failed to add vote'));
+      when(
+        () => mockRepository.campaignVotesPost(body: any(named: 'body')),
+      ).thenThrow(Exception('Failed to add vote'));
 
       expect(() => provider.addVote(votes), throwsA(isA<Exception>()));
     });
@@ -45,13 +44,7 @@ void main() {
 
       final result = await provider.copy();
 
-      expect(
-        result.maybeWhen(
-          data: (data) => data,
-          orElse: () => [],
-        ),
-        [votes],
-      );
+      expect(result.maybeWhen(data: (data) => data, orElse: () => []), [votes]);
     });
   });
 }

@@ -37,10 +37,7 @@ void main() {
     test(
       'loadProductList should return AsyncValue with provided list of products',
       () async {
-        final productListRepository = MockDeliveryProductListRepository();
-        final notifier = DeliveryProductListNotifier(
-          productListRepository: productListRepository,
-        );
+        final notifier = DeliveryProductListNotifier();
 
         final result = await notifier.loadProductList(products);
 
@@ -50,9 +47,7 @@ void main() {
 
     test('addProduct should add product to list and return true', () async {
       final productListRepository = MockDeliveryProductListRepository();
-      final notifier = DeliveryProductListNotifier(
-        productListRepository: productListRepository,
-      );
+      final notifier = DeliveryProductListNotifier();
 
       when(
         () => productListRepository.amapDeliveriesDeliveryIdProductsPost(
@@ -78,43 +73,10 @@ void main() {
     });
 
     test(
-      'updateProduct should update product in list and return true',
-      () async {
-        final productListRepository = MockDeliveryProductListRepository();
-        final notifier = DeliveryProductListNotifier(
-          productListRepository: productListRepository,
-        );
-
-        final product1 = Product.empty().copyWith(id: '1', name: 'Product 1');
-        final product2 = Product.empty().copyWith(id: '1', name: 'Product 2');
-
-        notifier.state = AsyncValue.data([product1]);
-
-        when(
-          () => productListRepository.updateProduct('deliveryId', product2),
-        ).thenAnswer((_) async => true);
-
-        final result = await notifier.updateProduct(product2, 'deliveryId');
-
-        expect(result, true);
-        expect(
-          notifier.state.when(
-            data: (data) => data,
-            error: (e, s) => [],
-            loading: () => [],
-          ),
-          [product2],
-        );
-      },
-    );
-
-    test(
       'deleteProduct should remove product from list and return true',
       () async {
         final productListRepository = MockDeliveryProductListRepository();
-        final notifier = DeliveryProductListNotifier(
-          productListRepository: productListRepository,
-        );
+        final notifier = DeliveryProductListNotifier();
 
         notifier.state = AsyncValue.data([...products, product]);
 

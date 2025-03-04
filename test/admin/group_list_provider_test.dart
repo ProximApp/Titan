@@ -3,11 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
-import 'package:titan/super_admin/class/account_type.dart';
-import 'package:titan/admin/class/simple_group.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/admin/providers/group_list_provider.dart';
-import 'package:titan/admin/repositories/group_repository.dart';
-import 'package:titan/user/class/user.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 
 class MockGroupRepository extends Mock implements Openapi {}
@@ -62,9 +59,7 @@ void main() {
           EmptyModels.empty<CoreGroupSimple>(),
         ]),
       );
-      final GroupListNotifier groupNotifier = GroupListNotifier(
-        groupRepository: mockGroup,
-      );
+      final GroupListNotifier groupNotifier = GroupListNotifier();
       final groupList = await groupNotifier.loadGroups();
       expect(groupList, isA<AsyncData<List<CoreGroupSimple>>>());
       expect(
@@ -90,9 +85,7 @@ void main() {
       when(
         () => mockGroup.groupsGet(),
       ).thenAnswer((_) async => chopper.Response(http.Response('[]', 200), []));
-      final GroupListNotifier groupNotifier = GroupListNotifier(
-        groupRepository: mockGroup,
-      );
+      final GroupListNotifier groupNotifier = GroupListNotifier();
       final groupList = await groupNotifier.loadGroups();
       expect(groupList, isA<AsyncData<List<CoreGroupSimple>>>());
       expect(
@@ -108,18 +101,13 @@ void main() {
     test('Should handle error when loading groups', () async {
       final mockGroup = MockGroupRepository();
       when(() => mockGroup.groupsGet()).thenThrow(Exception('Error'));
-      final GroupListNotifier groupNotifier = GroupListNotifier(
-        groupRepository: mockGroup,
-      );
+      final GroupListNotifier groupNotifier = GroupListNotifier();
       final groupList = await groupNotifier.loadGroups();
       expect(groupList, isA<AsyncError>());
     });
 
     test('Should return a group from coreUser', () async {
-      final mockGroup = MockGroupRepository();
-      final GroupListNotifier groupNotifier = GroupListNotifier(
-        groupRepository: mockGroup,
-      );
+      final GroupListNotifier groupNotifier = GroupListNotifier();
       final groupList = await groupNotifier.loadGroupsFromUser(coreUser);
       expect(groupList, isA<AsyncData<List<CoreGroupSimple>>>());
       expect(
@@ -150,9 +138,7 @@ void main() {
       when(() => mockGroup.groupsPost(body: any(named: 'body'))).thenAnswer(
         (_) async => chopper.Response(http.Response('[]', 200), returnedGroup),
       );
-      final GroupListNotifier groupNotifier = GroupListNotifier(
-        groupRepository: mockGroup,
-      );
+      final GroupListNotifier groupNotifier = GroupListNotifier();
       await groupNotifier.loadGroups();
       final group = await groupNotifier.createGroup(newGroup);
       expect(group, true);
@@ -163,9 +149,7 @@ void main() {
       when(
         () => mockGroup.groupsPost(body: any(named: 'body')),
       ).thenThrow(Exception('Error'));
-      final GroupListNotifier groupNotifier = GroupListNotifier(
-        groupRepository: mockGroup,
-      );
+      final GroupListNotifier groupNotifier = GroupListNotifier();
       final result = await groupNotifier.createGroup(newGroup);
       expect(result, false);
     });
@@ -186,9 +170,7 @@ void main() {
       ).thenAnswer(
         (_) async => chopper.Response(http.Response('[]', 200), true),
       );
-      final GroupListNotifier groupNotifier = GroupListNotifier(
-        groupRepository: mockGroup,
-      );
+      final GroupListNotifier groupNotifier = GroupListNotifier();
       await groupNotifier.loadGroups();
       expect(await groupNotifier.updateGroup(returnedGroup), true);
     });
@@ -201,9 +183,7 @@ void main() {
           body: any(named: 'body'),
         ),
       ).thenThrow(Exception('Error'));
-      final GroupListNotifier groupNotifier = GroupListNotifier(
-        groupRepository: mockGroup,
-      );
+      final GroupListNotifier groupNotifier = GroupListNotifier();
       final result = await groupNotifier.updateGroup(returnedGroup);
       expect(result, false);
     });
@@ -221,11 +201,9 @@ void main() {
       ).thenAnswer(
         (_) async => chopper.Response(http.Response('[]', 200), true),
       );
-      final GroupListNotifier groupNotifier = GroupListNotifier(
-        groupRepository: mockGroup,
-      );
+      final GroupListNotifier groupNotifier = GroupListNotifier();
       await groupNotifier.loadGroups();
-      expect(await groupNotifier.deleteGroup(returnedGroup.id), true);
+      expect(await groupNotifier.deleteGroup(returnedGroup), true);
     });
 
     test('Should handle error when deleting a group', () async {
@@ -233,9 +211,7 @@ void main() {
       when(
         () => mockGroup.groupsGroupIdDelete(groupId: any(named: 'groupId')),
       ).thenThrow(Exception('Error'));
-      final GroupListNotifier groupNotifier = GroupListNotifier(
-        groupRepository: mockGroup,
-      );
+      final GroupListNotifier groupNotifier = GroupListNotifier();
       final result = await groupNotifier.deleteGroup("2");
       expect(result, false);
     });
@@ -243,8 +219,7 @@ void main() {
     test(
       'setGroup should modify an existing CoreGroupSimple object in the list',
       () {
-        final mockGroup = MockGroupRepository();
-        final groupListNotifier = GroupListNotifier(groupRepository: mockGroup);
+        final groupListNotifier = GroupListNotifier();
         groupListNotifier.state = AsyncValue.data([existingGroup]);
         groupListNotifier.setGroup(modifiedGroup);
         expect(

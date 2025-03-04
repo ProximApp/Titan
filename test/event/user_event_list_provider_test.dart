@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:titan/event/adapters/event.dart';
+import 'package:titan/event/adapters/event_complete_ticket_url.dart';
 import 'package:titan/event/providers/user_event_list_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:chopper/chopper.dart' as chopper;
@@ -15,39 +15,35 @@ void main() {
     late MockEventRepository mockRepository;
     late EventEventListProvider provider;
     final events = [
-      EmptyModels.empty<EventReturn>().copyWith(id: '1'),
-      EmptyModels.empty<EventReturn>().copyWith(id: '2'),
+      EmptyModels.empty<EventComplete>().copyWith(id: '1'),
+      EmptyModels.empty<EventComplete>().copyWith(id: '2'),
     ];
-    final newEvent = EmptyModels.empty<EventReturn>().copyWith(id: '3');
+    final newEvent = EmptyModels.empty<EventCompleteTicketUrl>().copyWith(id: '3');
     final updatedEvent = events.first.copyWith(name: 'Updated Event');
 
     setUp(() {
       mockRepository = MockEventRepository();
-      provider = EventEventListProvider(eventRepository: mockRepository);
+      provider = EventEventListProvider();
     });
 
     test('loadConfirmedEvent returns expected data', () async {
       when(
-        () => mockRepository.calendarEventsUserApplicantIdGet(
-          applicantId: any(named: 'applicantId'),
-        ),
+        () => mockRepository.calendarEventsGet(),
       ).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), events),
       );
 
-      final result = await provider.loadConfirmedEvent('123');
+      final result = await provider.loadConfirmedEvent();
 
       expect(result.maybeWhen(data: (data) => data, orElse: () => []), events);
     });
 
     test('loadConfirmedEvent handles error', () async {
       when(
-        () => mockRepository.calendarEventsUserApplicantIdGet(
-          applicantId: any(named: 'applicantId'),
-        ),
+        () => mockRepository.calendarEventsGet(),
       ).thenThrow(Exception('Failed to load events'));
 
-      final result = await provider.loadConfirmedEvent('123');
+      final result = await provider.loadConfirmedEvent();
 
       expect(
         result.maybeWhen(error: (error, _) => error, orElse: () => null),
@@ -57,9 +53,7 @@ void main() {
 
     test('addEvent adds an event to the list', () async {
       when(
-        () => mockRepository.calendarEventsUserApplicantIdGet(
-          applicantId: any(named: 'applicantId'),
-        ),
+        () => mockRepository.calendarEventsGet(),
       ).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), events),
       );
@@ -69,8 +63,8 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), newEvent),
       );
 
-      await provider.loadConfirmedEvent('123');
-      final result = await provider.addEvent(newEvent.toEventBase());
+      provider.state = AsyncValue.data([...events]);
+      final result = await provider.addEvent(newEvent.toEventBaseCreation());
 
       expect(result, true);
       expect(provider.state.maybeWhen(data: (data) => data, orElse: () => []), [
@@ -84,16 +78,15 @@ void main() {
         () => mockRepository.calendarEventsPost(body: any(named: 'body')),
       ).thenThrow(Exception('Failed to add event'));
 
-      final result = await provider.addEvent(newEvent.toEventBase());
+      provider.state = AsyncValue.data([...events]);
+      final result = await provider.addEvent(newEvent.toEventBaseCreation());
 
       expect(result, false);
     });
 
     test('updateEvent updates an event in the list', () async {
       when(
-        () => mockRepository.calendarEventsUserApplicantIdGet(
-          applicantId: any(named: 'applicantId'),
-        ),
+        () => mockRepository.calendarEventsGet(),
       ).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), events),
       );
@@ -106,7 +99,7 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), updatedEvent),
       );
 
-      await provider.loadConfirmedEvent('123');
+      provider.state = AsyncValue.data([...events]);
       final result = await provider.updateEvent(updatedEvent);
 
       expect(result, true);
@@ -124,17 +117,14 @@ void main() {
         ),
       ).thenThrow(Exception('Failed to update event'));
 
+      provider.state = AsyncValue.data([...events]);
       final result = await provider.updateEvent(updatedEvent);
 
       expect(result, false);
     });
 
     test('deleteEvent removes an event from the list', () async {
-      when(
-        () => mockRepository.calendarEventsUserApplicantIdGet(
-          applicantId: any(named: 'applicantId'),
-        ),
-      ).thenAnswer(
+      when(() => mockRepository.calendarEventsGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), events),
       );
       when(
@@ -145,8 +135,8 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
-      await provider.loadConfirmedEvent('123');
-      final result = await provider.deleteEvent(events.first.id);
+      provider.state = AsyncValue.data([...events]);
+      final result = await provider.deleteEvent(events.first);
 
       expect(result, true);
       expect(
@@ -162,7 +152,8 @@ void main() {
         ),
       ).thenThrow(Exception('Failed to delete event'));
 
-      final result = await provider.deleteEvent(events.first.id);
+      provider.state = AsyncValue.data([...events]);
+      final result = await provider.deleteEvent(events.first);
 
       expect(result, false);
     });

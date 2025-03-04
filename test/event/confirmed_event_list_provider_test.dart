@@ -1,9 +1,10 @@
+import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:titan/event/class/event.dart';
+import 'package:http/http.dart' as http;
 import 'package:titan/event/providers/confirmed_event_list_provider.dart';
-import 'package:titan/event/repositories/event_repository.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 
 class MockEventRepository extends Mock implements Openapi {}
@@ -20,7 +21,7 @@ void main() {
 
     setUp(() {
       mockRepository = MockEventRepository();
-      provider = ConfirmedEventListProvider(eventRepository: mockRepository);
+      provider = ConfirmedEventListProvider();
     });
 
     test('loadConfirmedEvent returns expected data', () async {
@@ -51,7 +52,7 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), events),
       );
 
-      await provider.loadConfirmedEvent();
+      provider.state = AsyncValue.data([...events]);
       final result = await provider.addEvent(newEvent);
 
       expect(result, true);

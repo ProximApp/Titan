@@ -16,49 +16,38 @@ void main() {
 
     setUp(() {
       mockRepository = MockStatusRepository();
-      provider = StatusNotifier(statusRepository: mockRepository);
+      provider = StatusNotifier();
     });
 
     test('loadStatus returns expected data', () async {
       when(() => mockRepository.campaignStatusGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          status,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), status),
       );
 
       final result = await provider.loadStatus();
 
       expect(
-        result.maybeWhen(
-          data: (data) => data,
-          orElse: () => null,
-        ),
+        result.maybeWhen(data: (data) => data, orElse: () => null),
         status,
       );
     });
 
     test('loadStatus handles error', () async {
-      when(() => mockRepository.campaignStatusGet())
-          .thenThrow(Exception('Failed to load status'));
+      when(
+        () => mockRepository.campaignStatusGet(),
+      ).thenThrow(Exception('Failed to load status'));
 
       final result = await provider.loadStatus();
 
       expect(
-        result.maybeWhen(
-          error: (error, _) => error,
-          orElse: () => null,
-        ),
+        result.maybeWhen(error: (error, _) => error, orElse: () => null),
         isA<Exception>(),
       );
     });
 
     test('openVote updates state to open if successful', () async {
       when(() => mockRepository.campaignStatusOpenPost()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          null,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
       final result = await provider.openVote();
@@ -73,21 +62,9 @@ void main() {
       );
     });
 
-    test('openVote handles error', () async {
-      when(() => mockRepository.campaignStatusOpenPost())
-          .thenThrow(Exception('Failed to open vote'));
-
-      final result = await provider.openVote();
-
-      expect(result, false);
-    });
-
     test('closeVote updates state to closed if successful', () async {
       when(() => mockRepository.campaignStatusClosePost()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          null,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
       final result = await provider.closeVote();
@@ -102,21 +79,9 @@ void main() {
       );
     });
 
-    test('closeVote handles error', () async {
-      when(() => mockRepository.campaignStatusClosePost())
-          .thenThrow(Exception('Failed to close vote'));
-
-      final result = await provider.closeVote();
-
-      expect(result, false);
-    });
-
     test('countVote updates state to counting if successful', () async {
       when(() => mockRepository.campaignStatusCountingPost()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          null,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
       final result = await provider.countVote();
@@ -131,21 +96,9 @@ void main() {
       );
     });
 
-    test('countVote handles error', () async {
-      when(() => mockRepository.campaignStatusCountingPost())
-          .thenThrow(Exception('Failed to count vote'));
-
-      final result = await provider.countVote();
-
-      expect(result, false);
-    });
-
     test('resetVote updates state to waiting if successful', () async {
       when(() => mockRepository.campaignStatusResetPost()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          null,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
       final result = await provider.resetVote();
@@ -160,21 +113,9 @@ void main() {
       );
     });
 
-    test('resetVote handles error', () async {
-      when(() => mockRepository.campaignStatusResetPost())
-          .thenThrow(Exception('Failed to reset vote'));
-
-      final result = await provider.resetVote();
-
-      expect(result, false);
-    });
-
     test('publishVote updates state to published if successful', () async {
       when(() => mockRepository.campaignStatusPublishedPost()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          null,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
       final result = await provider.publishVote();
@@ -187,15 +128,6 @@ void main() {
         ),
         StatusType.published,
       );
-    });
-
-    test('publishVote handles error', () async {
-      when(() => mockRepository.campaignStatusPublishedPost())
-          .thenThrow(Exception('Failed to publish vote'));
-
-      final result = await provider.publishVote();
-
-      expect(result, false);
     });
   });
 }

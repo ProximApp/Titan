@@ -27,9 +27,7 @@ void main() {
 
     setUp(() {
       mockRepository = MockRecommendationRepository();
-      provider = RecommendationListNotifier(
-        recommendationRepository: mockRepository,
-      );
+      provider = RecommendationListNotifier();
     });
 
     test('loadRecommendation returns expected data', () async {
@@ -73,7 +71,7 @@ void main() {
             chopper.Response(http.Response('body', 200), newRecommendation),
       );
 
-      await provider.loadRecommendation();
+      provider.state = AsyncValue.data([...recommendations]);
       final result = await provider.addRecommendation(
         newRecommendation.toRecommendationBase(),
       );
@@ -92,6 +90,7 @@ void main() {
         ),
       ).thenThrow(Exception('Failed to add recommendation'));
 
+      provider.state = AsyncValue.data([...recommendations]);
       final result = await provider.addRecommendation(
         newRecommendation.toRecommendationBase(),
       );
@@ -114,7 +113,7 @@ void main() {
             chopper.Response(http.Response('body', 200), updatedRecommendation),
       );
 
-      await provider.loadRecommendation();
+      provider.state = AsyncValue.data([...recommendations]);
       final result = await provider.updateRecommendation(updatedRecommendation);
 
       expect(result, true);
@@ -132,6 +131,7 @@ void main() {
         ),
       ).thenThrow(Exception('Failed to update recommendation'));
 
+      provider.state = AsyncValue.data([...recommendations]);
       final result = await provider.updateRecommendation(updatedRecommendation);
 
       expect(result, false);
@@ -155,9 +155,9 @@ void main() {
           (_) async => chopper.Response(http.Response('body', 200), null),
         );
 
-        await provider.loadRecommendation();
+        provider.state = AsyncValue.data([...recommendations]);
         final result = await provider.deleteRecommendation(
-          recommendations.first.id,
+          recommendations.first,
         );
 
         expect(result, true);
@@ -176,8 +176,9 @@ void main() {
             ),
       ).thenThrow(Exception('Failed to delete recommendation'));
 
+      provider.state = AsyncValue.data([...recommendations]);
       final result = await provider.deleteRecommendation(
-        recommendations.first.id,
+        recommendations.first,
       );
 
       expect(result, false);

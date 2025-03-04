@@ -3,9 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
-import 'package:titan/amap/class/information.dart';
 import 'package:titan/amap/providers/information_provider.dart';
-import 'package:titan/amap/repositories/information_repository.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 
 class MockInformationRepository extends Mock implements Openapi {}
 
@@ -21,9 +20,7 @@ void main() {
 
     setUp(() {
       informationRepository = MockInformationRepository();
-      informationNotifier = InformationNotifier(
-        informationRepository: informationRepository,
-      );
+      informationNotifier = InformationNotifier();
     });
 
     test('loadInformation should return information from repository', () async {
@@ -43,25 +40,28 @@ void main() {
       );
     });
 
-    test('updateInformation should update information in repository and state',
-        () async {
-      when(
-        () => informationRepository.amapInformationPatch(
-          body: any(named: 'body'),
-        ),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('[]', 200), true),
-      );
-      informationNotifier.state = AsyncValue.data(information);
+    test(
+      'updateInformation should update information in repository and state',
+      () async {
+        when(
+          () => informationRepository.amapInformationPatch(
+            body: any(named: 'body'),
+          ),
+        ).thenAnswer(
+          (_) async => chopper.Response(http.Response('[]', 200), true),
+        );
+        informationNotifier.state = AsyncValue.data(information);
 
-      final result = await informationNotifier.updateInformation(information);
+        final result = await informationNotifier.updateInformation(information);
 
-      expect(result, true);
-    });
+        expect(result, true);
+      },
+    );
 
     test('loadInformation should handle error', () async {
-      when(() => informationRepository.amapInformationGet())
-          .thenThrow(Exception('Error'));
+      when(
+        () => informationRepository.amapInformationGet(),
+      ).thenThrow(Exception('Error'));
 
       final result = await informationNotifier.loadInformation();
 

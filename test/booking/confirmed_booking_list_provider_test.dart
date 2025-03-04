@@ -1,9 +1,10 @@
+import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
-import 'package:titan/booking/class/booking.dart';
 import 'package:titan/booking/providers/confirmed_booking_list_provider.dart';
-import 'package:titan/booking/repositories/booking_repository.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 
 class MockBookingRepository extends Mock implements Openapi {}
@@ -20,9 +21,7 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), bookings),
       );
 
-      final provider = ConfirmedBookingListProvider(
-        bookingRepository: mockRepository,
-      );
+      final provider = ConfirmedBookingListProvider();
       final result = await provider.loadConfirmedBooking();
 
       expect(
@@ -37,9 +36,7 @@ void main() {
         () => mockRepository.bookingBookingsConfirmedGet(),
       ).thenThrow(Exception('Failed to load bookings'));
 
-      final provider = ConfirmedBookingListProvider(
-        bookingRepository: mockRepository,
-      );
+      final provider = ConfirmedBookingListProvider();
       final result = await provider.loadConfirmedBooking();
 
       expect(
@@ -54,9 +51,7 @@ void main() {
         () => mockRepository.bookingBookingsConfirmedGet(),
       ).thenThrow(Exception('Failed to load bookings'));
 
-      final provider = ConfirmedBookingListProvider(
-        bookingRepository: mockRepository,
-      );
+      final provider = ConfirmedBookingListProvider();
       final result = await provider.loadConfirmedBooking();
 
       expect(
@@ -86,10 +81,8 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), newBooking),
       );
 
-      final provider = ConfirmedBookingListProvider(
-        bookingRepository: mockRepository,
-      );
-      await provider.loadConfirmedBooking();
+      final provider = ConfirmedBookingListProvider();
+      provider.state = AsyncValue.data([...bookings]);
       final result = await provider.addBooking(newBookingSimple);
 
       expect(result, true);
@@ -108,9 +101,7 @@ void main() {
         () => mockRepository.bookingBookingsPost(body: any(named: 'body')),
       ).thenThrow(Exception('Failed to add booking'));
 
-      final provider = ConfirmedBookingListProvider(
-        bookingRepository: mockRepository,
-      );
+      final provider = ConfirmedBookingListProvider();
       await provider.loadConfirmedBooking();
       final result = await provider.addBooking(newBookingSimple);
 
@@ -126,9 +117,7 @@ void main() {
         () => mockRepository.bookingBookingsPost(body: any(named: 'body')),
       ).thenThrow(Exception('Failed to add booking'));
 
-      final provider = ConfirmedBookingListProvider(
-        bookingRepository: mockRepository,
-      );
+      final provider = ConfirmedBookingListProvider();
       await provider.loadConfirmedBooking();
       final result = await provider.addBooking(newBookingSimple);
 
@@ -143,9 +132,7 @@ void main() {
         () => mockRepository.bookingBookingsPost(body: any(named: 'body')),
       ).thenThrow(Exception('Failed to add booking'));
 
-      final provider = ConfirmedBookingListProvider(
-        bookingRepository: mockRepository,
-      );
+      final provider = ConfirmedBookingListProvider();
       final result = await provider.addBooking(newBookingSimple);
 
       expect(result, false);
@@ -169,10 +156,8 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
-      final provider = ConfirmedBookingListProvider(
-        bookingRepository: mockRepository,
-      );
-      await provider.loadConfirmedBooking();
+      final provider = ConfirmedBookingListProvider();
+      provider.state = AsyncValue.data([...bookings]);
       final result = await provider.deleteBooking(booking);
 
       expect(result, true);
@@ -192,9 +177,7 @@ void main() {
         ),
       ).thenThrow(Exception('Failed to delete booking'));
 
-      final provider = ConfirmedBookingListProvider(
-        bookingRepository: mockRepository,
-      );
+      final provider = ConfirmedBookingListProvider();
       final result = await provider.deleteBooking(booking);
 
       expect(result, false);
@@ -220,10 +203,8 @@ void main() {
             chopper.Response(http.Response('body', 200), updatedBooking),
       );
 
-      final provider = ConfirmedBookingListProvider(
-        bookingRepository: mockRepository,
-      );
-      await provider.loadConfirmedBooking();
+      final provider = ConfirmedBookingListProvider();
+      provider.state = AsyncValue.data([...bookings]);
       final result = await provider.updateBooking(updatedBooking);
 
       expect(result, true);
@@ -244,9 +225,7 @@ void main() {
         ),
       ).thenThrow(Exception('Failed to update booking'));
 
-      final provider = ConfirmedBookingListProvider(
-        bookingRepository: mockRepository,
-      );
+      final provider = ConfirmedBookingListProvider();
       final result = await provider.updateBooking(updatedBooking);
 
       expect(result, false);

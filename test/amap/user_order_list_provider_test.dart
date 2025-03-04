@@ -3,11 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
+import 'package:titan/amap/adapters/order_return.dart';
 import 'package:titan/amap/providers/user_order_list_provider.dart';
-
-import 'package:titan/amap/class/order.dart';
-import 'package:titan/amap/repositories/amap_user_repository.dart';
-import 'package:titan/amap/repositories/order_list_repository.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 
 class MockAmapUserRepository extends Mock implements Openapi {}
 
@@ -75,12 +73,13 @@ void main() {
 
     setUp(() {
       mockRepository = MockAmapUserRepository();
-      notifier = UserOrderListNotifier(userOrderListRepository: mockRepository);
+      notifier = UserOrderListNotifier();
     });
 
     test('loadOrderList should return the list of orders for a user', () async {
-      when(() => mockRepository.amapUsersUserIdOrdersGet(userId: userId))
-          .thenAnswer(
+      when(
+        () => mockRepository.amapUsersUserIdOrdersGet(userId: userId),
+      ).thenAnswer(
         (_) async => chopper.Response(http.Response('[]', 200), orders),
       );
 
@@ -97,8 +96,9 @@ void main() {
     });
 
     test('loadOrderList should handle error', () async {
-      when(() => mockRepository.amapUsersUserIdOrdersGet(userId: userId))
-          .thenThrow(Exception('Error'));
+      when(
+        () => mockRepository.amapUsersUserIdOrdersGet(userId: userId),
+      ).thenThrow(Exception('Error'));
 
       final result = await notifier.loadOrderList(userId);
 
@@ -106,8 +106,9 @@ void main() {
     });
 
     test('addOrder should add a new order to the list', () async {
-      when(() => mockRepository.amapOrdersPost(body: any(named: 'body')))
-          .thenAnswer(
+      when(
+        () => mockRepository.amapOrdersPost(body: any(named: 'body')),
+      ).thenAnswer(
         (_) async => chopper.Response(http.Response('[]', 200), order),
       );
       notifier.state = AsyncValue.data([]);
@@ -126,8 +127,9 @@ void main() {
     });
 
     test('addOrder should handle error', () async {
-      when(() => mockRepository.amapOrdersPost(body: any(named: 'body')))
-          .thenThrow(Exception('Error'));
+      when(
+        () => mockRepository.amapOrdersPost(body: any(named: 'body')),
+      ).thenThrow(Exception('Error'));
 
       final result = await notifier.addOrder(orderToAdd);
 
@@ -182,7 +184,7 @@ void main() {
       );
       notifier.state = AsyncValue.data([order]);
 
-      final result = await notifier.deleteOrder(order.orderId);
+      final result = await notifier.deleteOrder(order);
 
       expect(result, true);
       expect(
@@ -202,7 +204,7 @@ void main() {
         ),
       ).thenThrow(Exception('Error'));
 
-      final result = await notifier.deleteOrder(order.orderId);
+      final result = await notifier.deleteOrder(order);
 
       expect(result, false);
     });

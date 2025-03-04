@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/loan/providers/borrower_provider.dart';
-import 'package:titan/user/class/simple_users.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 
 void main() {

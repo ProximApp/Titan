@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
-import 'package:titan/amap/adapters/product.dart';
+import 'package:titan/amap/adapters/product_complete.dart';
 import 'package:titan/amap/providers/product_list_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 
@@ -30,28 +30,28 @@ void main() {
     final productToAdd = product.toProductSimple();
 
     test(
-        'loadProductList should return the list of products from the repository',
-        () async {
-      final mockProductListRepository = MockProductListRepository();
-      when(() => mockProductListRepository.amapProductsGet()).thenAnswer(
-        (_) async => chopper.Response(http.Response('[]', 200), products),
-      );
-      final productListNotifier =
-          ProductListNotifier(productListRepository: mockProductListRepository);
-      final result = await productListNotifier.loadProductList();
-      expect(
-        result,
-        isA<AsyncData<List<AppModulesAmapSchemasAmapProductComplete>>>(),
-      );
-      expect(
-        result.when(
-          data: (data) => data.length,
-          loading: () => 0,
-          error: (error, stackTrace) => 0,
-        ),
-        1,
-      );
-    });
+      'loadProductList should return the list of products from the repository',
+      () async {
+        final mockProductListRepository = MockProductListRepository();
+        when(() => mockProductListRepository.amapProductsGet()).thenAnswer(
+          (_) async => chopper.Response(http.Response('[]', 200), products),
+        );
+        final productListNotifier = ProductListNotifier();
+        final result = await productListNotifier.loadProductList();
+        expect(
+          result,
+          isA<AsyncData<List<AppModulesAmapSchemasAmapProductComplete>>>(),
+        );
+        expect(
+          result.when(
+            data: (data) => data.length,
+            loading: () => 0,
+            error: (error, stackTrace) => 0,
+          ),
+          1,
+        );
+      },
+    );
 
     test('createProduct should add a new product to the list', () async {
       final mockProductListRepository = MockProductListRepository();
@@ -63,31 +63,32 @@ void main() {
       ).thenAnswer(
         (_) async => chopper.Response(http.Response('[]', 200), product),
       );
-      final productListNotifier =
-          ProductListNotifier(productListRepository: mockProductListRepository);
-      await productListNotifier.loadProductList();
+      final productListNotifier = ProductListNotifier();
+      productListNotifier.state = AsyncValue.data(products);
       final result = await productListNotifier.addProduct(productToAdd);
       expect(result, true);
     });
 
-    test('updateProduct should update an existing product in the list',
-        () async {
-      final mockProductListRepository = MockProductListRepository();
-      final updatedProduct = product.copyWith(name: 'Updated Product 1');
-      when(
-        () => mockProductListRepository.amapProductsProductIdPatch(
-          productId: any(named: 'productId'),
-          body: any(named: 'body'),
-        ),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('[]', 200), updatedProduct),
-      );
-      final productListNotifier =
-          ProductListNotifier(productListRepository: mockProductListRepository);
-      await productListNotifier.loadProductList();
-      final result = await productListNotifier.updateProduct(updatedProduct);
-      expect(result, true);
-    });
+    test(
+      'updateProduct should update an existing product in the list',
+      () async {
+        final mockProductListRepository = MockProductListRepository();
+        final updatedProduct = product.copyWith(name: 'Updated Product 1');
+        when(
+          () => mockProductListRepository.amapProductsProductIdPatch(
+            productId: any(named: 'productId'),
+            body: any(named: 'body'),
+          ),
+        ).thenAnswer(
+          (_) async =>
+              chopper.Response(http.Response('[]', 200), updatedProduct),
+        );
+        final productListNotifier = ProductListNotifier();
+        productListNotifier.state = AsyncValue.data(products);
+        final result = await productListNotifier.updateProduct(updatedProduct);
+        expect(result, true);
+      },
+    );
 
     test('deleteProduct should remove a product from the list', () async {
       final mockProductListRepository = MockProductListRepository();
@@ -98,19 +99,18 @@ void main() {
       ).thenAnswer(
         (_) async => chopper.Response(http.Response('[]', 200), true),
       );
-      final productListNotifier =
-          ProductListNotifier(productListRepository: mockProductListRepository);
-      await productListNotifier.loadProductList();
-      final result = await productListNotifier.deleteProduct(product.id);
+      final productListNotifier = ProductListNotifier();
+      productListNotifier.state = AsyncValue.data(products);
+      final result = await productListNotifier.deleteProduct(product);
       expect(result, true);
     });
 
     test('loadProductList should handle error', () async {
       final mockProductListRepository = MockProductListRepository();
-      when(() => mockProductListRepository.amapProductsGet())
-          .thenThrow(Exception('Error'));
-      final productListNotifier =
-          ProductListNotifier(productListRepository: mockProductListRepository);
+      when(
+        () => mockProductListRepository.amapProductsGet(),
+      ).thenThrow(Exception('Error'));
+      final productListNotifier = ProductListNotifier();
       final result = await productListNotifier.loadProductList();
       expect(result, isA<AsyncError>());
     });
@@ -122,8 +122,8 @@ void main() {
           body: any(named: 'body'),
         ),
       ).thenThrow(Exception('Error'));
-      final productListNotifier =
-          ProductListNotifier(productListRepository: mockProductListRepository);
+      final productListNotifier = ProductListNotifier();
+      productListNotifier.state = AsyncValue.data(products);
       final result = await productListNotifier.addProduct(productToAdd);
       expect(result, false);
     });
@@ -136,8 +136,8 @@ void main() {
           body: any(named: 'body'),
         ),
       ).thenThrow(Exception('Error'));
-      final productListNotifier =
-          ProductListNotifier(productListRepository: mockProductListRepository);
+      final productListNotifier = ProductListNotifier();
+      productListNotifier.state = AsyncValue.data(products);
       final result = await productListNotifier.updateProduct(product);
       expect(result, false);
     });
@@ -149,9 +149,9 @@ void main() {
           productId: any(named: 'productId'),
         ),
       ).thenThrow(Exception('Error'));
-      final productListNotifier =
-          ProductListNotifier(productListRepository: mockProductListRepository);
-      final result = await productListNotifier.deleteProduct(product.id);
+      final productListNotifier = ProductListNotifier();
+      productListNotifier.state = AsyncValue.data(products);
+      final result = await productListNotifier.deleteProduct(product);
       expect(result, false);
     });
   });

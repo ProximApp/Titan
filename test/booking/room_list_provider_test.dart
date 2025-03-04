@@ -1,9 +1,11 @@
+import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
-import 'package:titan/service/class/room.dart';
-import 'package:titan/service/providers/room_list_provider.dart';
-import 'package:titan/service/repositories/rooms_repository.dart';
+import 'package:titan/booking/adapters/room.dart';
+import 'package:titan/booking/providers/room_list_provider.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 
 class MockRoomRepository extends Mock implements Openapi {}
@@ -21,7 +23,7 @@ void main() {
 
     setUp(() {
       mockRepository = MockRoomRepository();
-      provider = RoomListNotifier(roomRepository: mockRepository);
+      provider = RoomListNotifier();
     });
 
     test('loadRooms returns expected data', () async {
@@ -57,7 +59,7 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), newRoom),
       );
 
-      await provider.loadRooms();
+      provider.state = AsyncValue.data([...rooms]);
       final result = await provider.addRoom(newRoom.toRoomBase());
 
       expect(result, true);
@@ -72,6 +74,7 @@ void main() {
         () => mockRepository.bookingRoomsPost(body: any(named: 'body')),
       ).thenThrow(Exception('Failed to add room'));
 
+      provider.state = AsyncValue.data([...rooms]);
       final result = await provider.addRoom(newRoom.toRoomBase());
 
       expect(result, false);
@@ -90,7 +93,7 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), updatedRoom),
       );
 
-      await provider.loadRooms();
+      provider.state = AsyncValue.data([...rooms]);
       final result = await provider.updateRoom(updatedRoom);
 
       expect(result, true);
@@ -108,6 +111,7 @@ void main() {
         ),
       ).thenThrow(Exception('Failed to update room'));
 
+      provider.state = AsyncValue.data([...rooms]);
       final result = await provider.updateRoom(updatedRoom);
 
       expect(result, false);
@@ -125,8 +129,8 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
-      await provider.loadRooms();
-      final result = await provider.deleteRoom(rooms.first.id);
+      provider.state = AsyncValue.data([...rooms]);
+      final result = await provider.deleteRoom(rooms.first);
 
       expect(result, true);
       expect(
@@ -140,7 +144,8 @@ void main() {
         () => mockRepository.bookingRoomsRoomIdDelete(roomId: rooms.first.id),
       ).thenThrow(Exception('Failed to delete room'));
 
-      final result = await provider.deleteRoom(rooms.first.id);
+      provider.state = AsyncValue.data([...rooms]);
+      final result = await provider.deleteRoom(rooms.first);
 
       expect(result, false);
     });

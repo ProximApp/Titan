@@ -1,10 +1,10 @@
+import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
-import 'package:titan/booking/class/booking.dart';
 import 'package:titan/booking/providers/manager_booking_list_provider.dart';
-import 'package:titan/booking/repositories/booking_repository.dart';
-import 'package:titan/tools/functions.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 
 class MockBookingRepository extends Mock implements Openapi {}
@@ -22,7 +22,7 @@ void main() {
 
     setUp(() {
       mockRepository = MockBookingRepository();
-      provider = ManagerBookingListProvider(bookingRepository: mockRepository);
+      provider = ManagerBookingListProvider();
     });
 
     test('loadUserManageBookings returns expected data', () async {
@@ -64,7 +64,7 @@ void main() {
             chopper.Response(http.Response('body', 200), updatedBooking),
       );
 
-      await provider.loadUserManageBookings();
+      provider.state = AsyncValue.data(bookings);
       final result = await provider.updateBooking(updatedBooking);
 
       expect(result, true);
@@ -92,15 +92,15 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), bookings),
       );
       when(
-        () => mockRepository.bookingBookingsBookingIdPatch(
+        () => mockRepository.bookingBookingsBookingIdReplyDecisionPatch(
           bookingId: any(named: 'bookingId'),
-          body: any(named: 'body'),
+          decision: any(named: 'decision'),
         ),
       ).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), booking),
       );
 
-      await provider.loadUserManageBookings();
+      provider.state = AsyncValue.data(bookings);
       final result = await provider.toggleConfirmed(booking, Decision.approved);
 
       expect(result, true);
@@ -118,6 +118,7 @@ void main() {
         ),
       ).thenThrow(Exception('Failed to confirm booking'));
 
+      provider.state = AsyncValue.data(bookings);
       final result = await provider.toggleConfirmed(booking, Decision.approved);
 
       expect(result, false);

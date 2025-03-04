@@ -1,11 +1,11 @@
+import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/builders/empty_models.dart';
-import 'package:titan/admin/class/simple_group.dart';
-import 'package:titan/user/class/simple_users.dart';
 import 'package:titan/user/providers/user_list_provider.dart';
-import 'package:titan/user/repositories/user_list_repository.dart';
 
 class MockUserListRepository extends Mock implements Openapi {}
 
@@ -20,7 +20,7 @@ void main() {
 
     setUp(() {
       mockRepository = MockUserListRepository();
-      provider = UserListNotifier(userListRepository: mockRepository);
+      provider = UserListNotifier();
     });
 
     test('filterUsers returns expected data', () async {

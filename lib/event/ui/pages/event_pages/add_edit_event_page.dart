@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:titan/booking/providers/room_list_provider.dart';
-import 'package:titan/event/adapters/event.dart';
+import 'package:titan/event/adapters/event_complete.dart';
 import 'package:titan/event/ui/event.dart';
 import 'package:titan/event/ui/pages/event_pages/checkbox_entry.dart';
 import 'package:titan/event/providers/event_provider.dart';

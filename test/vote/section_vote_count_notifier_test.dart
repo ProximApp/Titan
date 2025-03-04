@@ -16,7 +16,7 @@ void main() {
 
     setUp(() {
       mockRepository = MockSectionVoteCountRepository();
-      provider = SectionVoteCountNotifier(repository: mockRepository);
+      provider = SectionVoteCountNotifier();
     });
 
     test('loadCount returns expected data', () async {
@@ -25,19 +25,13 @@ void main() {
           sectionId: any(named: 'sectionId'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('body', 200),
-          voteStats,
-        ),
+        (_) async => chopper.Response(http.Response('body', 200), voteStats),
       );
 
       final result = await provider.loadCount('1');
 
       expect(
-        result.maybeWhen(
-          data: (data) => data,
-          orElse: () => null,
-        ),
+        result.maybeWhen(data: (data) => data, orElse: () => null),
         voteStats,
       );
     });
@@ -52,10 +46,7 @@ void main() {
       final result = await provider.loadCount('1');
 
       expect(
-        result.maybeWhen(
-          error: (error, _) => error,
-          orElse: () => null,
-        ),
+        result.maybeWhen(error: (error, _) => error, orElse: () => null),
         isA<Exception>(),
       );
     });

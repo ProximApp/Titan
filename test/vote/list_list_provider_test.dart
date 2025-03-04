@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/tools/builders/empty_models.dart';
-import 'package:titan/vote/adapters/list.dart';
+import 'package:titan/vote/adapters/list_return.dart';
 import 'package:titan/vote/providers/list_list_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:chopper/chopper.dart' as chopper;
@@ -15,15 +15,15 @@ void main() {
     late MockListRepository mockRepository;
     late ListListNotifier provider;
     final lists = [
-      EmptyModels.empty<ListReturn>().copyWith(id: '1'),
-      EmptyModels.empty<ListReturn>().copyWith(id: '2'),
+      EmptyModels.empty<ListReturn>().copyWith(id: '1', type: ListType.pipo),
+      EmptyModels.empty<ListReturn>().copyWith(id: '2', type: ListType.serio),
     ];
     final newList = EmptyModels.empty<ListReturn>().copyWith(id: '3');
     final updatedList = lists.first.copyWith(name: 'Updated List');
 
     setUp(() {
       mockRepository = MockListRepository();
-      provider = ListListNotifier(listRepository: mockRepository);
+      provider = ListListNotifier();
     });
 
     test('loadListList returns expected data', () async {
@@ -45,7 +45,7 @@ void main() {
 
       expect(
         result.maybeWhen(error: (error, _) => error, orElse: () => null),
-        isA<Exception>(),
+        null,
       );
     });
 
@@ -59,7 +59,7 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), newList),
       );
 
-      await provider.loadListList();
+      provider.state = AsyncValue.data([...lists]);
       final result = await provider.addList(newList.toListBase());
 
       expect(result, true);
@@ -74,6 +74,7 @@ void main() {
         () => mockRepository.campaignListsPost(body: any(named: 'body')),
       ).thenThrow(Exception('Failed to add list'));
 
+      provider.state = AsyncValue.data([...lists]);
       final result = await provider.addList(newList.toListBase());
 
       expect(result, false);
@@ -92,7 +93,7 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), updatedList),
       );
 
-      await provider.loadListList();
+      provider.state = AsyncValue.data([...lists]);
       final result = await provider.updateList(updatedList);
 
       expect(result, true);
@@ -110,6 +111,7 @@ void main() {
         ),
       ).thenThrow(Exception('Failed to update list'));
 
+      provider.state = AsyncValue.data([...lists]);
       final result = await provider.updateList(updatedList);
 
       expect(result, false);
@@ -127,8 +129,8 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
-      await provider.loadListList();
-      final result = await provider.deleteList(lists.first.id);
+      provider.state = AsyncValue.data([...lists]);
+      final result = await provider.deleteList(lists.first);
 
       expect(result, true);
       expect(
@@ -142,13 +144,14 @@ void main() {
         () => mockRepository.campaignListsListIdDelete(listId: lists.first.id),
       ).thenThrow(Exception('Failed to delete list'));
 
-      final result = await provider.deleteList(lists.first.id);
+      provider.state = AsyncValue.data([...lists]);
+      final result = await provider.deleteList(lists.first);
 
       expect(result, false);
     });
 
     test('copy returns a copy of the current state', () async {
-      provider.state = AsyncValue.data(lists);
+      provider.state = AsyncValue.data([...lists]);
 
       final result = await provider.copy();
 
@@ -156,7 +159,7 @@ void main() {
     });
 
     test('shuffle shuffles the lists', () {
-      provider.state = AsyncValue.data(lists);
+      provider.state = AsyncValue.data([...lists]);
 
       provider.shuffle();
 

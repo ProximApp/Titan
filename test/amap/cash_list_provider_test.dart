@@ -4,11 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 
-import 'package:titan/amap/class/cash.dart';
 import 'package:titan/amap/providers/cash_list_provider.dart';
-import 'package:titan/amap/repositories/cash_repository.dart';
-import 'package:titan/tools/exception.dart';
-import 'package:titan/user/class/simple_users.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 
 class MockCashRepository extends Mock implements Openapi {}
 
@@ -44,8 +41,7 @@ void main() {
       when(() => mockCashRepository.amapUsersCashGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('[]', 200), [cash1]),
       );
-      final CashListProvider cashListProvider =
-          CashListProvider(cashRepository: mockCashRepository);
+      final CashListProvider cashListProvider = CashListProvider();
       final result = await cashListProvider.loadCashList();
       expect(result, isA<AsyncData<List<CashComplete>>>());
       expect(
@@ -60,10 +56,10 @@ void main() {
 
     test('Should handle error when loading cash list', () async {
       final mockCashRepository = MockCashRepository();
-      when(() => mockCashRepository.amapUsersCashGet())
-          .thenThrow(Exception('Error'));
-      final CashListProvider cashListProvider =
-          CashListProvider(cashRepository: mockCashRepository);
+      when(
+        () => mockCashRepository.amapUsersCashGet(),
+      ).thenThrow(Exception('Error'));
+      final CashListProvider cashListProvider = CashListProvider();
       final result = await cashListProvider.loadCashList();
       expect(result, isA<AsyncError>());
     });
@@ -78,8 +74,8 @@ void main() {
       ).thenAnswer(
         (_) async => chopper.Response(http.Response('[]', 200), cash1),
       );
-      final CashListProvider cashListProvider =
-          CashListProvider(cashRepository: mockCashRepository);
+      final CashListProvider cashListProvider = CashListProvider();
+      cashListProvider.state = AsyncData([]);
       final result = await cashListProvider.addCash(cash1);
       expect(result, true);
     });
@@ -92,8 +88,8 @@ void main() {
           body: any(named: 'body'),
         ),
       ).thenThrow(Exception('Error'));
-      final CashListProvider cashListProvider =
-          CashListProvider(cashRepository: mockCashRepository);
+      final CashListProvider cashListProvider = CashListProvider();
+      cashListProvider.state = AsyncData([]);
       final result = await cashListProvider.addCash(cash1);
       expect(result, false);
     });
@@ -111,8 +107,8 @@ void main() {
           cash1.copyWith(balance: 50.0),
         ),
       );
-      final CashListProvider cashListProvider =
-          CashListProvider(cashRepository: mockCashRepository);
+      final CashListProvider cashListProvider = CashListProvider();
+      cashListProvider.state = AsyncData([cash1]);
       final result = await cashListProvider.updateCash(cash1, 50.0);
       expect(result, true);
     });
@@ -125,8 +121,8 @@ void main() {
           body: any(named: 'body'),
         ),
       ).thenThrow(Exception('Error'));
-      final CashListProvider cashListProvider =
-          CashListProvider(cashRepository: mockCashRepository);
+      final CashListProvider cashListProvider = CashListProvider();
+      cashListProvider.state = AsyncData([cash1]);
       final result = await cashListProvider.updateCash(cash1, 50.0);
       expect(result, false);
     });
@@ -136,8 +132,7 @@ void main() {
       when(() => mockCashRepository.amapUsersCashGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('[]', 200), [cash1, cash2]),
       );
-      final CashListProvider cashListProvider =
-          CashListProvider(cashRepository: mockCashRepository);
+      final CashListProvider cashListProvider = CashListProvider();
       await cashListProvider.loadCashList();
       final result = await cashListProvider.filterCashList('Jane');
       expect(
@@ -155,8 +150,7 @@ void main() {
       when(() => mockCashRepository.amapUsersCashGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('[]', 200), [cash1]),
       );
-      final CashListProvider cashListProvider =
-          CashListProvider(cashRepository: mockCashRepository);
+      final CashListProvider cashListProvider = CashListProvider();
       await cashListProvider.loadCashList();
       await cashListProvider.refreshCashList();
       expect(

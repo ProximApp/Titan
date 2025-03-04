@@ -1,10 +1,11 @@
+import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/builders/empty_models.dart';
-import 'package:titan/vote/class/result.dart';
 import 'package:titan/vote/providers/result_provider.dart';
-import 'package:titan/vote/repositories/result_repository.dart';
 
 class MockResultRepository extends Mock implements Openapi {}
 
@@ -23,7 +24,7 @@ void main() {
 
     setUp(() {
       mockRepository = MockResultRepository();
-      provider = ResultNotifier(resultRepository: mockRepository);
+      provider = ResultNotifier();
     });
 
     test('loadResult returns expected data', () async {

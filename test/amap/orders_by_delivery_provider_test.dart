@@ -3,9 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
-import 'package:titan/amap/class/order.dart';
 import 'package:titan/amap/providers/orders_by_delivery_provider.dart';
-import 'package:titan/amap/repositories/order_list_repository.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 
 class MockOrderListRepository extends Mock implements Openapi {}
@@ -26,9 +25,7 @@ void main() {
         (_) async =>
             chopper.Response(http.Response('[]', 200), orderByDeliveryList),
       );
-      final orderByDeliveryListNotifier = OrderByDeliveryListNotifier(
-        orderListRepository: mockOrderByDeliveryListRepository,
-      );
+      final orderByDeliveryListNotifier = OrderByDeliveryListNotifier();
       final deliveryOrderList = await orderByDeliveryListNotifier
           .loadDeliveryOrderList("");
       expect(deliveryOrderList, isA<AsyncData<List<OrderReturn>>>());

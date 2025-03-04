@@ -1,10 +1,11 @@
+import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:titan/event/class/event.dart';
+import 'package:http/http.dart' as http;
+import 'package:titan/event/adapters/event_complete_ticket_url.dart';
 import 'package:titan/event/providers/event_list_provider.dart';
-import 'package:titan/event/repositories/event_repository.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:titan/tools/functions.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 
 class MockEventRepository extends Mock implements Openapi {}
@@ -14,15 +15,15 @@ void main() {
     late MockEventRepository mockRepository;
     late EventListNotifier provider;
     final events = [
-      EmptyModels.empty<EventReturn>().copyWith(id: '1'),
-      EmptyModels.empty<EventReturn>().copyWith(id: '2'),
+      EmptyModels.empty<EventComplete>().copyWith(id: '1'),
+      EmptyModels.empty<EventComplete>().copyWith(id: '2'),
     ];
-    final newEvent = EmptyModels.empty<EventReturn>().copyWith(id: '3');
+    final newEvent = EmptyModels.empty<EventCompleteTicketUrl>().copyWith(id: '3');
     final updatedEvent = events.first.copyWith(name: 'Updated Event');
 
     setUp(() {
       mockRepository = MockEventRepository();
-      provider = EventListNotifier(eventRepository: mockRepository);
+      provider = EventListNotifier();
     });
 
     test('loadEventList returns expected data', () async {
@@ -58,8 +59,8 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), newEvent),
       );
 
-      await provider.loadEventList();
-      final result = await provider.addEvent(newEvent.toEventBase());
+      provider.state = AsyncValue.data([...events]);
+      final result = await provider.addEvent(newEvent.toEventBaseCreation());
 
       expect(result, true);
       expect(provider.state.maybeWhen(data: (data) => data, orElse: () => []), [
@@ -73,7 +74,8 @@ void main() {
         () => mockRepository.calendarEventsPost(body: any(named: 'body')),
       ).thenThrow(Exception('Failed to add event'));
 
-      final result = await provider.addEvent(newEvent.toEventBase());
+      provider.state = AsyncValue.data([...events]);
+      final result = await provider.addEvent(newEvent.toEventBaseCreation());
 
       expect(result, false);
     });
@@ -91,7 +93,7 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), updatedEvent),
       );
 
-      await provider.loadEventList();
+      provider.state = AsyncValue.data([...events]);
       final result = await provider.updateEvent(updatedEvent);
 
       expect(result, true);
@@ -109,6 +111,7 @@ void main() {
         ),
       ).thenThrow(Exception('Failed to update event'));
 
+      provider.state = AsyncValue.data([...events]);
       final result = await provider.updateEvent(updatedEvent);
 
       expect(result, false);
@@ -126,8 +129,8 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
-      await provider.loadEventList();
-      final result = await provider.deleteEvent(events.first.id);
+      provider.state = AsyncValue.data([...events]);
+      final result = await provider.deleteEvent(events.first);
 
       expect(result, true);
       expect(
@@ -143,7 +146,8 @@ void main() {
         ),
       ).thenThrow(Exception('Failed to delete event'));
 
-      final result = await provider.deleteEvent(events.first.id);
+      provider.state = AsyncValue.data([...events]);
+      final result = await provider.deleteEvent(events.first);
 
       expect(result, false);
     });
@@ -161,7 +165,7 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), updatedEvent),
       );
 
-      await provider.loadEventList();
+      provider.state = AsyncValue.data([...events]);
       final result = await provider.toggleConfirmed(updatedEvent);
 
       expect(result, true);

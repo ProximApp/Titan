@@ -23,7 +23,7 @@ void main() {
 
     setUp(() {
       mockRepository = MockLoanRepository();
-      provider = LoanListNotifier(loanRepository: mockRepository);
+      provider = LoanListNotifier();
     });
 
     test('loadLoanList returns expected data', () async {
@@ -57,7 +57,7 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), newLoan),
       );
 
-      await provider.loadLoanList();
+      provider.state = AsyncValue.data([...loans]);
       final result = await provider.addLoan(newLoan.toLoanCreation());
 
       expect(result, true);
@@ -72,6 +72,7 @@ void main() {
         () => mockRepository.loansPost(body: any(named: 'body')),
       ).thenThrow(Exception('Failed to add loan'));
 
+      provider.state = AsyncValue.data([...loans]);
       final result = await provider.addLoan(newLoan.toLoanCreation());
 
       expect(result, false);
@@ -90,7 +91,7 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), updatedLoan),
       );
 
-      await provider.loadLoanList();
+      provider.state = AsyncValue.data([...loans]);
       final result = await provider.updateLoan(updatedLoan);
 
       expect(result, true);
@@ -108,6 +109,7 @@ void main() {
         ),
       ).thenThrow(Exception('Failed to update loan'));
 
+      provider.state = AsyncValue.data([...loans]);
       final result = await provider.updateLoan(updatedLoan);
 
       expect(result, false);
@@ -123,8 +125,8 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
-      await provider.loadLoanList();
-      final result = await provider.deleteLoan(loans.first.id);
+      provider.state = AsyncValue.data([...loans]);
+      final result = await provider.deleteLoan(loans.first);
 
       expect(result, true);
       expect(
@@ -138,7 +140,8 @@ void main() {
         () => mockRepository.loansLoanIdDelete(loanId: loans.first.id),
       ).thenThrow(Exception('Failed to delete loan'));
 
-      final result = await provider.deleteLoan(loans.first.id);
+      provider.state = AsyncValue.data([...loans]);
+      final result = await provider.deleteLoan(loans.first);
 
       expect(result, false);
     });
@@ -154,8 +157,8 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
-      await provider.loadLoanList();
-      final result = await provider.returnLoan(loans.first.id);
+      provider.state = AsyncValue.data([...loans]);
+      final result = await provider.returnLoan(loans.first);
 
       expect(result, true);
       expect(
@@ -169,7 +172,8 @@ void main() {
         () => mockRepository.loansLoanIdReturnPost(loanId: loans.first.id),
       ).thenThrow(Exception('Failed to return loan'));
 
-      final result = await provider.returnLoan(loans.first.id);
+      provider.state = AsyncValue.data([...loans]);
+      final result = await provider.returnLoan(loans.first);
 
       expect(result, false);
     });

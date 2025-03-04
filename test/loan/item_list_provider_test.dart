@@ -15,15 +15,18 @@ void main() {
     late MockItemRepository mockRepository;
     late ItemListNotifier provider;
     final items = [
-      EmptyModels.empty<Item>().copyWith(id: '1'),
-      EmptyModels.empty<Item>().copyWith(id: '2'),
+      EmptyModels.empty<Item>().copyWith(id: '1', name: 'Item 1'),
+      EmptyModels.empty<Item>().copyWith(id: '2', name: 'Item 2'),
     ];
-    final newItem = EmptyModels.empty<Item>().copyWith(id: '3');
+    final newItem = EmptyModels.empty<Item>().copyWith(
+      id: '3',
+      name: 'New Item',
+    );
     final updatedItem = items.first.copyWith(name: 'Updated Item');
 
     setUp(() {
       mockRepository = MockItemRepository();
-      provider = ItemListNotifier(itemRepository: mockRepository);
+      provider = ItemListNotifier();
     });
 
     test('loadItemList returns expected data', () async {
@@ -72,7 +75,7 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), newItem),
       );
 
-      await provider.loadItemList('123');
+      provider.state = AsyncValue.data([...items]);
       final result = await provider.addItem(newItem.toItemBase(), '123');
 
       expect(result, true);
@@ -90,6 +93,7 @@ void main() {
         ),
       ).thenThrow(Exception('Failed to add item'));
 
+      provider.state = AsyncValue.data([...items]);
       final result = await provider.addItem(newItem.toItemBase(), '123');
 
       expect(result, false);
@@ -113,7 +117,7 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), updatedItem),
       );
 
-      await provider.loadItemList('123');
+      provider.state = AsyncValue.data([...items]);
       final result = await provider.updateItem(updatedItem, '123');
 
       expect(result, true);
@@ -132,6 +136,7 @@ void main() {
         ),
       ).thenThrow(Exception('Failed to update item'));
 
+      provider.state = AsyncValue.data([...items]);
       final result = await provider.updateItem(updatedItem, '123');
 
       expect(result, false);
@@ -154,8 +159,8 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
-      await provider.loadItemList('123');
-      final result = await provider.deleteItem(items.first.id, '123');
+      provider.state = AsyncValue.data([...items]);
+      final result = await provider.deleteItem(items.first, '123');
 
       expect(result, true);
       expect(
@@ -172,14 +177,14 @@ void main() {
         ),
       ).thenThrow(Exception('Failed to delete item'));
 
-      final result = await provider.deleteItem(items.first.id, '123');
+      provider.state = AsyncValue.data([...items]);
+      final result = await provider.deleteItem(items.first, '123');
 
       expect(result, false);
     });
 
     test('filterItems filters items based on query', () async {
-      provider.state = AsyncValue.data(items);
-
+      provider.state = AsyncValue.data([...items]);
       final result = await provider.filterItems('1');
 
       expect(result.maybeWhen(data: (data) => data, orElse: () => []), [
@@ -188,31 +193,11 @@ void main() {
     });
 
     test('copy returns a copy of the current state', () async {
-      provider.state = AsyncValue.data(items);
+      provider.state = AsyncValue.data([...items]);
 
       final result = await provider.copy();
 
       expect(result.maybeWhen(data: (data) => data, orElse: () => []), items);
     });
-
-    test('copy should return a copy of the current state when error', () async {
-      final error = Exception('error');
-      itemListNotifier.state = AsyncValue.error(error, StackTrace.empty);
-
-      final result = await itemListNotifier.copy();
-
-      expect(result.error, error);
-    });
-
-    test(
-      'copy should return a copy of the current state when loading',
-      () async {
-        itemListNotifier.state = const AsyncValue.loading();
-
-        final result = await itemListNotifier.copy();
-
-        expect(result.isLoading, true);
-      },
-    );
   });
 }

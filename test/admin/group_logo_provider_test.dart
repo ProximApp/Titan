@@ -12,7 +12,7 @@ void main() {
     //   when(
     //     () => repository.getLogo('123', suffix: '/logo'),
     //   ).thenAnswer((_) async => Uint8List(1));
-    //   final notifier = AssociationLogoNotifier(associationLogoRepository: repository);
+    //   final notifier = AssociationLogoNotifier();
 
     //   final image = await notifier.getLogo('123');
 
@@ -20,12 +20,13 @@ void main() {
     //   expect(image.image, isA<MemoryImage>());
     // });
 
+    // // Issue with flavor
     // test('getLogo returns logo image', () async {
-    //   final repository = MockAssociationLogoRepository();
-    //   when(
+    // //   final repository = MockAssociationLogoRepository();
+    // //   when(
     //     () => repository.getLogo('123', suffix: '/logo'),
-    //   ).thenAnswer((_) async => Uint8List(0));
-    //   final notifier = AssociationLogoNotifier(associationLogoRepository: repository);
+    // //   ).thenAnswer((_) async => Uint8List(0));
+    // //   final notifier = AssociationLogoNotifier();
 
     //   final image = await notifier.getLogo('123');
 
@@ -39,7 +40,7 @@ void main() {
     //   when(
     //     () => repository.addLogo(bytes, '123', suffix: '/logo'),
     //   ).thenAnswer((_) async => Uint8List(1));
-    //   final notifier = AssociationLogoNotifier(associationLogoRepository: repository);
+    //   final notifier = AssociationLogoNotifier();
 
     //   final image = await notifier.updateLogo('123', bytes);
 

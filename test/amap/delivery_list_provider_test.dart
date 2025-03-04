@@ -1,9 +1,8 @@
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:titan/amap/class/delivery.dart';
+import 'package:http/http.dart' as http;
 import 'package:titan/amap/providers/delivery_list_provider.dart';
-import 'package:titan/amap/repositories/delivery_list_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 
@@ -38,9 +37,7 @@ void main() {
         when(() => mockRepository.amapDeliveriesGet()).thenAnswer(
           (_) async => chopper.Response(http.Response('[]', 200), deliveries),
         );
-        final notifier = DeliveryListNotifier(
-          deliveriesListRepository: mockRepository,
-        );
+        final notifier = DeliveryListNotifier();
 
         // Act
         final result = await notifier.loadDeliveriesList();
@@ -66,9 +63,7 @@ void main() {
       ).thenAnswer(
         (_) async => chopper.Response(http.Response('[]', 200), delivery),
       );
-      final notifier = DeliveryListNotifier(
-        deliveriesListRepository: mockRepository,
-      );
+      final notifier = DeliveryListNotifier();
       notifier.state = AsyncValue.data(deliveries);
 
       // Act
@@ -96,9 +91,7 @@ void main() {
           (_) async =>
               chopper.Response(http.Response('[]', 200), updatedDelivery),
         );
-        final notifier = DeliveryListNotifier(
-          deliveriesListRepository: mockRepository,
-        );
+        final notifier = DeliveryListNotifier();
         notifier.state = AsyncValue.data(deliveries);
 
         // Act
@@ -123,9 +116,8 @@ void main() {
         // Arrange
         final mockRepository = MockDeliveryListRepository();
         when(
-          () => mockRepository.amapDeliveriesDeliveryIdPatch(
+          () => mockRepository.amapDeliveriesDeliveryIdOpenorderingPost(
             deliveryId: any(named: 'deliveryId'),
-            body: any(named: 'body'),
           ),
         ).thenAnswer(
           (_) async => chopper.Response(
@@ -134,9 +126,7 @@ void main() {
           ),
         );
         final deliveries = [delivery];
-        final notifier = DeliveryListNotifier(
-          deliveriesListRepository: mockRepository,
-        );
+        final notifier = DeliveryListNotifier();
         notifier.state = AsyncValue.data(deliveries);
 
         // Act
@@ -165,9 +155,8 @@ void main() {
         final mockRepository = MockDeliveryListRepository();
         final deliveries = [delivery];
         when(
-          () => mockRepository.amapDeliveriesDeliveryIdPatch(
+          () => mockRepository.amapDeliveriesDeliveryIdLockPost(
             deliveryId: any(named: 'deliveryId'),
-            body: any(named: 'body'),
           ),
         ).thenAnswer(
           (_) async => chopper.Response(
@@ -175,9 +164,7 @@ void main() {
             delivery.copyWith(status: DeliveryStatusType.locked),
           ),
         );
-        final notifier = DeliveryListNotifier(
-          deliveriesListRepository: mockRepository,
-        );
+        final notifier = DeliveryListNotifier();
         notifier.state = AsyncValue.data(deliveries);
 
         // Act
@@ -206,9 +193,8 @@ void main() {
         final mockRepository = MockDeliveryListRepository();
         final deliveries = [delivery];
         when(
-          () => mockRepository.amapDeliveriesDeliveryIdPatch(
+          () => mockRepository.amapDeliveriesDeliveryIdDeliveredPost(
             deliveryId: any(named: 'deliveryId'),
-            body: any(named: 'body'),
           ),
         ).thenAnswer(
           (_) async => chopper.Response(
@@ -216,9 +202,7 @@ void main() {
             delivery.copyWith(status: DeliveryStatusType.delivered),
           ),
         );
-        final notifier = DeliveryListNotifier(
-          deliveriesListRepository: mockRepository,
-        );
+        final notifier = DeliveryListNotifier();
         notifier.state = AsyncValue.data(deliveries);
 
         // Act
@@ -245,15 +229,13 @@ void main() {
       final mockRepository = MockDeliveryListRepository();
       final deliveries = [delivery];
       when(
-        () => mockRepository.amapDeliveriesDeliveryIdDelete(
+        () => mockRepository.amapDeliveriesDeliveryIdArchivePost(
           deliveryId: any(named: 'deliveryId'),
         ),
       ).thenAnswer(
         (_) async => chopper.Response(http.Response('[]', 200), true),
       );
-      final notifier = DeliveryListNotifier(
-        deliveriesListRepository: mockRepository,
-      );
+      final notifier = DeliveryListNotifier();
       notifier.state = AsyncValue.data(deliveries);
 
       // Act
@@ -282,13 +264,11 @@ void main() {
       ).thenAnswer(
         (_) async => chopper.Response(http.Response('[]', 200), true),
       );
-      final notifier = DeliveryListNotifier(
-        deliveriesListRepository: mockRepository,
-      );
+      final notifier = DeliveryListNotifier();
       notifier.state = AsyncValue.data(deliveries);
 
       // Act
-      final result = await notifier.deleteDelivery(delivery.id);
+      final result = await notifier.deleteDelivery(delivery);
 
       // Assert
       expect(result, true);
@@ -302,59 +282,9 @@ void main() {
       );
     });
 
-    test(
-      'toggleExpanded should toggle the expanded property of a delivery',
-      () {
-        // Arrange
-        final delivery1 = Delivery.empty().copyWith(id: '1');
-        final delivery2 = Delivery.empty().copyWith(id: '2');
-        final deliveries = [delivery1, delivery2];
-        final notifier = DeliveryListNotifier(
-          deliveriesListRepository: MockDeliveryListRepository(),
-        );
-
-        // Act/Assert (loading state)
-        notifier.toggleExpanded('1');
-        expect(
-          notifier.state,
-          const AsyncValue<List<Delivery>>.error(
-            "Cannot toggle expanded while loading",
-            StackTrace.empty,
-          ),
-        );
-
-        // Act/Assert (error state)
-        notifier.state = const AsyncValue<List<Delivery>>.error(
-          'Error',
-          StackTrace.empty,
-        );
-        notifier.toggleExpanded('1');
-        expect(
-          notifier.state,
-          const AsyncValue<List<Delivery>>.error('Error', StackTrace.empty),
-        );
-
-        // Act/Assert (data state)
-        notifier.state = AsyncValue.data(deliveries);
-        notifier.toggleExpanded('1');
-        expect(
-          notifier.state
-              .when(
-                data: (data) => data,
-                error: (e, s) => [],
-                loading: () => [],
-              )
-              .first
-              .expanded,
-          isTrue,
-        );
-      },
-    );
     test('copy should return a copy of the list of deliveries', () async {
       // Arrange
-      final notifier = DeliveryListNotifier(
-        deliveriesListRepository: MockDeliveryListRepository(),
-      );
+      final notifier = DeliveryListNotifier();
 
       // Act/Assert (loading state)
       final result1 = await notifier.copy();

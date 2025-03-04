@@ -1,9 +1,11 @@
+import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
-import 'package:titan/cinema/class/session.dart';
+import 'package:titan/cinema/adapters/session.dart';
 import 'package:titan/cinema/providers/session_list_provider.dart';
-import 'package:titan/cinema/repositories/session_repository.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 
 class MockSessionRepository extends Mock implements Openapi {}
@@ -23,7 +25,7 @@ void main() {
 
     setUp(() {
       mockRepository = MockSessionRepository();
-      provider = SessionListNotifier(sessionRepository: mockRepository);
+      provider = SessionListNotifier();
     });
 
     test('loadSessions returns expected data', () async {
@@ -62,7 +64,7 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), newSession),
       );
 
-      await provider.loadSessions();
+      provider.state = AsyncValue.data([...sessions]);
       final result = await provider.addSession(newSession.toCineSessionBase());
 
       expect(result, true);
@@ -77,6 +79,7 @@ void main() {
         () => mockRepository.cinemaSessionsPost(body: any(named: 'body')),
       ).thenThrow(Exception('Failed to add session'));
 
+      provider.state = AsyncValue.data([...sessions]);
       final result = await provider.addSession(newSession.toCineSessionBase());
 
       expect(result, false);
@@ -96,7 +99,7 @@ void main() {
             chopper.Response(http.Response('body', 200), updatedSession),
       );
 
-      await provider.loadSessions();
+      provider.state = AsyncValue.data([...sessions]);
       final result = await provider.updateSession(updatedSession);
 
       expect(result, true);
@@ -114,6 +117,7 @@ void main() {
         ),
       ).thenThrow(Exception('Failed to update session'));
 
+      provider.state = AsyncValue.data([...sessions]);
       final result = await provider.updateSession(updatedSession);
 
       expect(result, false);
@@ -131,8 +135,8 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
-      await provider.loadSessions();
-      final result = await provider.deleteSession(sessions.first.id);
+      provider.state = AsyncValue.data([...sessions]);
+      final result = await provider.deleteSession(sessions.first);
 
       expect(result, true);
       expect(
@@ -148,7 +152,8 @@ void main() {
         ),
       ).thenThrow(Exception('Failed to delete session'));
 
-      final result = await provider.deleteSession(sessions.first.id);
+      provider.state = AsyncValue.data([...sessions]);
+      final result = await provider.deleteSession(sessions.first);
 
       expect(result, false);
     });

@@ -1,10 +1,11 @@
+import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/builders/empty_models.dart';
-import 'package:titan/vote/class/section.dart';
 import 'package:titan/vote/providers/sections_provider.dart';
-import 'package:titan/vote/repositories/section_repository.dart';
 
 class MockSectionRepository extends Mock implements Openapi {}
 
@@ -24,7 +25,7 @@ void main() {
 
     setUp(() {
       mockRepository = MockSectionRepository();
-      provider = SectionNotifier(sectionRepository: mockRepository);
+      provider = SectionNotifier();
     });
 
     test('loadSectionList returns expected data', () async {
@@ -63,7 +64,7 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), newSection),
       );
 
-      await provider.loadSectionList();
+      provider.state = AsyncValue.data([...sections]);
       final result = await provider.addSection(newSectionBase);
 
       expect(result, true);
@@ -78,6 +79,7 @@ void main() {
         () => mockRepository.campaignSectionsPost(body: any(named: 'body')),
       ).thenThrow(Exception('Failed to add section'));
 
+      provider.state = AsyncValue.data([...sections]);
       final result = await provider.addSection(newSectionBase);
 
       expect(result, false);
@@ -95,8 +97,8 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
-      await provider.loadSectionList();
-      final result = await provider.deleteSection(sections.first.id);
+      provider.state = AsyncValue.data([...sections]);
+      final result = await provider.deleteSection(sections.first);
 
       expect(result, true);
       expect(
@@ -112,7 +114,8 @@ void main() {
         ),
       ).thenThrow(Exception('Failed to delete section'));
 
-      final result = await provider.deleteSection(sections.first.id);
+      provider.state = AsyncValue.data([...sections]);
+      final result = await provider.deleteSection(sections.first);
 
       expect(result, false);
     });
