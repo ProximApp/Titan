@@ -10,7 +10,6 @@ import 'package:titan/paiement/providers/store_sellers_list_provider.dart';
 import 'package:titan/paiement/ui/pages/store_admin_page/right_check_box.dart';
 import 'package:titan/paiement/ui/pages/store_admin_page/seller_right_dialog.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/user/class/simple_users.dart';
@@ -82,43 +81,41 @@ class SearchResult extends HookConsumerWidget {
                   ],
                 ),
                 onYes: () async {
-                  await tokenExpireWrapper(ref, () async {
-                    newAdminNotifier.updateNewAdmin(simpleUser);
-                    queryController.text = simpleUser.getName();
-                    Seller seller = Seller(
-                      storeId: store.id,
-                      userId: simpleUser.id,
-                      user: simpleUser,
-                      canBank: sellerRightsList[0],
-                      canSeeHistory: sellerRightsList[1],
-                      canCancel: sellerRightsList[2],
-                      canManageSellers: sellerRightsList[3],
-                    );
-                    final addedSellerMsg = AppLocalizations.of(
-                      context,
-                    )!.paiementAddedSeller;
-                    final addingSellerErrorMsg = AppLocalizations.of(
-                      context,
-                    )!.paiementAddingSellerError;
-                    final value = await sellerStoreNotifier.createStoreSeller(
-                      seller,
-                    );
-                    if (value) {
-                      queryController.clear();
-                      usersNotifier.clear();
-                      sellerRightsListNotifier.clearRights();
-                      newAdminNotifier.resetNewAdmin();
-                      displayToastWithContext(TypeMsg.msg, addedSellerMsg);
-                      if (context.mounted) {
-                        Navigator.of(context).pop();
-                      }
-                    } else {
-                      displayToastWithContext(
-                        TypeMsg.error,
-                        addingSellerErrorMsg,
-                      );
+                  newAdminNotifier.updateNewAdmin(simpleUser);
+                  queryController.text = simpleUser.getName();
+                  Seller seller = Seller(
+                    storeId: store.id,
+                    userId: simpleUser.id,
+                    user: simpleUser,
+                    canBank: sellerRightsList[0],
+                    canSeeHistory: sellerRightsList[1],
+                    canCancel: sellerRightsList[2],
+                    canManageSellers: sellerRightsList[3],
+                  );
+                  final addedSellerMsg = AppLocalizations.of(
+                    context,
+                  )!.paiementAddedSeller;
+                  final addingSellerErrorMsg = AppLocalizations.of(
+                    context,
+                  )!.paiementAddingSellerError;
+                  final value = await sellerStoreNotifier.createStoreSeller(
+                    seller,
+                  );
+                  if (value) {
+                    queryController.clear();
+                    usersNotifier.clear();
+                    sellerRightsListNotifier.clearRights();
+                    newAdminNotifier.resetNewAdmin();
+                    displayToastWithContext(TypeMsg.msg, addedSellerMsg);
+                    if (context.mounted) {
+                      Navigator.of(context).pop();
                     }
-                  });
+                  } else {
+                    displayToastWithContext(
+                      TypeMsg.error,
+                      addingSellerErrorMsg,
+                    );
+                  }
                   onChoose();
                 },
               );

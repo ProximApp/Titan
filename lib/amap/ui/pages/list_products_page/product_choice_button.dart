@@ -9,7 +9,6 @@ import 'package:titan/amap/providers/user_amount_provider.dart';
 import 'package:titan/amap/tools/constants.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
@@ -81,45 +80,38 @@ class ProductChoiceButton extends HookConsumerWidget {
                     user: me.toCoreUserSimple(),
                     amount: order.amount,
                   );
-                  await tokenExpireWrapper(ref, () async {
-                    final updatedOrderMsg = AppLocalizations.of(
-                      context,
-                    )!.amapUpdatedOrder;
-                    final addedOrderMsg = AppLocalizations.of(
-                      context,
-                    )!.amapAddedOrder;
-                    final updatingErrorMsg = AppLocalizations.of(
-                      context,
-                    )!.amapUpdatingError;
-                    final addingErrorMsg = AppLocalizations.of(
-                      context,
-                    )!.amapAddingError;
-                    final value = isEdit
-                        ? await orderListNotifier.updateOrder(newOrder)
-                        : await orderListNotifier.addOrder(
-                            newOrder.toOrderBase(),
-                          );
-                    if (value) {
-                      QR.back();
-                      userAmountNotifier.updateCash(
-                        order.amount - order.amount,
-                      );
-                      if (isEdit) {
-                        displayToastWithContext(TypeMsg.msg, updatedOrderMsg);
-                      } else {
-                        displayToastWithContext(TypeMsg.msg, addedOrderMsg);
-                      }
-                    } else {
-                      if (isEdit) {
-                        displayToastWithContext(
-                          TypeMsg.error,
-                          updatingErrorMsg,
+                  final updatedOrderMsg = AppLocalizations.of(
+                    context,
+                  )!.amapUpdatedOrder;
+                  final addedOrderMsg = AppLocalizations.of(
+                    context,
+                  )!.amapAddedOrder;
+                  final updatingErrorMsg = AppLocalizations.of(
+                    context,
+                  )!.amapUpdatingError;
+                  final addingErrorMsg = AppLocalizations.of(
+                    context,
+                  )!.amapAddingError;
+                  final value = isEdit
+                      ? await orderListNotifier.updateOrder(newOrder)
+                      : await orderListNotifier.addOrder(
+                          newOrder.toOrderBase(),
                         );
-                      } else {
-                        displayToastWithContext(TypeMsg.error, addingErrorMsg);
-                      }
+                  if (value) {
+                    QR.back();
+                    userAmountNotifier.updateCash(order.amount - order.amount);
+                    if (isEdit) {
+                      displayToastWithContext(TypeMsg.msg, updatedOrderMsg);
+                    } else {
+                      displayToastWithContext(TypeMsg.msg, addedOrderMsg);
                     }
-                  });
+                  } else {
+                    if (isEdit) {
+                      displayToastWithContext(TypeMsg.error, updatingErrorMsg);
+                    } else {
+                      displayToastWithContext(TypeMsg.error, addingErrorMsg);
+                    }
+                  }
                 }
               },
               child: Text(

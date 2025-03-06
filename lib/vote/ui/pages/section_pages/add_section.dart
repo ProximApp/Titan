@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/layouts/add_edit_button_layout.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
@@ -65,29 +64,27 @@ class AddSectionPage extends HookConsumerWidget {
                       final addingErrorMsg = AppLocalizations.of(
                         context,
                       )!.voteAddingError;
-                      await tokenExpireWrapper(ref, () async {
-                        final value = await sectionsNotifier.addSection(
-                          SectionBase(
-                            name: name.text,
-                            description: description.text,
-                          ),
+                      final value = await sectionsNotifier.addSection(
+                        SectionBase(
+                          name: name.text,
+                          description: description.text,
+                        ),
+                      );
+                      if (value) {
+                        QR.back();
+                        sections.whenData((value) {
+                          sectionListNotifier.addT(value.last);
+                        });
+                        displayVoteToastWithContext(
+                          TypeMsg.msg,
+                          addedSectionMsg,
                         );
-                        if (value) {
-                          QR.back();
-                          sections.whenData((value) {
-                            sectionListNotifier.addT(value.last);
-                          });
-                          displayVoteToastWithContext(
-                            TypeMsg.msg,
-                            addedSectionMsg,
-                          );
-                        } else {
-                          displayVoteToastWithContext(
-                            TypeMsg.error,
-                            addingErrorMsg,
-                          );
-                        }
-                      });
+                      } else {
+                        displayVoteToastWithContext(
+                          TypeMsg.error,
+                          addingErrorMsg,
+                        );
+                      }
                     },
                     child: Text(
                       AppLocalizations.of(context)!.voteAdd,

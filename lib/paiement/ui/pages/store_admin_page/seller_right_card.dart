@@ -6,7 +6,6 @@ import 'package:titan/paiement/class/seller.dart';
 import 'package:titan/paiement/providers/selected_store_provider.dart';
 import 'package:titan/paiement/providers/store_sellers_list_provider.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/layouts/add_edit_button_layout.dart';
 import 'package:titan/tools/ui/layouts/card_button.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
@@ -155,48 +154,46 @@ class SellerRightCard extends ConsumerWidget {
                                       vertical: -4,
                                     ),
                                     onChanged: (value) async {
-                                      await tokenExpireWrapper(ref, () async {
-                                        final rightsUpdatedMsg =
-                                            AppLocalizations.of(
-                                              context,
-                                            )!.paiementRightsUpdated;
-                                        final rightsUpdateErrorMsg =
-                                            AppLocalizations.of(
-                                              context,
-                                            )!.paiementRightsUpdateError;
-                                        final value = await sellerStoreNotifier
-                                            .updateStoreSeller(
-                                              storeSeller.copyWith(
-                                                canBank: i == 0
-                                                    ? !sellerRights[0]
-                                                    : sellerRights[0],
-                                                canSeeHistory: i == 1
-                                                    ? !sellerRights[1]
-                                                    : sellerRights[1],
-                                                canCancel: i == 2
-                                                    ? !sellerRights[2]
-                                                    : sellerRights[2],
-                                                canManageSellers: i == 3
-                                                    ? !sellerRights[3]
-                                                    : sellerRights[3],
-                                              ),
-                                            );
-                                        if (value) {
-                                          displayToastWithContext(
-                                            TypeMsg.msg,
-                                            rightsUpdatedMsg,
+                                      final rightsUpdatedMsg =
+                                          AppLocalizations.of(
+                                            context,
+                                          )!.paiementRightsUpdated;
+                                      final rightsUpdateErrorMsg =
+                                          AppLocalizations.of(
+                                            context,
+                                          )!.paiementRightsUpdateError;
+                                      final value = await sellerStoreNotifier
+                                          .updateStoreSeller(
+                                            storeSeller.copyWith(
+                                              canBank: i == 0
+                                                  ? !sellerRights[0]
+                                                  : sellerRights[0],
+                                              canSeeHistory: i == 1
+                                                  ? !sellerRights[1]
+                                                  : sellerRights[1],
+                                              canCancel: i == 2
+                                                  ? !sellerRights[2]
+                                                  : sellerRights[2],
+                                              canManageSellers: i == 3
+                                                  ? !sellerRights[3]
+                                                  : sellerRights[3],
+                                            ),
                                           );
-                                          sellerRights[i] = !sellerRights[i];
-                                          if (context.mounted) {
-                                            Navigator.pop(context);
-                                          }
-                                        } else {
-                                          displayToastWithContext(
-                                            TypeMsg.error,
-                                            rightsUpdateErrorMsg,
-                                          );
+                                      if (value) {
+                                        displayToastWithContext(
+                                          TypeMsg.msg,
+                                          rightsUpdatedMsg,
+                                        );
+                                        sellerRights[i] = !sellerRights[i];
+                                        if (context.mounted) {
+                                          Navigator.pop(context);
                                         }
-                                      });
+                                      } else {
+                                        displayToastWithContext(
+                                          TypeMsg.error,
+                                          rightsUpdateErrorMsg,
+                                        );
+                                      }
                                     },
                                   ),
                               ],
@@ -214,8 +211,7 @@ class SellerRightCard extends ConsumerWidget {
                                 descriptions: AppLocalizations.of(
                                   context,
                                 )!.paiementDeleteSellerDescription,
-                                onYes: () {
-                                  tokenExpireWrapper(ref, () async {
+                                onYes: () async {
                                     final deleteSellerMsg = AppLocalizations.of(
                                       context,
                                     )!.paiementDeletedSeller;
@@ -239,7 +235,6 @@ class SellerRightCard extends ConsumerWidget {
                                         deletingSellerErrorMsg,
                                       );
                                     }
-                                  });
                                 },
                               ),
                             );

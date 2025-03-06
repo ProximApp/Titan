@@ -4,7 +4,6 @@ import 'package:titan/generated/openapi.enums.swagger.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/vote/providers/sections_provider.dart';
 import 'package:titan/vote/providers/selected_list_provider.dart';
 import 'package:titan/vote/providers/status_provider.dart';
@@ -20,9 +19,7 @@ class VoteButton extends HookConsumerWidget {
     final section = ref.watch(sectionProvider);
     final votesNotifier = ref.watch(votesProvider.notifier);
     final selectedList = ref.watch(selectedListProvider);
-    final selectedListNotifier = ref.watch(
-      selectedListProvider.notifier,
-    );
+    final selectedListNotifier = ref.watch(selectedListProvider.notifier);
     final votedSectionNotifier = ref.watch(votedSectionProvider.notifier);
     final votedSection = ref.watch(votedSectionProvider);
     List<String> alreadyVotedSection = [];
@@ -56,31 +53,23 @@ class VoteButton extends HookConsumerWidget {
                 return CustomDialogBox(
                   title: AppLocalizations.of(context)!.voteVote,
                   descriptions: AppLocalizations.of(context)!.voteConfirmVote,
-                  onYes: () {
+                  onYes: () async {
                     final voteSuccessMsg = AppLocalizations.of(
                       context,
                     )!.voteVoteSuccess;
                     final voteErrorMsg = AppLocalizations.of(
                       context,
                     )!.voteVoteError;
-                    tokenExpireWrapper(ref, () async {
-                      final result = await votesNotifier.addVote(
-                        VoteBase(listId: selectedList.id),
-                      );
-                      if (result) {
-                        votedSectionNotifier.addVote(section.id);
-                        selectedListNotifier.clear();
-                        displayVoteToastWithContext(
-                          TypeMsg.msg,
-                          voteSuccessMsg,
-                        );
-                      } else {
-                        displayVoteToastWithContext(
-                          TypeMsg.error,
-                          voteErrorMsg,
-                        );
-                      }
-                    });
+                    final result = await votesNotifier.addVote(
+                      VoteBase(listId: selectedList.id),
+                    );
+                    if (result) {
+                      votedSectionNotifier.addVote(section.id);
+                      selectedListNotifier.clear();
+                      displayVoteToastWithContext(TypeMsg.msg, voteSuccessMsg);
+                    } else {
+                      displayVoteToastWithContext(TypeMsg.error, voteErrorMsg);
+                    }
                   },
                 );
               },

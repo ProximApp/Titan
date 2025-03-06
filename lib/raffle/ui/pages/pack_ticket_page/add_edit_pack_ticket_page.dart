@@ -10,7 +10,6 @@ import 'package:titan/raffle/tools/constants.dart';
 import 'package:titan/raffle/ui/components/blue_btn.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/tools/ui/widgets/text_entry.dart';
 import 'package:qlevar_router/qlevar_router.dart';
@@ -116,52 +115,40 @@ class AddEditPackTicketPage extends HookConsumerWidget {
                           price.text.replaceAll(',', '.'),
                         );
                         if (ticketPrice != null && ticketPrice > 0) {
-                          await tokenExpireWrapper(ref, () async {
-                            final newPackTicket = packTicket.copyWith(
-                              price: double.parse(price.text),
-                              packSize: int.parse(packSize.text),
-                              raffleId: isEdit
-                                  ? packTicket.raffleId
-                                  : raffle.id,
-                              id: isEdit ? packTicket.id : "",
+                          final newPackTicket = packTicket.copyWith(
+                            price: double.parse(price.text),
+                            packSize: int.parse(packSize.text),
+                            raffleId: isEdit ? packTicket.raffleId : raffle.id,
+                            id: isEdit ? packTicket.id : "",
+                          );
+                          final typeTicketNotifier = ref.watch(
+                            packTicketListProvider.notifier,
+                          );
+                          final editedTicketMsg = isEdit
+                              ? AppLocalizations.of(context)!.raffleEditedTicket
+                              : AppLocalizations.of(context)!.raffleAddedTicket;
+                          final addingErrorMsg = isEdit
+                              ? AppLocalizations.of(context)!.raffleEditingError
+                              : AppLocalizations.of(context)!.raffleAddingError;
+                          final value = isEdit
+                              ? await typeTicketNotifier.updatePackTicket(
+                                  newPackTicket,
+                                )
+                              : await typeTicketNotifier.addPackTicket(
+                                  newPackTicket.toPackTicketBase(),
+                                );
+                          if (value) {
+                            QR.back();
+                            displayToastWithContext(
+                              TypeMsg.msg,
+                              editedTicketMsg,
                             );
-                            final typeTicketNotifier = ref.watch(
-                              packTicketListProvider.notifier,
+                          } else {
+                            displayToastWithContext(
+                              TypeMsg.error,
+                              addingErrorMsg,
                             );
-                            final editedTicketMsg = isEdit
-                                ? AppLocalizations.of(
-                                    context,
-                                  )!.raffleEditedTicket
-                                : AppLocalizations.of(
-                                    context,
-                                  )!.raffleAddedTicket;
-                            final addingErrorMsg = isEdit
-                                ? AppLocalizations.of(
-                                    context,
-                                  )!.raffleEditingError
-                                : AppLocalizations.of(
-                                    context,
-                                  )!.raffleAddingError;
-                            final value = isEdit
-                                ? await typeTicketNotifier.updatePackTicket(
-                                    newPackTicket,
-                                  )
-                                : await typeTicketNotifier.addPackTicket(
-                                    newPackTicket.toPackTicketBase(),
-                                  );
-                            if (value) {
-                              QR.back();
-                              displayToastWithContext(
-                                TypeMsg.msg,
-                                editedTicketMsg,
-                              );
-                            } else {
-                              displayToastWithContext(
-                                TypeMsg.error,
-                                addingErrorMsg,
-                              );
-                            }
-                          });
+                          }
                         } else {
                           displayToast(
                             context,

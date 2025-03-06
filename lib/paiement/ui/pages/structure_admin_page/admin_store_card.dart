@@ -7,7 +7,6 @@ import 'package:titan/paiement/providers/store_provider.dart';
 import 'package:titan/paiement/providers/stores_list_provider.dart';
 import 'package:titan/paiement/router.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/tools/ui/layouts/card_button.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
@@ -82,29 +81,24 @@ class AdminStoreCard extends ConsumerWidget {
                       descriptions: AppLocalizations.of(
                         context,
                       )!.paiementDeleteStoreDescription,
-                      onYes: () {
-                        tokenExpireWrapper(ref, () async {
-                          final storeDeletedMsg = AppLocalizations.of(
-                            context,
-                          )!.paiementStoreDeleted;
-                          final storeDeleteErrorMsg = AppLocalizations.of(
-                            context,
-                          )!.paiementDeleteStoreError;
-                          final value = await storeListNotifier.deleteStore(
-                            store,
+                      onYes: () async {
+                        final storeDeletedMsg = AppLocalizations.of(
+                          context,
+                        )!.paiementStoreDeleted;
+                        final storeDeleteErrorMsg = AppLocalizations.of(
+                          context,
+                        )!.paiementDeleteStoreError;
+                        final value = await storeListNotifier.deleteStore(
+                          store,
+                        );
+                        if (value) {
+                          displayToastWithContext(TypeMsg.msg, storeDeletedMsg);
+                        } else {
+                          displayToastWithContext(
+                            TypeMsg.error,
+                            storeDeleteErrorMsg,
                           );
-                          if (value) {
-                            displayToastWithContext(
-                              TypeMsg.msg,
-                              storeDeletedMsg,
-                            );
-                          } else {
-                            displayToastWithContext(
-                              TypeMsg.error,
-                              storeDeleteErrorMsg,
-                            );
-                          }
-                        });
+                        }
                       },
                     ),
                   );

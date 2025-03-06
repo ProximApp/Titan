@@ -13,7 +13,6 @@ import 'package:titan/booking/router.dart';
 import 'package:titan/booking/ui/components/booking_card.dart';
 import 'package:titan/generated/openapi.enums.swagger.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/layouts/horizontal_list_view.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:qlevar_router/qlevar_router.dart';
@@ -125,33 +124,26 @@ class ListBooking extends HookConsumerWidget {
                             context,
                           )!.bookingConfirmBooking,
                           onYes: () async {
-                            await tokenExpireWrapper(ref, () async {
-                              BookingReturnApplicant newBooking = e
-                                ..copyWith(decision: Decision.approved);
-                              bookingListNotifier
-                                  .toggleConfirmed(
-                                    newBooking,
-                                    Decision.approved,
-                                  )
-                                  .then((value) {
-                                    if (value) {
-                                      ref
-                                          .read(
-                                            userBookingListProvider.notifier,
-                                          )
-                                          .loadUserBookings();
-                                      confirmedBookingListNotifier.addBooking(
-                                        newBooking
-                                            .toBookingReturnSimpleApplicant(),
-                                      );
-                                      managerConfirmedBookingListNotifier
-                                          .addBooking(
-                                            newBooking
-                                                .toBookingReturnSimpleApplicant(),
-                                          );
-                                    }
-                                  });
-                            });
+                            BookingReturnApplicant newBooking = e
+                              ..copyWith(decision: Decision.approved);
+                            bookingListNotifier
+                                .toggleConfirmed(newBooking, Decision.approved)
+                                .then((value) {
+                                  if (value) {
+                                    ref
+                                        .read(userBookingListProvider.notifier)
+                                        .loadUserBookings();
+                                    confirmedBookingListNotifier.addBooking(
+                                      newBooking
+                                          .toBookingReturnSimpleApplicant(),
+                                    );
+                                    managerConfirmedBookingListNotifier
+                                        .addBooking(
+                                          newBooking
+                                              .toBookingReturnSimpleApplicant(),
+                                        );
+                                  }
+                                });
                           },
                         );
                       },
@@ -167,34 +159,27 @@ class ListBooking extends HookConsumerWidget {
                             context,
                           )!.bookingDeclineBooking,
                           onYes: () async {
-                            await tokenExpireWrapper(ref, () async {
-                              BookingReturnApplicant newBooking = e.copyWith(
-                                decision: Decision.declined,
-                              );
-                              bookingListNotifier
-                                  .toggleConfirmed(
-                                    newBooking,
-                                    Decision.declined,
-                                  )
-                                  .then((value) {
-                                    if (value) {
-                                      ref
-                                          .read(
-                                            userBookingListProvider.notifier,
-                                          )
-                                          .loadUserBookings();
-                                      confirmedBookingListNotifier.deleteBooking(
-                                        newBooking
-                                            .toBookingReturnSimpleApplicant(),
-                                      );
-                                      managerConfirmedBookingListNotifier
-                                          .deleteBooking(
-                                            newBooking
-                                                .toBookingReturnSimpleApplicant(),
-                                          );
-                                    }
-                                  });
-                            });
+                            BookingReturnApplicant newBooking = e.copyWith(
+                              decision: Decision.declined,
+                            );
+                            bookingListNotifier
+                                .toggleConfirmed(newBooking, Decision.declined)
+                                .then((value) {
+                                  if (value) {
+                                    ref
+                                        .read(userBookingListProvider.notifier)
+                                        .loadUserBookings();
+                                    confirmedBookingListNotifier.deleteBooking(
+                                      newBooking
+                                          .toBookingReturnSimpleApplicant(),
+                                    );
+                                    managerConfirmedBookingListNotifier
+                                        .deleteBooking(
+                                          newBooking
+                                              .toBookingReturnSimpleApplicant(),
+                                        );
+                                  }
+                                });
                           },
                         );
                       },

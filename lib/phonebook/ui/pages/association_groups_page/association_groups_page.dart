@@ -11,7 +11,6 @@ import 'package:titan/phonebook/providers/association_provider.dart';
 import 'package:titan/phonebook/ui/phonebook.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tools/ui/layouts/refresher.dart';
@@ -38,7 +37,8 @@ class AssociationGroupsPage extends HookConsumerWidget {
         return useState<List<SimpleGroup>>(
           List.from(
             value.where((element) {
-              return association.associatedGroups?.contains(element.id) ?? false;
+              return association.associatedGroups?.contains(element.id) ??
+                  false;
             }).toList(),
           ),
         );
@@ -56,10 +56,8 @@ class AssociationGroupsPage extends HookConsumerWidget {
       child: Refresher(
         controller: ScrollController(),
         onRefresh: () async {
-          await tokenExpireWrapper(ref, () async {
-            await associationListNotifier.loadAssociations();
-            await ref.read(allGroupListProvider.notifier).loadGroups();
-          });
+          await associationListNotifier.loadAssociations();
+          await ref.read(allGroupListProvider.notifier).loadGroups();
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -103,30 +101,27 @@ class AssociationGroupsPage extends HookConsumerWidget {
               const SizedBox(height: 20),
               Button(
                 onPressed: () async {
-                  await tokenExpireWrapper(ref, () async {
-                    final value = await associationListNotifier
-                        .updateAssociationGroups(
-                          association.copyWith(
-                            associatedGroups: selectedGroups.value
-                                .map((e) => e.id)
-                                .toList(),
-                          ),
-                        );
-                    if (value) {
-                      displayToastWithContext(
-                        TypeMsg.msg,
-                        localizeWithContext.phonebookUpdatedGroups,
+                  final value = await associationListNotifier
+                      .updateAssociationGroups(
+                        association.copyWith(
+                          associatedGroups: selectedGroups.value
+                              .map((e) => e.id)
+                              .toList(),
+                        ),
                       );
-                      associationGroupementNotifier
-                          .resetAssociationGroupement();
-                      QR.back();
-                    } else {
-                      displayToastWithContext(
-                        TypeMsg.msg,
-                        localizeWithContext.phonebookUpdatingError,
-                      );
-                    }
-                  });
+                  if (value) {
+                    displayToastWithContext(
+                      TypeMsg.msg,
+                      localizeWithContext.phonebookUpdatedGroups,
+                    );
+                    associationGroupementNotifier.resetAssociationGroupement();
+                    QR.back();
+                  } else {
+                    displayToastWithContext(
+                      TypeMsg.msg,
+                      localizeWithContext.phonebookUpdatingError,
+                    );
+                  }
                 },
                 text: localizeWithContext.phonebookUpdateGroups,
               ),

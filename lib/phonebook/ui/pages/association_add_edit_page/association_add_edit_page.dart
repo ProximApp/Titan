@@ -15,7 +15,6 @@ import 'package:titan/phonebook/ui/phonebook.dart';
 import 'package:titan/settings/ui/pages/main_page/picture_button.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/styleguide/button.dart';
@@ -227,76 +226,74 @@ class AssociationAddEditPage extends HookConsumerWidget {
                       );
                       return;
                     }
-                    await tokenExpireWrapper(ref, () async {
-                      if (association.id == '') {
-                        final value = await associationListNotifier
-                            .createAssociation(
-                              AppModulesPhonebookSchemasPhonebookAssociationBase(
-                                name: name.text,
-                                description: description.text,
-                                groupementId: associationGroupement.id,
-                                mandateYear: DateTime.now().year,
-                              ),
-                            );
-                        if (value) {
-                          displayToastWithContext(
-                            TypeMsg.msg,
-                            localizeWithContext.phonebookAddedAssociation,
-                          );
-                          associations.when(
-                            data: (d) {
-                              associationNotifier.setAssociation(d.last);
-                              QR.to(
-                                PhonebookRouter.root +
-                                    PhonebookRouter.admin +
-                                    PhonebookRouter.addEditAssociation,
-                              );
-                            },
-                            error: (e, s) => displayToastWithContext(
-                              TypeMsg.error,
-                              localizeWithContext
-                                  .phonebookErrorAssociationLoading,
+                    if (association.id == '') {
+                      final value = await associationListNotifier
+                          .createAssociation(
+                            AppModulesPhonebookSchemasPhonebookAssociationBase(
+                              name: name.text,
+                              description: description.text,
+                              groupementId: associationGroupement.id,
+                              mandateYear: DateTime.now().year,
                             ),
-                            loading: () {},
                           );
-                        } else {
-                          displayToastWithContext(
-                            TypeMsg.error,
-                            localizeWithContext.phonebookAddingError,
-                          );
-                        }
-                      } else {
-                        final value = await associationListNotifier
-                            .updateAssociation(
-                              association.copyWith(
-                                name: name.text,
-                                description: description.text,
-                                groupementId: associationGroupement.id,
-                              ),
+                      if (value) {
+                        displayToastWithContext(
+                          TypeMsg.msg,
+                          localizeWithContext.phonebookAddedAssociation,
+                        );
+                        associations.when(
+                          data: (d) {
+                            associationNotifier.setAssociation(d.last);
+                            QR.to(
+                              PhonebookRouter.root +
+                                  PhonebookRouter.admin +
+                                  PhonebookRouter.addEditAssociation,
                             );
-                        if (value) {
-                          displayToastWithContext(
-                            TypeMsg.msg,
-                            localizeWithContext.phonebookUpdatedAssociation,
-                          );
-                          associationNotifier.setAssociation(
+                          },
+                          error: (e, s) => displayToastWithContext(
+                            TypeMsg.error,
+                            localizeWithContext
+                                .phonebookErrorAssociationLoading,
+                          ),
+                          loading: () {},
+                        );
+                      } else {
+                        displayToastWithContext(
+                          TypeMsg.error,
+                          localizeWithContext.phonebookAddingError,
+                        );
+                      }
+                    } else {
+                      final value = await associationListNotifier
+                          .updateAssociation(
                             association.copyWith(
                               name: name.text,
                               description: description.text,
                               groupementId: associationGroupement.id,
                             ),
                           );
-                          associationGroupementNotifier
-                              .resetAssociationGroupement();
-                          QR.back();
-                        } else {
-                          displayToastWithContext(
-                            TypeMsg.error,
-                            localizeWithContext.phonebookUpdatingError,
-                          );
-                        }
+                      if (value) {
+                        displayToastWithContext(
+                          TypeMsg.msg,
+                          localizeWithContext.phonebookUpdatedAssociation,
+                        );
+                        associationNotifier.setAssociation(
+                          association.copyWith(
+                            name: name.text,
+                            description: description.text,
+                            groupementId: associationGroupement.id,
+                          ),
+                        );
+                        associationGroupementNotifier
+                            .resetAssociationGroupement();
+                        QR.back();
+                      } else {
+                        displayToastWithContext(
+                          TypeMsg.error,
+                          localizeWithContext.phonebookUpdatingError,
+                        );
                       }
-                    });
+                    }
                   },
                   text: association.id != ""
                       ? localizeWithContext.phonebookEdit

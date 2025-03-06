@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class SingleMapNotifier<T, E> extends Notifier<Map<T, AsyncValue<E>?>> {
   @override
@@ -43,10 +42,8 @@ class SingleMapNotifier<T, E> extends Notifier<Map<T, AsyncValue<E>?>> {
     Future<AsyncValue<E>> Function(T t) loader,
   ) async {
     setTData(t, const AsyncLoading());
-    tokenExpireWrapper(ref, () async {
-      loader(t).then((value) {
-        setTData(t, value);
-      });
+    loader(t).then((value) {
+      setTData(t, value);
     });
   }
 }

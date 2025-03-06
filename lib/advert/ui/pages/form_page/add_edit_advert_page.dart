@@ -18,7 +18,6 @@ import 'package:titan/event/ui/pages/event_pages/checkbox_entry.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/tools/ui/layouts/add_edit_button_layout.dart';
 import 'package:titan/tools/ui/styleguide/text_entry.dart';
@@ -266,74 +265,70 @@ class AdvertAddEditAdvertPage extends HookConsumerWidget {
                         if (key.currentState!.validate() &&
                             selectedAssociation.isNotEmpty &&
                             (poster.value != null || isEdit)) {
-                          await tokenExpireWrapper(ref, () async {
-                            final advertList = ref.watch(advertListProvider);
-                            AdvertComplete newAdvert = AdvertComplete(
-                              id: isEdit ? advert.id : '',
-                              advertiserId: selectedAssociation[0].id,
-                              content: content.text,
-                              date: isEdit ? advert.date : DateTime.now(),
-                              title: title.text,
-                              postToFeed: postToFeed.value,
-                              notification: notification.value,
-                            );
-                            final editedAdvertMsg = AppLocalizations.of(
-                              context,
-                            )!.advertEditedAdvert;
-                            final addedAdvertMsg = AppLocalizations.of(
-                              context,
-                            )!.advertAddedAdvert;
-                            final editingErrorMsg = AppLocalizations.of(
-                              context,
-                            )!.advertEditingError;
-                            final value = isEdit
-                                ? await advertListNotifier.updateAdvert(
-                                    newAdvert,
-                                  )
-                                : await advertListNotifier.addAdvert(
-                                    newAdvert.toAdvertBase(),
-                                  );
-                            if (value) {
-                              QR.back();
-                              if (isEdit) {
-                                displayAdvertToastWithContext(
-                                  TypeMsg.msg,
-                                  editedAdvertMsg,
+                          final advertList = ref.watch(advertListProvider);
+                          AdvertComplete newAdvert = AdvertComplete(
+                            id: isEdit ? advert.id : '',
+                            advertiserId: selectedAssociation[0].id,
+                            content: content.text,
+                            date: isEdit ? advert.date : DateTime.now(),
+                            title: title.text,
+                            postToFeed: postToFeed.value,
+                            notification: notification.value,
+                          );
+                          final editedAdvertMsg = AppLocalizations.of(
+                            context,
+                          )!.advertEditedAdvert;
+                          final addedAdvertMsg = AppLocalizations.of(
+                            context,
+                          )!.advertAddedAdvert;
+                          final editingErrorMsg = AppLocalizations.of(
+                            context,
+                          )!.advertEditingError;
+                          final value = isEdit
+                              ? await advertListNotifier.updateAdvert(newAdvert)
+                              : await advertListNotifier.addAdvert(
+                                  newAdvert.toAdvertBase(),
                                 );
-                                advertList.maybeWhen(
-                                  data: (list) {
-                                    if (poster.value != null) {
-                                      posterNotifier.updateAdvertPoster(
-                                        advert.id,
-                                        poster.value!,
-                                      );
-                                    }
-                                  },
-                                  orElse: () {},
-                                );
-                              } else {
-                                displayAdvertToastWithContext(
-                                  TypeMsg.msg,
-                                  addedAdvertMsg,
-                                );
-                                advertList.maybeWhen(
-                                  data: (list) {
-                                    final newAdvert = list.last;
+                          if (value) {
+                            QR.back();
+                            if (isEdit) {
+                              displayAdvertToastWithContext(
+                                TypeMsg.msg,
+                                editedAdvertMsg,
+                              );
+                              advertList.maybeWhen(
+                                data: (list) {
+                                  if (poster.value != null) {
                                     posterNotifier.updateAdvertPoster(
-                                      newAdvert.id,
+                                      advert.id,
                                       poster.value!,
                                     );
-                                  },
-                                  orElse: () {},
-                                );
-                              }
+                                  }
+                                },
+                                orElse: () {},
+                              );
                             } else {
                               displayAdvertToastWithContext(
-                                TypeMsg.error,
-                                editingErrorMsg,
+                                TypeMsg.msg,
+                                addedAdvertMsg,
+                              );
+                              advertList.maybeWhen(
+                                data: (list) {
+                                  final newAdvert = list.last;
+                                  posterNotifier.updateAdvertPoster(
+                                    newAdvert.id,
+                                    poster.value!,
+                                  );
+                                },
+                                orElse: () {},
                               );
                             }
-                          });
+                          } else {
+                            displayAdvertToastWithContext(
+                              TypeMsg.error,
+                              editingErrorMsg,
+                            );
+                          }
                         } else {
                           displayToast(
                             context,

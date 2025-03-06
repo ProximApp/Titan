@@ -11,8 +11,8 @@ import 'package:titan/booking/ui/booking.dart';
 import 'package:titan/booking/ui/pages/admin_pages/admin_entry.dart';
 import 'package:titan/booking/ui/pages/admin_pages/admin_scroll_chips.dart';
 import 'package:titan/booking/ui/pages/admin_pages/admin_shrink_button.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/layouts/item_chip.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:qlevar_router/qlevar_router.dart';
@@ -99,31 +99,28 @@ class AddEditRoomPage extends HookConsumerWidget {
                   const SizedBox(height: 50),
                   AdminShrinkButton(
                     onTap: () async {
-                      await tokenExpireWrapper(ref, () async {
-                        RoomComplete newRoom = RoomComplete(
-                          id: isEdit ? room.id : '',
-                          name: name.text,
-                          managerId: managerId,
-                        );
-                        final editedRoomMsg = isEdit
-                            ? AppLocalizations.of(context)!.bookingEditedRoom
-                            : AppLocalizations.of(context)!.bookingAddedRoom;
-                        final addingErrorMsg = isEdit
-                            ? AppLocalizations.of(context)!.bookingEditionError
-                            : AppLocalizations.of(context)!.bookingAddingError;
-                        final value = isEdit
-                            ? await roomListNotifier.updateRoom(newRoom)
-                            : await roomListNotifier.addRoom(newRoom.toRoomBase());
-                        if (value) {
-                          QR.back();
-                          displayToastWithContext(TypeMsg.msg, editedRoomMsg);
-                        } else {
-                          displayToastWithContext(
-                            TypeMsg.error,
-                            addingErrorMsg,
-                          );
-                        }
-                      });
+                      RoomComplete newRoom = RoomComplete(
+                        id: isEdit ? room.id : '',
+                        name: name.text,
+                        managerId: managerId,
+                      );
+                      final editedRoomMsg = isEdit
+                          ? AppLocalizations.of(context)!.bookingEditedRoom
+                          : AppLocalizations.of(context)!.bookingAddedRoom;
+                      final addingErrorMsg = isEdit
+                          ? AppLocalizations.of(context)!.bookingEditionError
+                          : AppLocalizations.of(context)!.bookingAddingError;
+                      final value = isEdit
+                          ? await roomListNotifier.updateRoom(newRoom)
+                          : await roomListNotifier.addRoom(
+                              newRoom.toRoomBase(),
+                            );
+                      if (value) {
+                        QR.back();
+                        displayToastWithContext(TypeMsg.msg, editedRoomMsg);
+                      } else {
+                        displayToastWithContext(TypeMsg.error, addingErrorMsg);
+                      }
                     },
                     buttonText: isEdit
                         ? AppLocalizations.of(context)!.bookingEdit
@@ -133,42 +130,40 @@ class AddEditRoomPage extends HookConsumerWidget {
                     const SizedBox(height: 30),
                     AdminShrinkButton(
                       onTap: () async {
-                        await tokenExpireWrapper(ref, () async {
-                          await showDialog(
-                            context: context,
-                            builder: (context) => CustomDialogBox(
-                              descriptions: AppLocalizations.of(
+                        await showDialog(
+                          context: context,
+                          builder: (context) => CustomDialogBox(
+                            descriptions: AppLocalizations.of(
+                              context,
+                            )!.bookingDeleteRoomConfirmation,
+                            onYes: () async {
+                              final deletedRoomMsg = AppLocalizations.of(
                                 context,
-                              )!.bookingDeleteRoomConfirmation,
-                              onYes: () async {
-                                final deletedRoomMsg = AppLocalizations.of(
-                                  context,
-                                )!.bookingDeletedRoom;
-                                final deletingErrorMsg = AppLocalizations.of(
-                                  context,
-                                )!.bookingDeletingError;
-                                final value = await roomListNotifier.deleteRoom(
-                                  room,
+                              )!.bookingDeletedRoom;
+                              final deletingErrorMsg = AppLocalizations.of(
+                                context,
+                              )!.bookingDeletingError;
+                              final value = await roomListNotifier.deleteRoom(
+                                room,
+                              );
+                              if (value) {
+                                QR.back();
+                                displayToastWithContext(
+                                  TypeMsg.msg,
+                                  deletedRoomMsg,
                                 );
-                                if (value) {
-                                  QR.back();
-                                  displayToastWithContext(
-                                    TypeMsg.msg,
-                                    deletedRoomMsg,
-                                  );
-                                } else {
-                                  displayToastWithContext(
-                                    TypeMsg.error,
-                                    deletingErrorMsg,
-                                  );
-                                }
-                              },
-                              title: AppLocalizations.of(
-                                context,
-                              )!.bookingDeleteBooking,
-                            ),
-                          );
-                        });
+                              } else {
+                                displayToastWithContext(
+                                  TypeMsg.error,
+                                  deletingErrorMsg,
+                                );
+                              }
+                            },
+                            title: AppLocalizations.of(
+                              context,
+                            )!.bookingDeleteBooking,
+                          ),
+                        );
                       },
                       buttonText: AppLocalizations.of(context)!.bookingDelete,
                     ),

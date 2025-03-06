@@ -17,7 +17,6 @@ import 'package:titan/loan/ui/pages/loan_group_page/search_result.dart';
 import 'package:titan/loan/ui/pages/loan_group_page/start_date_entry.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/widgets/styled_search_bar.dart';
 import 'package:titan/tools/ui/widgets/text_entry.dart';
 import 'package:titan/user/extensions/core_user_simple.dart';
@@ -84,16 +83,12 @@ class AddEditLoanPage extends HookConsumerWidget {
                     const SizedBox(height: 20),
                     TextEntry(
                       label: AppLocalizations.of(context)!.loanBorrower,
-                      onChanged: (value) {
-                        tokenExpireWrapper(ref, () async {
-                          if (queryController.text.isNotEmpty) {
-                            await usersNotifier.filterUsers(
-                              queryController.text,
-                            );
-                          } else {
-                            usersNotifier.clear();
-                          }
-                        });
+                      onChanged: (value) async {
+                        if (queryController.text.isNotEmpty) {
+                          await usersNotifier.filterUsers(queryController.text);
+                        } else {
+                          usersNotifier.clear();
+                        }
                       },
                       canBeEmpty: false,
                       controller: queryController,

@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class CashListProvider extends ListNotifierAPI<CashComplete> {
   Openapi get cashRepository => ref.watch(repositoryProvider);
@@ -10,9 +9,7 @@ class CashListProvider extends ListNotifierAPI<CashComplete> {
 
   @override
   AsyncValue<List<CashComplete>> build() {
-    tokenExpireWrapperAuth(ref, () async {
       loadCashList();
-    });
     return const AsyncLoading();
   }
 

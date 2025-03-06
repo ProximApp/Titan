@@ -5,7 +5,6 @@ import 'package:titan/seed-library/tools/constants.dart';
 import 'package:titan/seed-library/ui/seed_library.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/tools/ui/layouts/add_edit_button_layout.dart';
@@ -99,29 +98,27 @@ class EditInformationPage extends HookConsumerWidget {
                           );
                           return;
                         }
-                        await tokenExpireWrapper(ref, () async {
-                          final value = await informationNotifier
-                              .updateInformation(
-                                syncInformation.copyWith(
-                                  description: description.text,
-                                  contact: contact.text,
-                                  facebookUrl: facebookUrl.text,
-                                  forumUrl: forumUrl.text,
-                                ),
-                              );
-                          if (value) {
-                            displayToastWithContext(
-                              TypeMsg.msg,
-                              SeedLibraryTextConstants.updatedInformation,
+                        final value = await informationNotifier
+                            .updateInformation(
+                              syncInformation.copyWith(
+                                description: description.text,
+                                contact: contact.text,
+                                facebookUrl: facebookUrl.text,
+                                forumUrl: forumUrl.text,
+                              ),
                             );
-                          } else {
-                            displayToastWithContext(
-                              TypeMsg.error,
-                              SeedLibraryTextConstants.updatingError,
-                            );
-                          }
-                          QR.back();
-                        });
+                        if (value) {
+                          displayToastWithContext(
+                            TypeMsg.msg,
+                            SeedLibraryTextConstants.updatedInformation,
+                          );
+                        } else {
+                          displayToastWithContext(
+                            TypeMsg.error,
+                            SeedLibraryTextConstants.updatingError,
+                          );
+                        }
+                        QR.back();
                       },
                       child: Text(
                         SeedLibraryTextConstants.update,

@@ -9,6 +9,7 @@ import 'package:titan/raffle/tools/constants.dart';
 import 'package:titan/raffle/ui/pages/admin_module_page/confirm_creation.dart';
 import 'package:titan/raffle/ui/pages/admin_module_page/tombola_card.dart';
 import 'package:titan/l10n/app_localizations.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 
 class TombolaHandler extends HookConsumerWidget {
   const TombolaHandler({super.key});

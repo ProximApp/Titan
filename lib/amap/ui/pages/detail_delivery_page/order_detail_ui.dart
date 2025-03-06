@@ -11,7 +11,6 @@ import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tools/ui/layouts/card_button.dart';
 import 'package:titan/tools/ui/layouts/card_layout.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:titan/user/extensions/core_user_simple.dart';
@@ -152,39 +151,34 @@ class DetailOrderUI extends HookConsumerWidget {
                         final deletingErrorMsg = AppLocalizations.of(
                           context,
                         )!.amapDeletingError;
-                        await tokenExpireWrapper(ref, () async {
-                          final index = orderList.maybeWhen(
-                            data: (data) => data.indexWhere(
-                              (element) => element.orderId == order.orderId,
-                            ),
-                            orElse: () => -1,
-                          );
-                          await orderListNotifier.deleteOrder(order).then((
-                            value,
-                          ) {
-                            if (value) {
-                              if (index != -1) {
-                                deliveryOrdersNotifier.deleteE(
-                                  deliveryId,
-                                  index,
-                                );
-                              }
-                              cashListNotifier.fakeUpdateCash(
-                                userCash.copyWith(
-                                  balance: userCash.balance + order.amount,
-                                ),
-                              );
-                              displayToastWithContext(
-                                TypeMsg.msg,
-                                deletedOrderMsg,
-                              );
-                            } else {
-                              displayToastWithContext(
-                                TypeMsg.error,
-                                deletingErrorMsg,
-                              );
+                        final index = orderList.maybeWhen(
+                          data: (data) => data.indexWhere(
+                            (element) => element.orderId == order.orderId,
+                          ),
+                          orElse: () => -1,
+                        );
+                        await orderListNotifier.deleteOrder(order).then((
+                          value,
+                        ) {
+                          if (value) {
+                            if (index != -1) {
+                              deliveryOrdersNotifier.deleteE(deliveryId, index);
                             }
-                          });
+                            cashListNotifier.fakeUpdateCash(
+                              userCash.copyWith(
+                                balance: userCash.balance + order.amount,
+                              ),
+                            );
+                            displayToastWithContext(
+                              TypeMsg.msg,
+                              deletedOrderMsg,
+                            );
+                          } else {
+                            displayToastWithContext(
+                              TypeMsg.error,
+                              deletingErrorMsg,
+                            );
+                          }
                         });
                       },
                     )),

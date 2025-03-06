@@ -3,7 +3,6 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/vote/providers/section_id_provider.dart';
 
 class SectionNotifier extends ListNotifierAPI<SectionComplete> {
@@ -11,9 +10,7 @@ class SectionNotifier extends ListNotifierAPI<SectionComplete> {
 
   @override
   AsyncValue<List<SectionComplete>> build() {
-    tokenExpireWrapperAuth(ref, () async {
-      await loadSectionList();
-    });
+    loadSectionList();
     return const AsyncValue.loading();
   }
 

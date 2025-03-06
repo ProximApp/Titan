@@ -120,21 +120,6 @@ void registerAllEmptyFactories() {
     () => CoreSchool(id: '', name: '', emailRegex: ''),
   );
 
-  EmptyModels.register<AdvertiserComplete>(
-    () => AdvertiserComplete(name: '', groupManagerId: '', id: 'id'),
-  );
-
-  EmptyModels.register<AdvertComplete>(
-    () => AdvertComplete(
-      title: '',
-      content: '',
-      id: '',
-      advertiserId: '',
-      advertiser: EmptyModels.empty<AdvertiserComplete>(),
-      date: null,
-    ),
-  );
-
   EmptyModels.register<DeliveryReturn>(
     () => DeliveryReturn(
       id: '',
@@ -250,66 +235,6 @@ void registerAllEmptyFactories() {
     ),
   );
 
-  EmptyModels.register<EventApplicant>(
-    () => EventApplicant(
-      name: '',
-      firstname: '',
-      id: '',
-      accountType: AccountType.$external,
-      schoolId: '',
-      email: '',
-    ),
-  );
-
-  EmptyModels.register<EventComplete>(
-    () => EventComplete(
-      name: '',
-      organizer: '',
-      start: DateTime.now(),
-      end: DateTime.now(),
-      allDay: false,
-      location: '',
-      type: CalendarEventType.autre,
-      description: '',
-      id: '',
-      decision: Decision.approved,
-      applicantId: '',
-    ),
-  );
-
-  EmptyModels.register<EventComplete>(
-    () => EventComplete(
-      name: '',
-      organizer: '',
-      start: DateTime.now(),
-      end: DateTime.now(),
-      allDay: false,
-      location: '',
-      type: CalendarEventType.autre,
-      description: '',
-      id: '',
-      decision: Decision.approved,
-      applicantId: '',
-    ),
-  );
-
-  EmptyModels.register<EventReturn>(
-    () => EventReturn(
-      name: '',
-      organizer: '',
-      start: DateTime.now(),
-      end: DateTime.now(),
-      allDay: false,
-      location: '',
-      type: CalendarEventType.autre,
-      description: '',
-      id: '',
-      decision: Decision.approved,
-      applicantId: '',
-      applicant: EmptyModels.empty<EventApplicant>(),
-    ),
-  );
-
   EmptyModels.register<Loaner>(
     () => Loaner(name: '', groupManagerId: '', id: ''),
   );
@@ -343,15 +268,6 @@ void registerAllEmptyFactories() {
 
   EmptyModels.register<PaperComplete>(
     () => PaperComplete(name: '', releaseDate: DateTime.now(), id: ''),
-  );
-
-  EmptyModels.register<AssociationComplete>(
-    () => AssociationComplete(
-      id: '',
-      name: '',
-      kind: Kinds.assoInd,
-      mandateYear: 0,
-    ),
   );
 
   EmptyModels.register<MemberComplete>(

@@ -15,7 +15,6 @@ import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/card_layout.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/layouts/horizontal_list_view.dart';
 import 'package:titan/tools/ui/widgets/styled_search_bar.dart';
 import 'package:qlevar_router/qlevar_router.dart';
@@ -101,33 +100,31 @@ class LoanersItems extends HookConsumerWidget {
                         descriptions: AppLocalizations.of(
                           context,
                         )!.loanDeletingItem,
-                        onYes: () {
+                        onYes: () async {
                           final deletedItemMsg = AppLocalizations.of(
                             context,
                           )!.loanDeletedItem;
                           final deletingErrorMsg = AppLocalizations.of(
                             context,
                           )!.loanDeletingError;
-                          tokenExpireWrapper(ref, () async {
-                            final value = await itemListNotifier.deleteItem(
-                              e,
-                              loaner.id,
+                          final value = await itemListNotifier.deleteItem(
+                            e,
+                            loaner.id,
+                          );
+                          if (value) {
+                            itemListNotifier.copy().then((value) {
+                              loanersItemsNotifier.setTData(loaner, value);
+                            });
+                            displayToastWithContext(
+                              TypeMsg.msg,
+                              deletedItemMsg,
                             );
-                            if (value) {
-                              itemListNotifier.copy().then((value) {
-                                loanersItemsNotifier.setTData(loaner, value);
-                              });
-                              displayToastWithContext(
-                                TypeMsg.msg,
-                                deletedItemMsg,
-                              );
-                            } else {
-                              displayToastWithContext(
-                                TypeMsg.error,
-                                deletingErrorMsg,
-                              );
-                            }
-                          });
+                          } else {
+                            displayToastWithContext(
+                              TypeMsg.error,
+                              deletingErrorMsg,
+                            );
+                          }
                         },
                         title: AppLocalizations.of(context)!.loanDelete,
                       );

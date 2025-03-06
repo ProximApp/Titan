@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/seed-library/class/species.dart';
 import 'package:titan/seed-library/repositories/species_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class SpeciesListNotifier extends ListNotifier<Species> {
   late final SpeciesRepository speciesRepository;
@@ -10,9 +9,7 @@ class SpeciesListNotifier extends ListNotifier<Species> {
   @override
   AsyncValue<List<Species>> build() {
     speciesRepository = ref.watch(speciesRepositoryProvider);
-    tokenExpireWrapperAuth(ref, () async {
-      await loadSpecies();
-    });
+    loadSpecies();
     return const AsyncValue.loading();
   }
 

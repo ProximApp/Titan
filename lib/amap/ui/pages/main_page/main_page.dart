@@ -25,7 +25,6 @@ import 'package:titan/amap/ui/pages/main_page/collection_slot_selector.dart';
 import 'package:titan/amap/ui/pages/main_page/delivery_section.dart';
 import 'package:titan/amap/ui/pages/main_page/orders_section.dart';
 import 'package:titan/tools/ui/layouts/refresher.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/user/providers/user_provider.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
@@ -236,10 +235,8 @@ class AmapMainPage extends HookConsumerWidget {
                         WaitingButton(
                           onTap: () async {
                             if (availableDeliveriesIds.contains(delivery.id)) {
-                              await tokenExpireWrapper(ref, () async {
-                                await deliveryProductListNotifier
-                                    .loadProductList(delivery.products ?? []);
-                              });
+                              await deliveryProductListNotifier
+                                  .loadProductList(delivery.products ?? []);
                               QR.to(AmapRouter.root + AmapRouter.listProduct);
                             } else {
                               displayToastWithoutContext(

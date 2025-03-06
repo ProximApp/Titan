@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class ConfirmedBookingListProvider
     extends ListNotifierAPI<BookingReturnSimpleApplicant> {
@@ -10,9 +9,7 @@ class ConfirmedBookingListProvider
 
   @override
   AsyncValue<List<BookingReturnSimpleApplicant>> build() {
-    tokenExpireWrapperAuth(ref, () async {
-      await loadConfirmedBooking();
-    });
+    loadConfirmedBooking();
     return const AsyncValue.loading();
   }
 
@@ -38,4 +35,4 @@ final confirmedBookingListProvider =
     NotifierProvider<
       ConfirmedBookingListProvider,
       AsyncValue<List<BookingReturnSimpleApplicant>>
-    >(() => ConfirmedBookingListProvider());
+    >(ConfirmedBookingListProvider.new);

@@ -3,16 +3,13 @@ import 'package:titan/admin/class/simple_group.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class UserListNotifier extends ListNotifierAPI<CoreUserSimple> {
   Openapi get userListRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<CoreUserSimple>> build() {
-    tokenExpireWrapperAuth(ref, () async {
       clear();
-    });
     return const AsyncValue.loading();
   }
 

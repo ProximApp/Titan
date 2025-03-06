@@ -52,11 +52,16 @@ class GroupListNotifier extends ListNotifier<SimpleGroup> {
 }
 
 final allGroupListProvider =
-    NotifierProvider<GroupListNotifier, AsyncValue<List<SimpleGroup>>>(
-      GroupListNotifier.new,
-    );
+    StateNotifierProvider<GroupListNotifier, AsyncValue<List<CoreGroupSimple>>>(
+        (ref) {
+  final groupRepository = ref.watch(repositoryProvider);
+  return GroupListNotifier(groupRepository: groupRepository)..loadGroups();
+});
 
 final userGroupListNotifier =
-    NotifierProvider<GroupListNotifier, AsyncValue<List<SimpleGroup>>>(
-      GroupListNotifier.new,
-    );
+    StateNotifierProvider<GroupListNotifier, AsyncValue<List<CoreGroupSimple>>>(
+        (ref) {
+  final groupRepository = ref.watch(repositoryProvider);
+  return GroupListNotifier(groupRepository: groupRepository)
+    ..loadGroupsFromUser(ref.watch(userProvider));
+});

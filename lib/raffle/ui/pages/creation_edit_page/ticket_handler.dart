@@ -11,7 +11,6 @@ import 'package:titan/raffle/tools/constants.dart';
 import 'package:titan/raffle/ui/pages/creation_edit_page/ticket_ui.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
@@ -120,8 +119,7 @@ class TicketHandler extends HookConsumerWidget {
                                   title: "Supprimer le ticket",
                                   descriptions:
                                       "Voulez-vous vraiment supprimer ce ticket?",
-                                  onYes: () {
-                                    tokenExpireWrapper(ref, () async {
+                                  onYes: () async {
                                       final deletedTicketMsg =
                                           AppLocalizations.of(
                                             context,
@@ -130,20 +128,19 @@ class TicketHandler extends HookConsumerWidget {
                                           AppLocalizations.of(
                                             context,
                                           )!.raffleDeletingError;
-                                      final value = await packTicketsNotifier
-                                          .deletePackTicket(e);
-                                      if (value) {
-                                        displayToastWithContext(
-                                          TypeMsg.msg,
-                                          deletedTicketMsg,
-                                        );
-                                      } else {
-                                        displayToastWithContext(
-                                          TypeMsg.error,
-                                          deletingErrorMsg,
-                                        );
-                                      }
-                                    });
+                                    final value = await packTicketsNotifier
+                                        .deletePackTicket(e);
+                                    if (value) {
+                                      displayToastWithContext(
+                                        TypeMsg.msg,
+                                        deletedTicketMsg,
+                                      );
+                                    } else {
+                                      displayToastWithContext(
+                                        TypeMsg.error,
+                                        deletingErrorMsg,
+                                      );
+                                    }
                                   },
                                 ),
                               );

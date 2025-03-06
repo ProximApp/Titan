@@ -8,7 +8,6 @@ import 'package:titan/generated/openapi.enums.swagger.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/raffle/providers/raffle_list_provider.dart';
 import 'package:titan/raffle/tools/constants.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 
 class ConfirmCreationDialog extends HookConsumerWidget {
@@ -101,20 +100,17 @@ class ConfirmCreationDialog extends HookConsumerWidget {
                         child: child,
                       ),
                       onTap: () async {
-                        await tokenExpireWrapper(ref, () async {
-                          // Should not be complete
-                          await raffleListNotifier.createRaffle(
-                            RaffleComplete(
-                              name: "Tombola : ${group.name}",
-                              groupId: group.id,
-                              id: '',
-                              status: RaffleStatusType.creation,
-                              description: ""
-                            ),
-                          );
-                          await raffleListNotifier.loadRaffleList();
-                          navigationPop();
-                        });
+                        await raffleListNotifier.createRaffle(
+                          RaffleComplete(
+                            name: "Tombola : ${group.name}",
+                            groupId: group.id,
+                            id: '',
+                            status: RaffleStatusType.creation,
+                            description: ""
+                          ),
+                        );
+                        await raffleListNotifier.loadRaffleList();
+                        navigationPop();
                       },
                       child: const HeroIcon(
                         HeroIcons.check,

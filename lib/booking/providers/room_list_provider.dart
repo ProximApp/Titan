@@ -3,16 +3,13 @@ import 'package:titan/booking/adapters/room.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class RoomListNotifier extends ListNotifierAPI<RoomComplete> {
   Openapi get roomRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<RoomComplete>> build() {
-    tokenExpireWrapperAuth(ref, () async {
-      await loadRooms();
-    });
+    loadRooms();
     return const AsyncValue.loading();
   }
 

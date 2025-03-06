@@ -3,7 +3,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/vote/providers/list_list_provider.dart';
 import 'package:titan/vote/providers/list_members.dart';
 import 'package:titan/vote/providers/list_provider.dart';
@@ -23,9 +22,7 @@ class SectionListItems extends HookConsumerWidget {
     final membersNotifier = ref.read(listMembersProvider.notifier);
     final section = ref.watch(sectionProvider);
     final listListNotifier = ref.read(listListProvider.notifier);
-    final sectionListListNotifier = ref.read(
-      sectionListProvider.notifier,
-    );
+    final sectionListListNotifier = ref.read(sectionListProvider.notifier);
     final listNotifier = ref.read(listProvider.notifier);
 
     void displayVoteToastWithContext(TypeMsg type, String msg) {
@@ -46,15 +43,13 @@ class SectionListItems extends HookConsumerWidget {
                   list: e,
                   isAdmin: true,
                   onEdit: () {
-                    tokenExpireWrapper(ref, () async {
-                      listNotifier.setId(e);
-                      membersNotifier.setMembers(e.members);
-                      QR.to(
-                        VoteRouter.root +
-                            VoteRouter.admin +
-                            VoteRouter.addEditList,
-                      );
-                    });
+                    listNotifier.setId(e);
+                    membersNotifier.setMembers(e.members);
+                    QR.to(
+                      VoteRouter.root +
+                          VoteRouter.admin +
+                          VoteRouter.addEditList,
+                    );
                   },
                   onDelete: () async {
                     await showDialog(
@@ -67,7 +62,7 @@ class SectionListItems extends HookConsumerWidget {
                           descriptions: AppLocalizations.of(
                             context,
                           )!.voteDeletePretendanceDesc,
-                          onYes: () {
+                          onYes: () async {
                             final pretendanceDeletedMsg = AppLocalizations.of(
                               context,
                             )!.votePretendanceDeleted;
@@ -75,27 +70,24 @@ class SectionListItems extends HookConsumerWidget {
                                 AppLocalizations.of(
                                   context,
                                 )!.votePretendanceNotDeleted;
-                            tokenExpireWrapper(ref, () async {
-                              final value = await listListNotifier
-                                  .deleteList(e);
-                              if (value) {
-                                displayVoteToastWithContext(
-                                  TypeMsg.msg,
-                                  pretendanceDeletedMsg,
+                            final value = await listListNotifier.deleteList(e);
+                            if (value) {
+                              displayVoteToastWithContext(
+                                TypeMsg.msg,
+                                pretendanceDeletedMsg,
+                              );
+                              listListNotifier.copy().then((value) {
+                                sectionListListNotifier.setTData(
+                                  section,
+                                  value,
                                 );
-                                listListNotifier.copy().then((value) {
-                                  sectionListListNotifier.setTData(
-                                    section,
-                                    value,
-                                  );
-                                });
-                              } else {
-                                displayVoteToastWithContext(
-                                  TypeMsg.error,
-                                  pretendanceNotDeletedMsg,
-                                );
-                              }
-                            });
+                              });
+                            } else {
+                              displayVoteToastWithContext(
+                                TypeMsg.error,
+                                pretendanceNotDeletedMsg,
+                              );
+                            }
                           },
                         );
                       },

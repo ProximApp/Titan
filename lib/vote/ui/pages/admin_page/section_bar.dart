@@ -6,7 +6,6 @@ import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/ui/styleguide/item_chip.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/layouts/horizontal_list_view.dart';
 import 'package:titan/vote/providers/section_id_provider.dart';
 import 'package:titan/vote/providers/sections_list_provider.dart';
@@ -53,44 +52,40 @@ class SectionBar extends HookConsumerWidget {
         label: key.name,
         selected: section.id == key.id,
         isAdmin: status.status == StatusType.waiting,
-        onTap: () async {
-          tokenExpireWrapper(ref, () async {
-            sectionIdNotifier.setId(key.id);
-          });
+        onTap: () {
+          sectionIdNotifier.setId(key.id);
         },
         onDelete: () async {
-          tokenExpireWrapper(ref, () async {
-            await showDialog(
-              context: context,
-              builder: (context) => CustomDialogBox(
-                title: AppLocalizations.of(context)!.voteDeleteSection,
-                descriptions: AppLocalizations.of(
+          await showDialog(
+            context: context,
+            builder: (context) => CustomDialogBox(
+              title: AppLocalizations.of(context)!.voteDeleteSection,
+              descriptions: AppLocalizations.of(
                   context,
                 )!.voteDeleteSectionDescription,
-                onYes: () async {
+              onYes: () async {
                   final deleteSectionSuccessMsg = AppLocalizations.of(
                     context,
                   )!.voteDeletedSection;
                   final deleteSectionErrorMsg = AppLocalizations.of(
                     context,
                   )!.voteDeletingError;
-                  final result = await sectionsNotifier.deleteSection(key);
-                  if (result) {
-                    sectionListListNotifier.deleteT(key);
-                    displayVoteToastWithContext(
-                      TypeMsg.msg,
-                      deleteSectionSuccessMsg,
-                    );
-                  } else {
-                    displayVoteToastWithContext(
-                      TypeMsg.error,
-                      deleteSectionErrorMsg,
-                    );
-                  }
-                },
-              ),
-            );
-          });
+                final result = await sectionsNotifier.deleteSection(key);
+                if (result) {
+                  sectionListListNotifier.deleteT(key);
+                  displayVoteToastWithContext(
+                    TypeMsg.msg,
+                    deleteSectionSuccessMsg,
+                  );
+                } else {
+                  displayVoteToastWithContext(
+                    TypeMsg.error,
+                    deleteSectionErrorMsg,
+                  );
+                }
+              },
+            ),
+          );
         },
       ),
     );

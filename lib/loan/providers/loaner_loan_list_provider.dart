@@ -4,7 +4,6 @@ import 'package:titan/loan/providers/loaner_id_provider.dart';
 import 'package:titan/tools/exception.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/user/extensions/core_user_simple.dart';
 
 class LoanerLoanListNotifier extends ListNotifierAPI<Loan> {
@@ -12,12 +11,10 @@ class LoanerLoanListNotifier extends ListNotifierAPI<Loan> {
 
   @override
   AsyncValue<List<Loan>> build() {
-    tokenExpireWrapperAuth(ref, () async {
-      final loanerId = ref.watch(loanerIdProvider);
-      if (loanerId != "") {
-        loadLoan(loanerId);
-      }
-    });
+    final loanerId = ref.watch(loanerIdProvider);
+    if (loanerId != "") {
+      loadLoan(loanerId);
+    }
     return const AsyncValue.loading();
   }
 

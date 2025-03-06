@@ -25,7 +25,6 @@ import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/navigation/ui/scroll_to_hide_navbar.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/tools/ui/styleguide/horizontal_multi_select.dart';
 import 'package:titan/tools/ui/styleguide/text_entry.dart';
@@ -541,112 +540,104 @@ class AddEditEventPage extends HookConsumerWidget {
                             //     localizeWithContext.eventNoDaySelected,
                             //   );
                           } else {
-                            await tokenExpireWrapper(ref, () async {
-                              // String recurrenceRule = "";
-                              // String startString = startDateController.text;
-                              // if (!startString.contains("/")) {
-                              //   startString = "${DateFormat.yMd(locale).format(now)} $startString";
-                              // }
-                              // String endString = endDateController.text;
-                              // if (!endString.contains("/")) {
-                              //   endString = "${DateFormat.yMd(locale).format(now)} $endString";
-                              // }
-                              // if (recurrentController.value) {
-                              //   RecurrenceProperties recurrence =
-                              //       RecurrenceProperties(startDate: now);
-                              //   recurrence.recurrenceType = RecurrenceType.weekly;
-                              //   recurrence.recurrenceRange =
-                              //       RecurrenceRange.endDate;
-                              //   recurrence.endDate = DateTime.parse(
-                              //     processDateBack(recurrenceEndDate.text),
-                              //   );
-                              //   recurrence.weekDays = WeekDays.values
-                              //       .where(
-                              //         (element) =>
-                              //             selectedDays[(WeekDays.values.indexOf(
-                              //                       element,
-                              //                     ) -
-                              //                     1) %
-                              //                 7],
-                              //       )
-                              //       .toList();
-                              //   recurrence.interval = int.parse(interval.text);
-                              //   recurrenceRule = SfCalendar.generateRRule(
-                              //     recurrence,
-                              //     DateTime.parse(
-                              //       processDateBackWithHour(startString),
-                              //     ),
-                              //     DateTime.parse(
-                              //       processDateBackWithHour(endString),
-                              //     ),
-                              //   );
-                              // }
-                              final newEvent = Event(
-                                id: syncEvent.id,
-                                start: DateTime.parse(
-                                  processDateBackWithHourMaybe(
-                                    startDateController.text,
-                                    locale.toString(),
-                                  ),
+                            // String recurrenceRule = "";
+                            // String startString = startDateController.text;
+                            // if (!startString.contains("/")) {
+                            //   startString = "${DateFormat.yMd(locale).format(now)} $startString";
+                            // }
+                            // String endString = endDateController.text;
+                            // if (!endString.contains("/")) {
+                            //   endString = "${DateFormat.yMd(locale).format(now)} $endString";
+                            // }
+                            // if (recurrentController.value) {
+                            //   RecurrenceProperties recurrence =
+                            //       RecurrenceProperties(startDate: now);
+                            //   recurrence.recurrenceType = RecurrenceType.weekly;
+                            //   recurrence.recurrenceRange =
+                            //       RecurrenceRange.endDate;
+                            //   recurrence.endDate = DateTime.parse(
+                            //     processDateBack(recurrenceEndDate.text),
+                            //   );
+                            //   recurrence.weekDays = WeekDays.values
+                            //       .where(
+                            //         (element) =>
+                            //             selectedDays[(WeekDays.values.indexOf(
+                            //                       element,
+                            //                     ) -
+                            //                     1) %
+                            //                 7],
+                            //       )
+                            //       .toList();
+                            //   recurrence.interval = int.parse(interval.text);
+                            //   recurrenceRule = SfCalendar.generateRRule(
+                            //     recurrence,
+                            //     DateTime.parse(
+                            //       processDateBackWithHour(startString),
+                            //     ),
+                            //     DateTime.parse(
+                            //       processDateBackWithHour(endString),
+                            //     ),
+                            //   );
+                            // }
+                            final newEvent = Event(
+                              id: syncEvent.id,
+                              start: DateTime.parse(
+                                processDateBackWithHourMaybe(
+                                  startDateController.text,
+                                  locale.toString(),
                                 ),
-                                end: DateTime.parse(
-                                  processDateBackWithHourMaybe(
-                                    endDateController.text,
-                                    locale.toString(),
-                                  ),
+                              ),
+                              end: DateTime.parse(
+                                processDateBackWithHourMaybe(
+                                  endDateController.text,
+                                  locale.toString(),
                                 ),
-                                location: locationController.text,
-                                ticketUrlOpening:
-                                    shotgunDateController.text != ""
-                                    ? DateTime.parse(
-                                        processDateBackWithHourMaybe(
-                                          shotgunDateController.text,
-                                          locale.toString(),
-                                        ),
-                                      )
-                                    : null,
-                                name: titleController.text,
-                                allDay: allDay.value,
-                                // recurrenceRule: recurrenceRule,
-                                recurrenceRule: "",
-                                associationId: syncEvent.id != ""
-                                    ? syncEvent.associationId
-                                    : selectedAssociation.value!.id,
-                                ticketUrl: externalLinkController.text,
-                                notification: notification.value,
-                              );
-                              try {
-                                if (syncEvent.id != "") {
-                                  final value = await eventListNotifier
-                                      .updateEvent(newEvent);
-                                  if (value) {
-                                    if (poster.value == null) {
-                                      QR.back();
-                                      displayToastWithContext(
-                                        TypeMsg.msg,
-                                        localizeWithContext.eventModifiedEvent,
+                              ),
+                              location: locationController.text,
+                              ticketUrlOpening: shotgunDateController.text != ""
+                                  ? DateTime.parse(
+                                      processDateBackWithHourMaybe(
+                                        shotgunDateController.text,
+                                        locale.toString(),
+                                      ),
+                                    )
+                                  : null,
+                              name: titleController.text,
+                              allDay: allDay.value,
+                              // recurrenceRule: recurrenceRule,
+                              recurrenceRule: "",
+                              associationId: syncEvent.id != ""
+                                  ? syncEvent.associationId
+                                  : selectedAssociation.value!.id,
+                              ticketUrl: externalLinkController.text,
+                              notification: notification.value,
+                            );
+                            try {
+                              if (syncEvent.id != "") {
+                                final value = await eventListNotifier
+                                    .updateEvent(newEvent);
+                                if (value) {
+                                  if (poster.value == null) {
+                                    QR.back();
+                                    displayToastWithContext(
+                                      TypeMsg.msg,
+                                      localizeWithContext.eventModifiedEvent,
+                                    );
+                                    newsListNotifier.loadNewsList();
+                                    return;
+                                  }
+                                  final imageUploaded = await eventImageNotifier
+                                      .addEventImage(
+                                        syncEvent.id,
+                                        poster.value!,
                                       );
-                                      newsListNotifier.loadNewsList();
-                                      return;
-                                    }
-                                    final imageUploaded =
-                                        await eventImageNotifier.addEventImage(
-                                          syncEvent.id,
-                                          poster.value!,
-                                        );
-                                    if (imageUploaded) {
-                                      QR.back();
-                                      displayToastWithContext(
-                                        TypeMsg.msg,
-                                        localizeWithContext.eventModifiedEvent,
-                                      );
-                                      newsListNotifier.loadNewsList();
-                                    } else {
-                                      displayToastWithContext(
-                                        TypeMsg.error,
-                                        localizeWithContext.eventModifyingError,
-                                      );
-                                    }
+                                  if (imageUploaded) {
+                                    QR.back();
+                                    displayToastWithContext(
+                                      TypeMsg.msg,
+                                      localizeWithContext.eventModifiedEvent,
+                                    );
+                                    newsListNotifier.loadNewsList();
                                   } else {
                                     displayToastWithContext(
                                       TypeMsg.error,
@@ -654,45 +645,48 @@ class AddEditEventPage extends HookConsumerWidget {
                                     );
                                   }
                                 } else {
-                                  final eventCreated =
-                                      await eventCreationNotifier.addEvent(
-                                        newEvent,
-                                      );
-                                  if (poster.value == null) {
-                                    QR.back();
-                                    displayToastWithContext(
-                                      TypeMsg.msg,
-                                      localizeWithContext.eventAddedEvent,
-                                    );
-                                    newsListNotifier.loadNewsList();
-                                    return;
-                                  }
-                                  final value = await eventImageNotifier
-                                      .addEventImage(
-                                        eventCreated.id,
-                                        poster.value!,
-                                      );
-                                  if (value) {
-                                    QR.back();
-                                    displayToastWithContext(
-                                      TypeMsg.msg,
-                                      localizeWithContext.eventAddedEvent,
-                                    );
-                                    newsListNotifier.loadNewsList();
-                                  } else {
-                                    displayToastWithContext(
-                                      TypeMsg.error,
-                                      localizeWithContext.eventAddingError,
-                                    );
-                                  }
+                                  displayToastWithContext(
+                                    TypeMsg.error,
+                                    localizeWithContext.eventModifyingError,
+                                  );
                                 }
-                              } catch (e) {
-                                displayToastWithContext(
-                                  TypeMsg.error,
-                                  localizeWithContext.eventAddingError,
-                                );
+                              } else {
+                                final eventCreated = await eventCreationNotifier
+                                    .addEvent(newEvent);
+                                if (poster.value == null) {
+                                  QR.back();
+                                  displayToastWithContext(
+                                    TypeMsg.msg,
+                                    localizeWithContext.eventAddedEvent,
+                                  );
+                                  newsListNotifier.loadNewsList();
+                                  return;
+                                }
+                                final value = await eventImageNotifier
+                                    .addEventImage(
+                                      eventCreated.id,
+                                      poster.value!,
+                                    );
+                                if (value) {
+                                  QR.back();
+                                  displayToastWithContext(
+                                    TypeMsg.msg,
+                                    localizeWithContext.eventAddedEvent,
+                                  );
+                                  newsListNotifier.loadNewsList();
+                                } else {
+                                  displayToastWithContext(
+                                    TypeMsg.error,
+                                    localizeWithContext.eventAddingError,
+                                  );
+                                }
                               }
-                            });
+                            } catch (e) {
+                              displayToastWithContext(
+                                TypeMsg.error,
+                                localizeWithContext.eventAddingError,
+                              );
+                            }
                           }
                         }
                       },

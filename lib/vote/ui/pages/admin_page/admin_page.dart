@@ -10,7 +10,6 @@ import 'package:titan/tools/ui/widgets/align_left_text.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/layouts/refresher.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/user/providers/user_list_provider.dart';
 import 'package:titan/vote/providers/list_list_provider.dart';
@@ -37,9 +36,7 @@ class AdminPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final sectionListListNotifier = ref.watch(
-      sectionListProvider.notifier,
-    );
+    final sectionListListNotifier = ref.watch(sectionListProvider.notifier);
     final membersNotifier = ref.read(listMembersProvider.notifier);
     final listNotifier = ref.read(listProvider.notifier);
     final sectionsNotifier = ref.watch(sectionsProvider.notifier);
@@ -60,7 +57,8 @@ class AdminPage extends HookConsumerWidget {
         controller: ScrollController(),
         onRefresh: () async {
           await statusNotifier.loadStatus();
-          if (status.status == StatusType.counting || status.status == StatusType.published) {
+          if (status.status == StatusType.counting ||
+              status.status == StatusType.published) {
             await ref.watch(resultProvider.notifier).loadResult();
           }
           final sections = await sectionsNotifier.loadSectionList();
@@ -216,7 +214,8 @@ class AdminPage extends HookConsumerWidget {
                           ],
                         ),
                       ),
-                    if (status.status == StatusType.counting || status.status == StatusType.published)
+                    if (status.status == StatusType.counting ||
+                        status.status == StatusType.published)
                       WaitingButton(
                         builder: (child) => AdminButton(child: child),
                         onTap: () async {
@@ -231,32 +230,30 @@ class AdminPage extends HookConsumerWidget {
                                   context,
                                 )!.voteResetVoteDescription,
                                 onYes: () async {
-                                  await tokenExpireWrapper(ref, () async {
-                                    final resetedVotesMsg = AppLocalizations.of(
-                                      context,
-                                    )!.voteResetedVotes;
-                                    final resetedVotesErrorMsg =
-                                        AppLocalizations.of(
-                                          context,
-                                        )!.voteErrorResetingVotes;
-                                    final value = await statusNotifier
-                                        .resetVote();
-                                    ref
-                                        .watch(listListProvider.notifier)
-                                        .loadListList();
-                                    if (value) {
-                                      showVotesNotifier.toggle(false);
-                                      displayVoteToastWithContext(
-                                        TypeMsg.msg,
-                                        resetedVotesMsg,
-                                      );
-                                    } else {
-                                      displayVoteToastWithContext(
-                                        TypeMsg.error,
-                                        resetedVotesErrorMsg,
-                                      );
-                                    }
-                                  });
+                                  final resetedVotesMsg = AppLocalizations.of(
+                                    context,
+                                  )!.voteResetedVotes;
+                                  final resetedVotesErrorMsg =
+                                      AppLocalizations.of(
+                                        context,
+                                      )!.voteErrorResetingVotes;
+                                  final value = await statusNotifier
+                                      .resetVote();
+                                  ref
+                                      .watch(listListProvider.notifier)
+                                      .loadListList();
+                                  if (value) {
+                                    showVotesNotifier.toggle(false);
+                                    displayVoteToastWithContext(
+                                      TypeMsg.msg,
+                                      resetedVotesMsg,
+                                    );
+                                  } else {
+                                    displayVoteToastWithContext(
+                                      TypeMsg.error,
+                                      resetedVotesErrorMsg,
+                                    );
+                                  }
                                 },
                               );
                             },
@@ -329,26 +326,24 @@ class AdminPage extends HookConsumerWidget {
                         child: child,
                       ),
                       onTap: () async {
-                        await tokenExpireWrapper(ref, () async {
-                          final votesCountedMsg = AppLocalizations.of(
-                            context,
-                          )!.voteVotesCounted;
-                          final errorCountingVotesMsg = AppLocalizations.of(
-                            context,
-                          )!.voteErrorCountingVotes;
-                          final value = await statusNotifier.countVote();
-                          if (value) {
-                            displayVoteToastWithContext(
-                              TypeMsg.msg,
-                              votesCountedMsg,
-                            );
-                          } else {
-                            displayVoteToastWithContext(
-                              TypeMsg.error,
-                              errorCountingVotesMsg,
-                            );
-                          }
-                        });
+                        final votesCountedMsg = AppLocalizations.of(
+                          context,
+                        )!.voteVotesCounted;
+                        final errorCountingVotesMsg = AppLocalizations.of(
+                          context,
+                        )!.voteErrorCountingVotes;
+                        final value = await statusNotifier.countVote();
+                        if (value) {
+                          displayVoteToastWithContext(
+                            TypeMsg.msg,
+                            votesCountedMsg,
+                          );
+                        } else {
+                          displayVoteToastWithContext(
+                            TypeMsg.error,
+                            errorCountingVotesMsg,
+                          );
+                        }
                       },
                       child: Center(
                         child: Text(
@@ -383,26 +378,24 @@ class AdminPage extends HookConsumerWidget {
                         child: child,
                       ),
                       onTap: () async {
-                        await tokenExpireWrapper(ref, () async {
-                          final closeVotesMsg = AppLocalizations.of(
-                            context,
-                          )!.voteVotesClosed;
-                          final errorClosingVotesMsg = AppLocalizations.of(
-                            context,
-                          )!.voteErrorClosingVotes;
-                          final value = await statusNotifier.closeVote();
-                          if (value) {
-                            displayVoteToastWithContext(
-                              TypeMsg.msg,
-                              closeVotesMsg,
-                            );
-                          } else {
-                            displayVoteToastWithContext(
-                              TypeMsg.error,
-                              errorClosingVotesMsg,
-                            );
-                          }
-                        });
+                        final closeVotesMsg = AppLocalizations.of(
+                          context,
+                        )!.voteVotesClosed;
+                        final errorClosingVotesMsg = AppLocalizations.of(
+                          context,
+                        )!.voteErrorClosingVotes;
+                        final value = await statusNotifier.closeVote();
+                        if (value) {
+                          displayVoteToastWithContext(
+                            TypeMsg.msg,
+                            closeVotesMsg,
+                          );
+                        } else {
+                          displayVoteToastWithContext(
+                            TypeMsg.error,
+                            errorClosingVotesMsg,
+                          );
+                        }
                       },
                       child: Center(
                         child: Text(

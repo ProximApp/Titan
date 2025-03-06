@@ -12,7 +12,6 @@ import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 import 'package:titan/tools/ui/layouts/card_layout.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/layouts/horizontal_list_view.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
@@ -97,7 +96,7 @@ class ProductHandler extends HookConsumerWidget {
                                   descriptions: AppLocalizations.of(
                                     context,
                                   )!.amapDeleteProductDescription,
-                                  onYes: () {
+                                  onYes: () async {
                                     final deletedProductMsg =
                                         AppLocalizations.of(
                                           context,
@@ -106,21 +105,19 @@ class ProductHandler extends HookConsumerWidget {
                                         AppLocalizations.of(
                                           context,
                                         )!.amapDeletingError;
-                                    tokenExpireWrapper(ref, () async {
-                                      final value = await productsNotifier
-                                          .deleteProduct(e);
-                                      if (value) {
-                                        displayToastWithContext(
-                                          TypeMsg.msg,
-                                          deletedProductMsg,
-                                        );
-                                      } else {
-                                        displayToastWithContext(
-                                          TypeMsg.error,
-                                          deletingErrorMsg,
-                                        );
-                                      }
-                                    });
+                                    final value = await productsNotifier
+                                        .deleteProduct(e);
+                                    if (value) {
+                                      displayToastWithContext(
+                                        TypeMsg.msg,
+                                        deletedProductMsg,
+                                      );
+                                    } else {
+                                      displayToastWithContext(
+                                        TypeMsg.error,
+                                        deletingErrorMsg,
+                                      );
+                                    }
                                   },
                                 ),
                               );

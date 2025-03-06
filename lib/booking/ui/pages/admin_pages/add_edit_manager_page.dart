@@ -12,7 +12,6 @@ import 'package:titan/booking/ui/pages/admin_pages/admin_shrink_button.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/layouts/item_chip.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:qlevar_router/qlevar_router.dart';
@@ -100,38 +99,31 @@ class AddEditManagerPage extends HookConsumerWidget {
                   const SizedBox(height: 50),
                   AdminShrinkButton(
                     onTap: () async {
-                      await tokenExpireWrapper(ref, () async {
-                        Manager newManager = Manager(
-                          id: isEdit ? manager.id : '',
-                          name: name.text,
-                          groupId: groupId,
+                      Manager newManager = Manager(
+                        id: isEdit ? manager.id : '',
+                        name: name.text,
+                        groupId: groupId,
+                      );
+                      final editedManagerMsg = isEdit
+                          ? AppLocalizations.of(context)!.bookingEditedManager
+                          : AppLocalizations.of(context)!.bookingAddedManager;
+                      final editedManagerErrorMsg = isEdit
+                          ? AppLocalizations.of(context)!.bookingEditionError
+                          : AppLocalizations.of(context)!.bookingAddingError;
+                      final value = isEdit
+                          ? await managerListNotifier.updateManager(newManager)
+                          : await managerListNotifier.addManager(
+                              newManager.toManagerBase(),
+                            );
+                      if (value) {
+                        QR.back();
+                        displayToastWithContext(TypeMsg.msg, editedManagerMsg);
+                      } else {
+                        displayToastWithContext(
+                          TypeMsg.error,
+                          editedManagerErrorMsg,
                         );
-                        final editedManagerMsg = isEdit
-                            ? AppLocalizations.of(context)!.bookingEditedManager
-                            : AppLocalizations.of(context)!.bookingAddedManager;
-                        final editedManagerErrorMsg = isEdit
-                            ? AppLocalizations.of(context)!.bookingEditionError
-                            : AppLocalizations.of(context)!.bookingAddingError;
-                        final value = isEdit
-                            ? await managerListNotifier.updateManager(
-                                newManager,
-                              )
-                            : await managerListNotifier.addManager(
-                                newManager.toManagerBase(),
-                              );
-                        if (value) {
-                          QR.back();
-                          displayToastWithContext(
-                            TypeMsg.msg,
-                            editedManagerMsg,
-                          );
-                        } else {
-                          displayToastWithContext(
-                            TypeMsg.error,
-                            editedManagerErrorMsg,
-                          );
-                        }
-                      });
+                      }
                     },
                     buttonText: isEdit
                         ? AppLocalizations.of(context)!.bookingEdit
@@ -141,41 +133,39 @@ class AddEditManagerPage extends HookConsumerWidget {
                     const SizedBox(height: 30),
                     AdminShrinkButton(
                       onTap: () async {
-                        await tokenExpireWrapper(ref, () async {
-                          await showDialog(
-                            context: context,
-                            builder: (context) => CustomDialogBox(
-                              descriptions: AppLocalizations.of(
+                        await showDialog(
+                          context: context,
+                          builder: (context) => CustomDialogBox(
+                            descriptions: AppLocalizations.of(
+                              context,
+                            )!.bookingDeleteManagerConfirmation,
+                            onYes: () async {
+                              final deletedManagerMsg = AppLocalizations.of(
                                 context,
-                              )!.bookingDeleteManagerConfirmation,
-                              onYes: () async {
-                                final deletedManagerMsg = AppLocalizations.of(
-                                  context,
-                                )!.bookingDeletedManager;
-                                final deletingErrorMsg = AppLocalizations.of(
-                                  context,
-                                )!.bookingDeletingError;
-                                final value = await managerListNotifier
-                                    .deleteManager(manager);
-                                if (value) {
-                                  QR.back();
-                                  displayToastWithContext(
-                                    TypeMsg.msg,
-                                    deletedManagerMsg,
-                                  );
-                                } else {
-                                  displayToastWithContext(
-                                    TypeMsg.error,
-                                    deletingErrorMsg,
-                                  );
-                                }
-                              },
-                              title: AppLocalizations.of(
+                              )!.bookingDeletedManager;
+                              final deletingErrorMsg = AppLocalizations.of(
                                 context,
-                              )!.bookingDeleting,
-                            ),
-                          );
-                        });
+                              )!.bookingDeletingError;
+                              final value = await managerListNotifier
+                                  .deleteManager(manager);
+                              if (value) {
+                                QR.back();
+                                displayToastWithContext(
+                                  TypeMsg.msg,
+                                  deletedManagerMsg,
+                                );
+                              } else {
+                                displayToastWithContext(
+                                  TypeMsg.error,
+                                  deletingErrorMsg,
+                                );
+                              }
+                            },
+                            title: AppLocalizations.of(
+                              context,
+                            )!.bookingDeleting,
+                          ),
+                        );
                       },
                       buttonText: AppLocalizations.of(context)!.bookingDelete,
                     ),

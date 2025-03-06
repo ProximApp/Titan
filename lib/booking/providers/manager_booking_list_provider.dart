@@ -3,7 +3,6 @@ import 'package:titan/booking/adapters/booking_return_applicant.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class ManagerBookingListProvider
     extends ListNotifierAPI<BookingReturnApplicant> {
@@ -11,9 +10,7 @@ class ManagerBookingListProvider
 
   @override
   AsyncValue<List<BookingReturnApplicant>> build() {
-    tokenExpireWrapperAuth(ref, () async {
-      await loadUserManageBookings();
-    });
+    loadUserManageBookings();
     return const AsyncValue.loading();
   }
 
@@ -52,4 +49,4 @@ final managerBookingListProvider =
     NotifierProvider<
       ManagerBookingListProvider,
       AsyncValue<List<BookingReturnApplicant>>
-    >(() => ManagerBookingListProvider());
+    >(ManagerBookingListProvider.new);

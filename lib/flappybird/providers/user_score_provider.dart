@@ -8,6 +8,7 @@ class UserScoreNotifier extends SingleNotifier<Score> {
 
   @override
   AsyncValue<Score> build() {
+    getLeaderBoardPosition();
     return const AsyncLoading();
   }
 

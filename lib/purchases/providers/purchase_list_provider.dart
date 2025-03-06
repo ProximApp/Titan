@@ -2,17 +2,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class PurchaseListNotifier extends ListNotifierAPI<PurchaseReturn> {
   Openapi get userPurchaseRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<PurchaseReturn>> build() {
-    tokenExpireWrapperAuth(ref, () async {
-      await loadPurchases();
-    });
-
+    loadPurchases();
     return const AsyncValue.loading();
   }
 

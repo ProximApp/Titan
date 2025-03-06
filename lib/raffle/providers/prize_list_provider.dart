@@ -4,20 +4,16 @@ import 'package:titan/raffle/providers/raffle_id_provider.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class LotListNotifier extends ListNotifierAPI<PrizeSimple> {
   Openapi get prizeRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<PrizeSimple>> build() {
-    tokenExpireWrapperAuth(ref, () async {
-      final raffleIdValue = ref.watch(raffleIdProvider);
-      if (raffleIdValue != EmptyModels.empty<PrizeSimple>().id) {
-        loadPrizeList(raffleIdValue);
-      }
-    });
-
+    final raffleIdValue = ref.watch(raffleIdProvider);
+    if (raffleIdValue != EmptyModels.empty<PrizeSimple>().id) {
+      loadPrizeList(raffleIdValue);
+    }
     return const AsyncValue.loading();
   }
 

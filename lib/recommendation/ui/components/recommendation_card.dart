@@ -11,7 +11,6 @@ import 'package:titan/recommendation/providers/recommendation_provider.dart';
 import 'package:titan/recommendation/router.dart';
 import 'package:titan/recommendation/ui/components/recommendation_card_layout.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/auto_loader_child.dart';
 import 'package:titan/tools/ui/layouts/card_button.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
@@ -154,7 +153,6 @@ class RecommendationCard extends HookConsumerWidget {
                               const SizedBox(height: 10),
                               GestureDetector(
                                 onTap: () async {
-                                  await tokenExpireWrapper(ref, () async {
                                     await showDialog(
                                       context: context,
                                       builder: (context) => CustomDialogBox(
@@ -193,7 +191,6 @@ class RecommendationCard extends HookConsumerWidget {
                                         )!.recommendationDeleteRecommendation,
                                       ),
                                     );
-                                  });
                                 },
                                 child: const CardButton(
                                   color: Colors.black,

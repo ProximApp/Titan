@@ -12,7 +12,6 @@ import 'package:titan/raffle/providers/user_amount_provider.dart';
 import 'package:titan/raffle/providers/user_tickets_provider.dart';
 import 'package:titan/raffle/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/l10n/app_localizations.dart';
 
@@ -133,16 +132,14 @@ class ConfirmPaymentDialog extends HookConsumerWidget {
                                           );
                                         },
                                       );
-                                      tokenExpireWrapper(ref, () async {
-                                        tombolaLogoNotifier
-                                            .getLogo(raffle.id)
-                                            .then((value) {
-                                              tombolaLogosNotifier.setTData(
-                                                raffle.id,
-                                                AsyncData([value]),
-                                              );
-                                            });
-                                      });
+                                      tombolaLogoNotifier
+                                          .getLogo(raffle.id)
+                                          .then((value) {
+                                            tombolaLogosNotifier.setTData(
+                                              raffle.id,
+                                              AsyncData([value]),
+                                            );
+                                          });
                                       return const HeroIcon(
                                         HeroIcons.cubeTransparent,
                                       );
@@ -246,31 +243,29 @@ class ConfirmPaymentDialog extends HookConsumerWidget {
                               "Vous n'avez pas assez d'argent",
                             );
                           } else {
-                            await tokenExpireWrapper(ref, () async {
-                              final boughtTicketMsg = AppLocalizations.of(
-                                context,
-                              )!.raffleBoughtTicket;
-                              final boughtTicketErrorMsg = AppLocalizations.of(
-                                context,
-                              )!.raffleAddingError;
-                              final value = await userTicketListNotifier
-                                  .buyTicket(packTicket);
-                              if (value) {
-                                userAmountNotifier.updateCash(
-                                  -packTicket.price.toDouble(),
-                                );
-                                displayToastWithContext(
-                                  TypeMsg.msg,
-                                  boughtTicketMsg,
-                                );
-                              } else {
-                                displayToastWithContext(
-                                  TypeMsg.error,
-                                  boughtTicketErrorMsg,
-                                );
-                              }
-                              navigationPop();
-                            });
+                            final boughtTicketMsg = AppLocalizations.of(
+                              context,
+                            )!.raffleBoughtTicket;
+                            final boughtTicketErrorMsg = AppLocalizations.of(
+                              context,
+                            )!.raffleAddingError;
+                            final value = await userTicketListNotifier
+                                .buyTicket(packTicket);
+                            if (value) {
+                              userAmountNotifier.updateCash(
+                                -packTicket.price.toDouble(),
+                              );
+                              displayToastWithContext(
+                                TypeMsg.msg,
+                                boughtTicketMsg,
+                              );
+                            } else {
+                              displayToastWithContext(
+                                TypeMsg.error,
+                                boughtTicketErrorMsg,
+                              );
+                            }
+                            navigationPop();
                           }
                         },
                         child: const HeroIcon(

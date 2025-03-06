@@ -2,16 +2,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class LoanerListNotifier extends ListNotifierAPI<Loaner> {
   Openapi get loanerRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<Loaner>> build() {
-    tokenExpireWrapperAuth(ref, () async {
-      await loadLoanerList();
-    });
+    loadLoanerList();
     return const AsyncValue.loading();
   }
 

@@ -7,7 +7,6 @@ import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 import 'package:titan/tools/ui/styleguide/icon_button.dart';
 import 'package:titan/tools/ui/styleguide/text_entry.dart';
@@ -63,17 +62,15 @@ class ListMember extends HookConsumerWidget {
                           children: <Widget>[
                             TextEntry(
                               label: AppLocalizations.of(context)!.voteMembers,
-                              onChanged: (newQuery) {
+                              onChanged: (newQuery) async {
                                 showNotifier.setId(true);
-                                tokenExpireWrapper(ref, () async {
-                                  if (queryController.text.isNotEmpty) {
-                                    await usersNotifier.filterUsers(
-                                      queryController.text,
-                                    );
-                                  } else {
-                                    usersNotifier.clear();
-                                  }
-                                });
+                                if (queryController.text.isNotEmpty) {
+                                  await usersNotifier.filterUsers(
+                                    queryController.text,
+                                  );
+                                } else {
+                                  usersNotifier.clear();
+                                }
                               },
                               color: Colors.black,
                               controller: queryController,

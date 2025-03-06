@@ -4,27 +4,20 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/exception.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class UserOrderListNotifier extends ListNotifierAPI<OrderReturn> {
-  Openapi get repository =>
-      ref.watch(repositoryProvider);
+  Openapi get repository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<OrderReturn>> build() {
-    tokenExpireWrapperAuth(ref, () async {
-      final userId = ref.watch(idProvider);
-      userId.whenData(
-        (value) async => await loadOrderList(value),
-      );
-    });
-    return const AsyncValue.loading();
+    final userId = ref.watch(idProvider);
+    userId.whenData((value) async => await loadOrderList(value));
+    return state;
   }
 
   Future<AsyncValue<List<OrderReturn>>> loadOrderList(String userId) async {
     return await loadList(
-      () async =>
-          repository.amapUsersUserIdOrdersGet(userId: userId),
+      () async => repository.amapUsersUserIdOrdersGet(userId: userId),
     );
   }
 
@@ -32,17 +25,13 @@ class UserOrderListNotifier extends ListNotifierAPI<OrderReturn> {
     String deliveryId,
   ) async {
     return await loadList(
-      () async => repository.amapDeliveriesDeliveryIdOrdersGet(
-        deliveryId: deliveryId,
-      ),
+      () async =>
+          repository.amapDeliveriesDeliveryIdOrdersGet(deliveryId: deliveryId),
     );
   }
 
   Future<bool> addOrder(OrderBase order) async {
-    return await add(
-      () => repository.amapOrdersPost(body: order),
-      order,
-    );
+    return await add(() => repository.amapOrdersPost(body: order), order);
   }
 
   Future<bool> updateOrder(OrderReturn order) async {
@@ -66,9 +55,7 @@ class UserOrderListNotifier extends ListNotifierAPI<OrderReturn> {
 
   Future<bool> deleteOrder(OrderReturn order) async {
     return await delete(
-      () => repository.amapOrdersOrderIdDelete(
-        orderId: order.orderId,
-      ),
+      () => repository.amapOrdersOrderIdDelete(orderId: order.orderId),
       (order) => order.orderId,
       order.orderId,
     );

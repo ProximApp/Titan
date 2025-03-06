@@ -12,7 +12,6 @@ import 'package:titan/raffle/tools/constants.dart';
 import 'package:titan/raffle/ui/pages/creation_edit_page/prize_card.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
@@ -169,30 +168,28 @@ class PrizeHandler extends HookConsumerWidget {
                                         title: "Supprimer le lot",
                                         descriptions:
                                             "Voulez-vous vraiment supprimer ce lot?",
-                                        onYes: () {
-                                          tokenExpireWrapper(ref, () async {
-                                            final deletePriceMsg =
-                                                AppLocalizations.of(
-                                                  context,
-                                                )!.raffleDeletePrize;
-                                            final deletingErrorMsg =
-                                                AppLocalizations.of(
-                                                  context,
-                                                )!.raffleDeletingError;
-                                            final value = await prizesNotifier
-                                                .deletePrize(e);
-                                            if (value) {
-                                              displayToastWithContext(
-                                                TypeMsg.msg,
-                                                deletePriceMsg,
-                                              );
-                                            } else {
-                                              displayToastWithContext(
-                                                TypeMsg.error,
-                                                deletingErrorMsg,
-                                              );
-                                            }
-                                          });
+                                        onYes: () async {
+                                          final deletePriceMsg =
+                                              AppLocalizations.of(
+                                                context,
+                                              )!.raffleDeletePrize;
+                                          final deletingErrorMsg =
+                                              AppLocalizations.of(
+                                                context,
+                                              )!.raffleDeletingError;
+                                          final value = await prizesNotifier
+                                              .deletePrize(e);
+                                          if (value) {
+                                            displayToastWithContext(
+                                              TypeMsg.msg,
+                                              deletePriceMsg,
+                                            );
+                                          } else {
+                                            displayToastWithContext(
+                                              TypeMsg.error,
+                                              deletingErrorMsg,
+                                            );
+                                          }
                                         },
                                       ),
                                     );
@@ -216,32 +213,30 @@ class PrizeHandler extends HookConsumerWidget {
                                         title: "Tirage",
                                         descriptions:
                                             "Tirer le gagnant de ce lot ?",
-                                        onYes: () {
-                                          tokenExpireWrapper(ref, () async {
-                                            final value =
-                                                await winningTicketListNotifier
-                                                    .drawPrize(e);
-                                            value.when(
-                                              data: (winningTicketList) {
-                                                prizesNotifier
-                                                    .setPrizeQuantityToZero(
-                                                      e.copyWith(quantity: 0),
-                                                    );
-                                                displayWinningsDialog(
-                                                  winningTicketList,
-                                                );
-                                              },
-                                              error: (e, s) {
-                                                displayToastWithContext(
-                                                  TypeMsg.error,
-                                                  AppLocalizations.of(
-                                                    context,
-                                                  )!.raffleDrawingError,
-                                                );
-                                              },
-                                              loading: () {},
-                                            );
-                                          });
+                                        onYes: () async {
+                                          final value =
+                                              await winningTicketListNotifier
+                                                  .drawPrize(e);
+                                          value.when(
+                                            data: (winningTicketList) {
+                                              prizesNotifier
+                                                  .setPrizeQuantityToZero(
+                                                    e.copyWith(quantity: 0),
+                                                  );
+                                              displayWinningsDialog(
+                                                winningTicketList,
+                                              );
+                                            },
+                                            error: (e, s) {
+                                              displayToastWithContext(
+                                                TypeMsg.error,
+                                                AppLocalizations.of(
+                                                  context,
+                                                )!.raffleDrawingError,
+                                              );
+                                            },
+                                            loading: () {},
+                                          );
                                         },
                                       ),
                                     );

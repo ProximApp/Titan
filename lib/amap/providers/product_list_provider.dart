@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class ProductListNotifier
     extends ListNotifierAPI<AppModulesAmapSchemasAmapProductComplete> {
@@ -10,9 +9,7 @@ class ProductListNotifier
 
   @override
   AsyncValue<List<AppModulesAmapSchemasAmapProductComplete>> build() {
-    tokenExpireWrapperAuth(ref, () async {
-      await loadProductList();
-    });
+      loadProductList();
     return const AsyncValue.loading();
   }
 

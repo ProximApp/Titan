@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/builders/empty_models.dart';
-import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/repository/repository.dart';
 
 class CompleteMemberProvider extends Notifier<MemberComplete> {

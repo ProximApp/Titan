@@ -113,21 +113,19 @@ class SchoolsPage extends HookConsumerWidget {
                                         final errorMsg = AppLocalizations.of(
                                           context,
                                         )!.adminDeletingError;
-                                        tokenExpireWrapper(ref, () async {
-                                          final value = await schoolsNotifier
-                                              .deleteSchool(school);
-                                          if (value) {
-                                            displayToastWithContext(
-                                              TypeMsg.msg,
-                                              deletedMsg,
-                                            );
-                                          } else {
-                                            displayToastWithContext(
-                                              TypeMsg.error,
-                                              errorMsg,
-                                            );
-                                          }
-                                        });
+                                        final value = await schoolsNotifier
+                                            .deleteSchool(school);
+                                        if (value) {
+                                          displayToastWithContext(
+                                            TypeMsg.msg,
+                                            deletedMsg,
+                                          );
+                                        } else {
+                                          displayToastWithContext(
+                                            TypeMsg.error,
+                                            errorMsg,
+                                          );
+                                        }
                                       },
                                     );
                                   },

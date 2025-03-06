@@ -5,22 +5,17 @@ import 'package:titan/loan/providers/loaner_provider.dart';
 import 'package:titan/loan/providers/user_loaner_list_provider.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/providers/map_provider.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class AdminHistoryLoanListNotifier extends MapNotifier<Loaner, Loan> {
   @override
   Map<Loaner, AsyncValue<List<Loan>>?> build() {
-    tokenExpireWrapperAuth(ref, () async {
-      final loaners = ref.watch(loanerList);
-      final loaner = ref.watch(loanerProvider);
-      final loanListNotifier = ref.watch(
-        historyLoanerLoanListProvider.notifier,
-      );
-      loadTList(loaners);
-      if (loaner.id == EmptyModels.empty<Loaner>()) return state;
-      loanListNotifier.loadLoan(loaner.id).then((value) {
-        setTData(loaner, value);
-      });
+    final loaners = ref.watch(loanerList);
+    final loaner = ref.watch(loanerProvider);
+    final loanListNotifier = ref.watch(historyLoanerLoanListProvider.notifier);
+    loadTList(loaners);
+    if (loaner.id == EmptyModels.empty<Loaner>().id) return state;
+    loanListNotifier.loadLoan(loaner.id).then((value) {
+      setTData(loaner, value);
     });
     return state;
   }

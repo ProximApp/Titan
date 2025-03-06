@@ -3,7 +3,6 @@ import 'package:titan/seed-library/class/plant_creation.dart';
 import 'package:titan/seed-library/class/plant_simple.dart';
 import 'package:titan/seed-library/repositories/plants_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class PlantListNotifier extends ListNotifier<PlantSimple> {
   late final PlantsRepository plantsRepository;
@@ -11,9 +10,7 @@ class PlantListNotifier extends ListNotifier<PlantSimple> {
   @override
   AsyncValue<List<PlantSimple>> build() {
     plantsRepository = ref.watch(plantsRepositoryProvider);
-    tokenExpireWrapperAuth(ref, () async {
-      await loadPlants();
-    });
+    loadPlants();
     return const AsyncValue.loading();
   }
 
@@ -70,10 +67,8 @@ class MyPlantListNotifier extends ListNotifier<PlantSimple> {
 
   @override
   AsyncValue<List<PlantSimple>> build() {
-    plantsRepository = ref.watch(plantsRepositoryProvider);
-    tokenExpireWrapperAuth(ref, () async {
-      await loadMyPlants();
-    });
+      plantsRepository = ref.watch(plantsRepositoryProvider);
+       loadMyPlants();
     return const AsyncValue.loading();
   }
 

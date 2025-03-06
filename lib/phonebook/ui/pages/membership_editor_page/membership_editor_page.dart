@@ -13,7 +13,6 @@ import 'package:titan/phonebook/ui/phonebook.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 import 'package:titan/tools/ui/styleguide/button.dart';
 import 'package:titan/tools/ui/styleguide/list_item.dart';
@@ -230,14 +229,11 @@ class MembershipEditorPage extends HookConsumerWidget {
                     );
                     return;
                   }
-
-                  tokenExpireWrapper(ref, () async {
-                    if (isEdit) {
-                      await updateMember();
-                    } else {
-                      await addMember();
-                    }
-                  });
+                  if (isEdit) {
+                    await updateMember();
+                  } else {
+                    await addMember();
+                  }
                 },
               ),
               const SizedBox(height: 20),

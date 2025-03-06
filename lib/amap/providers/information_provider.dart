@@ -2,16 +2,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/single_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class InformationNotifier extends SingleNotifierAPI<Information> {
   Openapi get informationRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<Information> build() {
-    tokenExpireWrapperAuth(ref, () async {
-      await loadInformation();
-    });
+    loadInformation();
     return const AsyncLoading();
   }
 

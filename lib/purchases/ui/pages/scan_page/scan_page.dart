@@ -10,7 +10,6 @@ import 'package:titan/purchases/ui/pages/scan_page/ticket_card.dart';
 import 'package:titan/purchases/ui/pages/scan_page/scan_dialog.dart';
 import 'package:titan/purchases/ui/purchases.dart';
 import 'package:titan/tools/builders/empty_models.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/horizontal_list_view.dart';
 import 'package:titan/tools/ui/layouts/item_chip.dart';
@@ -57,12 +56,8 @@ class ScanPage extends HookConsumerWidget {
                         return ItemChip(
                           selected: selected,
                           onTap: () async {
-                            await tokenExpireWrapper(ref, () async {
-                              sellerNotifier.setSeller(eachSeller);
-                              await productsNotifier.loadProducts(
-                                eachSeller.id,
-                              );
-                            });
+                            sellerNotifier.setSeller(eachSeller);
+                            await productsNotifier.loadProducts(eachSeller.id);
                           },
                           child: Text(
                             eachSeller.name,

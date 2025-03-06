@@ -2,17 +2,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class TicketListNotifier extends ListNotifierAPI<Ticket> {
   Openapi get ticketRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<Ticket>> build() {
-    tokenExpireWrapperAuth(ref, () async {
-      await loadTickets();
-    });
-
+    loadTickets();
     return const AsyncValue.loading();
   }
 

@@ -10,7 +10,6 @@ import 'package:titan/phonebook/providers/association_groupement_provider.dart';
 import 'package:titan/phonebook/ui/phonebook.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/tools/ui/styleguide/button.dart';
 import 'package:titan/tools/ui/styleguide/text_entry.dart';
@@ -70,33 +69,14 @@ class AssociationGroupementAddEditPage extends HookConsumerWidget {
                   );
                   return;
                 }
-                await tokenExpireWrapper(ref, () async {
-                  if (associationGroupement.id != "") {
-                    final value = await associaitonGroupementListNotifier
-                        .updateAssociationGroupement(
-                          associationGroupement.id,
-                          AssociationGroupement(
-                            id: associationGroupement.id,
-                            name: name.text,
-                          ),
-                        );
-                    if (value) {
-                      displayToastWithContext(
-                        TypeMsg.msg,
-                        localizeWithContext.phonebookAddedAssociation,
-                      );
-                      QR.back();
-                    } else {
-                      displayToastWithContext(
-                        TypeMsg.error,
-                        localizeWithContext.phonebookUpdatingError,
-                      );
-                    }
-                    return;
-                  }
+                if (associationGroupement.id != "") {
                   final value = await associaitonGroupementListNotifier
-                      .createAssociationGroupement(
-                        AssociationGroupementBase(name: name.text),
+                      .updateAssociationGroupement(
+                        associationGroupement.id,
+                        AssociationGroupement(
+                          id: associationGroupement.id,
+                          name: name.text,
+                        ),
                       );
                   if (value) {
                     displayToastWithContext(
@@ -107,10 +87,27 @@ class AssociationGroupementAddEditPage extends HookConsumerWidget {
                   } else {
                     displayToastWithContext(
                       TypeMsg.error,
-                      localizeWithContext.phonebookAddingError,
+                      localizeWithContext.phonebookUpdatingError,
                     );
                   }
-                });
+                  return;
+                }
+                final value = await associaitonGroupementListNotifier
+                    .createAssociationGroupement(
+                      AssociationGroupementBase(name: name.text),
+                    );
+                if (value) {
+                  displayToastWithContext(
+                    TypeMsg.msg,
+                    localizeWithContext.phonebookAddedAssociation,
+                  );
+                  QR.back();
+                } else {
+                  displayToastWithContext(
+                    TypeMsg.error,
+                    localizeWithContext.phonebookAddingError,
+                  );
+                }
               },
             ),
           ],

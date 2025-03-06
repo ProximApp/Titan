@@ -2,7 +2,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class ResultNotifier
     extends ListNotifierAPI<AppModulesCampaignSchemasCampaignResult> {
@@ -10,9 +9,7 @@ class ResultNotifier
 
   @override
   AsyncValue<List<AppModulesCampaignSchemasCampaignResult>> build() {
-    tokenExpireWrapperAuth(ref, () async {
-      await loadResult();
-    });
+    loadResult();
     return const AsyncValue.loading();
   }
 

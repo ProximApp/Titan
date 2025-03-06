@@ -9,7 +9,6 @@ import 'package:titan/event/router.dart';
 import 'package:titan/event/ui/components/event_ui.dart';
 import 'package:titan/generated/openapi.enums.swagger.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:titan/tools/ui/layouts/horizontal_list_view.dart';
@@ -107,7 +106,6 @@ class ListEvent extends HookConsumerWidget {
                           context,
                         )!.eventConfirmEvent,
                         onYes: () async {
-                          await tokenExpireWrapper(ref, () async {
                             eventListNotifier
                                 .toggleConfirmed(
                                   e.copyWith(decision: Decision.approved),
@@ -117,7 +115,6 @@ class ListEvent extends HookConsumerWidget {
                                     confirmedEventListNotifier.addEvent(e);
                                   }
                                 });
-                          });
                         },
                       );
                     },
@@ -133,7 +130,6 @@ class ListEvent extends HookConsumerWidget {
                           context,
                         )!.eventDeclineEvent,
                         onYes: () async {
-                          await tokenExpireWrapper(ref, () async {
                             eventListNotifier
                                 .toggleConfirmed(
                                   e.copyWith(decision: Decision.declined),
@@ -143,7 +139,6 @@ class ListEvent extends HookConsumerWidget {
                                     confirmedEventListNotifier.deleteEvent(e);
                                   }
                                 });
-                          });
                         },
                       );
                     },

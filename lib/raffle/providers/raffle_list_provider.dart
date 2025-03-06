@@ -2,17 +2,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class RaffleListNotifier extends ListNotifierAPI<RaffleComplete> {
   Openapi get raffleRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<RaffleComplete>> build() {
-    tokenExpireWrapperAuth(ref, () async {
-      await loadRaffleList();
-    });
-
+    loadRaffleList();
     return const AsyncValue.loading();
   }
 

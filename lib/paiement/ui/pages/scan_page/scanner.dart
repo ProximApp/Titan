@@ -14,7 +14,6 @@ import 'package:titan/paiement/providers/scan_provider.dart';
 import 'package:titan/paiement/providers/selected_store_provider.dart';
 import 'package:titan/paiement/ui/pages/scan_page/scan_overlay_shape.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -49,9 +48,7 @@ class ScannerState extends ConsumerState<Scanner> with WidgetsBindingObserver {
             context,
           )!.paiementScanNoMembershipConfirmation,
           onYes: () async {
-            tokenExpireWrapper(ref, () async {
-              onYes.call();
-            });
+            onYes.call();
           },
         );
       },

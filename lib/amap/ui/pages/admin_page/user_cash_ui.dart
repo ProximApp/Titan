@@ -11,7 +11,6 @@ import 'package:titan/amap/ui/pages/admin_page/user_cash_ui_layout.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/tools/ui/widgets/text_entry.dart';
 
@@ -158,33 +157,31 @@ class UserCashUi extends HookConsumerWidget {
                                   context,
                                 )!.amapUpdatingError;
                                 if (key.currentState!.validate()) {
-                                  await tokenExpireWrapper(ref, () async {
-                                    await ref
-                                        .read(cashListProvider.notifier)
-                                        .updateCash(
-                                          cash.copyWith(
-                                            balance: double.parse(
-                                              amount.text.replaceAll(',', '.'),
-                                            ),
+                                  await ref
+                                      .read(cashListProvider.notifier)
+                                      .updateCash(
+                                        cash.copyWith(
+                                          balance: double.parse(
+                                            amount.text.replaceAll(',', '.'),
                                           ),
-                                          cash.balance,
-                                        )
-                                        .then((value) {
-                                          if (value) {
-                                            key.currentState!.reset();
-                                            toggle();
-                                            displayVoteWithContext(
-                                              TypeMsg.msg,
-                                              updatedAmountMsg,
-                                            );
-                                          } else {
-                                            displayVoteWithContext(
-                                              TypeMsg.error,
-                                              updatingErrorMsg,
-                                            );
-                                          }
-                                        });
-                                  });
+                                        ),
+                                        cash.balance,
+                                      )
+                                      .then((value) {
+                                        if (value) {
+                                          key.currentState!.reset();
+                                          toggle();
+                                          displayVoteWithContext(
+                                            TypeMsg.msg,
+                                            updatedAmountMsg,
+                                          );
+                                        } else {
+                                          displayVoteWithContext(
+                                            TypeMsg.error,
+                                            updatingErrorMsg,
+                                          );
+                                        }
+                                      });
                                 }
                               },
                               child: const Icon(

@@ -18,7 +18,6 @@ import 'package:titan/booking/ui/components/booking_card.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/widgets/admin_button.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/card_layout.dart';
@@ -154,46 +153,44 @@ class BookingMainPage extends HookConsumerWidget {
                           QR.to(BookingRouter.root + BookingRouter.detail);
                         },
                         onDelete: () async {
-                          await tokenExpireWrapper(ref, () async {
-                            await showDialog(
-                              context: context,
-                              builder: (context) => CustomDialogBox(
-                                descriptions: AppLocalizations.of(
-                                  context,
+                          await showDialog(
+                            context: context,
+                            builder: (context) => CustomDialogBox(
+                              descriptions: AppLocalizations.of(
+                                context,
                                 )!.bookingDeleteBookingConfirmation,
-                                onYes: () async {
+                              onYes: () async {
                                   final deleteMsg = AppLocalizations.of(
                                     context,
                                   )!.bookingDeleteBooking;
                                   final errorMsg = AppLocalizations.of(
                                     context,
                                   )!.bookingDeletingError;
-                                  final value = await bookingsNotifier
-                                      .deleteBooking(e);
+                                final value =
+                                    await bookingsNotifier.deleteBooking(e);
 
-                                  if (value) {
-                                    ref
-                                        .read(
-                                          managerBookingListProvider.notifier,
-                                        )
-                                        .loadUserManageBookings;
-                                    displayToastWithContext(
-                                      TypeMsg.msg,
-                                      deleteMsg,
-                                    );
-                                  } else {
-                                    displayToastWithContext(
-                                      TypeMsg.error,
-                                      errorMsg,
-                                    );
-                                  }
-                                },
-                                title: AppLocalizations.of(
+                                if (value) {
+                                  ref
+                                      .read(
+                                        managerBookingListProvider.notifier,
+                                      )
+                                      .loadUserManageBookings;
+                                  displayToastWithContext(
+                                    TypeMsg.msg,
+                                    deleteMsg,
+                                  );
+                                } else {
+                                  displayToastWithContext(
+                                    TypeMsg.error,
+                                    errorMsg,
+                                  );
+                                }
+                              },
+                              title: AppLocalizations.of(
                                   context,
                                 )!.bookingDeleteBooking,
-                              ),
-                            );
-                          });
+                            ),
+                          );
                         },
                         onCopy: () {
                           handleBooking(

@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/user/repositories/profile_picture_repository.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -18,9 +17,7 @@ class ProfilePictureNotifier extends SingleNotifier<Uint8List> {
   @override
   AsyncValue<Uint8List> build() {
     profilePictureRepository = ref.watch(profilePictureRepositoryProvider);
-    tokenExpireWrapperAuth(ref, () async {
-      getMyProfilePicture();
-    });
+    getMyProfilePicture();
     return const AsyncLoading();
   }
 

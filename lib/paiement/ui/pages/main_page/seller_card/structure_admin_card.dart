@@ -8,7 +8,6 @@ import 'package:titan/paiement/providers/my_structures_provider.dart';
 import 'package:titan/paiement/providers/selected_structure_provider.dart';
 import 'package:titan/paiement/router.dart';
 import 'package:qlevar_router/qlevar_router.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 import 'package:titan/tools/ui/styleguide/button.dart';
 
@@ -83,12 +82,7 @@ class StructureAdminCard extends ConsumerWidget {
                       text: localizeWithContext.paiementInvoices,
                       onPressed: () {
                         Navigator.of(context).pop();
-                        tokenExpireWrapper(
-                          ref,
-                          () => invoicesNotifier.getStructureInvoices(
-                            structure.id,
-                          ),
-                        );
+                        invoicesNotifier.getStructureInvoices(structure.id);
                         QR.to(
                           PaymentRouter.root + PaymentRouter.invoicesStructure,
                         );

@@ -17,7 +17,6 @@ import 'package:titan/tools/ui/builders/auto_loader_child.dart';
 import 'package:titan/tools/ui/layouts/card_button.dart';
 import 'package:titan/tools/ui/layouts/card_layout.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
@@ -197,22 +196,20 @@ class DeliveryUi extends HookConsumerWidget {
                             final deletingErrorMsg = AppLocalizations.of(
                               context,
                             )!.amapDeletingError;
-                            await tokenExpireWrapper(ref, () async {
-                              deliveryListNotifier
-                                  .deleteDelivery(delivery)
-                                  .then((value) {
-                                    if (value) {
-                                      displayVoteWithContext(
-                                        TypeMsg.msg,
-                                        deletedDeliveryMsg,
-                                      );
-                                    } else {
-                                      displayVoteWithContext(
-                                        TypeMsg.error,
-                                        deletingErrorMsg,
-                                      );
-                                    }
-                                  });
+                            deliveryListNotifier.deleteDelivery(delivery).then((
+                              value,
+                            ) {
+                              if (value) {
+                                displayVoteWithContext(
+                                  TypeMsg.msg,
+                                  deletedDeliveryMsg,
+                                );
+                              } else {
+                                displayVoteWithContext(
+                                  TypeMsg.error,
+                                  deletingErrorMsg,
+                                );
+                              }
                             });
                           },
                         )),
@@ -280,74 +277,72 @@ class DeliveryUi extends HookConsumerWidget {
                           final notArchivedDeliveryMsg = AppLocalizations.of(
                             context,
                           )!.amapDeliveryNotArchived;
-                          await tokenExpireWrapper(ref, () async {
-                            switch (delivery.status) {
-                              case DeliveryStatusType.creation:
-                                final value = await deliveryListNotifier
-                                    .openDelivery(delivery);
-                                if (value) {
-                                  displayVoteWithContext(
-                                    TypeMsg.msg,
-                                    openedDeliveryMsg,
-                                  );
-                                } else {
-                                  displayVoteWithContext(
-                                    TypeMsg.error,
-                                    notOpenedDeliveryMsg,
-                                  );
-                                }
-                                break;
-                              case DeliveryStatusType.orderable:
-                                final value = await deliveryListNotifier
-                                    .lockDelivery(delivery);
-                                if (value) {
-                                  displayVoteWithContext(
-                                    TypeMsg.msg,
-                                    lockedDeliveryMsg,
-                                  );
-                                } else {
-                                  displayVoteWithContext(
-                                    TypeMsg.error,
-                                    notLockedDeliveryMsg,
-                                  );
-                                }
-                                break;
-                              case DeliveryStatusType.locked:
-                                final value = await deliveryListNotifier
-                                    .deliverDelivery(delivery);
-                                if (value) {
-                                  displayVoteWithContext(
-                                    TypeMsg.msg,
-                                    deliveredDeliveryMsg,
-                                  );
-                                } else {
-                                  displayVoteWithContext(
-                                    TypeMsg.error,
-                                    notDeliveredDeliveryMsg,
-                                  );
-                                }
-                                break;
-                              case DeliveryStatusType.delivered:
-                                final value = await deliveryListNotifier
-                                    .archiveDelivery(delivery);
-                                if (value) {
-                                  displayVoteWithContext(
-                                    TypeMsg.msg,
-                                    archivedDeliveryMsg,
-                                  );
-                                } else {
-                                  displayVoteWithContext(
-                                    TypeMsg.error,
-                                    notArchivedDeliveryMsg,
-                                  );
-                                }
-                                break;
-                              case DeliveryStatusType.swaggerGeneratedUnknown:
-                                break;
-                              case DeliveryStatusType.archived:
-                                break;
-                            }
-                          });
+                          switch (delivery.status) {
+                            case DeliveryStatusType.creation:
+                              final value = await deliveryListNotifier
+                                  .openDelivery(delivery);
+                              if (value) {
+                                displayVoteWithContext(
+                                  TypeMsg.msg,
+                                  openedDeliveryMsg,
+                                );
+                              } else {
+                                displayVoteWithContext(
+                                  TypeMsg.error,
+                                  notOpenedDeliveryMsg,
+                                );
+                              }
+                              break;
+                            case DeliveryStatusType.orderable:
+                              final value = await deliveryListNotifier
+                                  .lockDelivery(delivery);
+                              if (value) {
+                                displayVoteWithContext(
+                                  TypeMsg.msg,
+                                  lockedDeliveryMsg,
+                                );
+                              } else {
+                                displayVoteWithContext(
+                                  TypeMsg.error,
+                                  notLockedDeliveryMsg,
+                                );
+                              }
+                              break;
+                            case DeliveryStatusType.locked:
+                              final value = await deliveryListNotifier
+                                  .deliverDelivery(delivery);
+                              if (value) {
+                                displayVoteWithContext(
+                                  TypeMsg.msg,
+                                  deliveredDeliveryMsg,
+                                );
+                              } else {
+                                displayVoteWithContext(
+                                  TypeMsg.error,
+                                  notDeliveredDeliveryMsg,
+                                );
+                              }
+                              break;
+                            case DeliveryStatusType.delivered:
+                              final value = await deliveryListNotifier
+                                  .archiveDelivery(delivery);
+                              if (value) {
+                                displayVoteWithContext(
+                                  TypeMsg.msg,
+                                  archivedDeliveryMsg,
+                                );
+                              } else {
+                                displayVoteWithContext(
+                                  TypeMsg.error,
+                                  notArchivedDeliveryMsg,
+                                );
+                              }
+                              break;
+                            case DeliveryStatusType.swaggerGeneratedUnknown:
+                              break;
+                            case DeliveryStatusType.archived:
+                              break;
+                          }
                         },
                       )),
                     );

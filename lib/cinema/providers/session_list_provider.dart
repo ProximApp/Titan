@@ -2,16 +2,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class SessionListNotifier extends ListNotifierAPI<CineSessionComplete> {
   Openapi get sessionRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<CineSessionComplete>> build() {
-    tokenExpireWrapperAuth(ref, () async {
-      await loadSessions();
-    });
+    loadSessions();
     return const AsyncValue.loading();
   }
 

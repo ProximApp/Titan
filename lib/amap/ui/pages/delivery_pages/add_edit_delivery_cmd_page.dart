@@ -15,7 +15,6 @@ import 'package:titan/amap/ui/pages/delivery_pages/product_ui_check.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/layouts/add_edit_button_layout.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
@@ -149,10 +148,9 @@ class AddEditDeliveryPage extends HookConsumerWidget {
                                   ),
                                   status: DeliveryStatusType.creation,
                                 );
-                                await tokenExpireWrapper(ref, () async {
-                                  final deliveryNotifier = ref.watch(
-                                    deliveryListProvider.notifier,
-                                  );
+                                final deliveryNotifier = ref.watch(
+                                  deliveryListProvider.notifier,
+                                );
                                   final editedCommandMsg = AppLocalizations.of(
                                     context,
                                   )!.amapEditedCommand;
@@ -166,51 +164,49 @@ class AddEditDeliveryPage extends HookConsumerWidget {
                                       AppLocalizations.of(
                                         context,
                                       )!.amapAlreadyExistCommand;
-                                  final value = isEdit
-                                      ? await deliveryNotifier.updateDelivery(
-                                          del,
+                                final value = isEdit
+                                    ? await deliveryNotifier.updateDelivery(del,
                                         )
-                                      : await deliveryNotifier.addDelivery(
-                                          del.toDeliveryBase(),
+                                    : await deliveryNotifier.addDelivery(
+                                        del.toDeliveryBase(),
                                         );
-                                  if (value) {
-                                    QR.back();
-                                    if (isEdit) {
-                                      displayToastWithContext(
-                                        TypeMsg.msg,
-                                        editedCommandMsg,
-                                      );
-                                    } else {
-                                      final deliveryOrdersNotifier = ref.watch(
-                                        adminDeliveryOrderListProvider.notifier,
-                                      );
-                                      final deliveryList = ref.watch(
-                                        deliveryListProvider,
-                                      );
-                                      deliveryList.whenData((deliveries) {
-                                        deliveryOrdersNotifier.addT(
-                                          deliveries.last.id,
-                                        );
-                                      });
-                                      displayToastWithContext(
-                                        TypeMsg.msg,
-                                        addedCommandMsg,
-                                      );
-                                    }
+                                if (value) {
+                                  QR.back();
+                                  if (isEdit) {
+                                    displayToastWithContext(
+                                      TypeMsg.msg,
+                                      editedCommandMsg,
+                                    );
                                   } else {
-                                    if (isEdit) {
-                                      displayToastWithContext(
-                                        TypeMsg.error,
-                                        editingErrorMsg,
+                                    final deliveryOrdersNotifier = ref.watch(
+                                      adminDeliveryOrderListProvider.notifier,
+                                    );
+                                    final deliveryList = ref.watch(
+                                      deliveryListProvider,
+                                    );
+                                    deliveryList.whenData((deliveries) {
+                                      deliveryOrdersNotifier.addT(
+                                        deliveries.last.id,
                                       );
-                                    } else {
-                                      displayToastWithContext(
-                                        TypeMsg.error,
-                                        alreadyExistCommandMsg,
-                                      );
-                                    }
+                                    });
+                                    displayToastWithContext(
+                                      TypeMsg.msg,
+                                      addedCommandMsg,
+                                    );
                                   }
-                                });
+                                } else {
+                                  if (isEdit) {
+                                    displayToastWithContext(
+                                      TypeMsg.error,
+                                      editingErrorMsg,
+                                    );
+                                  } else {
+                                    displayToastWithContext(
+                                      TypeMsg.error,
+                                      alreadyExistCommandMsg,
+                                    );
+                                  }
+                                }
                               } else {
                                 displayToast(
                                   context,

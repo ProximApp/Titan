@@ -3,16 +3,13 @@ import 'package:titan/advert/adapters/advert_complete.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class AdvertListNotifier extends ListNotifierAPI<AdvertComplete> {
   Openapi get advertListRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<AdvertComplete>> build() {
-    tokenExpireWrapperAuth(ref, () async {
-      await loadAdverts();
-    });
+    loadAdverts();
     return const AsyncValue.loading();
   }
 

@@ -15,7 +15,6 @@ import 'package:titan/phonebook/ui/phonebook.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/ui/styleguide/list_item_template.dart';
@@ -47,13 +46,11 @@ class AssociationMembersPage extends HookConsumerWidget {
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Refresher(
           controller: ScrollController(),
-          onRefresh: () {
-            return tokenExpireWrapper(ref, () async {
-              await associationMemberListNotifier.loadMembers(
-                association.id,
-                association.mandateYear,
-              );
-            });
+          onRefresh: () async {
+            await associationMemberListNotifier.loadMembers(
+              association.id,
+              association.mandateYear,
+            );
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,35 +115,33 @@ class AssociationMembersPage extends HookConsumerWidget {
                             return Transform.scale(scale: 1.05, child: child);
                           },
                           onReorder: (int oldIndex, int newIndex) async {
-                            await tokenExpireWrapper(ref, () async {
-                              final result = await associationMemberListNotifier
-                                  .reorderMember(
-                                    associationMemberSortedList[oldIndex],
-                                    associationMemberSortedList[oldIndex]
-                                        .memberships
-                                        .firstWhere(
-                                          (element) =>
-                                              element.associationId ==
-                                                  association.id &&
-                                              element.mandateYear ==
-                                                  association.mandateYear,
-                                        )
-                                        .copyWith(memberOrder: newIndex),
-                                    oldIndex,
-                                    newIndex,
-                                  );
-                              if (result) {
-                                displayToastWithContext(
-                                  TypeMsg.msg,
-                                  localizeWithContext.phonebookMemberReordered,
+                            final result = await associationMemberListNotifier
+                                .reorderMember(
+                                  associationMemberSortedList[oldIndex],
+                                  associationMemberSortedList[oldIndex]
+                                      .memberships
+                                      .firstWhere(
+                                        (element) =>
+                                            element.associationId ==
+                                                association.id &&
+                                            element.mandateYear ==
+                                                association.mandateYear,
+                                      )
+                                      .copyWith(memberOrder: newIndex),
+                                  oldIndex,
+                                  newIndex,
                                 );
-                              } else {
-                                displayToastWithContext(
-                                  TypeMsg.error,
-                                  localizeWithContext.phonebookReorderingError,
-                                );
-                              }
-                            });
+                            if (result) {
+                              displayToastWithContext(
+                                TypeMsg.msg,
+                                localizeWithContext.phonebookMemberReordered,
+                              );
+                            } else {
+                              displayToastWithContext(
+                                TypeMsg.error,
+                                localizeWithContext.phonebookReorderingError,
+                              );
+                            }
                           },
                           children: associationMemberSortedList
                               .map(

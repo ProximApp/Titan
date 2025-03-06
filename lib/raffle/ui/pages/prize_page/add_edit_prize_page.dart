@@ -12,7 +12,6 @@ import 'package:titan/raffle/ui/components/section_title.dart';
 import 'package:titan/raffle/ui/raffle.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/tools/ui/widgets/text_entry.dart';
@@ -92,48 +91,32 @@ class AddEditPrizePage extends HookConsumerWidget {
                       builder: (child) => BlueBtn(child: child),
                       onTap: () async {
                         if (formKey.currentState!.validate()) {
-                          await tokenExpireWrapper(ref, () async {
-                            final newPrize = prize.copyWith(
-                              name: name.text,
-                              description: description.text,
-                              raffleId: isEdit ? prize.raffleId : raffle.id,
-                              quantity: int.parse(quantity.text),
-                            );
-                            final prizeNotifier = ref.watch(
-                              prizeListProvider.notifier,
-                            );
-                            final editedTicket = isEdit
-                                ? AppLocalizations.of(
-                                    context,
-                                  )!.raffleEditedTicket
-                                : AppLocalizations.of(
-                                    context,
-                                  )!.raffleAddedTicket;
-                            final addingError = isEdit
-                                ? AppLocalizations.of(
-                                    context,
-                                  )!.raffleEditingError
-                                : AppLocalizations.of(
-                                    context,
-                                  )!.raffleAddingError;
-                            final value = isEdit
-                                ? await prizeNotifier.updatePrize(newPrize)
-                                : await prizeNotifier.addPrize(
-                                    newPrize.toPrizeBase(),
-                                  );
-                            if (value) {
-                              QR.back();
-                              displayToastWithContext(
-                                TypeMsg.msg,
-                                editedTicket,
-                              );
-                            } else {
-                              displayToastWithContext(
-                                TypeMsg.error,
-                                addingError,
-                              );
-                            }
-                          });
+                          final newPrize = prize.copyWith(
+                            name: name.text,
+                            description: description.text,
+                            raffleId: isEdit ? prize.raffleId : raffle.id,
+                            quantity: int.parse(quantity.text),
+                          );
+                          final prizeNotifier = ref.watch(
+                            prizeListProvider.notifier,
+                          );
+                          final editedTicket = isEdit
+                              ? AppLocalizations.of(context)!.raffleEditedTicket
+                              : AppLocalizations.of(context)!.raffleAddedTicket;
+                          final addingError = isEdit
+                              ? AppLocalizations.of(context)!.raffleEditingError
+                              : AppLocalizations.of(context)!.raffleAddingError;
+                          final value = isEdit
+                              ? await prizeNotifier.updatePrize(newPrize)
+                              : await prizeNotifier.addPrize(
+                                  newPrize.toPrizeBase(),
+                                );
+                          if (value) {
+                            QR.back();
+                            displayToastWithContext(TypeMsg.msg, editedTicket);
+                          } else {
+                            displayToastWithContext(TypeMsg.error, addingError);
+                          }
                         } else {
                           displayToast(
                             context,

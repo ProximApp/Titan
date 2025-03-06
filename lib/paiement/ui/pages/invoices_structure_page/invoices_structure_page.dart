@@ -7,7 +7,6 @@ import 'package:titan/paiement/providers/selected_structure_provider.dart';
 import 'package:titan/paiement/ui/pages/invoices_admin_page/invoice_card.dart';
 import 'package:titan/paiement/ui/paiement.dart';
 import 'package:titan/tools/constants.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/refresher.dart';
 
@@ -25,13 +24,10 @@ class StructureInvoicesPage extends HookConsumerWidget {
     final invoicesNotifier = ref.watch(invoiceListProvider.notifier);
 
     void refreshInvoices() {
-      tokenExpireWrapper(
-        ref,
-        () => invoicesNotifier.getStructureInvoices(
-          selectedStructure.id,
-          page: page.value,
-          pageLimit: pageSize.value,
-        ),
+      invoicesNotifier.getStructureInvoices(
+        selectedStructure.id,
+        page: page.value,
+        pageLimit: pageSize.value,
       );
     }
 

@@ -18,7 +18,6 @@ import 'package:titan/paiement/ui/pages/devices_page/device_item.dart';
 import 'package:titan/paiement/ui/pages/main_page/account_card/device_dialog_box.dart';
 import 'package:titan/paiement/ui/paiement.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
@@ -171,38 +170,34 @@ class DevicesPage extends HookConsumerWidget {
                                   context,
                                 )!.paiementRevokeDeviceDescription,
                                 onYes: () async {
-                                  tokenExpireWrapper(ref, () async {
-                                    final deviceRevokedMsg =
-                                        AppLocalizations.of(
-                                          context,
-                                        )!.paiementDeviceRevoked;
-                                    final deviceRevokingErrorMsg =
-                                        AppLocalizations.of(
-                                          context,
-                                        )!.paiementDeviceRevokingError;
-                                    final value = await devicesNotifier
-                                        .revokeDevice(
-                                          device.copyWith(
-                                            status: WalletDeviceStatus.revoked,
-                                          ),
-                                        );
-                                    if (value) {
-                                      displayToastWithContext(
-                                        TypeMsg.msg,
-                                        deviceRevokedMsg,
+                                  final deviceRevokedMsg = AppLocalizations.of(
+                                    context,
+                                  )!.paiementDeviceRevoked;
+                                  final deviceRevokingErrorMsg =
+                                      AppLocalizations.of(
+                                        context,
+                                      )!.paiementDeviceRevokingError;
+                                  final value = await devicesNotifier
+                                      .revokeDevice(
+                                        device.copyWith(
+                                          status: WalletDeviceStatus.revoked,
+                                        ),
                                       );
-                                      final savedId = await keyService
-                                          .getKeyId();
-                                      if (savedId == device.id) {
-                                        await keyService.clear();
-                                      }
-                                    } else {
-                                      displayToastWithContext(
-                                        TypeMsg.error,
-                                        deviceRevokingErrorMsg,
-                                      );
+                                  if (value) {
+                                    displayToastWithContext(
+                                      TypeMsg.msg,
+                                      deviceRevokedMsg,
+                                    );
+                                    final savedId = await keyService.getKeyId();
+                                    if (savedId == device.id) {
+                                      await keyService.clear();
                                     }
-                                  });
+                                  } else {
+                                    displayToastWithContext(
+                                      TypeMsg.error,
+                                      deviceRevokingErrorMsg,
+                                    );
+                                  }
                                 },
                               );
                             },

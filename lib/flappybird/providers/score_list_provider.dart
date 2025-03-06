@@ -8,6 +8,7 @@ class ScoreListNotifier extends ListNotifier<Score> {
 
   @override
   AsyncValue<List<Score>> build() {
+    getLeaderboard();
     return const AsyncLoading();
   }
 

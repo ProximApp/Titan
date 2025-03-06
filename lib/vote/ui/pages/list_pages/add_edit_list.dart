@@ -11,7 +11,6 @@ import 'package:titan/navigation/ui/scroll_to_hide_navbar.dart';
 import 'package:titan/settings/ui/pages/main_page/picture_button.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 import 'package:titan/tools/ui/layouts/horizontal_list_view.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
@@ -234,85 +233,84 @@ class AddEditListPage extends HookConsumerWidget {
                         return;
                       }
                       if (key.currentState!.validate()) {
-                        await tokenExpireWrapper(ref, () async {
-                          final listList = ref.watch(listListProvider);
-                          ListReturn newList = ListReturn(
-                            name: name.text,
-                            id: isEdit ? list.id : '',
-                            description: description.text,
-                            type: listType.value,
-                            members: members,
-                            section: section.value,
-                            program: program.text,
+                        final listList = ref.watch(listListProvider);
+                        ListReturn newList = ListReturn(
+                          name: name.text,
+                          id: isEdit ? list.id : '',
+                          description: description.text,
+                          type: listType.value,
+                          members: members,
+                          section: section.value,
+                          program: program.text,
+                        );
+                        final editedPretendanceMsg = isEdit
+                            ? AppLocalizations.of(
+                                context,
+                              )!.voteEditedPretendance
+                            : AppLocalizations.of(
+                                context,
+                              )!.voteAddedPretendance;
+                        final editingPretendanceErrorMsg = AppLocalizations.of(
+                          context,
+                        )!.voteEditingError;
+                        final value = isEdit
+                            ? await listListNotifier.updateList(newList)
+                            : await listListNotifier.addList(
+                                newList.toListBase(),
+                              );
+                        if (value) {
+                          QR.back();
+                          displayVoteToastWithContext(
+                            TypeMsg.msg,
+                            editedPretendanceMsg,
                           );
-                          final editedPretendanceMsg = isEdit
-                              ? AppLocalizations.of(
-                                  context,
-                                )!.voteEditedPretendance
-                              : AppLocalizations.of(
-                                  context,
-                                )!.voteAddedPretendance;
-                          final editingPretendanceErrorMsg =
-                              AppLocalizations.of(context)!.voteEditingError;
-                          final value = isEdit
-                              ? await listListNotifier.updateList(newList)
-                              : await listListNotifier.addList(
-                                  newList.toListBase(),
-                                );
-                          if (value) {
-                            QR.back();
-                            displayVoteToastWithContext(
-                              TypeMsg.msg,
-                              editedPretendanceMsg,
-                            );
-                            if (isEdit) {
-                              listList.maybeWhen(
-                                data: (list) {
-                                  final logoBytes = logo.value;
-                                  if (logoBytes != null) {
-                                    listLogosNotifier.autoLoad(
-                                      ref,
-                                      newList.id,
-                                      (listId) => logoNotifier.updateLogo(
-                                        listId,
-                                        logoBytes,
-                                      ),
-                                    );
-                                  }
-                                },
-                                orElse: () {},
-                              );
-                            } else {
-                              listList.maybeWhen(
-                                data: (list) {
-                                  final newList = list.last;
-                                  final logoBytes = logo.value;
-                                  if (logoBytes != null) {
-                                    listLogosNotifier.autoLoad(
-                                      ref,
-                                      newList.id,
-                                      (listId) => logoNotifier.updateLogo(
-                                        listId,
-                                        logoBytes,
-                                      ),
-                                    );
-                                  }
-                                },
-                                orElse: () {},
-                              );
-                            }
-                            membersNotifier.clearMembers();
-                            sectionsNotifier.setTData(
-                              section.value,
-                              await listListNotifier.copy(),
+                          if (isEdit) {
+                            listList.maybeWhen(
+                              data: (list) {
+                                final logoBytes = logo.value;
+                                if (logoBytes != null) {
+                                  listLogosNotifier.autoLoad(
+                                    ref,
+                                    newList.id,
+                                    (listId) => logoNotifier.updateLogo(
+                                      listId,
+                                      logoBytes,
+                                    ),
+                                  );
+                                }
+                              },
+                              orElse: () {},
                             );
                           } else {
-                            displayVoteToastWithContext(
-                              TypeMsg.error,
-                              editingPretendanceErrorMsg,
+                            listList.maybeWhen(
+                              data: (list) {
+                                final newList = list.last;
+                                final logoBytes = logo.value;
+                                if (logoBytes != null) {
+                                  listLogosNotifier.autoLoad(
+                                    ref,
+                                    newList.id,
+                                    (listId) => logoNotifier.updateLogo(
+                                      listId,
+                                      logoBytes,
+                                    ),
+                                  );
+                                }
+                              },
+                              orElse: () {},
                             );
                           }
-                        });
+                          membersNotifier.clearMembers();
+                          sectionsNotifier.setTData(
+                            section.value,
+                            await listListNotifier.copy(),
+                          );
+                        } else {
+                          displayVoteToastWithContext(
+                            TypeMsg.error,
+                            editingPretendanceErrorMsg,
+                          );
+                        }
                       } else {
                         displayToast(
                           context,

@@ -3,18 +3,15 @@ import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/single_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class UserCashNotifier extends SingleNotifierAPI<CashComplete> {
   Openapi get amapUserRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<CashComplete> build() {
-    tokenExpireWrapperAuth(ref, () async {
-      final userId = ref.watch(idProvider);
-      userId.whenData((value) async => await loadCashByUser(value));
-    });
-    return const AsyncValue.loading();
+    final userId = ref.watch(idProvider);
+    userId.whenData((value) async => await loadCashByUser(value));
+    return state;
   }
 
   Future<AsyncValue<CashComplete>> loadCashByUser(String userId) async {
@@ -42,6 +39,7 @@ class UserCashNotifier extends SingleNotifierAPI<CashComplete> {
   }
 }
 
-final userAmountProvider = NotifierProvider<UserCashNotifier, AsyncValue<CashComplete>>(
-  () => UserCashNotifier(),
-);
+final userAmountProvider =
+    NotifierProvider<UserCashNotifier, AsyncValue<CashComplete>>(
+      UserCashNotifier.new,
+    );

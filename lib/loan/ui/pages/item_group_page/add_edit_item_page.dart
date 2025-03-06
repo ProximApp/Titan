@@ -10,7 +10,6 @@ import 'package:titan/loan/providers/loaners_items_provider.dart';
 import 'package:titan/loan/ui/loan.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/layouts/add_edit_button_layout.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
@@ -108,44 +107,42 @@ class AddEditItemPage extends HookConsumerWidget {
                           return;
                         }
                         if (key.currentState!.validate()) {
-                          await tokenExpireWrapper(ref, () async {
-                            Item newItem = Item(
-                              id: isEdit ? item.id : '',
-                              name: name.text,
-                              suggestedCaution: int.parse(caution.text),
-                              suggestedLendingDuration: int.parse(
-                                lendingDuration.text,
-                              ),
-                              loanedQuantity: 1,
-                              totalQuantity: int.parse(quantity.text),
-                              loanerId: loaner.id,
+                          Item newItem = Item(
+                            id: isEdit ? item.id : '',
+                            name: name.text,
+                            suggestedCaution: int.parse(caution.text),
+                            suggestedLendingDuration: int.parse(
+                              lendingDuration.text,
+                            ),
+                            loanedQuantity: 1,
+                            totalQuantity: int.parse(quantity.text),
+                            loanerId: loaner.id,
+                          );
+                          final value = isEdit
+                              ? await itemListNotifier.updateItem(
+                                  newItem,
+                                  loaner.id,
+                                )
+                              : await itemListNotifier.addItem(
+                                  newItem.toItemBase(),
+                                  loaner.id,
+                                );
+                          if (value) {
+                            QR.back();
+                            loanersItemsNotifier.setTData(
+                              loaner,
+                              await itemListNotifier.copy(),
                             );
-                            final value = isEdit
-                                ? await itemListNotifier.updateItem(
-                                    newItem,
-                                    loaner.id,
-                                  )
-                                : await itemListNotifier.addItem(
-                                    newItem.toItemBase(),
-                                    loaner.id,
-                                  );
-                            if (value) {
-                              QR.back();
-                              loanersItemsNotifier.setTData(
-                                loaner,
-                                await itemListNotifier.copy(),
-                              );
-                              displayToastWithContext(
-                                TypeMsg.msg,
-                                updatedItemMsg,
-                              );
-                            } else {
-                              displayToastWithContext(
-                                TypeMsg.error,
-                                updatedItemErrorMsg,
-                              );
-                            }
-                          });
+                            displayToastWithContext(
+                              TypeMsg.msg,
+                              updatedItemMsg,
+                            );
+                          } else {
+                            displayToastWithContext(
+                              TypeMsg.error,
+                              updatedItemErrorMsg,
+                            );
+                          }
                         } else {
                           displayToast(
                             context,

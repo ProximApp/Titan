@@ -2,16 +2,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/single_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class StatusNotifier extends SingleNotifierAPI<VoteStatus> {
   Openapi get statusRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<VoteStatus> build() {
-    tokenExpireWrapperAuth(ref, () async {
-      await loadStatus();
-    });
+    loadStatus();
     return const AsyncValue.loading();
   }
 

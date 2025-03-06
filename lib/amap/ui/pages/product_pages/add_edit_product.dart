@@ -12,7 +12,6 @@ import 'package:titan/amap/ui/amap.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/layouts/add_edit_button_layout.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
@@ -190,51 +189,41 @@ class AddEditProduct extends HookConsumerWidget {
                                 ),
                                 category: cate,
                               );
-                          await tokenExpireWrapper(ref, () async {
-                            final updatedProductMsg = isEdit
-                                ? AppLocalizations.of(
-                                    context,
-                                  )!.amapUpdatedProduct
-                                : AppLocalizations.of(
-                                    context,
-                                  )!.amapAddedProduct;
-                            final addingErrorMsg = isEdit
-                                ? AppLocalizations.of(
-                                    context,
-                                  )!.amapUpdatingError
-                                : AppLocalizations.of(context)!.amapAddingError;
-                            final value = isEdit
-                                ? await productsNotifier.updateProduct(
-                                    newProduct,
-                                  )
-                                : await productsNotifier.addProduct(
-                                    newProduct.toProductSimple(),
-                                  );
-                            if (value) {
-                              if (isEdit) {
-                                formKey.currentState!.reset();
-                              } else {
-                                ref
-                                    .watch(selectedListProvider.notifier)
-                                    .rebuild(
-                                      products.maybeWhen(
-                                        data: (data) => data,
-                                        orElse: () => [],
-                                      ),
-                                    );
-                              }
-                              displayToastWithContext(
-                                TypeMsg.msg,
-                                updatedProductMsg,
-                              );
+                          final updatedProductMsg = isEdit
+                              ? AppLocalizations.of(context)!.amapUpdatedProduct
+                              : AppLocalizations.of(context)!.amapAddedProduct;
+                          final addingErrorMsg = isEdit
+                              ? AppLocalizations.of(context)!.amapUpdatingError
+                              : AppLocalizations.of(context)!.amapAddingError;
+                          final value = isEdit
+                              ? await productsNotifier.updateProduct(newProduct)
+                              : await productsNotifier.addProduct(
+                                  newProduct.toProductSimple(),
+                                );
+                          if (value) {
+                            if (isEdit) {
+                              formKey.currentState!.reset();
                             } else {
-                              displayToastWithContext(
-                                TypeMsg.error,
-                                addingErrorMsg,
-                              );
+                              ref
+                                  .watch(selectedListProvider.notifier)
+                                  .rebuild(
+                                    products.maybeWhen(
+                                      data: (data) => data,
+                                      orElse: () => [],
+                                    ),
+                                  );
                             }
-                            QR.back();
-                          });
+                            displayToastWithContext(
+                              TypeMsg.msg,
+                              updatedProductMsg,
+                            );
+                          } else {
+                            displayToastWithContext(
+                              TypeMsg.error,
+                              addingErrorMsg,
+                            );
+                          }
+                          QR.back();
                         }
                       },
                       child: Text(

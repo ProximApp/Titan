@@ -15,7 +15,6 @@ import 'package:titan/generated/openapi.enums.swagger.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/layouts/add_edit_button_layout.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
@@ -465,119 +464,116 @@ class AddEditEventPage extends HookConsumerWidget {
                                   )!.eventNoDaySelected,
                                 );
                               } else {
-                                await tokenExpireWrapper(ref, () async {
-                                  String recurrenceRule = "";
-                                  String startString = start.text;
-                                  if (!startString.contains("/")) {
-                                    startString =
-                                        "${DateFormat.yMd(locale).format(now)} $startString";
-                                  }
-                                  String endString = end.text;
-                                  if (!endString.contains("/")) {
-                                    endString =
-                                        "${DateFormat.yMd(locale).format(now)} $endString";
-                                  }
-                                  if (recurrent.value) {
-                                    RecurrenceProperties recurrence =
-                                        RecurrenceProperties(startDate: now);
-                                    recurrence.recurrenceType =
-                                        RecurrenceType.weekly;
-                                    recurrence.recurrenceRange =
-                                        RecurrenceRange.endDate;
-                                    recurrence.endDate = DateTime.parse(
-                                      processDateBack(
-                                        recurrenceEndDate.text,
-                                        locale.toString(),
-                                      ),
-                                    );
-                                    recurrence.weekDays = WeekDays.values
-                                        .where(
-                                          (element) =>
-                                              selectedDays[(WeekDays.values
-                                                          .indexOf(element) -
-                                                      1) %
-                                                  7],
-                                        )
-                                        .toList();
-                                    recurrence.interval = int.parse(
-                                      interval.text,
-                                    );
-                                    recurrenceRule = SfCalendar.generateRRule(
-                                      recurrence,
-                                      DateTime.parse(
-                                        processDateBackWithHour(
-                                          startString,
-                                          locale.toString(),
-                                        ),
-                                      ),
-                                      DateTime.parse(
-                                        processDateBackWithHour(
-                                          endString,
-                                          locale.toString(),
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                  EventComplete newEvent = EventComplete(
-                                    id: isEdit ? event.id : "",
-                                    description: description.text,
-                                    end: DateTime.parse(
-                                      processDateBack(
-                                        endString,
-                                        locale.toString(),
-                                      ),
+                                String recurrenceRule = "";
+                                String startString = start.text;
+                                if (!startString.contains("/")) {
+                                  startString =
+                                      "${DateFormat.yMd(locale).format(now)} $startString";
+                                }
+                                String endString = end.text;
+                                if (!endString.contains("/")) {
+                                  endString =
+                                      "${DateFormat.yMd(locale).format(now)} $endString";
+                                }
+                                if (recurrent.value) {
+                                  RecurrenceProperties recurrence =
+                                      RecurrenceProperties(startDate: now);
+                                  recurrence.recurrenceType =
+                                      RecurrenceType.weekly;
+                                  recurrence.recurrenceRange =
+                                      RecurrenceRange.endDate;
+                                  recurrence.endDate = DateTime.parse(
+                                    processDateBack(
+                                      recurrenceEndDate.text,
+                                      locale.toString(),
                                     ),
-                                    name: name.text,
-                                    allDay: allDay.value,
-                                    location: location.text,
-                                    start: DateTime.parse(
-                                      processDateBack(
+                                  );
+                                  recurrence.weekDays = WeekDays.values
+                                      .where(
+                                        (element) =>
+                                            selectedDays[(WeekDays.values
+                                                        .indexOf(element) -
+                                                    1) %
+                                                7],
+                                      )
+                                      .toList();
+                                  recurrence.interval = int.parse(
+                                    interval.text,
+                                  );
+                                  recurrenceRule = SfCalendar.generateRRule(
+                                    recurrence,
+                                    DateTime.parse(
+                                      processDateBackWithHour(
                                         startString,
                                         locale.toString(),
                                       ),
                                     ),
-                                    recurrenceRule: recurrenceRule,
-                                    decision: Decision.pending,
-                                    // TODO: change type when available
-                                    notification: true,
-                                    associationId: organizer.text,
-                                    association:
-                                        EmptyModels.empty<Association>(),
+                                    DateTime.parse(
+                                      processDateBackWithHour(
+                                        endString,
+                                        locale.toString(),
+                                      ),
+                                    ),
                                   );
-                                  final value = isEdit
-                                      ? await eventListNotifier.updateEvent(
-                                          newEvent,
-                                        )
-                                      : await eventListNotifier.addEvent(
-                                          newEvent.toEventBaseCreation(),
-                                        );
-                                  if (value) {
-                                    QR.back();
-                                    if (isEdit) {
-                                      displayToastWithContext(
-                                        TypeMsg.msg,
-                                        editedEventMsg,
+                                }
+                                EventComplete newEvent = EventComplete(
+                                  id: isEdit ? event.id : "",
+                                  description: description.text,
+                                  end: DateTime.parse(
+                                    processDateBack(
+                                      endString,
+                                      locale.toString(),
+                                    ),
+                                  ),
+                                  name: name.text,
+                                  allDay: allDay.value,
+                                  location: location.text,
+                                  start: DateTime.parse(
+                                    processDateBack(
+                                      startString,
+                                      locale.toString(),
+                                    ),
+                                  ),
+                                  recurrenceRule: recurrenceRule,
+                                  decision: Decision.pending,
+                                  // TODO: change type when available
+                                  notification: true,
+                                  associationId: organizer.text,
+                                  association: EmptyModels.empty<Association>(),
+                                );
+                                final value = isEdit
+                                    ? await eventListNotifier.updateEvent(
+                                        newEvent,
+                                      )
+                                    : await eventListNotifier.addEvent(
+                                        newEvent.toEventBaseCreation(),
                                       );
-                                    } else {
-                                      displayToastWithContext(
-                                        TypeMsg.msg,
-                                        addedEventMsg,
-                                      );
-                                    }
+                                if (value) {
+                                  QR.back();
+                                  if (isEdit) {
+                                    displayToastWithContext(
+                                      TypeMsg.msg,
+                                      editedEventMsg,
+                                    );
                                   } else {
-                                    if (isEdit) {
-                                      displayToastWithContext(
-                                        TypeMsg.error,
-                                        editingErrorMsg,
-                                      );
-                                    } else {
-                                      displayToastWithContext(
-                                        TypeMsg.error,
-                                        addingErrorMsg,
-                                      );
-                                    }
+                                    displayToastWithContext(
+                                      TypeMsg.msg,
+                                      addedEventMsg,
+                                    );
                                   }
-                                });
+                                } else {
+                                  if (isEdit) {
+                                    displayToastWithContext(
+                                      TypeMsg.error,
+                                      editingErrorMsg,
+                                    );
+                                  } else {
+                                    displayToastWithContext(
+                                      TypeMsg.error,
+                                      addingErrorMsg,
+                                    );
+                                  }
+                                }
                               }
                             }
                           },
