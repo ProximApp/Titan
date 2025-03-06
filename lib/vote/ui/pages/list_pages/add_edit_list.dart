@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:titan/generated/openapi.enums.swagger.dart';
 import 'package:titan/tools/builders/empty_models.dart';
+import 'package:titan/tools/builders/enums_cleaner.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/navigation/ui/scroll_to_hide_navbar.dart';
 import 'package:titan/settings/ui/pages/main_page/picture_button.dart';
@@ -151,11 +152,11 @@ class AddEditListPage extends HookConsumerWidget {
                 const SizedBox(height: 20),
                 HorizontalListView.builder(
                   height: 50,
-                  items: ListType.values
-                      .where((e) => e != ListType.blank)
-                      .toList(),
+                  items: getEnumValues(
+                    ListType.values,
+                  ).where((e) => e != ListType.blank).toList(),
                   itemBuilder: (context, e, i) => SectionChip(
-                    label: capitalize(e.toString().split('.').last),
+                    label: capitalize(e.name),
                     selected: listType.value == e,
                     onTap: () async {
                       listType.value = e;
