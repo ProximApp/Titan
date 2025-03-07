@@ -1,19 +1,19 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/admin/class/assocation.dart';
-import 'package:titan/admin/repositories/association_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class MyAssociationListNotifier extends ListNotifier<Association> {
-  AssociationRepository get associationRepository =>
-      ref.watch(associationRepositoryProvider);
+class MyAssociationListNotifier extends ListNotifierAPI<Association> {
+  Openapi get associationRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<Association>> build() {
+    loadAssociations();
     return const AsyncValue.loading();
   }
 
   Future<AsyncValue<List<Association>>> loadAssociations() async {
-    return await loadList(associationRepository.getMyAssociations);
+    return await loadList(associationRepository.associationsMeGet);
   }
 }
 

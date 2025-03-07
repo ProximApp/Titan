@@ -1,18 +1,19 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/admin/class/association_membership_simple.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 
-class AssociationMembershipNotifier extends Notifier<AssociationMembership> {
+class AssociationMembershipNotifier extends Notifier<MembershipSimple> {
   @override
-  AssociationMembership build() {
-    return AssociationMembership.empty();
+  MembershipSimple build() {
+    return EmptyModels.empty<MembershipSimple>();
   }
 
-  void setAssociationMembership(AssociationMembership associationMembership) {
+  void setAssociationMembership(MembershipSimple associationMembership) {
     state = associationMembership;
   }
 }
 
 final associationMembershipProvider =
-    NotifierProvider<AssociationMembershipNotifier, AssociationMembership>(
+    NotifierProvider<AssociationMembershipNotifier, MembershipSimple>(
       () => AssociationMembershipNotifier(),
     );

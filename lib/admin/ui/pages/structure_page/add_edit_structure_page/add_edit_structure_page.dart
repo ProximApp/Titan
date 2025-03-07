@@ -7,10 +7,11 @@ import 'package:titan/admin/class/association_membership_simple.dart';
 import 'package:titan/admin/providers/association_membership_list_provider.dart';
 import 'package:titan/admin/providers/structure_manager_provider.dart';
 import 'package:titan/admin/providers/structure_provider.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/paiement/class/structure.dart';
 import 'package:titan/paiement/providers/structure_list_provider.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/horizontal_list_view.dart';
 import 'package:titan/tools/ui/layouts/item_chip.dart';
@@ -18,7 +19,6 @@ import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 import 'package:titan/tools/ui/styleguide/button.dart';
 import 'package:titan/tools/ui/styleguide/list_item.dart';
 import 'package:titan/tools/ui/styleguide/text_entry.dart';
-import 'package:titan/user/class/simple_users.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
 
@@ -59,8 +59,8 @@ class AddEditStructurePage extends HookConsumerWidget {
     final allAssociationMembershipList = ref.watch(
       allAssociationMembershipListProvider,
     );
-    final currentMembership = useState<AssociationMembership>(
-      isEdit ? structure.associationMembership : AssociationMembership.empty(),
+    final currentMembership = useState<MembershipSimple>(
+      isEdit ? structure.associationMembership : EmptyModels.empty<MembershipSimple>(),
     );
     void displayToastWithContext(TypeMsg type, String msg) {
       displayToast(context, type, msg);
@@ -185,7 +185,7 @@ class AddEditStructurePage extends HookConsumerWidget {
                       height: 40,
                       items: [
                         ...allAssociationMembershipList,
-                        AssociationMembership.empty(),
+                        EmptyModels.empty<MembershipSimple>(),
                       ],
                       itemBuilder: (context, associationMembership, index) {
                         final selected =
@@ -257,7 +257,6 @@ class AddEditStructurePage extends HookConsumerWidget {
                       return;
                     }
                     if (key.currentState!.validate()) {
-                      await tokenExpireWrapper(ref, () async {
                         final editedStructureMsg = isEdit
                             ? localizeWithContext.adminEditedStructure
                             : localizeWithContext.adminAddedStructure;
@@ -312,7 +311,6 @@ class AddEditStructurePage extends HookConsumerWidget {
                             addedStructureErrorMsg,
                           );
                         }
-                      });
                     }
                   },
                   text: isEdit

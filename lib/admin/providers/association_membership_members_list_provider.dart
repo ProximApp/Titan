@@ -1,23 +1,18 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/admin/class/user_association_membership.dart';
-import 'package:titan/admin/class/user_association_membership_base.dart';
-import 'package:titan/admin/repositories/association_membership_repository.dart';
-import 'package:titan/admin/repositories/association_membership_user_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
 class AssociationMembershipMembersNotifier
-    extends ListNotifier<UserAssociationMembership> {
-  AssociationMembershipRepository get associationMembershipRepository =>
-      ref.watch(associationMembershipRepositoryProvider);
-  AssociationMembershipUserRepository get associationMembershipUserRepository =>
-      ref.watch(associationMembershipUserRepositoryProvider);
+    extends ListNotifierAPI<UserMembershipComplete> {
+  Openapi get associationMembershipRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<List<UserAssociationMembership>> build() {
+  AsyncValue<List<UserMembershipComplete>> build() {
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<List<UserAssociationMembership>>>
+  Future<AsyncValue<List<UserMembershipComplete>>>
   loadAssociationMembershipMembers(
     String associationMembershipId, {
     DateTime? minimalStartDate,
@@ -26,13 +21,19 @@ class AssociationMembershipMembersNotifier
     DateTime? maximalEndDate,
   }) async {
     return await loadList(
-      () async =>
-          associationMembershipRepository.getAssociationMembershipMembers(
-            associationMembershipId,
-            minimalStartDate,
-            minimalEndDate,
-            maximalStartDate,
-            maximalEndDate,
+      () async => associationMembershipRepository
+          .membershipsAssociationMembershipIdMembersGet(
+            associationMembershipId: associationMembershipId,
+            minimalStartDate: minimalStartDate
+                ?.toIso8601String()
+                .split('T')
+                .first,
+            minimalEndDate: minimalEndDate?.toIso8601String().split('T').first,
+            maximalStartDate: maximalStartDate
+                ?.toIso8601String()
+                .split('T')
+                .first,
+            maximalEndDate: maximalEndDate?.toIso8601String().split('T').first,
           ),
     );
   }
@@ -42,8 +43,8 @@ class AssociationMembershipMembersNotifier
     SimpleUser user,
   ) async {
     return await add(
-      (associationMembership) async => associationMembershipUserRepository
-          .addUserMembership(userAssociationMembership),
+      () async => associationMembershipRepository
+          .membershipsAssociationMembershipIdAddBatchPost(userAssociationMembership),
       UserAssociationMembership(
         id: userAssociationMembership.id,
         associationMembershipId:
@@ -88,5 +89,5 @@ class AssociationMembershipMembersNotifier
 final associationMembershipMembersProvider =
     NotifierProvider<
       AssociationMembershipMembersNotifier,
-      AsyncValue<List<UserAssociationMembership>>
+      AsyncValue<List<UserMembershipComplete>>
     >(() => AssociationMembershipMembersNotifier());

@@ -5,15 +5,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/admin/class/simple_group.dart';
-import 'package:titan/admin/providers/all_groups_list_provider.dart';
+import 'package:titan/admin/providers/all_group_list_provider.dart';
 import 'package:titan/admin/providers/user_invitation_provider.dart';
 import 'package:titan/admin/tools/functions.dart' as admin_utils;
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/paiement/ui/pages/main_page/account_card/device_dialog_box.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 import 'package:titan/tools/ui/styleguide/button.dart';
@@ -27,7 +26,7 @@ class AddUsersModalContent extends HookConsumerWidget {
     final groups = ref.watch(allGroupList);
     final selectedFileName = useState<String?>(null);
     final mailList = useState<List<String>>([]);
-    final chosenGroup = useState<SimpleGroup?>(null);
+    final chosenGroup = useState<CoreGroupSimple?>(null);
     final userInvitationNotifier = ref.watch(userInvitationProvider.notifier);
 
     void displayToastWithContext(TypeMsg type, String msg) {
@@ -128,32 +127,30 @@ class AddUsersModalContent extends HookConsumerWidget {
             ),
             onTap: () async {
               if (selectedFileName.value == null) return;
-              await tokenExpireWrapper(ref, () async {
-                final value = await userInvitationNotifier.createUsers(
-                  mailList.value,
-                  chosenGroup.value?.id,
+              final value = await userInvitationNotifier.createUsers(
+                mailList.value,
+                chosenGroup.value?.id,
+              );
+              if (value.isEmpty) {
+                displayToastWithContext(
+                  TypeMsg.msg,
+                  localizeWithContext.adminInvitedUsers,
                 );
-                if (value.isEmpty) {
-                  displayToastWithContext(
-                    TypeMsg.msg,
-                    localizeWithContext.adminInvitedUsers,
-                  );
-                  navigatorWithContext.pop();
-                } else {
-                  if (!context.mounted) return;
-                  await showDialog(
-                    context: context,
-                    builder: (BuildContext context) => DeviceDialogBox(
-                      descriptions: value.map((e) => '- $e').join('\n'),
-                      title: AppLocalizations.of(context)!.adminEmailFailed,
-                      buttonText: "Compris",
-                      onClick: () async {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  );
-                }
-              });
+                navigatorWithContext.pop();
+              } else {
+                if (!context.mounted) return;
+                await showDialog(
+                  context: context,
+                  builder: (BuildContext context) => DeviceDialogBox(
+                    descriptions: value.map((e) => '- $e').join('\n'),
+                    title: AppLocalizations.of(context)!.adminEmailFailed,
+                    buttonText: "Compris",
+                    onClick: () async {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                );
+              }
             },
             child: Text(
               localizeWithContext.adminInvite,

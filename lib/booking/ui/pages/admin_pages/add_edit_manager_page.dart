@@ -15,7 +15,7 @@ import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/layouts/item_chip.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:qlevar_router/qlevar_router.dart';
-import 'package:titan/admin/providers/group_list_provider.dart';
+import 'package:titan/admin/providers/all_group_list_provider.dart';
 import 'package:titan/l10n/app_localizations.dart';
 
 class AddEditManagerPage extends HookConsumerWidget {
