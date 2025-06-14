@@ -38,7 +38,7 @@ class LeftPanel extends HookConsumerWidget {
                       Image.asset(getTitanLogo(), width: 70, height: 70),
                       const SizedBox(width: 20),
                       const Text(
-                        'MyECL',
+                        'MyEMApp',
                         style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,

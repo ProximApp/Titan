@@ -61,5 +61,5 @@ class LoginTextConstants {
   static const String nickname = 'Surnom';
   static const String welcomeBack = 'Bienvenue';
 
-  static const String appName = "MyECL";
+  static const String appName = "MyEMApp";
 }

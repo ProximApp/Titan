@@ -1,6 +1,6 @@
 {
-    "name": "MyECL",
-    "short_name": "MyECL",
+    "name": "MyEMApp",
+    "short_name": "MyEMApp",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#hexcode",

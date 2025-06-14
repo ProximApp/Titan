@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart';
 
 /// A logger output that writes logs to a file
 class FileLoggerOutput implements LoggerOutput {
-  static const String logFileName = 'myecl.log';
+  static const String logFileName = 'myemapp.log';
   late File logFile;
 
   // The maximum size of the log file, in bytes

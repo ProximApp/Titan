@@ -2,7 +2,7 @@
 
 Titan is a cross platform frontend written in Flutter for an open-source project launched by ÉCLAIR, the computer science association of Ecole Centrale de Lyon. This project aims to provide students of business and engineering schools a digital tool to simplify the association process.
 
-Our builds of Titan are called MyECL and can be downloaded from the App Store and from the Google Play Store.
+Our builds of Titan are called MyEMApp and can be downloaded from the App Store and from the Google Play Store.
 
 ## Setup environment
 
@@ -82,7 +82,7 @@ Titan supports [flavors](https://docs.flutter.dev/deployment/flavors), which all
 
 Titan includes 3 flavors: `dev`, `alpha`, `prod`. On VSCode, you can choose which flavor to use when launching the debugger
 
-Each flavor is associated with a specific app package name (`fr.myecl.titan.dev`, `fr.myecl.titan.alpha`, `fr.myecl.titan`) allowing the three app to be installed on the same device. Each flavor use its own Hyperion url defined in the [dotenv](/.env)
+Each flavor is associated with a specific app package name (`fr.myemapp.titan.dev`, `fr.myemapp.titan.alpha`, `fr.myemapp.titan`) allowing the three app to be installed on the same device. Each flavor use its own Hyperion url defined in the [dotenv](/.env)
 
 #### Build with a flavor
 

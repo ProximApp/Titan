@@ -502,7 +502,7 @@ String getTitanURL() {
     case "alpha":
       return "https://titan.dev.eclair.ec-lyon.fr";
     case "prod":
-      return "https://myecl.fr";
+      return "https://myemapp.fr";
     default:
       throw StateError("Invalid app flavor");
   }
@@ -522,7 +522,7 @@ String getTitanURLScheme() {
 }
 
 String getTitanPackageName() {
-  return "fr.myecl.${getTitanURLScheme()}";
+  return "fr.myemapp.${getTitanURLScheme()}";
 }
 
 String getTitanLogo() {
