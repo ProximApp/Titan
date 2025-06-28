@@ -18,7 +18,7 @@ import 'package:titan/amap/ui/pages/presentation_page/text.dart'
     deferred as presentation_page;
 import 'package:titan/amap/ui/pages/product_pages/add_edit_product.dart'
     deferred as add_edit_product;
-import 'package:titan/drawer/class/module.dart';
+import 'package:titan/navigation/class/module.dart';
 import 'package:titan/tools/middlewares/admin_middleware.dart';
 import 'package:titan/tools/middlewares/authenticated_middleware.dart';
 import 'package:titan/tools/middlewares/deferred_middleware.dart';
@@ -36,9 +36,8 @@ class AmapRouter {
   static const String addEditProduct = '/add_edit_product';
   static final Module module = Module(
     name: "Amap",
-    icon: const Left(HeroIcons.shoppingCart),
+    description: "Gérer les livraisons et les produits",
     root: AmapRouter.root,
-    selected: false,
   );
   AmapRouter(this.ref);
 

@@ -1,12 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:titan/admin/providers/is_admin_provider.dart';
+import 'package:titan/admin/router.dart';
 import 'package:titan/advert/router.dart';
 import 'package:titan/admin/providers/all_my_module_roots_list_provider.dart';
 import 'package:titan/amap/router.dart';
 import 'package:titan/booking/router.dart';
 import 'package:titan/centralisation/router.dart';
 import 'package:titan/cinema/router.dart';
-import 'package:titan/drawer/class/module.dart';
+import 'package:titan/navigation/class/module.dart';
 import 'package:collection/collection.dart';
 import 'package:titan/event/router.dart';
 import 'package:titan/home/router.dart';
@@ -17,7 +19,9 @@ import 'package:titan/ph/router.dart';
 import 'package:titan/purchases/router.dart';
 import 'package:titan/raffle/router.dart';
 import 'package:titan/recommendation/router.dart';
+import 'package:titan/router.dart';
 import 'package:titan/seed-library/router.dart';
+import 'package:titan/settings/router.dart';
 import 'package:titan/vote/router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,7 +33,9 @@ final modulesProvider = StateNotifierProvider<ModulesNotifier, List<Module>>((
       .map((root) => '/$root')
       .toList();
 
-  ModulesNotifier modulesNotifier = ModulesNotifier();
+  final isAdmin = ref.watch(isAdminProvider);
+
+  ModulesNotifier modulesNotifier = ModulesNotifier(isAdmin: isAdmin);
   modulesNotifier.loadModules(myModulesRoot);
   return modulesNotifier;
 });
@@ -37,26 +43,27 @@ final modulesProvider = StateNotifierProvider<ModulesNotifier, List<Module>>((
 class ModulesNotifier extends StateNotifier<List<Module>> {
   String dbModule = "modules";
   String dbAllModules = "allModules";
+  final bool isAdmin;
   final eq = const DeepCollectionEquality.unordered();
   List<Module> allModules = [
     HomeRouter.module,
     AdvertRouter.module,
-    AmapRouter.module,
-    BookingRouter.module,
-    CentralisationRouter.module,
-    CinemaRouter.module,
-    EventRouter.module,
-    LoanRouter.module,
+    // AmapRouter.module,
+    // BookingRouter.module,
+    // CentralisationRouter.module,
+    // CinemaRouter.module,
+    // EventRouter.module,
+    // LoanRouter.module,
     PaymentRouter.module,
-    PhonebookRouter.module,
-    PhRouter.module,
-    PurchasesRouter.module,
-    RaffleRouter.module,
-    RecommendationRouter.module,
-    VoteRouter.module,
-    SeedLibraryRouter.module,
+    // PhonebookRouter.module,
+    // PhRouter.module,
+    // PurchasesRouter.module,
+    // RaffleRouter.module,
+    // RecommendationRouter.module,
+    // VoteRouter.module,
+    // SeedLibraryRouter.module,
   ];
-  ModulesNotifier() : super([]);
+  ModulesNotifier({required this.isAdmin}) : super([]);
 
   void saveModules() {
     SharedPreferences.getInstance().then((prefs) {
@@ -120,6 +127,12 @@ class ModulesNotifier extends StateNotifier<List<Module>> {
     for (Module module in toDelete) {
       allModules.remove(module);
     }
+    allModules.addAll(
+      [
+        SettingsRouter.module,
+        if (isAdmin) AdminRouter.module,
+      ]
+    );
     state = allModules;
   }
 

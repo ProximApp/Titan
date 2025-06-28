@@ -11,6 +11,8 @@ import 'package:titan/home/router.dart';
 import 'package:titan/home/ui/home.dart' deferred as home_page;
 import 'package:titan/loan/router.dart';
 import 'package:titan/login/router.dart';
+import 'package:titan/navigation/ui/all_module_page.dart'
+    deferred as all_module_page;
 import 'package:titan/others/ui/loading_page.dart' deferred as loading_page;
 import 'package:titan/others/ui/no_internet_page.dart'
     deferred as no_internet_page;
@@ -26,6 +28,7 @@ import 'package:titan/settings/router.dart';
 import 'package:titan/raffle/router.dart';
 import 'package:titan/tools/middlewares/authenticated_middleware.dart';
 import 'package:titan/tools/middlewares/deferred_middleware.dart';
+import 'package:titan/tools/ui/styleguide/router.dart';
 import 'package:titan/vote/router.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 
@@ -39,6 +42,7 @@ class AppRouter {
   static const String update = '/update';
   static const String noInternet = '/no_internet';
   static const String noModule = '/no_module';
+  static const String allModules = '/all_modules';
 
   AppRouter(this.ref) {
     routes = [
@@ -70,6 +74,14 @@ class AppRouter {
         builder: () => no_module_page.NoModulePage(),
         middleware: [DeferredLoadingMiddleware(no_module_page.loadLibrary)],
       ),
+      QRoute(
+        path: allModules,
+        builder: () => all_module_page.AllModulePage(),
+        middleware: [
+          AuthenticatedMiddleware(ref),
+          DeferredLoadingMiddleware(all_module_page.loadLibrary),
+        ],
+      ),
       AdminRouter(ref).route(),
       AdvertRouter(ref).route(),
       AmapRouter(ref).route(),
@@ -90,6 +102,7 @@ class AppRouter {
       RaffleRouter(ref).route(),
       RecommendationRouter(ref).route(),
       SettingsRouter(ref).route(),
+      StyleGuideRouter(ref).route(),
       VoteRouter(ref).route(),
       SeedLibraryRouter(ref).route(),
     ];
