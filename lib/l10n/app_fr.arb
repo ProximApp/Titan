@@ -1159,7 +1159,7 @@
     "voteWarning": "Attention",
     "voteWarningMessage": "La sélection ne sera pas sauvegardée.\nVoulez-vous continuer ?",
     "moduleAdvert": "Annonce",
-    "moduleAdvertDescription": "Gérer les annonces et les annonceurs",
+    "moduleAdvertDescription": "Gérer les annonces",
     "moduleAmap": "AMAP",
     "moduleAmapDescription": "Gérer les livraisons et les produits",
     "moduleBooking": "Réservation",

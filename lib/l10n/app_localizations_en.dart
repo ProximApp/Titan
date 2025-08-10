@@ -3518,150 +3518,134 @@ class AppLocalizationsEn extends AppLocalizations {
   String get moduleAdvert => 'Advert';
 
   @override
-  String get moduleAdvertDescription => 'Gérer les annonces et les annonceurs';
+  String get moduleAdvertDescription => 'View the latest adverts';
 
   @override
   String get moduleAmap => 'AMAP';
 
   @override
-  String get moduleAmapDescription => 'Gérer les livraisons et les produits';
+  String get moduleAmapDescription => 'Order your AMAP basket';
 
   @override
   String get moduleBooking => 'Booking';
 
   @override
-  String get moduleBookingDescription =>
-      'Gérer les réservations, les salles et les managers';
+  String get moduleBookingDescription => 'Book a room';
 
   @override
   String get moduleCalendar => 'Calendar';
 
   @override
-  String get moduleCalendarDescription =>
-      'Consulter les événements et les activités';
+  String get moduleCalendarDescription => 'View the calendar of events';
 
   @override
   String get moduleCentralisation => 'Centralisation';
 
   @override
-  String get moduleCentralisationDescription =>
-      'Gérer la centralisation des données';
+  String get moduleCentralisationDescription => 'Viw all links';
 
   @override
   String get moduleCinema => 'Cinema';
 
   @override
-  String get moduleCinemaDescription => 'Gérer les séances de cinéma';
+  String get moduleCinemaDescription => 'View the cinema schedule';
 
   @override
   String get moduleEvent => 'Event';
 
   @override
-  String get moduleEventDescription =>
-      'Gérer les événements et les participants';
+  String get moduleEventDescription => 'View events';
 
   @override
   String get moduleFlappyBird => 'Flappy Bird';
 
   @override
-  String get moduleFlappyBirdDescription =>
-      'Jouer à Flappy Bird et consulter le classement';
+  String get moduleFlappyBirdDescription => 'Play Flappy Bird';
 
   @override
   String get moduleLoan => 'Loan';
 
   @override
-  String get moduleLoanDescription => 'Gérer les prêts et les articles';
+  String get moduleLoanDescription => 'See your loans';
 
   @override
   String get modulePhonebook => 'Phonebook';
 
   @override
-  String get modulePhonebookDescription =>
-      'Gérer les associations, les membres et les administrateurs';
+  String get modulePhonebookDescription => 'View the phonebook';
 
   @override
   String get modulePurchases => 'Purchases';
 
   @override
-  String get modulePurchasesDescription =>
-      'Gérer les achats, les tickets et l\'historique';
+  String get modulePurchasesDescription => 'View your purchases';
 
   @override
   String get moduleRaffle => 'Raffle';
 
   @override
-  String get moduleRaffleDescription =>
-      'Gérer les tombolas, les prix et les tickets';
+  String get moduleRaffleDescription => 'View the raffle';
 
   @override
   String get moduleRecommendation => 'Recommendation';
 
   @override
-  String get moduleRecommendationDescription =>
-      'Gérer les recommandations, les informations et les administrateurs';
+  String get moduleRecommendationDescription => 'View the recommendations';
 
   @override
   String get moduleSeedLibrary => 'Seed Library';
 
   @override
-  String get moduleSeedLibraryDescription =>
-      'Gérer les graines, les espèces et les stocks';
+  String get moduleSeedLibraryDescription => 'View the seed library';
 
   @override
   String get moduleVote => 'Vote';
 
   @override
-  String get moduleVoteDescription =>
-      'Gérer les votes, les sections et les candidats';
+  String get moduleVoteDescription => 'Vote for the campaigns';
 
   @override
   String get modulePh => 'PH';
 
   @override
-  String get modulePhDescription =>
-      'Gérer les PH, les formulaires et les administrateurs';
+  String get modulePhDescription => 'View the PH';
 
   @override
   String get moduleSettings => 'Settings';
 
   @override
-  String get moduleSettingsDescription =>
-      'Gérer les paramètres de l\'application';
+  String get moduleSettingsDescription => 'Manage your settings';
 
   @override
   String get moduleFeed => 'Feed';
 
   @override
-  String get moduleFeedDescription =>
-      'Consulter les actualités et mises à jour';
+  String get moduleFeedDescription => 'View the latest news';
 
   @override
   String get moduleStyleGuide => 'StyleGuide';
 
   @override
-  String get moduleStyleGuideDescription =>
-      'Explore the UI components and styles used in Titan';
+  String get moduleStyleGuideDescription => 'Style guide for developers';
 
   @override
   String get moduleAdmin => 'Administration';
 
   @override
   String get moduleAdminDescription =>
-      'Gérer les utilisateurs, groupes et structures';
+      'Administration module for administrators';
 
   @override
   String get moduleOthers => 'Others';
 
   @override
-  String get moduleOthersDescription => 'Afficher les autres modules';
+  String get moduleOthersDescription => 'Other modules';
 
   @override
   String get modulePayment => 'Payment';
 
   @override
-  String get modulePaymentDescription =>
-      'Gérer les paiements, les statistiques et les appareils';
+  String get modulePaymentDescription => 'Pay and see your transactions';
 
   @override
   String get paiementTopUp => 'Top-up';

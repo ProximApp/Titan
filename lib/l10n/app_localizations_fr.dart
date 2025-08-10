@@ -3547,7 +3547,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get moduleAdvert => 'Annonce';
 
   @override
-  String get moduleAdvertDescription => 'Gérer les annonces et les annonceurs';
+  String get moduleAdvertDescription => 'Gérer les annonces';
 
   @override
   String get moduleAmap => 'AMAP';
