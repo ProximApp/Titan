@@ -770,6 +770,18 @@ abstract class AppLocalizations {
   /// **'Gérer les annonceurs'**
   String get adminManageAnnouncers;
 
+  /// No description provided for @adminDeleteAnnouncer.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer cet annonceur ?'**
+  String get adminDeleteAnnouncer;
+
+  /// No description provided for @adminDeleteAnnouncerDescription.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer cet annonceurs supprimera toutes ses annonces.'**
+  String get adminDeleteAnnouncerDescription;
+
   /// No description provided for @advertAdd.
   ///
   /// In fr, this message translates to:

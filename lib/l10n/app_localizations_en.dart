@@ -354,6 +354,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adminManageAnnouncers => 'Manage announcers';
 
   @override
+  String get adminDeleteAnnouncer => 'Delete announcer?';
+
+  @override
+  String get adminDeleteAnnouncerDescription =>
+      'Are you sure you want to delete this announcer? All their adverts will be deleted.';
+
+  @override
   String get advertAdd => 'Add';
 
   @override

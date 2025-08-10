@@ -357,6 +357,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get adminManageAnnouncers => 'Gérer les annonceurs';
 
   @override
+  String get adminDeleteAnnouncer => 'Supprimer cet annonceur ?';
+
+  @override
+  String get adminDeleteAnnouncerDescription =>
+      'Supprimer cet annonceurs supprimera toutes ses annonces.';
+
+  @override
   String get advertAdd => 'Ajouter';
 
   @override
