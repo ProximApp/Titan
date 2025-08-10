@@ -3673,7 +3673,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Explore the UI components and styles used in Titan';
 
   @override
-  String get moduleAdmin => 'Adminitration';
+  String get moduleAdmin => 'Admin';
 
   @override
   String get moduleAdminDescription =>

@@ -3629,7 +3629,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get moduleStyleGuideDescription => 'Style guide for developers';
 
   @override
-  String get moduleAdmin => 'Administration';
+  String get moduleAdmin => 'Admin';
 
   @override
   String get moduleAdminDescription =>
