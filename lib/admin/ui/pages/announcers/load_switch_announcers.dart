@@ -32,8 +32,7 @@ class LoadSwitchAdvertisers extends ConsumerWidget {
           value: isAnnouncer,
           future: isAnnouncer
               ? () async {
-                  var result = true;
-                  await showDialog(
+                  return await showDialog(
                     context: context,
                     builder: (context) {
                       return CustomDialogBox(
@@ -45,15 +44,15 @@ class LoadSwitchAdvertisers extends ConsumerWidget {
                             final value = await announcerListNotifier
                                 .deleteAnnouncer(annoncer!);
                             if (value) {
-                              result = false;
                               announcerListNotifier.loadAllAnnouncerList();
+                              return false;
                             }
+                            return true;
                           });
                         },
                       );
                     },
                   );
-                  return result;
                 }
               : () async {
                   await announcerListNotifier.addAnnouncer(
