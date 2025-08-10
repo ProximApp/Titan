@@ -7199,7 +7199,7 @@ abstract class AppLocalizations {
   /// No description provided for @moduleAdmin.
   ///
   /// In fr, this message translates to:
-  /// **'Adminitration'**
+  /// **'Admin'**
   String get moduleAdmin;
 
   /// No description provided for @moduleAdminDescription.
