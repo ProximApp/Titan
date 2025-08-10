@@ -41,59 +41,67 @@ class AllModulePage extends HookConsumerWidget {
             Expanded(
               child: ScrollToHideNavbar(
                 controller: scrollController,
-                physics: const BouncingScrollPhysics(),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Column(
-                    children: [
-                      ...modules.map(
-                        (module) => Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                if (preferedModuleRootList.contains(
-                                  module.root,
-                                )) {
-                                  preferedModuleRootListNotifier
-                                      .removePreferedModulesRoot(module.root);
-                                } else if (preferedModuleRootList.length < 2) {
-                                  preferedModuleRootListNotifier
-                                      .addPreferedModulesRoot(module.root);
-                                }
-                              },
-                              child: HeroIcon(
-                                HeroIcons.bookmark,
-                                style:
-                                    preferedModuleRootList.contains(module.root)
-                                    ? HeroIconStyle.solid
-                                    : HeroIconStyle.outline,
-                                size: 20,
-                                color:
-                                    preferedModuleRootList.contains(module.root)
-                                    ? ColorConstants.main
-                                    : ColorConstants.secondary,
-                              ),
-                            ),
-                            Expanded(
-                              child: ListItem(
-                                title: module.getName(context),
-                                subtitle: module.description,
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  controller: scrollController,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Column(
+                      children: [
+                        ...modules.map(
+                          (module) => Row(
+                            children: [
+                              GestureDetector(
                                 onTap: () {
-                                  navbarListModuleNotifier.pushModule(module);
-                                  final pathForwardingNotifier = ref.watch(
-                                    pathForwardingProvider.notifier,
-                                  );
-                                  pathForwardingNotifier.forward(module.root);
-
-                                  QR.to(module.root);
-                                  navbarVisibilityNotifier.show();
+                                  if (preferedModuleRootList.contains(
+                                    module.root,
+                                  )) {
+                                    preferedModuleRootListNotifier
+                                        .removePreferedModulesRoot(module.root);
+                                  } else if (preferedModuleRootList.length <
+                                      2) {
+                                    preferedModuleRootListNotifier
+                                        .addPreferedModulesRoot(module.root);
+                                  }
                                 },
+                                child: HeroIcon(
+                                  HeroIcons.bookmark,
+                                  style:
+                                      preferedModuleRootList.contains(
+                                        module.root,
+                                      )
+                                      ? HeroIconStyle.solid
+                                      : HeroIconStyle.outline,
+                                  size: 20,
+                                  color:
+                                      preferedModuleRootList.contains(
+                                        module.root,
+                                      )
+                                      ? ColorConstants.main
+                                      : ColorConstants.secondary,
+                                ),
                               ),
-                            ),
-                          ],
+                              Expanded(
+                                child: ListItem(
+                                  title: module.getName(context),
+                                  subtitle: module.description,
+                                  onTap: () {
+                                    navbarListModuleNotifier.pushModule(module);
+                                    final pathForwardingNotifier = ref.watch(
+                                      pathForwardingProvider.notifier,
+                                    );
+                                    pathForwardingNotifier.forward(module.root);
+
+                                    QR.to(module.root);
+                                    navbarVisibilityNotifier.show();
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
