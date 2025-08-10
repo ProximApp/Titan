@@ -12,7 +12,6 @@ import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/providers/path_forwarding_provider.dart';
 import 'package:titan/tools/providers/prefered_module_root_list_provider.dart';
 import 'package:titan/tools/ui/styleguide/list_item.dart';
-import 'package:titan/tools/ui/styleguide/searchbar.dart';
 import 'package:titan/tools/ui/widgets/top_bar.dart';
 
 class AllModulePage extends HookConsumerWidget {
@@ -34,26 +33,19 @@ class AllModulePage extends HookConsumerWidget {
     );
     return Container(
       color: ColorConstants.background,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const SizedBox(height: 40),
-          TopBar(root: AppRouter.allModules),
-          Expanded(
-            child: ScrollToHideNavbar(
-              controller: scrollController,
-              child: SingleChildScrollView(
+      child: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            TopBar(root: AppRouter.allModules),
+            Expanded(
+              child: ScrollToHideNavbar(
                 controller: scrollController,
                 physics: const BouncingScrollPhysics(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Column(
                     children: [
-                      CustomSearchBar(
-                        onSearch: (String query) {},
-                        onFilter: () {},
-                      ),
-                      SizedBox(height: 30),
                       ...modules.map(
                         (module) => Row(
                           children: [
@@ -100,15 +92,14 @@ class AllModulePage extends HookConsumerWidget {
                             ),
                           ],
                         ),
-                      ),
-                      SizedBox(height: 80),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
