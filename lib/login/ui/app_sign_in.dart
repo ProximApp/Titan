@@ -35,7 +35,7 @@ class AppSignIn extends HookConsumerWidget {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  AppLocalizations.of(context)!.loginAppName,
+                  getAppName(),
                   style: GoogleFonts.elMessiri(
                     textStyle: const TextStyle(
                       fontSize: 40,
