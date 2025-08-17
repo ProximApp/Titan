@@ -317,7 +317,7 @@ class SettingsMainPage extends HookConsumerWidget {
               ),
               const SizedBox(height: 20),
               Text(
-                "Connexion",
+                localizeWithContext.settingsConnexion,
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -325,15 +325,15 @@ class SettingsMainPage extends HookConsumerWidget {
                 ),
               ),
               ListItem(
-                title: "Deconnexion",
+                title: localizeWithContext.settingsDisconnect,
                 onTap: () async {
                   await showDialog(
                     context: context,
                     builder: (context) {
                       return CustomDialogBox(
                         descriptions:
-                            "Êtes-vous sûr de vouloir vous déconnecter ?",
-                        title: "Déconnexion",
+                            localizeWithContext.settingsDisconnectDescription,
+                        title: localizeWithContext.settingsDisconnect,
                         onYes: () {
                           auth.deleteToken();
                           if (!kIsWeb) {
@@ -346,7 +346,7 @@ class SettingsMainPage extends HookConsumerWidget {
                           displayToast(
                             context,
                             TypeMsg.msg,
-                            "Déconnexion réussie",
+                            localizeWithContext.settingsDisconnectionSuccess,
                           );
                         },
                       );
@@ -355,26 +355,26 @@ class SettingsMainPage extends HookConsumerWidget {
                 },
               ),
               ListItem(
-                title: "Supprimer mon compte",
+                title: localizeWithContext.settingsDeleteMyAccount,
                 onTap: () async {
                   await showDialog(
                     context: context,
                     builder: (context) {
                       return CustomDialogBox(
-                        descriptions:
-                            "Êtes-vous sûr de vouloir supprimer votre compte ? ",
-                        title: "Supression du compte",
+                        descriptions: localizeWithContext
+                            .settingsDeleteMyAccountDescription,
+                        title: localizeWithContext.settingsDeleteMyAccount,
                         onYes: () async {
                           final value = await meNotifier.deletePersonal();
                           if (value) {
                             displayToastWithContext(
                               TypeMsg.msg,
-                              "Demande de suppression envoyée",
+                              localizeWithContext.settingsDeletionAsked,
                             );
                           } else {
                             displayToastWithContext(
                               TypeMsg.error,
-                              "Une erreur est survenue lors de la suppression de votre compte",
+                              localizeWithContext.settingsDeleteMyAccountError,
                             );
                           }
                         },
