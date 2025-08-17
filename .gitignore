@@ -48,6 +48,8 @@ app.*.map.json
 .env
 
 # Firebase
+google-services.json
+GoogleService-Info.plist
 android/app/src/alpha/google-services.json
 android/app/src/dev/google-services.json
 android/app/src/prod/google-services.json
