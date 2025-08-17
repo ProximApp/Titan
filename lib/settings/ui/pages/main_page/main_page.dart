@@ -1,7 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:titan/auth/providers/openid_provider.dart';
+import 'package:titan/service/providers/firebase_token_expiration_provider.dart';
+import 'package:titan/service/providers/messages_provider.dart';
+import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:titan/tools/ui/widgets/vertical_clip_scroll.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/settings/providers/notification_topic_provider.dart';
@@ -37,6 +42,8 @@ class SettingsMainPage extends HookConsumerWidget {
     final notificationTopicList = ref.watch(notificationTopicListProvider);
     final meNotifier = ref.watch(asyncUserProvider.notifier);
     final profilePicture = ref.watch(profilePictureProvider);
+    final auth = ref.watch(authTokenProvider.notifier);
+    final isCachingNotifier = ref.watch(isCachingProvider.notifier);
 
     final results = notificationTopicList.when(
       data: (data) {
@@ -309,6 +316,73 @@ class SettingsMainPage extends HookConsumerWidget {
                 },
               ),
               const SizedBox(height: 20),
+              Text(
+                "Connexion",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: ColorConstants.title,
+                ),
+              ),
+              ListItem(
+                title: "Deconnexion",
+                onTap: () async {
+                  await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return CustomDialogBox(
+                        descriptions:
+                            "Êtes-vous sûr de vouloir vous déconnecter ?",
+                        title: "Déconnexion",
+                        onYes: () {
+                          auth.deleteToken();
+                          if (!kIsWeb) {
+                            ref.watch(messagesProvider.notifier).forgetDevice();
+                            ref
+                                .watch(firebaseTokenExpirationProvider.notifier)
+                                .reset();
+                          }
+                          isCachingNotifier.set(false);
+                          displayToast(
+                            context,
+                            TypeMsg.msg,
+                            "Déconnexion réussie",
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
+              ListItem(
+                title: "Supprimer mon compte",
+                onTap: () async {
+                  await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return CustomDialogBox(
+                        descriptions:
+                            "Êtes-vous sûr de vouloir supprimer votre compte ? ",
+                        title: "Supression du compte",
+                        onYes: () async {
+                          final value = await meNotifier.deletePersonal();
+                          if (value) {
+                            displayToastWithContext(
+                              TypeMsg.msg,
+                              "Demande de suppression envoyée",
+                            );
+                          } else {
+                            displayToastWithContext(
+                              TypeMsg.error,
+                              "Une erreur est survenue lors de la suppression de votre compte",
+                            );
+                          }
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
             ],
           ),
         ),
