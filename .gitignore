@@ -73,3 +73,5 @@ missing.txt
 android/fastlane/metadata
 android/fastlane/report.xml
 ios/fastlane/report.xml
+android/fastlane-service-account.json
+ios/app-store-connect-api.p8
