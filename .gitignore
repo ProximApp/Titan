@@ -75,3 +75,6 @@ android/fastlane/report.xml
 ios/fastlane/report.xml
 android/fastlane-service-account.json
 ios/app-store-connect-api.p8
+
+# Local folder to store additionnal keys
+keys
