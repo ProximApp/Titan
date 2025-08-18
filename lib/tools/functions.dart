@@ -538,7 +538,8 @@ String getTitanPackageSuffix() {
 }
 
 String getTitanPackageName() {
-  return "${String.fromEnvironment('APP_ID_PREFIX')}.${getTitanPackageSuffix()}";
+  const appIdPrefix = String.fromEnvironment('APP_ID_PREFIX');
+  return "$appIdPrefix.${getTitanPackageSuffix()}";
 }
 
 String getTitanURLScheme() {
@@ -546,7 +547,8 @@ String getTitanURLScheme() {
 }
 
 String getAppName() {
-  return String.fromEnvironment('APP_NAME');
+  const appName = String.fromEnvironment('APP_NAME');
+  return appName;
 }
 
 String getTitanLogo() {
