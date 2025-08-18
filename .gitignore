@@ -78,3 +78,5 @@ ios/app-store-connect-api.p8
 
 # Local folder to store additionnal keys
 keys
+
+MainActivity.kt

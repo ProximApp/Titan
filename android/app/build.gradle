@@ -42,6 +42,27 @@ if (appName == null) {
     throw new GradleException("app_name not found.")
 }
 
+def generateMainActivityTask = tasks.register("generateMainActivity") {
+    doLast {
+        def packageName = "${appIdPrefix}.titan"
+        def flavorUrlScheme = project.hasProperty("APP_FLAVOR_URL") ? project.getProperty("APP_FLAVOR_URL") : "${appIdPrefix}.titan"
+
+        def templateFile = file("$projectDir/MainActivity.template.kt")
+        def packageDir = packageName.replace('.', '/')
+        def outputDir = file("$projectDir/src/main/kotlin/$packageDir")
+        outputDir.mkdirs()
+        def outputFile = new File(outputDir, "MainActivity.kt")
+
+        def content = templateFile.text
+            .replace("__PACKAGE__", packageName)
+
+        outputFile.text = content
+        println "MainActivity.kt généré dans $outputFile"
+    }
+}
+
+preBuild.dependsOn(generateMainActivityTask)
+
 android {
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion "27.0.12077973"
