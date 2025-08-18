@@ -45,7 +45,6 @@ if (appName == null) {
 def generateMainActivityTask = tasks.register("generateMainActivity") {
     doLast {
         def packageName = "${appIdPrefix}.titan"
-        def flavorUrlScheme = project.hasProperty("APP_FLAVOR_URL") ? project.getProperty("APP_FLAVOR_URL") : "${appIdPrefix}.titan"
 
         def templateFile = file("$projectDir/MainActivity.template.kt")
         def packageDir = packageName.replace('.', '/')
@@ -57,7 +56,6 @@ def generateMainActivityTask = tasks.register("generateMainActivity") {
             .replace("__PACKAGE__", packageName)
 
         outputFile.text = content
-        println "MainActivity.kt généré dans $outputFile"
     }
 }
 
