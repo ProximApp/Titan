@@ -126,7 +126,7 @@ class ModulesNotifier extends StateNotifier<List<Module>> {
         Module module = allModules[allSavedModulesName.indexOf(name)];
         if (roots.contains(module.root)) {
           modules.add(module);
-        } else if (kDebugMode) {
+        } else if (!kDebugMode) {
           toDelete.add(module);
         }
       }
