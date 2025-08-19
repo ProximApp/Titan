@@ -68,8 +68,6 @@ class ModulesNotifier extends StateNotifier<List<Module>> {
     RecommendationRouter.module,
     VoteRouter.module,
     SeedLibraryRouter.module,
-    AdminRouter.module,
-    SuperAdminRouter.module,
   ];
   ModulesNotifier({required this.isAdmin, required this.isSuperAdmin})
     : super([]);
@@ -128,7 +126,7 @@ class ModulesNotifier extends StateNotifier<List<Module>> {
         Module module = allModules[allSavedModulesName.indexOf(name)];
         if (roots.contains(module.root)) {
           modules.add(module);
-        } else if (!kDebugMode) {
+        } else if (kDebugMode) {
           toDelete.add(module);
         }
       }
