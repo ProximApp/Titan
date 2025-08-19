@@ -49,7 +49,7 @@ class ModulesNotifier extends StateNotifier<List<Module>> {
   String dbModule = "modules";
   String dbAllModules = "allModules";
   final bool isAdmin;
-  final bool isSuperAdmin; // This can be set based on your logic
+  final bool isSuperAdmin;
   final eq = const DeepCollectionEquality.unordered();
   List<Module> allModules = [
     HomeRouter.module,
