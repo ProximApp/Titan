@@ -122,6 +122,7 @@ void main() {
         groups: [],
         phone: 'phone',
         promo: null,
+        isSuperAdmin: false,
       );
       expect(
         user.toString(),
