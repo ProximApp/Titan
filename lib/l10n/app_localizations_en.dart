@@ -476,18 +476,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Choose a group to manage this association';
 
   @override
-  String get adminConfirm => 'Confirm';
-
-  @override
-  String get adminAdverts => 'Adverts';
-
-  @override
-  String get adminAnnouncers => 'Announcers';
-
-  @override
-  String get adminManageAnnouncers => 'Manage announcers';
-
-  @override
   String get advertAdd => 'Add';
 
   @override
@@ -2206,6 +2194,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get phonebookAddRole => 'Add a role';
 
   @override
+  String get phonebookAdmin => 'Admin';
+
+  @override
   String get phonebookAll => 'All';
 
   @override
@@ -2299,18 +2290,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String phonebookDeleteUserRole(String name) {
     return 'Delete the role of $name?';
   }
-
-  @override
-  String get phonebookAdmin => 'Admin';
-
-  @override
-  String get phonebookAdminPage => 'Admin page';
-
-  @override
-  String get phonebookAssociationPure => 'Association';
-
-  @override
-  String get phonebookAssociationPureSearch => '  Association';
 
   @override
   String get phonebookDeactivating => 'Deactivate the association?';

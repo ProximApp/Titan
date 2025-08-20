@@ -998,30 +998,6 @@ abstract class AppLocalizations {
   /// **'Choisir un groupe gestionnaire pour l\'association'**
   String get adminChooseAssociationManagerGroup;
 
-  /// No description provided for @adminConfirm.
-  ///
-  /// In fr, this message translates to:
-  /// **'Valider'**
-  String get adminConfirm;
-
-  /// No description provided for @adminAdverts.
-  ///
-  /// In fr, this message translates to:
-  /// **'Annonces'**
-  String get adminAdverts;
-
-  /// No description provided for @adminAnnouncers.
-  ///
-  /// In fr, this message translates to:
-  /// **'Annonceurs'**
-  String get adminAnnouncers;
-
-  /// No description provided for @adminManageAnnouncers.
-  ///
-  /// In fr, this message translates to:
-  /// **'Gérer les annonceurs'**
-  String get adminManageAnnouncers;
-
   /// No description provided for @advertAdd.
   ///
   /// In fr, this message translates to:
@@ -4406,6 +4382,12 @@ abstract class AppLocalizations {
   /// **'Ajouter un rôle'**
   String get phonebookAddRole;
 
+  /// No description provided for @phonebookAdmin.
+  ///
+  /// In fr, this message translates to:
+  /// **'Admin'**
+  String get phonebookAdmin;
+
   /// No description provided for @phonebookAll.
   ///
   /// In fr, this message translates to:
@@ -4573,30 +4555,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Supprimer le rôle de l\'utilisateur {name} ?'**
   String phonebookDeleteUserRole(String name);
-
-  /// No description provided for @phonebookAdmin.
-  ///
-  /// In fr, this message translates to:
-  /// **'Admin'**
-  String get phonebookAdmin;
-
-  /// No description provided for @phonebookAdminPage.
-  ///
-  /// In fr, this message translates to:
-  /// **'Page Administrateur'**
-  String get phonebookAdminPage;
-
-  /// No description provided for @phonebookAssociationPure.
-  ///
-  /// In fr, this message translates to:
-  /// **'Association'**
-  String get phonebookAssociationPure;
-
-  /// No description provided for @phonebookAssociationPureSearch.
-  ///
-  /// In fr, this message translates to:
-  /// **'  Association'**
-  String get phonebookAssociationPureSearch;
 
   /// No description provided for @phonebookDeactivating.
   ///
