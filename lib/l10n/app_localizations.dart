@@ -464,12 +464,6 @@ abstract class AppLocalizations {
   /// **'Description'**
   String get adminDescription;
 
-  /// No description provided for @adminEclSchool.
-  ///
-  /// In fr, this message translates to:
-  /// **'Centrale Lyon'**
-  String get adminEclSchool;
-
   /// No description provided for @adminEdit.
   ///
   /// In fr, this message translates to:
@@ -613,12 +607,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Visibilité des modules'**
   String get adminModifyModuleVisibility;
-
-  /// No description provided for @adminMyEclPay.
-  ///
-  /// In fr, this message translates to:
-  /// **'MyECLPay'**
-  String get adminMyEclPay;
 
   /// No description provided for @adminName.
   ///
@@ -1015,6 +1003,24 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Valider'**
   String get adminConfirm;
+
+  /// No description provided for @adminAdverts.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annonces'**
+  String get adminAdverts;
+
+  /// No description provided for @adminAnnouncers.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annonceurs'**
+  String get adminAnnouncers;
+
+  /// No description provided for @adminManageAnnouncers.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gérer les annonceurs'**
+  String get adminManageAnnouncers;
 
   /// No description provided for @advertAdd.
   ///
@@ -4400,12 +4406,6 @@ abstract class AppLocalizations {
   /// **'Ajouter un rôle'**
   String get phonebookAddRole;
 
-  /// No description provided for @phonebookAdmin.
-  ///
-  /// In fr, this message translates to:
-  /// **'Administration'**
-  String get phonebookAdmin;
-
   /// No description provided for @phonebookAll.
   ///
   /// In fr, this message translates to:
@@ -4574,6 +4574,36 @@ abstract class AppLocalizations {
   /// **'Supprimer le rôle de l\'utilisateur {name} ?'**
   String phonebookDeleteUserRole(String name);
 
+  /// No description provided for @phonebookAdmin.
+  ///
+  /// In fr, this message translates to:
+  /// **'Admin'**
+  String get phonebookAdmin;
+
+  /// No description provided for @phonebookAdminPage.
+  ///
+  /// In fr, this message translates to:
+  /// **'Page Administrateur'**
+  String get phonebookAdminPage;
+
+  /// No description provided for @phonebookAssociationPure.
+  ///
+  /// In fr, this message translates to:
+  /// **'Association'**
+  String get phonebookAssociationPure;
+
+  /// No description provided for @phonebookAssociationPureSearch.
+  ///
+  /// In fr, this message translates to:
+  /// **'  Association'**
+  String get phonebookAssociationPureSearch;
+
+  /// No description provided for @phonebookDeactivating.
+  ///
+  /// In fr, this message translates to:
+  /// **'Désactiver l\'association ?'**
+  String get phonebookDeactivating;
+
   /// No description provided for @phonebookDeleting.
   ///
   /// In fr, this message translates to:
@@ -4627,6 +4657,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Modifier le rôle'**
   String get phonebookEditRole;
+
+  /// No description provided for @phonebookEditMembership.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier le rôle'**
+  String get phonebookEditMembership;
 
   /// No description provided for @phonebookEmail.
   ///

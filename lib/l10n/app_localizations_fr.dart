@@ -193,9 +193,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get adminDescription => 'Description';
 
   @override
-  String get adminEclSchool => 'Centrale Lyon';
-
-  @override
   String get adminEdit => 'Modifier';
 
   @override
@@ -268,9 +265,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get adminModifyModuleVisibility => 'Visibilité des modules';
-
-  @override
-  String get adminMyEclPay => 'MyECLPay';
 
   @override
   String get adminName => 'Nom';
@@ -488,6 +482,15 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get adminConfirm => 'Valider';
+
+  @override
+  String get adminAdverts => 'Annonces';
+
+  @override
+  String get adminAnnouncers => 'Annonceurs';
+
+  @override
+  String get adminManageAnnouncers => 'Gérer les annonceurs';
 
   @override
   String get advertAdd => 'Ajouter';
@@ -2216,9 +2219,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get phonebookAddRole => 'Ajouter un rôle';
 
   @override
-  String get phonebookAdmin => 'Administration';
-
-  @override
   String get phonebookAll => 'Toutes';
 
   @override
@@ -2314,6 +2314,21 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get phonebookAdmin => 'Admin';
+
+  @override
+  String get phonebookAdminPage => 'Page Administrateur';
+
+  @override
+  String get phonebookAssociationPure => 'Association';
+
+  @override
+  String get phonebookAssociationPureSearch => '  Association';
+
+  @override
+  String get phonebookDeactivating => 'Désactiver l\'association ?';
+
+  @override
   String get phonebookDeleting => 'Suppression';
 
   @override
@@ -2340,6 +2355,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get phonebookEditRole => 'Modifier le rôle';
+
+  @override
+  String get phonebookEditMembership => 'Modifier le rôle';
 
   @override
   String get phonebookEmail => 'Email :';
