@@ -61,7 +61,7 @@ jobs:
         env:
           CONFIG: ${{ vars.ALPHA_CONFIG }}
 
-      - name: Configure Alpha config.json
+      - name: Configure Prod config.json
         if: needs.extract-version.outputs.isAlpha == 'false'
         run: |
           printf "%s" "$CONFIG" > config.json
@@ -90,7 +90,6 @@ jobs:
           sed -i "s/{{SCHOOL_NAME}}/$SCHOOL_NAME/g" web/manifest.json
 
       - name: Build 🔧
-        if: needs.extract-version.outputs.isAlpha == 'true'
         run: flutter build web --release --dart-define-from-file=config.json
 
       - name: Set up Docker Buildx
