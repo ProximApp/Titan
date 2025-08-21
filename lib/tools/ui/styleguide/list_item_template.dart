@@ -26,13 +26,12 @@ class ListItemTemplate extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 4),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (icon != null) ...[icon!, const SizedBox(width: 10)],
             Expanded(
               child: Column(
-                crossAxisAlignment: subtitle != null
-                    ? CrossAxisAlignment.start
-                    : CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     title,
