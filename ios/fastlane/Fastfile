@@ -16,7 +16,7 @@
 default_platform(:ios)
 
 platform :ios do
-  desc "Submit a new Beta Build to Google Play"
+  desc "Submit a new Beta Build to App Store"
   lane :beta do |options|
     flavor = options[:flavor] # prod, alpha, dev
     app_id_prefix = options[:prefix] # fr.myecl
