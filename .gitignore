@@ -44,9 +44,8 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# env 
-.env
-config/
+# Config 
+config/*
 !config/config-template.json
 
 # Firebase
