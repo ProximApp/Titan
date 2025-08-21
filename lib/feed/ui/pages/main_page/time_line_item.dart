@@ -17,7 +17,8 @@ class TimelineItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final showAction =
-        (item.actionStart ?? item.start).isBefore(DateTime.now()) &&
+        item.actionStart != null &&
+        item.actionStart!.isBefore(DateTime.now()) &&
         item.end != null &&
         item.end!.isAfter(DateTime.now());
     return SizedBox(
