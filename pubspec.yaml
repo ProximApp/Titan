@@ -85,7 +85,6 @@ dev_dependencies:
 
 flutter:
   assets:
-    - .env
     - assets/images/logo_prod.png
     - assets/images/logo_alpha.png
     - assets/images/logo_dev.png
