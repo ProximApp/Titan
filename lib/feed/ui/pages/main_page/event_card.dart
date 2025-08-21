@@ -73,13 +73,25 @@ class EventCard extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 70),
-                Text(
-                  item.title,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w900,
-                    color: ColorConstants.background,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      item.title,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w900,
+                        color: ColorConstants.background,
+                      ),
+                    ),
+                    if (item.location != null && item.location!.isNotEmpty)
+                      Text(
+                        ' | ${item.location}',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: ColorConstants.background,
+                        ),
+                      ),
+                  ],
                 ),
                 Text(
                   getNewsSubtitle(
