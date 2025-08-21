@@ -30,7 +30,9 @@ class ListItemTemplate extends StatelessWidget {
             if (icon != null) ...[icon!, const SizedBox(width: 10)],
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: subtitle != null
+                    ? CrossAxisAlignment.start
+                    : CrossAxisAlignment.center,
                 children: [
                   Text(
                     title,
