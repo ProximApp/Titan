@@ -60,7 +60,7 @@ jobs:
           printf "%s" "$CONFIG" > config.json
         env:
           CONFIG: ${{ vars.ALPHA_CONFIG }}
-          
+
       - name: Configure Alpha config.json
         if: needs.extract-version.outputs.isAlpha == 'false'
         run: |
@@ -79,6 +79,15 @@ jobs:
         run: |
           cp -f web/Prod/favicon.png web/favicon.png
           cp -f web/Prod/icons/* web/icons/
+
+      - name: Replace variables in index.html and manifest.json
+        run: |
+          APP_NAME=$(cat config.json | jq -r '.APP_NAME')
+          SCHOOL_NAME=$(cat config.json | jq -r '.SCHOOL_NAME')
+          sed -i "s/{{APP_NAME}}/$APP_NAME/g" web/index.html
+          sed -i "s/{{SCHOOL_NAME}}/$SCHOOL_NAME/g" web/index.html
+          sed -i "s/{{APP_NAME}}/$APP_NAME/g" web/manifest.json
+          sed -i "s/{{SCHOOL_NAME}}/$SCHOOL_NAME/g" web/manifest.json
 
       - name: Build 🔧
         if: needs.extract-version.outputs.isAlpha == 'true'
