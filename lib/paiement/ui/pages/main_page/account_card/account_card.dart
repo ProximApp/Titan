@@ -21,6 +21,7 @@ import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:qlevar_router/qlevar_router.dart';
+import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 
 class AccountCard extends HookConsumerWidget {
   final Function? toggle;
@@ -50,28 +51,31 @@ class AccountCard extends HookConsumerWidget {
     }
 
     void showPayModal() {
-      showModalBottomSheet(
+      showCustomBottomModal(
         context: context,
-        backgroundColor: Colors.transparent,
-        scrollControlDisabledMaxHeightRatio:
-            (1 - 80 / MediaQuery.of(context).size.height),
-        builder: (context) => const PayPage(),
-      ).then((_) {
-        payAmountNotifier.setPayAmount("");
-      });
+        // backgroundColor: Colors.transparent,
+        // scrollControlDisabledMaxHeightRatio:
+        //     (1 - 80 / MediaQuery.of(context).size.height),
+        // builder: (context) => const PayPage(),
+        modal: PayPage(),
+        ref: ref,
+        onCloseCallback: () => payAmountNotifier.setPayAmount(""),
+      );
     }
 
     void showFundModal() async {
       resetHandledKeys();
-      await showModalBottomSheet(
+      await showCustomBottomModal(
         context: context,
-        backgroundColor: Colors.transparent,
-        scrollControlDisabledMaxHeightRatio:
-            (1 - 80 / MediaQuery.of(context).size.height),
-        builder: (context) => const FundPage(),
-      ).then((code) {
-        fundAmountNotifier.setFundAmount("");
-      });
+        modal: FundPage(),
+        ref: ref,
+        onCloseCallback: () => fundAmountNotifier.setFundAmount(""),
+
+        // backgroundColor: Colors.transparent,
+        // scrollControlDisabledMaxHeightRatio:
+        //     (1 - 80 / MediaQuery.of(context).size.height),
+        // builder: (context) => const FundPage(),
+      );
     }
 
     void showNotRegisteredDeviceDialog() async {

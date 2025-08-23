@@ -6,12 +6,14 @@ import 'package:titan/admin/router.dart';
 import 'package:titan/admin/providers/structure_manager_provider.dart';
 import 'package:titan/admin/providers/structure_provider.dart';
 import 'package:titan/paiement/class/structure.dart';
+import 'package:titan/paiement/providers/bank_account_holder_provider.dart';
 import 'package:titan/paiement/providers/structure_list_provider.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 import 'package:titan/tools/ui/styleguide/button.dart';
 import 'package:titan/tools/ui/styleguide/icon_button.dart';
 import 'package:titan/tools/ui/styleguide/list_item.dart';
+import 'package:titan/tools/ui/styleguide/list_item_template.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/layouts/refresher.dart';
@@ -20,12 +22,17 @@ import 'package:titan/user/class/simple_users.dart';
 import 'package:titan/user/providers/user_list_provider.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
+import 'package:tuple/tuple.dart';
 
 class StructurePage extends HookConsumerWidget {
   const StructurePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final bankAccountHolder = ref.watch(bankAccountHolderProvider);
+    final bankAccountHolderNotifier = ref.watch(
+      bankAccountHolderProvider.notifier,
+    );
     final structures = ref.watch(structureListProvider);
     final structuresNotifier = ref.watch(structureListProvider.notifier);
     final structureNotifier = ref.watch(structureProvider.notifier);
@@ -78,9 +85,9 @@ class StructurePage extends HookConsumerWidget {
                 ],
               ),
               const SizedBox(height: 30),
-              AsyncChild(
-                value: structures,
-                builder: (context, structures) {
+              Async2Children(
+                values: Tuple2(structures, bankAccountHolder),
+                builder: (context, structures, bankAccountHolder) {
                   structures.sort(
                     (a, b) =>
                         a.name.toLowerCase().compareTo(b.name.toLowerCase()),
@@ -89,6 +96,15 @@ class StructurePage extends HookConsumerWidget {
                     children: [
                       Column(
                         children: [
+                          ListItemTemplate(
+                            title: bankAccountHolder.holderStructureId == ""
+                                ? localizeWithContext
+                                      .adminUndefinedBankAccountHolder
+                                : localizeWithContext.adminBankAccountHolder(
+                                    bankAccountHolder.holderStructure.name,
+                                  ),
+                            trailing: SizedBox.shrink(),
+                          ),
                           ...structures.map(
                             (structure) => ListItem(
                               title: structure.name,
@@ -97,8 +113,7 @@ class StructurePage extends HookConsumerWidget {
                                   context: context,
                                   ref: ref,
                                   modal: BottomModalTemplate(
-                                    title: localizeWithContext
-                                        .adminUsersManagement,
+                                    title: structure.name,
                                     child: Column(
                                       children: [
                                         Button(
@@ -117,6 +132,30 @@ class StructurePage extends HookConsumerWidget {
                                                   AdminRouter.addEditStructure,
                                             );
                                             Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Button(
+                                          text: localizeWithContext
+                                              .adminDefineAsBankAccountHolder,
+                                          onPressed: () async {
+                                            final value =
+                                                await bankAccountHolderNotifier
+                                                    .updateBankAccountHolder(
+                                                      structure.id,
+                                                    );
+                                            if (value) {
+                                              displayToastWithContext(
+                                                TypeMsg.msg,
+                                                localizeWithContext
+                                                    .adminBankAccountHolderModified,
+                                              );
+                                            } else {
+                                              displayToastWithContext(
+                                                TypeMsg.error,
+                                                localizeWithContext.adminError,
+                                              );
+                                            }
                                           },
                                         ),
                                         const SizedBox(height: 10),
