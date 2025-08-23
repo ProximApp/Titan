@@ -117,9 +117,6 @@ class InvoicesAdminPage extends HookConsumerWidget {
                             Button(
                               text: localizeWithContext.paiementCreate,
                               onPressed: () {
-                                print(
-                                  'Creating invoice for ${structure.value}',
-                                );
                                 if (structure.value == null) return;
                                 invoicesNotifier.createInvoice(
                                   structure.value!,

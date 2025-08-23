@@ -50,23 +50,19 @@ class Invoice {
     required this.received,
   });
 
-  factory Invoice.fromJson(Map<String, dynamic> json) {
-    print(json['details']);
-    return Invoice(
-      id: json['id'],
-      reference: json['reference'],
-      structure: Structure.fromJson(json['structure']),
-      creation: processDateFromAPI(json['creation']),
-      startDate: processDateFromAPI(json['start_date']),
-      endDate: processDateFromAPI(json['end_date']),
-      total: json['total'],
-      details: List<InvoiceDetail>.from(
+  Invoice.fromJson(Map<String, dynamic> json)
+    : id = json['id'],
+      reference = json['reference'],
+      structure = Structure.fromJson(json['structure']),
+      creation = processDateFromAPI(json['creation']),
+      startDate = processDateFromAPI(json['start_date']),
+      endDate = processDateFromAPI(json['end_date']),
+      total = json['total'],
+      details = List<InvoiceDetail>.from(
         json['details'].map((item) => InvoiceDetail.fromJson(item)),
       ),
-      paid: json['paid'],
-      received: json['received'],
-    );
-  }
+      paid = json['paid'],
+      received = json['received'];
 
   Map<String, dynamic> toJson() {
     return {
