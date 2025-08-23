@@ -4664,6 +4664,12 @@ abstract class AppLocalizations {
   /// **'Modifier le magasin {store}'**
   String paiementEditStore(String store);
 
+  /// No description provided for @paiementErrorCreatingInvoice.
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreur lors de la création de la facture'**
+  String get paiementErrorCreatingInvoice;
+
   /// No description provided for @paiementErrorDeleting.
   ///
   /// In fr, this message translates to:
@@ -4711,6 +4717,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Factures'**
   String get paiementInvoices;
+
+  /// No description provided for @paiementInvoiceCreatedSuccessfully.
+  ///
+  /// In fr, this message translates to:
+  /// **'Facture créée avec succès'**
+  String get paiementInvoiceCreatedSuccessfully;
 
   /// No description provided for @paiementLastTransactions.
   ///
@@ -4999,6 +5011,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Voir l\'historique'**
   String get paiementSeeHistory;
+
+  /// No description provided for @paiementSelectStructure.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisir une structure'**
+  String get paiementSelectStructure;
 
   /// No description provided for @paiementSellerError.
   ///

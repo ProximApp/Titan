@@ -2345,6 +2345,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get paiementErrorCreatingInvoice => 'Error while creating invoice';
+
+  @override
   String get paiementErrorDeleting => 'Error while deleting';
 
   @override
@@ -2375,6 +2378,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paiementInvoices => 'Invoices';
+
+  @override
+  String get paiementInvoiceCreatedSuccessfully =>
+      'Invoice created successfully';
 
   @override
   String get paiementLastTransactions => 'Latest transactions';
@@ -2524,6 +2531,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paiementSeeHistory => 'View history';
+
+  @override
+  String get paiementSelectStructure => 'Select a structure';
 
   @override
   String get paiementSellerError => 'You are not a seller of this store';

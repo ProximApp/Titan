@@ -13,7 +13,6 @@ import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 import 'package:titan/tools/ui/styleguide/button.dart';
 import 'package:titan/tools/ui/styleguide/icon_button.dart';
 import 'package:titan/tools/ui/styleguide/list_item.dart';
-import 'package:titan/tools/ui/styleguide/list_item_template.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/layouts/refresher.dart';
@@ -96,121 +95,134 @@ class StructurePage extends HookConsumerWidget {
                     children: [
                       Column(
                         children: [
-                          ListItemTemplate(
-                            title: bankAccountHolder.holderStructureId == ""
+                          Text(
+                            bankAccountHolder.holderStructureId == ""
                                 ? localizeWithContext
                                       .adminUndefinedBankAccountHolder
                                 : localizeWithContext.adminBankAccountHolder(
                                     bankAccountHolder.holderStructure.name,
                                   ),
-                            trailing: SizedBox.shrink(),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
+                          const SizedBox(height: 10),
                           ...structures.map(
-                            (structure) => ListItem(
-                              title: structure.name,
-                              onTap: () async {
-                                await showCustomBottomModal(
-                                  context: context,
-                                  ref: ref,
-                                  modal: BottomModalTemplate(
-                                    title: structure.name,
-                                    child: Column(
-                                      children: [
-                                        Button(
-                                          text: localizeWithContext.adminEdit,
-                                          onPressed: () {
-                                            structureNotifier.setStructure(
-                                              structure,
-                                            );
-                                            structureManagerNotifier.setUser(
-                                              structure.managerUser,
-                                            );
+                            (structure) => Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 2),
+                              child: ListItem(
+                                title: structure.name,
+                                subtitle: structure.managerUser.getName(),
+                                onTap: () async {
+                                  await showCustomBottomModal(
+                                    context: context,
+                                    ref: ref,
+                                    modal: BottomModalTemplate(
+                                      title: structure.name,
+                                      child: Column(
+                                        children: [
+                                          Button(
+                                            text: localizeWithContext.adminEdit,
+                                            onPressed: () {
+                                              structureNotifier.setStructure(
+                                                structure,
+                                              );
+                                              structureManagerNotifier.setUser(
+                                                structure.managerUser,
+                                              );
 
-                                            QR.to(
-                                              AdminRouter.root +
-                                                  AdminRouter.structures +
-                                                  AdminRouter.addEditStructure,
-                                            );
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                        const SizedBox(height: 10),
-                                        Button(
-                                          text: localizeWithContext
-                                              .adminDefineAsBankAccountHolder,
-                                          onPressed: () async {
-                                            final value =
-                                                await bankAccountHolderNotifier
-                                                    .updateBankAccountHolder(
-                                                      structure.id,
-                                                    );
-                                            if (value) {
-                                              displayToastWithContext(
-                                                TypeMsg.msg,
-                                                localizeWithContext
-                                                    .adminBankAccountHolderModified,
+                                              QR.to(
+                                                AdminRouter.root +
+                                                    AdminRouter.structures +
+                                                    AdminRouter
+                                                        .addEditStructure,
                                               );
-                                            } else {
-                                              displayToastWithContext(
-                                                TypeMsg.error,
-                                                localizeWithContext.adminError,
-                                              );
-                                            }
-                                          },
-                                        ),
-                                        const SizedBox(height: 10),
-                                        Button(
-                                          type: ButtonType.danger,
-                                          text: localizeWithContext.adminDelete,
-                                          onPressed: () async {
-                                            await showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return CustomDialogBox(
-                                                  title: AppLocalizations.of(
-                                                    context,
-                                                  )!.adminDeleting,
-                                                  descriptions:
-                                                      AppLocalizations.of(
-                                                        context,
-                                                      )!.adminDeleteGroup,
-                                                  onYes: () async {
-                                                    final deletedGroupMsg =
-                                                        localizeWithContext
-                                                            .adminDeletedGroup;
-                                                    final deletingErrorMsg =
-                                                        localizeWithContext
-                                                            .adminDeletingError;
-                                                    tokenExpireWrapper(ref, () async {
-                                                      final value =
-                                                          await structuresNotifier
-                                                              .deleteStructure(
-                                                                structure,
-                                                              );
-                                                      if (value) {
-                                                        displayToastWithContext(
-                                                          TypeMsg.msg,
-                                                          deletedGroupMsg,
-                                                        );
-                                                      } else {
-                                                        displayToastWithContext(
-                                                          TypeMsg.error,
-                                                          deletingErrorMsg,
-                                                        );
-                                                      }
-                                                    });
-                                                    Navigator.of(context).pop();
-                                                  },
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Button(
+                                            text: localizeWithContext
+                                                .adminDefineAsBankAccountHolder,
+                                            onPressed: () async {
+                                              final value =
+                                                  await bankAccountHolderNotifier
+                                                      .updateBankAccountHolder(
+                                                        structure.id,
+                                                      );
+                                              if (value) {
+                                                displayToastWithContext(
+                                                  TypeMsg.msg,
+                                                  localizeWithContext
+                                                      .adminBankAccountHolderModified,
                                                 );
-                                              },
-                                            );
-                                          },
-                                        ),
-                                      ],
+                                              } else {
+                                                displayToastWithContext(
+                                                  TypeMsg.error,
+                                                  localizeWithContext
+                                                      .adminError,
+                                                );
+                                              }
+                                            },
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Button(
+                                            type: ButtonType.danger,
+                                            text:
+                                                localizeWithContext.adminDelete,
+                                            onPressed: () async {
+                                              await showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return CustomDialogBox(
+                                                    title: AppLocalizations.of(
+                                                      context,
+                                                    )!.adminDeleting,
+                                                    descriptions:
+                                                        AppLocalizations.of(
+                                                          context,
+                                                        )!.adminDeleteGroup,
+                                                    onYes: () async {
+                                                      final deletedGroupMsg =
+                                                          localizeWithContext
+                                                              .adminDeletedGroup;
+                                                      final deletingErrorMsg =
+                                                          localizeWithContext
+                                                              .adminDeletingError;
+                                                      tokenExpireWrapper(ref, () async {
+                                                        final value =
+                                                            await structuresNotifier
+                                                                .deleteStructure(
+                                                                  structure,
+                                                                );
+                                                        if (value) {
+                                                          displayToastWithContext(
+                                                            TypeMsg.msg,
+                                                            deletedGroupMsg,
+                                                          );
+                                                        } else {
+                                                          displayToastWithContext(
+                                                            TypeMsg.error,
+                                                            deletingErrorMsg,
+                                                          );
+                                                        }
+                                                      });
+                                                      Navigator.of(
+                                                        context,
+                                                      ).pop();
+                                                    },
+                                                  );
+                                                },
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
+                                  );
+                                },
+                              ),
                             ),
                           ),
                           const SizedBox(height: 20),

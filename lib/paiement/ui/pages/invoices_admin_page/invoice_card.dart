@@ -170,7 +170,7 @@ class InvoiceCard extends HookConsumerWidget {
           ref: ref,
         ),
         trailing: Expanded(
-          flex: 2,
+          flex: kIsWeb ? 2 : 1,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

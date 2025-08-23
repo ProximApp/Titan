@@ -200,6 +200,7 @@
   "adminFailedToUpdateAssociationLogo": "Échec de la mise à jour du logo de l'association",
   "adminChooseGroup": "Choisir un groupe",
   "adminChooseAssociationManagerGroup": "Choisir un groupe gestionnaire pour l'association",
+  "adminConfirm": "Valider",
   "advertAdd": "Ajouter",
   "advertAddedAdvert": "Annonce publiée",
   "advertAddedAnnouncer": "Annonceur ajouté",
@@ -809,6 +810,7 @@
       }
     }
   },
+  "paiementErrorCreatingInvoice": "Erreur lors de la création de la facture",
   "paiementErrorDeleting": "Erreur lors de la suppression",
   "paiementErrorUpdatingStatus": "Erreur lors de la mise à jour du statut",
   "paiementFromTo": "Du {from} au {to}",
@@ -830,6 +832,7 @@
   "paiementHandOver": "Passation",
   "paiementHistory": "Historique",
   "paiementInvoices": "Factures",
+  "paiementInvoiceCreatedSuccessfully": "Facture créée avec succès",
   "paiementLastTransactions": "Dernières transactions",
   "paiementLimitedTo": "Limité à",
   "paiementManagement": "Gestion",
@@ -878,6 +881,7 @@
   "paiementScan": "Scanner",
   "paiementScanCode": "Scanner un code",
   "paiementSeeHistory": "Voir l'historique",
+  "paiementSelectStructure": "Choisir une structure",
   "paiementSellerError": "Vous n'êtes pas vendeur de ce magasin",
   "paiementSellerRigths": "Droits du vendeur",
   "paiementSellersOf": "Les vendeurs de",

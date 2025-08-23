@@ -2365,6 +2365,10 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get paiementErrorCreatingInvoice =>
+      'Erreur lors de la création de la facture';
+
+  @override
   String get paiementErrorDeleting => 'Erreur lors de la suppression';
 
   @override
@@ -2397,6 +2401,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get paiementInvoices => 'Factures';
+
+  @override
+  String get paiementInvoiceCreatedSuccessfully => 'Facture créée avec succès';
 
   @override
   String get paiementLastTransactions => 'Dernières transactions';
@@ -2552,6 +2559,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get paiementSeeHistory => 'Voir l\'historique';
+
+  @override
+  String get paiementSelectStructure => 'Choisir une structure';
 
   @override
   String get paiementSellerError => 'Vous n\'êtes pas vendeur de ce magasin';

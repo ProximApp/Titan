@@ -7,6 +7,7 @@ import 'package:titan/paiement/providers/invoice_list_provider.dart';
 import 'package:titan/paiement/router.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/tools/constants.dart';
+import 'package:titan/tools/token_expire_wrapper.dart';
 
 class InvoiceAdminCard extends ConsumerWidget {
   const InvoiceAdminCard({super.key});
@@ -51,7 +52,7 @@ class InvoiceAdminCard extends ConsumerWidget {
         ),
       ),
       onTap: () {
-        invoicesNotifier.getInvoices();
+        tokenExpireWrapper(ref, () => invoicesNotifier.getInvoices());
         QR.to(PaymentRouter.root + PaymentRouter.invoicesAdmin);
       },
     );

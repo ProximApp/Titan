@@ -192,6 +192,7 @@
   "adminFailedToUpdateAssociationLogo": "Failed to update association logo",
   "adminChooseGroup": "Choose a group",
   "adminChooseAssociationManagerGroup": "Choose a group to manage this association",
+  "adminConfirm": "Confirm",
   "advertAdd": "Add",
   "advertAddedAdvert": "Advert published",
   "advertAddedAnnouncer": "Announcer added",
@@ -801,6 +802,7 @@
       }
     }
   },
+  "paiementErrorCreatingInvoice": "Error while creating invoice",
   "paiementErrorDeleting": "Error while deleting",
   "paiementErrorUpdatingStatus": "Error while updating the status",
   "paiementFromTo": "From {from} to {to}",
@@ -822,6 +824,7 @@
   "paiementHandOver": "Handover",
   "paiementHistory": "History",
   "paiementInvoices": "Invoices",
+  "paiementInvoiceCreatedSuccessfully": "Invoice created successfully",
   "paiementLastTransactions": "Latest transactions",
   "paiementLimitedTo": "Limited to",
   "paiementManagement": "Management",
@@ -870,6 +873,7 @@
   "paiementScan": "Scan",
   "paiementScanCode": "Scan a code",
   "paiementSeeHistory": "View history",
+  "paiementSelectStructure": "Select a structure",
   "paiementSellerError": "You are not a seller of this store",
   "paiementSellerRigths": "Seller rights",
   "paiementSellersOf": "Sellers of",
