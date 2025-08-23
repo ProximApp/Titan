@@ -28,7 +28,9 @@ class StructureStoresPage extends ConsumerWidget {
           children: [
             const SizedBox(height: 10),
             AlignLeftText(
-              "${AppLocalizations.of(context)!} ${structure.name}",
+              AppLocalizations.of(
+                context,
+              )!.paiementStructureManagement(structure.name),
               color: Colors.grey,
               fontSize: 20,
               fontWeight: FontWeight.bold,
