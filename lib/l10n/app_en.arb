@@ -802,7 +802,6 @@
       }
     }
   },
-  "paiementErrorCreatingInvoice": "Error while creating invoice",
   "paiementErrorDeleting": "Error while deleting",
   "paiementErrorUpdatingStatus": "Error while updating the status",
   "paiementFromTo": "From {from} to {to}",
@@ -823,8 +822,17 @@
   "paiementGetTransactionsError": "Error while retrieving transactions: ",
   "paiementHandOver": "Handover",
   "paiementHistory": "History",
-  "paiementInvoices": "Invoices",
   "paiementInvoiceCreatedSuccessfully": "Invoice created successfully",
+  "paiementInvoices": "Invoices",
+  "paiementInvoicesPerPage": "{quantity} invoices/page",
+  "@paiementInvoicesPerPage": {
+    "description": "Text with the number of invoices per page",
+    "placeholders": {
+      "quantity": {
+        "type": "int"
+      }
+    }
+  },
   "paiementLastTransactions": "Latest transactions",
   "paiementLimitedTo": "Limited to",
   "paiementManagement": "Management",
@@ -840,6 +848,7 @@
   "paiementNewCGU": "New Terms of Service",
   "paiementNext": "Next",
   "paiementNextAccountable": "Next responsible",
+  "paiementNoInvoiceToCreate": "No invoice to create",
   "paiementNoMembership": "No membership",
   "paiementNoMembershipDescription": "This product is not available to non-members. Confirm the payment?",
   "paiementNoThanks": "No thanks",

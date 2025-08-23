@@ -810,7 +810,6 @@
       }
     }
   },
-  "paiementErrorCreatingInvoice": "Erreur lors de la création de la facture",
   "paiementErrorDeleting": "Erreur lors de la suppression",
   "paiementErrorUpdatingStatus": "Erreur lors de la mise à jour du statut",
   "paiementFromTo": "Du {from} au {to}",
@@ -831,8 +830,17 @@
   "paiementGetTransactionsError": "Erreur lors de la récupération des transactions : ",
   "paiementHandOver": "Passation",
   "paiementHistory": "Historique",
-  "paiementInvoices": "Factures",
   "paiementInvoiceCreatedSuccessfully": "Facture créée avec succès",
+  "paiementInvoices": "Factures",
+  "paiementInvoicesPerPage": "{quantity} factures/page",
+  "@paiementInvoicesPerPage": {
+    "description": "Text with the number of invoices per page",
+    "placeholders": {
+      "quantity": {
+        "type": "int"
+      }
+    }
+  },
   "paiementLastTransactions": "Dernières transactions",
   "paiementLimitedTo": "Limité à",
   "paiementManagement": "Gestion",
@@ -848,6 +856,7 @@
   "paiementNewCGU": "Nouvelles Conditions Générales d'Utilisation",
   "paiementNext": "Suivant",
   "paiementNextAccountable": "Prochain responsable",
+  "paiementNoInvoiceToCreate": "Aucune facture à créer",
   "paiementNoMembership": "Aucune adhésion",
   "paiementNoMembershipDescription": "Ce produit n'est pas disponnible pour les non-adhérents. Confirmer l'encaissement ?",
   "paiementNoThanks": "Non merci",

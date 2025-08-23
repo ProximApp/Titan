@@ -2365,10 +2365,6 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get paiementErrorCreatingInvoice =>
-      'Erreur lors de la création de la facture';
-
-  @override
   String get paiementErrorDeleting => 'Erreur lors de la suppression';
 
   @override
@@ -2400,10 +2396,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get paiementHistory => 'Historique';
 
   @override
+  String get paiementInvoiceCreatedSuccessfully => 'Facture créée avec succès';
+
+  @override
   String get paiementInvoices => 'Factures';
 
   @override
-  String get paiementInvoiceCreatedSuccessfully => 'Facture créée avec succès';
+  String paiementInvoicesPerPage(int quantity) {
+    return '$quantity factures/page';
+  }
 
   @override
   String get paiementLastTransactions => 'Dernières transactions';
@@ -2451,6 +2452,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get paiementNextAccountable => 'Prochain responsable';
+
+  @override
+  String get paiementNoInvoiceToCreate => 'Aucune facture à créer';
 
   @override
   String get paiementNoMembership => 'Aucune adhésion';

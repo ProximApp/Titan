@@ -2345,9 +2345,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get paiementErrorCreatingInvoice => 'Error while creating invoice';
-
-  @override
   String get paiementErrorDeleting => 'Error while deleting';
 
   @override
@@ -2377,11 +2374,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paiementHistory => 'History';
 
   @override
+  String get paiementInvoiceCreatedSuccessfully =>
+      'Invoice created successfully';
+
+  @override
   String get paiementInvoices => 'Invoices';
 
   @override
-  String get paiementInvoiceCreatedSuccessfully =>
-      'Invoice created successfully';
+  String paiementInvoicesPerPage(int quantity) {
+    return '$quantity invoices/page';
+  }
 
   @override
   String get paiementLastTransactions => 'Latest transactions';
@@ -2427,6 +2429,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paiementNextAccountable => 'Next responsible';
+
+  @override
+  String get paiementNoInvoiceToCreate => 'No invoice to create';
 
   @override
   String get paiementNoMembership => 'No membership';

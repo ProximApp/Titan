@@ -4664,12 +4664,6 @@ abstract class AppLocalizations {
   /// **'Modifier le magasin {store}'**
   String paiementEditStore(String store);
 
-  /// No description provided for @paiementErrorCreatingInvoice.
-  ///
-  /// In fr, this message translates to:
-  /// **'Erreur lors de la création de la facture'**
-  String get paiementErrorCreatingInvoice;
-
   /// No description provided for @paiementErrorDeleting.
   ///
   /// In fr, this message translates to:
@@ -4712,17 +4706,23 @@ abstract class AppLocalizations {
   /// **'Historique'**
   String get paiementHistory;
 
+  /// No description provided for @paiementInvoiceCreatedSuccessfully.
+  ///
+  /// In fr, this message translates to:
+  /// **'Facture créée avec succès'**
+  String get paiementInvoiceCreatedSuccessfully;
+
   /// No description provided for @paiementInvoices.
   ///
   /// In fr, this message translates to:
   /// **'Factures'**
   String get paiementInvoices;
 
-  /// No description provided for @paiementInvoiceCreatedSuccessfully.
+  /// Text with the number of invoices per page
   ///
   /// In fr, this message translates to:
-  /// **'Facture créée avec succès'**
-  String get paiementInvoiceCreatedSuccessfully;
+  /// **'{quantity} factures/page'**
+  String paiementInvoicesPerPage(int quantity);
 
   /// No description provided for @paiementLastTransactions.
   ///
@@ -4813,6 +4813,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Prochain responsable'**
   String get paiementNextAccountable;
+
+  /// No description provided for @paiementNoInvoiceToCreate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune facture à créer'**
+  String get paiementNoInvoiceToCreate;
 
   /// No description provided for @paiementNoMembership.
   ///
