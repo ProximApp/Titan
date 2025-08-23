@@ -2184,10 +2184,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paiementAddingSellerError => 'Error while adding seller';
 
   @override
-  String get paiementAddingStoreError => 'Error while adding the association';
+  String get paiementAddingStoreError => 'Error while adding the store';
 
   @override
   String get paiementAddSeller => 'Add seller';
+
+  @override
+  String get paiementAddStore => 'Add store';
 
   @override
   String get paiementAddThisDevice => 'Add this device';
@@ -2202,7 +2205,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paiementAskDeviceActivation => 'Device activation request';
 
   @override
-  String get paiementAStore => 'an association';
+  String get paiementAStore => 'a store';
 
   @override
   String get paiementAt => 'at';
@@ -2288,14 +2291,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paiementDeleteSuccessfully => 'Successfully deleted';
 
   @override
-  String get paiementDeleteStore => 'Delete association';
+  String get paiementDeleteStore => 'Delete store';
 
   @override
   String get paiementDeleteStoreDescription =>
-      'Are you sure you want to delete this association?';
+      'Are you sure you want to delete this store?';
 
   @override
-  String get paiementDeleteStoreError => 'Unable to delete the association';
+  String get paiementDeleteStoreError => 'Unable to delete the store';
 
   @override
   String get paiementDeletingSellerError => 'Error while deleting seller';
@@ -2335,6 +2338,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paiementDownload => 'Download';
+
+  @override
+  String paiementEditStore(String store) {
+    return 'Edit store $store';
+  }
 
   @override
   String get paiementErrorDeleting => 'Error while deleting';
@@ -2399,8 +2407,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paiementModify => 'Edit';
 
   @override
-  String get paiementModifyingStoreError =>
-      'Error while updating the association';
+  String get paiementModifyingStoreError => 'Error while updating the store';
 
   @override
   String get paiementModifySuccessfully => 'Successfully modified';
@@ -2519,7 +2526,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paiementSeeHistory => 'View history';
 
   @override
-  String get paiementSellerError => 'You are not a seller of this association';
+  String get paiementSellerError => 'You are not a seller of this store';
 
   @override
   String get paiementSellerRigths => 'Seller rights';
@@ -2537,10 +2544,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paiementStats => 'Stats';
 
   @override
-  String get paiementStoreBalance => 'Association balance';
+  String get paiementStoreBalance => 'Store balance';
 
   @override
-  String get paiementStoreDeleted => 'Association deleted';
+  String get paiementStoreDeleted => 'Store deleted';
 
   @override
   String paiementStructureManagement(String structure) {
@@ -2560,11 +2567,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paiementSuccededTransaction => 'Successful payment';
 
   @override
-  String get paiementSuccessfullyAddedStore => 'Association successfully added';
+  String get paiementSuccessfullyAddedStore => 'Store successfully added';
 
   @override
-  String get paiementSuccessfullyModifiedStore =>
-      'Association successfully updated';
+  String get paiementSuccessfullyModifiedStore => 'Store successfully updated';
 
   @override
   String get paiementThe => 'The';

@@ -4361,7 +4361,7 @@ abstract class AppLocalizations {
   /// No description provided for @paiementAddingStoreError.
   ///
   /// In fr, this message translates to:
-  /// **'Erreur lors de l\'ajout de l\'association'**
+  /// **'Erreur lors de l\'ajout du magasin'**
   String get paiementAddingStoreError;
 
   /// No description provided for @paiementAddSeller.
@@ -4369,6 +4369,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Ajouter un vendeur'**
   String get paiementAddSeller;
+
+  /// No description provided for @paiementAddStore.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un magasin'**
+  String get paiementAddStore;
 
   /// No description provided for @paiementAddThisDevice.
   ///
@@ -4397,7 +4403,7 @@ abstract class AppLocalizations {
   /// No description provided for @paiementAStore.
   ///
   /// In fr, this message translates to:
-  /// **'une association'**
+  /// **'un magasin'**
   String get paiementAStore;
 
   /// No description provided for @paiementAt.
@@ -4565,19 +4571,19 @@ abstract class AppLocalizations {
   /// No description provided for @paiementDeleteStore.
   ///
   /// In fr, this message translates to:
-  /// **'Supprimer l\'association'**
+  /// **'Supprimer le magasin'**
   String get paiementDeleteStore;
 
   /// No description provided for @paiementDeleteStoreDescription.
   ///
   /// In fr, this message translates to:
-  /// **'Voulez-vous vraiment supprimer cette association ?'**
+  /// **'Voulez-vous vraiment supprimer ce magasin ?'**
   String get paiementDeleteStoreDescription;
 
   /// No description provided for @paiementDeleteStoreError.
   ///
   /// In fr, this message translates to:
-  /// **'Impossible de supprimer l\'association'**
+  /// **'Impossible de supprimer le magasin'**
   String get paiementDeleteStoreError;
 
   /// No description provided for @paiementDeletingSellerError.
@@ -4651,6 +4657,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Télécharger'**
   String get paiementDownload;
+
+  /// Modifier le magasin
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier le magasin {store}'**
+  String paiementEditStore(String store);
 
   /// No description provided for @paiementErrorDeleting.
   ///
@@ -4763,7 +4775,7 @@ abstract class AppLocalizations {
   /// No description provided for @paiementModifyingStoreError.
   ///
   /// In fr, this message translates to:
-  /// **'Erreur lors de la modification de l\'association'**
+  /// **'Erreur lors de la modification du magasin'**
   String get paiementModifyingStoreError;
 
   /// No description provided for @paiementModifySuccessfully.
@@ -4991,7 +5003,7 @@ abstract class AppLocalizations {
   /// No description provided for @paiementSellerError.
   ///
   /// In fr, this message translates to:
-  /// **'Vous n\'êtes pas vendeur de cette association'**
+  /// **'Vous n\'êtes pas vendeur de ce magasin'**
   String get paiementSellerError;
 
   /// No description provided for @paiementSellerRigths.
@@ -5027,13 +5039,13 @@ abstract class AppLocalizations {
   /// No description provided for @paiementStoreBalance.
   ///
   /// In fr, this message translates to:
-  /// **'Solde associatif'**
+  /// **'Solde du magasin'**
   String get paiementStoreBalance;
 
   /// No description provided for @paiementStoreDeleted.
   ///
   /// In fr, this message translates to:
-  /// **'Association supprimée'**
+  /// **'Magasin supprimée'**
   String get paiementStoreDeleted;
 
   /// Gestion de la structure
@@ -5069,13 +5081,13 @@ abstract class AppLocalizations {
   /// No description provided for @paiementSuccessfullyAddedStore.
   ///
   /// In fr, this message translates to:
-  /// **'Association ajoutée avec succès'**
+  /// **'Magasin ajoutée avec succès'**
   String get paiementSuccessfullyAddedStore;
 
   /// No description provided for @paiementSuccessfullyModifiedStore.
   ///
   /// In fr, this message translates to:
-  /// **'Association modifiée avec succès'**
+  /// **'Magasin modifiée avec succès'**
   String get paiementSuccessfullyModifiedStore;
 
   /// No description provided for @paiementThe.

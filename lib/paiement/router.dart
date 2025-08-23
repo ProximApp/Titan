@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/navigation/class/module.dart';
 import 'package:titan/paiement/providers/is_payment_admin.dart';
-import 'package:titan/paiement/ui/pages/admin_page/admin_page.dart'
+import 'package:titan/paiement/ui/pages/structure_admin_page/structure_admin_page.dart'
     deferred as structure_stores_page;
 import 'package:titan/paiement/ui/pages/fund_page/web_view_modal.dart'
     deferred as fund_page;
