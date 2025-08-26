@@ -54,7 +54,9 @@
         "prod",
         "--dart-define-from-file=config/config-prod.json",
         "--web-port",
-        "3000"
+        "3000",
+        "-PAPP_ID_PREFIX=fr.proximapp.myemapp",
+        "-PAPP_NAME=myemapp"
       ]
     }
   ]
