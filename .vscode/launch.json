@@ -8,19 +8,10 @@
       "name": "Titan dev",
       "request": "launch",
       "type": "dart",
-      "env": {
-        "APP_ID_PREFIX": "fr.proximapp.myemapp",
-        "APP_NAME": "myemapp dev"
-      },
       "args": [
         "--flavor",
         "dev",
-        "--dart-define",
-        "flavor=dev",
-        "--dart-define",
-        "APP_ID_PREFIX=fr.proximapp.myemapp",
-        "--dart-define",
-        "APP_NAME='myemapp dev'",
+        "--dart-define-from-file=config/config-dev.json",
         "--web-port",
         "3000"
       ]
@@ -30,19 +21,10 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile",
-      "env": {
-        "APP_ID_PREFIX": "fr.proximapp.myemapp",
-        "APP_NAME": "myemapp dev"
-      },
       "args": [
         "--flavor",
         "dev",
-        "--dart-define",
-        "flavor=dev",
-        "--dart-define",
-        "APP_ID_PREFIX=fr.proximapp.myemapp",
-        "--dart-define",
-        "APP_NAME='myemapp dev'",
+        "--dart-define-from-file=config/config-dev.json",
         "--web-port",
         "3000"
       ]
@@ -51,19 +33,10 @@
       "name": "Titan alpha",
       "request": "launch",
       "type": "dart",
-      "env": {
-        "APP_ID_PREFIX": "fr.proximapp.myemapp",
-        "APP_NAME": "myemapp alpha"
-      },
       "args": [
         "--flavor",
         "alpha",
-        "--dart-define",
-        "flavor=alpha",
-        "--dart-define",
-        "APP_ID_PREFIX=fr.proximapp.myemapp",
-        "--dart-define",
-        "APP_NAME='myemapp alpha'",
+        "--dart-define-from-file=config/config-alpha.json",
         "--web-port",
         "3000"
       ]
@@ -72,19 +45,10 @@
       "name": "Titan prod",
       "request": "launch",
       "type": "dart",
-      "env": {
-        "APP_ID_PREFIX": "fr.proximapp.myemapp",
-        "APP_NAME": "myemapp"
-      },
       "args": [
         "--flavor",
         "prod",
-        "--dart-define",
-        "flavor=prod",
-        "--dart-define",
-        "APP_ID_PREFIX=fr.proximapp.myemapp",
-        "--dart-define",
-        "APP_NAME=myemapp",
+        "--dart-define-from-file=config/config-prod.json",
         "--web-port",
         "3000"
       ]
