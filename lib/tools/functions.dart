@@ -520,10 +520,15 @@ Plausible? getPlausible() {
 }
 
 String getTitanHost() {
-  if (const String.fromEnvironment("BACKEND_HOST") != "") {
-    return const String.fromEnvironment("BACKEND_HOST");
+  const backendHost = String.fromEnvironment("BACKEND_HOST");
+  if (backendHost.isEmpty) {
+    throw StateError("Could not find BACKEND_HOST in config.json");
   }
-  throw StateError("Could not find BACKEND_HOST in config.json");
+  if (backendHost[backendHost.length - 1] != "/") {
+    throw StateError("BACKEND_HOST in config.json should end with a /");
+  }
+
+  return backendHost;
 }
 
 String getPaymentName() {
@@ -531,17 +536,19 @@ String getPaymentName() {
 }
 
 String getBaseSchoolName() {
-  if (const String.fromEnvironment("SCHOOL_NAME") != "") {
-    return const String.fromEnvironment("SCHOOL_NAME");
+  const schoolName = String.fromEnvironment("SCHOOL_NAME");
+  if (schoolName.isEmpty) {
+    throw StateError("Could not find SCHOOL_NAME in config.json");
   }
-  throw StateError("Could not find SCHOOL_NAME in config.json");
+  return schoolName;
 }
 
 String getTitanURL() {
-  if (const String.fromEnvironment("TITAN_URL") != "") {
-    return const String.fromEnvironment("TITAN_URL");
+  const titanUrl = String.fromEnvironment("TITAN_URL");
+  if (titanUrl.isEmpty) {
+    throw StateError("Could not find TITAN_URL in config.json");
   }
-  throw StateError("Could not find TITAN_URL in config.json");
+  return titanUrl;
 }
 
 String getTitanPackageSuffix() {
@@ -558,11 +565,11 @@ String getTitanPackageSuffix() {
 }
 
 String getTitanPackageName() {
-  if (const String.fromEnvironment("APP_ID_PREFIX") != "") {
-    const appIdPrefix = String.fromEnvironment("APP_ID_PREFIX");
-    return "$appIdPrefix.${getTitanPackageSuffix()}";
+  const appIdPrefix = String.fromEnvironment("APP_ID_PREFIX");
+  if (appIdPrefix.isEmpty) {
+    throw StateError("Could not find APP_ID_PREFIX in config.json");
   }
-  throw StateError("Could not find APP_ID_PREFIX in config.json");
+  return "$appIdPrefix.${getTitanPackageSuffix()}";
 }
 
 String getTitanURLScheme() {
@@ -570,10 +577,11 @@ String getTitanURLScheme() {
 }
 
 String getAppName() {
-  if (const String.fromEnvironment("APP_NAME") != "") {
-    return const String.fromEnvironment("APP_NAME");
+  const appName = String.fromEnvironment("APP_NAME");
+  if (appName.isEmpty) {
+    throw StateError("Could not find APP_NAME in config.json");
   }
-  throw StateError("Could not find APP_NAME in config.json");
+  return const String.fromEnvironment("APP_NAME");
 }
 
 String getTitanLogo() {
