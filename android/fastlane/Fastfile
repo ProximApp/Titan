@@ -21,7 +21,7 @@ platform :android do
   lane :beta do |options|
     flavor = options[:flavor] # prod, alpha, dev
     app_id_prefix = options[:prefix] # fr.myecl
-    app_name = options[:name] || # MyECL
+    app_name = options[:name] # MyECL
 
     sh "flutter build appbundle --dart-define=APP_ID_PREFIX=#{app_id_prefix} --dart-define=APP_NAME=#{app_name} --release --flavor=#{flavor} -PAPP_ID_PREFIX=#{app_id_prefix} -PAPP_NAME=#{app_name}"
 
