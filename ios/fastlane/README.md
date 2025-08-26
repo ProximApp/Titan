@@ -21,7 +21,7 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 [bundle exec] fastlane ios beta
 ```
 
-Submit a new Beta Build to Google Play
+Submit a new Beta Build to App Store
 
 ----
 
