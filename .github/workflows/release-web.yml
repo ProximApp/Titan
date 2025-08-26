@@ -126,7 +126,7 @@ jobs:
         if: needs.extract-version.outputs.isAlpha == 'false'
         run: |
           cp -f web/Prod/favicon.png web/favicon.png
-          mkidr -p web/icons
+          mkdir -p web/icons
           cp -f web/Prod/icons/* web/icons/
 
       - name: Build Alpha 🔧
