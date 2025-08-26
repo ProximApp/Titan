@@ -27,15 +27,25 @@ if (flutterVersionName == null) {
 // App bundle signing
 // https://docs.flutter.dev/deployment/android
 def keystoreProperties = new Properties()
-   def keystorePropertiesFile = rootProject.file('key.properties')
-   if (keystorePropertiesFile.exists()) {
-       keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-   }
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+def appIdPrefix = project.findProperty("APP_ID_PREFIX")
+if (appIdPrefix == null) {
+    throw new GradleException("app_id_prefix not found.")
+}
+
+def appName = project.findProperty("APP_NAME")
+if (appName == null) {
+    throw new GradleException("app_name not found.")
+}
 
 android {
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion "27.0.12077973"
-    namespace "fr.myecl.titan"
+    namespace "${appIdPrefix}.titan"
 
     compileOptions {
         coreLibraryDesugaringEnabled true
@@ -52,7 +62,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "fr.myecl.titan"
+        applicationId "${appIdPrefix}.titan"
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
@@ -78,23 +88,23 @@ android {
 	productFlavors {
 		prod {
 			dimension "default"
-			resValue "string", "app_name", "MyECL"
-            resValue "string", "flavor_url_scheme", "titan"
-            manifestPlaceholders = ['appAuthRedirectScheme': 'fr.myecl.titan']
+			resValue "string", "app_name", "${appName}"
+            resValue "string", "flavor_url_scheme", "${appIdPrefix}.titan"
+            manifestPlaceholders = ['appAuthRedirectScheme': "${appIdPrefix}.titan"]
 		}
 		alpha {
 			dimension "default"
-			resValue "string", "app_name", "MyECL Alpha"
-            resValue "string", "flavor_url_scheme", "titan.alpha"
+			resValue "string", "app_name", "${appName} Alpha"
+            resValue "string", "flavor_url_scheme", "${appIdPrefix}.titan.alpha"
 			applicationIdSuffix ".alpha"
-            manifestPlaceholders = ['appAuthRedirectScheme': 'fr.myecl.titan.alpha']
+            manifestPlaceholders = ['appAuthRedirectScheme': "${appIdPrefix}.titan.alpha"]
 		}
 		dev {
 			dimension "default"
-			resValue "string", "app_name", "MyECL Dev"
-            resValue "string", "flavor_url_scheme", "titan.dev"
+			resValue "string", "app_name", "${appName} Dev"
+            resValue "string", "flavor_url_scheme", "${appIdPrefix}.titan.dev"
 			applicationIdSuffix ".dev"
-            manifestPlaceholders = ['appAuthRedirectScheme': 'fr.myecl.titan.dev']
+            manifestPlaceholders = ['appAuthRedirectScheme': "${appIdPrefix}.titan.dev"]
 		}
 	}
 }
