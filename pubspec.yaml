@@ -76,7 +76,6 @@ dependencies:
 
 dev_dependencies:
   dependency_validator: ^5.0.2
-  dotenv: ^4.0.1
   flutter_launcher_icons: ^0.14.3
   flutter_test:
     sdk: flutter
