@@ -567,10 +567,7 @@ String getTitanPackageSuffix() {
 }
 
 String getTitanPackageName() {
-  var appIdPrefix = dotenv.env['APP_ID_PREFIX'];
-  if (appIdPrefix == null || appIdPrefix.isEmpty) {
-    throw StateError("Could not find APP_ID_PREFIX in environment variables");
-  }
+  const appIdPrefix = String.fromEnvironment('APP_ID_PREFIX');
   return "$appIdPrefix.${getTitanPackageSuffix()}";
 }
 
@@ -579,10 +576,7 @@ String getTitanURLScheme() {
 }
 
 String getAppName() {
-  var appName = dotenv.env["APP_NAME"];
-  if (appName == null || appName.isEmpty) {
-    throw StateError("Could not find APP_NAME in environment variables");
-  }
+  const appName = String.fromEnvironment('APP_NAME');
   return appName;
 }
 
