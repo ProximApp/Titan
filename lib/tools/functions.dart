@@ -565,11 +565,7 @@ String getTitanPackageSuffix() {
 }
 
 String getTitanPackageName() {
-  const appIdPrefix = String.fromEnvironment("APP_ID_PREFIX");
-  if (appIdPrefix.isEmpty) {
-    throw StateError("Could not find APP_ID_PREFIX in config.json");
-  }
-  return "$appIdPrefix.${getTitanPackageSuffix()}";
+  return "${String.fromEnvironment('APP_ID_PREFIX')}.${getTitanPackageSuffix()}";
 }
 
 String getTitanURLScheme() {
@@ -577,11 +573,7 @@ String getTitanURLScheme() {
 }
 
 String getAppName() {
-  const appName = String.fromEnvironment("APP_NAME");
-  if (appName.isEmpty) {
-    throw StateError("Could not find APP_NAME in config.json");
-  }
-  return const String.fromEnvironment("APP_NAME");
+  return String.fromEnvironment('APP_NAME');
 }
 
 String getTitanLogo() {
