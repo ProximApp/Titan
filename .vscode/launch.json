@@ -9,7 +9,7 @@
       "request": "launch",
       "type": "dart",
       "env": {
-        "APP_ID_PREFIX": "fr.proximapp.myemapp.titan.dev",
+        "APP_ID_PREFIX": "fr.proximapp.myemapp",
         "APP_NAME": "myemapp dev"
       },
       "args": [
@@ -18,7 +18,7 @@
         "--dart-define",
         "flavor=dev",
         "--dart-define",
-        "APP_ID_PREFIX=fr.proximapp.myemapp.titan.dev",
+        "APP_ID_PREFIX=fr.proximapp.myemapp",
         "--dart-define",
         "APP_NAME='myemapp dev'",
         "--web-port",
@@ -31,7 +31,7 @@
       "type": "dart",
       "flutterMode": "profile",
       "env": {
-        "APP_ID_PREFIX": "fr.proximapp.myemapp.titan.dev",
+        "APP_ID_PREFIX": "fr.proximapp.myemapp",
         "APP_NAME": "myemapp dev"
       },
       "args": [
@@ -40,7 +40,7 @@
         "--dart-define",
         "flavor=dev",
         "--dart-define",
-        "APP_ID_PREFIX=fr.proximapp.myemapp.titan.dev",
+        "APP_ID_PREFIX=fr.proximapp.myemapp",
         "--dart-define",
         "APP_NAME='myemapp dev'",
         "--web-port",
@@ -52,7 +52,7 @@
       "request": "launch",
       "type": "dart",
       "env": {
-        "APP_ID_PREFIX": "fr.proximapp.myemapp.titan.alpha",
+        "APP_ID_PREFIX": "fr.proximapp.myemapp",
         "APP_NAME": "myemapp alpha"
       },
       "args": [
@@ -61,7 +61,7 @@
         "--dart-define",
         "flavor=alpha",
         "--dart-define",
-        "APP_ID_PREFIX=fr.proximapp.myemapp.titan.alpha",
+        "APP_ID_PREFIX=fr.proximapp.myemapp",
         "--dart-define",
         "APP_NAME='myemapp alpha'",
         "--web-port",
@@ -73,7 +73,7 @@
       "request": "launch",
       "type": "dart",
       "env": {
-        "APP_ID_PREFIX": "fr.proximapp.myemapp.titan",
+        "APP_ID_PREFIX": "fr.proximapp.myemapp",
         "APP_NAME": "myemapp"
       },
       "args": [
@@ -82,7 +82,7 @@
         "--dart-define",
         "flavor=prod",
         "--dart-define",
-        "APP_ID_PREFIX=fr.proximapp.myemapp.titan",
+        "APP_ID_PREFIX=fr.proximapp.myemapp",
         "--dart-define",
         "APP_NAME=myemapp",
         "--web-port",
