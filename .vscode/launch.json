@@ -33,12 +33,18 @@
       "name": "Titan alpha",
       "request": "launch",
       "type": "dart",
+      "env": {
+        "APP_ID_PREFIX": "fr.proximapp.myemapp",
+        "APP_NAME": "myemapp alpha"
+      },
       "args": [
         "--flavor",
         "alpha",
         "--dart-define-from-file=config/config-alpha.json",
         "--web-port",
-        "3000"
+        "3000",
+        "-PAPP_ID_PREFIX=fr.proximapp.myemapp",
+        "-PAPP_NAME=myemapp alpha"
       ]
     },
     {
