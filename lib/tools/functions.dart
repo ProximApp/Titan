@@ -497,11 +497,13 @@ String getAppFlavor() {
     return appFlavor!.toLowerCase();
   }
 
-  if (const String.fromEnvironment("flavor") != "") {
-    return const String.fromEnvironment("flavor");
+  const flavor = String.fromEnvironment("FLAVOR");
+
+  if (flavor.isEmpty) {
+    throw StateError("App flavor not set");
   }
 
-  throw StateError("App flavor not set");
+  return flavor.toLowerCase();
 }
 
 Plausible? getPlausible() {
@@ -565,7 +567,11 @@ String getTitanPackageSuffix() {
 }
 
 String getTitanPackageName() {
-  return "${String.fromEnvironment('APP_ID_PREFIX')}.${getTitanPackageSuffix()}";
+  const appIdPrefix = String.fromEnvironment("APP_ID_PREFIX");
+  if (appIdPrefix.isEmpty) {
+    throw StateError("Could not find APP_ID_PREFIX in config.json");
+  }
+  return "$appIdPrefix.${getTitanPackageSuffix()}";
 }
 
 String getTitanURLScheme() {
@@ -573,7 +579,11 @@ String getTitanURLScheme() {
 }
 
 String getAppName() {
-  return String.fromEnvironment('APP_NAME');
+  const appName = String.fromEnvironment("APP_NAME");
+  if (appName.isEmpty) {
+    throw StateError("Could not find APP_NAME in config.json");
+  }
+  return appName;
 }
 
 String getTitanLogo() {
