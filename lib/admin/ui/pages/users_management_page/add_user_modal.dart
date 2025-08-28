@@ -85,8 +85,7 @@ class AddUsersModalContent extends HookConsumerWidget {
           ),
           const SizedBox(height: 30),
           ListItem(
-            title:
-              chosenGroup.value?.name ?? localizeWithContext.adminNoGroup,
+            title: chosenGroup.value?.name ?? localizeWithContext.adminNoGroup,
             onTap: () async {
               FocusScope.of(context).unfocus();
               final ctx = context;
