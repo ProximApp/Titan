@@ -8,7 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/admin/class/simple_group.dart';
 import 'package:titan/admin/providers/all_groups_list_provider.dart';
 import 'package:titan/admin/providers/user_invitation_provider.dart';
-import 'package:titan/admin/tools/functions.dart' as AdminUtils;
+import 'package:titan/admin/tools/functions.dart' as admin_utils;
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/paiement/ui/pages/main_page/account_card/device_dialog_box.dart';
 import 'package:titan/tools/constants.dart';
@@ -68,7 +68,7 @@ class AddUsersModalContent extends HookConsumerWidget {
                   } else {
                     fileContent = await File(file.path!).readAsString();
                   }
-                  mailList.value = AdminUtils.parseCsvContent(fileContent);
+                  mailList.value = admin_utils.parseCsvContent(fileContent);
                 }
               }
             },
@@ -135,6 +135,7 @@ class AddUsersModalContent extends HookConsumerWidget {
                   );
                   navigatorWithContext.pop();
                 } else {
+                  if (!context.mounted) return;
                   await showDialog(
                     context: context,
                     builder: (BuildContext context) => DeviceDialogBox(
