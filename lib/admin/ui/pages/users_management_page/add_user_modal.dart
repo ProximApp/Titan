@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:collection/collection.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/admin/class/simple_group.dart';
 import 'package:titan/admin/providers/all_groups_list_provider.dart';
 import 'package:titan/admin/providers/user_invitation_provider.dart';
+import 'package:titan/admin/tools/functions.dart' as AdminUtils;
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/paiement/ui/pages/main_page/account_card/device_dialog_box.dart';
 import 'package:titan/tools/constants.dart';
@@ -68,12 +68,7 @@ class AddUsersModalContent extends HookConsumerWidget {
                   } else {
                     fileContent = await File(file.path!).readAsString();
                   }
-                  mailList.value = fileContent
-                      .split('\n')
-                      .map((e) => e.split(','))
-                      .flattened
-                      .where((e) => e.isNotEmpty)
-                      .toList();
+                  mailList.value = AdminUtils.parseCsvContent(fileContent);
                 }
               }
             },
