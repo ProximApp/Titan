@@ -16,23 +16,26 @@ List<String> parseCsvContent(String content) {
 
   final separators = [',', ';', '\t', '|'];
   final lines = content.split('\n').where((line) => line.trim().isNotEmpty);
-  
+
   if (lines.isEmpty) return [];
 
   // Try to detect the best separator by counting occurrences in the first few lines
   String bestSeparator = ','; // Default to comma
   int maxFieldCount = 0;
-  
+
   for (final separator in separators) {
     int totalFields = 0;
     int lineCount = 0;
-    
-    for (final line in lines.take(3)) { // Check first 3 lines
-      final fields = line.split(separator).where((field) => field.trim().isNotEmpty);
+
+    for (final line in lines.take(3)) {
+      // Check first 3 lines
+      final fields = line
+          .split(separator)
+          .where((field) => field.trim().isNotEmpty);
       totalFields += fields.length;
       lineCount++;
     }
-    
+
     final avgFields = lineCount > 0 ? totalFields / lineCount : 0;
     if (avgFields > maxFieldCount) {
       maxFieldCount = avgFields.round();
@@ -55,7 +58,9 @@ List<String> parseCsvContent(String content) {
 
 /// Simple email validation helper
 bool _isValidEmail(String email) {
-  final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+  final emailRegex = RegExp(
+    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+  );
   return emailRegex.hasMatch(email.trim());
 }
 
