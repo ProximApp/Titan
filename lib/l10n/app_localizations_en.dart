@@ -4043,14 +4043,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsConnexion => 'Connection';
 
   @override
-  String get settingsDisconnect => 'Disconnect';
+  String get settingsLogOut => 'Log out';
 
   @override
-  String get settingsDisconnectDescription =>
-      'Do you really want to disconnect?';
+  String get settingsLogOutDescription => 'Do you really want to log out?';
 
   @override
-  String get settingsDisconnectionSuccess => 'Disconnected successfully';
+  String get settingsLogOutionSuccess => 'Déconnexion réussie';
 
   @override
   String get settingsDeleteMyAccount => 'Delete my account';

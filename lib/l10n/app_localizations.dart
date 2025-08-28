@@ -7868,23 +7868,23 @@ abstract class AppLocalizations {
   /// **'Connexion'**
   String get settingsConnexion;
 
-  /// No description provided for @settingsDisconnect.
+  /// No description provided for @settingsLogOut.
   ///
   /// In fr, this message translates to:
   /// **'Se déconnecter'**
-  String get settingsDisconnect;
+  String get settingsLogOut;
 
-  /// No description provided for @settingsDisconnectDescription.
+  /// No description provided for @settingsLogOutDescription.
   ///
   /// In fr, this message translates to:
   /// **'Êtes-vous sûr de vouloir vous déconnecter ?'**
-  String get settingsDisconnectDescription;
+  String get settingsLogOutDescription;
 
-  /// No description provided for @settingsDisconnectionSuccess.
+  /// No description provided for @settingsLogOutionSuccess.
   ///
   /// In fr, this message translates to:
   /// **'Déconnexion réussie'**
-  String get settingsDisconnectionSuccess;
+  String get settingsLogOutionSuccess;
 
   /// No description provided for @settingsDeleteMyAccount.
   ///
