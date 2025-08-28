@@ -126,6 +126,7 @@
   "adminEditMembership": "Modifier l'adhésion",
   "adminEmptyDate": "Date vide",
   "adminEmptyFieldError": "Le nom ne peut pas être vide",
+  "adminEmailFailed": "Impossible d'envoyer un mail aux adresses suivantes",
   "adminEmailRegex": "Email Regex",
   "adminEmptyUser": "Utilisateur vide",
   "adminEndDate": "Date de fin",

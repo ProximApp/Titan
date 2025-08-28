@@ -710,6 +710,12 @@ abstract class AppLocalizations {
   /// **'Le nom ne peut pas être vide'**
   String get adminEmptyFieldError;
 
+  /// No description provided for @adminEmailFailed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Impossible d\'envoyer un mail aux adresses suivantes'**
+  String get adminEmailFailed;
+
   /// No description provided for @adminEmailRegex.
   ///
   /// In fr, this message translates to:

@@ -327,6 +327,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get adminEmptyFieldError => 'Le nom ne peut pas être vide';
 
   @override
+  String get adminEmailFailed =>
+      'Impossible d\'envoyer un mail aux adresses suivantes';
+
+  @override
   String get adminEmailRegex => 'Email Regex';
 
   @override

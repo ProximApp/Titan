@@ -126,6 +126,7 @@
   "adminEditMembership": "Edit membership",
   "adminEmptyDate": "Empty date",
   "adminEmptyFieldError": "Name cannot be empty",
+  "adminEmailFailed": "Unable to send email to the following addresses",
   "adminEmailRegex": "Email Regex",
   "adminEmptyUser": "Empty user",
   "adminEndDate": "End date",

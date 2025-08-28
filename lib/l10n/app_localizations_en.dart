@@ -323,6 +323,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adminEmptyFieldError => 'Name cannot be empty';
 
   @override
+  String get adminEmailFailed =>
+      'Unable to send email to the following addresses';
+
+  @override
   String get adminEmailRegex => 'Email Regex';
 
   @override
