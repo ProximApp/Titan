@@ -4049,7 +4049,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsLogOutDescription => 'Do you really want to log out?';
 
   @override
-  String get settingsLogOutionSuccess => 'Déconnexion réussie';
+  String get settingsLogOutSuccess => 'Logged out successfully';
 
   @override
   String get settingsDeleteMyAccount => 'Delete my account';

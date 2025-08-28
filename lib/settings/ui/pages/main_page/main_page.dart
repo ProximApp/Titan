@@ -378,7 +378,7 @@ class SettingsMainPage extends HookConsumerWidget {
                         displayToast(
                           context,
                           TypeMsg.msg,
-                          localizeWithContext.settingsLogOutionSuccess,
+                          localizeWithContext.settingsLogOutSuccess,
                         );
                       },
                     ),

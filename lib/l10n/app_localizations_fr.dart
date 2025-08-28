@@ -4096,7 +4096,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Êtes-vous sûr de vouloir vous déconnecter ?';
 
   @override
-  String get settingsLogOutionSuccess => 'Déconnexion réussie';
+  String get settingsLogOutSuccess => 'Déconnexion réussie';
 
   @override
   String get settingsDeleteMyAccount => 'Supprimer mon compte';

@@ -7880,11 +7880,11 @@ abstract class AppLocalizations {
   /// **'Êtes-vous sûr de vouloir vous déconnecter ?'**
   String get settingsLogOutDescription;
 
-  /// No description provided for @settingsLogOutionSuccess.
+  /// No description provided for @settingsLogOutSuccess.
   ///
   /// In fr, this message translates to:
   /// **'Déconnexion réussie'**
-  String get settingsLogOutionSuccess;
+  String get settingsLogOutSuccess;
 
   /// No description provided for @settingsDeleteMyAccount.
   ///

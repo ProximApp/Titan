@@ -1481,7 +1481,7 @@
   "settingsConnexion": "Connexion",
   "settingsLogOut": "Se déconnecter",
   "settingsLogOutDescription": "Êtes-vous sûr de vouloir vous déconnecter ?",
-  "settingsLogOutionSuccess": "Déconnexion réussie",
+  "settingsLogOutSuccess": "Déconnexion réussie",
   "settingsDeleteMyAccount": "Supprimer mon compte",
   "settingsDeleteMyAccountDescription": "Cette action notifie l'administrateur que vous souhaitez supprimer votre compte.",
   "settingsDeletionAsked": "Demande de suppression de compte envoyée",
