@@ -395,6 +395,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adminName => 'Name';
 
   @override
+  String get adminNoGroup => 'No group';
+
+  @override
   String get adminNoManager => 'No manager selected';
 
   @override

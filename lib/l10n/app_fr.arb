@@ -149,6 +149,7 @@
   "adminMinimum": "Minimum",
   "adminModifyModuleVisibility": "Visibilité des modules",
   "adminName": "Nom",
+  "adminNoGroup": "Aucun groupe",
   "adminNoManager": "Aucun manager n'est sélectionné",
   "adminNoMember": "Aucun membre",
   "adminNoMoreLoaner": "Aucun prêteur n'est disponible",

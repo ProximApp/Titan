@@ -7,8 +7,13 @@ class UserInvitationRepository extends Repository {
   // ignore: overridden_fields
   final ext = "users/";
 
-  Future<List<String>> createUsers(List<String> mailList) async {
-    final json = mailList.map((email) => {'email': email}).toList();
+  Future<List<String>> createUsers(
+    List<String> mailList,
+    String? groupId,
+  ) async {
+    final json = mailList
+        .map((email) => {'email': email, "default_group_id": groupId})
+        .toList();
     final result = (await create(json, suffix: "batch-invitation"))["failed"];
     List<String> failedEmails = [];
     for (var entry in result.entries) {

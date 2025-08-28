@@ -848,6 +848,12 @@ abstract class AppLocalizations {
   /// **'Nom'**
   String get adminName;
 
+  /// No description provided for @adminNoGroup.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun groupe'**
+  String get adminNoGroup;
+
   /// No description provided for @adminNoManager.
   ///
   /// In fr, this message translates to:
