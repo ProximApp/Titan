@@ -87,29 +87,27 @@ class AddEventPage extends HookConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    if (myAssociations.length > 1) ...[
-                      SizedBox(
-                        height: 50,
-                        child: HorizontalMultiSelect<Association>(
-                          items: myAssociations,
-                          selectedItem: selectedAssociation.value,
-                          onItemSelected: (association) {
-                            selectedAssociation.value = association;
-                          },
-                          itemBuilder:
-                              (context, association, index, selected) => Text(
-                                association.name,
-                                style: TextStyle(
-                                  color: selected
-                                      ? ColorConstants.background
-                                      : ColorConstants.tertiary,
-                                  fontSize: 16,
-                                ),
+                    SizedBox(
+                      height: 50,
+                      child: HorizontalMultiSelect<Association>(
+                        items: myAssociations,
+                        selectedItem: selectedAssociation.value,
+                        onItemSelected: (association) {
+                          selectedAssociation.value = association;
+                        },
+                        itemBuilder: (context, association, index, selected) =>
+                            Text(
+                              association.name,
+                              style: TextStyle(
+                                color: selected
+                                    ? ColorConstants.background
+                                    : ColorConstants.tertiary,
+                                fontSize: 16,
                               ),
-                        ),
+                            ),
                       ),
-                      const SizedBox(height: 10),
-                    ],
+                    ),
+                    const SizedBox(height: 10),
                     TextEntry(
                       label: localizeWithContext.feedTitle,
                       controller: titleController,
