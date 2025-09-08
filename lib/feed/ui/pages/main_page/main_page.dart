@@ -135,16 +135,13 @@ class FeedMainPage extends HookConsumerWidget {
                       CustomIconButton(
                         icon: HeroIcon(
                           !isFeedAdmin && isUserAMemberOfAnAssociation
-                              ? HeroIcons.plus
+                              ? HeroIcons.pencil
                               : HeroIcons.userGroup,
                           color: ColorConstants.background,
                         ),
                         onPressed: () {
                           if (isFeedAdmin && !isUserAMemberOfAnAssociation) {
                             QR.to(FeedRouter.root + FeedRouter.eventHandling);
-                          } else if (!isFeedAdmin &&
-                              isUserAMemberOfAnAssociation) {
-                            QR.to(FeedRouter.root + FeedRouter.addEvent);
                           } else {
                             showCustomBottomModal(
                               modal: BottomModalTemplate(
@@ -158,7 +155,20 @@ class FeedMainPage extends HookConsumerWidget {
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                         QR.to(
-                                          FeedRouter.root + FeedRouter.addEvent,
+                                          FeedRouter.root +
+                                              FeedRouter.addEditEvent,
+                                        );
+                                      },
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Button(
+                                      text: localizeWithContext
+                                          .feedManageAssociationEvents,
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        QR.to(
+                                          FeedRouter.root +
+                                              FeedRouter.addEditEvent,
                                         );
                                       },
                                     ),
