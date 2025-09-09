@@ -28,6 +28,7 @@ class AssociationEventCard extends ConsumerWidget {
 
     return ListItem(
       title: event.name,
+      subtitle: event.location,
       onTap: () => showCustomBottomModal(
         context: context,
         modal: BottomModalTemplate(

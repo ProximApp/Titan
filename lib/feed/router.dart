@@ -4,6 +4,8 @@ import 'package:titan/feed/providers/is_feed_admin_provider.dart';
 import 'package:titan/feed/providers/is_user_a_member_of_an_association.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/navigation/class/module.dart';
+import 'package:titan/feed/ui/pages/association_events_page/association_events_page.dart'
+    deferred as association_events_page;
 import 'package:titan/feed/ui/pages/add_event_page/add_event_page.dart'
     deferred as add_edit_event_page;
 import 'package:titan/feed/ui/pages/event_handling_page/event_handling_page.dart'
@@ -64,10 +66,11 @@ class FeedRouter {
       ),
       QRoute(
         path: associationEvents,
-        builder: () => Container(),
+        builder: () => association_events_page.ManageAssociationEventPage(),
         middleware: [
           AuthenticatedMiddleware(ref),
           AdminMiddleware(ref, isUserAMemberOfAnAssociationProvider),
+          DeferredLoadingMiddleware(association_events_page.loadLibrary),
         ],
       ),
     ],

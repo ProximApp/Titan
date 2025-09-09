@@ -42,6 +42,7 @@ class ManageAssociationEventPage extends HookConsumerWidget {
         controller: ScrollController(),
         child: Column(
           children: [
+            const SizedBox(height: 16),
             SizedBox(
               height: 50,
               child: HorizontalMultiSelect<Association>(
@@ -62,7 +63,15 @@ class ManageAssociationEventPage extends HookConsumerWidget {
               ),
             ),
             const SizedBox(height: 16),
-
+            Text(
+              localizeWithContext.feedManageAssociationEvents,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: ColorConstants.title,
+              ),
+            ),
+            const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: AsyncChild(

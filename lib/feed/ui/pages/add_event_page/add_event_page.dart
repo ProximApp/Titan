@@ -68,12 +68,8 @@ class AddEditEventPage extends HookConsumerWidget {
       data: (event) => event,
       orElse: () => Event.empty(),
     );
-    final syncImage = image.maybeWhen(
-      data: (image) => image,
-      orElse: () => null,
-    );
     final poster = useState<Uint8List?>(null);
-    final posterFile = useState<Image?>(syncEvent.id != "" ? syncImage : null);
+    final posterFile = useState<Image?>(null);
     final allDay = useState(syncEvent.allDay);
     final notification = useState(
       syncEvent.id != "" ? syncEvent.notification : true,
@@ -84,7 +80,9 @@ class AddEditEventPage extends HookConsumerWidget {
     );
     final shotgunDateController = useTextEditingController(
       text: syncEvent.ticketUrlOpening != null
-          ? DateFormat.yMd(locale).add_Hm().format(syncEvent.ticketUrlOpening!)
+          ? DateFormat.yMd(
+              locale.toString(),
+            ).add_Hm().format(syncEvent.ticketUrlOpening!)
           : "",
     );
     final externalLinkController = useTextEditingController(
@@ -93,16 +91,24 @@ class AddEditEventPage extends HookConsumerWidget {
     final startDateController = useTextEditingController(
       text: syncEvent.id != ""
           ? (allDay.value
-                ? DateFormat.yMd(locale).format(syncEvent.start)
-                : DateFormat.yMd(locale).add_Hm().format(syncEvent.start))
+                ? DateFormat.yMd(locale.toString()).format(syncEvent.start)
+                : DateFormat.yMd(
+                    locale.toString(),
+                  ).add_Hm().format(syncEvent.start))
           : "",
     );
     final endDateController = useTextEditingController(
       text: syncEvent.id != ""
           ? (allDay.value
-                ? DateFormat.yMd(locale).format(syncEvent.end)
-                : DateFormat.yMd(locale).add_Hm().format(syncEvent.end))
+                ? DateFormat.yMd(locale.toString()).format(syncEvent.end)
+                : DateFormat.yMd(
+                    locale.toString(),
+                  ).add_Hm().format(syncEvent.end))
           : "",
+    );
+    image.maybeWhen(
+      data: (image) => posterFile.value = image,
+      orElse: () => null,
     );
 
     final localizeWithContext = AppLocalizations.of(context)!;
@@ -584,7 +590,7 @@ class AddEditEventPage extends HookConsumerWidget {
                                 allDay: allDay.value,
                                 // recurrenceRule: recurrenceRule,
                                 recurrenceRule: "",
-                                associationId: syncEvent.id == ""
+                                associationId: syncEvent.id != ""
                                     ? syncEvent.associationId
                                     : selectedAssociation.value!.id,
                                 ticketUrl: externalLinkController.text,

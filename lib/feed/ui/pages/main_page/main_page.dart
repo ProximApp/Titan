@@ -3,7 +3,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qlevar_router/qlevar_router.dart';
+import 'package:titan/admin/providers/my_association_list_provider.dart';
 import 'package:titan/feed/class/news.dart';
+import 'package:titan/feed/providers/association_event_list_provider.dart';
 import 'package:titan/feed/providers/is_feed_admin_provider.dart';
 import 'package:titan/feed/providers/is_user_a_member_of_an_association.dart';
 import 'package:titan/feed/providers/news_list_provider.dart';
@@ -31,6 +33,10 @@ class FeedMainPage extends HookConsumerWidget {
     );
     final isFeedAdmin = ref.watch(isFeedAdminProvider);
     final scrollController = useScrollController();
+    final associationEventsListNotifier = ref.watch(
+      associationEventsListProvider.notifier,
+    );
+    final myAssociations = ref.watch(myAssociationListProvider);
 
     final localizeWithContext = AppLocalizations.of(context)!;
 
@@ -166,25 +172,30 @@ class FeedMainPage extends HookConsumerWidget {
                                           .feedManageAssociationEvents,
                                       onPressed: () {
                                         Navigator.of(context).pop();
+                                        associationEventsListNotifier
+                                            .loadAssociationEventList(
+                                              myAssociations.first.id,
+                                            );
                                         QR.to(
                                           FeedRouter.root +
-                                              FeedRouter.addEditEvent,
+                                              FeedRouter.associationEvents,
                                         );
                                       },
                                     ),
                                     const SizedBox(height: 20),
-                                    Button(
-                                      text: localizeWithContext
-                                          .feedManageRequests,
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                        newsListNotifier.loadNewsList();
-                                        QR.to(
-                                          FeedRouter.root +
-                                              FeedRouter.eventHandling,
-                                        );
-                                      },
-                                    ),
+                                    if (isFeedAdmin)
+                                      Button(
+                                        text: localizeWithContext
+                                            .feedManageRequests,
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          newsListNotifier.loadNewsList();
+                                          QR.to(
+                                            FeedRouter.root +
+                                                FeedRouter.eventHandling,
+                                          );
+                                        },
+                                      ),
                                   ],
                                 ),
                               ),
