@@ -7,7 +7,7 @@ import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/ui/builders/auto_loader_child.dart';
 
 class AssociationItem extends ConsumerWidget {
-  final String name, avatarName, associationId;
+  final String name, associationId;
   final bool selected;
   final VoidCallback onTap;
   const AssociationItem({
@@ -16,7 +16,6 @@ class AssociationItem extends ConsumerWidget {
     required this.name,
     required this.onTap,
     required this.selected,
-    required this.avatarName,
     required this.associationId,
   });
 
@@ -54,27 +53,6 @@ class AssociationItem extends ConsumerWidget {
                     image: DecorationImage(
                       image: data.first.image,
                       fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                orElseBuilder: (context, stack) => Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: selected
-                        ? Border.all(color: ColorConstants.tertiary, width: 3)
-                        : null,
-                    color: Colors.grey.shade100,
-                  ),
-                  child: Text(
-                    avatarName,
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: selected
-                          ? ColorConstants.onTertiary
-                          : ColorConstants.tertiary,
                     ),
                   ),
                 ),

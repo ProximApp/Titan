@@ -52,11 +52,6 @@ class AssociationBar extends HookConsumerWidget {
               },
               associationId: e.id,
               name: e.name,
-              avatarName: e.name
-                  .split(' ')
-                  .take(2)
-                  .map((s) => s[0].toUpperCase())
-                  .join(),
               selected: selected,
             );
           },
