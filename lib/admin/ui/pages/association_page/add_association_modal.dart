@@ -103,7 +103,20 @@ class AddAssociationModal extends HookWidget {
                               constraints: const BoxConstraints(maxHeight: 600),
                               child: SingleChildScrollView(
                                 child: Column(
-                                  children: [SizedBox(height: 150)],
+                                  children: [
+                                    ...groups.map(
+                                      (e) => ListItemTemplate(
+                                        title: e.name,
+                                        trailing: const HeroIcon(
+                                          HeroIcons.plus,
+                                        ),
+                                        onTap: () {
+                                          chosenGroup.value = e;
+                                          Navigator.of(ctx).pop();
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
