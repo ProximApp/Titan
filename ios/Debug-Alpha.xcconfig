@@ -1,3 +1,5 @@
 #include "Flutter/Debug.xcconfig"
+#include "General.xcconfig"
 
+APP_NAME="myemapp alpha"
 PRODUCT_BUNDLE_IDENTIFIER = $(APP_ID_PREFIX).titan.alpha
