@@ -26,6 +26,7 @@ class EventCard extends ConsumerWidget {
     final imageNotifier = ref.watch(newsImageProvider.notifier);
     final pathForwardingNotifier = ref.watch(pathForwardingProvider.notifier);
     final localizeWithContext = AppLocalizations.of(context)!;
+    final pathForwardingNotifier = ref.watch(pathForwardingProvider.notifier);
     return GestureDetector(
       onTap: () {
         if (item.module == "advert") {
