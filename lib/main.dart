@@ -21,7 +21,6 @@ import 'package:titan/tools/trads/en_timeago.dart';
 import 'package:titan/tools/trads/fr_timeago.dart';
 import 'package:titan/tools/ui/layouts/app_template.dart';
 import 'package:qlevar_router/qlevar_router.dart';
-import 'package:qlevar_router/qlevar_router.dart' as qqr;
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:app_links/app_links.dart';
 
@@ -80,7 +79,6 @@ class MyApp extends HookConsumerWidget {
                   newPath,
                   queryParameters: queryParams,
                 );
-                QR.toName(newPath);
               }
             });
           } catch (err) {
