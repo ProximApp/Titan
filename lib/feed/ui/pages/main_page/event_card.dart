@@ -9,6 +9,7 @@ import 'package:titan/feed/tools/news_helper.dart';
 import 'package:titan/feed/ui/widgets/adaptive_text_card.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tools/constants.dart';
+import 'package:titan/tools/providers/path_forwarding_provider.dart';
 import 'package:titan/tools/ui/builders/auto_loader_child.dart';
 
 class EventCard extends ConsumerWidget {
