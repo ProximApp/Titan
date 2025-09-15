@@ -54,26 +54,20 @@ class AssociationBar extends HookConsumerWidget {
               name: e.name,
               avatarName: () {
                 try {
-                  if (e.name.length <= 3) {
-                    return e.name;
-                  } else if (e.name.contains(" ")) {
-                    return e.name
-                        .split(" ")
-                        .where((s) => s.isNotEmpty)
-                        .take(2)
-                        .map((s) => s[0].toUpperCase())
-                        .join();
-                  } else if (e.name.contains("'")) {
-                    return e.name
-                        .split("'")
-                        .where((s) => s.isNotEmpty)
-                        .take(2)
-                        .map((s) => s[0].toUpperCase())
-                        .join();
-                  } else {
-                    return e.name.substring(0, 3).toUpperCase();
+                  final name = e.name.trim();
+                  if (name.length <= 3) {
+                    return name.toUpperCase();
                   }
-                } catch (err) {
+                  final parts = name
+                      .split(RegExp(r"[ '\s]+"))
+                      .where((s) => s.isNotEmpty)
+                      .toList();
+
+                  if (parts.length >= 2) {
+                    return parts.take(2).map((s) => s[0].toUpperCase()).join();
+                  }
+                  return name.substring(0, 3).toUpperCase();
+                } catch (_) {
                   return (e.name.length >= 3)
                       ? e.name.substring(0, 3).toUpperCase()
                       : e.name.toUpperCase();
