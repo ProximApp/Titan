@@ -88,8 +88,6 @@ class FeedMainPage extends HookConsumerWidget {
 
     final sortedNews = [...pastNews, ...ongoingNews, ...futureNews];
 
-    bool ignoreListener = false;
-
     useEffect(() {
       if (news.hasValue && news.value!.isNotEmpty) {
         Future.microtask(() async {
@@ -102,28 +100,27 @@ class FeedMainPage extends HookConsumerWidget {
           );
 
           if (upcomingIndex != -1 && itemScrollController.isAttached) {
-            ignoreListener = true;
             await itemScrollController.scrollTo(
               index: upcomingIndex,
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
             );
             navbarVisibilityNotifier.show();
-
-            // on attend un frame ou un petit délai pour que le listener reprenne
-            Future.delayed(const Duration(milliseconds: 50), () {
-              ignoreListener = false;
-            });
           }
         });
         void listener() {
-          if (ignoreListener) return;
           final positions = itemPositionsListener.itemPositions.value;
           if (positions.isEmpty) return;
+          final visiblePositions = positions.where(
+            (p) => p.itemLeadingEdge >= 0 && p.itemLeadingEdge <= 1,
+          );
 
-          final firstVisible = positions
-              .where((p) => p.itemLeadingEdge >= 0)
-              .fold<int>(999999, (prev, e) => e.index < prev ? e.index : prev);
+          if (visiblePositions.isEmpty) return;
+
+          final firstVisible = visiblePositions.fold<int>(
+            999999,
+            (prev, e) => e.index < prev ? e.index : prev,
+          );
 
           final lastIndex = lastFirstIndex.value;
 
