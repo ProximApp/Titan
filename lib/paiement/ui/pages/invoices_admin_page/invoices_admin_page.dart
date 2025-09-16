@@ -25,7 +25,6 @@ class InvoicesAdminPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = useScrollController();
     final page = useState(1);
     final pageSize = useState(20);
     final invoices = ref.watch(invoiceListProvider);
