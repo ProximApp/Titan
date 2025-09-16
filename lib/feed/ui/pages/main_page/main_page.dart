@@ -54,95 +54,6 @@ class FeedMainPage extends HookConsumerWidget {
     }
 
     final now = DateTime.now();
-    final newsList = news.value!;
-
-    final pastNews = withDisplayDates(
-      newsList
-          .where(
-            (item) =>
-                item.end != null && item.end!.isBefore(now) ||
-                item.end == null && item.start.isBefore(now),
-          )
-          .toList()
-        ..sort((a, b) => a.start.compareTo(b.start)),
-    );
-
-    final ongoingNews =
-        newsList
-            .where(
-              (item) =>
-                  item.start.isBefore(now) &&
-                  (item.end != null && item.end!.isAfter(now)),
-            )
-            .toList()
-          ..sort((a, b) => a.start.compareTo(b.start));
-
-    if (ongoingNews.isNotEmpty) {
-      ongoingNews[0] = ongoingNews[0].copyWith(displayDate: now);
-    }
-
-    final futureNews = withDisplayDates(
-      newsList.where((item) => item.start.isAfter(now)).toList()
-        ..sort((a, b) => a.start.compareTo(b.start)),
-    );
-
-    final sortedNews = [...pastNews, ...ongoingNews, ...futureNews];
-
-    useEffect(() {
-      if (news.hasValue && news.value!.isNotEmpty) {
-        Future.microtask(() async {
-          final now = DateTime.now();
-
-          final upcomingIndex = sortedNews.indexWhere(
-            (item) =>
-                item.start.isAfter(now) ||
-                (item.end != null && item.end!.isAfter(now)),
-          );
-
-          if (upcomingIndex != -1 && itemScrollController.isAttached) {
-            await itemScrollController.scrollTo(
-              index: upcomingIndex,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-            );
-            navbarVisibilityNotifier.show();
-          }
-        });
-        void listener() {
-          final positions = itemPositionsListener.itemPositions.value;
-          if (positions.isEmpty) return;
-          final visiblePositions = positions.where(
-            (p) => p.itemLeadingEdge >= 0 && p.itemLeadingEdge <= 1,
-          );
-
-          if (visiblePositions.isEmpty) return;
-
-          final firstVisible = visiblePositions.fold<int>(
-            999999,
-            (prev, e) => e.index < prev ? e.index : prev,
-          );
-
-          final lastIndex = lastFirstIndex.value;
-
-          if (lastIndex != null) {
-            if (firstVisible > lastIndex) {
-              navbarVisibilityNotifier.hide();
-              showRefreshButton.value = false;
-            } else if (firstVisible < lastIndex) {
-              navbarVisibilityNotifier.show();
-              showRefreshButton.value = true;
-            }
-          }
-
-          lastFirstIndex.value = firstVisible;
-        }
-
-        itemPositionsListener.itemPositions.addListener(listener);
-        return () =>
-            itemPositionsListener.itemPositions.removeListener(listener);
-      }
-      return null;
-    }, [news]);
 
     Future<void> handleRefresh() async {
       showRefreshButton.value = false;
@@ -174,38 +85,152 @@ class FeedMainPage extends HookConsumerWidget {
                               ),
                             ),
                           )
-                        : Column(
-                            children: [
-                              Expanded(
-                                child: ScrollablePositionedList.builder(
-                                  itemCount: news.length + 1,
-                                  itemScrollController: itemScrollController,
-                                  itemPositionsListener: itemPositionsListener,
-                                  itemBuilder: (context, index) {
-                                    if (index == news.length) {
-                                      return const SizedBox(height: 80);
+                        : HookBuilder(
+                            builder: (context) {
+                              final pastNews = withDisplayDates(
+                                news
+                                    .where(
+                                      (item) =>
+                                          item.end != null &&
+                                              item.end!.isBefore(now) ||
+                                          item.end == null &&
+                                              item.start.isBefore(now),
+                                    )
+                                    .toList()
+                                  ..sort((a, b) => a.start.compareTo(b.start)),
+                              );
+
+                              final ongoingNews =
+                                  news
+                                      .where(
+                                        (item) =>
+                                            item.start.isBefore(now) &&
+                                            (item.end != null &&
+                                                item.end!.isAfter(now)),
+                                      )
+                                      .toList()
+                                    ..sort(
+                                      (a, b) => a.start.compareTo(b.start),
+                                    );
+
+                              if (ongoingNews.isNotEmpty) {
+                                ongoingNews[0] = ongoingNews[0].copyWith(
+                                  displayDate: now,
+                                );
+                              }
+
+                              final futureNews = withDisplayDates(
+                                news
+                                    .where((item) => item.start.isAfter(now))
+                                    .toList()
+                                  ..sort((a, b) => a.start.compareTo(b.start)),
+                              );
+
+                              final sortedNews = [
+                                ...pastNews,
+                                ...ongoingNews,
+                                ...futureNews,
+                              ];
+
+                              useEffect(() {
+                                Future.microtask(() async {
+                                  final now = DateTime.now();
+
+                                  final upcomingIndex = sortedNews.indexWhere(
+                                    (item) =>
+                                        item.start.isAfter(now) ||
+                                        (item.end != null &&
+                                            item.end!.isAfter(now)),
+                                  );
+
+                                  if (upcomingIndex != -1 &&
+                                      itemScrollController.isAttached) {
+                                    await itemScrollController.scrollTo(
+                                      index: upcomingIndex,
+                                      duration: const Duration(
+                                        milliseconds: 300,
+                                      ),
+                                      curve: Curves.easeInOut,
+                                    );
+                                    navbarVisibilityNotifier.show();
+                                  }
+                                });
+                                void listener() {
+                                  final positions =
+                                      itemPositionsListener.itemPositions.value;
+                                  if (positions.isEmpty) return;
+                                  final visiblePositions = positions.where(
+                                    (p) =>
+                                        p.itemLeadingEdge >= 0 &&
+                                        p.itemLeadingEdge <= 1,
+                                  );
+
+                                  if (visiblePositions.isEmpty) return;
+
+                                  final firstVisible = visiblePositions
+                                      .fold<int>(
+                                        999999,
+                                        (prev, e) =>
+                                            e.index < prev ? e.index : prev,
+                                      );
+
+                                  final lastIndex = lastFirstIndex.value;
+
+                                  if (lastIndex != null) {
+                                    if (firstVisible > lastIndex) {
+                                      navbarVisibilityNotifier.hide();
+                                      showRefreshButton.value = false;
+                                    } else if (firstVisible < lastIndex) {
+                                      navbarVisibilityNotifier.show();
+                                      showRefreshButton.value = true;
                                     }
-                                    return LayoutBuilder(
-                                      builder: (context, constraints) {
-                                        return Stack(
-                                          children: [
-                                            Positioned(
-                                              left: 20,
-                                              top: 0,
-                                              bottom: 0,
-                                              child: DottedVerticalLine(),
-                                            ),
-                                            TimeLineItem(
-                                              item: sortedNews[index],
-                                            ),
-                                          ],
+                                  }
+
+                                  lastFirstIndex.value = firstVisible;
+                                }
+
+                                itemPositionsListener.itemPositions.addListener(
+                                  listener,
+                                );
+                                return () => itemPositionsListener.itemPositions
+                                    .removeListener(listener);
+                              }, [news]);
+                              return Column(
+                                children: [
+                                  Expanded(
+                                    child: ScrollablePositionedList.builder(
+                                      itemCount: news.length + 1,
+                                      itemScrollController:
+                                          itemScrollController,
+                                      itemPositionsListener:
+                                          itemPositionsListener,
+                                      itemBuilder: (context, index) {
+                                        if (index == news.length) {
+                                          return const SizedBox(height: 80);
+                                        }
+                                        return LayoutBuilder(
+                                          builder: (context, constraints) {
+                                            return Stack(
+                                              children: [
+                                                Positioned(
+                                                  left: 20,
+                                                  top: 0,
+                                                  bottom: 0,
+                                                  child: DottedVerticalLine(),
+                                                ),
+                                                TimeLineItem(
+                                                  item: sortedNews[index],
+                                                ),
+                                              ],
+                                            );
+                                          },
                                         );
                                       },
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                   ),
                 ),

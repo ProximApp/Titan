@@ -37,130 +37,141 @@ class AdvertMainPage extends HookConsumerWidget {
     final navbarVisibilityNotifier = ref.watch(
       navbarVisibilityProvider.notifier,
     );
-    final adverts = advertList.value!;
-    final sortedAdvertData = adverts
-        .sortedBy((element) => element.date)
-        .reversed;
-    final filteredSortedAdvertData = sortedAdvertData
-        .where(
-          (advert) =>
-              selected.where((e) => advert.associationId == e.id).isNotEmpty ||
-              selected.isEmpty,
-        )
-        .toList();
-
-    final advertIndex = filteredSortedAdvertData.indexWhere(
-      (advert) => advert.id == advertId,
-    );
 
     final itemScrollController = ItemScrollController();
     final itemPositionsListener = useMemoized(
       () => ItemPositionsListener.create(),
     );
-    final lastFirstIndex = useRef<int?>(null);
-    if (advertIndex != -1) {
-      useEffect(() {
-        Future.microtask(() async {
-          if (itemScrollController.isAttached) {
-            await itemScrollController.scrollTo(
-              index: advertIndex,
-              duration: const Duration(milliseconds: 300),
-            );
-            navbarVisibilityNotifier.show();
-          }
-        });
-        void listener() {
-          final positions = itemPositionsListener.itemPositions.value;
-          if (positions.isEmpty) return;
-          final visiblePositions = positions.where(
-            (p) => p.itemLeadingEdge >= 0 && p.itemLeadingEdge <= 1,
-          );
 
-          if (visiblePositions.isEmpty) return;
-
-          final firstVisible = visiblePositions.fold<int>(
-            999999,
-            (prev, e) => e.index < prev ? e.index : prev,
-          );
-
-          final lastIndex = lastFirstIndex.value;
-
-          if (lastIndex != null) {
-            if (firstVisible > lastIndex) {
-              navbarVisibilityNotifier.hide();
-            } else if (firstVisible < lastIndex) {
-              navbarVisibilityNotifier.show();
-            }
-          }
-
-          lastFirstIndex.value = firstVisible;
-        }
-
-        itemPositionsListener.itemPositions.addListener(listener);
-        return () =>
-            itemPositionsListener.itemPositions.removeListener(listener);
-      }, []);
-    }
     return AdvertTemplate(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: const AssociationBar(
-                  useUserAssociations: false,
-                  multipleSelect: true,
-                ),
-              ),
-
-              if (isAdmin || isAdvertAdmin) ...[
-                SizedBox(width: 5),
-                Container(
-                  width: 2,
-                  height: 60,
-                  color: ColorConstants.secondary,
-                ),
-                SizedBox(width: 5),
-                SpecialActionButton(
-                  onTap: () {
-                    selectedNotifier.clearAssociation();
-                    QR.to(AdvertRouter.root + AdvertRouter.admin);
-                  },
-                  icon: HeroIcon(
-                    HeroIcons.userGroup,
-                    color: ColorConstants.background,
+      child: RefreshIndicator(
+        color: ColorConstants.main,
+        onRefresh: () async {
+          await advertListNotifier.loadAdverts();
+          advertPostersNotifier.resetTData();
+        },
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: const AssociationBar(
+                    useUserAssociations: false,
+                    multipleSelect: true,
                   ),
-                  name: "Admin",
                 ),
-                SizedBox(width: 10),
+
+                if (isAdmin || isAdvertAdmin) ...[
+                  SizedBox(width: 5),
+                  Container(
+                    width: 2,
+                    height: 60,
+                    color: ColorConstants.secondary,
+                  ),
+                  SizedBox(width: 5),
+                  SpecialActionButton(
+                    onTap: () {
+                      selectedNotifier.clearAssociation();
+                      QR.to(AdvertRouter.root + AdvertRouter.admin);
+                    },
+                    icon: HeroIcon(
+                      HeroIcons.userGroup,
+                      color: ColorConstants.background,
+                    ),
+                    name: "Admin",
+                  ),
+                  SizedBox(width: 10),
+                ],
               ],
-            ],
-          ),
-
-          const SizedBox(height: 20),
-
-          Expanded(
-            child: AsyncChild(
-              value: advertList,
-              builder: (context, advertData) {
-                return RefreshIndicator(
-                  color: ColorConstants.main,
-                  onRefresh: () async {
-                    await advertListNotifier.loadAdverts();
-                    advertPostersNotifier.resetTData();
-                  },
-                  child: ScrollablePositionedList.builder(
-                    itemCount: filteredSortedAdvertData.length,
-                    itemBuilder: (context, index) =>
-                        AdvertCard(advert: filteredSortedAdvertData[index]),
-                    itemScrollController: itemScrollController,
-                    itemPositionsListener: itemPositionsListener,
-                  ),
-                );
-              },
             ),
-          ),
-        ],
+
+            const SizedBox(height: 20),
+
+            Expanded(
+              child: AsyncChild(
+                value: advertList,
+                builder: (context, adverts) {
+                  return HookBuilder(
+                    builder: (context) {
+                      final sortedAdvertData = adverts
+                          .sortedBy((element) => element.date)
+                          .reversed;
+                      final filteredSortedAdvertData = sortedAdvertData
+                          .where(
+                            (advert) =>
+                                selected
+                                    .where((e) => advert.associationId == e.id)
+                                    .isNotEmpty ||
+                                selected.isEmpty,
+                          )
+                          .toList();
+
+                      final advertIndex = filteredSortedAdvertData.indexWhere(
+                        (advert) => advert.id == advertId,
+                      );
+                      final lastFirstIndex = useRef<int?>(null);
+                      if (advertIndex != -1) {
+                        useEffect(() {
+                          Future.microtask(() async {
+                            if (itemScrollController.isAttached) {
+                              await itemScrollController.scrollTo(
+                                index: advertIndex,
+                                duration: const Duration(milliseconds: 300),
+                              );
+                              navbarVisibilityNotifier.show();
+                            }
+                          });
+                          void listener() {
+                            final positions =
+                                itemPositionsListener.itemPositions.value;
+                            if (positions.isEmpty) return;
+                            final visiblePositions = positions.where(
+                              (p) =>
+                                  p.itemLeadingEdge >= 0 &&
+                                  p.itemLeadingEdge <= 1,
+                            );
+
+                            if (visiblePositions.isEmpty) return;
+
+                            final firstVisible = visiblePositions.fold<int>(
+                              999999,
+                              (prev, e) => e.index < prev ? e.index : prev,
+                            );
+
+                            final lastIndex = lastFirstIndex.value;
+
+                            if (lastIndex != null) {
+                              if (firstVisible > lastIndex) {
+                                navbarVisibilityNotifier.hide();
+                              } else if (firstVisible < lastIndex) {
+                                navbarVisibilityNotifier.show();
+                              }
+                            }
+
+                            lastFirstIndex.value = firstVisible;
+                          }
+
+                          itemPositionsListener.itemPositions.addListener(
+                            listener,
+                          );
+                          return () => itemPositionsListener.itemPositions
+                              .removeListener(listener);
+                        }, []);
+                      }
+                      return ScrollablePositionedList.builder(
+                        itemCount: filteredSortedAdvertData.length,
+                        itemBuilder: (context, index) =>
+                            AdvertCard(advert: filteredSortedAdvertData[index]),
+                        itemScrollController: itemScrollController,
+                        itemPositionsListener: itemPositionsListener,
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
