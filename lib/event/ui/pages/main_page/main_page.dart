@@ -8,7 +8,7 @@ import 'package:titan/event/providers/user_event_list_provider.dart';
 import 'package:titan/event/router.dart';
 import 'package:titan/event/ui/event.dart';
 import 'package:titan/event/ui/components/event_ui.dart';
-import 'package:titan/tools/ui/layouts/column_refresher.dart';
+import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/ui/widgets/admin_button.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/card_layout.dart';
@@ -29,68 +29,70 @@ class EventMainPage extends HookConsumerWidget {
         value: events,
         builder: (context, eventList) {
           eventList.sort((a, b) => b.start.compareTo(a.start));
-          return ColumnRefresher(
-            controller: ScrollController(),
+          return RefreshIndicator(
+            color: ColorConstants.main,
             onRefresh: () async {
               await eventListNotifier.loadConfirmedEvent();
             },
-            children: [
-              const SizedBox(height: 40),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        eventList.isEmpty
-                            ? AppLocalizations.of(context)!.eventNoEvent
-                            : AppLocalizations.of(context)!.eventMyEvents,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey,
+            child: Column(
+              children: [
+                const SizedBox(height: 40),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          eventList.isEmpty
+                              ? AppLocalizations.of(context)!.eventNoEvent
+                              : AppLocalizations.of(context)!.eventMyEvents,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey,
+                          ),
                         ),
-                      ),
-                      if (isAdmin)
-                        AdminButton(
-                          onTap: () {
-                            QR.to(EventRouter.root + EventRouter.admin);
-                          },
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              GestureDetector(
-                onTap: () {
-                  eventNotifier.setEvent(Event.empty());
-                  QR.to(EventRouter.root + EventRouter.addEdit);
-                },
-                child: CardLayout(
-                  margin: const EdgeInsets.only(
-                    bottom: 10,
-                    top: 20,
-                    left: 40,
-                    right: 40,
-                  ),
-                  width: double.infinity,
-                  height: 100,
-                  color: Colors.white,
-                  child: Center(
-                    child: HeroIcon(
-                      HeroIcons.plus,
-                      size: 40,
-                      color: Colors.grey.shade500,
+                        if (isAdmin)
+                          AdminButton(
+                            onTap: () {
+                              QR.to(EventRouter.root + EventRouter.admin);
+                            },
+                          ),
+                      ],
                     ),
                   ),
                 ),
-              ),
-              ...eventList.map((event) => EventUi(event: event)),
-              const SizedBox(height: 80),
-            ],
+                const SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () {
+                    eventNotifier.setEvent(Event.empty());
+                    QR.to(EventRouter.root + EventRouter.addEdit);
+                  },
+                  child: CardLayout(
+                    margin: const EdgeInsets.only(
+                      bottom: 10,
+                      top: 20,
+                      left: 40,
+                      right: 40,
+                    ),
+                    width: double.infinity,
+                    height: 100,
+                    color: Colors.white,
+                    child: Center(
+                      child: HeroIcon(
+                        HeroIcons.plus,
+                        size: 40,
+                        color: Colors.grey.shade500,
+                      ),
+                    ),
+                  ),
+                ),
+                ...eventList.map((event) => EventUi(event: event)),
+                const SizedBox(height: 80),
+              ],
+            ),
           );
         },
       ),

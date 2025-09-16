@@ -4,7 +4,7 @@ import 'package:titan/raffle/providers/tombola_logos_provider.dart';
 import 'package:titan/raffle/ui/pages/admin_module_page/account_handler.dart';
 import 'package:titan/raffle/ui/pages/admin_module_page/tombola_handler.dart';
 import 'package:titan/raffle/ui/raffle.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
+import 'package:titan/tools/constants.dart';
 
 class AdminModulePage extends HookConsumerWidget {
   const AdminModulePage({super.key});
@@ -13,8 +13,8 @@ class AdminModulePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tombolaLogosNotifier = ref.watch(tombolaLogosProvider.notifier);
     return RaffleTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           tombolaLogosNotifier.resetTData();
         },

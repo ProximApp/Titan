@@ -16,9 +16,9 @@ import 'package:titan/raffle/ui/raffle.dart';
 import 'package:titan/tools/ui/layouts/horizontal_list_view.dart';
 import 'package:titan/tools/ui/widgets/admin_button.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
+import 'package:titan/tools/constants.dart';
 
 class RaffleMainPage extends HookConsumerWidget {
   const RaffleMainPage({super.key});
@@ -40,8 +40,8 @@ class RaffleMainPage extends HookConsumerWidget {
     });
 
     return RaffleTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await userTicketListNotifier.loadTicketList();
           await raffleListNotifier.loadRaffleList();

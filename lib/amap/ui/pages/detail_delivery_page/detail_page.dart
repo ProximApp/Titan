@@ -13,10 +13,10 @@ import 'package:titan/amap/tools/constants.dart';
 import 'package:titan/amap/ui/amap.dart';
 import 'package:titan/amap/ui/pages/detail_delivery_page/order_detail_ui.dart';
 import 'package:titan/amap/ui/pages/detail_delivery_page/product_detail_ui.dart';
+import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/widgets/loader.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/l10n/app_localizations.dart';
 
 class DetailDeliveryPage extends HookConsumerWidget {
@@ -37,8 +37,8 @@ class DetailDeliveryPage extends HookConsumerWidget {
     );
     final cash = ref.watch(cashListProvider);
     return AmapTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await deliveryProductListNotifier.loadProductList(delivery.products);
           await deliveryListNotifier.loadDeliveriesList();

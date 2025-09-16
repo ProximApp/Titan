@@ -10,8 +10,8 @@ import 'package:titan/seed-library/ui/components/filters_bar.dart';
 import 'package:titan/seed-library/ui/pages/plants_page/personal_plant_card.dart';
 import 'package:titan/seed-library/ui/components/research_bar.dart';
 import 'package:titan/seed-library/ui/seed_library.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:qlevar_router/qlevar_router.dart';
+import 'package:titan/tools/constants.dart';
 
 class PlantsPage extends HookConsumerWidget {
   const PlantsPage({super.key});
@@ -26,8 +26,8 @@ class PlantsPage extends HookConsumerWidget {
     final consumedFilterNotifier = ref.watch(consumedFilterProvider.notifier);
 
     return SeedLibraryTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await plantListNotifier.loadPlants();
         },

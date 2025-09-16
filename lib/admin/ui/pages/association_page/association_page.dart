@@ -12,7 +12,6 @@ import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 import 'package:titan/tools/ui/styleguide/icon_button.dart';
 
@@ -35,8 +34,8 @@ class AssociationPage extends ConsumerWidget {
     final localizeWithContext = AppLocalizations.of(context)!;
 
     return AdminTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await associationNotifier.loadAssociations();
         },

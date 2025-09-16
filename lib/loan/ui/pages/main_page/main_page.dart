@@ -10,9 +10,9 @@ import 'package:titan/loan/providers/loaner_loan_list_provider.dart';
 import 'package:titan/loan/router.dart';
 import 'package:titan/loan/ui/loan.dart';
 import 'package:titan/loan/ui/pages/admin_page/loan_card.dart';
+import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/ui/widgets/admin_button.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/ui/layouts/horizontal_list_view.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
@@ -53,8 +53,8 @@ class LoanMainPage extends HookConsumerWidget {
     return LoanTemplate(
       child: Stack(
         children: [
-          Refresher(
-            controller: ScrollController(),
+          RefreshIndicator(
+            color: ColorConstants.main,
             onRefresh: () async {
               await loanListNotifier.loadLoanList();
             },

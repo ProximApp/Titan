@@ -15,9 +15,9 @@ import 'package:titan/booking/providers/room_provider.dart';
 import 'package:titan/booking/router.dart';
 import 'package:titan/booking/ui/booking.dart';
 import 'package:titan/booking/ui/calendar/calendar.dart';
+import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/layouts/item_chip.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
 
@@ -36,8 +36,8 @@ class AdminPage extends HookConsumerWidget {
     final groupIdNotifier = ref.watch(groupIdProvider.notifier);
     return BookingTemplate(
       child: LayoutBuilder(
-        builder: (context, constraints) => Refresher(
-          controller: ScrollController(),
+        builder: (context, constraints) => RefreshIndicator(
+          color: ColorConstants.main,
           onRefresh: () async {
             await ref.watch(roomListProvider.notifier).loadRooms();
             await ref

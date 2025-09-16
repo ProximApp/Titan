@@ -18,10 +18,10 @@ import 'package:titan/paiement/ui/pages/main_page/flip_card.dart';
 import 'package:titan/paiement/ui/pages/main_page/seller_card/store_card.dart';
 import 'package:titan/paiement/ui/pages/main_page/seller_card/store_list.dart';
 import 'package:titan/paiement/ui/paiement.dart';
+import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/providers/path_forwarding_provider.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 
 class PaymentMainPage extends HookConsumerWidget {
   const PaymentMainPage({super.key});
@@ -138,8 +138,8 @@ class PaymentMainPage extends HookConsumerWidget {
             )
           : LayoutBuilder(
               builder: (context, constraints) {
-                return Refresher(
-                  controller: ScrollController(),
+                return RefreshIndicator(
+                  color: ColorConstants.main,
                   onRefresh: () async {
                     await mySellersNotifier.getMyStores();
                     await myHistoryNotifier.getHistory();

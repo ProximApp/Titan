@@ -9,8 +9,8 @@ import 'package:titan/seed-library/ui/components/filters_bar.dart';
 import 'package:titan/seed-library/ui/pages/stock_page/plant_card.dart';
 import 'package:titan/seed-library/ui/components/research_bar.dart';
 import 'package:titan/seed-library/ui/seed_library.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:qlevar_router/qlevar_router.dart';
+import 'package:titan/tools/constants.dart';
 
 class StockPage extends HookConsumerWidget {
   const StockPage({super.key});
@@ -22,8 +22,8 @@ class StockPage extends HookConsumerWidget {
     final plantFilteredList = ref.watch(plantsFilteredListProvider);
 
     return SeedLibraryTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await plantListNotifier.loadPlants();
         },

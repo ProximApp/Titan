@@ -15,13 +15,13 @@ import 'package:titan/booking/router.dart';
 import 'package:titan/booking/ui/booking.dart';
 import 'package:titan/booking/ui/calendar/calendar.dart';
 import 'package:titan/booking/ui/components/booking_card.dart';
+import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/widgets/admin_button.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/card_layout.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/ui/layouts/horizontal_list_view.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -60,8 +60,8 @@ class BookingMainPage extends HookConsumerWidget {
 
     return BookingTemplate(
       child: LayoutBuilder(
-        builder: (context, constraints) => Refresher(
-          controller: ScrollController(),
+        builder: (context, constraints) => RefreshIndicator(
+          color: ColorConstants.main,
           onRefresh: () async {
             await confirmedBookingsNotifier.loadConfirmedBooking();
             await bookingsNotifier.loadUserBookings();

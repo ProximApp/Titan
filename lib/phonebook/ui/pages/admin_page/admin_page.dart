@@ -15,7 +15,6 @@ import 'package:titan/phonebook/ui/phonebook.dart';
 import 'package:titan/phonebook/ui/pages/admin_page/editable_association_card.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/tools/ui/styleguide/icon_button.dart';
 import 'package:tuple/tuple.dart';
@@ -43,8 +42,8 @@ class AdminPage extends HookConsumerWidget {
     final localizeWithContext = AppLocalizations.of(context)!;
 
     return PhonebookTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await associationListNotifier.loadAssociations();
           await roleNotifier.loadRolesTags();

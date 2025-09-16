@@ -17,10 +17,10 @@ import 'package:titan/paiement/ui/pages/devices_page/add_device_button.dart';
 import 'package:titan/paiement/ui/pages/devices_page/device_item.dart';
 import 'package:titan/paiement/ui/pages/main_page/account_card/device_dialog_box.dart';
 import 'package:titan/paiement/ui/paiement.dart';
+import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 
 class DevicesPage extends HookConsumerWidget {
@@ -54,8 +54,8 @@ class DevicesPage extends HookConsumerWidget {
     }
 
     return PaymentTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await devicesNotifier.getDeviceList();
         },

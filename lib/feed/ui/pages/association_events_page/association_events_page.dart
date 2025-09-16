@@ -10,7 +10,6 @@ import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/navigation/ui/scroll_to_hide_navbar.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/ui/styleguide/horizontal_multi_select.dart';
 
 class ManageAssociationEventPage extends HookConsumerWidget {
@@ -30,7 +29,8 @@ class ManageAssociationEventPage extends HookConsumerWidget {
     final localizeWithContext = AppLocalizations.of(context)!;
 
     return FeedTemplate(
-      child: Refresher(
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () {
           if (selectedAssociation.value == null) {
             return Future.value();
@@ -39,7 +39,6 @@ class ManageAssociationEventPage extends HookConsumerWidget {
             selectedAssociation.value!.id,
           );
         },
-        controller: ScrollController(),
         child: Column(
           children: [
             const SizedBox(height: 16),

@@ -12,8 +12,8 @@ import 'package:titan/phonebook/router.dart';
 import 'package:titan/phonebook/ui/pages/main_page/association_card.dart';
 import 'package:titan/phonebook/ui/phonebook.dart';
 import 'package:titan/phonebook/ui/components/association_research_bar.dart';
+import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:tuple/tuple.dart';
@@ -41,8 +41,8 @@ class PhonebookMainPage extends HookConsumerWidget {
     final localizeWithContext = AppLocalizations.of(context)!;
 
     return PhonebookTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await associationGroupementListNotifier.loadAssociationGroupement();
           await associationListNotifier.loadAssociations();

@@ -12,8 +12,8 @@ import 'package:titan/raffle/ui/raffle.dart';
 import 'package:titan/tools/ui/layouts/horizontal_list_view.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/l10n/app_localizations.dart';
+import 'package:titan/tools/constants.dart';
 
 class RaffleInfoPage extends HookConsumerWidget {
   const RaffleInfoPage({super.key});
@@ -30,8 +30,8 @@ class RaffleInfoPage extends HookConsumerWidget {
     final prizeListNotifier = ref.read(prizeListProvider.notifier);
 
     return RaffleTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           userId.whenData(
             (value) async => await balanceNotifier.loadCashByUser(value),

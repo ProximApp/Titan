@@ -6,10 +6,10 @@ import 'package:titan/purchases/providers/purchase_provider.dart';
 import 'package:titan/purchases/router.dart';
 import 'package:titan/purchases/ui/pages/history_page/purchase_card.dart';
 import 'package:titan/purchases/ui/purchases.dart';
+import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/horizontal_list_view.dart';
 import 'package:titan/tools/ui/layouts/item_chip.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
 
@@ -25,8 +25,8 @@ class HistoryPage extends HookConsumerWidget {
     final selectedYear = useState(DateTime.now().year);
 
     return PurchasesTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await purchasesListNotifier.loadPurchases();
         },

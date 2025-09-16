@@ -10,7 +10,6 @@ import 'package:titan/home/ui/month_bar.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/ui/widgets/top_bar.dart';
 
 class HomePage extends HookConsumerWidget {
@@ -29,8 +28,8 @@ class HomePage extends HookConsumerWidget {
     return Container(
       color: ColorConstants.background,
       child: SafeArea(
-        child: Refresher(
-          controller: ScrollController(),
+        child: RefreshIndicator(
+          color: ColorConstants.main,
           onRefresh: () async {
             await confirmedEventListNotifier.loadConfirmedEvent();
             now = DateTime.now();

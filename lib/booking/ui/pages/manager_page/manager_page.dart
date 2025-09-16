@@ -7,8 +7,8 @@ import 'package:titan/service/providers/room_list_provider.dart';
 import 'package:titan/booking/ui/booking.dart';
 import 'package:titan/booking/ui/calendar/calendar.dart';
 import 'package:titan/booking/ui/pages/manager_page/list_booking.dart';
+import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/l10n/app_localizations.dart';
 
 class ManagerPage extends HookConsumerWidget {
@@ -42,8 +42,8 @@ class ManagerPage extends HookConsumerWidget {
       orElse: () {},
     );
     return BookingTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await ref
               .watch(managerBookingListProvider.notifier)

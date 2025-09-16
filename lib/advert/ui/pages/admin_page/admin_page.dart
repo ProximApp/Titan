@@ -17,7 +17,6 @@ import 'package:titan/advert/ui/components/association_bar.dart';
 import 'package:titan/feed/providers/is_user_a_member_of_an_association.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
@@ -111,8 +110,8 @@ class AdvertAdminPage extends HookConsumerWidget {
                               selectedAssociations.isEmpty,
                         )
                         .toList();
-                return Refresher(
-                  controller: ScrollController(),
+                return RefreshIndicator(
+                  color: ColorConstants.main,
                   onRefresh: () async {
                     if (isAdmin) {
                       await ref

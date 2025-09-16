@@ -6,7 +6,7 @@ import 'package:titan/paiement/ui/pages/stats_page/month_bar.dart';
 import 'package:titan/paiement/ui/pages/stats_page/sum_up_chart.dart';
 import 'package:titan/paiement/ui/pages/stats_page/transactions_detail.dart';
 import 'package:titan/paiement/ui/paiement.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
+import 'package:titan/tools/constants.dart';
 
 class StatsPage extends HookConsumerWidget {
   const StatsPage({super.key});
@@ -18,8 +18,8 @@ class StatsPage extends HookConsumerWidget {
     final now = DateTime.now();
     return PaymentTemplate(
       child: LayoutBuilder(
-        builder: (context, constraints) => Refresher(
-          controller: ScrollController(),
+        builder: (context, constraints) => RefreshIndicator(
+          color: ColorConstants.main,
           onRefresh: () async {
             await myHistoryNotifier.getHistory();
           },

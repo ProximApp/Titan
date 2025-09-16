@@ -7,7 +7,6 @@ import 'package:titan/tools/ui/styleguide/icon_button.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/user/providers/user_list_provider.dart';
@@ -56,8 +55,8 @@ class AdminPage extends HookConsumerWidget {
     }
 
     return VoteTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await statusNotifier.loadStatus();
           if (status == Status.counting || status == Status.published) {

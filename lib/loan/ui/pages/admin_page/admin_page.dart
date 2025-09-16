@@ -14,8 +14,8 @@ import 'package:titan/loan/ui/pages/admin_page/loan_history.dart';
 import 'package:titan/loan/ui/pages/admin_page/loaners_bar.dart';
 import 'package:titan/loan/ui/pages/admin_page/loaners_items.dart';
 import 'package:titan/loan/ui/pages/admin_page/on_going_loan.dart';
+import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 
 class AdminPage extends HookConsumerWidget {
   const AdminPage({super.key});
@@ -40,8 +40,8 @@ class AdminPage extends HookConsumerWidget {
     }
 
     return LoanTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           final itemListNotifier = ref.read(itemListProvider.notifier);
           final loanersItemsNotifier = ref.read(loanersItemsProvider.notifier);

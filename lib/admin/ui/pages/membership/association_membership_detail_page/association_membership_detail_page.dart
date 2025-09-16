@@ -13,7 +13,6 @@ import 'package:titan/admin/ui/pages/membership/association_membership_detail_pa
 import 'package:titan/admin/ui/pages/membership/association_membership_detail_page/association_membership_member_editable_card.dart';
 import 'package:titan/admin/ui/pages/membership/association_membership_detail_page/search_filters.dart';
 import 'package:titan/tools/constants.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
@@ -40,8 +39,8 @@ class AssociationMembershipEditorPage extends HookConsumerWidget {
     );
 
     return AdminTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await associationMembershipMemberListNotifier
               .loadAssociationMembershipMembers(associationMembership.id);

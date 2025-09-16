@@ -13,7 +13,6 @@ import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/l10n/app_localizations.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/ui/styleguide/button.dart';
 import 'package:titan/tools/ui/styleguide/list_item_toggle.dart';
 
@@ -52,8 +51,8 @@ class AssociationGroupsPage extends HookConsumerWidget {
     }
 
     return PhonebookTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await tokenExpireWrapper(ref, () async {
             await associationListNotifier.loadAssociations();

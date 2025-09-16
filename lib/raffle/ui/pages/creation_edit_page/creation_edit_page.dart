@@ -25,12 +25,12 @@ import 'package:titan/raffle/ui/raffle.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:titan/tools/ui/widgets/image_picker_on_tap.dart';
 import 'package:titan/tools/ui/widgets/text_entry.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
+import 'package:titan/tools/constants.dart';
 
 class CreationPage extends HookConsumerWidget {
   const CreationPage({super.key});
@@ -72,8 +72,8 @@ class CreationPage extends HookConsumerWidget {
     }
 
     return RaffleTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await cashNotifier.loadCashList();
           await packTicketListNotifier.loadPackTicketList();

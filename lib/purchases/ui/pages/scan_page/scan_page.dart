@@ -13,8 +13,8 @@ import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/horizontal_list_view.dart';
 import 'package:titan/tools/ui/layouts/item_chip.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/l10n/app_localizations.dart';
+import 'package:titan/tools/constants.dart';
 
 class ScanPage extends HookConsumerWidget {
   const ScanPage({super.key});
@@ -31,8 +31,8 @@ class ScanPage extends HookConsumerWidget {
     final scannerNotifier = ref.watch(scannerProvider.notifier);
 
     return PurchasesTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await sellersNotifier.loadSellers();
           if (seller != Seller.empty()) {

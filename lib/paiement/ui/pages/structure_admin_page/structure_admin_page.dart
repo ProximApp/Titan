@@ -6,8 +6,8 @@ import 'package:titan/paiement/providers/stores_list_provider.dart';
 import 'package:titan/paiement/ui/pages/structure_admin_page/add_store_card.dart';
 import 'package:titan/paiement/ui/pages/structure_admin_page/admin_store_card.dart';
 import 'package:titan/paiement/ui/paiement.dart';
+import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 
 class StructureStoresPage extends ConsumerWidget {
@@ -19,8 +19,8 @@ class StructureStoresPage extends ConsumerWidget {
     final storeListNotifier = ref.read(storeListProvider.notifier);
     final structure = ref.watch(selectedStructureProvider);
     return PaymentTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await storeListNotifier.getStores();
         },

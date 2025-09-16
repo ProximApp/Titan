@@ -12,9 +12,9 @@ import 'package:titan/cinema/router.dart';
 import 'package:titan/cinema/ui/cinema.dart';
 import 'package:titan/cinema/ui/pages/main_page/session_card.dart';
 import 'package:titan/navigation/providers/is_web_format_provider.dart';
+import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/ui/widgets/admin_button.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
 
@@ -44,8 +44,8 @@ class CinemaMainPage extends HookConsumerWidget {
     });
 
     return CinemaTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await sessionListNotifier.loadSessions();
           ref.watch(mainPageIndexProvider.notifier).reset();

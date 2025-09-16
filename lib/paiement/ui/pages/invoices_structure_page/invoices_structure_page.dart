@@ -9,14 +9,12 @@ import 'package:titan/paiement/ui/paiement.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 
 class StructureInvoicesPage extends HookConsumerWidget {
   const StructureInvoicesPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = useScrollController();
     final page = useState(1);
     final pageSize = useState(20);
 
@@ -36,8 +34,8 @@ class StructureInvoicesPage extends HookConsumerWidget {
     }
 
     return PaymentTemplate(
-      child: Refresher(
-        controller: controller,
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           refreshInvoices();
         },

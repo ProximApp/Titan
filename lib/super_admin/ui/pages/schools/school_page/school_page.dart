@@ -11,7 +11,6 @@ import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/user/providers/user_list_provider.dart';
 import 'package:qlevar_router/qlevar_router.dart';
@@ -31,8 +30,8 @@ class SchoolsPage extends HookConsumerWidget {
     }
 
     return SuperAdminTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await schoolsNotifier.loadSchools();
         },

@@ -10,8 +10,8 @@ import 'package:titan/recommendation/ui/widgets/recommendation_card.dart';
 import 'package:titan/recommendation/ui/widgets/recommendation_card_layout.dart';
 import 'package:titan/recommendation/ui/widgets/recommendation_template.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:qlevar_router/qlevar_router.dart';
+import 'package:titan/tools/constants.dart';
 
 class RecommendationMainPage extends HookConsumerWidget {
   const RecommendationMainPage({super.key});
@@ -26,8 +26,8 @@ class RecommendationMainPage extends HookConsumerWidget {
     );
 
     return RecommendationTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await recommendationListNotifier.loadRecommendation();
         },

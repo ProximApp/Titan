@@ -5,10 +5,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/purchases/providers/ticket_provider.dart';
 import 'package:titan/purchases/ui/purchases.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/ui/widgets/loader.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:titan/l10n/app_localizations.dart';
+import 'package:titan/tools/constants.dart';
 
 class TicketPage extends HookConsumerWidget {
   const TicketPage({super.key});
@@ -19,8 +19,8 @@ class TicketPage extends HookConsumerWidget {
     final ticketNotifier = ref.watch(ticketProvider.notifier);
 
     return PurchasesTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await ticketNotifier.loadTicketSecret();
         },

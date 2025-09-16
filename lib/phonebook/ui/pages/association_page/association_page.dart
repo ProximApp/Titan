@@ -10,8 +10,8 @@ import 'package:titan/phonebook/providers/is_phonebook_admin_provider.dart';
 import 'package:titan/phonebook/ui/components/member_card.dart';
 import 'package:titan/phonebook/ui/pages/association_page/association_edition_modal.dart';
 import 'package:titan/phonebook/ui/phonebook.dart';
+import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 import 'package:titan/tools/ui/styleguide/icon_button.dart';
@@ -38,8 +38,8 @@ class AssociationPage extends HookConsumerWidget {
 
     final localizeWithContext = AppLocalizations.of(context)!;
     return PhonebookTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await associationMemberListNotifier.loadMembers(
             association.id,

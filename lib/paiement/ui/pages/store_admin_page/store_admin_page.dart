@@ -8,10 +8,10 @@ import 'package:titan/paiement/providers/store_sellers_list_provider.dart';
 import 'package:titan/paiement/ui/pages/store_admin_page/search_result.dart';
 import 'package:titan/paiement/ui/pages/store_admin_page/seller_right_card.dart';
 import 'package:titan/paiement/ui/paiement.dart';
+import 'package:titan/tools/constants.dart' show ColorConstants;
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/card_button.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/ui/widgets/text_entry.dart';
 import 'package:titan/user/providers/user_list_provider.dart';
 import 'package:titan/user/providers/user_provider.dart';
@@ -33,8 +33,8 @@ class StoreAdminPage extends HookConsumerWidget {
     final me = ref.watch(userProvider);
 
     return PaymentTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await storeSellersNotifier.getStoreSellerList(store.id);
         },

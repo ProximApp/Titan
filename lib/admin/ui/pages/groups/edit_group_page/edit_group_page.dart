@@ -6,7 +6,7 @@ import 'package:titan/admin/providers/group_id_provider.dart';
 import 'package:titan/admin/providers/group_provider.dart';
 import 'package:titan/admin/ui/pages/groups/edit_group_page/search_user.dart';
 import 'package:titan/tools/ui/builders/single_auto_loader_child.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
+import 'package:titan/tools/constants.dart';
 
 class EditGroupPage extends ConsumerWidget {
   const EditGroupPage({super.key});
@@ -22,8 +22,8 @@ class EditGroupPage extends ConsumerWidget {
       groupFromSimpleGroupProvider.notifier,
     );
     return AdminTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await groupNotifier.loadGroup(groupId);
         },

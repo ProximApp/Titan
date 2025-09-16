@@ -7,8 +7,8 @@ import 'package:titan/paiement/ui/pages/store_stats_page/store_transactions_deta
 import 'package:titan/paiement/ui/pages/store_stats_page/summary_card.dart';
 import 'package:titan/paiement/ui/paiement.dart';
 import 'package:titan/paiement/providers/selected_store_history.dart';
+import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 
 class StoreStatsPage extends ConsumerWidget {
   const StoreStatsPage({super.key});
@@ -20,8 +20,8 @@ class StoreStatsPage extends ConsumerWidget {
     final selectedHistoryNotifier = ref.read(sellerHistoryProvider.notifier);
     final selectedInterval = ref.watch(selectedIntervalProvider);
     return PaymentTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await selectedHistoryNotifier.getHistory(
             selectedStore.id,

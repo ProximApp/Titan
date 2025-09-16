@@ -7,7 +7,7 @@ import 'package:titan/amap/ui/amap.dart';
 import 'package:titan/amap/ui/pages/admin_page/account_handler.dart';
 import 'package:titan/amap/ui/pages/admin_page/delivery_handler.dart';
 import 'package:titan/amap/ui/pages/admin_page/product_handler.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
+import 'package:titan/tools/constants.dart';
 
 class AdminPage extends HookConsumerWidget {
   const AdminPage({super.key});
@@ -18,8 +18,8 @@ class AdminPage extends HookConsumerWidget {
     final deliveryListNotifier = ref.read(deliveryListProvider.notifier);
     final productListNotifier = ref.read(productListProvider.notifier);
     return AmapTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await cashNotifier.loadCashList();
           await deliveryListNotifier.loadDeliveriesList();

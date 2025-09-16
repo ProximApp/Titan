@@ -10,10 +10,10 @@ import 'package:titan/purchases/ui/pages/main_page/ticket_card.dart';
 import 'package:titan/purchases/ui/purchases.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
+import 'package:titan/tools/constants.dart';
 
 class PurchasesMainPage extends HookConsumerWidget {
   const PurchasesMainPage({super.key});
@@ -26,8 +26,8 @@ class PurchasesMainPage extends HookConsumerWidget {
     final ticketNotifier = ref.watch(ticketProvider.notifier);
 
     return PurchasesTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await ticketListNotifier.loadTickets();
         },

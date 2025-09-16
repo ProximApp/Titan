@@ -17,7 +17,6 @@ import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/ui/styleguide/list_item_template.dart';
 
 class AssociationMembersPage extends HookConsumerWidget {
@@ -45,8 +44,8 @@ class AssociationMembersPage extends HookConsumerWidget {
     return PhonebookTemplate(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Refresher(
-          controller: ScrollController(),
+        child: RefreshIndicator(
+          color: ColorConstants.main,
           onRefresh: () {
             return tokenExpireWrapper(ref, () async {
               await associationMemberListNotifier.loadMembers(

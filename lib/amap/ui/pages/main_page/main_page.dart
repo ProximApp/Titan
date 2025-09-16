@@ -2,6 +2,7 @@ import 'package:titan/amap/providers/delivery_provider.dart';
 import 'package:titan/amap/providers/available_deliveries.dart';
 import 'package:titan/amap/router.dart';
 import 'package:titan/amap/ui/amap.dart';
+import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/widgets/admin_button.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
@@ -22,7 +23,6 @@ import 'package:titan/amap/tools/constants.dart';
 import 'package:titan/amap/ui/pages/main_page/collection_slot_selector.dart';
 import 'package:titan/amap/ui/pages/main_page/delivery_section.dart';
 import 'package:titan/amap/ui/pages/main_page/orders_section.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/user/providers/user_provider.dart';
 import 'package:qlevar_router/qlevar_router.dart';
@@ -65,8 +65,8 @@ class AmapMainPage extends HookConsumerWidget {
     }
 
     return AmapTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await ordersNotifier.loadOrderList(me.id);
           await balanceNotifier.loadCashByUser(me.id);

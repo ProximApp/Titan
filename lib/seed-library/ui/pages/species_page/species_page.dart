@@ -16,9 +16,9 @@ import 'package:titan/seed-library/ui/seed_library.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/card_layout.dart';
-import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:qlevar_router/qlevar_router.dart';
+import 'package:titan/tools/constants.dart';
 
 class SpeciesPage extends HookConsumerWidget {
   const SpeciesPage({super.key});
@@ -38,8 +38,8 @@ class SpeciesPage extends HookConsumerWidget {
     }
 
     return SeedLibraryTemplate(
-      child: Refresher(
-        controller: ScrollController(),
+      child: RefreshIndicator(
+        color: ColorConstants.main,
         onRefresh: () async {
           await speciesListNotifier.loadSpecies();
         },
