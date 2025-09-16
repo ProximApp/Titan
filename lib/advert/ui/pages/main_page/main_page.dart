@@ -14,6 +14,7 @@ import 'package:titan/advert/router.dart';
 import 'package:titan/advert/ui/components/association_bar.dart';
 import 'package:titan/advert/ui/pages/main_page/advert_card.dart';
 import 'package:titan/feed/providers/is_user_a_member_of_an_association.dart';
+import 'package:titan/navigation/providers/navbar_visibility_provider.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/providers/path_forwarding_provider.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
@@ -33,6 +34,9 @@ class AdvertMainPage extends HookConsumerWidget {
     final isAdmin = ref.watch(isAdminProvider);
     final pathForwarding = ref.watch(pathForwardingProvider);
     final advertId = pathForwarding.queryParameters?['advertId'];
+    final navbarVisibilityNotifier = ref.watch(
+      navbarVisibilityProvider.notifier,
+    );
     final adverts = advertList.value!;
     final sortedAdvertData = adverts
         .sortedBy((element) => element.date)
@@ -50,17 +54,51 @@ class AdvertMainPage extends HookConsumerWidget {
     );
 
     final itemScrollController = ItemScrollController();
+    final itemPositionsListener = useMemoized(
+      () => ItemPositionsListener.create(),
+    );
+    final lastFirstIndex = useRef<int?>(null);
     if (advertIndex != -1) {
       useEffect(() {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
+        Future.microtask(() async {
           if (itemScrollController.isAttached) {
-            itemScrollController.scrollTo(
+            await itemScrollController.scrollTo(
               index: advertIndex,
-              duration: const Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 300),
             );
+            navbarVisibilityNotifier.show();
           }
         });
-        return null;
+        void listener() {
+          final positions = itemPositionsListener.itemPositions.value;
+          if (positions.isEmpty) return;
+          final visiblePositions = positions.where(
+            (p) => p.itemLeadingEdge >= 0 && p.itemLeadingEdge <= 1,
+          );
+
+          if (visiblePositions.isEmpty) return;
+
+          final firstVisible = visiblePositions.fold<int>(
+            999999,
+            (prev, e) => e.index < prev ? e.index : prev,
+          );
+
+          final lastIndex = lastFirstIndex.value;
+
+          if (lastIndex != null) {
+            if (firstVisible > lastIndex) {
+              navbarVisibilityNotifier.hide();
+            } else if (firstVisible < lastIndex) {
+              navbarVisibilityNotifier.show();
+            }
+          }
+
+          lastFirstIndex.value = firstVisible;
+        }
+
+        itemPositionsListener.itemPositions.addListener(listener);
+        return () =>
+            itemPositionsListener.itemPositions.removeListener(listener);
       }, []);
     }
     return AdvertTemplate(
@@ -106,6 +144,7 @@ class AdvertMainPage extends HookConsumerWidget {
               value: advertList,
               builder: (context, advertData) {
                 return RefreshIndicator(
+                  color: ColorConstants.main,
                   onRefresh: () async {
                     await advertListNotifier.loadAdverts();
                     advertPostersNotifier.resetTData();
@@ -115,6 +154,7 @@ class AdvertMainPage extends HookConsumerWidget {
                     itemBuilder: (context, index) =>
                         AdvertCard(advert: filteredSortedAdvertData[index]),
                     itemScrollController: itemScrollController,
+                    itemPositionsListener: itemPositionsListener,
                   ),
                 );
               },
