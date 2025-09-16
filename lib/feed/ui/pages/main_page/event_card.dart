@@ -29,7 +29,10 @@ class EventCard extends ConsumerWidget {
     return GestureDetector(
       onTap: () {
         if (item.module == "advert") {
-          pathForwardingNotifier.forward(AdvertRouter.root);
+          pathForwardingNotifier.forward(
+            AdvertRouter.root,
+            queryParameters: {'advertId': item.moduleObjectId},
+          );
           QR.to(AdvertRouter.root);
         }
       },
