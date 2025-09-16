@@ -12,6 +12,7 @@ class News {
   final String module;
   final String moduleObjectId;
   final NewsStatus status;
+  final DateTime? displayDate;
 
   const News({
     required this.id,
@@ -24,6 +25,7 @@ class News {
     required this.module,
     required this.moduleObjectId,
     required this.status,
+    this.displayDate,
   });
 
   News.fromJson(Map<String, dynamic> json)
@@ -38,7 +40,8 @@ class News {
           : null,
       module = json['module'],
       moduleObjectId = json['module_object_id'],
-      status = stringToNewsStatus(json['status']);
+      status = stringToNewsStatus(json['status']),
+      displayDate = null;
 
   Map<String, dynamic> toJson() {
     return {
@@ -68,6 +71,7 @@ class News {
     String? module,
     String? moduleObjectId,
     NewsStatus? status,
+    DateTime? displayDate,
   }) {
     return News(
       id: id ?? this.id,
@@ -80,12 +84,13 @@ class News {
       module: module ?? this.module,
       moduleObjectId: moduleObjectId ?? this.moduleObjectId,
       status: status ?? this.status,
+      displayDate: displayDate ?? this.displayDate,
     );
   }
 
   @override
   String toString() {
-    return 'News(id: $id, title: $title, start: $start, end: $end, entity: $entity, location: $location, actionStart: $actionStart, module: $module, moduleObjectId: $moduleObjectId, status: $status)';
+    return 'News(id: $id, title: $title, start: $start, end: $end, entity: $entity, location: $location, actionStart: $actionStart, module: $module, moduleObjectId: $moduleObjectId, status: $status, displayDate: $displayDate)';
   }
 
   News.empty()
@@ -98,5 +103,6 @@ class News {
       actionStart = null,
       module = '',
       moduleObjectId = '',
-      status = NewsStatus.waitingApproval;
+      status = NewsStatus.waitingApproval,
+      displayDate = null;
 }
