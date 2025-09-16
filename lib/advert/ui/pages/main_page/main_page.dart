@@ -33,6 +33,7 @@ class AdvertMainPage extends HookConsumerWidget {
     final isAdvertAdmin = ref.watch(isUserAMemberOfAnAssociationProvider);
     final isAdmin = ref.watch(isAdminProvider);
     final pathForwarding = ref.watch(pathForwardingProvider);
+    final pathForwardingNotifier = ref.watch(pathForwardingProvider.notifier);
     final advertId = pathForwarding.queryParameters?['advertId'];
     final navbarVisibilityNotifier = ref.watch(
       navbarVisibilityProvider.notifier,
@@ -42,6 +43,13 @@ class AdvertMainPage extends HookConsumerWidget {
     final itemPositionsListener = useMemoized(
       () => ItemPositionsListener.create(),
     );
+
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        pathForwardingNotifier.clearParams();
+      });
+      return null;
+    }, const []);
 
     return AdvertTemplate(
       child: RefreshIndicator(
