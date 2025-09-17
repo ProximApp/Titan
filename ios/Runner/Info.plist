@@ -29,7 +29,7 @@
 			<string>$(APP_ID_PREFIX).titan</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>$(FLAVOR_URL_SCHEME)</string>
+				<string>$(APP_ID_PREFIX).titan</string>
 			</array>
 		</dict>
 	</array>
