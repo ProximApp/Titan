@@ -23,7 +23,7 @@ platform :android do
     app_id_prefix = options[:prefix] # fr.myecl
     app_name = options[:name] # MyECL
 
-    sh "flutter build appbundle --dart-define-from-file=config/config-#{flavor}.json --release --flavor='#{flavor}' -PAPP_ID_PREFIX='#{app_id_prefix}' -PAPP_NAME='#{app_name}'"
+    sh "flutter build appbundle --dart-define-from-file=config/config-#{flavor}.json --release --flavor='#{flavor}'"
 
     upload_to_play_store(
       track: 'internal',

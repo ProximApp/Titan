@@ -38,9 +38,7 @@
         "alpha",
         "--dart-define-from-file=config/config-alpha.json",
         "--web-port",
-        "3000",
-        "-PAPP_ID_PREFIX=fr.proximapp.myemapp",
-        "-PAPP_NAME=myemapp alpha"
+        "3000"
       ]
     },
     {
@@ -52,9 +50,7 @@
         "prod",
         "--dart-define-from-file=config/config-prod.json",
         "--web-port",
-        "3000",
-        "-PAPP_ID_PREFIX=fr.proximapp.myemapp",
-        "-PAPP_NAME=myemapp"
+        "3000"
       ]
     }
   ]
