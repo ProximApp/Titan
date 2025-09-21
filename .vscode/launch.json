@@ -33,10 +33,6 @@
       "name": "Titan alpha",
       "request": "launch",
       "type": "dart",
-      "env": {
-        "APP_ID_PREFIX": "fr.proximapp.myemapp",
-        "APP_NAME": "myemapp alpha"
-      },
       "args": [
         "--flavor",
         "alpha",
@@ -51,10 +47,6 @@
       "name": "Titan prod",
       "request": "launch",
       "type": "dart",
-      "env": {
-        "APP_ID_PREFIX": "fr.proximapp.myemapp",
-        "APP_NAME": "myemapp"
-      },
       "args": [
         "--flavor",
         "prod",
