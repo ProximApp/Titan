@@ -5,12 +5,12 @@ import 'package:titan/admin/providers/associations_logo_map_provider.dart';
 import 'package:titan/admin/repositories/association_logo_repository.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
 
-class AssociationLogoProvider extends SingleNotifier<Image> {
+class AssociationLogoNotifier extends SingleNotifier<Image> {
   final AssociationLogoRepository associationLogoRepository;
   final AssociationLogoMapNotifier associationLogoMapNotifier;
   final ImagePicker _picker = ImagePicker();
 
-  AssociationLogoProvider({
+  AssociationLogoNotifier({
     required this.associationLogoRepository,
     required this.associationLogoMapNotifier,
   }) : super(const AsyncLoading());
@@ -51,12 +51,12 @@ class AssociationLogoProvider extends SingleNotifier<Image> {
 }
 
 final associationLogoProvider =
-    StateNotifierProvider<AssociationLogoProvider, AsyncValue<Image>>((ref) {
+    StateNotifierProvider<AssociationLogoNotifier, AsyncValue<Image>>((ref) {
       final associationLogo = ref.watch(associationLogoRepository);
       final sessionPosterMapNotifier = ref.watch(
         associationLogoMapProvider.notifier,
       );
-      return AssociationLogoProvider(
+      return AssociationLogoNotifier(
         associationLogoRepository: associationLogo,
         associationLogoMapNotifier: sessionPosterMapNotifier,
       );
