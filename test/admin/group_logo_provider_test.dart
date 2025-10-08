@@ -6,7 +6,8 @@ import 'package:mocktail/mocktail.dart';
 import 'package:titan/admin/providers/association_logo_provider.dart';
 import 'package:titan/admin/repositories/association_logo_repository.dart';
 
-class MockAssociationLogoRepository extends Mock implements AssociationLogoRepository {}
+class MockAssociationLogoRepository extends Mock
+    implements AssociationLogoRepository {}
 
 void main() {
   group('AssociationLogoNotifier', () {
