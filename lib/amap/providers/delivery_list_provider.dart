@@ -2,23 +2,27 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/amap/class/delivery.dart';
 import 'package:titan/amap/repositories/delivery_list_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class DeliveryListNotifier extends ListNotifier<Delivery> {
-  final DeliveryListRepository deliveriesListRepository;
-  DeliveryListNotifier({required this.deliveriesListRepository})
-    : super(const AsyncValue.loading());
+  DeliveryListRepository get deliveryListRepository =>
+      ref.read(deliveryListRepositoryProvider);
+
+  @override
+  AsyncValue<List<Delivery>> build() {
+    return const AsyncValue.loading();
+  }
+
   Future<AsyncValue<List<Delivery>>> loadDeliveriesList() async {
-    return await loadList(deliveriesListRepository.getDeliveryList);
+    return await loadList(deliveryListRepository.getDeliveryList);
   }
 
   Future<bool> addDelivery(Delivery delivery) async {
-    return await add(deliveriesListRepository.createDelivery, delivery);
+    return await add(deliveryListRepository.createDelivery, delivery);
   }
 
   Future<bool> updateDelivery(Delivery delivery) async {
     return await update(
-      deliveriesListRepository.updateDelivery,
+      deliveryListRepository.updateDelivery,
       (deliveries, delivery) =>
           deliveries
             ..[deliveries.indexWhere((d) => d.id == delivery.id)] = delivery,
@@ -28,7 +32,7 @@ class DeliveryListNotifier extends ListNotifier<Delivery> {
 
   Future<bool> openDelivery(Delivery delivery) async {
     return await update(
-      deliveriesListRepository.openDelivery,
+      deliveryListRepository.openDelivery,
       (deliveries, delivery) => deliveries
         ..[deliveries.indexWhere((d) => d.id == delivery.id)] = delivery
             .copyWith(status: DeliveryStatus.available),
@@ -38,7 +42,7 @@ class DeliveryListNotifier extends ListNotifier<Delivery> {
 
   Future<bool> lockDelivery(Delivery delivery) async {
     return await update(
-      deliveriesListRepository.lockDelivery,
+      deliveryListRepository.lockDelivery,
       (deliveries, delivery) => deliveries
         ..[deliveries.indexWhere((d) => d.id == delivery.id)] = delivery
             .copyWith(status: DeliveryStatus.locked),
@@ -48,7 +52,7 @@ class DeliveryListNotifier extends ListNotifier<Delivery> {
 
   Future<bool> deliverDelivery(Delivery delivery) async {
     return await update(
-      deliveriesListRepository.deliverDelivery,
+      deliveryListRepository.deliverDelivery,
       (deliveries, delivery) => deliveries
         ..[deliveries.indexWhere((d) => d.id == delivery.id)] = delivery
             .copyWith(status: DeliveryStatus.delivered),
@@ -58,7 +62,7 @@ class DeliveryListNotifier extends ListNotifier<Delivery> {
 
   Future<bool> archiveDelivery(Delivery delivery) async {
     return await delete(
-      deliveriesListRepository.archiveDelivery,
+      deliveryListRepository.archiveDelivery,
       (deliveries, delivery) =>
           deliveries..removeWhere((i) => i.id == delivery.id),
       delivery.id,
@@ -68,7 +72,7 @@ class DeliveryListNotifier extends ListNotifier<Delivery> {
 
   Future<bool> deleteDelivery(Delivery delivery) async {
     return await delete(
-      deliveriesListRepository.deleteDelivery,
+      deliveryListRepository.deleteDelivery,
       (deliveries, delivery) =>
           deliveries..removeWhere((i) => i.id == delivery.id),
       delivery.id,
@@ -107,18 +111,9 @@ class DeliveryListNotifier extends ListNotifier<Delivery> {
 }
 
 final deliveryListProvider =
-    StateNotifierProvider<DeliveryListNotifier, AsyncValue<List<Delivery>>>((
-      ref,
-    ) {
-      final deliveryListRepository = ref.read(deliveryListRepositoryProvider);
-      DeliveryListNotifier orderListNotifier = DeliveryListNotifier(
-        deliveriesListRepository: deliveryListRepository,
-      );
-      tokenExpireWrapperAuth(ref, () async {
-        await orderListNotifier.loadDeliveriesList();
-      });
-      return orderListNotifier;
-    });
+    NotifierProvider<DeliveryListNotifier, AsyncValue<List<Delivery>>>(
+      DeliveryListNotifier.new,
+    );
 
 final deliveryList = Provider<List<Delivery>>((ref) {
   final state = ref.watch(deliveryListProvider);

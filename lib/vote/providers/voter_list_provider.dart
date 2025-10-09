@@ -7,9 +7,15 @@ import 'package:titan/vote/repositories/voter_repository.dart';
 
 class VoterListNotifier extends ListNotifier<Voter> {
   final VoterRepository _voterRepository = VoterRepository();
-  VoterListNotifier({required String token})
-    : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<List<Voter>> build() {
+    final token = ref.watch(tokenProvider);
     _voterRepository.setToken(token);
+    tokenExpireWrapperAuth(ref, () async {
+      await loadVoterList();
+    });
+    return const AsyncValue.loading();
   }
 
   Future<AsyncValue<List<Voter>>> loadVoterList() async {
@@ -31,11 +37,6 @@ class VoterListNotifier extends ListNotifier<Voter> {
 }
 
 final voterListProvider =
-    StateNotifierProvider<VoterListNotifier, AsyncValue<List<Voter>>>((ref) {
-      final token = ref.watch(tokenProvider);
-      final voterListNotifier = VoterListNotifier(token: token);
-      tokenExpireWrapperAuth(ref, () async {
-        await voterListNotifier.loadVoterList();
-      });
-      return voterListNotifier;
-    });
+    NotifierProvider<VoterListNotifier, AsyncValue<List<Voter>>>(
+      VoterListNotifier.new,
+    );

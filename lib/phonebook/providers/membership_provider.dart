@@ -1,13 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/phonebook/class/membership.dart';
 
-final membershipProvider =
-    StateNotifierProvider<MembershipProvider, Membership>((ref) {
-      return MembershipProvider();
-    });
+final membershipProvider = NotifierProvider<MembershipProvider, Membership>(
+  () => MembershipProvider(),
+);
 
-class MembershipProvider extends StateNotifier<Membership> {
-  MembershipProvider() : super(Membership.empty());
+class MembershipProvider extends Notifier<Membership> {
+  @override
+  Membership build() {
+    return Membership.empty();
+  }
 
   void setMembership(Membership i) {
     state = i;

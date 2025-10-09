@@ -10,9 +10,17 @@ class RaffleStatsNotifier extends SingleNotifier<RaffleStats> {
   final RaffleDetailRepository _raffleDetailRepository =
       RaffleDetailRepository();
   late String raffleId;
-  RaffleStatsNotifier({required String token})
-    : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<RaffleStats> build() {
+    final token = ref.watch(tokenProvider);
     _raffleDetailRepository.setToken(token);
+    final currentRaffleId = ref.watch(raffleIdProvider);
+    if (currentRaffleId != Raffle.empty().id) {
+      setRaffleId(currentRaffleId);
+      loadRaffleStats();
+    }
+    return const AsyncValue.loading();
   }
 
   void setRaffleId(String raffleId) {
@@ -30,13 +38,6 @@ class RaffleStatsNotifier extends SingleNotifier<RaffleStats> {
 }
 
 final raffleStatsProvider =
-    StateNotifierProvider<RaffleStatsNotifier, AsyncValue<RaffleStats>>((ref) {
-      final token = ref.watch(tokenProvider);
-      RaffleStatsNotifier notifier = RaffleStatsNotifier(token: token);
-      final raffleId = ref.watch(raffleIdProvider);
-      if (raffleId != Raffle.empty().id) {
-        notifier.setRaffleId(raffleId);
-        notifier.loadRaffleStats();
-      }
-      return notifier;
-    });
+    NotifierProvider<RaffleStatsNotifier, AsyncValue<RaffleStats>>(
+      RaffleStatsNotifier.new,
+    );

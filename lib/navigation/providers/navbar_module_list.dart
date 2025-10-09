@@ -3,15 +3,16 @@ import 'package:titan/navigation/class/module.dart';
 import 'package:titan/settings/providers/module_list_provider.dart';
 import 'package:titan/tools/providers/prefered_module_root_list_provider.dart';
 
-class ModuleListNotifier extends StateNotifier<List<Module>> {
-  final int maxNumberOfModules;
-  final List<Module> allModules;
+class ModuleListNotifier extends Notifier<List<Module>> {
+  final int maxNumberOfModules = 2;
 
-  ModuleListNotifier(
-    this.allModules,
-    List<String> preferedRoots, {
-    this.maxNumberOfModules = 2,
-  }) : super(_initState(allModules, preferedRoots, maxNumberOfModules));
+  @override
+  List<Module> build() {
+    final allModules = ref.watch(modulesProvider);
+    final preferedRoots = ref.watch(preferedModuleListRootProvider);
+
+    return _initState(allModules, preferedRoots, maxNumberOfModules);
+  }
 
   static List<Module> _initState(
     List<Module> allModules,
@@ -54,8 +55,4 @@ class ModuleListNotifier extends StateNotifier<List<Module>> {
 }
 
 final navbarListModuleProvider =
-    StateNotifierProvider<ModuleListNotifier, List<Module>>((ref) {
-      final modules = ref.watch(modulesProvider);
-      final preferedRoots = ref.watch(preferedModuleListRootProvider);
-      return ModuleListNotifier(modules, preferedRoots);
-    });
+    NotifierProvider<ModuleListNotifier, List<Module>>(ModuleListNotifier.new);

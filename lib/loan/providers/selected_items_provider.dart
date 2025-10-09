@@ -4,28 +4,63 @@ import 'package:titan/loan/class/loan.dart';
 import 'package:titan/loan/providers/item_list_provider.dart';
 import 'package:titan/loan/providers/loan_provider.dart';
 
-final selectedListProvider =
-    StateNotifierProvider<SelectedListProvider, List<int>>((ref) {
-      final itemsList = ref.watch(itemListProvider);
-      final items = [];
-      itemsList.maybeWhen(data: (list) => items.addAll(list), orElse: () {});
-      return SelectedListProvider(items);
-    });
+final selectedListProvider = NotifierProvider<SelectedListProvider, List<int>>(
+  SelectedListProvider.new,
+);
+
+class EditSelectedListProvider extends Notifier<List<int>> {
+  @override
+  List<int> build() {
+    final loan = ref.watch(loanProvider);
+    final itemsList = ref.watch(itemListProvider);
+    final List<Item> items = [];
+    itemsList.maybeWhen(data: (list) => items.addAll(list), orElse: () {});
+
+    final result = List.generate(items.length, (index) => 0);
+    final itemIds = items.map((item) => item.id).toList();
+
+    for (final itemQty in loan.itemsQuantity) {
+      final index = itemIds.indexOf(itemQty.itemSimple.id);
+      if (index != -1) {
+        result[index] = itemQty.quantity;
+      }
+    }
+
+    return result;
+  }
+
+  Future<List<int>> toggle(int i, int quantity) async {
+    var copy = state.toList();
+    copy[i] = copy[i] == 0 ? quantity : 0;
+    state = copy;
+    return state;
+  }
+
+  Future<List<int>> set(int i, int quantity) async {
+    var copy = state.toList();
+    copy[i] = quantity;
+    state = copy;
+    return state;
+  }
+
+  void clear() {
+    state = List.generate(state.length, (index) => 0);
+  }
+}
 
 final editSelectedListProvider =
-    StateNotifierProvider<SelectedListProvider, List<int>>((ref) {
-      final loan = ref.watch(loanProvider);
-      final itemsList = ref.watch(itemListProvider);
-      final List<Item> items = [];
-      itemsList.maybeWhen(data: (list) => items.addAll(list), orElse: () {});
-      SelectedListProvider selectedListProvider = SelectedListProvider(items);
-      selectedListProvider.initWithLoan(items, loan);
-      return selectedListProvider;
-    });
+    NotifierProvider<EditSelectedListProvider, List<int>>(
+      EditSelectedListProvider.new,
+    );
 
-class SelectedListProvider extends StateNotifier<List<int>> {
-  SelectedListProvider(List<dynamic> p)
-    : super(List.generate(p.length, (index) => 0));
+class SelectedListProvider extends Notifier<List<int>> {
+  @override
+  List<int> build() {
+    final itemsList = ref.watch(itemListProvider);
+    final List<Item> items = [];
+    itemsList.maybeWhen(data: (list) => items.addAll(list), orElse: () {});
+    return List.generate(items.length, (index) => 0);
+  }
 
   Future<List<int>> toggle(int i, int quantity) async {
     var copy = state.toList();

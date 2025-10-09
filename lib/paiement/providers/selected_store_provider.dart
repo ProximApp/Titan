@@ -3,9 +3,28 @@ import 'package:titan/paiement/class/user_store.dart';
 import 'package:titan/paiement/providers/last_used_store_id_provider.dart';
 import 'package:titan/paiement/providers/my_stores_provider.dart';
 
-class SelectedStoreNotifier extends StateNotifier<UserStore> {
-  final LastUsedStoreIdNotifier lastUsedStoreIdNotifier;
-  SelectedStoreNotifier(this.lastUsedStoreIdNotifier, super.store);
+class SelectedStoreNotifier extends Notifier<UserStore> {
+  LastUsedStoreIdNotifier get lastUsedStoreIdNotifier =>
+      ref.read(lastUsedStoreIdProvider.notifier);
+
+  @override
+  UserStore build() {
+    final myStores = ref.watch(myStoresProvider);
+    final lastUsedStoreId = ref.read(lastUsedStoreIdProvider);
+
+    return myStores.maybeWhen<UserStore>(
+      orElse: () => UserStore.empty(),
+      data: (value) {
+        if (value.isEmpty) {
+          return UserStore.empty();
+        }
+        return value.firstWhere(
+          (store) => store.id == lastUsedStoreId,
+          orElse: () => value.first,
+        );
+      },
+    );
+  }
 
   void updateStore(UserStore store) {
     state = store;
@@ -14,23 +33,6 @@ class SelectedStoreNotifier extends StateNotifier<UserStore> {
 }
 
 final selectedStoreProvider =
-    StateNotifierProvider<SelectedStoreNotifier, UserStore>((ref) {
-      final myStores = ref.watch(myStoresProvider);
-      final lastUsedStoreId = ref.read(lastUsedStoreIdProvider);
-      final lastUsedStoreIdNotifier = ref.read(
-        lastUsedStoreIdProvider.notifier,
-      );
-      final store = myStores.maybeWhen<UserStore>(
-        orElse: () => UserStore.empty(),
-        data: (value) {
-          if (value.isEmpty) {
-            return UserStore.empty();
-          }
-          return value.firstWhere(
-            (store) => store.id == lastUsedStoreId,
-            orElse: () => value.first,
-          );
-        },
-      );
-      return SelectedStoreNotifier(lastUsedStoreIdNotifier, store);
-    });
+    NotifierProvider<SelectedStoreNotifier, UserStore>(
+      SelectedStoreNotifier.new,
+    );

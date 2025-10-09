@@ -1,9 +1,10 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class NavbarVisibilityNotifier extends StateNotifier<bool> {
-  NavbarVisibilityNotifier() : super(true);
-
+class NavbarVisibilityNotifier extends Notifier<bool> {
   bool lastRequestedState = true;
+
+  @override
+  bool build() => true;
 
   void _updateState(bool visible) {
     lastRequestedState = visible;
@@ -36,14 +37,15 @@ class NavbarVisibilityNotifier extends StateNotifier<bool> {
 }
 
 final navbarVisibilityProvider =
-    StateNotifierProvider<NavbarVisibilityNotifier, bool>((ref) {
-      return NavbarVisibilityNotifier();
-    });
+    NotifierProvider<NavbarVisibilityNotifier, bool>(
+      NavbarVisibilityNotifier.new,
+    );
 
-class ScrollDirectionNotifier extends StateNotifier<ScrollDirection> {
-  ScrollDirectionNotifier() : super(ScrollDirection.idle);
-
+class ScrollDirectionNotifier extends Notifier<ScrollDirection> {
   double _lastScrollOffset = 0;
+
+  @override
+  ScrollDirection build() => ScrollDirection.idle;
 
   void updateScrollDirection(double scrollOffset) {
     final double scrollDelta = scrollOffset - _lastScrollOffset;
@@ -66,6 +68,6 @@ class ScrollDirectionNotifier extends StateNotifier<ScrollDirection> {
 enum ScrollDirection { up, down, idle }
 
 final scrollDirectionProvider =
-    StateNotifierProvider<ScrollDirectionNotifier, ScrollDirection>((ref) {
-      return ScrollDirectionNotifier();
-    });
+    NotifierProvider<ScrollDirectionNotifier, ScrollDirection>(
+      ScrollDirectionNotifier.new,
+    );

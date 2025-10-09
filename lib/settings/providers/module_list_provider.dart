@@ -26,30 +26,15 @@ import 'package:titan/super_admin/providers/is_super_admin_provider.dart';
 import 'package:titan/super_admin/router.dart';
 import 'package:titan/vote/router.dart';
 
-final modulesProvider = StateNotifierProvider<ModulesNotifier, List<Module>>((
-  ref,
-) {
-  final myModulesRoot = ref
-      .watch(allMyModuleRootList)
-      .map((root) => '/$root')
-      .toList();
+final modulesProvider = NotifierProvider<ModulesNotifier, List<Module>>(
+  ModulesNotifier.new,
+);
 
-  final isAdmin = ref.watch(isAdminProvider);
-  final isSuperAdmin = ref.watch(isSuperAdminProvider);
-
-  ModulesNotifier modulesNotifier = ModulesNotifier(
-    isAdmin: isAdmin,
-    isSuperAdmin: isSuperAdmin,
-  );
-  modulesNotifier.loadModules(myModulesRoot);
-  return modulesNotifier;
-});
-
-class ModulesNotifier extends StateNotifier<List<Module>> {
+class ModulesNotifier extends Notifier<List<Module>> {
   String dbModule = "modules";
   String dbAllModules = "allModules";
-  final bool isAdmin;
-  final bool isSuperAdmin;
+  late final bool isAdmin;
+  late final bool isSuperAdmin;
   final eq = const DeepCollectionEquality.unordered();
   List<Module> allModules = [
     HomeRouter.module,
@@ -69,8 +54,20 @@ class ModulesNotifier extends StateNotifier<List<Module>> {
     VoteRouter.module,
     SeedLibraryRouter.module,
   ];
-  ModulesNotifier({required this.isAdmin, required this.isSuperAdmin})
-    : super([]);
+
+  @override
+  List<Module> build() {
+    final myModulesRoot = ref
+        .watch(allMyModuleRootList)
+        .map((root) => '/$root')
+        .toList();
+
+    isAdmin = ref.watch(isAdminProvider);
+    isSuperAdmin = ref.watch(isSuperAdminProvider);
+
+    loadModules(myModulesRoot);
+    return [];
+  }
 
   void saveModules() {
     SharedPreferences.getInstance().then((prefs) {

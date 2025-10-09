@@ -7,14 +7,17 @@ import 'package:titan/paiement/repositories/users_me_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class StoreListNotifier extends ListNotifier<Store> {
-  final StoresRepository storesRepository;
-  final StructuresRepository structureRepository;
-  final UsersMeRepository usersMeRepository;
-  StoreListNotifier({
-    required this.storesRepository,
-    required this.structureRepository,
-    required this.usersMeRepository,
-  }) : super(const AsyncValue.loading());
+  StoresRepository get storesRepository => ref.watch(storesRepositoryProvider);
+  StructuresRepository get structureRepository =>
+      ref.watch(structuresRepositoryProvider);
+  UsersMeRepository get usersMeRepository =>
+      ref.watch(usersMeRepositoryProvider);
+
+  @override
+  AsyncValue<List<Store>> build() {
+    getStores();
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<Store>>> getStores() async {
     return await loadList(
@@ -49,13 +52,6 @@ class StoreListNotifier extends ListNotifier<Store> {
 }
 
 final storeListProvider =
-    StateNotifierProvider<StoreListNotifier, AsyncValue<List<Store>>>((ref) {
-      final storeListRepository = ref.watch(storesRepositoryProvider);
-      final structureRepository = ref.watch(structuresRepositoryProvider);
-      final usersMeRepository = ref.watch(usersMeRepositoryProvider);
-      return StoreListNotifier(
-        storesRepository: storeListRepository,
-        structureRepository: structureRepository,
-        usersMeRepository: usersMeRepository,
-      )..getStores();
-    });
+    NotifierProvider<StoreListNotifier, AsyncValue<List<Store>>>(
+      StoreListNotifier.new,
+    );

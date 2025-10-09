@@ -8,12 +8,15 @@ import 'package:titan/user/class/simple_users.dart';
 
 class AssociationMembershipMembersNotifier
     extends ListNotifier<UserAssociationMembership> {
-  final AssociationMembershipRepository associationMembershipRepository;
-  final AssociationMembershipUserRepository associationMembershipUserRepository;
-  AssociationMembershipMembersNotifier({
-    required this.associationMembershipRepository,
-    required this.associationMembershipUserRepository,
-  }) : super(const AsyncValue.loading());
+  AssociationMembershipRepository get associationMembershipRepository =>
+      ref.watch(associationMembershipRepositoryProvider);
+  AssociationMembershipUserRepository get associationMembershipUserRepository =>
+      ref.watch(associationMembershipUserRepositoryProvider);
+
+  @override
+  AsyncValue<List<UserAssociationMembership>> build() {
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<UserAssociationMembership>>>
   loadAssociationMembershipMembers(
@@ -84,19 +87,7 @@ class AssociationMembershipMembersNotifier
 }
 
 final associationMembershipMembersProvider =
-    StateNotifierProvider<
+    NotifierProvider<
       AssociationMembershipMembersNotifier,
       AsyncValue<List<UserAssociationMembership>>
-    >((ref) {
-      final associationMembershipUserRepository = ref.watch(
-        associationMembershipUserRepositoryProvider,
-      );
-      final associationMembershipRepository = ref.watch(
-        associationMembershipRepositoryProvider,
-      );
-      return AssociationMembershipMembersNotifier(
-        associationMembershipRepository: associationMembershipRepository,
-        associationMembershipUserRepository:
-            associationMembershipUserRepository,
-      );
-    });
+    >(() => AssociationMembershipMembersNotifier());

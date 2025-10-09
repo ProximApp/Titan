@@ -4,9 +4,12 @@ import 'package:titan/feed/repositories/event_repository.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
 
 class TicketUrlNotifier extends SingleNotifier<TicketUrl> {
-  final EventRepository eventRepository;
-  TicketUrlNotifier({required this.eventRepository})
-    : super(const AsyncValue.loading());
+  @override
+  AsyncValue<TicketUrl> build() {
+    return const AsyncValue.loading();
+  }
+
+  EventRepository get eventRepository => ref.watch(eventRepositoryProvider);
 
   Future<AsyncValue<TicketUrl>> getTicketUrl(String eventId) async {
     return await load(() => eventRepository.getTicketUrl(eventId));
@@ -14,10 +17,6 @@ class TicketUrlNotifier extends SingleNotifier<TicketUrl> {
 }
 
 final ticketUrlProvider =
-    StateNotifierProvider<TicketUrlNotifier, AsyncValue<TicketUrl>>((ref) {
-      final eventRepository = ref.watch(eventRepositoryProvider);
-      TicketUrlNotifier notifier = TicketUrlNotifier(
-        eventRepository: eventRepository,
-      );
-      return notifier;
-    });
+    NotifierProvider<TicketUrlNotifier, AsyncValue<TicketUrl>>(
+      TicketUrlNotifier.new,
+    );

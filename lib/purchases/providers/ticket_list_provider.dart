@@ -10,10 +10,18 @@ class TicketListNotifier extends ListNotifier<Ticket> {
   final UserInformationRepository ticketRepository =
       UserInformationRepository();
   final ScannerRepository scannerRepository = ScannerRepository();
-  TicketListNotifier({required String token})
-    : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<List<Ticket>> build() {
+    final token = ref.watch(tokenProvider);
     ticketRepository.setToken(token);
     scannerRepository.setToken(token);
+
+    tokenExpireWrapperAuth(ref, () async {
+      await loadTickets();
+    });
+
+    return const AsyncValue.loading();
   }
 
   Future<AsyncValue<List<Ticket>>> loadTickets() async {
@@ -44,11 +52,6 @@ class TicketListNotifier extends ListNotifier<Ticket> {
 }
 
 final ticketListProvider =
-    StateNotifierProvider<TicketListNotifier, AsyncValue<List<Ticket>>>((ref) {
-      final token = ref.watch(tokenProvider);
-      TicketListNotifier notifier = TicketListNotifier(token: token);
-      tokenExpireWrapperAuth(ref, () async {
-        await notifier.loadTickets();
-      });
-      return notifier;
-    });
+    NotifierProvider<TicketListNotifier, AsyncValue<List<Ticket>>>(
+      TicketListNotifier.new,
+    );

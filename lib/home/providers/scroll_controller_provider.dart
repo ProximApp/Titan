@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ScrollControllerNotifier extends StateNotifier<ScrollController> {
-  ScrollControllerNotifier(super.scrollController);
+class ScrollControllerNotifier extends Notifier<ScrollController> {
+  @override
+  ScrollController build() {
+    return ScrollController();
+  }
 }
 
 final scrollControllerProvider =
-    StateNotifierProvider<ScrollControllerNotifier, ScrollController>((ref) {
-      return ScrollControllerNotifier(ScrollController());
-    });
+    NotifierProvider<ScrollControllerNotifier, ScrollController>(
+      ScrollControllerNotifier.new,
+    );

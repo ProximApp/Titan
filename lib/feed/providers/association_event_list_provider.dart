@@ -1,14 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/feed/class/event.dart';
 import 'package:titan/feed/repositories/event_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class AssociationEventsListNotifier extends ListNotifier<Event> {
-  final EventRepository eventsRepository;
+  EventRepository get eventsRepository => ref.watch(eventRepositoryProvider);
   AsyncValue<List<Event>> allNews = const AsyncValue.loading();
-  AssociationEventsListNotifier({required this.eventsRepository})
-    : super(const AsyncValue.loading());
+
+  @override
+  AsyncValue<List<Event>> build() {
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<Event>>> loadAssociationEventList(
     String associationId,
@@ -37,13 +39,6 @@ class AssociationEventsListNotifier extends ListNotifier<Event> {
 }
 
 final associationEventsListProvider =
-    StateNotifierProvider<
-      AssociationEventsListNotifier,
-      AsyncValue<List<Event>>
-    >((ref) {
-      final token = ref.watch(tokenProvider);
-      final eventsRepository = EventRepository()..setToken(token);
-      AssociationEventsListNotifier newsListNotifier =
-          AssociationEventsListNotifier(eventsRepository: eventsRepository);
-      return newsListNotifier;
-    });
+    NotifierProvider<AssociationEventsListNotifier, AsyncValue<List<Event>>>(
+      AssociationEventsListNotifier.new,
+    );

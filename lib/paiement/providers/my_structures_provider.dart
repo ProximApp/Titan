@@ -3,7 +3,7 @@ import 'package:titan/paiement/class/structure.dart';
 import 'package:titan/paiement/providers/structure_list_provider.dart';
 import 'package:titan/user/providers/user_provider.dart';
 
-final myStructuresProvider = StateProvider((ref) {
+final myStructuresProvider = Provider((ref) {
   final user = ref.watch(userProvider);
   final structures = ref.watch(structureListProvider);
   return structures.when(

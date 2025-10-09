@@ -2,13 +2,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/amap/class/cash.dart';
 import 'package:titan/amap/repositories/cash_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class CashListProvider extends ListNotifier<Cash> {
-  final CashRepository cashRepository;
+  CashRepository get cashRepository =>
+      ref.watch(cashRepositoryProvider);
   AsyncValue<List<Cash>> _cashList = const AsyncLoading();
-  CashListProvider({required this.cashRepository})
-    : super(const AsyncLoading());
+
+  @override
+  AsyncValue<List<Cash>> build() {
+    return const AsyncLoading();
+  }
 
   Future<AsyncValue<List<Cash>>> loadCashList() async {
     return _cashList = await loadList(cashRepository.getCashList);
@@ -60,13 +63,6 @@ class CashListProvider extends ListNotifier<Cash> {
 }
 
 final cashListProvider =
-    StateNotifierProvider<CashListProvider, AsyncValue<List<Cash>>>((ref) {
-      final cashRepository = ref.watch(cashRepositoryProvider);
-      CashListProvider cashListProvider = CashListProvider(
-        cashRepository: cashRepository,
-      );
-      tokenExpireWrapperAuth(ref, () async {
-        await cashListProvider.loadCashList();
-      });
-      return cashListProvider;
-    });
+    NotifierProvider<CashListProvider, AsyncValue<List<Cash>>>(
+      CashListProvider.new,
+    );

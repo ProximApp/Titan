@@ -3,13 +3,15 @@ import 'package:titan/super_admin/class/module_visibility.dart';
 import 'package:titan/super_admin/repositories/module_visibility_repository.dart';
 import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class ModuleVisibilityListNotifier extends ListNotifier<ModuleVisibility> {
   ModuleVisibilityRepository repository = ModuleVisibilityRepository();
-  ModuleVisibilityListNotifier({required String token})
-    : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<List<ModuleVisibility>> build() {
+    final token = ref.watch(tokenProvider);
     repository.setToken(token);
+    return const AsyncValue.loading();
   }
 
   Future<AsyncValue<List<ModuleVisibility>>> loadModuleVisibility() async {
@@ -84,16 +86,7 @@ class ModuleVisibilityListNotifier extends ListNotifier<ModuleVisibility> {
 }
 
 final moduleVisibilityListProvider =
-    StateNotifierProvider<
+    NotifierProvider<
       ModuleVisibilityListNotifier,
       AsyncValue<List<ModuleVisibility>>
-    >((ref) {
-      final token = ref.watch(tokenProvider);
-      ModuleVisibilityListNotifier notifier = ModuleVisibilityListNotifier(
-        token: token,
-      );
-      tokenExpireWrapperAuth(ref, () async {
-        await notifier.loadModuleVisibility();
-      });
-      return notifier;
-    });
+    >(() => ModuleVisibilityListNotifier());

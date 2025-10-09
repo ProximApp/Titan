@@ -11,10 +11,22 @@ class UserTicketListNotifier extends ListNotifier<Ticket> {
   final UserDetailRepository _userDetailRepository = UserDetailRepository();
   final TicketRepository _ticketsRepository = TicketRepository();
   late String userId;
-  UserTicketListNotifier({required String token})
-    : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<List<Ticket>> build() {
+    final token = ref.watch(tokenProvider);
     _userDetailRepository.setToken(token);
     _ticketsRepository.setToken(token);
+
+    tokenExpireWrapperAuth(ref, () async {
+      final userIdAsync = ref.watch(idProvider);
+      userIdAsync.whenData((value) async {
+        setId(value);
+        await loadTicketList();
+      });
+    });
+
+    return const AsyncValue.loading();
   }
 
   void setId(String id) {
@@ -36,17 +48,6 @@ class UserTicketListNotifier extends ListNotifier<Ticket> {
 }
 
 final userTicketListProvider =
-    StateNotifierProvider<UserTicketListNotifier, AsyncValue<List<Ticket>>>((
-      ref,
-    ) {
-      final token = ref.watch(tokenProvider);
-      UserTicketListNotifier notifier = UserTicketListNotifier(token: token);
-      tokenExpireWrapperAuth(ref, () async {
-        final userId = ref.watch(idProvider);
-        userId.whenData((value) async {
-          notifier.setId(value);
-          await notifier.loadTicketList();
-        });
-      });
-      return notifier;
-    });
+    NotifierProvider<UserTicketListNotifier, AsyncValue<List<Ticket>>>(
+      UserTicketListNotifier.new,
+    );

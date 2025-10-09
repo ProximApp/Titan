@@ -2,13 +2,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/recommendation/class/recommendation.dart';
 import 'package:titan/recommendation/repositories/recommendation_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class RecommendationListNotifier extends ListNotifier<Recommendation> {
-  final RecommendationRepository recommendationRepository;
+  RecommendationRepository get recommendationRepository =>
+      ref.watch(recommendationRepositoryProvider);
 
-  RecommendationListNotifier({required this.recommendationRepository})
-    : super(const AsyncValue.loading());
+  @override
+  AsyncValue<List<Recommendation>> build() {
+    loadRecommendation();
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<Recommendation>>> loadRecommendation() async {
     return await loadList(recommendationRepository.getRecommendationList);
@@ -43,18 +46,7 @@ class RecommendationListNotifier extends ListNotifier<Recommendation> {
 }
 
 final recommendationListProvider =
-    StateNotifierProvider<
+    NotifierProvider<
       RecommendationListNotifier,
       AsyncValue<List<Recommendation>>
-    >((ref) {
-      final recommendatioRepository = ref.watch(
-        recommendationRepositoryProvider,
-      );
-      final provider = RecommendationListNotifier(
-        recommendationRepository: recommendatioRepository,
-      );
-      tokenExpireWrapperAuth(ref, () async {
-        await provider.loadRecommendation();
-      });
-      return provider;
-    });
+    >(RecommendationListNotifier.new);

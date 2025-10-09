@@ -4,9 +4,14 @@ import 'package:titan/paiement/repositories/structures_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class StructureListNotifier extends ListNotifier<Structure> {
-  final StructuresRepository structuresRepository;
-  StructureListNotifier({required this.structuresRepository})
-    : super(const AsyncValue.loading());
+  StructuresRepository get structuresRepository =>
+      ref.watch(structuresRepositoryProvider);
+
+  @override
+  AsyncValue<List<Structure>> build() {
+    getStructures();
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<Structure>>> getStructures() async {
     return await loadList(structuresRepository.getStructures);
@@ -38,12 +43,6 @@ class StructureListNotifier extends ListNotifier<Structure> {
 }
 
 final structureListProvider =
-    StateNotifierProvider<StructureListNotifier, AsyncValue<List<Structure>>>((
-      ref,
-    ) {
-      final structureRepository = ref.watch(structuresRepositoryProvider);
-      final notifier = StructureListNotifier(
-        structuresRepository: structureRepository,
-      )..getStructures();
-      return notifier;
-    });
+    NotifierProvider<StructureListNotifier, AsyncValue<List<Structure>>>(
+      StructureListNotifier.new,
+    );

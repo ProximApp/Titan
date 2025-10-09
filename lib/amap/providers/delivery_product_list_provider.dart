@@ -4,9 +4,13 @@ import 'package:titan/amap/repositories/delivery_product_list_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class DeliveryProductListNotifier extends ListNotifier<Product> {
-  final DeliveryProductListRepository productListRepository;
-  DeliveryProductListNotifier({required this.productListRepository})
-    : super(const AsyncValue.loading());
+  DeliveryProductListRepository get productListRepository =>
+      ref.watch(deliveryProductListRepositoryProvider);
+
+  @override
+  AsyncValue<List<Product>> build() {
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<Product>>> loadProductList(
     List<Product> products,
@@ -52,14 +56,6 @@ class DeliveryProductListNotifier extends ListNotifier<Product> {
 }
 
 final deliveryProductListProvider =
-    StateNotifierProvider<
-      DeliveryProductListNotifier,
-      AsyncValue<List<Product>>
-    >((ref) {
-      final deliveryProductListRepository = ref.watch(
-        deliveryProductListRepositoryProvider,
-      );
-      return DeliveryProductListNotifier(
-        productListRepository: deliveryProductListRepository,
-      );
-    });
+    NotifierProvider<DeliveryProductListNotifier, AsyncValue<List<Product>>>(
+      () => DeliveryProductListNotifier(),
+    );

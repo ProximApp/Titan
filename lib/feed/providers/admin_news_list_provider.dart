@@ -5,9 +5,18 @@ import 'package:titan/feed/repositories/news_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class AdminNewsListNotifier extends ListNotifier<News> {
-  final NewsRepository newsRepository;
-  AdminNewsListNotifier({required this.newsRepository})
-    : super(const AsyncValue.loading());
+  @override
+  AsyncValue<List<News>> build() {
+    final token = ref.watch(tokenProvider);
+    final newsRepository = NewsRepository()..setToken(token);
+    loadNewsList();
+    return const AsyncValue.loading();
+  }
+
+  NewsRepository get newsRepository {
+    final token = ref.watch(tokenProvider);
+    return NewsRepository()..setToken(token);
+  }
 
   Future<AsyncValue<List<News>>> loadNewsList() async {
     return await loadList(newsRepository.getAllNews);
@@ -37,11 +46,6 @@ class AdminNewsListNotifier extends ListNotifier<News> {
 }
 
 final adminNewsListProvider =
-    StateNotifierProvider<AdminNewsListNotifier, AsyncValue<List<News>>>((ref) {
-      final token = ref.watch(tokenProvider);
-      final newsRepository = NewsRepository()..setToken(token);
-      AdminNewsListNotifier newsListNotifier = AdminNewsListNotifier(
-        newsRepository: newsRepository,
-      )..loadNewsList();
-      return newsListNotifier;
-    });
+    NotifierProvider<AdminNewsListNotifier, AsyncValue<List<News>>>(
+      AdminNewsListNotifier.new,
+    );

@@ -4,9 +4,13 @@ import 'package:titan/paiement/repositories/store_sellers_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class StoreSellerListNotifier extends ListNotifier<Seller> {
-  final SellerStoreRepository sellerStoreRepository;
-  StoreSellerListNotifier({required this.sellerStoreRepository})
-    : super(const AsyncValue.loading());
+  SellerStoreRepository get sellerStoreRepository =>
+      ref.watch(sellerStoreRepositoryProvider);
+
+  @override
+  AsyncValue<List<Seller>> build() {
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<Seller>>> getStoreSellerList(String storeId) async {
     return await loadList(() => sellerStoreRepository.getSellers(storeId));
@@ -44,13 +48,8 @@ class StoreSellerListNotifier extends ListNotifier<Seller> {
 }
 
 final sellerStoreProvider =
-    StateNotifierProvider.family<
+    NotifierProvider.family<
       StoreSellerListNotifier,
       AsyncValue<List<Seller>>,
       String
-    >((ref, storeId) {
-      final sellerStoreRepository = ref.watch(sellerStoreRepositoryProvider);
-      return StoreSellerListNotifier(
-        sellerStoreRepository: sellerStoreRepository,
-      )..getStoreSellerList(storeId);
-    });
+    >((storeId) => StoreSellerListNotifier());

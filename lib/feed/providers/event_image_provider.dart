@@ -9,9 +9,12 @@ import 'package:titan/tools/providers/single_notifier.dart';
 
 class EventImageNotifier extends SingleNotifier<Image> {
   final eventImageRepository = EventImageRepository();
-  EventImageNotifier({required String token})
-    : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<Image> build() {
+    final token = ref.watch(tokenProvider);
     eventImageRepository.setToken(token);
+    return const AsyncValue.loading();
   }
 
   Future<bool> addEventImage(String id, Uint8List bytes) async {
@@ -30,7 +33,6 @@ class EventImageNotifier extends SingleNotifier<Image> {
 }
 
 final eventImageProvider =
-    StateNotifierProvider<EventImageNotifier, AsyncValue<Image>>((ref) {
-      final token = ref.watch(tokenProvider);
-      return EventImageNotifier(token: token);
-    });
+    NotifierProvider<EventImageNotifier, AsyncValue<Image>>(
+      EventImageNotifier.new,
+    );

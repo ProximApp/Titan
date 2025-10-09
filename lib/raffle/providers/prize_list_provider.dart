@@ -10,8 +10,21 @@ import 'package:titan/tools/token_expire_wrapper.dart';
 class LotListNotifier extends ListNotifier<Prize> {
   final LotRepository _lotRepository = LotRepository();
   late String raffleId;
-  LotListNotifier({required String token}) : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<List<Prize>> build() {
+    final token = ref.watch(tokenProvider);
     _lotRepository.setToken(token);
+
+    tokenExpireWrapperAuth(ref, () async {
+      final raffleIdValue = ref.watch(raffleIdProvider);
+      if (raffleIdValue != Raffle.empty().id) {
+        setRaffleId(raffleIdValue);
+        loadPrizeList();
+      }
+    });
+
+    return const AsyncValue.loading();
   }
 
   void setRaffleId(String id) {
@@ -53,15 +66,6 @@ class LotListNotifier extends ListNotifier<Prize> {
 }
 
 final prizeListProvider =
-    StateNotifierProvider<LotListNotifier, AsyncValue<List<Prize>>>((ref) {
-      final token = ref.watch(tokenProvider);
-      final notifier = LotListNotifier(token: token);
-      tokenExpireWrapperAuth(ref, () async {
-        final raffleId = ref.watch(raffleIdProvider);
-        if (raffleId != Raffle.empty().id) {
-          notifier.setRaffleId(raffleId);
-          notifier.loadPrizeList();
-        }
-      });
-      return notifier;
-    });
+    NotifierProvider<LotListNotifier, AsyncValue<List<Prize>>>(
+      LotListNotifier.new,
+    );

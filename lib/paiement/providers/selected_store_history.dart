@@ -7,9 +7,23 @@ import 'package:titan/paiement/repositories/stores_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class SellerHistoryNotifier extends ListNotifier<History> {
-  final StoresRepository storesRepository;
-  SellerHistoryNotifier({required this.storesRepository})
-    : super(const AsyncValue.loading());
+  StoresRepository get storesRepository => ref.watch(storesRepositoryProvider);
+
+  @override
+  AsyncValue<List<History>> build() {
+    final selectedStore = ref.watch(selectedStoreProvider);
+    final selectedInterval = ref.watch(selectedIntervalProvider);
+
+    if (selectedStore.id != Store.empty().id) {
+      getHistory(
+        selectedStore.id,
+        selectedInterval.start,
+        selectedInterval.end,
+      );
+    }
+
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<History>>> getHistory(
     String storeId,
@@ -23,19 +37,6 @@ class SellerHistoryNotifier extends ListNotifier<History> {
 }
 
 final sellerHistoryProvider =
-    StateNotifierProvider<SellerHistoryNotifier, AsyncValue<List<History>>>((
-      ref,
-    ) {
-      final storesRepository = ref.watch(storesRepositoryProvider);
-      final selectedStore = ref.watch(selectedStoreProvider);
-      final selectedInterval = ref.watch(selectedIntervalProvider);
-      if (selectedStore.id != Store.empty().id) {
-        return SellerHistoryNotifier(storesRepository: storesRepository)
-          ..getHistory(
-            selectedStore.id,
-            selectedInterval.start,
-            selectedInterval.end,
-          );
-      }
-      return SellerHistoryNotifier(storesRepository: storesRepository);
-    });
+    NotifierProvider<SellerHistoryNotifier, AsyncValue<List<History>>>(
+      SellerHistoryNotifier.new,
+    );

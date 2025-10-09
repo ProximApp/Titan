@@ -1,10 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/super_admin/class/module_visibility.dart';
 import 'package:titan/super_admin/providers/module_visibility_list_provider.dart';
 
-class IsExpandedListProvider extends StateNotifier<List<bool>> {
-  IsExpandedListProvider(List<ModuleVisibility> modules)
-    : super(List.generate(modules.length, (index) => false));
+class IsExpandedListProvider extends Notifier<List<bool>> {
+  @override
+  List<bool> build() {
+    final modules = ref.read(moduleVisibilityListProvider);
+    return modules.maybeWhen(
+      data: (data) => List.generate(data.length, (index) => false),
+      orElse: () => [],
+    );
+  }
 
   void toggle(int i) {
     var copy = state.toList();
@@ -14,12 +19,6 @@ class IsExpandedListProvider extends StateNotifier<List<bool>> {
 }
 
 final isExpandedListProvider =
-    StateNotifierProvider<IsExpandedListProvider, List<bool>>((ref) {
-      final modules = ref.read(moduleVisibilityListProvider);
-      return modules.maybeWhen(
-        data: (data) => IsExpandedListProvider(data),
-        orElse: () {
-          return IsExpandedListProvider([]);
-        },
-      );
-    });
+    NotifierProvider<IsExpandedListProvider, List<bool>>(
+      IsExpandedListProvider.new,
+    );

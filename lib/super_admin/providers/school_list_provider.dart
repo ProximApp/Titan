@@ -5,9 +5,16 @@ import 'package:titan/tools/providers/list_notifier.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 
 class SchoolListNotifier extends ListNotifier<School> {
-  final SchoolRepository schoolRepository;
-  SchoolListNotifier({required this.schoolRepository})
-    : super(const AsyncValue.loading());
+  late final SchoolRepository schoolRepository;
+
+  @override
+  AsyncValue<List<School>> build() {
+    schoolRepository = ref.watch(schoolRepositoryProvider);
+    tokenExpireWrapperAuth(ref, () async {
+      await loadSchools();
+    });
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<School>>> loadSchools() async {
     return await loadList(schoolRepository.getSchoolList);
@@ -46,13 +53,6 @@ class SchoolListNotifier extends ListNotifier<School> {
 }
 
 final allSchoolListProvider =
-    StateNotifierProvider<SchoolListNotifier, AsyncValue<List<School>>>((ref) {
-      final schoolRepository = ref.watch(schoolRepositoryProvider);
-      SchoolListNotifier provider = SchoolListNotifier(
-        schoolRepository: schoolRepository,
-      );
-      tokenExpireWrapperAuth(ref, () async {
-        await provider.loadSchools();
-      });
-      return provider;
-    });
+    NotifierProvider<SchoolListNotifier, AsyncValue<List<School>>>(
+      SchoolListNotifier.new,
+    );

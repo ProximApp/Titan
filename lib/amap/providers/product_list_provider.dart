@@ -2,12 +2,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/amap/class/product.dart';
 import 'package:titan/amap/repositories/product_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class ProductListNotifier extends ListNotifier<Product> {
-  final ProductListRepository productListRepository;
-  ProductListNotifier({required this.productListRepository})
-    : super(const AsyncValue.loading());
+  ProductListRepository get productListRepository =>
+      ref.watch(productListRepositoryProvider);
+
+  @override
+  AsyncValue<List<Product>> build() {
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<Product>>> loadProductList() async {
     return await loadList(productListRepository.getProductList);
@@ -37,15 +40,6 @@ class ProductListNotifier extends ListNotifier<Product> {
 }
 
 final productListProvider =
-    StateNotifierProvider<ProductListNotifier, AsyncValue<List<Product>>>((
-      ref,
-    ) {
-      final productListRepository = ref.watch(productListRepositoryProvider);
-      ProductListNotifier productListNotifier = ProductListNotifier(
-        productListRepository: productListRepository,
-      );
-      tokenExpireWrapperAuth(ref, () async {
-        productListNotifier.loadProductList();
-      });
-      return productListNotifier;
-    });
+    NotifierProvider<ProductListNotifier, AsyncValue<List<Product>>>(
+      ProductListNotifier.new,
+    );

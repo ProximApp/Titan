@@ -4,17 +4,14 @@ import 'package:titan/phonebook/class/complete_member.dart';
 import 'package:titan/phonebook/class/member.dart';
 import 'package:titan/phonebook/repositories/member_repository.dart';
 
-final completeMemberProvider =
-    StateNotifierProvider<CompleteMemberProvider, CompleteMember>((ref) {
-      final token = ref.watch(tokenProvider);
-      return CompleteMemberProvider(token: token);
-    });
-
-class CompleteMemberProvider extends StateNotifier<CompleteMember> {
+class CompleteMemberProvider extends Notifier<CompleteMember> {
   final MemberRepository memberRepository = MemberRepository();
-  CompleteMemberProvider({required String token})
-    : super(CompleteMember.empty()) {
+
+  @override
+  CompleteMember build() {
+    final token = ref.watch(tokenProvider);
     memberRepository.setToken(token);
+    return CompleteMember.empty();
   }
 
   void setCompleteMember(CompleteMember i) {
@@ -35,3 +32,8 @@ class CompleteMemberProvider extends StateNotifier<CompleteMember> {
     }
   }
 }
+
+final completeMemberProvider =
+    NotifierProvider<CompleteMemberProvider, CompleteMember>(
+      CompleteMemberProvider.new,
+    );

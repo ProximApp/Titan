@@ -5,9 +5,12 @@ import 'package:titan/paiement/repositories/stores_repository.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
 
 class ScanNotifier extends SingleNotifier<Transaction> {
-  final StoresRepository storesRepository;
-  ScanNotifier({required this.storesRepository})
-    : super(const AsyncValue.loading());
+  StoresRepository get storesRepository => ref.watch(storesRepositoryProvider);
+
+  @override
+  AsyncValue<Transaction> build() {
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<Transaction>?> scan(
     String storeId,
@@ -26,8 +29,6 @@ class ScanNotifier extends SingleNotifier<Transaction> {
   }
 }
 
-final scanProvider =
-    StateNotifierProvider<ScanNotifier, AsyncValue<Transaction>>((ref) {
-      final storesRepository = ref.watch(storesRepositoryProvider);
-      return ScanNotifier(storesRepository: storesRepository);
-    });
+final scanProvider = NotifierProvider<ScanNotifier, AsyncValue<Transaction>>(
+  ScanNotifier.new,
+);

@@ -1,8 +1,11 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/user/class/simple_users.dart';
 
-class StructureManagerProvider extends StateNotifier<SimpleUser> {
-  StructureManagerProvider() : super(SimpleUser.empty());
+class StructureManagerProvider extends Notifier<SimpleUser> {
+  @override
+  SimpleUser build() {
+    return SimpleUser.empty();
+  }
 
   void setUser(SimpleUser user) {
     state = user;
@@ -10,6 +13,6 @@ class StructureManagerProvider extends StateNotifier<SimpleUser> {
 }
 
 final structureManagerProvider =
-    StateNotifierProvider<StructureManagerProvider, SimpleUser>(
-      (ref) => StructureManagerProvider(),
+    NotifierProvider<StructureManagerProvider, SimpleUser>(
+      () => StructureManagerProvider(),
     );

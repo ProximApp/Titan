@@ -8,9 +8,20 @@ import 'package:titan/tools/providers/list_notifier.dart';
 
 class WinningTicketNotifier extends ListNotifier<Ticket> {
   final LotRepository _lotRepository = LotRepository();
-  WinningTicketNotifier({required String token})
-    : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<List<Ticket>> build() {
+    final token = ref.watch(tokenProvider);
     _lotRepository.setToken(token);
+
+    final ticketFromRaffle = ref.watch(ticketsListProvider);
+    final winningTickets = ticketFromRaffle.maybeWhen<List<Ticket>>(
+      data: (data) => data.where((element) => element.prize != null).toList(),
+      orElse: () => [],
+    );
+
+    Future.microtask(() => setData(winningTickets));
+    return const AsyncValue.loading();
   }
 
   void setData(List<Ticket> tickets) {
@@ -33,16 +44,6 @@ class WinningTicketNotifier extends ListNotifier<Ticket> {
 }
 
 final winningTicketListProvider =
-    StateNotifierProvider<WinningTicketNotifier, AsyncValue<List<Ticket>>>((
-      ref,
-    ) {
-      final token = ref.watch(tokenProvider);
-      WinningTicketNotifier notifier = WinningTicketNotifier(token: token);
-      final ticketFromRaffle = ref.watch(ticketsListProvider);
-      final winningTickets = ticketFromRaffle.maybeWhen<List<Ticket>>(
-        data: (data) => data.where((element) => element.prize != null).toList(),
-        orElse: () => [],
-      );
-      notifier.setData(winningTickets);
-      return notifier;
-    });
+    NotifierProvider<WinningTicketNotifier, AsyncValue<List<Ticket>>>(
+      WinningTicketNotifier.new,
+    );

@@ -2,15 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/tools/providers/map_provider.dart';
 
-class ContenderLogoNotifier extends MapNotifier<String, Image> {
-  ContenderLogoNotifier() : super();
-}
+class ContenderLogoNotifier extends MapNotifier<String, Image> {}
 
 final contenderLogosProvider =
-    StateNotifierProvider<
+    NotifierProvider<
       ContenderLogoNotifier,
       Map<String, AsyncValue<List<Image>>?>
-    >((ref) {
-      ContenderLogoNotifier contenderLogoNotifier = ContenderLogoNotifier();
-      return contenderLogoNotifier;
-    });
+    >(() => ContenderLogoNotifier());

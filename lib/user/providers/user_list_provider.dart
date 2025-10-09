@@ -6,9 +6,16 @@ import 'package:titan/user/class/simple_users.dart';
 import 'package:titan/user/repositories/user_list_repository.dart';
 
 class UserListNotifier extends ListNotifier<SimpleUser> {
-  final UserListRepository userListRepository;
-  UserListNotifier({required this.userListRepository})
-    : super(const AsyncValue.loading());
+  late final UserListRepository userListRepository;
+
+  @override
+  AsyncValue<List<SimpleUser>> build() {
+    userListRepository = ref.watch(userListRepositoryProvider);
+    tokenExpireWrapperAuth(ref, () async {
+      clear();
+    });
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<SimpleUser>>> filterUsers(
     String query, {
@@ -30,15 +37,6 @@ class UserListNotifier extends ListNotifier<SimpleUser> {
 }
 
 final userList =
-    StateNotifierProvider<UserListNotifier, AsyncValue<List<SimpleUser>>>((
-      ref,
-    ) {
-      final userListRepository = ref.watch(userListRepositoryProvider);
-      UserListNotifier userListNotifier = UserListNotifier(
-        userListRepository: userListRepository,
-      );
-      tokenExpireWrapperAuth(ref, () async {
-        userListNotifier.clear();
-      });
-      return userListNotifier;
-    });
+    NotifierProvider<UserListNotifier, AsyncValue<List<SimpleUser>>>(
+      UserListNotifier.new,
+    );

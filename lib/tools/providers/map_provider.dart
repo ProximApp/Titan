@@ -2,8 +2,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 
-class MapNotifier<T, E> extends StateNotifier<Map<T, AsyncValue<List<E>>?>> {
-  MapNotifier() : super(<T, AsyncValue<List<E>>?>{});
+class MapNotifier<T, E> extends Notifier<Map<T, AsyncValue<List<E>>?>> {
+  @override
+  Map<T, AsyncValue<List<E>>?> build() {
+    return <T, AsyncValue<List<E>>?>{};
+  }
 
   void loadTList(List<T> tList) async {
     Map<T, AsyncValue<List<E>>?> tMap = {};
@@ -70,9 +73,7 @@ class MapNotifier<T, E> extends StateNotifier<Map<T, AsyncValue<List<E>>?>> {
     setTData(t, const AsyncLoading());
     tokenExpireWrapper(ref, () async {
       loader(t).then((value) {
-        if (mounted) {
-          setTData(t, AsyncData([value]));
-        }
+        setTData(t, AsyncData([value]));
       });
     });
   }
@@ -85,9 +86,7 @@ class MapNotifier<T, E> extends StateNotifier<Map<T, AsyncValue<List<E>>?>> {
     setTData(t, const AsyncLoading());
     tokenExpireWrapper(ref, () async {
       loader(t).then((value) {
-        if (mounted) {
-          setTData(t, value);
-        }
+        setTData(t, value);
       });
     });
   }

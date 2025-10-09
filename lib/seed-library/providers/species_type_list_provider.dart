@@ -5,9 +5,16 @@ import 'package:titan/tools/providers/list_notifier.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 
 class SpeciesListNotifier extends ListNotifier<SpeciesType> {
-  final SpeciesRepository speciesRepository;
-  SpeciesListNotifier({required this.speciesRepository})
-    : super(const AsyncValue.loading());
+  late final SpeciesRepository speciesRepository;
+
+  @override
+  AsyncValue<List<SpeciesType>> build() {
+    speciesRepository = ref.watch(speciesRepositoryProvider);
+    tokenExpireWrapperAuth(ref, () async {
+      await loadSpeciesTypes();
+    });
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<SpeciesType>>> loadSpeciesTypes() async {
     return await loadList(speciesRepository.getSpeciesTypeList);
@@ -15,18 +22,9 @@ class SpeciesListNotifier extends ListNotifier<SpeciesType> {
 }
 
 final speciesTypeListProvider =
-    StateNotifierProvider<SpeciesListNotifier, AsyncValue<List<SpeciesType>>>((
-      ref,
-    ) {
-      final speciesRepository = ref.watch(speciesRepositoryProvider);
-      SpeciesListNotifier provider = SpeciesListNotifier(
-        speciesRepository: speciesRepository,
-      );
-      tokenExpireWrapperAuth(ref, () async {
-        await provider.loadSpeciesTypes();
-      });
-      return provider;
-    });
+    NotifierProvider<SpeciesListNotifier, AsyncValue<List<SpeciesType>>>(
+      SpeciesListNotifier.new,
+    );
 
 final syncSpeciesTypeListProvider = Provider<List<SpeciesType>>((ref) {
   final speciesList = ref.watch(speciesTypeListProvider);

@@ -2,12 +2,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/booking/class/booking.dart';
 import 'package:titan/booking/repositories/booking_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class ConfirmedBookingListProvider extends ListNotifier<Booking> {
-  final BookingRepository bookingRepository;
-  ConfirmedBookingListProvider({required this.bookingRepository})
-    : super(const AsyncValue.loading());
+  BookingRepository get bookingRepository =>
+      ref.watch(bookingRepositoryProvider);
+
+  @override
+  AsyncValue<List<Booking>> build() {
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<Booking>>> loadConfirmedBooking() async {
     return await loadList(
@@ -40,16 +43,6 @@ class ConfirmedBookingListProvider extends ListNotifier<Booking> {
 }
 
 final confirmedBookingListProvider =
-    StateNotifierProvider<
-      ConfirmedBookingListProvider,
-      AsyncValue<List<Booking>>
-    >((ref) {
-      final bookingRepository = ref.watch(bookingRepositoryProvider);
-      final provider = ConfirmedBookingListProvider(
-        bookingRepository: bookingRepository,
-      );
-      tokenExpireWrapperAuth(ref, () async {
-        await provider.loadConfirmedBooking();
-      });
-      return provider;
-    });
+    NotifierProvider<ConfirmedBookingListProvider, AsyncValue<List<Booking>>>(
+      () => ConfirmedBookingListProvider(),
+    );

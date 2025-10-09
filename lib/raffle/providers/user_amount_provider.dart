@@ -3,13 +3,15 @@ import 'package:titan/raffle/class/cash.dart';
 import 'package:titan/raffle/repositories/cash_repository.dart';
 import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class UserCashNotifier extends SingleNotifier<Cash> {
   final CashRepository _cashRepository = CashRepository();
-  UserCashNotifier({required String token})
-    : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<Cash> build() {
+    final token = ref.watch(tokenProvider);
     _cashRepository.setToken(token);
+    return const AsyncValue.loading();
   }
 
   Future<AsyncValue<Cash>> loadCashByUser(String userId) async {
@@ -35,15 +37,6 @@ class UserCashNotifier extends SingleNotifier<Cash> {
   }
 }
 
-final userAmountProvider =
-    StateNotifierProvider<UserCashNotifier, AsyncValue<Cash>>((ref) {
-      final token = ref.watch(tokenProvider);
-      UserCashNotifier userCashNotifier = UserCashNotifier(token: token);
-      tokenExpireWrapperAuth(ref, () async {
-        final userId = ref.watch(idProvider);
-        userId.whenData(
-          (value) async => await userCashNotifier.loadCashByUser(value),
-        );
-      });
-      return userCashNotifier;
-    });
+final userAmountProvider = NotifierProvider<UserCashNotifier, AsyncValue<Cash>>(
+  UserCashNotifier.new,
+);

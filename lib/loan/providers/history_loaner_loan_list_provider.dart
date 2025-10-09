@@ -1,17 +1,18 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/loan/class/loan.dart';
-import 'package:titan/loan/providers/loaner_id_provider.dart';
 import 'package:titan/loan/repositories/loan_repository.dart';
 import 'package:titan/tools/exception.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class HistoryLoanerLoanListNotifier extends ListNotifier<Loan> {
   final LoanRepository loanRepository = LoanRepository();
-  HistoryLoanerLoanListNotifier({required String token})
-    : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<List<Loan>> build() {
+    final token = ref.watch(tokenProvider);
     loanRepository.setToken(token);
+    return const AsyncValue.loading();
   }
 
   Future<AsyncValue<List<Loan>>> loadLoan(String loanerId) async {
@@ -98,18 +99,6 @@ class HistoryLoanerLoanListNotifier extends ListNotifier<Loan> {
 }
 
 final historyLoanerLoanListProvider =
-    StateNotifierProvider<
-      HistoryLoanerLoanListNotifier,
-      AsyncValue<List<Loan>>
-    >((ref) {
-      final token = ref.watch(tokenProvider);
-      HistoryLoanerLoanListNotifier historyLoanerLoanListNotifier =
-          HistoryLoanerLoanListNotifier(token: token);
-      tokenExpireWrapperAuth(ref, () async {
-        final loanerId = ref.watch(loanerIdProvider);
-        if (loanerId != "") {
-          historyLoanerLoanListNotifier.loadLoan(loanerId);
-        }
-      });
-      return historyLoanerLoanListNotifier;
-    });
+    NotifierProvider<HistoryLoanerLoanListNotifier, AsyncValue<List<Loan>>>(
+      () => HistoryLoanerLoanListNotifier(),
+    );

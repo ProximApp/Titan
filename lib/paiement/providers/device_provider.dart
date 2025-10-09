@@ -5,9 +5,13 @@ import 'package:titan/paiement/repositories/devices_repository.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
 
 class DeviceNotifier extends SingleNotifier<WalletDevice> {
-  final DevicesRepository devicesRepository;
-  DeviceNotifier({required this.devicesRepository})
-    : super(const AsyncValue.loading());
+  DevicesRepository get devicesRepository =>
+      ref.watch(devicesRepositoryProvider);
+
+  @override
+  AsyncValue<WalletDevice> build() {
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<WalletDevice>> getDevice(String deviceId) async {
     return await load(() => devicesRepository.getDevice(deviceId));
@@ -26,7 +30,6 @@ class DeviceNotifier extends SingleNotifier<WalletDevice> {
 }
 
 final deviceProvider =
-    StateNotifierProvider<DeviceNotifier, AsyncValue<WalletDevice>>((ref) {
-      final deviceListRepository = ref.watch(devicesRepositoryProvider);
-      return DeviceNotifier(devicesRepository: deviceListRepository);
-    });
+    NotifierProvider<DeviceNotifier, AsyncValue<WalletDevice>>(
+      DeviceNotifier.new,
+    );

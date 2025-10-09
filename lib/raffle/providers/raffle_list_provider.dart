@@ -7,9 +7,17 @@ import 'package:titan/tools/token_expire_wrapper.dart';
 
 class RaffleListNotifier extends ListNotifier<Raffle> {
   final RaffleRepository raffleRepository = RaffleRepository();
-  RaffleListNotifier({required String token})
-    : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<List<Raffle>> build() {
+    final token = ref.watch(tokenProvider);
     raffleRepository.setToken(token);
+
+    tokenExpireWrapperAuth(ref, () async {
+      await loadRaffleList();
+    });
+
+    return const AsyncValue.loading();
   }
 
   Future<AsyncValue<List<Raffle>>> loadRaffleList() async {
@@ -55,11 +63,6 @@ class RaffleListNotifier extends ListNotifier<Raffle> {
 }
 
 final raffleListProvider =
-    StateNotifierProvider<RaffleListNotifier, AsyncValue<List<Raffle>>>((ref) {
-      final token = ref.watch(tokenProvider);
-      RaffleListNotifier notifier = RaffleListNotifier(token: token);
-      tokenExpireWrapperAuth(ref, () async {
-        await notifier.loadRaffleList();
-      });
-      return notifier;
-    });
+    NotifierProvider<RaffleListNotifier, AsyncValue<List<Raffle>>>(
+      RaffleListNotifier.new,
+    );

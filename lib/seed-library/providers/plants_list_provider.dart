@@ -6,9 +6,16 @@ import 'package:titan/tools/providers/list_notifier.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 
 class PlantListNotifier extends ListNotifier<PlantSimple> {
-  final PlantsRepository plantsRepository;
-  PlantListNotifier({required this.plantsRepository})
-    : super(const AsyncValue.loading());
+  late final PlantsRepository plantsRepository;
+
+  @override
+  AsyncValue<List<PlantSimple>> build() {
+    plantsRepository = ref.watch(plantsRepositoryProvider);
+    tokenExpireWrapperAuth(ref, () async {
+      await loadPlants();
+    });
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<PlantSimple>>> loadPlants() async {
     return await loadList(plantsRepository.getPlantSimplelist);
@@ -58,19 +65,50 @@ class PlantListNotifier extends ListNotifier<PlantSimple> {
   }
 }
 
-final plantListProvider =
-    StateNotifierProvider<PlantListNotifier, AsyncValue<List<PlantSimple>>>((
-      ref,
-    ) {
-      final plantRepository = ref.watch(plantsRepositoryProvider);
-      PlantListNotifier provider = PlantListNotifier(
-        plantsRepository: plantRepository,
-      );
-      tokenExpireWrapperAuth(ref, () async {
-        await provider.loadPlants();
-      });
-      return provider;
+class MyPlantListNotifier extends ListNotifier<PlantSimple> {
+  late final PlantsRepository plantsRepository;
+
+  @override
+  AsyncValue<List<PlantSimple>> build() {
+    plantsRepository = ref.watch(plantsRepositoryProvider);
+    tokenExpireWrapperAuth(ref, () async {
+      await loadMyPlants();
     });
+    return const AsyncValue.loading();
+  }
+
+  Future<AsyncValue<List<PlantSimple>>> loadMyPlants() async {
+    return await loadList(plantsRepository.getMyPlantSimple);
+  }
+
+  void deletePlantFromList(String id) {
+    state = state.maybeWhen(
+      orElse: () => state,
+      data: (plants) => AsyncValue.data(plants..removeWhere((i) => i.id == id)),
+    );
+  }
+
+  void addPlantToList(PlantSimple plant) {
+    state = state.maybeWhen(
+      orElse: () => state,
+      data: (plants) => AsyncValue.data(plants..add(plant)),
+    );
+  }
+
+  void updatePlantInList(PlantSimple plant) {
+    state = state.maybeWhen(
+      orElse: () => state,
+      data: (plants) => AsyncValue.data(
+        plants.map((i) => i.id == plant.id ? plant : i).toList(),
+      ),
+    );
+  }
+}
+
+final plantListProvider =
+    NotifierProvider<PlantListNotifier, AsyncValue<List<PlantSimple>>>(
+      PlantListNotifier.new,
+    );
 
 final syncPlantListProvider = Provider<List<PlantSimple>>((ref) {
   final plantList = ref.watch(plantListProvider);
@@ -78,18 +116,9 @@ final syncPlantListProvider = Provider<List<PlantSimple>>((ref) {
 });
 
 final myPlantListProvider =
-    StateNotifierProvider<PlantListNotifier, AsyncValue<List<PlantSimple>>>((
-      ref,
-    ) {
-      final plantRepository = ref.watch(plantsRepositoryProvider);
-      PlantListNotifier provider = PlantListNotifier(
-        plantsRepository: plantRepository,
-      );
-      tokenExpireWrapperAuth(ref, () async {
-        await provider.loadMyPlants();
-      });
-      return provider;
-    });
+    NotifierProvider<MyPlantListNotifier, AsyncValue<List<PlantSimple>>>(
+      MyPlantListNotifier.new,
+    );
 
 final syncMyPlantListProvider = Provider<List<PlantSimple>>((ref) {
   final plantList = ref.watch(myPlantListProvider);

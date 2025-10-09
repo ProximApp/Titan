@@ -5,9 +5,16 @@ import 'package:titan/tools/providers/list_notifier.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 
 class RoomListNotifier extends ListNotifier<Room> {
-  final RoomRepository roomRepository;
-  RoomListNotifier({required this.roomRepository})
-    : super(const AsyncValue.loading());
+  late final RoomRepository roomRepository;
+
+  @override
+  AsyncValue<List<Room>> build() {
+    roomRepository = ref.watch(roomRepositoryProvider);
+    tokenExpireWrapperAuth(ref, () async {
+      await loadRooms();
+    });
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<Room>>> loadRooms() async {
     return await loadList(roomRepository.getRoomList);
@@ -36,11 +43,6 @@ class RoomListNotifier extends ListNotifier<Room> {
 }
 
 final roomListProvider =
-    StateNotifierProvider<RoomListNotifier, AsyncValue<List<Room>>>((ref) {
-      final roomRepository = ref.watch(roomRepositoryProvider);
-      final provider = RoomListNotifier(roomRepository: roomRepository);
-      tokenExpireWrapperAuth(ref, () async {
-        await provider.loadRooms();
-      });
-      return provider;
-    });
+    NotifierProvider<RoomListNotifier, AsyncValue<List<Room>>>(
+      RoomListNotifier.new,
+    );

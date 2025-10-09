@@ -2,12 +2,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/loan/class/loaner.dart';
 import 'package:titan/loan/repositories/loaner_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class UserLoanerListNotifier extends ListNotifier<Loaner> {
-  final LoanerRepository loanerRepository;
-  UserLoanerListNotifier({required this.loanerRepository})
-    : super(const AsyncValue.loading());
+  LoanerRepository get loanerRepository => ref.watch(loanerRepositoryProvider);
+
+  @override
+  AsyncValue<List<Loaner>> build() {
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<Loaner>>> loadMyLoanerList() async {
     return await loadList(loanerRepository.getMyLoaner);
@@ -37,18 +39,9 @@ class UserLoanerListNotifier extends ListNotifier<Loaner> {
 }
 
 final userLoanerListProvider =
-    StateNotifierProvider<UserLoanerListNotifier, AsyncValue<List<Loaner>>>((
-      ref,
-    ) {
-      final loanerRepository = ref.watch(loanerRepositoryProvider);
-      UserLoanerListNotifier orderListNotifier = UserLoanerListNotifier(
-        loanerRepository: loanerRepository,
-      );
-      tokenExpireWrapperAuth(ref, () async {
-        await orderListNotifier.loadMyLoanerList();
-      });
-      return orderListNotifier;
-    });
+    NotifierProvider<UserLoanerListNotifier, AsyncValue<List<Loaner>>>(
+      UserLoanerListNotifier.new,
+    );
 
 final loanerList = Provider<List<Loaner>>((ref) {
   final deliveryProvider = ref.watch(userLoanerListProvider);

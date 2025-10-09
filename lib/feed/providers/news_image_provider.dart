@@ -8,11 +8,16 @@ import 'package:titan/tools/providers/single_notifier.dart';
 
 class NewsImageNotifier extends SingleNotifier<Image> {
   final newsImageRepository = NewsImageRepository();
-  final NewsImagesNotifier newsImagesNotifier;
-  NewsImageNotifier({required String token, required this.newsImagesNotifier})
-    : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<Image> build() {
+    final token = ref.watch(tokenProvider);
     newsImageRepository.setToken(token);
+    return const AsyncValue.loading();
   }
+
+  NewsImagesNotifier get newsImagesNotifier =>
+      ref.watch(newsImagesProvider.notifier);
 
   Future<Image> getNewsImage(String id) async {
     final image = await newsImageRepository.getNewsImage(id);
@@ -22,11 +27,6 @@ class NewsImageNotifier extends SingleNotifier<Image> {
 }
 
 final newsImageProvider =
-    StateNotifierProvider<NewsImageNotifier, AsyncValue<Image>>((ref) {
-      final token = ref.watch(tokenProvider);
-      final newsImagesNotifier = ref.watch(newsImagesProvider.notifier);
-      return NewsImageNotifier(
-        token: token,
-        newsImagesNotifier: newsImagesNotifier,
-      );
-    });
+    NotifierProvider<NewsImageNotifier, AsyncValue<Image>>(
+      NewsImageNotifier.new,
+    );

@@ -1,12 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/vote/repositories/status_repository.dart';
 
 class StatusNotifier extends SingleNotifier<Status> {
-  final StatusRepository statusRepository;
-  StatusNotifier({required this.statusRepository})
-    : super(const AsyncValue.loading());
+  StatusRepository get statusRepository => ref.watch(statusRepositoryProvider);
+
+  @override
+  AsyncValue<Status> build() {
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<Status>> loadStatus() async {
     return await load(statusRepository.getStatus);
@@ -53,12 +55,6 @@ class StatusNotifier extends SingleNotifier<Status> {
   }
 }
 
-final statusProvider =
-    StateNotifierProvider<StatusNotifier, AsyncValue<Status>>((ref) {
-      final statusRepository = ref.watch(statusRepositoryProvider);
-      final statusNotifier = StatusNotifier(statusRepository: statusRepository);
-      tokenExpireWrapperAuth(ref, () async {
-        await statusNotifier.loadStatus();
-      });
-      return statusNotifier;
-    });
+final statusProvider = NotifierProvider<StatusNotifier, AsyncValue<Status>>(
+  StatusNotifier.new,
+);

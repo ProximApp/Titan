@@ -6,9 +6,16 @@ import 'package:titan/vote/providers/section_id_provider.dart';
 import 'package:titan/vote/repositories/section_repository.dart';
 
 class SectionNotifier extends ListNotifier<Section> {
-  final SectionRepository sectionRepository;
-  SectionNotifier({required this.sectionRepository})
-    : super(const AsyncValue.loading());
+  late final SectionRepository sectionRepository;
+
+  @override
+  AsyncValue<List<Section>> build() {
+    sectionRepository = ref.watch(sectionRepositoryProvider);
+    tokenExpireWrapperAuth(ref, () async {
+      await loadSectionList();
+    });
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<Section>>> loadSectionList() async {
     return await loadList(sectionRepository.getSections);
@@ -38,16 +45,9 @@ class SectionNotifier extends ListNotifier<Section> {
 }
 
 final sectionsProvider =
-    StateNotifierProvider<SectionNotifier, AsyncValue<List<Section>>>((ref) {
-      final sectionRepository = ref.watch(sectionRepositoryProvider);
-      SectionNotifier notifier = SectionNotifier(
-        sectionRepository: sectionRepository,
-      );
-      tokenExpireWrapperAuth(ref, () async {
-        await notifier.loadSectionList();
-      });
-      return notifier;
-    });
+    NotifierProvider<SectionNotifier, AsyncValue<List<Section>>>(
+      SectionNotifier.new,
+    );
 
 final sectionList = Provider<List<Section>>((ref) {
   final sections = ref.watch(sectionsProvider);

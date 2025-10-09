@@ -4,9 +4,13 @@ import 'package:titan/paiement/repositories/tos_repository.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
 
 class TOSNotifier extends SingleNotifier<TOS> {
-  final TosRepository tosRepository;
-  TOSNotifier({required this.tosRepository})
-    : super(const AsyncValue.loading());
+  TosRepository get tosRepository => ref.watch(tosRepositoryProvider);
+
+  @override
+  AsyncValue<TOS> build() {
+    getTOS();
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<TOS>> getTOS() async {
     return await load(tosRepository.getTOS);
@@ -17,7 +21,6 @@ class TOSNotifier extends SingleNotifier<TOS> {
   }
 }
 
-final tosProvider = StateNotifierProvider<TOSNotifier, AsyncValue<TOS>>((ref) {
-  final tosRepository = ref.watch(tosRepositoryProvider);
-  return TOSNotifier(tosRepository: tosRepository)..getTOS();
-});
+final tosProvider = NotifierProvider<TOSNotifier, AsyncValue<TOS>>(
+  TOSNotifier.new,
+);

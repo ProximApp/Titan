@@ -6,9 +6,12 @@ import 'package:titan/tools/providers/single_notifier.dart';
 class ProductIdNotifier extends SingleNotifier<String> {
   final UserInformationRepository productIdRepository =
       UserInformationRepository();
-  ProductIdNotifier({required String token})
-    : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<String> build() {
+    final token = ref.watch(tokenProvider);
     productIdRepository.setToken(token);
+    return const AsyncValue.loading();
   }
 
   void setProductId(String i) {
@@ -17,8 +20,6 @@ class ProductIdNotifier extends SingleNotifier<String> {
 }
 
 final productIdProvider =
-    StateNotifierProvider<ProductIdNotifier, AsyncValue<String>>((ref) {
-      final token = ref.watch(tokenProvider);
-      ProductIdNotifier notifier = ProductIdNotifier(token: token);
-      return notifier;
-    });
+    NotifierProvider<ProductIdNotifier, AsyncValue<String>>(
+      ProductIdNotifier.new,
+    );

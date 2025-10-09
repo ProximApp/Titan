@@ -2,12 +2,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/loan/class/loaner.dart';
 import 'package:titan/loan/repositories/loaner_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class LoanerListNotifier extends ListNotifier<Loaner> {
-  final LoanerRepository loanerRepository;
-  LoanerListNotifier({required this.loanerRepository})
-    : super(const AsyncValue.loading());
+  LoanerRepository get loanerRepository =>
+      ref.watch(loanerRepositoryProvider);
+
+  @override
+  AsyncValue<List<Loaner>> build() {
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<Loaner>>> loadLoanerList() async {
     return await loadList(loanerRepository.getLoanerList);
@@ -37,13 +40,6 @@ class LoanerListNotifier extends ListNotifier<Loaner> {
 }
 
 final loanerListProvider =
-    StateNotifierProvider<LoanerListNotifier, AsyncValue<List<Loaner>>>((ref) {
-      final loanerRepository = ref.watch(loanerRepositoryProvider);
-      LoanerListNotifier orderListNotifier = LoanerListNotifier(
-        loanerRepository: loanerRepository,
-      );
-      tokenExpireWrapperAuth(ref, () async {
-        await orderListNotifier.loadLoanerList();
-      });
-      return orderListNotifier;
-    });
+    NotifierProvider<LoanerListNotifier, AsyncValue<List<Loaner>>>(
+      LoanerListNotifier.new,
+    );

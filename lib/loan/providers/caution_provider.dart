@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/loan/class/item.dart';
 
-class CautionNotifier extends StateNotifier<TextEditingController> {
-  CautionNotifier() : super(TextEditingController());
+class CautionNotifier extends Notifier<TextEditingController> {
+  @override
+  TextEditingController build() {
+    return TextEditingController();
+  }
 
   void setCaution(String caution) {
     state.value = state.value.copyWith(
@@ -30,6 +33,6 @@ class CautionNotifier extends StateNotifier<TextEditingController> {
 }
 
 final cautionProvider =
-    StateNotifierProvider<CautionNotifier, TextEditingController>((ref) {
-      return CautionNotifier();
-    });
+    NotifierProvider<CautionNotifier, TextEditingController>(
+      CautionNotifier.new,
+    );

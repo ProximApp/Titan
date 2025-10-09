@@ -2,17 +2,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/phonebook/class/complete_member.dart';
 import 'package:titan/phonebook/class/membership.dart';
-import 'package:titan/phonebook/providers/association_provider.dart';
 import 'package:titan/phonebook/repositories/association_member_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class AssociationMemberListNotifier extends ListNotifier<CompleteMember> {
   final AssociationMemberRepository associationMemberRepository =
       AssociationMemberRepository();
-  AssociationMemberListNotifier({required String token})
-    : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<List<CompleteMember>> build() {
+    final token = ref.watch(tokenProvider);
     associationMemberRepository.setToken(token);
+    return const AsyncValue.loading();
   }
 
   Future<AsyncValue<List<CompleteMember>>> loadMembers(
@@ -111,18 +112,7 @@ class AssociationMemberListNotifier extends ListNotifier<CompleteMember> {
 }
 
 final associationMemberListProvider =
-    StateNotifierProvider<
+    NotifierProvider<
       AssociationMemberListNotifier,
       AsyncValue<List<CompleteMember>>
-    >((ref) {
-      final token = ref.watch(tokenProvider);
-      AssociationMemberListNotifier provider = AssociationMemberListNotifier(
-        token: token,
-      );
-      tokenExpireWrapperAuth(ref, () async {
-        final association = ref.watch(associationProvider);
-
-        await provider.loadMembers(association.id, association.mandateYear);
-      });
-      return provider;
-    });
+    >(() => AssociationMemberListNotifier());

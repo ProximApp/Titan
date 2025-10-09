@@ -7,9 +7,19 @@ import 'package:titan/user/providers/user_provider.dart';
 
 class ModuleListNotifier extends ListNotifier<String> {
   ModuleVisibilityRepository repository = ModuleVisibilityRepository();
-  ModuleListNotifier({required String token})
-    : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<List<String>> build() {
+    final token = ref.watch(tokenProvider);
     repository.setToken(token);
+    final userProvider = ref.watch(asyncUserProvider);
+    userProvider.maybeWhen(
+      data: (data) => tokenExpireWrapperAuth(ref, () async {
+        await loadMyModuleRoots();
+      }),
+      orElse: () {},
+    );
+    return const AsyncValue.loading();
   }
 
   Future<AsyncValue<List<String>>> loadMyModuleRoots() async {
@@ -18,15 +28,6 @@ class ModuleListNotifier extends ListNotifier<String> {
 }
 
 final moduleRootListProvider =
-    StateNotifierProvider<ModuleListNotifier, AsyncValue<List<String>>>((ref) {
-      final token = ref.watch(tokenProvider);
-      final userProvider = ref.watch(asyncUserProvider);
-      ModuleListNotifier notifier = ModuleListNotifier(token: token);
-      userProvider.maybeWhen(
-        data: (data) => tokenExpireWrapperAuth(ref, () async {
-          await notifier.loadMyModuleRoots();
-        }),
-        orElse: () {},
-      );
-      return notifier;
-    });
+    NotifierProvider<ModuleListNotifier, AsyncValue<List<String>>>(
+      ModuleListNotifier.new,
+    );

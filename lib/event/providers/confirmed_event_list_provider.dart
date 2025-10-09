@@ -2,12 +2,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/event/class/event.dart';
 import 'package:titan/event/repositories/event_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class ConfirmedEventListProvider extends ListNotifier<Event> {
-  final EventRepository eventRepository;
-  ConfirmedEventListProvider({required this.eventRepository})
-    : super(const AsyncValue.loading());
+  EventRepository get eventRepository => ref.watch(eventRepositoryProvider);
+
+  @override
+  AsyncValue<List<Event>> build() {
+    loadConfirmedEvent();
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<Event>>> loadConfirmedEvent() async {
     return await loadList(eventRepository.getConfirmedEventList);
@@ -29,15 +32,6 @@ class ConfirmedEventListProvider extends ListNotifier<Event> {
 }
 
 final confirmedEventListProvider =
-    StateNotifierProvider<ConfirmedEventListProvider, AsyncValue<List<Event>>>((
-      ref,
-    ) {
-      final eventRepository = ref.watch(eventRepositoryProvider);
-      final provider = ConfirmedEventListProvider(
-        eventRepository: eventRepository,
-      );
-      tokenExpireWrapperAuth(ref, () async {
-        await provider.loadConfirmedEvent();
-      });
-      return provider;
-    });
+    NotifierProvider<ConfirmedEventListProvider, AsyncValue<List<Event>>>(
+      ConfirmedEventListProvider.new,
+    );

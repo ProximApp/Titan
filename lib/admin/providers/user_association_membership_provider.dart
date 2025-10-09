@@ -2,9 +2,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/admin/class/user_association_membership.dart';
 
 class UserAssociationMembershipNotifier
-    extends StateNotifier<UserAssociationMembership> {
-  UserAssociationMembershipNotifier()
-    : super(UserAssociationMembership.empty());
+    extends Notifier<UserAssociationMembership> {
+  @override
+  UserAssociationMembership build() {
+    return UserAssociationMembership.empty();
+  }
 
   void setUserAssociationMembership(
     UserAssociationMembership userUserAssociationMembership,
@@ -14,7 +16,7 @@ class UserAssociationMembershipNotifier
 }
 
 final userAssociationMembershipProvider =
-    StateNotifierProvider<
+    NotifierProvider<
       UserAssociationMembershipNotifier,
       UserAssociationMembership
-    >((ref) => UserAssociationMembershipNotifier());
+    >(() => UserAssociationMembershipNotifier());

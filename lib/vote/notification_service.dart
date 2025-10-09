@@ -5,7 +5,7 @@ import 'package:titan/vote/providers/status_provider.dart';
 import 'package:titan/vote/router.dart';
 import 'package:tuple/tuple.dart';
 
-final Map<String, Tuple2<String, List<StateNotifierProvider>>> voteProviders = {
+final Map<String, Tuple2<String, List<NotifierProvider>>> voteProviders = {
   "contender": Tuple2(VoteRouter.root, [contenderListProvider]),
   "status": Tuple2(VoteRouter.root, [statusProvider]),
   "userResults": Tuple2(VoteRouter.root, [statusProvider, resultProvider]),

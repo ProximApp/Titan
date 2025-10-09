@@ -6,9 +6,16 @@ import 'package:titan/vote/repositories/contender_repository.dart';
 import 'package:titan/vote/tools/functions.dart';
 
 class ContenderListNotifier extends ListNotifier<Contender> {
-  final ContenderRepository contenderRepository;
-  ContenderListNotifier({required this.contenderRepository})
-    : super(const AsyncValue.loading());
+  late final ContenderRepository contenderRepository;
+
+  @override
+  AsyncValue<List<Contender>> build() {
+    contenderRepository = ref.watch(contenderRepositoryProvider);
+    tokenExpireWrapperAuth(ref, () async {
+      await loadContenderList();
+    });
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<Contender>>> loadContenderList() async {
     await loadList(contenderRepository.getContenders);
@@ -85,15 +92,6 @@ class ContenderListNotifier extends ListNotifier<Contender> {
 }
 
 final contenderListProvider =
-    StateNotifierProvider<ContenderListNotifier, AsyncValue<List<Contender>>>((
-      ref,
-    ) {
-      final contenderRepository = ref.watch(contenderRepositoryProvider);
-      final contenderListNotifier = ContenderListNotifier(
-        contenderRepository: contenderRepository,
-      );
-      tokenExpireWrapperAuth(ref, () async {
-        await contenderListNotifier.loadContenderList();
-      });
-      return contenderListNotifier;
-    });
+    NotifierProvider<ContenderListNotifier, AsyncValue<List<Contender>>>(
+      ContenderListNotifier.new,
+    );

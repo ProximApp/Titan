@@ -7,8 +7,23 @@ import 'package:titan/flappybird/providers/bird_image_provider.dart';
 import 'package:titan/user/class/simple_users.dart';
 import 'package:titan/user/providers/user_provider.dart';
 
-class BirdNotifier extends StateNotifier<Bird> {
-  BirdNotifier() : super(Bird.empty());
+class BirdNotifier extends Notifier<Bird> {
+  @override
+  Bird build() {
+    final user = ref.watch(userProvider);
+    final birdImage = ref.watch(birdImageProvider);
+    final birdImageNotifier = ref.watch(birdImageProvider.notifier);
+
+    setUser(user.toSimpleUser());
+    if (birdImage.isNotEmpty) {
+      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+      birdImageNotifier.switchColor(state.color).then((value) {
+        setBirdImage(Image.memory(value));
+      });
+    }
+
+    return Bird.empty();
+  }
 
   void setBird(Bird bird) {
     state = bird;
@@ -56,18 +71,4 @@ class BirdNotifier extends StateNotifier<Bird> {
   }
 }
 
-final birdProvider = StateNotifierProvider<BirdNotifier, Bird>((ref) {
-  BirdNotifier notifier = BirdNotifier();
-  final user = ref.watch(userProvider);
-  final birdImage = ref.watch(birdImageProvider);
-  final birdImageNotifier = ref.watch(birdImageProvider.notifier);
-  notifier.setUser(user.toSimpleUser());
-  if (birdImage.isNotEmpty) {
-    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-    birdImageNotifier.switchColor(notifier.state.color).then((value) {
-      notifier.setBirdImage(Image.memory(value));
-      return notifier;
-    });
-  }
-  return notifier;
-});
+final birdProvider = NotifierProvider<BirdNotifier, Bird>(BirdNotifier.new);

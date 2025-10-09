@@ -6,9 +6,14 @@ import 'package:titan/tools/providers/single_notifier.dart';
 
 class ScannerNotifier extends SingleNotifier<Ticket> {
   final ScannerRepository scannerRepository = ScannerRepository();
-  ScannerNotifier({required String token}) : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<Ticket> build() {
+    final token = ref.watch(tokenProvider);
     scannerRepository.setToken(token);
+    return const AsyncValue.loading();
   }
+
   Future<AsyncValue<Ticket>> scanTicket(
     String sellerId,
     String productId,
@@ -34,9 +39,6 @@ class ScannerNotifier extends SingleNotifier<Ticket> {
   }
 }
 
-final scannerProvider =
-    StateNotifierProvider<ScannerNotifier, AsyncValue<Ticket>>((ref) {
-      final token = ref.watch(tokenProvider);
-      ScannerNotifier notifier = ScannerNotifier(token: token);
-      return notifier;
-    });
+final scannerProvider = NotifierProvider<ScannerNotifier, AsyncValue<Ticket>>(
+  ScannerNotifier.new,
+);

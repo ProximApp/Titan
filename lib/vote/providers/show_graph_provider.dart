@@ -1,11 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final showGraphProvider = StateNotifierProvider<ShowGraphNotifier, bool>((ref) {
-  return ShowGraphNotifier();
-});
+final showGraphProvider = NotifierProvider<ShowGraphNotifier, bool>(
+  ShowGraphNotifier.new,
+);
 
-class ShowGraphNotifier extends StateNotifier<bool> {
-  ShowGraphNotifier() : super(false);
+class ShowGraphNotifier extends Notifier<bool> {
+  @override
+  bool build() => false;
 
   void toggle(bool p) {
     state = p;

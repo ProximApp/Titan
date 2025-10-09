@@ -1,14 +1,17 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/amap/class/product.dart';
 
-class ProductNotifier extends StateNotifier<Product> {
-  ProductNotifier() : super(Product.empty());
+class ProductNotifier extends Notifier<Product> {
+  @override
+  Product build() {
+    return Product.empty();
+  }
 
   void setProduct(Product product) {
     state = product;
   }
 }
 
-final productProvider = StateNotifierProvider<ProductNotifier, Product>((ref) {
-  return ProductNotifier();
-});
+final productProvider = NotifierProvider<ProductNotifier, Product>(
+  ProductNotifier.new,
+);

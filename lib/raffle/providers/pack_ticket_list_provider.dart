@@ -1,22 +1,22 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/auth/providers/openid_provider.dart';
-import 'package:titan/raffle/class/raffle.dart';
 import 'package:titan/raffle/class/pack_ticket.dart';
-import 'package:titan/raffle/providers/raffle_id_provider.dart';
 import 'package:titan/raffle/repositories/raffle_detail_repository.dart';
 import 'package:titan/raffle/repositories/pack_ticket_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class PackTicketsListNotifier extends ListNotifier<PackTicket> {
   final PackTicketRepository _packTicketsRepository = PackTicketRepository();
   final RaffleDetailRepository _raffleDetailRepository =
       RaffleDetailRepository();
   late String raffleId;
-  PackTicketsListNotifier({required String token})
-    : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<List<PackTicket>> build() {
+    final token = ref.watch(tokenProvider);
     _packTicketsRepository.setToken(token);
     _raffleDetailRepository.setToken(token);
+    return const AsyncValue.loading();
   }
 
   void setRaffleId(String id) {
@@ -53,18 +53,6 @@ class PackTicketsListNotifier extends ListNotifier<PackTicket> {
 }
 
 final packTicketListProvider =
-    StateNotifierProvider<
-      PackTicketsListNotifier,
-      AsyncValue<List<PackTicket>>
-    >((ref) {
-      final token = ref.watch(tokenProvider);
-      final notifier = PackTicketsListNotifier(token: token);
-      tokenExpireWrapperAuth(ref, () async {
-        final raffleId = ref.watch(raffleIdProvider);
-        if (raffleId != Raffle.empty().id) {
-          notifier.setRaffleId(raffleId);
-          notifier.loadPackTicketList();
-        }
-      });
-      return notifier;
-    });
+    NotifierProvider<PackTicketsListNotifier, AsyncValue<List<PackTicket>>>(
+      () => PackTicketsListNotifier(),
+    );

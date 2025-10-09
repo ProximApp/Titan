@@ -3,13 +3,15 @@ import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/booking/class/manager.dart';
 import 'package:titan/booking/repositories/manager_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class ManagerListNotifier extends ListNotifier<Manager> {
   final ManagerRepository _repository = ManagerRepository();
-  ManagerListNotifier({required String token})
-    : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<List<Manager>> build() {
+    final token = ref.watch(tokenProvider);
     _repository.setToken(token);
+    return const AsyncValue.loading();
   }
 
   Future<AsyncValue<List<Manager>>> loadManagers() async {
@@ -40,13 +42,6 @@ class ManagerListNotifier extends ListNotifier<Manager> {
 }
 
 final managerListProvider =
-    StateNotifierProvider<ManagerListNotifier, AsyncValue<List<Manager>>>((
-      ref,
-    ) {
-      final token = ref.watch(tokenProvider);
-      final provider = ManagerListNotifier(token: token);
-      tokenExpireWrapperAuth(ref, () async {
-        await provider.loadManagers();
-      });
-      return provider;
-    });
+    NotifierProvider<ManagerListNotifier, AsyncValue<List<Manager>>>(
+      ManagerListNotifier.new,
+    );

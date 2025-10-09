@@ -3,9 +3,13 @@ import 'package:titan/tools/providers/single_notifier.dart';
 import 'package:titan/vote/repositories/section_vote_count_repository.dart';
 
 class SectionVoteCountNotifier extends SingleNotifier<int> {
-  final SectionVoteCountRepository repository;
-  SectionVoteCountNotifier({required this.repository})
-    : super(const AsyncLoading());
+  late final SectionVoteCountRepository repository;
+
+  @override
+  AsyncValue<int> build() {
+    repository = ref.watch(sectionVoteCountRepositoryProvider);
+    return const AsyncLoading();
+  }
 
   Future<AsyncValue<int>> loadCount(String id) async {
     return await load(() => repository.getSectionVoteCount(id));
@@ -13,7 +17,6 @@ class SectionVoteCountNotifier extends SingleNotifier<int> {
 }
 
 final sectionVoteCountProvider =
-    StateNotifierProvider<SectionVoteCountNotifier, AsyncValue<int>>((ref) {
-      final repository = ref.watch(sectionVoteCountRepositoryProvider);
-      return SectionVoteCountNotifier(repository: repository);
-    });
+    NotifierProvider<SectionVoteCountNotifier, AsyncValue<int>>(
+      SectionVoteCountNotifier.new,
+    );

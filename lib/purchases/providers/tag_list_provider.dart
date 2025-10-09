@@ -6,8 +6,12 @@ import 'package:titan/tools/providers/list_notifier.dart';
 class TagListNotifier extends ListNotifier<String> {
   final ScannerRepository scannerRepository = ScannerRepository();
   AsyncValue<List<String>> tagList = const AsyncValue.loading();
-  TagListNotifier({required String token}) : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<List<String>> build() {
+    final token = ref.watch(tokenProvider);
     scannerRepository.setToken(token);
+    return const AsyncValue.loading();
   }
 
   Future<AsyncValue<List<String>>> loadTags(
@@ -22,8 +26,6 @@ class TagListNotifier extends ListNotifier<String> {
 }
 
 final tagListProvider =
-    StateNotifierProvider<TagListNotifier, AsyncValue<List<String>>>((ref) {
-      final token = ref.watch(tokenProvider);
-      TagListNotifier notifier = TagListNotifier(token: token);
-      return notifier;
-    });
+    NotifierProvider<TagListNotifier, AsyncValue<List<String>>>(
+      TagListNotifier.new,
+    );

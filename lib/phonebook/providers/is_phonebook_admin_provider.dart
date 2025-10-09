@@ -7,14 +7,14 @@ import 'package:titan/phonebook/providers/roles_tags_provider.dart';
 import 'package:titan/phonebook/tools/function.dart';
 import 'package:titan/user/providers/user_provider.dart';
 
-final isPhonebookAdminProvider = StateProvider<bool>((ref) {
+final isPhonebookAdminProvider = Provider<bool>((ref) {
   final user = ref.watch(userProvider);
   return user.groups
       .map((e) => e.id)
       .contains("d3f91313-d7e5-49c6-b01f-c19932a7e09b"); // admin_phonebook
 });
 
-final hasPhonebookAdminAccessProvider = StateProvider<bool>((ref) {
+final hasPhonebookAdminAccessProvider = Provider<bool>((ref) {
   final isPhonebookAdmin = ref.watch(isPhonebookAdminProvider);
   final isAdmin = ref.watch(isAdminProvider);
   return isPhonebookAdmin || isAdmin;

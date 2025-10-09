@@ -1,8 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/user/class/simple_users.dart';
 
-class MembersNotifier extends StateNotifier<List<SimpleUser>> {
-  MembersNotifier() : super(const []);
+class MembersNotifier extends Notifier<List<SimpleUser>> {
+  @override
+  List<SimpleUser> build() {
+    return const [];
+  }
 
   void add(SimpleUser user) {
     state = state.sublist(0)..add(user);
@@ -13,7 +16,6 @@ class MembersNotifier extends StateNotifier<List<SimpleUser>> {
   }
 }
 
-final membersProvider =
-    StateNotifierProvider<MembersNotifier, List<SimpleUser>>(
-      (ref) => MembersNotifier(),
-    );
+final membersProvider = NotifierProvider<MembersNotifier, List<SimpleUser>>(
+  () => MembersNotifier(),
+);

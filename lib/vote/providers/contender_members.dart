@@ -1,8 +1,9 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/vote/class/members.dart';
 
-class ContenderMembersProvider extends StateNotifier<List<Member>> {
-  ContenderMembersProvider() : super([]);
+class ContenderMembersProvider extends Notifier<List<Member>> {
+  @override
+  List<Member> build() => [];
 
   Future<bool> addMember(Member m) async {
     var copy = state.toList();
@@ -30,6 +31,6 @@ class ContenderMembersProvider extends StateNotifier<List<Member>> {
 }
 
 final contenderMembersProvider =
-    StateNotifierProvider<ContenderMembersProvider, List<Member>>((ref) {
-      return ContenderMembersProvider();
-    });
+    NotifierProvider<ContenderMembersProvider, List<Member>>(
+      ContenderMembersProvider.new,
+    );

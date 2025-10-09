@@ -3,14 +3,17 @@ import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/settings/class/notification_topic.dart';
 import 'package:titan/settings/repositories/notification_topic_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class NotificationTopicNotifier extends ListNotifier<NotificationTopic> {
   final NotificationTopicRepository notificationTopicRepository =
       NotificationTopicRepository();
-  NotificationTopicNotifier({required String token})
-    : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<List<NotificationTopic>> build() {
+    final token = ref.watch(tokenProvider);
     notificationTopicRepository.setToken(token);
+    loadNotificationTopicList();
+    return const AsyncValue.loading();
   }
 
   Future<AsyncValue<List<NotificationTopic>>>
@@ -37,14 +40,7 @@ class NotificationTopicNotifier extends ListNotifier<NotificationTopic> {
 }
 
 final notificationTopicListProvider =
-    StateNotifierProvider<
+    NotifierProvider<
       NotificationTopicNotifier,
       AsyncValue<List<NotificationTopic>>
-    >((ref) {
-      final token = ref.watch(tokenProvider);
-      final notifier = NotificationTopicNotifier(token: token);
-      tokenExpireWrapperAuth(ref, () async {
-        await notifier.loadNotificationTopicList();
-      });
-      return notifier;
-    });
+    >(NotificationTopicNotifier.new);

@@ -9,9 +9,17 @@ class PurchaseListNotifier extends ListNotifier<Purchase> {
   final UserPurchaseRepository userPurchaseRepository =
       UserPurchaseRepository();
   AsyncValue<List<Purchase>> purchaseList = const AsyncValue.loading();
-  PurchaseListNotifier({required String token})
-    : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<List<Purchase>> build() {
+    final token = ref.watch(tokenProvider);
     userPurchaseRepository.setToken(token);
+
+    tokenExpireWrapperAuth(ref, () async {
+      await loadPurchases();
+    });
+
+    return const AsyncValue.loading();
   }
 
   Future<AsyncValue<List<Purchase>>> loadPurchases() async {
@@ -35,13 +43,6 @@ class PurchaseListNotifier extends ListNotifier<Purchase> {
 }
 
 final purchaseListProvider =
-    StateNotifierProvider<PurchaseListNotifier, AsyncValue<List<Purchase>>>((
-      ref,
-    ) {
-      final token = ref.watch(tokenProvider);
-      PurchaseListNotifier notifier = PurchaseListNotifier(token: token);
-      tokenExpireWrapperAuth(ref, () async {
-        await notifier.loadPurchases();
-      });
-      return notifier;
-    });
+    NotifierProvider<PurchaseListNotifier, AsyncValue<List<Purchase>>>(
+      PurchaseListNotifier.new,
+    );

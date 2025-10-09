@@ -5,9 +5,13 @@ import 'package:titan/paiement/repositories/invoices_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class InvoiceListNotifier extends ListNotifier<Invoice> {
-  final InvoiceRepository invoicesRepository;
-  InvoiceListNotifier({required this.invoicesRepository})
-    : super(const AsyncValue.loading());
+  InvoiceRepository get invoicesRepository =>
+      ref.watch(invoiceRepositoryProvider);
+
+  @override
+  AsyncValue<List<Invoice>> build() {
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<Invoice>>> getInvoices({
     int page = 1,
@@ -81,10 +85,6 @@ class InvoiceListNotifier extends ListNotifier<Invoice> {
 }
 
 final invoiceListProvider =
-    StateNotifierProvider<InvoiceListNotifier, AsyncValue<List<Invoice>>>((
-      ref,
-    ) {
-      final invoicesRepository = ref.watch(invoiceRepositoryProvider);
-      return InvoiceListNotifier(invoicesRepository: invoicesRepository)
-        ..getInvoices();
-    });
+    NotifierProvider<InvoiceListNotifier, AsyncValue<List<Invoice>>>(
+      InvoiceListNotifier.new,
+    );

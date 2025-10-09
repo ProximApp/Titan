@@ -5,9 +5,17 @@ import 'package:titan/tools/providers/single_notifier.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 
 class InformationNotifier extends SingleNotifier<Information> {
-  final InformationRepository informationRepository;
-  InformationNotifier({required this.informationRepository})
-    : super(const AsyncLoading());
+  late final InformationRepository informationRepository;
+
+  @override
+  AsyncValue<Information> build() {
+    informationRepository = ref.watch(informationRepositoryProvider);
+    tokenExpireWrapperAuth(ref, () async {
+      loadInformation();
+    });
+    return const AsyncLoading();
+  }
+
   Future<AsyncValue<Information>> loadInformation() async {
     return await load(informationRepository.getInformation);
   }
@@ -18,18 +26,11 @@ class InformationNotifier extends SingleNotifier<Information> {
 }
 
 final informationProvider =
-    StateNotifierProvider<InformationNotifier, AsyncValue<Information>>((ref) {
-      final informationRepository = ref.watch(informationRepositoryProvider);
-      InformationNotifier informationNotifier = InformationNotifier(
-        informationRepository: informationRepository,
-      );
-      tokenExpireWrapperAuth(ref, () async {
-        informationNotifier.loadInformation();
-      });
-      return informationNotifier;
-    });
+    NotifierProvider<InformationNotifier, AsyncValue<Information>>(
+      InformationNotifier.new,
+    );
 
-final syncInformationProvider = StateProvider<Information>((ref) {
+final syncInformationProvider = Provider<Information>((ref) {
   final info = ref.watch(informationProvider);
   return info.maybeWhen(data: (data) => data, orElse: Information.empty);
 });

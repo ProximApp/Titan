@@ -4,9 +4,13 @@ import 'package:titan/seed-library/repositories/plants_repository.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
 
 class PlantNotifier extends SingleNotifier<PlantComplete> {
-  final PlantsRepository plantsRepository;
-  PlantNotifier({required this.plantsRepository})
-    : super(const AsyncValue.loading());
+  late final PlantsRepository plantsRepository;
+
+  @override
+  AsyncValue<PlantComplete> build() {
+    plantsRepository = ref.watch(plantsRepositoryProvider);
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<PlantComplete>> loadPlant(String plantId) async {
     return await load(() => plantsRepository.getPlantComplete(plantId));
@@ -26,7 +30,6 @@ class PlantNotifier extends SingleNotifier<PlantComplete> {
 }
 
 final plantProvider =
-    StateNotifierProvider<PlantNotifier, AsyncValue<PlantComplete>>((ref) {
-      final plantRepository = ref.watch(plantsRepositoryProvider);
-      return PlantNotifier(plantsRepository: plantRepository);
-    });
+    NotifierProvider<PlantNotifier, AsyncValue<PlantComplete>>(
+      PlantNotifier.new,
+    );

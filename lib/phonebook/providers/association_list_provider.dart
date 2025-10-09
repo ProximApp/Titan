@@ -3,14 +3,17 @@ import 'package:titan/phonebook/class/association.dart';
 import 'package:titan/phonebook/repositories/association_repository.dart';
 import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class AssociationListNotifier extends ListNotifier<Association> {
   final AssociationRepository associationRepository = AssociationRepository();
   AsyncValue<List<Association>> associationList = const AsyncValue.loading();
-  AssociationListNotifier({required String token})
-    : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<List<Association>> build() {
+    final token = ref.watch(tokenProvider);
     associationRepository.setToken(token);
+    loadAssociations();
+    return const AsyncValue.loading();
   }
 
   Future<AsyncValue<List<Association>>> loadAssociations() async {
@@ -63,14 +66,6 @@ class AssociationListNotifier extends ListNotifier<Association> {
 }
 
 final associationListProvider =
-    StateNotifierProvider<
-      AssociationListNotifier,
-      AsyncValue<List<Association>>
-    >((ref) {
-      final token = ref.watch(tokenProvider);
-      AssociationListNotifier notifier = AssociationListNotifier(token: token);
-      tokenExpireWrapperAuth(ref, () async {
-        await notifier.loadAssociations();
-      });
-      return notifier;
-    });
+    NotifierProvider<AssociationListNotifier, AsyncValue<List<Association>>>(
+      AssociationListNotifier.new,
+    );

@@ -4,13 +4,16 @@ import 'package:titan/raffle/repositories/cash_repository.dart';
 import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/tools/exception.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class CashProvider extends ListNotifier<Cash> {
   final CashRepository _cashRepository = CashRepository();
   AsyncValue<List<Cash>> _cashList = const AsyncLoading();
-  CashProvider({required String token}) : super(const AsyncLoading()) {
+
+  @override
+  AsyncValue<List<Cash>> build() {
+    final token = ref.watch(tokenProvider);
     _cashRepository.setToken(token);
+    return const AsyncLoading();
   }
 
   Future<AsyncValue<List<Cash>>> loadCashList() async {
@@ -65,12 +68,6 @@ class CashProvider extends ListNotifier<Cash> {
   }
 }
 
-final cashProvider =
-    StateNotifierProvider<CashProvider, AsyncValue<List<Cash>>>((ref) {
-      final token = ref.watch(tokenProvider);
-      CashProvider cashProvider = CashProvider(token: token);
-      tokenExpireWrapperAuth(ref, () async {
-        await cashProvider.loadCashList();
-      });
-      return cashProvider;
-    });
+final cashProvider = NotifierProvider<CashProvider, AsyncValue<List<Cash>>>(
+  () => CashProvider(),
+);

@@ -1,8 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/tools/class/path_forwarding.dart';
 
-class PathForwardingProvider extends StateNotifier<PathForwarding> {
-  PathForwardingProvider() : super(PathForwarding.empty());
+class PathForwardingProvider extends Notifier<PathForwarding> {
+  @override
+  PathForwarding build() {
+    return PathForwarding.empty();
+  }
 
   void forward(String path, {Map<String, String>? queryParameters}) {
     state = state.copyWith(path: path, queryParameters: queryParameters);
@@ -22,6 +25,6 @@ class PathForwardingProvider extends StateNotifier<PathForwarding> {
 }
 
 final pathForwardingProvider =
-    StateNotifierProvider<PathForwardingProvider, PathForwarding>(
-      (ref) => PathForwardingProvider(),
+    NotifierProvider<PathForwardingProvider, PathForwarding>(
+      () => PathForwardingProvider(),
     );

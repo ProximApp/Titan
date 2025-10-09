@@ -1,8 +1,9 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/user/class/simple_users.dart';
 
-class NewAdminNotifier extends StateNotifier<SimpleUser> {
-  NewAdminNotifier() : super(SimpleUser.empty());
+class NewAdminNotifier extends Notifier<SimpleUser> {
+  @override
+  SimpleUser build() => SimpleUser.empty();
 
   void updateNewAdmin(SimpleUser newAdmin) {
     state = newAdmin;
@@ -13,8 +14,6 @@ class NewAdminNotifier extends StateNotifier<SimpleUser> {
   }
 }
 
-final newAdminProvider = StateNotifierProvider<NewAdminNotifier, SimpleUser>((
-  ref,
-) {
-  return NewAdminNotifier();
-});
+final newAdminProvider = NotifierProvider<NewAdminNotifier, SimpleUser>(
+  NewAdminNotifier.new,
+);

@@ -4,9 +4,12 @@ import 'package:titan/vote/class/votes.dart';
 import 'package:titan/vote/repositories/votes_repository.dart';
 
 class VotesProvider extends ListNotifier<Votes> {
-  final VotesRepository votesRepository;
-  VotesProvider({required this.votesRepository})
-    : super(const AsyncValue.loading());
+  VotesRepository get votesRepository => ref.watch(votesRepositoryProvider);
+
+  @override
+  AsyncValue<List<Votes>> build() {
+    return const AsyncValue.loading();
+  }
 
   Future<bool> addVote(Votes votes) async {
     try {
@@ -31,11 +34,6 @@ class VotesProvider extends ListNotifier<Votes> {
   }
 }
 
-final votesProvider =
-    StateNotifierProvider<VotesProvider, AsyncValue<List<Votes>>>((ref) {
-      final votesRepository = ref.watch(votesRepositoryProvider);
-      VotesProvider votesProvider = VotesProvider(
-        votesRepository: votesRepository,
-      );
-      return votesProvider;
-    });
+final votesProvider = NotifierProvider<VotesProvider, AsyncValue<List<Votes>>>(
+  VotesProvider.new,
+);

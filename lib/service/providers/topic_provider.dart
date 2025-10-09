@@ -8,8 +8,15 @@ import 'package:titan/tools/token_expire_wrapper.dart';
 class TopicsProvider extends ListNotifier<Topic> {
   final NotificationRepository notificationRepository =
       NotificationRepository();
-  TopicsProvider({required String token}) : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<List<Topic>> build() {
+    final token = ref.watch(tokenProvider);
     notificationRepository.setToken(token);
+    tokenExpireWrapperAuth(ref, () async {
+      getTopics();
+    });
+    return const AsyncValue.loading();
   }
 
   Future<AsyncValue<List<Topic>>> getTopics() async {
@@ -81,11 +88,6 @@ class TopicsProvider extends ListNotifier<Topic> {
 }
 
 final topicsProvider =
-    StateNotifierProvider<TopicsProvider, AsyncValue<List<Topic>>>((ref) {
-      final token = ref.watch(tokenProvider);
-      TopicsProvider notifier = TopicsProvider(token: token);
-      tokenExpireWrapperAuth(ref, () async {
-        notifier.getTopics();
-      });
-      return notifier;
-    });
+    NotifierProvider<TopicsProvider, AsyncValue<List<Topic>>>(
+      TopicsProvider.new,
+    );

@@ -3,18 +3,19 @@ import 'package:titan/amap/class/order.dart';
 import 'package:titan/amap/class/product.dart';
 import 'package:titan/amap/repositories/amap_user_repository.dart';
 import 'package:titan/amap/repositories/order_list_repository.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/tools/exception.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class UserOrderListNotifier extends ListNotifier<Order> {
-  final OrderListRepository orderListRepository;
-  final AmapUserRepository userRepository;
-  UserOrderListNotifier({
-    required this.userRepository,
-    required this.orderListRepository,
-  }) : super(const AsyncValue.loading());
+  OrderListRepository get orderListRepository =>
+      ref.watch(orderListRepositoryProvider);
+  AmapUserRepository get userRepository =>
+      ref.watch(amapUserRepositoryProvider);
+
+  @override
+  AsyncValue<List<Order>> build() {
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<Order>>> loadOrderList(String userId) async {
     return await loadList(() async => userRepository.getOrderList(userId));
@@ -166,20 +167,6 @@ class UserOrderListNotifier extends ListNotifier<Order> {
 }
 
 final userOrderListProvider =
-    StateNotifierProvider<UserOrderListNotifier, AsyncValue<List<Order>>>((
-      ref,
-    ) {
-      final amapUserRepository = ref.watch(amapUserRepositoryProvider);
-      final orderListRepository = ref.watch(orderListRepositoryProvider);
-      UserOrderListNotifier userOrderListNotifier = UserOrderListNotifier(
-        userRepository: amapUserRepository,
-        orderListRepository: orderListRepository,
-      );
-      tokenExpireWrapperAuth(ref, () async {
-        final userId = ref.watch(idProvider);
-        userId.whenData(
-          (value) async => await userOrderListNotifier.loadOrderList(value),
-        );
-      });
-      return userOrderListNotifier;
-    });
+    NotifierProvider<UserOrderListNotifier, AsyncValue<List<Order>>>(
+      UserOrderListNotifier.new,
+    );

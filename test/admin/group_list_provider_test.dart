@@ -9,7 +9,7 @@ import 'package:titan/user/class/user.dart';
 
 class MockGroupRepository extends Mock implements GroupRepository {}
 
-class MockUserNotifier extends Mock implements StateNotifier<User> {}
+class MockUserNotifier extends Mock implements Notifier<User> {}
 
 void main() {
   group('GroupListNotifier', () {

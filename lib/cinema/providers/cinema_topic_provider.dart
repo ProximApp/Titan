@@ -2,13 +2,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/cinema/repositories/cinema_topic_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 
 class CinemaTopicsProvider extends ListNotifier<String> {
   final CinemaTopicRepository cinemaTopicRepository = CinemaTopicRepository();
-  CinemaTopicsProvider({required String token})
-    : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<List<String>> build() {
+    final token = ref.watch(tokenProvider);
     cinemaTopicRepository.setToken(token);
+    return const AsyncValue.loading();
   }
 
   Future<AsyncValue<List<String>>> getTopics() async {
@@ -45,13 +47,6 @@ class CinemaTopicsProvider extends ListNotifier<String> {
 }
 
 final cinemaTopicsProvider =
-    StateNotifierProvider<CinemaTopicsProvider, AsyncValue<List<String>>>((
-      ref,
-    ) {
-      final token = ref.watch(tokenProvider);
-      CinemaTopicsProvider notifier = CinemaTopicsProvider(token: token);
-      tokenExpireWrapperAuth(ref, () async {
-        notifier.getTopics();
-      });
-      return notifier;
-    });
+    NotifierProvider<CinemaTopicsProvider, AsyncValue<List<String>>>(
+      CinemaTopicsProvider.new,
+    );

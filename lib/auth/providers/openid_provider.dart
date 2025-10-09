@@ -16,19 +16,25 @@ import 'dart:convert';
 import 'package:universal_html/html.dart' as html;
 
 final authTokenProvider =
-    StateNotifierProvider<OpenIdTokenProvider, AsyncValue<Map<String, String>>>(
-      (ref) {
-        OpenIdTokenProvider openIdTokenProvider = OpenIdTokenProvider();
-        final isConnected = ref.watch(isConnectedProvider);
-        if (isConnected) {
-          openIdTokenProvider.getTokenFromStorage();
-        }
-        return openIdTokenProvider;
-      },
+    NotifierProvider<OpenIdTokenProvider, AsyncValue<Map<String, String>>>(
+      OpenIdTokenProvider.new,
     );
 
-class IsLoggedInProvider extends StateNotifier<bool> {
-  IsLoggedInProvider(super.b);
+class IsLoggedInProvider extends Notifier<bool> {
+  @override
+  bool build() {
+    final isConnected = ref.watch(isConnectedProvider);
+    final authToken = ref.watch(authTokenProvider);
+    final isCaching = ref.watch(isCachingProvider);
+
+    if (isConnected) {
+      refresh(authToken);
+    } else if (isCaching) {
+      return true;
+    }
+
+    return false;
+  }
 
   void refresh(AsyncValue<Map<String, String>> token) {
     state = token.maybeWhen(
@@ -40,39 +46,28 @@ class IsLoggedInProvider extends StateNotifier<bool> {
   }
 }
 
-class IsCachingProvider extends StateNotifier<bool> {
-  IsCachingProvider(super.b);
+class IsCachingProvider extends Notifier<bool> {
+  @override
+  bool build() {
+    final isConnected = ref.watch(isConnectedProvider);
+    CacheManager().readCache("id").then((value) {
+      set(!isConnected && value != "");
+    });
+    return false;
+  }
 
   void set(bool b) {
     state = b;
   }
 }
 
-final isCachingProvider = StateNotifierProvider<IsCachingProvider, bool>((ref) {
-  final IsCachingProvider isCachingProvider = IsCachingProvider(false);
+final isCachingProvider = NotifierProvider<IsCachingProvider, bool>(
+  IsCachingProvider.new,
+);
 
-  final isConnected = ref.watch(isConnectedProvider);
-  CacheManager().readCache("id").then((value) {
-    isCachingProvider.set(!isConnected && value != "");
-  });
-  return isCachingProvider;
-});
-
-final isLoggedInProvider = StateNotifierProvider<IsLoggedInProvider, bool>((
-  ref,
-) {
-  final IsLoggedInProvider isLoggedInProvider = IsLoggedInProvider(false);
-
-  final isConnected = ref.watch(isConnectedProvider);
-  final authToken = ref.watch(authTokenProvider);
-  final isCaching = ref.watch(isCachingProvider);
-  if (isConnected) {
-    isLoggedInProvider.refresh(authToken);
-  } else if (isCaching) {
-    return IsLoggedInProvider(true);
-  }
-  return isLoggedInProvider;
-});
+final isLoggedInProvider = NotifierProvider<IsLoggedInProvider, bool>(
+  IsLoggedInProvider.new,
+);
 
 final loadingProvider = FutureProvider<bool>((ref) {
   final isCaching = ref.watch(isCachingProvider);
@@ -110,8 +105,7 @@ final tokenProvider = Provider((ref) {
       .maybeWhen(data: (tokens) => tokens["token"] as String, orElse: () => "");
 });
 
-class OpenIdTokenProvider
-    extends StateNotifier<AsyncValue<Map<String, String>>> {
+class OpenIdTokenProvider extends Notifier<AsyncValue<Map<String, String>>> {
   FlutterAppAuth appAuth = const FlutterAppAuth();
   final CacheManager cacheManager = CacheManager();
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
@@ -126,7 +120,15 @@ class OpenIdTokenProvider
   final String discoveryUrl =
       "${Repository.host}.well-known/openid-configuration";
   final List<String> scopes = ["API"];
-  OpenIdTokenProvider() : super(const AsyncValue.loading());
+
+  @override
+  AsyncValue<Map<String, String>> build() {
+    final isConnected = ref.watch(isConnectedProvider);
+    if (isConnected) {
+      getTokenFromStorage();
+    }
+    return const AsyncValue.loading();
+  }
 
   String generateRandomString(int len) {
     var r = Random.secure();

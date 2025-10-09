@@ -5,9 +5,16 @@ import 'package:titan/vote/class/result.dart';
 import 'package:titan/vote/repositories/result_repository.dart';
 
 class ResultNotifier extends ListNotifier<Result> {
-  final ResultRepository resultRepository;
-  ResultNotifier({required this.resultRepository})
-    : super(const AsyncValue.loading());
+  late final ResultRepository resultRepository;
+
+  @override
+  AsyncValue<List<Result>> build() {
+    resultRepository = ref.watch(resultRepositoryProvider);
+    tokenExpireWrapperAuth(ref, () async {
+      await loadResult();
+    });
+    return const AsyncValue.loading();
+  }
 
   Future<AsyncValue<List<Result>>> loadResult() async {
     return await loadList(resultRepository.getResult);
@@ -15,11 +22,6 @@ class ResultNotifier extends ListNotifier<Result> {
 }
 
 final resultProvider =
-    StateNotifierProvider<ResultNotifier, AsyncValue<List<Result>>>((ref) {
-      final resultRepository = ref.watch(resultRepositoryProvider);
-      final resultNotifier = ResultNotifier(resultRepository: resultRepository);
-      tokenExpireWrapperAuth(ref, () async {
-        await resultNotifier.loadResult();
-      });
-      return resultNotifier;
-    });
+    NotifierProvider<ResultNotifier, AsyncValue<List<Result>>>(
+      ResultNotifier.new,
+    );

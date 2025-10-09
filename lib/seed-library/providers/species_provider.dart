@@ -1,12 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/seed-library/class/species.dart';
 
-final speciesProvider = StateNotifierProvider<SpeciesNotifier, Species>((ref) {
-  return SpeciesNotifier();
-});
+final speciesProvider = NotifierProvider<SpeciesNotifier, Species>(
+  SpeciesNotifier.new,
+);
 
-class SpeciesNotifier extends StateNotifier<Species> {
-  SpeciesNotifier() : super(Species.empty());
+class SpeciesNotifier extends Notifier<Species> {
+  @override
+  Species build() => Species.empty();
 
   void setSpecies(Species i) {
     state = i;

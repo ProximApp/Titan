@@ -7,9 +7,12 @@ import 'package:titan/user/class/simple_users.dart';
 class ScannedUsersListNotifier extends ListNotifier<SimpleUser> {
   final ScannerRepository scannerRepository = ScannerRepository();
   AsyncValue<List<String>> tagList = const AsyncValue.loading();
-  ScannedUsersListNotifier({required String token})
-    : super(const AsyncValue.loading()) {
+
+  @override
+  AsyncValue<List<SimpleUser>> build() {
+    final token = ref.watch(tokenProvider);
     scannerRepository.setToken(token);
+    return const AsyncValue.loading();
   }
 
   Future<AsyncValue<List<SimpleUser>>> loadUsers(
@@ -26,13 +29,6 @@ class ScannedUsersListNotifier extends ListNotifier<SimpleUser> {
 }
 
 final scannedUsersListProvider =
-    StateNotifierProvider<
-      ScannedUsersListNotifier,
-      AsyncValue<List<SimpleUser>>
-    >((ref) {
-      final token = ref.watch(tokenProvider);
-      ScannedUsersListNotifier notifier = ScannedUsersListNotifier(
-        token: token,
-      );
-      return notifier;
-    });
+    NotifierProvider<ScannedUsersListNotifier, AsyncValue<List<SimpleUser>>>(
+      ScannedUsersListNotifier.new,
+    );

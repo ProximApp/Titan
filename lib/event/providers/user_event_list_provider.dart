@@ -6,10 +6,22 @@ import 'package:titan/tools/providers/list_notifier.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 
 class EventEventListProvider extends ListNotifier<Event> {
-  final EventRepository eventRepository;
   String userId = "";
-  EventEventListProvider({required this.eventRepository})
-    : super(const AsyncValue.loading());
+
+  @override
+  AsyncValue<List<Event>> build() {
+    final eventRepository = ref.watch(eventRepositoryProvider);
+    final userId = ref.watch(idProvider);
+    tokenExpireWrapperAuth(ref, () async {
+      userId.whenData((value) async {
+        setId(value);
+        await loadConfirmedEvent();
+      });
+    });
+    return const AsyncValue.loading();
+  }
+
+  EventRepository get eventRepository => ref.watch(eventRepositoryProvider);
   void setId(String id) {
     userId = id;
   }
@@ -42,17 +54,6 @@ class EventEventListProvider extends ListNotifier<Event> {
 }
 
 final eventEventListProvider =
-    StateNotifierProvider<EventEventListProvider, AsyncValue<List<Event>>>((
-      ref,
-    ) {
-      final eventRepository = ref.watch(eventRepositoryProvider);
-      final userId = ref.watch(idProvider);
-      final provider = EventEventListProvider(eventRepository: eventRepository);
-      tokenExpireWrapperAuth(ref, () async {
-        userId.whenData((value) async {
-          provider.setId(value);
-          await provider.loadConfirmedEvent();
-        });
-      });
-      return provider;
-    });
+    NotifierProvider<EventEventListProvider, AsyncValue<List<Event>>>(
+      EventEventListProvider.new,
+    );
