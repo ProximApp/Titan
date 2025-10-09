@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/booking/class/manager.dart';
 import 'package:titan/tools/repository/repository.dart';
 
@@ -30,3 +32,8 @@ class ManagerRepository extends Repository {
     return await delete("/$managerId");
   }
 }
+
+final managerRepositoryProvider = Provider((ref) {
+  final token = ref.watch(tokenProvider);
+  return ManagerRepository()..setToken(token);
+});

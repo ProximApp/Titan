@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/vote/class/voter.dart';
 
@@ -18,3 +20,8 @@ class VoterRepository extends Repository {
     return (await getList()).map((e) => Voter.fromJson(e)).toList();
   }
 }
+
+final voterRepositoryProvider = Provider((ref) {
+  final token = ref.watch(tokenProvider);
+  return VoterRepository()..setToken(token);
+});

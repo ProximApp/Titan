@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/raffle/class/pack_ticket.dart';
 import 'package:titan/raffle/class/prize.dart';
 import 'package:titan/raffle/class/stats.dart';
@@ -35,3 +37,8 @@ class RaffleDetailRepository extends Repository {
     return RaffleStats.fromJson(await getOne(raffleId, suffix: "/stats"));
   }
 }
+
+final raffleDetailRepositoryProvider = Provider((ref) {
+  final token = ref.watch(tokenProvider);
+  return RaffleDetailRepository()..setToken(token);
+});

@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/tools/repository/repository.dart';
 
 class RolesTagsRepository extends Repository {
@@ -9,3 +11,8 @@ class RolesTagsRepository extends Repository {
     return List<String>.from((await getOne("roletags"))["tags"]);
   }
 }
+
+final rolesTagsRepositoryProvider = Provider((ref) {
+  final token = ref.watch(tokenProvider);
+  return RolesTagsRepository()..setToken(token);
+});

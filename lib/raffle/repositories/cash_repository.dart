@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/raffle/class/cash.dart';
 import 'package:titan/tools/repository/repository.dart';
 
@@ -26,3 +28,8 @@ class CashRepository extends Repository {
     return await update(cash.toJson(), cash.user.id, suffix: "/cash");
   }
 }
+
+final rafflesCashRepositoryProvider = Provider((ref) {
+  final token = ref.watch(tokenProvider);
+  return CashRepository()..setToken(token);
+});

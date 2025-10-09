@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/feed/class/news.dart';
 import 'package:titan/tools/repository/repository.dart';
 
@@ -30,3 +32,8 @@ class NewsRepository extends Repository {
     return await create({}, suffix: "admin/news/$id/reject");
   }
 }
+
+final newsRepositoryProvider = Provider((ref) {
+  final token = ref.watch(tokenProvider);
+  return NewsRepository()..setToken(token);
+});

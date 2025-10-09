@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/phonebook/class/association.dart';
 import 'package:titan/tools/repository/repository.dart';
 
@@ -36,3 +38,8 @@ class AssociationRepository extends Repository {
     );
   }
 }
+
+final associationRepositoryProvider = Provider((ref) {
+  final token = ref.watch(tokenProvider);
+  return AssociationRepository()..setToken(token);
+});

@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/super_admin/class/module_visibility.dart';
 import 'package:titan/tools/repository/repository.dart';
 
@@ -43,3 +45,8 @@ class ModuleVisibilityRepository extends Repository {
     return await delete("$root/account-types/$allowedAccounTypes");
   }
 }
+
+final moduleVisibilityRepositoryProvider = Provider((ref) {
+  final token = ref.watch(tokenProvider);
+  return ModuleVisibilityRepository()..setToken(token);
+});

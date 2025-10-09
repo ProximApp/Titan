@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/purchases/class/ticket.dart';
 import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/user/class/simple_users.dart';
@@ -60,3 +62,8 @@ class ScannerRepository extends Repository {
     );
   }
 }
+
+final scannerRepositoryProvider = Provider((ref) {
+  final token = ref.watch(tokenProvider);
+  return ScannerRepository()..setToken(token);
+});

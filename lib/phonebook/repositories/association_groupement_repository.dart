@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/phonebook/class/association_groupement.dart';
 import 'package:titan/tools/repository/repository.dart';
 
@@ -37,3 +39,8 @@ class AssociationGroupementRepository extends Repository {
     return await delete(id);
   }
 }
+
+final associationGroupementRepositoryProvider = Provider((ref) {
+  final token = ref.watch(tokenProvider);
+  return AssociationGroupementRepository()..setToken(token);
+});

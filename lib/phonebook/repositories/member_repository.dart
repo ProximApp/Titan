@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/phonebook/class/complete_member.dart';
 import 'package:titan/tools/repository/repository.dart';
 
@@ -10,3 +12,8 @@ class MemberRepository extends Repository {
     return CompleteMember.fromJson(await getOne(memberId));
   }
 }
+
+final memberRepositoryProvider = Provider((ref) {
+  final token = ref.watch(tokenProvider);
+  return MemberRepository()..setToken(token);
+});

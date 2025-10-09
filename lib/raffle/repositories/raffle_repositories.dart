@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/raffle/class/raffle.dart';
 import 'package:titan/tools/repository/repository.dart';
 
@@ -34,3 +36,8 @@ class RaffleRepository extends Repository {
     return await update(raffle.toJson(), "/${raffle.id}", suffix: "/lock");
   }
 }
+
+final raffleRepositoryProvider = Provider((ref) {
+  final token = ref.watch(tokenProvider);
+  return RaffleRepository()..setToken(token);
+});

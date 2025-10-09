@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/service/class/message.dart';
 import 'package:titan/service/class/topic.dart';
 import 'package:titan/service/tools/functions.dart';
@@ -51,3 +53,8 @@ class NotificationRepository extends Repository {
     );
   }
 }
+
+final notificationRepositoryProvider = Provider((ref) {
+  final token = ref.watch(tokenProvider);
+  return NotificationRepository()..setToken(token);
+});

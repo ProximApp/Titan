@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/raffle/class/prize.dart';
 import 'package:titan/raffle/class/tickets.dart';
 import 'package:titan/tools/repository/repository.dart';
@@ -36,3 +38,8 @@ class LotRepository extends Repository {
     );
   }
 }
+
+final lotRepositoryProvider = Provider((ref) {
+  final token = ref.watch(tokenProvider);
+  return LotRepository()..setToken(token);
+});

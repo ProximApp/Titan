@@ -1,4 +1,6 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/advert/class/advert.dart';
+import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/tools/repository/repository.dart';
 
 class AdvertRepository extends Repository {
@@ -34,3 +36,8 @@ class AdvertRepository extends Repository {
     return await delete("adverts/$id");
   }
 }
+
+final advertRepositoryProvider = Provider((ref) {
+  final token = ref.watch(tokenProvider);
+  return AdvertRepository()..setToken(token);
+});
