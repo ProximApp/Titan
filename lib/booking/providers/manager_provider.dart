@@ -12,4 +12,6 @@ class ManagerNotifier extends Notifier<Manager> {
   }
 }
 
-final managerProvider = NotifierProvider<ManagerNotifier, Manager>(ManagerNotifier.new);
+final managerProvider = NotifierProvider<ManagerNotifier, Manager>(
+  ManagerNotifier.new,
+);

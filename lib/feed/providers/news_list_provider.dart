@@ -1,17 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/feed/class/news.dart';
 import 'package:titan/feed/repositories/news_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class NewsListNotifier extends ListNotifier<News> {
-  final NewsRepository newsRepository = NewsRepository();
+  NewsRepository get newsRepository => ref.watch(newsRepositoryProvider);
   AsyncValue<List<News>> allNews = const AsyncValue.loading();
 
   @override
   AsyncValue<List<News>> build() {
-    final token = ref.watch(tokenProvider);
-    newsRepository.setToken(token);
     return const AsyncValue.loading();
   }
 

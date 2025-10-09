@@ -1,20 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/purchases/class/seller.dart';
 import 'package:titan/purchases/repositories/user_information_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 
 class SellerListNotifier extends ListNotifier<Seller> {
-  final UserInformationRepository sellerRepository =
-      UserInformationRepository();
+  UserInformationRepository get sellerRepository =>
+      ref.watch(userInformationRepositoryProvider);
   AsyncValue<List<Seller>> sellerList = const AsyncValue.loading();
 
   @override
   AsyncValue<List<Seller>> build() {
-    final token = ref.watch(tokenProvider);
-    sellerRepository.setToken(token);
-
     tokenExpireWrapperAuth(ref, () async {
       await loadSellers();
     });

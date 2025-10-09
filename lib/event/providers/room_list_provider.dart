@@ -7,7 +7,6 @@ import 'package:titan/tools/token_expire_wrapper.dart';
 class RoomListNotifier extends ListNotifier<Room> {
   @override
   AsyncValue<List<Room>> build() {
-    final roomRepository = ref.watch(roomRepositoryProvider);
     tokenExpireWrapperAuth(ref, () async {
       await loadRooms();
     });

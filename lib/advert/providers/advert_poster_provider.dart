@@ -4,19 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/advert/providers/advert_posters_provider.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/advert/repositories/advert_poster_repository.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
 
 class AdvertPosterNotifier extends SingleNotifier<Image> {
-  final advertPosterRepository = AdvertPosterRepository();
+  AdvertPosterRepository get advertPosterRepository =>
+      ref.watch(advertPosterRepositoryProvider);
   AdvertPostersNotifier? _advertPostersNotifier;
 
   @override
   AsyncValue<Image> build() {
-    final token = ref.watch(tokenProvider);
     _advertPostersNotifier = ref.watch(advertPostersProvider.notifier);
-    advertPosterRepository.setToken(token);
     return const AsyncValue.loading();
   }
 

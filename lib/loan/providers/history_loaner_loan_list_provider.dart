@@ -1,17 +1,14 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/loan/class/loan.dart';
 import 'package:titan/loan/repositories/loan_repository.dart';
 import 'package:titan/tools/exception.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class HistoryLoanerLoanListNotifier extends ListNotifier<Loan> {
-  final LoanRepository loanRepository = LoanRepository();
+  LoanRepository get loanRepository => ref.watch(loanRepositoryProvider);
 
   @override
   AsyncValue<List<Loan>> build() {
-    final token = ref.watch(tokenProvider);
-    loanRepository.setToken(token);
     return const AsyncValue.loading();
   }
 

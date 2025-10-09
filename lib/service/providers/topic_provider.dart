@@ -1,18 +1,15 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/service/class/topic.dart';
 import 'package:titan/service/repositories/notification_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 
 class TopicsProvider extends ListNotifier<Topic> {
-  final NotificationRepository notificationRepository =
-      NotificationRepository();
+  NotificationRepository get notificationRepository =>
+      ref.watch(notificationRepositoryProvider);
 
   @override
   AsyncValue<List<Topic>> build() {
-    final token = ref.watch(tokenProvider);
-    notificationRepository.setToken(token);
     tokenExpireWrapperAuth(ref, () async {
       getTopics();
     });

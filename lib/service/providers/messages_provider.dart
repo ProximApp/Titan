@@ -1,19 +1,16 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/service/class/message.dart';
 import 'package:titan/service/providers/firebase_token_provider.dart';
 import 'package:titan/service/repositories/notification_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class MessagesProvider extends ListNotifier<Message> {
-  final NotificationRepository notificationRepository =
-      NotificationRepository();
+  NotificationRepository get notificationRepository =>
+      ref.watch(notificationRepositoryProvider);
   String firebaseToken = "";
 
   @override
   AsyncValue<List<Message>> build() {
-    final token = ref.watch(tokenProvider);
-    notificationRepository.setToken(token);
     final firebaseTokenFuture = ref.watch(firebaseTokenProvider);
     firebaseTokenFuture.then((value) => setFirebaseToken(value));
     return const AsyncValue.loading();

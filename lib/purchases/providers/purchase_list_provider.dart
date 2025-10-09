@@ -1,20 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/purchases/class/purchase.dart';
 import 'package:titan/purchases/repositories/user_purchase_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 
 class PurchaseListNotifier extends ListNotifier<Purchase> {
-  final UserPurchaseRepository userPurchaseRepository =
-      UserPurchaseRepository();
+  UserPurchaseRepository get userPurchaseRepository =>
+      ref.watch(userPurchaseRepositoryProvider);
   AsyncValue<List<Purchase>> purchaseList = const AsyncValue.loading();
 
   @override
   AsyncValue<List<Purchase>> build() {
-    final token = ref.watch(tokenProvider);
-    userPurchaseRepository.setToken(token);
-
     tokenExpireWrapperAuth(ref, () async {
       await loadPurchases();
     });

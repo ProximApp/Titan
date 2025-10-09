@@ -1,16 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/super_admin/class/module_visibility.dart';
 import 'package:titan/super_admin/repositories/module_visibility_repository.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class ModuleVisibilityListNotifier extends ListNotifier<ModuleVisibility> {
-  ModuleVisibilityRepository repository = ModuleVisibilityRepository();
+  ModuleVisibilityRepository get repository =>
+      ref.watch(moduleVisibilityRepositoryProvider);
 
   @override
   AsyncValue<List<ModuleVisibility>> build() {
-    final token = ref.watch(tokenProvider);
-    repository.setToken(token);
     return const AsyncValue.loading();
   }
 

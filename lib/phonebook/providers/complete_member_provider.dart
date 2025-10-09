@@ -1,16 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/phonebook/class/complete_member.dart';
 import 'package:titan/phonebook/class/member.dart';
 import 'package:titan/phonebook/repositories/member_repository.dart';
 
 class CompleteMemberProvider extends Notifier<CompleteMember> {
-  final MemberRepository memberRepository = MemberRepository();
+  MemberRepository get memberRepository => ref.watch(memberRepositoryProvider);
 
   @override
   CompleteMember build() {
-    final token = ref.watch(tokenProvider);
-    memberRepository.setToken(token);
     return CompleteMember.empty();
   }
 

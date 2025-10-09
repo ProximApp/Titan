@@ -1,16 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/purchases/class/ticket.dart';
 import 'package:titan/purchases/repositories/scanner_repository.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
 
 class ScannerNotifier extends SingleNotifier<Ticket> {
-  final ScannerRepository scannerRepository = ScannerRepository();
+  ScannerRepository get scannerRepository =>
+      ref.watch(scannerRepositoryProvider);
 
   @override
   AsyncValue<Ticket> build() {
-    final token = ref.watch(tokenProvider);
-    scannerRepository.setToken(token);
     return const AsyncValue.loading();
   }
 

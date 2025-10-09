@@ -1,15 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/phonebook/repositories/role_tags_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class RolesTagsNotifier extends ListNotifier<String> {
-  final RolesTagsRepository rolesTagsRepository = RolesTagsRepository();
+  RolesTagsRepository get rolesTagsRepository =>
+      ref.watch(rolesTagsRepositoryProvider);
 
   @override
   AsyncValue<List<String>> build() {
-    final token = ref.watch(tokenProvider);
-    rolesTagsRepository.setToken(token);
     loadRolesTags();
     return const AsyncValue.loading();
   }

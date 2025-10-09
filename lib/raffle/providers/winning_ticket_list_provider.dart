@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/raffle/class/prize.dart';
 import 'package:titan/raffle/class/tickets.dart';
 import 'package:titan/raffle/providers/ticket_list_provider.dart';
@@ -7,13 +6,10 @@ import 'package:titan/raffle/repositories/prize_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class WinningTicketNotifier extends ListNotifier<Ticket> {
-  final LotRepository _lotRepository = LotRepository();
+  LotRepository get lotRepository => ref.watch(lotRepositoryProvider);
 
   @override
   AsyncValue<List<Ticket>> build() {
-    final token = ref.watch(tokenProvider);
-    _lotRepository.setToken(token);
-
     final ticketFromRaffle = ref.watch(ticketsListProvider);
     final winningTickets = ticketFromRaffle.maybeWhen<List<Ticket>>(
       data: (data) => data.where((element) => element.prize != null).toList(),
@@ -29,7 +25,7 @@ class WinningTicketNotifier extends ListNotifier<Ticket> {
   }
 
   Future<AsyncValue<List<Ticket>>> drawPrize(Prize lot) async {
-    final drawnList = await _lotRepository.drawLot(lot);
+    final drawnList = await lotRepository.drawLot(lot);
     state.when(
       data: (list) {
         state = AsyncValue.data(list + drawnList);

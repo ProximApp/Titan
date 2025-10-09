@@ -1,18 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/phonebook/class/complete_member.dart';
 import 'package:titan/phonebook/class/membership.dart';
 import 'package:titan/phonebook/repositories/association_member_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class AssociationMemberListNotifier extends ListNotifier<CompleteMember> {
-  final AssociationMemberRepository associationMemberRepository =
-      AssociationMemberRepository();
+  AssociationMemberRepository get associationMemberRepository =>
+      ref.watch(associationMemberRepositoryProvider);
 
   @override
   AsyncValue<List<CompleteMember>> build() {
-    final token = ref.watch(tokenProvider);
-    associationMemberRepository.setToken(token);
     return const AsyncValue.loading();
   }
 

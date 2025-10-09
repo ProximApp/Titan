@@ -8,16 +8,13 @@ import 'package:titan/tools/providers/list_notifier.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 
 class UserTicketListNotifier extends ListNotifier<Ticket> {
-  final UserDetailRepository _userDetailRepository = UserDetailRepository();
-  final TicketRepository _ticketsRepository = TicketRepository();
+  UserDetailRepository get userDetailRepository =>
+      ref.watch(userDetailRepositoryProvider);
+  TicketRepository get ticketRepository => ref.watch(ticketRepositoryProvider);
   late String userId;
 
   @override
   AsyncValue<List<Ticket>> build() {
-    final token = ref.watch(tokenProvider);
-    _userDetailRepository.setToken(token);
-    _ticketsRepository.setToken(token);
-
     tokenExpireWrapperAuth(ref, () async {
       final userIdAsync = ref.watch(idProvider);
       userIdAsync.whenData((value) async {
@@ -35,13 +32,13 @@ class UserTicketListNotifier extends ListNotifier<Ticket> {
 
   Future<AsyncValue<List<Ticket>>> loadTicketList() async {
     return await loadList(
-      () async => _userDetailRepository.getTicketsListByUserId(userId),
+      () async => userDetailRepository.getTicketsListByUserId(userId),
     );
   }
 
   Future<bool> buyTicket(PackTicket packTicket) async {
     return addAll(
-      (_) async => _ticketsRepository.buyTicket(packTicket.id, userId),
+      (_) async => ticketRepository.buyTicket(packTicket.id, userId),
       [],
     );
   }

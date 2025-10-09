@@ -4,7 +4,7 @@ import 'package:titan/admin/repositories/user_invitation_repository.dart';
 class UserInvitationNotifier extends Notifier {
   @override
   void build() {
-    return null;
+    return;
   }
 
   Future<List<String>> createUsers(

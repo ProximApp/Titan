@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/purchases/class/ticket.dart';
 import 'package:titan/purchases/repositories/scanner_repository.dart';
 import 'package:titan/purchases/repositories/user_information_repository.dart';
@@ -7,16 +6,13 @@ import 'package:titan/tools/providers/list_notifier.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 
 class TicketListNotifier extends ListNotifier<Ticket> {
-  final UserInformationRepository ticketRepository =
-      UserInformationRepository();
-  final ScannerRepository scannerRepository = ScannerRepository();
+  UserInformationRepository get ticketRepository =>
+      ref.watch(userInformationRepositoryProvider);
+  ScannerRepository get scannerRepository =>
+      ref.watch(scannerRepositoryProvider);
 
   @override
   AsyncValue<List<Ticket>> build() {
-    final token = ref.watch(tokenProvider);
-    ticketRepository.setToken(token);
-    scannerRepository.setToken(token);
-
     tokenExpireWrapperAuth(ref, () async {
       await loadTickets();
     });

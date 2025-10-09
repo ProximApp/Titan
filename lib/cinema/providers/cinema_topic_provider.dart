@@ -1,15 +1,13 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/cinema/repositories/cinema_topic_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class CinemaTopicsProvider extends ListNotifier<String> {
-  final CinemaTopicRepository cinemaTopicRepository = CinemaTopicRepository();
+  CinemaTopicRepository get cinemaTopicRepository =>
+      ref.watch(cinemaTopicRepositoryProvider);
 
   @override
   AsyncValue<List<String>> build() {
-    final token = ref.watch(tokenProvider);
-    cinemaTopicRepository.setToken(token);
     return const AsyncValue.loading();
   }
 

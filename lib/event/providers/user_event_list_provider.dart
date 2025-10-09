@@ -10,7 +10,6 @@ class EventEventListProvider extends ListNotifier<Event> {
 
   @override
   AsyncValue<List<Event>> build() {
-    final eventRepository = ref.watch(eventRepositoryProvider);
     final userId = ref.watch(idProvider);
     tokenExpireWrapperAuth(ref, () async {
       userId.whenData((value) async {

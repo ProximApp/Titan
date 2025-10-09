@@ -7,7 +7,6 @@ import 'package:titan/tools/token_expire_wrapper.dart';
 class EventListNotifier extends ListNotifier<Event> {
   @override
   AsyncValue<List<Event>> build() {
-    final eventRepository = ref.watch(eventRepositoryProvider);
     tokenExpireWrapperAuth(ref, () async {
       await loadEventList();
     });

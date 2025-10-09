@@ -1,17 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/settings/class/notification_topic.dart';
 import 'package:titan/settings/repositories/notification_topic_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class NotificationTopicNotifier extends ListNotifier<NotificationTopic> {
-  final NotificationTopicRepository notificationTopicRepository =
-      NotificationTopicRepository();
+  NotificationTopicRepository get notificationTopicRepository =>
+      ref.watch(notificationTopicRepositoryProvider);
 
   @override
   AsyncValue<List<NotificationTopic>> build() {
-    final token = ref.watch(tokenProvider);
-    notificationTopicRepository.setToken(token);
     loadNotificationTopicList();
     return const AsyncValue.loading();
   }

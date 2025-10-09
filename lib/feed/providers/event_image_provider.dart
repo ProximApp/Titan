@@ -3,17 +3,15 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/feed/repositories/event_image_repository.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
 
 class EventImageNotifier extends SingleNotifier<Image> {
-  final eventImageRepository = EventImageRepository();
+  EventImageRepository get eventImageRepository =>
+      ref.watch(eventImageRepositoryProvider);
 
   @override
   AsyncValue<Image> build() {
-    final token = ref.watch(tokenProvider);
-    eventImageRepository.setToken(token);
     return const AsyncValue.loading();
   }
 

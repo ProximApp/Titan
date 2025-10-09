@@ -1,32 +1,29 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/raffle/class/cash.dart';
 import 'package:titan/raffle/repositories/cash_repository.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/tools/exception.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class CashProvider extends ListNotifier<Cash> {
-  final CashRepository _cashRepository = CashRepository();
+  CashRepository get cashRepository => ref.watch(rafflesCashRepositoryProvider);
   AsyncValue<List<Cash>> _cashList = const AsyncLoading();
 
   @override
   AsyncValue<List<Cash>> build() {
-    final token = ref.watch(tokenProvider);
-    _cashRepository.setToken(token);
     return const AsyncLoading();
   }
 
   Future<AsyncValue<List<Cash>>> loadCashList() async {
-    return _cashList = await loadList(_cashRepository.getCashList);
+    return _cashList = await loadList(cashRepository.getCashList);
   }
 
   Future<bool> addCash(Cash cash) async {
-    return await add(_cashRepository.createCash, cash);
+    return await add(cashRepository.createCash, cash);
   }
 
   Future<bool> updateCash(Cash cash, int amount) async {
     return await update(
-      _cashRepository.updateCash,
+      cashRepository.updateCash,
       (cashList, c) => cashList
         ..[cashList.indexWhere((c) => c.user.id == cash.user.id)] = cash
             .copyWith(balance: cash.balance + amount),

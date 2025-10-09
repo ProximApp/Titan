@@ -1,17 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/purchases/repositories/scanner_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 import 'package:titan/user/class/simple_users.dart';
 
 class ScannedUsersListNotifier extends ListNotifier<SimpleUser> {
-  final ScannerRepository scannerRepository = ScannerRepository();
+  ScannerRepository get scannerRepository =>
+      ref.watch(scannerRepositoryProvider);
   AsyncValue<List<String>> tagList = const AsyncValue.loading();
 
   @override
   AsyncValue<List<SimpleUser>> build() {
-    final token = ref.watch(tokenProvider);
-    scannerRepository.setToken(token);
     return const AsyncValue.loading();
   }
 

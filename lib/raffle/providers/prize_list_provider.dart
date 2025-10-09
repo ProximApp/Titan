@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/raffle/class/prize.dart';
 import 'package:titan/raffle/class/raffle.dart';
 import 'package:titan/raffle/providers/raffle_id_provider.dart';
@@ -8,14 +7,11 @@ import 'package:titan/tools/providers/list_notifier.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 
 class LotListNotifier extends ListNotifier<Prize> {
-  final LotRepository _lotRepository = LotRepository();
+  LotRepository get lotRepository => ref.watch(lotRepositoryProvider);
   late String raffleId;
 
   @override
   AsyncValue<List<Prize>> build() {
-    final token = ref.watch(tokenProvider);
-    _lotRepository.setToken(token);
-
     tokenExpireWrapperAuth(ref, () async {
       final raffleIdValue = ref.watch(raffleIdProvider);
       if (raffleIdValue != Raffle.empty().id) {
@@ -32,16 +28,16 @@ class LotListNotifier extends ListNotifier<Prize> {
   }
 
   Future<AsyncValue<List<Prize>>> loadPrizeList() async {
-    return await loadList(() async => _lotRepository.getLotList(raffleId));
+    return await loadList(() async => lotRepository.getLotList(raffleId));
   }
 
   Future<bool> addPrize(Prize lot) async {
-    return await add(_lotRepository.createLot, lot);
+    return await add(lotRepository.createLot, lot);
   }
 
   Future<bool> deletePrize(Prize lot) async {
     return await delete(
-      _lotRepository.deleteLot,
+      lotRepository.deleteLot,
       (lot, t) => lot..removeWhere((e) => e.id == t.id),
       lot.id,
       lot,
@@ -50,7 +46,7 @@ class LotListNotifier extends ListNotifier<Prize> {
 
   Future<bool> updatePrize(Prize lot) async {
     return await update(
-      _lotRepository.updateLot,
+      lotRepository.updateLot,
       (lot, t) => lot..[lot.indexWhere((e) => e.id == t.id)] = t,
       lot,
     );
