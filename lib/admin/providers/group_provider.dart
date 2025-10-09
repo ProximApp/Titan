@@ -5,8 +5,7 @@ import 'package:titan/tools/providers/single_notifier.dart';
 import 'package:titan/user/class/simple_users.dart';
 
 class GroupNotifier extends SingleNotifier<Group> {
-  GroupRepository get groupRepository =>
-      ref.watch(groupRepositoryProvider);
+  GroupRepository get groupRepository => ref.watch(groupRepositoryProvider);
 
   @override
   AsyncValue<Group> build() {

@@ -4,8 +4,7 @@ import 'package:titan/loan/repositories/loan_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class LoanListNotifier extends ListNotifier<Loan> {
-  LoanRepository get loanRepository =>
-      ref.watch(loanRepositoryProvider);
+  LoanRepository get loanRepository => ref.watch(loanRepositoryProvider);
 
   @override
   AsyncValue<List<Loan>> build() {

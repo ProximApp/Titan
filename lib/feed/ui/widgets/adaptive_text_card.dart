@@ -5,17 +5,15 @@ import 'package:titan/feed/tools/image_color_utils.dart' as image_color_utils;
 
 // Provider for managing dominant color state
 final dominantColorProvider =
-    AsyncNotifierProvider.family<
-      DominantColorNotifier,
-      Color?,
-      ImageProvider?
-    >(DominantColorNotifier.new);
+    AsyncNotifierProvider.family<DominantColorNotifier, Color?, ImageProvider?>(
+      DominantColorNotifier.new,
+    );
 
 class DominantColorNotifier extends AsyncNotifier<Color?> {
   DominantColorNotifier(this.imageProvider);
-  
+
   final ImageProvider? imageProvider;
-  
+
   @override
   Future<Color?> build() async {
     return await _analyzeDominantColor(imageProvider);

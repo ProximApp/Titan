@@ -10,9 +10,9 @@ final sessionListPageControllerProvider =
 
 class SessionListPageControllerNotifier extends Notifier<PageController> {
   SessionListPageControllerNotifier(this.initialPage);
-  
+
   final int initialPage;
-  
+
   @override
   PageController build() {
     return PageController(viewportFraction: 0.8, initialPage: initialPage);

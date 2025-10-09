@@ -7,10 +7,10 @@ import 'package:titan/tools/providers/single_notifier.dart';
 
 class AssociationLogoNotifier extends SingleNotifier<Image> {
   final ImagePicker _picker = ImagePicker();
-  
+
   AssociationLogoRepository get associationLogoRepositoryGetter =>
       ref.watch(associationLogoRepository);
-  
+
   AssociationLogoMapNotifier get associationLogoMapNotifier =>
       ref.watch(associationLogoMapProvider.notifier);
 

@@ -4,8 +4,7 @@ import 'package:titan/loan/repositories/item_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class ItemListNotifier extends ListNotifier<Item> {
-  ItemRepository get itemRepository =>
-      ref.watch(itemRepositoryProvider);
+  ItemRepository get itemRepository => ref.watch(itemRepositoryProvider);
 
   @override
   AsyncValue<List<Item>> build() {
@@ -17,10 +16,7 @@ class ItemListNotifier extends ListNotifier<Item> {
   }
 
   Future<bool> addItem(Item item, String loanerId) async {
-    return await add(
-      (i) async => itemRepository.createItem(loanerId, i),
-      item,
-    );
+    return await add((i) async => itemRepository.createItem(loanerId, i), item);
   }
 
   Future<bool> updateItem(Item item, String loanerId) async {

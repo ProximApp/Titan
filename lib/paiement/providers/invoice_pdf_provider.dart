@@ -5,9 +5,9 @@ import 'package:titan/paiement/repositories/invoice_pdf_repository.dart';
 
 class InvoicePdfNotifier extends AsyncNotifier<Uint8List> {
   InvoicePdfNotifier(this.invoiceId);
-  
+
   final String invoiceId;
-  
+
   @override
   Future<Uint8List> build() async {
     final InvoicePdfRepository invoicePdfRepository = ref.watch(

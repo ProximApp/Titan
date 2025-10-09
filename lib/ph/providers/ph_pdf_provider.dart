@@ -5,9 +5,9 @@ import 'package:titan/ph/repositories/ph_pdf_repository.dart';
 
 class PhPdf extends AsyncNotifier<Uint8List> {
   PhPdf(this.phId);
-  
+
   final String phId;
-  
+
   @override
   Future<Uint8List> build() async {
     final PhPdfRepository phPdfRepository = ref.watch(phPdfRepositoryProvider);

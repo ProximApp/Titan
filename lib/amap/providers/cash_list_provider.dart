@@ -4,8 +4,7 @@ import 'package:titan/amap/repositories/cash_repository.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class CashListProvider extends ListNotifier<Cash> {
-  CashRepository get cashRepository =>
-      ref.watch(cashRepositoryProvider);
+  CashRepository get cashRepository => ref.watch(cashRepositoryProvider);
   AsyncValue<List<Cash>> _cashList = const AsyncLoading();
 
   @override
