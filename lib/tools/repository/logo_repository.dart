@@ -4,31 +4,42 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:titan/tools/exception.dart';
-import 'package:titan/tools/repository/repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
+import 'package:titan/tools/functions.dart';
+import 'package:titan/tools/logs/logger.dart';
 
-abstract class LogoRepository extends Repository {
+abstract class LogoRepository {
+  static final String host = getTitanHost();
   static const String expiredTokenDetail = "Could not validate credentials";
+  final String ext = "";
+  final Map<String, String> headers = {
+    "Content-Type": "application/json; charset=UTF-8",
+    "Accept": "application/json",
+  };
+  static final Logger logger = Logger();
 
+  void setToken(String token) {
+    headers["Authorization"] = 'Bearer $token';
+  }
   Future<Uint8List> getLogo(String id, {String suffix = ""}) async {
     try {
       final response = await http.get(
-        Uri.parse("${Repository.host}$ext$id$suffix"),
+        Uri.parse("$host$ext$id$suffix"),
         headers: headers,
       );
       if (response.statusCode == 200) {
         try {
           return response.bodyBytes;
         } catch (e) {
-          Repository.logger.error(
+          logger.error(
             "GET $ext$id$suffix\nError while decoding response",
           );
           rethrow;
         }
       } else if (response.statusCode == 403) {
-        Repository.logger.error(
+        logger.error(
           "GET $ext$id$suffix\n${response.statusCode} ${response.body}",
         );
         String resp = utf8.decode(response.body.runes.toList());
@@ -41,7 +52,7 @@ abstract class LogoRepository extends Repository {
       } else if (response.statusCode == 404) {
         return Uint8List(0);
       } else {
-        Repository.logger.error(
+        logger.error(
           "GET $ext$id$suffix\n${response.statusCode} ${response.body}",
         );
         throw AppException(ErrorType.notFound, response.body);
@@ -49,7 +60,7 @@ abstract class LogoRepository extends Repository {
     } on AppException {
       rethrow;
     } catch (e) {
-      Repository.logger.error("GET $ext$id$suffix\nCould not load the logo");
+      logger.error("GET $ext$id$suffix\nCould not load the logo");
       rethrow;
     }
   }
@@ -62,7 +73,7 @@ abstract class LogoRepository extends Repository {
     final request =
         http.MultipartRequest(
             'POST',
-            Uri.parse("${Repository.host}$ext$id$suffix"),
+            Uri.parse("${host}$ext$id$suffix"),
           )
           ..headers.addAll(headers)
           ..files.add(
@@ -79,18 +90,18 @@ abstract class LogoRepository extends Repository {
         try {
           return json.decode(value)["success"];
         } catch (e) {
-          Repository.logger.error(
+          logger.error(
             "POST $ext$id$suffix\nError while decoding response",
           );
           throw AppException(ErrorType.invalidData, e.toString());
         }
       } else if (response.statusCode == 403) {
-        Repository.logger.error(
+        logger.error(
           "POST $ext$id$suffix\n${response.statusCode} ${response.reasonPhrase}",
         );
         throw AppException(ErrorType.tokenExpire, value);
       } else {
-        Repository.logger.error(
+        logger.error(
           "POST $ext$id$suffix\n${response.statusCode} ${response.reasonPhrase}",
         );
         throw AppException(ErrorType.notFound, value);
@@ -108,11 +119,11 @@ abstract class LogoRepository extends Repository {
         await file.writeAsBytes(response.bodyBytes);
         return file;
       } catch (e) {
-        Repository.logger.error("GET $path\nError while decoding response");
+        logger.error("GET $path\nError while decoding response");
         rethrow;
       }
     } else if (response.statusCode == 403) {
-      Repository.logger.error(
+      logger.error(
         "GET $path\n${response.statusCode} ${response.body}",
       );
       String resp = utf8.decode(response.body.runes.toList());
@@ -123,7 +134,7 @@ abstract class LogoRepository extends Repository {
         throw AppException(ErrorType.notFound, decoded["detail"]);
       }
     } else {
-      Repository.logger.error(
+      logger.error(
         "GET $path\n${response.statusCode} ${response.body}",
       );
       throw AppException(ErrorType.notFound, response.body);
