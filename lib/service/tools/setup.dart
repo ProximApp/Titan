@@ -9,7 +9,6 @@ import 'package:titan/service/providers/firebase_token_provider.dart';
 import 'package:titan/service/providers/topic_provider.dart';
 import 'package:titan/tools/logs/log.dart';
 import 'package:titan/tools/logs/logger.dart';
-import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/user/providers/user_provider.dart';
 
 void setUpNotification(WidgetRef ref) {
@@ -18,7 +17,6 @@ void setUpNotification(WidgetRef ref) {
   localNotificationService.init();
 
   final user = ref.watch(userProvider);
-  final devicesNotifier = ref.watch(devicesProvider.notifier);
   final firebaseToken = ref.watch(firebaseTokenProvider);
   final topicsNotifier = ref.watch(topicsProvider.notifier);
   final logger = ref.watch(loggerProvider);
@@ -36,7 +34,6 @@ void setUpNotification(WidgetRef ref) {
           firebaseTokenExpiration.expiration != null ||
           firebaseTokenExpiration.expiration!.isBefore(now)) {
         firebaseToken.then((value) {
-          devicesNotifier.registerDevice(value);
           firebaseTokenExpirationNotifier.saveDate(
             user.id,
             now.add(const Duration(days: 30)),

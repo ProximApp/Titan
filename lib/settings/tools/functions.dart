@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/settings/class/notification_topic.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/settings/providers/module_list_provider.dart';
 
-Map<String, List<NotificationTopic>> groupNotificationTopicsByModuleRoot(
-  List<NotificationTopic> topics,
+Map<String, List<TopicUser>> groupNotificationTopicsByModuleRoot(
+  List<TopicUser> topics,
   WidgetRef ref,
   BuildContext context,
 ) {
-  final Map<String, List<NotificationTopic>> tempGroups = {};
-  final Map<String, List<NotificationTopic>> result = {};
+  final Map<String, List<TopicUser>> tempGroups = {};
+  final Map<String, List<TopicUser>> result = {};
   final allModules = ref.read(modulesProvider.notifier).allModules;
   for (final topic in topics) {
     tempGroups.putIfAbsent(topic.moduleRoot, () => []).add(topic);
@@ -20,7 +20,7 @@ Map<String, List<NotificationTopic>> groupNotificationTopicsByModuleRoot(
       module.root.replaceFirst('/', ''): module.getName(context),
   };
 
-  final List<NotificationTopic> singleTopics = [];
+  final List<TopicUser> singleTopics = [];
 
   tempGroups.forEach((moduleRoot, topicList) {
     if (topicList.length == 1) {
