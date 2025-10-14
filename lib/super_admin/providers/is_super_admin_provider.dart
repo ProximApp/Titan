@@ -3,5 +3,5 @@ import 'package:titan/user/providers/user_provider.dart';
 
 final isSuperAdminProvider = Provider<bool>((ref) {
   final me = ref.watch(userProvider);
-  return me.isSuperAdmin;
+  return me.isSuperAdmin ?? false;
 });

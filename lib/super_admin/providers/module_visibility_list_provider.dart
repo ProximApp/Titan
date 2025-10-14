@@ -1,11 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/super_admin/class/module_visibility.dart';
-import 'package:titan/super_admin/repositories/module_visibility_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class ModuleVisibilityListNotifier extends ListNotifier<ModuleVisibility> {
-  ModuleVisibilityRepository get repository =>
-      ref.watch(moduleVisibilityRepositoryProvider);
+class ModuleVisibilityListNotifier extends ListNotifierAPI<ModuleVisibility> {
+  Openapi get repository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<ModuleVisibility>> build() {
@@ -13,7 +12,7 @@ class ModuleVisibilityListNotifier extends ListNotifier<ModuleVisibility> {
   }
 
   Future<AsyncValue<List<ModuleVisibility>>> loadModuleVisibility() async {
-    return await loadList(repository.getModuleVisibilityList);
+    return await loadList(repository.moduleVisibilityGet);
   }
 
   Future<bool> addGroupToModule(
@@ -21,11 +20,13 @@ class ModuleVisibilityListNotifier extends ListNotifier<ModuleVisibility> {
     String allowedGroupId,
   ) async {
     return await update(
-      (moduleVisibility) async =>
-          repository.addGroupToModule(moduleVisibility.root, allowedGroupId),
-      (list, moduleVisibility) => list
-        ..[list.indexWhere((m) => m.root == moduleVisibility.root)] =
-            moduleVisibility,
+      () => repository.moduleVisibilityPost(
+        body: ModuleVisibilityCreate(
+          root: moduleVisibility.root,
+          allowedGroupId: allowedGroupId,
+        ),
+      ),
+      (moduleVisibility) => moduleVisibility.root,
       moduleVisibility,
     );
   }
@@ -35,45 +36,41 @@ class ModuleVisibilityListNotifier extends ListNotifier<ModuleVisibility> {
     String allowedGroupId,
   ) async {
     return await update(
-      (moduleVisibility) async => repository.deleteGroupAccessForModule(
-        moduleVisibility.root,
-        allowedGroupId,
+      () => repository.moduleVisibilityRootGroupsGroupIdDelete(
+        root: moduleVisibility.root,
+        groupId: allowedGroupId,
       ),
-      (list, moduleVisibility) => list
-        ..[list.indexWhere((m) => m.root == moduleVisibility.root)] =
-            moduleVisibility,
+      (moduleVisibility) => moduleVisibility.root,
       moduleVisibility,
     );
   }
 
   Future<bool> addAccountTypeToModule(
     ModuleVisibility moduleVisibility,
-    String allowedAccountType,
+    AccountType allowedAccountType,
   ) async {
     return await update(
-      (moduleVisibility) async => repository.addAccountTypeToModule(
-        moduleVisibility.root,
-        allowedAccountType,
+      () async => repository.moduleVisibilityPost(
+        body: ModuleVisibilityCreate(
+          root: moduleVisibility.root,
+          allowedAccountType: allowedAccountType,
+        ),
       ),
-      (list, moduleVisibility) => list
-        ..[list.indexWhere((m) => m.root == moduleVisibility.root)] =
-            moduleVisibility,
+      (moduleVisibility) => moduleVisibility.root,
       moduleVisibility,
     );
   }
 
   Future<bool> deleteAccountTypeAccessForModule(
     ModuleVisibility moduleVisibility,
-    String allowedAccountType,
+    AccountType allowedAccountType,
   ) async {
     return await update(
-      (moduleVisibility) async => repository.deleteAccountTypeAccessForModule(
-        moduleVisibility.root,
-        allowedAccountType,
+      () async => repository.moduleVisibilityRootAccountTypesAccountTypeDelete(
+        root: moduleVisibility.root,
+        accountType: allowedAccountType,
       ),
-      (list, moduleVisibility) => list
-        ..[list.indexWhere((m) => m.root == moduleVisibility.root)] =
-            moduleVisibility,
+      (moduleVisibility) => moduleVisibility.root,
       moduleVisibility,
     );
   }
@@ -87,4 +84,4 @@ final moduleVisibilityListProvider =
     NotifierProvider<
       ModuleVisibilityListNotifier,
       AsyncValue<List<ModuleVisibility>>
-    >(() => ModuleVisibilityListNotifier());
+    >(ModuleVisibilityListNotifier.new);

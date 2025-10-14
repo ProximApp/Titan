@@ -1,24 +1,24 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/super_admin/class/account_type.dart';
-import 'package:titan/super_admin/repositories/account_type_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart' as enums;
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class AccountTypesNotifier extends ListNotifier<AccountType> {
-  AccountTypeRepository get accountTypeRepository =>
-      ref.watch(accountTypeRepositoryProvider);
+class AccountTypesNotifier extends ListNotifierAPI<enums.AccountType> {
+  Openapi get accountTypeRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<List<AccountType>> build() {
+  AsyncValue<List<enums.AccountType>> build() {
     loadAccountTypes();
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<List<AccountType>>> loadAccountTypes() async {
-    return await loadList(accountTypeRepository.getAccountTypeList);
+  Future<AsyncValue<List<enums.AccountType>>> loadAccountTypes() async {
+    return await loadList(accountTypeRepository.usersAccountTypesGet);
   }
 }
 
 final allAccountTypesListProvider =
-    NotifierProvider<AccountTypesNotifier, AsyncValue<List<AccountType>>>(
+    NotifierProvider<AccountTypesNotifier, AsyncValue<List<enums.AccountType>>>(
       AccountTypesNotifier.new,
     );

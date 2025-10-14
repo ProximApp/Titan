@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/super_admin/class/school.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/super_admin/providers/school_list_provider.dart';
 import 'package:titan/super_admin/providers/school_provider.dart';
 import 'package:titan/super_admin/tools/function.dart';
@@ -10,7 +10,6 @@ import 'package:titan/super_admin/ui/admin.dart';
 import 'package:titan/super_admin/ui/components/admin_button.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/tools/ui/widgets/text_entry.dart';
@@ -85,8 +84,7 @@ class EditSchoolPage extends HookConsumerWidget {
                       final updatingErrorMsg = AppLocalizations.of(
                         context,
                       )!.adminUpdatingError;
-                      await tokenExpireWrapper(ref, () async {
-                        School newSchool = school.copyWith(
+                        CoreSchool newSchool = school.copyWith(
                           name: name.text,
                           emailRegex: emailRegex.text,
                         );
@@ -103,7 +101,6 @@ class EditSchoolPage extends HookConsumerWidget {
                             updatingErrorMsg,
                           );
                         }
-                      });
                     },
                     builder: (child) => SuperAdminButton(child: child),
                     child: Text(

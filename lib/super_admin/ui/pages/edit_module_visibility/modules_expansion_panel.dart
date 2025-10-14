@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/super_admin/class/account_type.dart';
-import 'package:titan/super_admin/class/module_visibility.dart';
+import 'package:titan/admin/providers/all_group_list_provider.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart' as enums;
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/super_admin/providers/all_account_types_list_provider.dart';
-import 'package:titan/admin/providers/all_groups_list_provider.dart';
 import 'package:titan/super_admin/providers/is_expanded_list_provider.dart';
 import 'package:titan/super_admin/providers/module_visibility_list_provider.dart';
 import 'package:titan/l10n/app_localizations.dart';
 
 class ModulesExpansionPanel extends HookConsumerWidget {
   final List<ModuleVisibility> modules;
-  final List<AccountType> accountTypes;
+  final List<enums.AccountType> accountTypes;
 
   const ModulesExpansionPanel({
     super.key,
@@ -69,7 +69,7 @@ class ModulesExpansionPanel extends HookConsumerWidget {
                           child: Row(
                             children: [
                               Text(
-                                accountType.type,
+                                accountType.name,
                                 style: const TextStyle(
                                   color: Color.fromARGB(255, 0, 0, 0),
                                   fontSize: 20,
@@ -96,7 +96,7 @@ class ModulesExpansionPanel extends HookConsumerWidget {
                                         await modulesNotifier
                                             .deleteAccountTypeAccessForModule(
                                               newModuleVisibility,
-                                              accountType.type,
+                                              accountType,
                                             );
                                       },
                                       child: const HeroIcon(
@@ -116,7 +116,7 @@ class ModulesExpansionPanel extends HookConsumerWidget {
                                         await modulesNotifier
                                             .addAccountTypeToModule(
                                               newModuleVisibility,
-                                              accountType.type,
+                                              accountType,
                                             );
                                       },
                                       child: const HeroIcon(

@@ -1,27 +1,24 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/super_admin/repositories/module_visibility_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/user/providers/user_provider.dart';
 
-class ModuleListNotifier extends ListNotifier<String> {
-  ModuleVisibilityRepository get repository =>
-      ref.watch(moduleVisibilityRepositoryProvider);
+class ModuleListNotifier extends ListNotifierAPI<String> {
+  Openapi get repository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<String>> build() {
     final userProvider = ref.watch(asyncUserProvider);
     userProvider.maybeWhen(
-      data: (data) => tokenExpireWrapperAuth(ref, () async {
-        await loadMyModuleRoots();
-      }),
+      data: (data) => {loadMyModuleRoots()},
       orElse: () {},
     );
     return const AsyncValue.loading();
   }
 
   Future<AsyncValue<List<String>>> loadMyModuleRoots() async {
-    return await loadList(repository.getAccessibleModule);
+    return await loadList(repository.moduleVisibilityMeGet);
   }
 }
 
