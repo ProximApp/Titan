@@ -1,14 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/generated/openapi.swagger.dart';
-import 'package:titan/tools/providers/single_notifier%20copy.dart';
-import 'package:titan/tools/repository/repository2.dart';
+import 'package:titan/tools/providers/single_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class VersionVerifierNotifier extends SingleNotifier2<CoreInformation> {
-  late final Openapi versionRepository;
+class VersionVerifierNotifier extends SingleNotifierAPI<CoreInformation> {
+  Openapi get versionRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<Version> build() {
-    versionRepository = ref.watch(versionRepositoryProvider);
+  AsyncValue<CoreInformation> build() {
     loadVersion();
     return const AsyncLoading();
   }
@@ -19,6 +18,6 @@ class VersionVerifierNotifier extends SingleNotifier2<CoreInformation> {
 }
 
 final versionVerifierProvider =
-    NotifierProvider<VersionVerifierNotifier, AsyncValue<Version>>(
+    NotifierProvider<VersionVerifierNotifier, AsyncValue<CoreInformation>>(
       VersionVerifierNotifier.new,
     );
