@@ -44,9 +44,8 @@ class MemberDetailPage extends HookConsumerWidget {
                       group: memberPictures,
                       notifier: memberPicturesNotifier,
                       mapKey: member,
-                      loader: (ref) => profilePictureNotifier.getProfilePicture(
-                        member.id,
-                      ),
+                      loader: (ref) =>
+                          profilePictureNotifier.getProfilePicture(member.id),
                       loadingBuilder: (context) => const CircleAvatar(
                         radius: 80,
                         child: CircularProgressIndicator(),
@@ -92,16 +91,10 @@ class MemberDetailPage extends HookConsumerWidget {
                         style: const TextStyle(fontSize: 16),
                       ),
                     const SizedBox(height: 20),
-                    Text(
-                      member.email,
-                      style: const TextStyle(fontSize: 16),
-                    ),
+                    Text(member.email, style: const TextStyle(fontSize: 16)),
                     const SizedBox(height: 5),
                     if (member.phone != null)
-                      Text(
-                        member.phone!,
-                        style: const TextStyle(fontSize: 16),
-                      ),
+                      Text(member.phone!, style: const TextStyle(fontSize: 16)),
                   ],
                 ),
               ),

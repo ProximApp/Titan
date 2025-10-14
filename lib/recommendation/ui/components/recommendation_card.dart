@@ -153,44 +153,44 @@ class RecommendationCard extends HookConsumerWidget {
                               const SizedBox(height: 10),
                               GestureDetector(
                                 onTap: () async {
-                                    await showDialog(
-                                      context: context,
-                                      builder: (context) => CustomDialogBox(
-                                        descriptions: AppLocalizations.of(
-                                          context,
-                                        )!.recommendationDeleteRecommendationConfirmation,
-                                        onYes: () async {
-                                          final deletedRecommendationMsg =
-                                              AppLocalizations.of(
-                                                context,
-                                              )!.recommendationDeletedRecommendation;
-                                          final deletedRecommendationErrorMsg =
-                                              AppLocalizations.of(
-                                                context,
-                                              )!.recommendationDeletingRecommendationError;
-                                          final value =
-                                              await recommendationListNotifier
-                                                  .deleteRecommendation(
-                                                    recommendation,
-                                                  );
-                                          if (value) {
-                                            displayToastWithContext(
-                                              TypeMsg.msg,
-                                              deletedRecommendationMsg,
-                                            );
-                                            QR.back();
-                                          } else {
-                                            displayToastWithContext(
-                                              TypeMsg.error,
-                                              deletedRecommendationErrorMsg,
-                                            );
-                                          }
-                                        },
-                                        title: AppLocalizations.of(
-                                          context,
-                                        )!.recommendationDeleteRecommendation,
-                                      ),
-                                    );
+                                  await showDialog(
+                                    context: context,
+                                    builder: (context) => CustomDialogBox(
+                                      descriptions: AppLocalizations.of(
+                                        context,
+                                      )!.recommendationDeleteRecommendationConfirmation,
+                                      onYes: () async {
+                                        final deletedRecommendationMsg =
+                                            AppLocalizations.of(
+                                              context,
+                                            )!.recommendationDeletedRecommendation;
+                                        final deletedRecommendationErrorMsg =
+                                            AppLocalizations.of(
+                                              context,
+                                            )!.recommendationDeletingRecommendationError;
+                                        final value =
+                                            await recommendationListNotifier
+                                                .deleteRecommendation(
+                                                  recommendation,
+                                                );
+                                        if (value) {
+                                          displayToastWithContext(
+                                            TypeMsg.msg,
+                                            deletedRecommendationMsg,
+                                          );
+                                          QR.back();
+                                        } else {
+                                          displayToastWithContext(
+                                            TypeMsg.error,
+                                            deletedRecommendationErrorMsg,
+                                          );
+                                        }
+                                      },
+                                      title: AppLocalizations.of(
+                                        context,
+                                      )!.recommendationDeleteRecommendation,
+                                    ),
+                                  );
                                 },
                                 child: const CardButton(
                                   color: Colors.black,

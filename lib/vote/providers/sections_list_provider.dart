@@ -7,7 +7,7 @@ import 'package:titan/vote/providers/sections_provider.dart';
 class SectionList extends MapNotifier<SectionComplete, ListReturn> {
   @override
   Map<SectionComplete, AsyncValue<List<ListReturn>>?> build() {
-      final loaners = ref.watch(sectionList);
+    final loaners = ref.watch(sectionList);
     final lists = ref.watch(listListProvider);
     List<ListReturn> list = [];
     lists.when(
@@ -30,7 +30,7 @@ class SectionList extends MapNotifier<SectionComplete, ListReturn> {
         ),
       );
     }
-      return {};
+    return {};
   }
 }
 

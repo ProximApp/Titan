@@ -17,7 +17,6 @@ class UserAssociationMembershipNotifier
 }
 
 final userAssociationMembershipProvider =
-    NotifierProvider<
-      UserAssociationMembershipNotifier,
-      UserMembershipComplete
-    >(UserAssociationMembershipNotifier.new);
+    NotifierProvider<UserAssociationMembershipNotifier, UserMembershipComplete>(
+      UserAssociationMembershipNotifier.new,
+    );

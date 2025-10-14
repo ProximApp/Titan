@@ -9,7 +9,7 @@ class ProductListNotifier
 
   @override
   AsyncValue<List<AppModulesAmapSchemasAmapProductComplete>> build() {
-      loadProductList();
+    loadProductList();
     return const AsyncValue.loading();
   }
 
@@ -56,6 +56,7 @@ class ProductListNotifier
 }
 
 final productListProvider =
-    NotifierProvider<ProductListNotifier, AsyncValue<List<AppModulesAmapSchemasAmapProductComplete>>>(
-      ProductListNotifier.new,
-    );
+    NotifierProvider<
+      ProductListNotifier,
+      AsyncValue<List<AppModulesAmapSchemasAmapProductComplete>>
+    >(ProductListNotifier.new);

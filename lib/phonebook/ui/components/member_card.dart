@@ -55,8 +55,7 @@ class MemberCard extends HookConsumerWidget {
           group: memberPictures,
           notifier: memberPicturesNotifier,
           mapKey: member,
-          loader: (ref) =>
-              profilePictureNotifier.getProfilePicture(member.id),
+          loader: (ref) => profilePictureNotifier.getProfilePicture(member.id),
           loadingBuilder: (context) => const CircleAvatar(
             radius: 20,
             child: CircularProgressIndicator(),

@@ -6,5 +6,7 @@ class ListLogoNotifier extends MapNotifier<String, Image> {
   ListLogoNotifier() : super();
 }
 
-final listLogosProvider = NotifierProvider<ListLogoNotifier,
-    Map<String, AsyncValue<List<Image>>?>>(ListLogoNotifier.new);
+final listLogosProvider =
+    NotifierProvider<ListLogoNotifier, Map<String, AsyncValue<List<Image>>?>>(
+      ListLogoNotifier.new,
+    );

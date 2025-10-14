@@ -12,7 +12,6 @@ class FilterNotifier extends Notifier<SpeciesType> {
   }
 }
 
-
 final speciesTypeFilterProvider = NotifierProvider<FilterNotifier, SpeciesType>(
   FilterNotifier.new,
 );

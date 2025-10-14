@@ -84,23 +84,20 @@ class EditSchoolPage extends HookConsumerWidget {
                       final updatingErrorMsg = AppLocalizations.of(
                         context,
                       )!.adminUpdatingError;
-                        CoreSchool newSchool = school.copyWith(
-                          name: name.text,
-                          emailRegex: emailRegex.text,
-                        );
-                        schoolNotifier.setSchool(newSchool);
-                        final value = await schoolListNotifier.updateSchool(
-                          newSchool,
-                        );
-                        if (value) {
-                          QR.back();
-                          displayToastWithContext(TypeMsg.msg, updatedGroupMsg);
-                        } else {
-                          displayToastWithContext(
-                            TypeMsg.msg,
-                            updatingErrorMsg,
-                          );
-                        }
+                      CoreSchool newSchool = school.copyWith(
+                        name: name.text,
+                        emailRegex: emailRegex.text,
+                      );
+                      schoolNotifier.setSchool(newSchool);
+                      final value = await schoolListNotifier.updateSchool(
+                        newSchool,
+                      );
+                      if (value) {
+                        QR.back();
+                        displayToastWithContext(TypeMsg.msg, updatedGroupMsg);
+                      } else {
+                        displayToastWithContext(TypeMsg.msg, updatingErrorMsg);
+                      }
                     },
                     builder: (child) => SuperAdminButton(child: child),
                     child: Text(

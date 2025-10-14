@@ -123,8 +123,8 @@ class AddEditSessionPage extends HookConsumerWidget {
                                     data.runtime,
                                   );
                                   logo.value = await getFromUrl(
-                                      data.posterPath,
-                                    );
+                                    data.posterPath,
+                                  );
                                 },
                                 loading: () {},
                                 error: (e, s) {
@@ -262,22 +262,21 @@ class AddEditSessionPage extends HookConsumerWidget {
                         genre: genre.text.isEmpty ? null : genre.text,
                         id: isEdit ? session.id : '',
                         overview: overview.text.isEmpty
-                              ? AppLocalizations.of(context)!.cinemaNoOverview
-                              : overview.text,
+                            ? AppLocalizations.of(context)!.cinemaNoOverview
+                            : overview.text,
                         start: DateTime.parse(
                           processDateBackWithHour(
-                              start.text,
-                              locale.toString(),
-                            ),
+                            start.text,
+                            locale.toString(),
+                          ),
                         ),
                         tagline: tagline.text.isEmpty ? null : tagline.text,
                       );
                       final value = isEdit
-                          ? await sessionListNotifier.updateSession(newSession,
-                              )
+                          ? await sessionListNotifier.updateSession(newSession)
                           : await sessionListNotifier.addSession(
                               newSession.toCineSessionBase(),
-                              );
+                            );
                       if (value) {
                         QR.back();
                         if (isEdit) {
@@ -321,10 +320,7 @@ class AddEditSessionPage extends HookConsumerWidget {
                             },
                             orElse: () {},
                           );
-                          displayToastWithContext(
-                            TypeMsg.msg,
-                            addedSessionMsg,
-                          );
+                          displayToastWithContext(TypeMsg.msg, addedSessionMsg);
                         }
                       } else {
                         if (isEdit) {

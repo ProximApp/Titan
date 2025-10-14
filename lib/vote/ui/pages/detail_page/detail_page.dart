@@ -63,14 +63,14 @@ class DetailPage extends HookConsumerWidget {
                                     value: listLogos[list.id]!,
                                     builder: (context, data) {
                                       if (data.isEmpty) {
-                                        logoNotifier.getLogo(list.id).then(
-                                          (value) {
-                                            listLogosNotifier.setTData(
-                                              list.id,
-                                              AsyncData([value]),
-                                            );
-                                          },
-                                        );
+                                        logoNotifier.getLogo(list.id).then((
+                                          value,
+                                        ) {
+                                          listLogosNotifier.setTData(
+                                            list.id,
+                                            AsyncData([value]),
+                                          );
+                                        });
                                         return const HeroIcon(
                                           HeroIcons.userCircle,
                                           size: 40,

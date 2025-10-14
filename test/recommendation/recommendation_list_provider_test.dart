@@ -177,9 +177,7 @@ void main() {
       ).thenThrow(Exception('Failed to delete recommendation'));
 
       provider.state = AsyncValue.data([...recommendations]);
-      final result = await provider.deleteRecommendation(
-        recommendations.first,
-      );
+      final result = await provider.deleteRecommendation(recommendations.first);
 
       expect(result, false);
     });

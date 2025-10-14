@@ -4,7 +4,7 @@ extension $CoreGroup on CoreGroup {
   CoreGroupSimple toCoreGroupSimple() {
     return CoreGroupSimple(name: name, id: id);
   }
-  
+
   CoreMembership toCoreMembership(CoreUserSimple user) {
     return CoreMembership(userId: user.id, groupId: id);
   }
@@ -13,4 +13,3 @@ extension $CoreGroup on CoreGroup {
     return CoreMembershipDelete(userId: user.id, groupId: id);
   }
 }
-

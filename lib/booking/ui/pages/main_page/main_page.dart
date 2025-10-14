@@ -158,22 +158,20 @@ class BookingMainPage extends HookConsumerWidget {
                             builder: (context) => CustomDialogBox(
                               descriptions: AppLocalizations.of(
                                 context,
-                                )!.bookingDeleteBookingConfirmation,
+                              )!.bookingDeleteBookingConfirmation,
                               onYes: () async {
-                                  final deleteMsg = AppLocalizations.of(
-                                    context,
-                                  )!.bookingDeleteBooking;
-                                  final errorMsg = AppLocalizations.of(
-                                    context,
-                                  )!.bookingDeletingError;
-                                final value =
-                                    await bookingsNotifier.deleteBooking(e);
+                                final deleteMsg = AppLocalizations.of(
+                                  context,
+                                )!.bookingDeleteBooking;
+                                final errorMsg = AppLocalizations.of(
+                                  context,
+                                )!.bookingDeletingError;
+                                final value = await bookingsNotifier
+                                    .deleteBooking(e);
 
                                 if (value) {
                                   ref
-                                      .read(
-                                        managerBookingListProvider.notifier,
-                                      )
+                                      .read(managerBookingListProvider.notifier)
                                       .loadUserManageBookings;
                                   displayToastWithContext(
                                     TypeMsg.msg,
@@ -187,8 +185,8 @@ class BookingMainPage extends HookConsumerWidget {
                                 }
                               },
                               title: AppLocalizations.of(
-                                  context,
-                                )!.bookingDeleteBooking,
+                                context,
+                              )!.bookingDeleteBooking,
                             ),
                           );
                         },

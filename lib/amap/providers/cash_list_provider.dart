@@ -9,7 +9,7 @@ class CashListProvider extends ListNotifierAPI<CashComplete> {
 
   @override
   AsyncValue<List<CashComplete>> build() {
-      loadCashList();
+    loadCashList();
     return const AsyncLoading();
   }
 

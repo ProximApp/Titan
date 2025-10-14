@@ -9,10 +9,10 @@ class UserTicketListNotifier extends ListNotifierAPI<TicketComplete> {
 
   @override
   AsyncValue<List<TicketComplete>> build() {
-      final userIdAsync = ref.watch(idProvider);
-      userIdAsync.whenData((value) async {
-        await loadTicketList(value);
-      });
+    final userIdAsync = ref.watch(idProvider);
+    userIdAsync.whenData((value) async {
+      await loadTicketList(value);
+    });
     return const AsyncValue.loading();
   }
 

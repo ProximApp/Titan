@@ -2,7 +2,6 @@ import 'package:titan/amap/providers/delivery_provider.dart';
 import 'package:titan/amap/providers/available_deliveries.dart';
 import 'package:titan/amap/router.dart';
 import 'package:titan/amap/ui/amap.dart';
-import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/builders/enums_cleaner.dart';
@@ -236,8 +235,9 @@ class AmapMainPage extends HookConsumerWidget {
                         WaitingButton(
                           onTap: () async {
                             if (availableDeliveriesIds.contains(delivery.id)) {
-                              await deliveryProductListNotifier
-                                  .loadProductList(delivery.products ?? []);
+                              await deliveryProductListNotifier.loadProductList(
+                                delivery.products ?? [],
+                              );
                               QR.to(AmapRouter.root + AmapRouter.listProduct);
                             } else {
                               displayToastWithoutContext(

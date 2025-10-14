@@ -62,9 +62,7 @@ class Refresher extends HookConsumerWidget {
           parent: AlwaysScrollableScrollPhysics(),
         ),
         slivers: [
-          CupertinoSliverRefreshControl(
-            onRefresh: onRefresh,
-          ),
+          CupertinoSliverRefreshControl(onRefresh: onRefresh),
           SliverToBoxAdapter(
             child: ConstrainedBox(
               constraints: BoxConstraints(minHeight: constraints.maxHeight),

@@ -58,7 +58,9 @@ class SpeciesPage extends HookConsumerWidget {
               const SizedBox(height: 20),
               GestureDetector(
                 onTap: () {
-                  speciesNotifier.setSpecies(EmptyModels.empty<SpeciesComplete>());
+                  speciesNotifier.setSpecies(
+                    EmptyModels.empty<SpeciesComplete>(),
+                  );
                   speciesTypeNotifier.setType(EmptyModels.empty<SpeciesType>());
                   difficultyNotifier.setFilter(0);
                   startMonthNotifier.setString('');
@@ -108,7 +110,9 @@ class SpeciesPage extends HookConsumerWidget {
                                 difficultyNotifier.setFilter(
                                   species.difficulty,
                                 );
-                                speciesTypeNotifier.setType(species.speciesType);
+                                speciesTypeNotifier.setType(
+                                  species.speciesType,
+                                );
                                 speciesNotifier.setSpecies(species);
                                 startMonthNotifier.setString(
                                   species.startSeason != null

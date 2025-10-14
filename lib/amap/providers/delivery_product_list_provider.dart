@@ -5,8 +5,7 @@ import 'package:titan/tools/repository/repository.dart';
 
 class DeliveryProductListNotifier
     extends ListNotifierAPI<AppModulesAmapSchemasAmapProductComplete> {
-  Openapi get productListRepository =>
-      ref.watch(repositoryProvider);
+  Openapi get productListRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<AppModulesAmapSchemasAmapProductComplete>> build() {
@@ -54,6 +53,7 @@ class DeliveryProductListNotifier
 }
 
 final deliveryProductListProvider =
-    NotifierProvider<DeliveryProductListNotifier, AsyncValue<List<AppModulesAmapSchemasAmapProductComplete>>>(
-      () => DeliveryProductListNotifier(),
-    );
+    NotifierProvider<
+      DeliveryProductListNotifier,
+      AsyncValue<List<AppModulesAmapSchemasAmapProductComplete>>
+    >(() => DeliveryProductListNotifier());

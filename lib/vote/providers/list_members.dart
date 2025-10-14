@@ -34,5 +34,5 @@ class ListMembersProvider extends Notifier<List<ListMemberComplete>> {
 
 final listMembersProvider =
     NotifierProvider<ListMembersProvider, List<ListMemberComplete>>(
-  ListMembersProvider.new,
-);
+      ListMembersProvider.new,
+    );

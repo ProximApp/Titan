@@ -212,29 +212,29 @@ class SellerRightCard extends ConsumerWidget {
                                   context,
                                 )!.paiementDeleteSellerDescription,
                                 onYes: () async {
-                                    final deleteSellerMsg = AppLocalizations.of(
-                                      context,
-                                    )!.paiementDeletedSeller;
-                                    final deletingSellerErrorMsg =
-                                        AppLocalizations.of(
-                                          context,
-                                        )!.paiementDeletingSellerError;
-                                    final value = await sellerStoreNotifier
-                                        .deleteStoreSeller(storeSeller);
-                                    if (value) {
-                                      displayToastWithContext(
-                                        TypeMsg.msg,
-                                        deleteSellerMsg,
-                                      );
-                                      if (context.mounted) {
-                                        Navigator.pop(context);
-                                      }
-                                    } else {
-                                      displayToastWithContext(
-                                        TypeMsg.error,
-                                        deletingSellerErrorMsg,
-                                      );
+                                  final deleteSellerMsg = AppLocalizations.of(
+                                    context,
+                                  )!.paiementDeletedSeller;
+                                  final deletingSellerErrorMsg =
+                                      AppLocalizations.of(
+                                        context,
+                                      )!.paiementDeletingSellerError;
+                                  final value = await sellerStoreNotifier
+                                      .deleteStoreSeller(storeSeller);
+                                  if (value) {
+                                    displayToastWithContext(
+                                      TypeMsg.msg,
+                                      deleteSellerMsg,
+                                    );
+                                    if (context.mounted) {
+                                      Navigator.pop(context);
                                     }
+                                  } else {
+                                    displayToastWithContext(
+                                      TypeMsg.error,
+                                      deletingSellerErrorMsg,
+                                    );
+                                  }
                                 },
                               ),
                             );

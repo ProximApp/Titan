@@ -6,8 +6,7 @@ import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
 
 class TicketsListNotifier extends ListNotifierAPI<TicketComplete> {
-  Openapi get raffleDetailRepository =>
-      ref.watch(repositoryProvider);
+  Openapi get raffleDetailRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<TicketComplete>> build() {
@@ -19,10 +18,12 @@ class TicketsListNotifier extends ListNotifierAPI<TicketComplete> {
   }
 
   Future<AsyncValue<List<TicketComplete>>> loadTicketList(
-      String raffleId) async {
+    String raffleId,
+  ) async {
     return await loadList(
       () async => raffleDetailRepository.tombolaRafflesRaffleIdTicketsGet(
-          raffleId: raffleId),
+        raffleId: raffleId,
+      ),
     );
   }
 }

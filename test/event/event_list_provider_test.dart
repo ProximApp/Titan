@@ -18,7 +18,9 @@ void main() {
       EmptyModels.empty<EventComplete>().copyWith(id: '1'),
       EmptyModels.empty<EventComplete>().copyWith(id: '2'),
     ];
-    final newEvent = EmptyModels.empty<EventCompleteTicketUrl>().copyWith(id: '3');
+    final newEvent = EmptyModels.empty<EventCompleteTicketUrl>().copyWith(
+      id: '3',
+    );
     final updatedEvent = events.first.copyWith(name: 'Updated Event');
 
     setUp(() {

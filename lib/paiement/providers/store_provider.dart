@@ -13,4 +13,6 @@ class StoreProvider extends Notifier<UserStore> {
   }
 }
 
-final storeProvider = NotifierProvider<StoreProvider, UserStore>(StoreProvider.new);
+final storeProvider = NotifierProvider<StoreProvider, UserStore>(
+  StoreProvider.new,
+);

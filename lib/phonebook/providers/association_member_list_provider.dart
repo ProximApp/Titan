@@ -9,8 +9,8 @@ class AssociationMemberListNotifier extends ListNotifierAPI<MemberComplete> {
 
   @override
   AsyncValue<List<MemberComplete>> build() {
-      final association = ref.watch(associationProvider);
-      loadMembers(association.id, association.mandateYear);
+    final association = ref.watch(associationProvider);
+    loadMembers(association.id, association.mandateYear);
     return const AsyncValue.loading();
   }
 

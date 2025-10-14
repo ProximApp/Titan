@@ -35,7 +35,7 @@ class ColumnRefresher extends ConsumerWidget {
   }
 
   Widget buildAndroidList(WidgetRef ref) => RefreshIndicator(
-    onRefresh:  onRefresh,
+    onRefresh: onRefresh,
     child: ScrollToHideNavbar(
       controller: controller,
       child: ListView.builder(
@@ -53,9 +53,7 @@ class ColumnRefresher extends ConsumerWidget {
       shrinkWrap: true,
       physics: const BouncingScrollPhysics(),
       slivers: [
-        CupertinoSliverRefreshControl(
-          onRefresh: onRefresh,
-        ),
+        CupertinoSliverRefreshControl(onRefresh: onRefresh),
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) => children[index],

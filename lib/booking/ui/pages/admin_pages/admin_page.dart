@@ -79,8 +79,9 @@ class AdminPage extends HookConsumerWidget {
                         const SizedBox(width: 15),
                         ItemChip(
                           onTap: () {
-                            roomNotifier
-                                .setRoom(EmptyModels.empty<RoomComplete>());
+                            roomNotifier.setRoom(
+                              EmptyModels.empty<RoomComplete>(),
+                            );
                             managerIdNotifier.setId("");
                             QR.to(
                               BookingRouter.root +
@@ -150,8 +151,9 @@ class AdminPage extends HookConsumerWidget {
                         const SizedBox(width: 15),
                         ItemChip(
                           onTap: () {
-                            managerNotifier
-                                .setManager(EmptyModels.empty<Manager>());
+                            managerNotifier.setManager(
+                              EmptyModels.empty<Manager>(),
+                            );
                             groupIdNotifier.setId("");
                             QR.to(
                               BookingRouter.root +

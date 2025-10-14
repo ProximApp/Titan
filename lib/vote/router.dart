@@ -62,9 +62,7 @@ class VoteRouter {
           QRoute(
             path: addEditList,
             builder: () => add_edit_list.AddEditListPage(),
-            middleware: [
-              DeferredLoadingMiddleware(add_edit_list.loadLibrary),
-            ],
+            middleware: [DeferredLoadingMiddleware(add_edit_list.loadLibrary)],
           ),
           QRoute(
             path: addSection,

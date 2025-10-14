@@ -1,7 +1,7 @@
 import 'package:titan/generated/openapi.models.swagger.dart';
 
 extension $Recommendation on Recommendation {
- RecommendationBase toRecommendationBase() {
+  RecommendationBase toRecommendationBase() {
     return RecommendationBase(
       title: title,
       description: description,

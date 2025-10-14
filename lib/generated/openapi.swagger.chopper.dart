@@ -2149,7 +2149,9 @@ An user can only vote for one list per section.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<List<enums.AccountType>, List<enums.AccountType>>($request);
+    return client.send<List<enums.AccountType>, List<enums.AccountType>>(
+      $request,
+    );
   }
 
   @override

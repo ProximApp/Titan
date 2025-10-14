@@ -28,8 +28,9 @@ class ListLogoProvider extends SingleNotifier<Image> {
   }
 }
 
-final listLogoProvider =
-    NotifierProvider<ListLogoProvider, AsyncValue<Image>>((ref) {
+final listLogoProvider = NotifierProvider<ListLogoProvider, AsyncValue<Image>>((
+  ref,
+) {
   final listLogoRepository = ref.watch(listLogoRepositoryProvider);
   final listLogosNotifier = ref.watch(listLogosProvider.notifier);
   return ListLogoProvider(

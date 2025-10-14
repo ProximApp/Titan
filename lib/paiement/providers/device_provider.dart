@@ -22,11 +22,13 @@ class DeviceNotifier extends SingleNotifierAPI<WalletDevice> {
   Future<String?> registerDevice(WalletDeviceCreation body) async {
     try {
       final fake = await devicesRepository.mypaymentUsersMeWalletDevicesPost(
-        body: body
+        body: body,
       );
       if (fake.body == null) {
         state = AsyncValue.error(
-            'Error while creating device', StackTrace.current);
+          'Error while creating device',
+          StackTrace.current,
+        );
         return null;
       }
       state = AsyncValue.data(fake.body!);

@@ -106,15 +106,15 @@ class ListEvent extends HookConsumerWidget {
                           context,
                         )!.eventConfirmEvent,
                         onYes: () async {
-                            eventListNotifier
-                                .toggleConfirmed(
-                                  e.copyWith(decision: Decision.approved),
-                                )
-                                .then((value) {
-                                  if (value) {
-                                    confirmedEventListNotifier.addEvent(e);
-                                  }
-                                });
+                          eventListNotifier
+                              .toggleConfirmed(
+                                e.copyWith(decision: Decision.approved),
+                              )
+                              .then((value) {
+                                if (value) {
+                                  confirmedEventListNotifier.addEvent(e);
+                                }
+                              });
                         },
                       );
                     },
@@ -130,15 +130,15 @@ class ListEvent extends HookConsumerWidget {
                           context,
                         )!.eventDeclineEvent,
                         onYes: () async {
-                            eventListNotifier
-                                .toggleConfirmed(
-                                  e.copyWith(decision: Decision.declined),
-                                )
-                                .then((value) {
-                                  if (value) {
-                                    confirmedEventListNotifier.deleteEvent(e);
-                                  }
-                                });
+                          eventListNotifier
+                              .toggleConfirmed(
+                                e.copyWith(decision: Decision.declined),
+                              )
+                              .then((value) {
+                                if (value) {
+                                  confirmedEventListNotifier.deleteEvent(e);
+                                }
+                              });
                         },
                       );
                     },

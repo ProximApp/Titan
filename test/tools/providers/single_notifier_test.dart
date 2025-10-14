@@ -6,11 +6,10 @@ import 'package:titan/tools/providers/single_notifier.dart';
 class MockData {}
 
 class MockSingleNotifier extends SingleNotifier<MockData> {
-  
   @override
-    AsyncValue<MockData> build() {
-      return const AsyncLoading();
-    }
+  AsyncValue<MockData> build() {
+    return const AsyncLoading();
+  }
 
   Future<AsyncValue<MockData>> testLoadList(
     Future<MockData> Function() f,

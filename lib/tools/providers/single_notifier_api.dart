@@ -3,7 +3,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/tools/exception.dart';
 
 abstract class SingleNotifierAPI<T> extends Notifier<AsyncValue<T>> {
-
   @override
   AsyncValue<T> build() {
     return const AsyncLoading();

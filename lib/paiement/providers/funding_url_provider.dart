@@ -13,9 +13,7 @@ class FundingUrlNotifier extends SingleNotifierAPI<PaymentUrl> {
 
   Future<AsyncValue<PaymentUrl>> getFundingUrl(TransferInfo info) async {
     return await load(
-      () => fundingRepository.mypaymentTransferInitPost(
-        body: info,
-      ),
+      () => fundingRepository.mypaymentTransferInitPost(body: info),
     );
   }
 }

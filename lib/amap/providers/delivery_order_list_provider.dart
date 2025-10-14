@@ -6,8 +6,8 @@ import 'package:titan/tools/providers/map_provider.dart';
 class AdminDeliveryOrderListNotifier extends MapNotifier<String, OrderReturn> {
   @override
   Map<String, AsyncValue<List<OrderReturn>>?> build() {
-      final deliveries = ref.watch(deliveryList);
-      loadTList(deliveries.map((e) => e.id).toList());
+    final deliveries = ref.watch(deliveryList);
+    loadTList(deliveries.map((e) => e.id).toList());
     return state;
   }
 }

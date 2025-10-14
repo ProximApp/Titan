@@ -63,8 +63,7 @@ List<SpeciesComplete> filterSpeciesWithFilters(
       .toList();
   filteredSpecies = filteredSpecies
       .where(
-        (species) =>
-            speciesTypeFilter == SpeciesType.autre
+        (species) => speciesTypeFilter == SpeciesType.autre
             ? true
             : species.speciesType == speciesTypeFilter,
       )
@@ -98,9 +97,7 @@ final plantsFilteredListProvider = Provider<List<PlantSimple>>((ref) {
       final filteredPlants = plants
           .where((plant) => speciesId.contains(plant.speciesId))
           .toList();
-      filteredPlants.sort(
-        (a, b) => a.reference.compareTo(b.reference),
-      );
+      filteredPlants.sort((a, b) => a.reference.compareTo(b.reference));
       return filteredPlants;
     },
     orElse: () => [],

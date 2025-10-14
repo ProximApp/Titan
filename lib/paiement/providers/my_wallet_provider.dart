@@ -4,8 +4,7 @@ import 'package:titan/tools/providers/single_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
 
 class MyWalletNotifier extends SingleNotifierAPI<Wallet> {
-  Openapi get usersMeRepository =>
-      ref.watch(repositoryProvider);
+  Openapi get usersMeRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<Wallet> build() {

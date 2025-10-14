@@ -106,9 +106,14 @@ class AdvertCard extends HookConsumerWidget {
                         ),
                       ),
                       Text(
-                        advert.date != null ? _capitalizeFirst(
-                          timeago.format(advert.date!, locale: 'fr_short'),
-                        ) : '',
+                        advert.date != null
+                            ? _capitalizeFirst(
+                                timeago.format(
+                                  advert.date!,
+                                  locale: 'fr_short',
+                                ),
+                              )
+                            : '',
                         style: const TextStyle(
                           fontSize: 12,
                           color: Colors.grey,

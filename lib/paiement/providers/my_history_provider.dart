@@ -4,8 +4,7 @@ import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
 
 class MyHistoryNotifier extends ListNotifierAPI<History> {
-  Openapi get usersMeRepository =>
-      ref.watch(repositoryProvider);
+  Openapi get usersMeRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<History>> build() {

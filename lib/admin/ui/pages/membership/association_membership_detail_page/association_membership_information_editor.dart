@@ -163,32 +163,33 @@ class AssociationMembershipInformationEditor extends HookConsumerWidget {
               if (!key.currentState!.validate()) {
                 return;
               }
-                final updatedAssociationMembershipMsg = AppLocalizations.of(
-                  context,
-                )!.adminUpdatedAssociationMembership;
-                final updatingAssociationMembershipErrorMsg =
-                    AppLocalizations.of(context)!.adminUpdatingError;
-                final value = await associationMembershipListNotifier
-                    .updateAssociationMembership(
-                      associationMembership.copyWith(name: name.text),
-                    );
-                if (value) {
-                  associationMembershipNotifier.setAssociationMembership(
-                    associationMembership.copyWith(
-                      name: name.text,
-                      managerGroupId: groupIdController.text,
-                    ),
+              final updatedAssociationMembershipMsg = AppLocalizations.of(
+                context,
+              )!.adminUpdatedAssociationMembership;
+              final updatingAssociationMembershipErrorMsg = AppLocalizations.of(
+                context,
+              )!.adminUpdatingError;
+              final value = await associationMembershipListNotifier
+                  .updateAssociationMembership(
+                    associationMembership.copyWith(name: name.text),
                   );
-                  displayToastWithContext(
-                    TypeMsg.msg,
-                    updatedAssociationMembershipMsg,
-                  );
-                } else {
-                  displayToastWithContext(
-                    TypeMsg.msg,
-                    updatingAssociationMembershipErrorMsg,
-                  );
-                }
+              if (value) {
+                associationMembershipNotifier.setAssociationMembership(
+                  associationMembership.copyWith(
+                    name: name.text,
+                    managerGroupId: groupIdController.text,
+                  ),
+                );
+                displayToastWithContext(
+                  TypeMsg.msg,
+                  updatedAssociationMembershipMsg,
+                );
+              } else {
+                displayToastWithContext(
+                  TypeMsg.msg,
+                  updatingAssociationMembershipErrorMsg,
+                );
+              }
             },
             child: Text(
               AppLocalizations.of(context)!.adminEdit,

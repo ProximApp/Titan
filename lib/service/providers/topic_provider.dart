@@ -8,7 +8,7 @@ class TopicsProvider extends ListNotifierAPI<TopicUser> {
 
   @override
   AsyncValue<List<TopicUser>> build() {
-      getTopics();
+    getTopics();
     return const AsyncValue.loading();
   }
 

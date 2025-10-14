@@ -18,10 +18,7 @@ class RoomListNotifier extends ListNotifierAPI<RoomComplete> {
   }
 
   Future<bool> addRoom(RoomBase room) async {
-    return await add(
-      () => roomRepository.bookingRoomsPost(body: room),
-      room,
-    );
+    return await add(() => roomRepository.bookingRoomsPost(body: room), room);
   }
 
   Future<bool> updateRoom(RoomComplete room) async {

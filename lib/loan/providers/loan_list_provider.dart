@@ -8,7 +8,7 @@ class LoanListNotifier extends ListNotifierAPI<Loan> {
 
   @override
   AsyncValue<List<Loan>> build() {
-       loadLoanList();
+    loadLoanList();
     return const AsyncValue.loading();
   }
 

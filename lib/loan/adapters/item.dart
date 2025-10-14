@@ -3,18 +3,15 @@ import 'package:titan/generated/openapi.models.swagger.dart';
 extension $Item on Item {
   ItemBase toItemBase() {
     return ItemBase(
-        name: name,
-        suggestedCaution: suggestedCaution,
-        totalQuantity: totalQuantity,
-        suggestedLendingDuration: suggestedLendingDuration);
+      name: name,
+      suggestedCaution: suggestedCaution,
+      totalQuantity: totalQuantity,
+      suggestedLendingDuration: suggestedLendingDuration,
+    );
   }
 
   ItemSimple toItemSimple() {
-    return ItemSimple(
-      id: id,
-      name: name,
-      loanerId: loanerId,
-    );
+    return ItemSimple(id: id, name: name, loanerId: loanerId);
   }
 }
 

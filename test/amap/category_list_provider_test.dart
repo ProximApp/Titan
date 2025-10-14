@@ -34,9 +34,7 @@ void main() {
 
     test('returns a list of categories when productListProvider is loaded', () {
       final container = ProviderContainer(
-        overrides: [
-          productListProvider.overrideWith(ProductListNotifier.new),
-        ],
+        overrides: [productListProvider.overrideWith(ProductListNotifier.new)],
       );
 
       final result = container.read(categoryListProvider);
@@ -46,9 +44,7 @@ void main() {
 
     test('returns an empty list when productListProvider is loading', () {
       final container = ProviderContainer(
-        overrides: [
-          productListProvider.overrideWith(ProductListNotifier.new),
-        ],
+        overrides: [productListProvider.overrideWith(ProductListNotifier.new)],
       );
 
       final result = container.read(categoryListProvider);
@@ -58,9 +54,7 @@ void main() {
 
     test('returns an empty list when productListProvider has an error', () {
       final container = ProviderContainer(
-        overrides: [
-          productListProvider.overrideWith(ProductListNotifier.new),
-        ],
+        overrides: [productListProvider.overrideWith(ProductListNotifier.new)],
       );
 
       final result = container.read(categoryListProvider);

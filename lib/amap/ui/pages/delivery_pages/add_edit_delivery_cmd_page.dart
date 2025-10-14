@@ -151,25 +151,24 @@ class AddEditDeliveryPage extends HookConsumerWidget {
                                 final deliveryNotifier = ref.watch(
                                   deliveryListProvider.notifier,
                                 );
-                                  final editedCommandMsg = AppLocalizations.of(
-                                    context,
-                                  )!.amapEditedCommand;
-                                  final addedCommandMsg = AppLocalizations.of(
-                                    context,
-                                  )!.amapAddedCommand;
-                                  final editingErrorMsg = AppLocalizations.of(
-                                    context,
-                                  )!.amapEditingError;
-                                  final alreadyExistCommandMsg =
-                                      AppLocalizations.of(
-                                        context,
-                                      )!.amapAlreadyExistCommand;
+                                final editedCommandMsg = AppLocalizations.of(
+                                  context,
+                                )!.amapEditedCommand;
+                                final addedCommandMsg = AppLocalizations.of(
+                                  context,
+                                )!.amapAddedCommand;
+                                final editingErrorMsg = AppLocalizations.of(
+                                  context,
+                                )!.amapEditingError;
+                                final alreadyExistCommandMsg =
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.amapAlreadyExistCommand;
                                 final value = isEdit
-                                    ? await deliveryNotifier.updateDelivery(del,
-                                        )
+                                    ? await deliveryNotifier.updateDelivery(del)
                                     : await deliveryNotifier.addDelivery(
                                         del.toDeliveryBase(),
-                                        );
+                                      );
                                 if (value) {
                                   QR.back();
                                   if (isEdit) {

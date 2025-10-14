@@ -6,8 +6,6 @@ extension $DeliveryReturn on DeliveryReturn {
   }
 
   DeliveryUpdate toDeliveryUpdate() {
-    return DeliveryUpdate(
-      deliveryDate: deliveryDate,
-    );
+    return DeliveryUpdate(deliveryDate: deliveryDate);
   }
 }

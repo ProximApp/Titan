@@ -27,9 +27,7 @@ class EditablePlantDetail extends HookConsumerWidget {
     final species = ref.watch(syncSpeciesListProvider);
     final plantNotifier = ref.watch(plantProvider.notifier);
     final myPlantsNotifier = ref.watch(myPlantListProvider.notifier);
-    final name = TextEditingController(
-      text: plant.nickname ?? plant.reference,
-    );
+    final name = TextEditingController(text: plant.nickname ?? plant.reference);
     final notes = TextEditingController(text: plant.currentNote ?? '');
     final plantationDate = TextEditingController(
       text: plant.plantingDate != null

@@ -6,7 +6,6 @@ import 'package:titan/tools/providers/list_notifier.dart';
 class MockData {}
 
 class MockListNotifier extends ListNotifier<MockData> {
-  
   @override
   AsyncValue<List<MockData>> build() {
     return const AsyncLoading();

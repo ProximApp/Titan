@@ -4,8 +4,7 @@ import 'package:titan/tools/providers/single_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
 
 class TransactionNotifier extends SingleNotifierAPI<bool> {
-  Openapi get transactionRepository =>
-      ref.watch(repositoryProvider);
+  Openapi get transactionRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<bool> build() {
@@ -17,13 +16,18 @@ class TransactionNotifier extends SingleNotifierAPI<bool> {
     RefundInfo refund,
   ) async {
     return await load(
-      () => transactionRepository.mypaymentTransactionsTransactionIdRefundPost(transactionId: transactionId, body: refund),
+      () => transactionRepository.mypaymentTransactionsTransactionIdRefundPost(
+        transactionId: transactionId,
+        body: refund,
+      ),
     );
   }
 
   Future<AsyncValue<bool>> cancelTransaction(String transactionId) async {
     return await load(
-      () => transactionRepository.mypaymentTransactionsTransactionIdCancelPost(transactionId: transactionId),
+      () => transactionRepository.mypaymentTransactionsTransactionIdCancelPost(
+        transactionId: transactionId,
+      ),
     );
   }
 }

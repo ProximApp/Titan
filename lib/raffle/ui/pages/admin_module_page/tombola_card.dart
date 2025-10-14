@@ -67,7 +67,9 @@ class TombolaCard extends HookConsumerWidget {
               ),
               const SizedBox(height: 5),
               AutoSizeText(
-                raffleStatusTypeToString(raffle.status ?? RaffleStatusType.open),
+                raffleStatusTypeToString(
+                  raffle.status ?? RaffleStatusType.open,
+                ),
                 maxLines: 1,
                 minFontSize: 10,
                 overflow: TextOverflow.ellipsis,

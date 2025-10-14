@@ -20,7 +20,10 @@ class TombolaHandler extends HookConsumerWidget {
     final raffleList = ref.watch(raffleListProvider);
     final groupChoosen = useState(EmptyModels.empty<CoreGroupSimple>());
 
-    void displayWinningsDialog(List<CoreGroupSimple> groups, Function callback) {
+    void displayWinningsDialog(
+      List<CoreGroupSimple> groups,
+      Function callback,
+    ) {
       showDialog(
         context: context,
         builder: (context) {

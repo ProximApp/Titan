@@ -4,8 +4,7 @@ import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
 
 class DeliveryListNotifier extends ListNotifierAPI<DeliveryReturn> {
-  Openapi get deliveryListRepository =>
-      ref.read(repositoryProvider);
+  Openapi get deliveryListRepository => ref.read(repositoryProvider);
 
   @override
   AsyncValue<List<DeliveryReturn>> build() {

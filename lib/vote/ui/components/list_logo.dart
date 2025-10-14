@@ -11,8 +11,9 @@ class ListLogo extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final listLogos = ref
-        .watch(listLogosProvider.select((value) => value[list.id]));
+    final listLogos = ref.watch(
+      listLogosProvider.select((value) => value[list.id]),
+    );
     final listLogosNotifier = ref.read(listLogosProvider.notifier);
     final logoNotifier = ref.read(listLogoProvider.notifier);
     return AutoLoaderChild(
@@ -25,10 +26,7 @@ class ListLogo extends HookConsumerWidget {
         height: 40,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          image: DecorationImage(
-            image: logo.first.image,
-            fit: BoxFit.cover,
-          ),
+          image: DecorationImage(image: logo.first.image, fit: BoxFit.cover),
         ),
       ),
     );

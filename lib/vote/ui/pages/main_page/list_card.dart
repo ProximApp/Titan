@@ -35,9 +35,7 @@ class ListCard extends HookConsumerWidget {
     final listNotifier = ref.read(listProvider.notifier);
     final sections = ref.watch(sectionsProvider);
     final selectedList = ref.watch(selectedListProvider);
-    final selectedListNotifier = ref.read(
-      selectedListProvider.notifier,
-    );
+    final selectedListNotifier = ref.read(selectedListProvider.notifier);
     final status = ref.watch(statusProvider);
     final s = status.maybeWhen(
       data: (value) => value.status,
@@ -192,9 +190,7 @@ class ListCard extends HookConsumerWidget {
                               ),
                             ),
                             Text(
-                              capitalize(
-                                list.type.name,
-                              ),
+                              capitalize(list.type.name),
                               style: const TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,

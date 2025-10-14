@@ -23,6 +23,7 @@ abstract class LogoRepository {
   void setToken(String token) {
     headers["Authorization"] = 'Bearer $token';
   }
+
   Future<Uint8List> getLogo(String id, {String suffix = ""}) async {
     try {
       final response = await http.get(
@@ -33,9 +34,7 @@ abstract class LogoRepository {
         try {
           return response.bodyBytes;
         } catch (e) {
-          logger.error(
-            "GET $ext$id$suffix\nError while decoding response",
-          );
+          logger.error("GET $ext$id$suffix\nError while decoding response");
           rethrow;
         }
       } else if (response.statusCode == 403) {
@@ -71,10 +70,7 @@ abstract class LogoRepository {
     String suffix = "",
   }) async {
     final request =
-        http.MultipartRequest(
-            'POST',
-            Uri.parse("${host}$ext$id$suffix"),
-          )
+        http.MultipartRequest('POST', Uri.parse("$host$ext$id$suffix"))
           ..headers.addAll(headers)
           ..files.add(
             http.MultipartFile.fromBytes(
@@ -90,9 +86,7 @@ abstract class LogoRepository {
         try {
           return json.decode(value)["success"];
         } catch (e) {
-          logger.error(
-            "POST $ext$id$suffix\nError while decoding response",
-          );
+          logger.error("POST $ext$id$suffix\nError while decoding response");
           throw AppException(ErrorType.invalidData, e.toString());
         }
       } else if (response.statusCode == 403) {
@@ -123,9 +117,7 @@ abstract class LogoRepository {
         rethrow;
       }
     } else if (response.statusCode == 403) {
-      logger.error(
-        "GET $path\n${response.statusCode} ${response.body}",
-      );
+      logger.error("GET $path\n${response.statusCode} ${response.body}");
       String resp = utf8.decode(response.body.runes.toList());
       final decoded = json.decode(resp);
       if (decoded["detail"] == expiredTokenDetail) {
@@ -134,9 +126,7 @@ abstract class LogoRepository {
         throw AppException(ErrorType.notFound, decoded["detail"]);
       }
     } else {
-      logger.error(
-        "GET $path\n${response.statusCode} ${response.body}",
-      );
+      logger.error("GET $path\n${response.statusCode} ${response.body}");
       throw AppException(ErrorType.notFound, response.body);
     }
   }

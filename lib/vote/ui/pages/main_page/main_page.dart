@@ -38,9 +38,7 @@ class VoteMainPage extends HookConsumerWidget {
     final sectionsNotifier = ref.watch(sectionsProvider.notifier);
     final lists = ref.watch(listListProvider);
     final listsNotifier = ref.watch(listListProvider.notifier);
-    final sectionListNotifier = ref.watch(
-      sectionListProvider.notifier,
-    );
+    final sectionListNotifier = ref.watch(sectionListProvider.notifier);
     final animation = useAnimationController(
       duration: const Duration(milliseconds: 2400),
     );
@@ -123,7 +121,9 @@ class VoteMainPage extends HookConsumerWidget {
               sectionListNotifier.setTData(
                 l,
                 AsyncValue.data(
-                  listReturn.where((element) => element.section.id == l.id).toList(),
+                  listReturn
+                      .where((element) => element.section.id == l.id)
+                      .toList(),
                 ),
               );
             }
@@ -195,9 +195,7 @@ class VoteMainPage extends HookConsumerWidget {
                                   ),
                                   const SizedBox(height: 15),
                                   Expanded(
-                                    child: ListListCard(
-                                      animation: animation,
-                                    ),
+                                    child: ListListCard(animation: animation),
                                   ),
                                 ],
                               ),

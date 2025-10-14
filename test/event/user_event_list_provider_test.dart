@@ -18,7 +18,9 @@ void main() {
       EmptyModels.empty<EventComplete>().copyWith(id: '1'),
       EmptyModels.empty<EventComplete>().copyWith(id: '2'),
     ];
-    final newEvent = EmptyModels.empty<EventCompleteTicketUrl>().copyWith(id: '3');
+    final newEvent = EmptyModels.empty<EventCompleteTicketUrl>().copyWith(
+      id: '3',
+    );
     final updatedEvent = events.first.copyWith(name: 'Updated Event');
 
     setUp(() {
@@ -27,9 +29,7 @@ void main() {
     });
 
     test('loadConfirmedEvent returns expected data', () async {
-      when(
-        () => mockRepository.calendarEventsGet(),
-      ).thenAnswer(
+      when(() => mockRepository.calendarEventsGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), events),
       );
 
@@ -52,9 +52,7 @@ void main() {
     });
 
     test('addEvent adds an event to the list', () async {
-      when(
-        () => mockRepository.calendarEventsGet(),
-      ).thenAnswer(
+      when(() => mockRepository.calendarEventsGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), events),
       );
       when(
@@ -85,9 +83,7 @@ void main() {
     });
 
     test('updateEvent updates an event in the list', () async {
-      when(
-        () => mockRepository.calendarEventsGet(),
-      ).thenAnswer(
+      when(() => mockRepository.calendarEventsGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), events),
       );
       when(

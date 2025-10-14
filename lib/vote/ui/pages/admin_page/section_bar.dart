@@ -24,9 +24,7 @@ class SectionBar extends HookConsumerWidget {
     final section = ref.watch(sectionProvider);
     final sectionIdNotifier = ref.watch(sectionIdProvider.notifier);
     final sectionList = ref.watch(sectionListProvider);
-    final sectionListListNotifier = ref.watch(
-      sectionListProvider.notifier,
-    );
+    final sectionListListNotifier = ref.watch(sectionListProvider.notifier);
     final sectionsNotifier = ref.watch(sectionsProvider.notifier);
     final asyncStatus = ref.watch(statusProvider);
     VoteStatus status = VoteStatus(status: StatusType.open);
@@ -61,15 +59,15 @@ class SectionBar extends HookConsumerWidget {
             builder: (context) => CustomDialogBox(
               title: AppLocalizations.of(context)!.voteDeleteSection,
               descriptions: AppLocalizations.of(
-                  context,
-                )!.voteDeleteSectionDescription,
+                context,
+              )!.voteDeleteSectionDescription,
               onYes: () async {
-                  final deleteSectionSuccessMsg = AppLocalizations.of(
-                    context,
-                  )!.voteDeletedSection;
-                  final deleteSectionErrorMsg = AppLocalizations.of(
-                    context,
-                  )!.voteDeletingError;
+                final deleteSectionSuccessMsg = AppLocalizations.of(
+                  context,
+                )!.voteDeletedSection;
+                final deleteSectionErrorMsg = AppLocalizations.of(
+                  context,
+                )!.voteDeletingError;
                 final result = await sectionsNotifier.deleteSection(key);
                 if (result) {
                   sectionListListNotifier.deleteT(key);

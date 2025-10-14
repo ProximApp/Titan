@@ -32,7 +32,7 @@ class UserSearchModal extends HookConsumerWidget {
                 usersNotifier.clear();
                 textController.clear();
               }
-            }
+            },
           ),
           const SizedBox(height: 10),
           ConstrainedBox(

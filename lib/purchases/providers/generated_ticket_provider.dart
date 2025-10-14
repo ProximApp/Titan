@@ -8,7 +8,7 @@ class TicketGeneratorNotifier extends Notifier<GenerateTicketComplete> {
     return EmptyModels.empty<GenerateTicketComplete>();
   }
 
-  void setTicketGenerator(GenerateTicketComplete  i) {
+  void setTicketGenerator(GenerateTicketComplete i) {
     state = i;
   }
 }
