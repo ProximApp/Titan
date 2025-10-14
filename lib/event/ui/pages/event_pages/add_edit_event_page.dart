@@ -13,7 +13,6 @@ import 'package:titan/event/tools/constants.dart';
 import 'package:titan/event/tools/functions.dart';
 import 'package:titan/generated/openapi.enums.swagger.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
-import 'package:titan/tools/builders/enums_cleaner.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/layouts/add_edit_button_layout.dart';

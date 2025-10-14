@@ -170,6 +170,11 @@ class AddEditUserMembershipPage extends HookConsumerWidget {
                               processDateBack(end.text, locale.toString()),
                             ),
                           ),
+                          // TODO body should be fixed
+                          AppCoreMembershipsSchemasMembershipsMembershipBase(
+                            managerGroupId: membership.associationMembershipId,
+                            name: membership.user.getName(),
+                          ),
                         );
                     if (value) {
                       displayToastWithContext(

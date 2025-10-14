@@ -42,46 +42,46 @@ class AssociationMembershipMembersNotifier
     UserMembershipComplete userAssociationMembership,
     CoreUserSimple user,
   ) async {
-    return await add(
-      () async => associationMembershipRepository
-          .membershipsAssociationMembershipIdAddBatchPost(userAssociationMembership),
-      UserAssociationMembership(
-        id: userAssociationMembership.id,
-        associationMembershipId:
-            userAssociationMembership.associationMembershipId,
-        userId: userAssociationMembership.userId,
-        startDate: userAssociationMembership.startDate,
-        endDate: userAssociationMembership.endDate,
-        user: user,
-      ),
-    );
+    return (await associationMembershipRepository
+            .membershipsAssociationMembershipIdAddBatchPost(
+              associationMembershipId:
+                  userAssociationMembership.associationMembershipId,
+              body: [
+                MembershipUserMappingEmail(
+                  userEmail: user.email,
+                  startDate: userAssociationMembership.startDate,
+                  endDate: userAssociationMembership.endDate,
+                ),
+              ],
+            ))
+        .isSuccessful;
   }
 
   Future<bool> updateMember(
-    UserAssociationMembership associationMembership,
+    UserMembershipComplete associationMembership,
+    AppCoreMembershipsSchemasMembershipsMembershipBase body,
   ) async {
     return await update(
-      (associationMembership) async => associationMembershipUserRepository
-          .updateUserMembership(associationMembership),
-      (userAssociationMemberships, membership) => userAssociationMemberships
-        ..[userAssociationMemberships.indexWhere(
-              (g) => g.id == membership.id,
-            )] =
-            membership,
+      () async => associationMembershipRepository
+          .membershipsAssociationMembershipIdPatch(
+            associationMembershipId: associationMembership.id,
+            body: body,
+          ),
+      (membership) => membership.id,
       associationMembership,
     );
   }
 
   Future<bool> deleteMember(
-    UserAssociationMembership associationMembership,
+    UserMembershipComplete associationMembership,
   ) async {
     return await delete(
-      (membershipId) async => associationMembershipUserRepository
-          .deleteUserMembership(membershipId),
-      (userAssociationMemberships, membership) =>
-          userAssociationMemberships..remove(associationMembership),
+      () async => associationMembershipRepository
+          .membershipsAssociationMembershipIdDelete(
+            associationMembershipId: associationMembership.id,
+          ),
+      (membership) => membership.id,
       associationMembership.id,
-      associationMembership,
     );
   }
 }
