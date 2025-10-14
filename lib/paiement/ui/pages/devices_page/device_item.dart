@@ -3,8 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
-import 'package:titan/paiement/class/wallet_device.dart';
 import 'package:titan/paiement/tools/functions.dart';
 
 class DeviceItem extends ConsumerWidget {

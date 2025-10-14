@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
-import 'package:titan/paiement/class/history.dart';
 import 'package:titan/paiement/providers/my_history_provider.dart';
 import 'package:titan/paiement/ui/pages/main_page/account_card/day_divider.dart';
 import 'package:titan/paiement/ui/components/transaction_card.dart';

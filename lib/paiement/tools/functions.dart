@@ -2,10 +2,8 @@ import 'dart:convert';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:titan/paiement/class/history.dart';
-import 'package:titan/paiement/class/qr_code_data.dart';
-import 'package:titan/paiement/class/qr_code_signature_data.dart';
-import 'package:titan/paiement/class/wallet_device.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/paiement/tools/key_service.dart';
 
 enum TransferType { helloAsso, check, cash, bankTransfer }
@@ -60,6 +58,8 @@ Widget getStatusTag(WalletDeviceStatus status) {
           ),
         ),
       );
+    case WalletDeviceStatus.swaggerGeneratedUnknown:
+      return Container();
   }
 }
 
@@ -73,21 +73,19 @@ Future<String> getQRCodeContent(
   final keyPair = await keyService.getKeyPair();
   final now = DateTime.now();
   final total = (double.parse(payAmount.replaceAll(',', '.')) * 100).round();
-  final data = jsonEncode(
-    QrCodeSignatureData(
+  final data = jsonEncode({
+    "id": id,
+    "tot": total,
+    "iat": now.toUtc().toIso8601String(),
+    "key": keyId,
+    "store": store,
+  });
+  return jsonEncode(
+    ScanInfo(
       id: id,
       tot: total,
       iat: now,
       key: keyId!,
-      store: store,
-    ).toJson(),
-  );
-  return jsonEncode(
-    QrCodeData(
-      id: id,
-      tot: total,
-      iat: now,
-      key: keyId,
       store: store,
       signature: base64Encode(
         (await keyService.signMessage(keyPair!, data.codeUnits)).bytes,
@@ -132,6 +130,8 @@ int statusOrder(WalletDeviceStatus status) {
       return 1;
     case WalletDeviceStatus.revoked:
       return 2;
+    case WalletDeviceStatus.swaggerGeneratedUnknown:
+      return 3;
   }
 }
 
@@ -264,6 +264,12 @@ List<Color> getTransactionColors(History transaction) {
         const Color.fromARGB(255, 97, 44, 0).withValues(alpha: 0.2),
       ];
     case HistoryType.received:
+      return [
+        const Color.fromARGB(255, 1, 127, 128),
+        const Color.fromARGB(255, 0, 102, 103),
+        const Color.fromARGB(255, 0, 44, 45).withValues(alpha: 0.3),
+      ];
+    case HistoryType.swaggerGeneratedUnknown:
       return [
         const Color.fromARGB(255, 1, 127, 128),
         const Color.fromARGB(255, 0, 102, 103),

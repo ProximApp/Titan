@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:titan/paiement/class/history.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
 import 'package:titan/paiement/providers/my_history_provider.dart';
 import 'package:titan/tools/providers/locale_notifier.dart';
 

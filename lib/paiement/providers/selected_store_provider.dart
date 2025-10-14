@@ -1,7 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/paiement/class/user_store.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/paiement/providers/last_used_store_id_provider.dart';
 import 'package:titan/paiement/providers/my_stores_provider.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 
 class SelectedStoreNotifier extends Notifier<UserStore> {
   LastUsedStoreIdNotifier get lastUsedStoreIdNotifier =>
@@ -13,10 +14,10 @@ class SelectedStoreNotifier extends Notifier<UserStore> {
     final lastUsedStoreId = ref.read(lastUsedStoreIdProvider);
 
     return myStores.maybeWhen<UserStore>(
-      orElse: () => UserStore.empty(),
+      orElse: () => EmptyModels.empty<UserStore>(),
       data: (value) {
         if (value.isEmpty) {
-          return UserStore.empty();
+          return EmptyModels.empty<UserStore>();
         }
         return value.firstWhere(
           (store) => store.id == lastUsedStoreId,

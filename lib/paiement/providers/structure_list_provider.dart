@@ -1,11 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/paiement/class/structure.dart';
-import 'package:titan/paiement/repositories/structures_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class StructureListNotifier extends ListNotifier<Structure> {
-  StructuresRepository get structuresRepository =>
-      ref.watch(structuresRepositoryProvider);
+class StructureListNotifier extends ListNotifierAPI<Structure> {
+  Openapi get structuresRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<Structure>> build() {
@@ -14,31 +13,59 @@ class StructureListNotifier extends ListNotifier<Structure> {
   }
 
   Future<AsyncValue<List<Structure>>> getStructures() async {
-    return await loadList(structuresRepository.getStructures);
+    return await loadList(structuresRepository.mypaymentStructuresGet);
   }
 
   Future<bool> updateStructure(Structure structure) async {
     return await update(
-      structuresRepository.updateStructure,
-      (structures, structure) =>
-          structures
-            ..[structures.indexWhere((s) => s.id == structure.id)] = structure,
+      () => structuresRepository.mypaymentStructuresStructureIdPatch(
+        structureId: structure.id,
+        body: StructureUpdate(
+          name: structure.name,
+          siret: structure.siret,
+          siegeAddressCity: structure.siegeAddressCity,
+          siegeAddressCountry: structure.siegeAddressCountry,
+          siegeAddressStreet: structure.siegeAddressStreet,
+          siegeAddressZipcode: structure.siegeAddressZipcode,
+          iban: structure.iban,
+          associationMembershipId: structure.associationMembershipId,
+          bic: structure.bic,
+        ),
+      ),
+      (structure) => structure.id,
       structure,
     );
   }
 
   Future<bool> deleteStructure(Structure structure) async {
     return await delete(
-      (id) => structuresRepository.deleteStructure(id),
-      (structures, structure) =>
-          structures..removeWhere((s) => s.id == structure.id),
+      () => structuresRepository.mypaymentStructuresStructureIdDelete(
+        structureId: structure.id,
+      ),
+      (structure) => structure.id,
       structure.id,
-      structure,
     );
   }
 
   Future<bool> createStructure(Structure structure) async {
-    return await add(structuresRepository.createStructure, structure);
+    return await add(
+      () => structuresRepository.mypaymentStructuresPost(
+        body: StructureBase(
+          managerUserId: structure.managerUserId,
+          shortId: structure.shortId,
+          name: structure.name,
+          siret: structure.siret,
+          siegeAddressCity: structure.siegeAddressCity,
+          siegeAddressCountry: structure.siegeAddressCountry,
+          siegeAddressStreet: structure.siegeAddressStreet,
+          siegeAddressZipcode: structure.siegeAddressZipcode,
+          iban: structure.iban,
+          associationMembershipId: structure.associationMembershipId,
+          bic: structure.bic,
+        ),
+      ),
+      structure,
+    );
   }
 }
 

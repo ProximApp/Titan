@@ -1,26 +1,32 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/paiement/class/tos.dart';
-import 'package:titan/paiement/repositories/tos_repository.dart';
-import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/single_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class TOSNotifier extends SingleNotifier<TOS> {
-  TosRepository get tosRepository => ref.watch(tosRepositoryProvider);
+class TOSNotifier extends SingleNotifierAPI<TOSSignatureResponse> {
+  Openapi get tosRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<TOS> build() {
+  AsyncValue<TOSSignatureResponse> build() {
     getTOS();
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<TOS>> getTOS() async {
-    return await load(tosRepository.getTOS);
+  Future<AsyncValue<TOSSignatureResponse>> getTOS() async {
+    return await load(tosRepository.mypaymentTermsOfServiceGet);
   }
 
-  Future<bool> signTOS(TOS tos) async {
-    return await update(tosRepository.signTOS, tos);
+  Future<bool> signTOS(TOSSignatureResponse tos) async {
+    return await update(
+      () => tosRepository.mypaymentUsersMeTosPost(
+        body: TOSSignature(acceptedTosVersion: tos.acceptedTosVersion),
+      ),
+      tos,
+    );
   }
 }
 
-final tosProvider = NotifierProvider<TOSNotifier, AsyncValue<TOS>>(
-  TOSNotifier.new,
-);
+final tosProvider =
+    NotifierProvider<TOSNotifier, AsyncValue<TOSSignatureResponse>>(
+      TOSNotifier.new,
+    );

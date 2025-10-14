@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/paiement/class/wallet.dart';
-import 'package:titan/paiement/repositories/users_me_repository.dart';
-import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/single_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class MyWalletNotifier extends SingleNotifier<Wallet> {
-  UsersMeRepository get usersMeRepository =>
-      ref.watch(usersMeRepositoryProvider);
+class MyWalletNotifier extends SingleNotifierAPI<Wallet> {
+  Openapi get usersMeRepository =>
+      ref.watch(repositoryProvider);
 
   @override
   AsyncValue<Wallet> build() {
@@ -14,7 +14,7 @@ class MyWalletNotifier extends SingleNotifier<Wallet> {
   }
 
   Future<AsyncValue<Wallet>> getMyWallet() async {
-    return await load(usersMeRepository.getMyWallet);
+    return await load(usersMeRepository.mypaymentUsersMeWalletGet);
   }
 }
 

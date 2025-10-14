@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/paiement/class/structure.dart';
-import 'package:titan/paiement/repositories/structures_repository.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/single_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class TransferStructureNotifier extends Notifier<AsyncValue> {
-  StructuresRepository get structuresRepository =>
-      ref.watch(structuresRepositoryProvider);
+class TransferStructureNotifier extends SingleNotifierAPI {
+  Openapi get structuresRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue build() {
@@ -12,10 +12,12 @@ class TransferStructureNotifier extends Notifier<AsyncValue> {
   }
 
   Future<bool> initTransfer(Structure structure, String newUserId) async {
-    return await structuresRepository.initializeManagerTransfer(
-      structure,
-      newUserId,
-    );
+    return (await structuresRepository
+            .mypaymentStructuresStructureIdInitManagerTransferPost(
+              structureId: structure.id,
+              body: StructureTranfert(newManagerUserId: newUserId),
+            ))
+        .isSuccessful;
   }
 }
 

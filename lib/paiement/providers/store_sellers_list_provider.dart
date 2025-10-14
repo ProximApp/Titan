@@ -1,11 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/paiement/class/seller.dart';
-import 'package:titan/paiement/repositories/store_sellers_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class StoreSellerListNotifier extends ListNotifier<Seller> {
-  SellerStoreRepository get sellerStoreRepository =>
-      ref.watch(sellerStoreRepositoryProvider);
+class StoreSellerListNotifier extends ListNotifierAPI<Seller> {
+  Openapi get sellerStoreRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<Seller>> build() {
@@ -13,35 +12,55 @@ class StoreSellerListNotifier extends ListNotifier<Seller> {
   }
 
   Future<AsyncValue<List<Seller>>> getStoreSellerList(String storeId) async {
-    return await loadList(() => sellerStoreRepository.getSellers(storeId));
+    return await loadList(
+      () => sellerStoreRepository.mypaymentStoresStoreIdSellersGet(
+        storeId: storeId,
+      ),
+    );
   }
 
   Future<bool> createStoreSeller(Seller seller) async {
     return await add(
-      (seller) => sellerStoreRepository.createSeller(seller.storeId, seller),
+      () => sellerStoreRepository.mypaymentStoresStoreIdSellersPost(
+        storeId: seller.storeId,
+        body: SellerCreation(
+          userId: seller.userId,
+          canBank: seller.canBank,
+          canSeeHistory: seller.canSeeHistory,
+          canCancel: seller.canCancel,
+          canManageSellers: seller.canManageSellers,
+        ),
+      ),
       seller,
     );
   }
 
   Future<bool> deleteStoreSeller(Seller seller) async {
     return await delete(
-      (_) => sellerStoreRepository.deleteSeller(seller.storeId, seller.userId),
-      (sellers, seller) =>
-          sellers.where((s) => s.userId != seller.userId).toList(),
-      seller.userId,
-      seller,
+      () =>
+          sellerStoreRepository.mypaymentStoresStoreIdSellersSellerUserIdDelete(
+            storeId: seller.storeId,
+            sellerUserId: seller.userId,
+          ),
+      (seller) => seller.userId,
+      seller.storeId,
     );
   }
 
   Future<bool> updateStoreSeller(Seller seller) async {
     return await update(
-      (seller) => sellerStoreRepository.updateSeller(
-        seller.storeId,
-        seller.userId,
-        seller,
-      ),
-      (sellers, seller) =>
-          sellers.map((s) => s.userId == seller.userId ? seller : s).toList(),
+      () =>
+          sellerStoreRepository.mypaymentStoresStoreIdSellersSellerUserIdPatch(
+            storeId: seller.storeId,
+            sellerUserId: seller.userId,
+            body: SellerUpdate(
+              canBank: seller.canBank,
+              canSeeHistory: seller.canSeeHistory,
+              canCancel: seller.canCancel,
+              canManageSellers: seller.canManageSellers,
+            ),
+          ),
+      (seller) => seller.userId,
       seller,
     );
   }

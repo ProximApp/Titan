@@ -1,11 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/paiement/class/structure.dart';
-import 'package:titan/paiement/repositories/bank_account_holder_repository.dart';
-import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/single_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class BankAccountHolderNotifier extends SingleNotifier<Structure> {
-  BankAccountHolderRepository get bankAccountHolderRepository =>
-      ref.watch(bankAccountHolderRepositoryProvider);
+class BankAccountHolderNotifier extends SingleNotifierAPI<Structure> {
+  Openapi get bankAccountHolderRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<Structure> build() {
@@ -14,12 +13,16 @@ class BankAccountHolderNotifier extends SingleNotifier<Structure> {
   }
 
   Future<AsyncValue<Structure>> getBankAccountHolder() async {
-    return await load(bankAccountHolderRepository.getBankAccountHolder);
+    return await load(
+      bankAccountHolderRepository.mypaymentBankAccountHolderGet,
+    );
   }
 
-  Future<bool> updateBankAccountHolder(Structure structure) async {
+  Future<bool> addBankAccountHolder(Structure structure) async {
     return await add(
-      (_) => bankAccountHolderRepository.updateBankAccountHolder(structure),
+      (_) => bankAccountHolderRepository.mypaymentBankAccountHolderPost(
+        body: MyPaymentBankAccountHolder(holderStructureId: structure.id),
+      ),
       structure,
     );
   }

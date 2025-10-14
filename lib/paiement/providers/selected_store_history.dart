@@ -1,20 +1,20 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/paiement/class/history.dart';
-import 'package:titan/paiement/class/store.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/paiement/providers/selected_interval_provider.dart';
 import 'package:titan/paiement/providers/selected_store_provider.dart';
-import 'package:titan/paiement/repositories/stores_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/tools/builders/empty_models.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class SellerHistoryNotifier extends ListNotifier<History> {
-  StoresRepository get storesRepository => ref.watch(storesRepositoryProvider);
+class SellerHistoryNotifier extends ListNotifierAPI<History> {
+  Openapi get storesRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<History>> build() {
     final selectedStore = ref.watch(selectedStoreProvider);
     final selectedInterval = ref.watch(selectedIntervalProvider);
 
-    if (selectedStore.id != Store.empty().id) {
+    if (selectedStore.id != EmptyModels.empty<UserStore>().id) {
       getHistory(
         selectedStore.id,
         selectedInterval.start,
@@ -31,7 +31,11 @@ class SellerHistoryNotifier extends ListNotifier<History> {
     DateTime endDate,
   ) async {
     return await loadList(
-      () => storesRepository.getStoreHistory(storeId, startDate, endDate),
+      () => storesRepository.mypaymentStoresStoreIdHistoryGet(
+        storeId: storeId,
+        startDate: startDate.toIso8601String().split('T').first,
+        endDate: endDate.toIso8601String().split('T').first,
+      ),
     );
   }
 }

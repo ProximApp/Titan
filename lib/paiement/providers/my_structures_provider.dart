@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/paiement/class/structure.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/paiement/providers/structure_list_provider.dart';
 import 'package:titan/user/providers/user_provider.dart';
 

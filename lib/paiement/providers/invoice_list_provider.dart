@@ -1,12 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/paiement/class/invoice.dart';
-import 'package:titan/paiement/class/structure.dart';
-import 'package:titan/paiement/repositories/invoices_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class InvoiceListNotifier extends ListNotifier<Invoice> {
-  InvoiceRepository get invoicesRepository =>
-      ref.watch(invoiceRepositoryProvider);
+class InvoiceListNotifier extends ListNotifierAPI<Invoice> {
+  Openapi get invoicesRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<Invoice>> build() {
@@ -21,65 +20,71 @@ class InvoiceListNotifier extends ListNotifier<Invoice> {
     DateTime? endDate,
   }) async {
     return await loadList(
-      () async => invoicesRepository.getInvoices(
-        page,
-        pageLimit,
-        structuresIds,
-        startDate,
-        endDate,
+      () async => invoicesRepository.mypaymentInvoicesGet(
+        page: page,
+        pageSize: pageLimit,
+        structuresIds: structuresIds,
+        startDate: startDate?.toIso8601String().split('T').first,
+        endDate: endDate?.toIso8601String().split('T').first,
       ),
     );
   }
 
   Future<AsyncValue<List<Invoice>>> getStructureInvoices(
-    String structuresId, {
+    String structureId, {
     int page = 1,
     int pageLimit = 20,
     DateTime? startDate,
     DateTime? endDate,
   }) async {
     return await loadList(
-      () async => invoicesRepository.getStructureInvoices(
-        structuresId,
-        page,
-        pageLimit,
-        startDate,
-        endDate,
+      () async => invoicesRepository.mypaymentInvoicesStructuresStructureIdGet(
+        structureId: structureId,
+        page: page,
+        pageSize: pageLimit,
+        startDate: startDate?.toIso8601String().split('T').first,
+        endDate: endDate?.toIso8601String().split('T').first,
       ),
     );
   }
 
   Future<bool> createInvoice(Structure structure) async {
     return await add(
-      (_) => invoicesRepository.createInvoice(structure.id),
-      Invoice.empty(),
+      () => invoicesRepository.mypaymentInvoicesStructuresStructureIdPost(
+        structureId: structure.id,
+      ),
+      EmptyModels.empty<Invoice>(),
     );
   }
 
   Future<bool> updateInvoicePaidStatus(Invoice invoice, bool paid) async {
     return await update(
-      (_) => invoicesRepository.updateInvoicePaidStatus(invoice.id, paid),
-      (invoices, invoice) =>
-          invoices..[invoices.indexWhere((s) => s.id == invoice.id)] = invoice,
+      () => invoicesRepository.mypaymentInvoicesInvoiceIdPaidPatch(
+        invoiceId: invoice.id,
+        paid: paid,
+      ),
+      (invoice) => invoice.id,
       invoice.copyWith(paid: paid),
     );
   }
 
   Future<bool> updateInvoiceReceivedStatus(Invoice invoice, bool paid) async {
     return await update(
-      (_) => invoicesRepository.updateInvoiceReceivedStatus(invoice.id),
-      (invoices, invoice) =>
-          invoices..[invoices.indexWhere((s) => s.id == invoice.id)] = invoice,
+      () => invoicesRepository.mypaymentInvoicesInvoiceIdReceivedPatch(
+        invoiceId: invoice.id,
+      ),
+      (invoice) => invoice.id,
       invoice.copyWith(received: true),
     );
   }
 
   Future<bool> deleteInvoice(Invoice invoice) async {
     return await delete(
-      invoicesRepository.deleteInvoice,
-      (invoices, invoice) => invoices..remove(invoice),
+      () => invoicesRepository.mypaymentInvoicesInvoiceIdDelete(
+        invoiceId: invoice.id,
+      ),
+      (invoice) => invoice.id,
       invoice.id,
-      invoice,
     );
   }
 }

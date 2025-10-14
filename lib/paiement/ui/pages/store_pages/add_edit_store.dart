@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
-import 'package:titan/paiement/class/store.dart' as store_class;
-import 'package:titan/paiement/class/structure.dart';
 import 'package:titan/paiement/providers/my_stores_provider.dart';
 import 'package:titan/paiement/providers/selected_structure_provider.dart';
 import 'package:titan/paiement/providers/store_provider.dart';
 import 'package:titan/paiement/providers/stores_list_provider.dart';
 import 'package:titan/paiement/ui/paiement.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/tools/ui/layouts/add_edit_button_layout.dart';
@@ -24,7 +24,7 @@ class AddEditStorePage extends HookConsumerWidget {
     final store = ref.watch(storeProvider);
     final storeListNotifier = ref.watch(storeListProvider.notifier);
     final key = GlobalKey<FormState>();
-    final isEdit = store.id != store_class.Store.empty().id;
+    final isEdit = store.id != EmptyModels.empty<UserStore>().id;
     final name = useTextEditingController(text: store.name);
     Structure structure = ref.watch(selectedStructureProvider);
 
@@ -92,7 +92,7 @@ class AddEditStorePage extends HookConsumerWidget {
                                   )!.paiementAddingStoreError;
 
                             if (key.currentState!.validate()) {
-                              store_class.Store newStore = store.copyWith(
+                              UserStore newStore = store.copyWith(
                                 name: name.text,
                                 structure: structure,
                               );

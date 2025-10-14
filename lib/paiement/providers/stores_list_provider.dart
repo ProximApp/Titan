@@ -1,57 +1,52 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/paiement/class/store.dart';
-import 'package:titan/paiement/class/structure.dart';
-import 'package:titan/paiement/repositories/stores_repository.dart';
-import 'package:titan/paiement/repositories/structures_repository.dart';
-import 'package:titan/paiement/repositories/users_me_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class StoreListNotifier extends ListNotifier<Store> {
-  StoresRepository get storesRepository => ref.watch(storesRepositoryProvider);
-  StructuresRepository get structureRepository =>
-      ref.watch(structuresRepositoryProvider);
-  UsersMeRepository get usersMeRepository =>
-      ref.watch(usersMeRepositoryProvider);
+class StoreListNotifier extends ListNotifierAPI<UserStore> {
+  Openapi get repository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<List<Store>> build() {
+  AsyncValue<List<UserStore>> build() {
     getStores();
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<List<Store>>> getStores() async {
-    return await loadList(
-      () async => List<Store>.from(await usersMeRepository.getMyStores()),
-    );
+  Future<AsyncValue<List<UserStore>>> getStores() async {
+    return await loadList(repository.mypaymentUsersMeStoresGet);
   }
 
-  Future<bool> createStore(Structure structure, Store store) async {
+  Future<bool> createStore(Structure structure, UserStore store) async {
     return await add(
-      (_) => structureRepository.addStructureStore(structure, store),
+      () => repository.mypaymentStructuresStructureIdStoresPost(
+        structureId: structure.id,
+        body: StoreBase(name: store.name),
+      ),
       store,
     );
   }
 
-  Future<bool> updateStore(Store store) async {
+  Future<bool> updateStore(UserStore store) async {
     return await update(
-      storesRepository.updateStore,
-      (stores, store) =>
-          stores..[stores.indexWhere((s) => s.id == store.id)] = store,
+      () => repository.mypaymentStoresStoreIdPatch(
+        storeId: store.id,
+        body: StoreUpdate(name: store.name),
+      ),
+      (store) => store.id,
       store,
     );
   }
 
-  Future<bool> deleteStore(Store store) async {
+  Future<bool> deleteStore(UserStore store) async {
     return await delete(
-      storesRepository.deleteStore,
-      (stores, store) => stores..remove(store),
+      () => repository.mypaymentStoresStoreIdDelete(storeId: store.id),
+      (store) => store.id,
       store.id,
-      store,
     );
   }
 }
 
 final storeListProvider =
-    NotifierProvider<StoreListNotifier, AsyncValue<List<Store>>>(
+    NotifierProvider<StoreListNotifier, AsyncValue<List<UserStore>>>(
       StoreListNotifier.new,
     );

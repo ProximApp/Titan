@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
-import 'package:titan/paiement/class/store.dart';
 import 'package:titan/paiement/providers/store_provider.dart';
 import 'package:titan/paiement/providers/stores_list_provider.dart';
 import 'package:titan/paiement/router.dart';
@@ -13,7 +13,7 @@ import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 
 class AdminStoreCard extends ConsumerWidget {
-  final Store store;
+  final UserStore store;
   const AdminStoreCard({super.key, required this.store});
 
   @override

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/paiement/class/store.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/paiement/providers/store_provider.dart';
 import 'package:titan/paiement/router.dart';
 import 'package:qlevar_router/qlevar_router.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 
 class AddStoreCard extends ConsumerWidget {
   const AddStoreCard({super.key});
@@ -14,7 +15,7 @@ class AddStoreCard extends ConsumerWidget {
     final storeNotifier = ref.watch(storeProvider.notifier);
     return GestureDetector(
       onTap: () {
-        storeNotifier.updateStore(Store.empty());
+        storeNotifier.updateStore(EmptyModels.empty<UserStore>());
         QR.to(
           PaymentRouter.root +
               PaymentRouter.structureStores +

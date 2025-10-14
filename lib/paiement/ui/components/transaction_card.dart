@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:intl/intl.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
-import 'package:titan/paiement/class/history.dart';
 import 'package:titan/paiement/tools/functions.dart';
 import 'package:titan/tools/providers/locale_notifier.dart';
 
@@ -42,6 +43,9 @@ class TransactionCard extends ConsumerWidget {
         icon = HeroIcons.arrowUturnRight;
         break;
       case HistoryType.transfer:
+        icon = HeroIcons.creditCard;
+        break;
+      case HistoryType.swaggerGeneratedUnknown:
         icon = HeroIcons.creditCard;
         break;
     }

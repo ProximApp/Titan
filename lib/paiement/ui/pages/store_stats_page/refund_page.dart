@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
-import 'package:titan/paiement/class/history.dart';
-import 'package:titan/paiement/class/refund.dart';
 import 'package:titan/paiement/providers/refund_amount_provider.dart';
 import 'package:titan/paiement/providers/selected_store_history.dart';
 import 'package:titan/paiement/providers/transaction_provider.dart';
@@ -138,7 +137,7 @@ class ReFundPage extends ConsumerWidget {
                     onTap: () async {
                       final value = await transactionNotifier.refundTransaction(
                         history.id,
-                        Refund(
+                        RefundInfo(
                           completeRefund: false,
                           amount:
                               (double.parse(refundAmount.replaceAll(",", ".")) *

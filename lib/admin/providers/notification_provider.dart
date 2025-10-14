@@ -10,13 +10,10 @@ class NotificationNotifier extends SingleNotifierAPI<bool> {
     return const AsyncValue.loading();
   }
 
-  Future<bool> sendNotification(
-    GroupNotificationRequest mailList,
-  ) async {
-    return await add(
-      (_) => notificationRepository.notificationSendPost(body: mailList),
-      null,
-    );
+  Future<bool> sendNotification(GroupNotificationRequest mailList) async {
+    return (await notificationRepository.notificationSendPost(
+      body: mailList,
+    )).isSuccessful;
   }
 }
 

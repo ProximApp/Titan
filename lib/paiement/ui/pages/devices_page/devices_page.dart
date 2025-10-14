@@ -5,9 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
-import 'package:titan/paiement/class/create_device.dart';
-import 'package:titan/paiement/class/wallet_device.dart';
 import 'package:titan/paiement/providers/device_list_provider.dart';
 import 'package:titan/paiement/providers/device_provider.dart';
 import 'package:titan/paiement/providers/has_accepted_tos_provider.dart';
@@ -111,7 +111,7 @@ class DevicesPage extends HookConsumerWidget {
                           final publicKey =
                               (await keyPair.extractPublicKey()).bytes;
                           final base64PublicKey = base64Encode(publicKey);
-                          final body = CreateDevice(
+                          final body = WalletDeviceCreation(
                             name: name,
                             ed25519PublicKey: base64PublicKey,
                           );

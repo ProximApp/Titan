@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/paiement/class/history.dart';
-import 'package:titan/paiement/repositories/users_me_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class MyHistoryNotifier extends ListNotifier<History> {
-  UsersMeRepository get usersMeRepository =>
-      ref.watch(usersMeRepositoryProvider);
+class MyHistoryNotifier extends ListNotifierAPI<History> {
+  Openapi get usersMeRepository =>
+      ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<History>> build() {
@@ -14,7 +14,7 @@ class MyHistoryNotifier extends ListNotifier<History> {
   }
 
   Future<AsyncValue<List<History>>> getHistory() async {
-    return await loadList(usersMeRepository.getMyHistory);
+    return await loadList(usersMeRepository.mypaymentUsersMeWalletHistoryGet);
   }
 }
 

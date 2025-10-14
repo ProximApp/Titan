@@ -1,27 +1,35 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/paiement/class/qr_code_data.dart';
-import 'package:titan/paiement/class/transaction.dart';
-import 'package:titan/paiement/repositories/stores_repository.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class ScanNotifier extends SingleNotifier<Transaction> {
-  StoresRepository get storesRepository => ref.watch(storesRepositoryProvider);
+class ScanNotifier extends SingleNotifier<History> {
+  Openapi get storesRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<Transaction> build() {
+  AsyncValue<History> build() {
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<Transaction>?> scan(
+  Future<AsyncValue<History>?> scan(
     String storeId,
-    QrCodeData data, {
+    ScanInfo data, {
     bool? bypass,
   }) async {
-    return await load(() => storesRepository.scan(storeId, data, bypass));
+    return await load(
+      () => storesRepository.mypaymentStoresStoreIdScanPost(
+        storeId: storeId,
+        body: data.copyWith(bypassMembership: bypass),
+      ),
+    );
   }
 
-  Future<bool> canScan(String storeId, QrCodeData data, {bool? bypass}) async {
-    return storesRepository.canScan(storeId, data, bypass);
+  Future<bool> canScan(String storeId, ScanInfo data, {bool? bypass}) async {
+    return (await storesRepository.mypaymentStoresStoreIdScanCheckPost(
+          storeId: storeId,
+          body: data.copyWith(bypassMembership: bypass),
+        )).body?.success ??
+        false;
   }
 
   void reset() {
@@ -29,6 +37,6 @@ class ScanNotifier extends SingleNotifier<Transaction> {
   }
 }
 
-final scanProvider = NotifierProvider<ScanNotifier, AsyncValue<Transaction>>(
+final scanProvider = NotifierProvider<ScanNotifier, AsyncValue<History>>(
   ScanNotifier.new,
 );

@@ -3,12 +3,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:titan/admin/admin.dart';
-import 'package:titan/admin/class/user_association_membership.dart';
-import 'package:titan/admin/class/user_association_membership_base.dart';
 import 'package:titan/admin/providers/association_membership_members_list_provider.dart';
 import 'package:titan/admin/providers/user_association_membership_provider.dart';
 import 'package:titan/admin/ui/pages/membership/add_edit_user_membership_page/user_search_modal.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
@@ -30,7 +29,8 @@ class AddEditUserMembershipPage extends HookConsumerWidget {
       associationMembershipMembersProvider.notifier,
     );
     final membership = ref.watch(userAssociationMembershipProvider);
-    final isEdit = membership.id != UserAssociationMembership.empty().id;
+    final isEdit =
+        membership.id != EmptyModels.empty<UserMembershipComplete>().id;
     final start = useTextEditingController(
       text: isEdit ? DateFormat.yMd(locale).format(membership.startDate) : "",
     );
@@ -182,7 +182,7 @@ class AddEditUserMembershipPage extends HookConsumerWidget {
                     }
                   } else {
                     // Test if the membership already exists with (association_id,member_id,mandate_year)
-                    final membershipAdd = UserAssociationMembershipBase(
+                    final membershipAdd = UserMembershipComplete(
                       id: "",
                       associationMembershipId:
                           membership.associationMembershipId,
@@ -193,6 +193,7 @@ class AddEditUserMembershipPage extends HookConsumerWidget {
                       endDate: DateTime.parse(
                         processDateBack(end.text, locale.toString()),
                       ),
+                      user: membership.user,
                     );
                     final addedMemberMsg = AppLocalizations.of(
                       context,

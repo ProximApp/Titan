@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:intl/intl.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
-import 'package:titan/paiement/class/history.dart';
 import 'package:titan/tools/providers/locale_notifier.dart';
 
 class SummaryCard extends ConsumerWidget {
@@ -40,6 +41,8 @@ class SummaryCard extends ConsumerWidget {
 
         case HistoryType.transfer:
           total += transaction.total;
+          break;
+        case HistoryType.swaggerGeneratedUnknown:
           break;
       }
     }

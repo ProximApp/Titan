@@ -1,16 +1,16 @@
 import 'dart:convert';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/paiement/class/qr_code_data.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 
-class BarcodeNotifier extends Notifier<QrCodeData?> {
+class BarcodeNotifier extends Notifier<ScanInfo?> {
   @override
-  QrCodeData? build() {
+  ScanInfo? build() {
     return null;
   }
 
-  QrCodeData updateBarcode(String barcode) {
-    state = QrCodeData.fromJson(jsonDecode(barcode));
+  ScanInfo updateBarcode(String barcode) {
+    state = ScanInfo.fromJson(jsonDecode(barcode));
     return state!;
   }
 
@@ -19,6 +19,6 @@ class BarcodeNotifier extends Notifier<QrCodeData?> {
   }
 }
 
-final barcodeProvider = NotifierProvider<BarcodeNotifier, QrCodeData?>(
+final barcodeProvider = NotifierProvider<BarcodeNotifier, ScanInfo?>(
   BarcodeNotifier.new,
 );

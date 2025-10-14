@@ -52,7 +52,7 @@ class ScanPage extends HookConsumerWidget {
       child: Stack(
         children: [
           Scanner(key: scannerKey),
-          store.structure.associationMembership.id != ''
+          store.structure.associationMembership?.id != ''
               ? Positioned(
                   top: 10,
                   left: 20,
@@ -84,7 +84,7 @@ class ScanPage extends HookConsumerWidget {
                               ),
                               const SizedBox(width: 5),
                               Text(
-                                "${AppLocalizations.of(context)!.paiementLimitedTo} ${store.structure.associationMembership.name}",
+                                "${AppLocalizations.of(context)!.paiementLimitedTo} ${store.structure.associationMembership?.name}",
                                 style: TextStyle(
                                   color: bypass
                                       ? Colors.white.withValues(alpha: 0.5)

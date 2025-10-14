@@ -1,19 +1,20 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/user/class/simple_users.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 
-class NewAdminNotifier extends Notifier<SimpleUser> {
+class NewAdminNotifier extends Notifier<CoreUserSimple> {
   @override
-  SimpleUser build() => SimpleUser.empty();
+  CoreUserSimple build() => EmptyModels.empty<CoreUserSimple>();
 
-  void updateNewAdmin(SimpleUser newAdmin) {
+  void updateNewAdmin(CoreUserSimple newAdmin) {
     state = newAdmin;
   }
 
   void resetNewAdmin() {
-    state = SimpleUser.empty();
+    state = EmptyModels.empty<CoreUserSimple>();
   }
 }
 
-final newAdminProvider = NotifierProvider<NewAdminNotifier, SimpleUser>(
+final newAdminProvider = NotifierProvider<NewAdminNotifier, CoreUserSimple>(
   NewAdminNotifier.new,
 );

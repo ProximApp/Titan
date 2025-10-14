@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/paiement/class/history.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/paiement/providers/refund_amount_provider.dart';
 import 'package:titan/paiement/providers/selected_store_provider.dart';
 import 'package:titan/paiement/ui/components/transaction_card.dart';

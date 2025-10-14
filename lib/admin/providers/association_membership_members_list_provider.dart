@@ -39,8 +39,8 @@ class AssociationMembershipMembersNotifier
   }
 
   Future<bool> addMember(
-    UserAssociationMembershipBase userAssociationMembership,
-    SimpleUser user,
+    UserMembershipComplete userAssociationMembership,
+    CoreUserSimple user,
   ) async {
     return await add(
       () async => associationMembershipRepository

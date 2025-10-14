@@ -3,12 +3,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/admin/admin.dart';
 import 'package:titan/admin/ui/pages/structure_page/add_edit_structure_page/user_search_modal.dart';
-import 'package:titan/admin/class/association_membership_simple.dart';
 import 'package:titan/admin/providers/association_membership_list_provider.dart';
 import 'package:titan/admin/providers/structure_manager_provider.dart';
 import 'package:titan/admin/providers/structure_provider.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
-import 'package:titan/paiement/class/structure.dart';
 import 'package:titan/paiement/providers/structure_list_provider.dart';
 import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
@@ -21,6 +19,7 @@ import 'package:titan/tools/ui/styleguide/list_item.dart';
 import 'package:titan/tools/ui/styleguide/text_entry.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
+import 'package:titan/user/extensions/core_user_simple.dart';
 
 class AddEditStructurePage extends HookConsumerWidget {
   const AddEditStructurePage({super.key});
@@ -60,7 +59,10 @@ class AddEditStructurePage extends HookConsumerWidget {
       allAssociationMembershipListProvider,
     );
     final currentMembership = useState<MembershipSimple>(
-      isEdit ? structure.associationMembership : EmptyModels.empty<MembershipSimple>(),
+      isEdit
+          ? structure.associationMembership ??
+                EmptyModels.empty<MembershipSimple>()
+          : EmptyModels.empty<MembershipSimple>(),
     );
     void displayToastWithContext(TypeMsg type, String msg) {
       displayToast(context, type, msg);
@@ -257,60 +259,64 @@ class AddEditStructurePage extends HookConsumerWidget {
                       return;
                     }
                     if (key.currentState!.validate()) {
-                        final editedStructureMsg = isEdit
-                            ? localizeWithContext.adminEditedStructure
-                            : localizeWithContext.adminAddedStructure;
-                        final addedStructureErrorMsg = AppLocalizations.of(
-                          context,
-                        )!.adminAddingError;
-                        final value = isEdit
-                            ? await structureListNotifier.updateStructure(
-                                Structure(
-                                  id: structure.id,
-                                  shortId: shortId.text,
-                                  name: name.text,
-                                  siegeAddressStreet: siegeAddressStreet.text,
-                                  siegeAddressCity: siegeAddressCity.text,
-                                  siegeAddressZipcode: siegeAddressZipcode.text,
-                                  siegeAddressCountry: siegeAddressCountry.text,
-                                  siret: siret.text,
-                                  iban: iban.text,
-                                  bic: bic.text,
-                                  associationMembership:
-                                      currentMembership.value,
-                                  managerUser: structureManager,
-                                ),
-                              )
-                            : await structureListNotifier.createStructure(
-                                Structure(
-                                  id: '',
-                                  shortId: shortId.text,
-                                  name: name.text,
-                                  siegeAddressStreet: siegeAddressStreet.text,
-                                  siegeAddressCity: siegeAddressCity.text,
-                                  siegeAddressZipcode: siegeAddressZipcode.text,
-                                  siegeAddressCountry: siegeAddressCountry.text,
-                                  siret: siret.text,
-                                  iban: iban.text,
-                                  bic: bic.text,
-                                  associationMembership:
-                                      currentMembership.value,
-                                  managerUser: structureManager,
-                                ),
-                              );
-                        if (value) {
-                          QR.back();
-                          structureManagerNotifier.setUser(SimpleUser.empty());
-                          displayToastWithContext(
-                            TypeMsg.msg,
-                            editedStructureMsg,
-                          );
-                        } else {
-                          displayToastWithContext(
-                            TypeMsg.error,
-                            addedStructureErrorMsg,
-                          );
-                        }
+                      final editedStructureMsg = isEdit
+                          ? localizeWithContext.adminEditedStructure
+                          : localizeWithContext.adminAddedStructure;
+                      final addedStructureErrorMsg = AppLocalizations.of(
+                        context,
+                      )!.adminAddingError;
+                      final value = isEdit
+                          ? await structureListNotifier.updateStructure(
+                              Structure(
+                                id: structure.id,
+                                shortId: shortId.text,
+                                name: name.text,
+                                siegeAddressStreet: siegeAddressStreet.text,
+                                siegeAddressCity: siegeAddressCity.text,
+                                siegeAddressZipcode: siegeAddressZipcode.text,
+                                siegeAddressCountry: siegeAddressCountry.text,
+                                siret: siret.text,
+                                iban: iban.text,
+                                bic: bic.text,
+                                associationMembership: currentMembership.value,
+                                managerUser: structureManager,
+                                managerUserId: structureManager.id,
+                                creation: structure.creation,
+                              ),
+                            )
+                          : await structureListNotifier.createStructure(
+                              Structure(
+                                id: '',
+                                shortId: shortId.text,
+                                name: name.text,
+                                siegeAddressStreet: siegeAddressStreet.text,
+                                siegeAddressCity: siegeAddressCity.text,
+                                siegeAddressZipcode: siegeAddressZipcode.text,
+                                siegeAddressCountry: siegeAddressCountry.text,
+                                siret: siret.text,
+                                iban: iban.text,
+                                bic: bic.text,
+                                associationMembership: currentMembership.value,
+                                managerUser: structureManager,
+                                managerUserId: structureManager.id,
+                                creation: DateTime.now(),
+                              ),
+                            );
+                      if (value) {
+                        QR.back();
+                        structureManagerNotifier.setUser(
+                          EmptyModels.empty<CoreUserSimple>(),
+                        );
+                        displayToastWithContext(
+                          TypeMsg.msg,
+                          editedStructureMsg,
+                        );
+                      } else {
+                        displayToastWithContext(
+                          TypeMsg.error,
+                          addedStructureErrorMsg,
+                        );
+                      }
                     }
                   },
                   text: isEdit

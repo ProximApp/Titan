@@ -1,15 +1,16 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/paiement/class/store.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 
-class StoreProvider extends Notifier<Store> {
+class StoreProvider extends Notifier<UserStore> {
   @override
-  Store build() {
-    return Store.empty();
+  UserStore build() {
+    return EmptyModels.empty<UserStore>();
   }
 
-  void updateStore(Store store) {
+  void updateStore(UserStore store) {
     state = store;
   }
 }
 
-final storeProvider = NotifierProvider<StoreProvider, Store>(StoreProvider.new);
+final storeProvider = NotifierProvider<StoreProvider, UserStore>(StoreProvider.new);

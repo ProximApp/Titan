@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
-import 'package:titan/paiement/class/init_info.dart';
 import 'package:titan/paiement/providers/fund_amount_provider.dart';
 import 'package:titan/paiement/providers/funding_url_provider.dart';
 import 'package:titan/paiement/providers/my_history_provider.dart';
@@ -134,7 +134,7 @@ class ConfirmFundButton extends ConsumerWidget {
         }
 
         final value = await fundingUrlNotifier.getFundingUrl(
-          InitInfo(
+          TransferInfo(
             amount: (double.parse(fundAmount.replaceAll(',', '.')) * 100)
                 .round(),
             redirectUrl: redirectUrl,
