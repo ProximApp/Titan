@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/navigation/providers/display_quit_popup.dart';
 import 'package:titan/service/providers/firebase_token_expiration_provider.dart';
-import 'package:titan/service/providers/firebase_token_provider.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:titan/l10n/app_localizations.dart';
@@ -17,7 +16,6 @@ class QuitDialog extends HookConsumerWidget {
     final auth = ref.watch(authTokenProvider.notifier);
     final isCachingNotifier = ref.watch(isCachingProvider.notifier);
     final displayQuitNotifier = ref.watch(displayQuitProvider.notifier);
-    final firebaseToken = ref.watch(firebaseTokenProvider);
     return GestureDetector(
       onTap: () {
         displayQuitNotifier.setDisplay(false);
@@ -32,9 +30,6 @@ class QuitDialog extends HookConsumerWidget {
             onYes: () {
               auth.deleteToken();
               if (!kIsWeb) {
-                firebaseToken.then((value) {
-                  ref.watch(devicesProvider.notifier).forgetDevice(value);
-                });
                 ref.watch(firebaseTokenExpirationProvider.notifier).reset();
               }
               isCachingNotifier.set(false);
