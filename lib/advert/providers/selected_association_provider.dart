@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/admin/class/assocation.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 
 class AssociationNotifier extends Notifier<List<Association>> {
   @override
