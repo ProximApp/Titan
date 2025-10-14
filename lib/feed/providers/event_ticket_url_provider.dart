@@ -1,22 +1,23 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/feed/class/ticket_url.dart';
-import 'package:titan/feed/repositories/event_repository.dart';
-import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/single_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class TicketUrlNotifier extends SingleNotifier<TicketUrl> {
+class TicketUrlNotifier extends SingleNotifierAPI<EventTicketUrl> {
+  Openapi get eventRepository => ref.watch(repositoryProvider);
   @override
-  AsyncValue<TicketUrl> build() {
+  AsyncValue<EventTicketUrl> build() {
     return const AsyncValue.loading();
   }
 
-  EventRepository get eventRepository => ref.watch(eventRepositoryProvider);
-
-  Future<AsyncValue<TicketUrl>> getTicketUrl(String eventId) async {
-    return await load(() => eventRepository.getTicketUrl(eventId));
+  Future<AsyncValue<EventTicketUrl>> getTicketUrl(String eventId) async {
+    return await load(
+      () => eventRepository.calendarEventsEventIdTicketUrlGet(eventId: eventId),
+    );
   }
 }
 
 final ticketUrlProvider =
-    NotifierProvider<TicketUrlNotifier, AsyncValue<TicketUrl>>(
+    NotifierProvider<TicketUrlNotifier, AsyncValue<EventTicketUrl>>(
       TicketUrlNotifier.new,
     );

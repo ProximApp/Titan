@@ -9,20 +9,22 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 // import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:titan/admin/class/assocation.dart';
 import 'package:titan/admin/providers/my_association_list_provider.dart';
+import 'package:titan/event/adapters/event_complete_ticket_url.dart';
 // import 'package:titan/event/providers/selected_days_provider.dart';
 // import 'package:titan/event/tools/constants.dart';
 // import 'package:titan/event/tools/functions.dart';
 import 'package:titan/event/ui/pages/event_pages/checkbox_entry.dart';
-import 'package:titan/feed/class/event.dart';
 import 'package:titan/feed/providers/association_event_list_provider.dart';
 import 'package:titan/feed/providers/event_image_provider.dart';
 import 'package:titan/feed/providers/event_provider.dart';
 import 'package:titan/feed/providers/news_list_provider.dart';
 import 'package:titan/feed/ui/feed.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/navigation/ui/scroll_to_hide_navbar.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
@@ -65,7 +67,7 @@ class AddEditEventPage extends HookConsumerWidget {
 
     final syncEvent = event.maybeWhen(
       data: (event) => event,
-      orElse: () => Event.empty(),
+      orElse: () => EmptyModels.empty<EventCompleteTicketUrl>(),
     );
     final poster = useState<Uint8List?>(null);
     final posterFile = useState<Image?>(null);
@@ -579,7 +581,7 @@ class AddEditEventPage extends HookConsumerWidget {
                             //     ),
                             //   );
                             // }
-                            final newEvent = Event(
+                            final newEvent = EventCompleteTicketUrl(
                               id: syncEvent.id,
                               start: DateTime.parse(
                                 processDateBackWithHourMaybe(
@@ -611,6 +613,10 @@ class AddEditEventPage extends HookConsumerWidget {
                                   : selectedAssociation.value!.id,
                               ticketUrl: externalLinkController.text,
                               notification: notification.value,
+                              association:
+                                  selectedAssociation.value ??
+                                  EmptyModels.empty<Association>(),
+                              decision: Decision.pending,
                             );
                             try {
                               if (syncEvent.id != "") {
@@ -652,7 +658,7 @@ class AddEditEventPage extends HookConsumerWidget {
                                 }
                               } else {
                                 final eventCreated = await eventCreationNotifier
-                                    .addEvent(newEvent);
+                                    .addEvent(newEvent.toEventBaseCreation());
                                 if (poster.value == null) {
                                   QR.back();
                                   displayToastWithContext(
@@ -662,9 +668,20 @@ class AddEditEventPage extends HookConsumerWidget {
                                   newsListNotifier.loadNewsList();
                                   return;
                                 }
+                                final eventCreatedId = eventCreated.maybeWhen(
+                                  orElse: () => "",
+                                  data: (event) => event.id,
+                                );
+                                if (eventCreatedId == "") {
+                                  displayToastWithContext(
+                                    TypeMsg.error,
+                                    localizeWithContext.eventAddingError,
+                                  );
+                                  return;
+                                }
                                 final value = await eventImageNotifier
                                     .addEventImage(
-                                      eventCreated.id,
+                                      eventCreatedId,
                                       poster.value!,
                                     );
                                 if (value) {

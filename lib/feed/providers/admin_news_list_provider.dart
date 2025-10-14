@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/feed/class/news.dart';
-import 'package:titan/feed/repositories/news_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class AdminNewsListNotifier extends ListNotifier<News> {
-  NewsRepository get newsRepository => ref.watch(newsRepositoryProvider);
+class AdminNewsListNotifier extends ListNotifierAPI<News> {
+  Openapi get newsRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<News>> build() {
@@ -13,27 +13,21 @@ class AdminNewsListNotifier extends ListNotifier<News> {
   }
 
   Future<AsyncValue<List<News>>> loadNewsList() async {
-    return await loadList(newsRepository.getAllNews);
-  }
-
-  Future<bool> addNews(News news) async {
-    return await add(newsRepository.createNews, news);
+    return await loadList(newsRepository.feedAdminNewsGet);
   }
 
   Future<bool> approveNews(News news) async {
     return await update(
-      (news) => newsRepository.approveNews(news.id),
-      (newsList, news) =>
-          newsList..[newsList.indexWhere((d) => d.id == news.id)] = news,
+      () => newsRepository.feedAdminNewsNewsIdApprovePost(newsId: news.id),
+      (news) => news.id,
       news,
     );
   }
 
   Future<bool> rejectNews(News news) async {
     return await update(
-      (news) => newsRepository.rejectNews(news.id),
-      (newsList, news) =>
-          newsList..[newsList.indexWhere((d) => d.id == news.id)] = news,
+      () => newsRepository.feedAdminNewsNewsIdRejectPost(newsId: news.id),
+      (news) => news.id,
       news,
     );
   }

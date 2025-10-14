@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/feed/class/news.dart';
 import 'package:titan/feed/repositories/news_repository.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/providers/list_notifier.dart';
 
 class NewsListNotifier extends ListNotifier<News> {

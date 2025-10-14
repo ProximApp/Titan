@@ -1,44 +1,61 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/feed/class/event.dart';
-import 'package:titan/feed/repositories/event_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class AssociationEventsListNotifier extends ListNotifier<Event> {
-  EventRepository get eventsRepository => ref.watch(eventRepositoryProvider);
-  AsyncValue<List<Event>> allNews = const AsyncValue.loading();
+class AssociationEventsListNotifier
+    extends ListNotifierAPI<EventCompleteTicketUrl> {
+  Openapi get eventsRepository => ref.watch(repositoryProvider);
+  AsyncValue<List<EventCompleteTicketUrl>> allNews = const AsyncValue.loading();
 
   @override
-  AsyncValue<List<Event>> build() {
+  AsyncValue<List<EventCompleteTicketUrl>> build() {
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<List<Event>>> loadAssociationEventList(
+  Future<AsyncValue<List<EventCompleteTicketUrl>>> loadAssociationEventList(
     String associationId,
   ) async {
     return allNews = await loadList(
-      () => eventsRepository.getAssociationEventList(associationId),
+      () => eventsRepository.calendarEventsAssociationsAssociationIdGet(
+        associationId: associationId,
+      ),
     );
   }
 
-  Future<bool> updateEvent(Event event) async {
+  Future<bool> updateEvent(EventCompleteTicketUrl event) async {
     return await update(
-      (event) => eventsRepository.updateEvent(event),
-      (eventList, event) =>
-          eventList..[eventList.indexWhere((d) => d.id == event.id)] = event,
+      () => eventsRepository.calendarEventsEventIdPatch(
+        eventId: event.id,
+        body: EventEdit(
+          name: event.name,
+          start: event.start,
+          end: event.end,
+          allDay: event.allDay,
+          location: event.location,
+          description: event.description,
+          recurrenceRule: event.recurrenceRule,
+          ticketUrl: event.ticketUrl,
+          ticketUrlOpening: event.ticketUrlOpening,
+          notification: event.notification,
+        ),
+      ),
+      (event) => event.id,
       event,
     );
   }
 
-  Future<bool> deleteEvent(Event event) async {
+  Future<bool> deleteEvent(EventCompleteTicketUrl event) async {
     return await update(
-      (event) => eventsRepository.deleteEvent(event.id),
-      (eventList, event) => eventList..removeWhere((d) => d.id == event.id),
+      () => eventsRepository.calendarEventsEventIdDelete(eventId: event.id),
+      (event) => event.id,
       event,
     );
   }
 }
 
 final associationEventsListProvider =
-    NotifierProvider<AssociationEventsListNotifier, AsyncValue<List<Event>>>(
-      AssociationEventsListNotifier.new,
-    );
+    NotifierProvider<
+      AssociationEventsListNotifier,
+      AsyncValue<List<EventCompleteTicketUrl>>
+    >(AssociationEventsListNotifier.new);
