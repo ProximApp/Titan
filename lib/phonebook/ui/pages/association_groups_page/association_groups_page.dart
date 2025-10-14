@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qlevar_router/qlevar_router.dart';
-import 'package:titan/admin/class/simple_group.dart';
 import 'package:titan/admin/providers/all_group_list_provider.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/phonebook/providers/association_groupement_provider.dart';
@@ -34,7 +33,7 @@ class AssociationGroupsPage extends HookConsumerWidget {
 
     final selectedGroups = groups.maybeWhen(
       data: (value) {
-        return useState<List<SimpleGroup>>(
+        return useState<List<CoreGroupSimple>>(
           List.from(
             value.where((element) {
               return association.associatedGroups?.contains(element.id) ??
@@ -44,7 +43,7 @@ class AssociationGroupsPage extends HookConsumerWidget {
         );
       },
       orElse: () {
-        return useState<List<SimpleGroup>>([]);
+        return useState<List<CoreGroupSimple>>([]);
       },
     );
 
