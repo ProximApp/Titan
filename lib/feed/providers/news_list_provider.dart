@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/feed/repositories/news_repository.dart';
-import 'package:titan/generated/openapi.models.swagger.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class NewsListNotifier extends ListNotifier<News> {
-  NewsRepository get newsRepository => ref.watch(newsRepositoryProvider);
+class NewsListNotifier extends ListNotifierAPI<News> {
+  Openapi get newsRepository => ref.watch(repositoryProvider);
   AsyncValue<List<News>> allNews = const AsyncValue.loading();
 
   @override
@@ -13,7 +13,7 @@ class NewsListNotifier extends ListNotifier<News> {
   }
 
   Future<AsyncValue<List<News>>> loadNewsList() async {
-    return allNews = await loadList(newsRepository.getPublishedNews);
+    return allNews = await loadList(newsRepository.feedNewsGet);
   }
 
   void filterNews(List<String> entities, List<String> modules) {
