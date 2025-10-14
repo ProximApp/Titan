@@ -128,29 +128,46 @@ class AddUsersModalContent extends HookConsumerWidget {
             onTap: () async {
               if (selectedFileName.value == null) return;
               final value = await userInvitationNotifier.createUsers(
-                mailList.value,
-                chosenGroup.value?.id,
+                mailList.value
+                    .map(
+                      (email) => CoreBatchUserCreateRequest(
+                        email: email,
+                        defaultGroupId: chosenGroup.value?.id,
+                      ),
+                    )
+                    .toList(),
               );
-              if (value.isEmpty) {
-                displayToastWithContext(
-                  TypeMsg.msg,
-                  localizeWithContext.adminInvitedUsers,
-                );
-                navigatorWithContext.pop();
-              } else {
-                if (!context.mounted) return;
-                await showDialog(
-                  context: context,
-                  builder: (BuildContext context) => DeviceDialogBox(
-                    descriptions: value.map((e) => '- $e').join('\n'),
-                    title: AppLocalizations.of(context)!.adminEmailFailed,
-                    buttonText: "Compris",
-                    onClick: () async {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                );
-              }
+              value.when(
+                data: (value) async {
+                  if (value.failed.isEmpty) {
+                    displayToastWithContext(
+                      TypeMsg.msg,
+                      localizeWithContext.adminInvitedUsers,
+                    );
+                    navigatorWithContext.pop();
+                  } else {
+                    if (!context.mounted) return;
+                    await showDialog(
+                      context: context,
+                      builder: (BuildContext context) => DeviceDialogBox(
+                        descriptions: value.failed
+                            .map((email, msg) => MapEntry('- $email', msg))
+                            .keys
+                            .join('\n'),
+                        title: AppLocalizations.of(context)!.adminEmailFailed,
+                        buttonText: "Compris",
+                        onClick: () async {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    );
+                  }
+                },
+                error: (error, stackTrace) {
+                  displayToastWithContext(TypeMsg.error, error.toString());
+                },
+                loading: () {},
+              );
             },
             child: Text(
               localizeWithContext.adminInvite,

@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/admin/class/association_membership_simple.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
@@ -19,7 +18,7 @@ class AssociationMembershipListNotifier
   }
 
   Future<bool> createAssociationMembership(
-    AssociationMembership associationMembership,
+    MembershipSimple associationMembership,
   ) async {
     return await add(
       () => associationMembershipRepository.membershipsPost(

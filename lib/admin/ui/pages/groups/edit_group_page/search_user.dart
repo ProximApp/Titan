@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/admin/class/group.dart';
 import 'package:titan/admin/providers/group_from_simple_group_provider.dart';
 import 'package:titan/admin/providers/group_provider.dart';
 import 'package:titan/admin/ui/components/user_ui.dart';
@@ -48,7 +47,7 @@ class SearchUser extends HookConsumerWidget {
                       if (value.isNotEmpty) {
                         await usersNotifier.filterUsers(
                           value,
-                          includedGroups: [g.toSimpleGroup()],
+                          includedGroups: [g.id],
                         );
                       } else {
                         usersNotifier.clear();
@@ -74,7 +73,7 @@ class SearchUser extends HookConsumerWidget {
                                   if (value.isNotEmpty) {
                                     await usersNotifier.filterUsers(
                                       value,
-                                      excludedGroups: [g.toSimpleGroup()],
+                                      excludedGroups: [g.id],
                                     );
                                   } else {
                                     usersNotifier.clear();

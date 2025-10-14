@@ -1,20 +1,21 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/admin/repositories/user_invitation_repository.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/single_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class UserInvitationNotifier extends Notifier {
+class UserInvitationNotifier extends SingleNotifierAPI<BatchResult> {
+  Openapi get userInvitationRepository => ref.watch(repositoryProvider);
   @override
-  void build() {
-    return;
+  AsyncValue<BatchResult> build() {
+    return const AsyncValue.loading();
   }
 
-  Future<List<String>> createUsers(
-    List<String> mailList,
-    String? groupId,
+  Future<AsyncValue<BatchResult>> createUsers(
+    List<CoreBatchUserCreateRequest> mailList,
   ) async {
-    final userInvitationRepository = ref.watch(
-      userInvitationRepositoryProvider,
+    return await load(
+      () => userInvitationRepository.usersBatchCreationPost(body: mailList),
     );
-    return await userInvitationRepository.createUsers(mailList, groupId);
   }
 }
 
