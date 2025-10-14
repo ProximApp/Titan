@@ -1,23 +1,26 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/flappybird/class/score.dart';
-import 'package:titan/flappybird/repositories/score_repository.dart';
-import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/single_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class UserScoreNotifier extends SingleNotifier<Score> {
-  ScoreRepository get scoreRepository => ref.watch(scoreRepositoryProvider);
+class UserScoreNotifier
+    extends SingleNotifierAPI<FlappyBirdScoreCompleteFeedBack> {
+  Openapi get scoreRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<Score> build() {
+  AsyncValue<FlappyBirdScoreCompleteFeedBack> build() {
     getLeaderBoardPosition();
     return const AsyncLoading();
   }
 
-  Future<AsyncValue<Score>> getLeaderBoardPosition() async {
-    return await load(scoreRepository.getLeaderBoardPosition);
+  Future<AsyncValue<FlappyBirdScoreCompleteFeedBack>>
+  getLeaderBoardPosition() async {
+    return await load(scoreRepository.flappybirdScoresMeGet);
   }
 }
 
 final userScoreProvider =
-    NotifierProvider<UserScoreNotifier, AsyncValue<Score>>(
-      UserScoreNotifier.new,
-    );
+    NotifierProvider<
+      UserScoreNotifier,
+      AsyncValue<FlappyBirdScoreCompleteFeedBack>
+    >(UserScoreNotifier.new);

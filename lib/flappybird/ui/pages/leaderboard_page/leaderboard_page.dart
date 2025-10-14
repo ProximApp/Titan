@@ -5,6 +5,7 @@ import 'package:titan/flappybird/providers/score_list_provider.dart';
 import 'package:titan/flappybird/providers/user_score_provider.dart';
 import 'package:titan/flappybird/ui/flappybird_template.dart';
 import 'package:titan/flappybird/ui/pages/leaderboard_page/leaderboard_item.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 
 class LeaderBoardPage extends HookConsumerWidget {
   const LeaderBoardPage({super.key});
@@ -43,7 +44,15 @@ class LeaderBoardPage extends HookConsumerWidget {
                         ),
                       );
                     }
-                    return LeaderBoardItem(score: scoreList[index - 1]);
+                    final score = scoreList[index - 1];
+                    return LeaderBoardItem(
+                      score: FlappyBirdScoreCompleteFeedBack(
+                        user: score.user,
+                        $value: score.$value,
+                        position: index,
+                        creationTime: score.creationTime,
+                      ),
+                    );
                   },
                 ),
                 error: (e, s) =>

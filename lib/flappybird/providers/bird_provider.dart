@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/flappybird/class/bird.dart';
 import 'package:titan/flappybird/providers/bird_image_provider.dart';
-import 'package:titan/user/class/simple_users.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/user/adapters/core_user.dart';
 import 'package:titan/user/providers/user_provider.dart';
 
 class BirdNotifier extends Notifier<Bird> {
@@ -14,7 +15,7 @@ class BirdNotifier extends Notifier<Bird> {
     final birdImage = ref.watch(birdImageProvider);
     final birdImageNotifier = ref.watch(birdImageProvider.notifier);
 
-    setUser(user.toSimpleUser());
+    setUser(user.toCoreUserSimple());
     if (birdImage.isNotEmpty) {
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
       birdImageNotifier.switchColor(state.color).then((value) {

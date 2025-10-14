@@ -1,27 +1,30 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/flappybird/class/score.dart';
-import 'package:titan/flappybird/repositories/score_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class ScoreListNotifier extends ListNotifier<Score> {
-  ScoreRepository get scoreRepository => ref.watch(scoreRepositoryProvider);
+class ScoreListNotifier extends ListNotifierAPI<FlappyBirdScoreInDB> {
+  Openapi get scoreRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<List<Score>> build() {
+  AsyncValue<List<FlappyBirdScoreInDB>> build() {
     getLeaderboard();
     return const AsyncLoading();
   }
 
-  Future<AsyncValue<List<Score>>> getLeaderboard() async {
-    return await loadList(scoreRepository.getLeaderboard);
+  Future<AsyncValue<List<FlappyBirdScoreInDB>>> getLeaderboard() async {
+    return await loadList(scoreRepository.flappybirdScoresGet);
   }
 
-  Future<bool> createScore(Score score) async {
-    return await add(scoreRepository.createScore, score);
+  Future<bool> createScore(FlappyBirdScoreBase score) async {
+    return await add(
+      () => scoreRepository.flappybirdScoresPost(body: score),
+      score,
+    );
   }
 }
 
 final scoreListProvider =
-    NotifierProvider<ScoreListNotifier, AsyncValue<List<Score>>>(
+    NotifierProvider<ScoreListNotifier, AsyncValue<List<FlappyBirdScoreInDB>>>(
       ScoreListNotifier.new,
     );
