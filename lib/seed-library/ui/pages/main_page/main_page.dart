@@ -3,8 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/centralisation/tools/functions.dart';
-import 'package:titan/seed-library/class/species.dart';
-import 'package:titan/seed-library/class/species_type.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/seed-library/providers/difficulty_filter_provider.dart';
 import 'package:titan/seed-library/providers/information_provider.dart';
 import 'package:titan/seed-library/providers/is_seed_library_admin_provider.dart';
@@ -16,6 +16,7 @@ import 'package:titan/seed-library/tools/constants.dart';
 import 'package:titan/seed-library/ui/pages/main_page/menu_card_ui.dart';
 import 'package:titan/seed-library/ui/seed_library.dart';
 import 'package:qlevar_router/qlevar_router.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 
 class SeedLibraryMainPage extends HookConsumerWidget {
   const SeedLibraryMainPage({super.key});
@@ -31,11 +32,11 @@ class SeedLibraryMainPage extends HookConsumerWidget {
     final speciesTypeNotifier = ref.watch(speciesTypeFilterProvider.notifier);
 
     void resetNotifier() {
-      speciesNotifier.setSpecies(Species.empty());
+      speciesNotifier.setSpecies(EmptyModels.empty<SpeciesComplete>());
       seasonNotifier.setString(SeedLibraryTextConstants.all);
       difficultyNotifier.setFilter(0);
       searchNotifier.setString('');
-      speciesTypeNotifier.setFilter(SpeciesType.empty());
+      speciesTypeNotifier.setFilter(EmptyModels.empty<SpeciesType>());
     }
 
     final controller = ScrollController();
@@ -99,7 +100,10 @@ class SeedLibraryMainPage extends HookConsumerWidget {
             ),
             GestureDetector(
               onTap: () {
-                openLink(information.facebookUrl);
+                information.facebookUrl != null &&
+                        information.facebookUrl?.isNotEmpty == true
+                    ? openLink(information.facebookUrl!)
+                    : null;
               },
               child: const MenuCardUi(
                 text: SeedLibraryTextConstants.helpSheets,
@@ -108,7 +112,10 @@ class SeedLibraryMainPage extends HookConsumerWidget {
             ),
             GestureDetector(
               onTap: () {
-                openLink(information.forumUrl);
+                information.forumUrl != null &&
+                        information.forumUrl?.isNotEmpty == true
+                    ? openLink(information.forumUrl!)
+                    : null;
               },
               child: const MenuCardUi(
                 text: SeedLibraryTextConstants.forum,

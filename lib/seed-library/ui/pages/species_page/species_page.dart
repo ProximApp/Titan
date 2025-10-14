@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/seed-library/class/species.dart';
-import 'package:titan/seed-library/class/species_type.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/seed-library/providers/difficulty_filter_provider.dart';
 import 'package:titan/seed-library/providers/species_list_provider.dart';
 import 'package:titan/seed-library/providers/species_provider.dart';
@@ -13,6 +13,7 @@ import 'package:titan/seed-library/tools/constants.dart';
 import 'package:titan/seed-library/tools/functions.dart';
 import 'package:titan/seed-library/ui/pages/species_page/species_card.dart';
 import 'package:titan/seed-library/ui/seed_library.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/card_layout.dart';
@@ -57,8 +58,8 @@ class SpeciesPage extends HookConsumerWidget {
               const SizedBox(height: 20),
               GestureDetector(
                 onTap: () {
-                  speciesNotifier.setSpecies(Species.empty());
-                  speciesTypeNotifier.setType(SpeciesType.empty());
+                  speciesNotifier.setSpecies(EmptyModels.empty<SpeciesComplete>());
+                  speciesTypeNotifier.setType(EmptyModels.empty<SpeciesType>());
                   difficultyNotifier.setFilter(0);
                   startMonthNotifier.setString('');
                   endMonthNotifier.setString('');
@@ -107,7 +108,7 @@ class SpeciesPage extends HookConsumerWidget {
                                 difficultyNotifier.setFilter(
                                   species.difficulty,
                                 );
-                                speciesTypeNotifier.setType(species.type);
+                                speciesTypeNotifier.setType(species.speciesType);
                                 speciesNotifier.setSpecies(species);
                                 startMonthNotifier.setString(
                                   species.startSeason != null

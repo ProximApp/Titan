@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/seed-library/adapters/plant_complete.dart';
+import 'package:titan/seed-library/providers/my_plants_list_provider.dart';
 import 'package:titan/seed-library/providers/plant_complete_provider.dart';
 import 'package:titan/seed-library/providers/plants_list_provider.dart';
 import 'package:titan/seed-library/providers/species_list_provider.dart';
@@ -52,7 +55,7 @@ class PlantDetailPage extends HookConsumerWidget {
                 child: Column(
                   children: [
                     Text(
-                      '${SeedLibraryTextConstants.reference} ${plantComplete.plantReference}',
+                      '${SeedLibraryTextConstants.reference} ${plantComplete.reference}',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
@@ -64,7 +67,7 @@ class PlantDetailPage extends HookConsumerWidget {
                       style: const TextStyle(fontSize: 15),
                     ),
                     Text(
-                      '${SeedLibraryTextConstants.type} ${plantSpecies.type.name}',
+                      '${SeedLibraryTextConstants.type} ${plantSpecies.speciesType.name}',
                       style: const TextStyle(fontSize: 15),
                     ),
                     Row(

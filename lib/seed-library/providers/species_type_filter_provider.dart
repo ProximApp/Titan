@@ -1,18 +1,18 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/seed-library/class/species_type.dart';
-import 'package:titan/seed-library/tools/constants.dart';
-
-final speciesTypeFilterProvider = NotifierProvider<FilterNotifier, SpeciesType>(
-  () => FilterNotifier(),
-);
+import 'package:titan/generated/openapi.enums.swagger.dart';
 
 class FilterNotifier extends Notifier<SpeciesType> {
   @override
   SpeciesType build() {
-    return SpeciesType(name: SeedLibraryTextConstants.all);
+    return SpeciesType.autre;
   }
 
   void setFilter(SpeciesType i) {
     state = i;
   }
 }
+
+
+final speciesTypeFilterProvider = NotifierProvider<FilterNotifier, SpeciesType>(
+  FilterNotifier.new,
+);

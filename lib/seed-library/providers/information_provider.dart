@@ -1,33 +1,40 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/seed-library/class/information.dart';
-import 'package:titan/seed-library/repositories/information_repository.dart';
-import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
+import 'package:titan/tools/providers/single_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class InformationNotifier extends SingleNotifier<Information> {
-  late final InformationRepository informationRepository;
+class InformationNotifier extends SingleNotifierAPI<SeedLibraryInformation> {
+  Openapi get informationRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<Information> build() {
-    informationRepository = ref.watch(informationRepositoryProvider);
-      loadInformation();
+  AsyncValue<SeedLibraryInformation> build() {
+    loadInformation();
     return const AsyncLoading();
   }
 
-  Future<AsyncValue<Information>> loadInformation() async {
-    return await load(informationRepository.getInformation);
+  Future<AsyncValue<SeedLibraryInformation>> loadInformation() async {
+    return await load(informationRepository.seedLibraryInformationGet);
   }
 
-  Future<bool> updateInformation(Information information) async {
-    return await update(informationRepository.updateInformation, information);
+  Future<bool> updateInformation(SeedLibraryInformation information) async {
+    return await update(
+      () =>
+          informationRepository.seedLibraryInformationPatch(body: information),
+      information,
+    );
   }
 }
 
 final informationProvider =
-    NotifierProvider<InformationNotifier, AsyncValue<Information>>(
+    NotifierProvider<InformationNotifier, AsyncValue<SeedLibraryInformation>>(
       InformationNotifier.new,
     );
 
-final syncInformationProvider = Provider<Information>((ref) {
+final syncInformationProvider = Provider<SeedLibraryInformation>((ref) {
   final info = ref.watch(informationProvider);
-  return info.maybeWhen(data: (data) => data, orElse: Information.empty);
+  return info.maybeWhen(
+    data: (data) => data,
+    orElse: () => EmptyModels.empty<SeedLibraryInformation>(),
+  );
 });

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/seed-library/class/species_type.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
 import 'package:titan/seed-library/providers/difficulty_filter_provider.dart';
 import 'package:titan/seed-library/providers/species_type_filter_provider.dart';
 import 'package:titan/seed-library/providers/species_type_list_provider.dart';
 import 'package:titan/seed-library/providers/string_provider.dart';
 import 'package:titan/seed-library/tools/constants.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 
 class FiltersBar extends HookConsumerWidget {
   const FiltersBar({super.key});
@@ -76,14 +77,16 @@ class FiltersBar extends HookConsumerWidget {
                   onChanged: (SpeciesType? newValue) {
                     speciesTypeNotifier.setFilter(newValue!);
                   },
-                  items: [SpeciesType.empty(), ...speciesTypeList]
-                      .map<DropdownMenuItem<SpeciesType>>((SpeciesType value) {
+                  items:
+                      [
+                        EmptyModels.empty<SpeciesType>(),
+                        ...speciesTypeList.speciesType,
+                      ].map<DropdownMenuItem<SpeciesType>>((SpeciesType value) {
                         return DropdownMenuItem<SpeciesType>(
                           value: value,
                           child: Text(value.name),
                         );
-                      })
-                      .toList(),
+                      }).toList(),
                 ),
               ],
             ),

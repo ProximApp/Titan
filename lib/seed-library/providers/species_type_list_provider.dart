@@ -1,32 +1,31 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/seed-library/class/species_type.dart';
-import 'package:titan/seed-library/repositories/species_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/single_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class SpeciesListNotifier extends ListNotifier<SpeciesType> {
-  late final SpeciesRepository speciesRepository;
+class SpeciesListNotifier extends SingleNotifierAPI<SpeciesTypesReturn> {
+  Openapi get speciesRepository => ref.watch(repositoryProvider);
 
   @override
-  AsyncValue<List<SpeciesType>> build() {
-    speciesRepository = ref.watch(speciesRepositoryProvider);
+  AsyncValue<SpeciesTypesReturn> build() {
     loadSpeciesTypes();
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<List<SpeciesType>>> loadSpeciesTypes() async {
-    return await loadList(speciesRepository.getSpeciesTypeList);
+  Future<AsyncValue<SpeciesTypesReturn>> loadSpeciesTypes() async {
+    return await load(speciesRepository.seedLibrarySpeciesTypesGet);
   }
 }
 
 final speciesTypeListProvider =
-    NotifierProvider<SpeciesListNotifier, AsyncValue<List<SpeciesType>>>(
+    NotifierProvider<SpeciesListNotifier, AsyncValue<SpeciesTypesReturn>>(
       SpeciesListNotifier.new,
     );
 
-final syncSpeciesTypeListProvider = Provider<List<SpeciesType>>((ref) {
+final syncSpeciesTypeListProvider = Provider<SpeciesTypesReturn>((ref) {
   final speciesList = ref.watch(speciesTypeListProvider);
   return speciesList.maybeWhen(
-    orElse: () => [],
+    orElse: () => SpeciesTypesReturn(speciesType: []),
     data: (speciesType) => speciesType,
   );
 });

@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:titan/seed-library/class/plant_simple.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/seed-library/providers/species_list_provider.dart';
 import 'package:titan/seed-library/tools/constants.dart';
 import 'package:titan/seed-library/tools/functions.dart' as function;
@@ -47,7 +47,7 @@ class PersonalPlantCard extends HookConsumerWidget {
                       textAlign: TextAlign.center,
                     ),
                     AutoSizeText(
-                      plant.nickname ?? plant.plantReference,
+                      plant.nickname ?? plant.reference,
                       minFontSize: 10,
                       maxLines: 1,
                     ),

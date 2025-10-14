@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/seed-library/tools/functions.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
 
 final propagationMethodProvider =
     NotifierProvider<PropagationMethodNotifier, PropagationMethod>(

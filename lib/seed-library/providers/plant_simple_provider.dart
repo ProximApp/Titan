@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/seed-library/class/plant_simple.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 
 final plantSimpleProvider = NotifierProvider<PlantSimpleNotifier, PlantSimple>(
   () => PlantSimpleNotifier(),
@@ -8,7 +9,7 @@ final plantSimpleProvider = NotifierProvider<PlantSimpleNotifier, PlantSimple>(
 class PlantSimpleNotifier extends Notifier<PlantSimple> {
   @override
   PlantSimple build() {
-    return PlantSimple.empty();
+    return EmptyModels.empty<PlantSimple>();
   }
 
   void setPlant(PlantSimple i) {

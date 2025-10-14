@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/seed-library/class/plant_creation.dart';
-import 'package:titan/seed-library/class/plant_simple.dart';
-import 'package:titan/seed-library/class/species.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/seed-library/providers/is_seed_library_admin_provider.dart';
+import 'package:titan/seed-library/providers/my_plants_list_provider.dart';
 import 'package:titan/seed-library/providers/plant_complete_provider.dart';
 import 'package:titan/seed-library/providers/plant_simple_provider.dart';
 import 'package:titan/seed-library/providers/plants_list_provider.dart';
@@ -12,11 +12,11 @@ import 'package:titan/seed-library/providers/propagation_method_provider.dart';
 import 'package:titan/seed-library/providers/species_list_provider.dart';
 import 'package:titan/seed-library/providers/species_provider.dart';
 import 'package:titan/seed-library/tools/constants.dart';
-import 'package:titan/seed-library/tools/functions.dart';
 import 'package:titan/seed-library/ui/components/radio_chip.dart';
 import 'package:titan/seed-library/ui/pages/plant_deposit_page/small_plant_card.dart';
 import 'package:titan/seed-library/ui/pages/plant_deposit_page/small_species_card.dart';
 import 'package:titan/seed-library/ui/seed_library.dart';
+import 'package:titan/tools/builders/empty_models.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
@@ -103,7 +103,7 @@ class PlantDepositPage extends HookConsumerWidget {
                               onClicked: () async {
                                 selectedAncestor.id == e.id
                                     ? selectedAncestorNotifier.setPlant(
-                                        PlantSimple.empty(),
+                                        EmptyModels.empty<PlantSimple>(),
                                       )
                                     : selectedAncestorNotifier.setPlant(e);
                                 final plant = await plantNotifier.loadPlant(
@@ -138,7 +138,7 @@ class PlantDepositPage extends HookConsumerWidget {
                                 onClicked: () {
                                   selectedSpecies.id == e.id
                                       ? selectedSpeciesNotifier.setSpecies(
-                                          Species.empty(),
+                                          EmptyModels.empty<SpeciesComplete>(),
                                         )
                                       : selectedSpeciesNotifier.setSpecies(e);
                                 },
@@ -249,7 +249,7 @@ class PlantDepositPage extends HookConsumerWidget {
                                       title: Text(
                                         SeedLibraryTextConstants
                                                 .writeReference +
-                                            plantList.last.plantReference,
+                                            plantList.last.reference,
                                       ),
                                       actions: [
                                         TextButton(
@@ -271,10 +271,10 @@ class PlantDepositPage extends HookConsumerWidget {
                                 );
                               }
                               selectedSpeciesNotifier.setSpecies(
-                                Species.empty(),
+                                EmptyModels.empty<SpeciesComplete>(),
                               );
                               selectedAncestorNotifier.setPlant(
-                                PlantSimple.empty(),
+                                EmptyModels.empty<PlantSimple>(),
                               );
                               seedQuantity.clear();
                               notes.clear();
