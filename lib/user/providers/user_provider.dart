@@ -23,10 +23,6 @@ class UserNotifier extends SingleNotifierAPI<CoreUser> {
     return const AsyncValue.loading();
   }
 
-  Future<bool> setUser(CoreUser user) async {
-    return await add((u) async => u, user);
-  }
-
   Future<AsyncValue<CoreUser>> loadUser(String userId) async {
     return await load(
       () async => userRepository.usersUserIdGet(userId: userId),

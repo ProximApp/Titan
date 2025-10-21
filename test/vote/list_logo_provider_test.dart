@@ -14,16 +14,11 @@ class MockListLogoNotifier extends Mock implements ListLogoNotifier {}
 
 void main() {
   late ListLogoRepository repository;
-  late ListLogoNotifier notifier;
   late ListLogoProvider provider;
 
   setUp(() {
     repository = MockListLogoRepository();
-    notifier = MockListLogoNotifier();
-    provider = ListLogoProvider(
-      listLogoRepository: repository,
-      listLogosNotifier: notifier,
-    );
+    provider = ListLogoProvider();
   });
 
   group('ListLogoProvider', () {

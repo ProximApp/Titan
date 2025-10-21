@@ -61,6 +61,7 @@ class AssociationMemberListNotifier extends ListNotifierAPI<MemberComplete> {
     );
   }
 
+  // requires work
   Future<bool> reorderMember(
     MemberComplete member,
     MembershipComplete membership,

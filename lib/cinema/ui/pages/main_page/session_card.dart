@@ -34,7 +34,7 @@ class SessionCard extends HookConsumerWidget {
     final isWebFormat = ref.watch(isWebFormatProvider);
     final cinemaTopics = ref.watch(cinemaTopicsProvider);
     final selected = cinemaTopics.maybeWhen(
-      data: (data) => data.contains(session.id),
+      data: (data) => data.map((e) => e.id).contains(session.id),
       orElse: () => false,
     );
 

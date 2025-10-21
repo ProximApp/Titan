@@ -7,12 +7,15 @@ import 'package:titan/vote/providers/list_logos_provider.dart';
 import 'package:titan/vote/repositories/list_logo_repository.dart';
 
 class ListLogoProvider extends SingleNotifier<Image> {
-  final ListLogoRepository listLogoRepository;
-  final ListLogoNotifier listLogosNotifier;
-  ListLogoProvider({
-    required this.listLogoRepository,
-    required this.listLogosNotifier,
-  }) : super(const AsyncValue.loading());
+  ListLogoRepository get listLogoRepository =>
+      ref.watch(listLogoRepositoryProvider);
+  ListLogoNotifier get listLogosNotifier =>
+      ref.watch(listLogosProvider.notifier);
+
+  @override
+  AsyncValue<Image> build() {
+    return const AsyncValue.loading();
+  }
 
   Future<Image> getLogo(String id) async {
     return await listLogoRepository.getListLogo(id).then((image) {
@@ -28,13 +31,6 @@ class ListLogoProvider extends SingleNotifier<Image> {
   }
 }
 
-final listLogoProvider = NotifierProvider<ListLogoProvider, AsyncValue<Image>>((
-  ref,
-) {
-  final listLogoRepository = ref.watch(listLogoRepositoryProvider);
-  final listLogosNotifier = ref.watch(listLogosProvider.notifier);
-  return ListLogoProvider(
-    listLogoRepository: listLogoRepository,
-    listLogosNotifier: listLogosNotifier,
-  );
-});
+final listLogoProvider = NotifierProvider<ListLogoProvider, AsyncValue<Image>>(
+  ListLogoProvider.new,
+);

@@ -18,21 +18,6 @@ void main() {
       name: "name",
       description: "description",
     );
-    final coreUser = CoreUser(
-      id: "1",
-      name: "name",
-      firstname: "firstname",
-      nickname: null,
-      email: "email",
-      accountType: AccountType.$external,
-      groups: [group],
-      birthday: DateTime.now(),
-      createdOn: DateTime.now(),
-      floor: '',
-      phone: '',
-      promo: null,
-      schoolId: '',
-    );
     final modifiedGroup = CoreGroupSimple(
       id: '1',
       name: 'Modified Group',
@@ -42,11 +27,6 @@ void main() {
       id: '1',
       name: 'Existing Group',
       description: 'Existing Description',
-    );
-
-    final newGroup = CoreGroupCreate(
-      name: group.name,
-      description: group.description,
     );
     final returnedGroup = EmptyModels.empty<CoreGroupSimple>().copyWith(
       id: "2",
@@ -108,7 +88,7 @@ void main() {
 
     test('Should return a group from coreUser', () async {
       final GroupListNotifier groupNotifier = GroupListNotifier();
-      final groupList = await groupNotifier.loadGroupsFromUser(coreUser);
+      final groupList = await groupNotifier.loadGroups();
       expect(groupList, isA<AsyncData<List<CoreGroupSimple>>>());
       expect(
         groupList.when(
@@ -140,8 +120,8 @@ void main() {
       );
       final GroupListNotifier groupNotifier = GroupListNotifier();
       await groupNotifier.loadGroups();
-      final group = await groupNotifier.createGroup(newGroup);
-      expect(group, true);
+      final result = await groupNotifier.createGroup(group);
+      expect(result, true);
     });
 
     test('Should handle error when creating a group', () async {
@@ -150,7 +130,7 @@ void main() {
         () => mockGroup.groupsPost(body: any(named: 'body')),
       ).thenThrow(Exception('Error'));
       final GroupListNotifier groupNotifier = GroupListNotifier();
-      final result = await groupNotifier.createGroup(newGroup);
+      final result = await groupNotifier.createGroup(group);
       expect(result, false);
     });
 
@@ -212,7 +192,7 @@ void main() {
         () => mockGroup.groupsGroupIdDelete(groupId: any(named: 'groupId')),
       ).thenThrow(Exception('Error'));
       final GroupListNotifier groupNotifier = GroupListNotifier();
-      final result = await groupNotifier.deleteGroup("2");
+      final result = await groupNotifier.deleteGroup(returnedGroup);
       expect(result, false);
     });
 

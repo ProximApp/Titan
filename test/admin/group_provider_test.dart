@@ -102,7 +102,6 @@ void main() {
     });
 
     test('setGroup should modify the state with the given group', () {
-      final mockGroup = MockGroupRepository();
       final groupNotifier = GroupNotifier();
       groupNotifier.setGroup(group);
       expect(
