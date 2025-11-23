@@ -20,8 +20,6 @@ platform :android do
   desc "Submit a new Beta Build to Google Play"
   lane :beta do |options|
     flavor = options[:flavor] # prod, alpha, dev
-    app_id_prefix = options[:prefix] # fr.myecl
-    app_name = options[:name] # MyECL
 
     sh "flutter build appbundle --dart-define-from-file=config/config-#{flavor}.json --release --flavor='#{flavor}'"
 
