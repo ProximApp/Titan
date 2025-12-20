@@ -44,7 +44,7 @@ class LeaderBoardItem extends StatelessWidget {
               ],
             ),
           ),
-          Text("${score.$value}", style: style),
+          Text("${score.value}", style: style),
         ],
       ),
     );

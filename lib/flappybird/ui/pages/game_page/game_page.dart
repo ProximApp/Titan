@@ -99,7 +99,7 @@ class GamePage extends HookConsumerWidget {
         timerNotifier.stop();
         if (newBird.score > bestScore) {
           scoreListNotifier.createScore(
-            FlappyBirdScoreBase($value: newBird.score),
+            FlappyBirdScoreBase(value: newBird.score),
           );
         }
         showGameOverDialog();

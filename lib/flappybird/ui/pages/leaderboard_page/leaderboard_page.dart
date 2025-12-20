@@ -48,7 +48,7 @@ class LeaderBoardPage extends HookConsumerWidget {
                     return LeaderBoardItem(
                       score: FlappyBirdScoreCompleteFeedBack(
                         user: score.user,
-                        $value: score.$value,
+                        value: score.value,
                         position: index,
                         creationTime: score.creationTime,
                       ),

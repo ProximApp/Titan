@@ -5,7 +5,7 @@ class BestScoreNotifier extends Notifier<int> {
   @override
   int build() {
     ref.watch(userScoreProvider).whenData((value) {
-      setBest(value.$value);
+      setBest(value.value);
     });
     return 0;
   }

@@ -6313,7 +6313,7 @@ extension $CurriculumCompleteExtension on CurriculumComplete {
 
 @JsonSerializable(explicitToJson: true)
 class CustomDataBase {
-  const CustomDataBase({required this.$value});
+  const CustomDataBase({required this.value});
 
   factory CustomDataBase.fromJson(Map<String, dynamic> json) =>
       _$CustomDataBaseFromJson(json);
@@ -6322,15 +6322,15 @@ class CustomDataBase {
   Map<String, dynamic> toJson() => _$CustomDataBaseToJson(this);
 
   @JsonKey(name: 'value', defaultValue: '')
-  final String $value;
+  final String value;
   static const fromJsonFactory = _$CustomDataBaseFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is CustomDataBase &&
-            (identical(other.$value, $value) ||
-                const DeepCollectionEquality().equals(other.$value, $value)));
+            (identical(other.value, value) ||
+                const DeepCollectionEquality().equals(other.value, value)));
   }
 
   @override
@@ -6338,25 +6338,23 @@ class CustomDataBase {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash($value) ^ runtimeType.hashCode;
+      const DeepCollectionEquality().hash(value) ^ runtimeType.hashCode;
 }
 
 extension $CustomDataBaseExtension on CustomDataBase {
-  CustomDataBase copyWith({String? $value}) {
-    return CustomDataBase($value: $value ?? this.$value);
+  CustomDataBase copyWith({String? value}) {
+    return CustomDataBase(value: value ?? this.value);
   }
 
-  CustomDataBase copyWithWrapped({Wrapped<String>? $value}) {
-    return CustomDataBase(
-      $value: ($value != null ? $value.value : this.$value),
-    );
+  CustomDataBase copyWithWrapped({Wrapped<String>? value}) {
+    return CustomDataBase(value: (value != null ? value.value : this.value));
   }
 }
 
 @JsonSerializable(explicitToJson: true)
 class CustomDataComplete {
   const CustomDataComplete({
-    required this.$value,
+    required this.value,
     required this.fieldId,
     required this.userId,
     required this.field,
@@ -6369,7 +6367,7 @@ class CustomDataComplete {
   Map<String, dynamic> toJson() => _$CustomDataCompleteToJson(this);
 
   @JsonKey(name: 'value', defaultValue: '')
-  final String $value;
+  final String value;
   @JsonKey(name: 'field_id', defaultValue: '')
   final String fieldId;
   @JsonKey(name: 'user_id', defaultValue: '')
@@ -6382,8 +6380,8 @@ class CustomDataComplete {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is CustomDataComplete &&
-            (identical(other.$value, $value) ||
-                const DeepCollectionEquality().equals(other.$value, $value)) &&
+            (identical(other.value, value) ||
+                const DeepCollectionEquality().equals(other.value, value)) &&
             (identical(other.fieldId, fieldId) ||
                 const DeepCollectionEquality().equals(
                   other.fieldId,
@@ -6400,7 +6398,7 @@ class CustomDataComplete {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash($value) ^
+      const DeepCollectionEquality().hash(value) ^
       const DeepCollectionEquality().hash(fieldId) ^
       const DeepCollectionEquality().hash(userId) ^
       const DeepCollectionEquality().hash(field) ^
@@ -6409,13 +6407,13 @@ class CustomDataComplete {
 
 extension $CustomDataCompleteExtension on CustomDataComplete {
   CustomDataComplete copyWith({
-    String? $value,
+    String? value,
     String? fieldId,
     String? userId,
     CustomDataFieldComplete? field,
   }) {
     return CustomDataComplete(
-      $value: $value ?? this.$value,
+      value: value ?? this.value,
       fieldId: fieldId ?? this.fieldId,
       userId: userId ?? this.userId,
       field: field ?? this.field,
@@ -6423,13 +6421,13 @@ extension $CustomDataCompleteExtension on CustomDataComplete {
   }
 
   CustomDataComplete copyWithWrapped({
-    Wrapped<String>? $value,
+    Wrapped<String>? value,
     Wrapped<String>? fieldId,
     Wrapped<String>? userId,
     Wrapped<CustomDataFieldComplete>? field,
   }) {
     return CustomDataComplete(
-      $value: ($value != null ? $value.value : this.$value),
+      value: (value != null ? value.value : this.value),
       fieldId: (fieldId != null ? fieldId.value : this.fieldId),
       userId: (userId != null ? userId.value : this.userId),
       field: (field != null ? field.value : this.field),
@@ -7994,7 +7992,7 @@ extension $FirebaseDeviceExtension on FirebaseDevice {
 
 @JsonSerializable(explicitToJson: true)
 class FlappyBirdScoreBase {
-  const FlappyBirdScoreBase({required this.$value});
+  const FlappyBirdScoreBase({required this.value});
 
   factory FlappyBirdScoreBase.fromJson(Map<String, dynamic> json) =>
       _$FlappyBirdScoreBaseFromJson(json);
@@ -8003,15 +8001,15 @@ class FlappyBirdScoreBase {
   Map<String, dynamic> toJson() => _$FlappyBirdScoreBaseToJson(this);
 
   @JsonKey(name: 'value', defaultValue: 0)
-  final int $value;
+  final int value;
   static const fromJsonFactory = _$FlappyBirdScoreBaseFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is FlappyBirdScoreBase &&
-            (identical(other.$value, $value) ||
-                const DeepCollectionEquality().equals(other.$value, $value)));
+            (identical(other.value, value) ||
+                const DeepCollectionEquality().equals(other.value, value)));
   }
 
   @override
@@ -8019,17 +8017,17 @@ class FlappyBirdScoreBase {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash($value) ^ runtimeType.hashCode;
+      const DeepCollectionEquality().hash(value) ^ runtimeType.hashCode;
 }
 
 extension $FlappyBirdScoreBaseExtension on FlappyBirdScoreBase {
-  FlappyBirdScoreBase copyWith({int? $value}) {
-    return FlappyBirdScoreBase($value: $value ?? this.$value);
+  FlappyBirdScoreBase copyWith({int? value}) {
+    return FlappyBirdScoreBase(value: value ?? this.value);
   }
 
-  FlappyBirdScoreBase copyWithWrapped({Wrapped<int>? $value}) {
+  FlappyBirdScoreBase copyWithWrapped({Wrapped<int>? value}) {
     return FlappyBirdScoreBase(
-      $value: ($value != null ? $value.value : this.$value),
+      value: (value != null ? value.value : this.value),
     );
   }
 }
@@ -8037,7 +8035,7 @@ extension $FlappyBirdScoreBaseExtension on FlappyBirdScoreBase {
 @JsonSerializable(explicitToJson: true)
 class FlappyBirdScoreCompleteFeedBack {
   const FlappyBirdScoreCompleteFeedBack({
-    required this.$value,
+    required this.value,
     required this.user,
     required this.creationTime,
     required this.position,
@@ -8051,7 +8049,7 @@ class FlappyBirdScoreCompleteFeedBack {
       _$FlappyBirdScoreCompleteFeedBackToJson(this);
 
   @JsonKey(name: 'value', defaultValue: 0)
-  final int $value;
+  final int value;
   @JsonKey(name: 'user')
   final CoreUserSimple user;
   @JsonKey(name: 'creation_time')
@@ -8064,8 +8062,8 @@ class FlappyBirdScoreCompleteFeedBack {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is FlappyBirdScoreCompleteFeedBack &&
-            (identical(other.$value, $value) ||
-                const DeepCollectionEquality().equals(other.$value, $value)) &&
+            (identical(other.value, value) ||
+                const DeepCollectionEquality().equals(other.value, value)) &&
             (identical(other.user, user) ||
                 const DeepCollectionEquality().equals(other.user, user)) &&
             (identical(other.creationTime, creationTime) ||
@@ -8085,7 +8083,7 @@ class FlappyBirdScoreCompleteFeedBack {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash($value) ^
+      const DeepCollectionEquality().hash(value) ^
       const DeepCollectionEquality().hash(user) ^
       const DeepCollectionEquality().hash(creationTime) ^
       const DeepCollectionEquality().hash(position) ^
@@ -8095,13 +8093,13 @@ class FlappyBirdScoreCompleteFeedBack {
 extension $FlappyBirdScoreCompleteFeedBackExtension
     on FlappyBirdScoreCompleteFeedBack {
   FlappyBirdScoreCompleteFeedBack copyWith({
-    int? $value,
+    int? value,
     CoreUserSimple? user,
     DateTime? creationTime,
     int? position,
   }) {
     return FlappyBirdScoreCompleteFeedBack(
-      $value: $value ?? this.$value,
+      value: value ?? this.value,
       user: user ?? this.user,
       creationTime: creationTime ?? this.creationTime,
       position: position ?? this.position,
@@ -8109,13 +8107,13 @@ extension $FlappyBirdScoreCompleteFeedBackExtension
   }
 
   FlappyBirdScoreCompleteFeedBack copyWithWrapped({
-    Wrapped<int>? $value,
+    Wrapped<int>? value,
     Wrapped<CoreUserSimple>? user,
     Wrapped<DateTime>? creationTime,
     Wrapped<int>? position,
   }) {
     return FlappyBirdScoreCompleteFeedBack(
-      $value: ($value != null ? $value.value : this.$value),
+      value: (value != null ? value.value : this.value),
       user: (user != null ? user.value : this.user),
       creationTime: (creationTime != null
           ? creationTime.value
@@ -8128,7 +8126,7 @@ extension $FlappyBirdScoreCompleteFeedBackExtension
 @JsonSerializable(explicitToJson: true)
 class FlappyBirdScoreInDB {
   const FlappyBirdScoreInDB({
-    required this.$value,
+    required this.value,
     required this.user,
     required this.creationTime,
     required this.id,
@@ -8142,7 +8140,7 @@ class FlappyBirdScoreInDB {
   Map<String, dynamic> toJson() => _$FlappyBirdScoreInDBToJson(this);
 
   @JsonKey(name: 'value', defaultValue: 0)
-  final int $value;
+  final int value;
   @JsonKey(name: 'user')
   final CoreUserSimple user;
   @JsonKey(name: 'creation_time')
@@ -8157,8 +8155,8 @@ class FlappyBirdScoreInDB {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is FlappyBirdScoreInDB &&
-            (identical(other.$value, $value) ||
-                const DeepCollectionEquality().equals(other.$value, $value)) &&
+            (identical(other.value, value) ||
+                const DeepCollectionEquality().equals(other.value, value)) &&
             (identical(other.user, user) ||
                 const DeepCollectionEquality().equals(other.user, user)) &&
             (identical(other.creationTime, creationTime) ||
@@ -8177,7 +8175,7 @@ class FlappyBirdScoreInDB {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash($value) ^
+      const DeepCollectionEquality().hash(value) ^
       const DeepCollectionEquality().hash(user) ^
       const DeepCollectionEquality().hash(creationTime) ^
       const DeepCollectionEquality().hash(id) ^
@@ -8187,14 +8185,14 @@ class FlappyBirdScoreInDB {
 
 extension $FlappyBirdScoreInDBExtension on FlappyBirdScoreInDB {
   FlappyBirdScoreInDB copyWith({
-    int? $value,
+    int? value,
     CoreUserSimple? user,
     DateTime? creationTime,
     String? id,
     String? userId,
   }) {
     return FlappyBirdScoreInDB(
-      $value: $value ?? this.$value,
+      value: value ?? this.value,
       user: user ?? this.user,
       creationTime: creationTime ?? this.creationTime,
       id: id ?? this.id,
@@ -8203,14 +8201,14 @@ extension $FlappyBirdScoreInDBExtension on FlappyBirdScoreInDB {
   }
 
   FlappyBirdScoreInDB copyWithWrapped({
-    Wrapped<int>? $value,
+    Wrapped<int>? value,
     Wrapped<CoreUserSimple>? user,
     Wrapped<DateTime>? creationTime,
     Wrapped<String>? id,
     Wrapped<String>? userId,
   }) {
     return FlappyBirdScoreInDB(
-      $value: ($value != null ? $value.value : this.$value),
+      value: (value != null ? value.value : this.value),
       user: (user != null ? user.value : this.user),
       creationTime: (creationTime != null
           ? creationTime.value
