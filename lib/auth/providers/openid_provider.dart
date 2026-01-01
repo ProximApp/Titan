@@ -19,7 +19,7 @@ final authTokenProvider =
     StateNotifierProvider<OpenIdTokenProvider, AsyncValue<Map<String, String>>>(
       (ref) {
         OpenIdTokenProvider openIdTokenProvider = OpenIdTokenProvider();
-          openIdTokenProvider.getTokenFromStorage();
+        openIdTokenProvider.getTokenFromStorage();
         return openIdTokenProvider;
       },
     );
@@ -333,7 +333,10 @@ class OpenIdTokenProvider
             return false;
           }
         }
-        state = const AsyncValue.error("No refresh token available", StackTrace.empty);
+        state = const AsyncValue.error(
+          "No refresh token available",
+          StackTrace.empty,
+        );
         return false;
       },
       error: (error, stackTrace) {
