@@ -1,12 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/navigation/ui/scroll_to_hide_navbar.dart';
 import 'package:titan/paiement/class/payment_request.dart';
-import 'package:titan/paiement/class/request_validation.dart';
+import 'package:titan/paiement/class/secured_content_data.dart';
 import 'package:titan/paiement/providers/has_accepted_tos_provider.dart';
 import 'package:titan/paiement/providers/my_wallet_provider.dart';
 import 'package:titan/paiement/providers/payment_requests_provider.dart';
@@ -105,9 +103,15 @@ class PaymentMainPage extends HookConsumerWidget {
           itemDescription: request.storeNote ?? '',
           itemPrice: request.total,
           onConfirm: () async {
-            final keyId = await keyService.getKeyId();
-            final keyPair = await keyService.getKeyPair();
-            if (keyId == null || keyPair == null) {
+            final content = SecuredContentData(
+              id: request.id,
+              tot: request.total,
+              iat: DateTime.now(),
+              key: (await keyService.getKeyId()) ?? '',
+              store: false,
+            );
+            final validation = await keyService.signContent(content);
+            if (validation == null) {
               if (context.mounted) {
                 Navigator.of(context).pop();
                 displayToast(
@@ -118,25 +122,6 @@ class PaymentMainPage extends HookConsumerWidget {
               }
               return;
             }
-            final now = DateTime.now();
-            final validationData = RequestValidationData(
-              requestId: request.id,
-              key: keyId,
-              iat: now,
-              tot: request.total,
-            );
-            final dataToSign = jsonEncode(validationData.toJson());
-            final signature = await keyService.signMessage(
-              keyPair,
-              dataToSign.codeUnits,
-            );
-            final validation = RequestValidation(
-              requestId: request.id,
-              key: keyId,
-              iat: now,
-              tot: request.total,
-              signature: base64Encode(signature.bytes),
-            );
             final success = await paymentRequestsNotifier.acceptRequest(
               request,
               validation,
