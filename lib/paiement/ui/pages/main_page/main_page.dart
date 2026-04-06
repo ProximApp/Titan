@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/navigation/ui/scroll_to_hide_navbar.dart';
 import 'package:titan/paiement/class/payment_request.dart';
-import 'package:titan/paiement/class/secured_content_data.dart';
 import 'package:titan/paiement/providers/has_accepted_tos_provider.dart';
 import 'package:titan/paiement/providers/my_wallet_provider.dart';
 import 'package:titan/paiement/providers/payment_requests_provider.dart';
