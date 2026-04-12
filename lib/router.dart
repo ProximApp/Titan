@@ -122,7 +122,6 @@ class AppRouter {
       StyleGuideRouter(ref).route(),
       VoteRouter(ref).route(),
       SeedLibraryRouter(ref).route(),
-      AdminRouter(ref).route(),
       SuperAdminRouter(ref).route(),
     ];
   }

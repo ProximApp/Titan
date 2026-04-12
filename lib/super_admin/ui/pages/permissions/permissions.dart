@@ -65,6 +65,7 @@ class PermissionsPage extends HookConsumerWidget {
                             accountTypes: accountTypes,
                           ),
                     ),
+                    const SizedBox(height: 80),
                   ],
                 ),
               ),
