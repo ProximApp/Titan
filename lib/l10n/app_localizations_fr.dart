@@ -9,199 +9,28 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
-  String get dateToday => 'Aujourd\'hui';
-
-  @override
-  String get dateYesterday => 'Hier';
-
-  @override
-  String get dateTomorrow => 'Demain';
-
-  @override
-  String get dateAt => 'à';
-
-  @override
-  String get dateFrom => 'de';
-
-  @override
-  String get dateTo => 'à';
-
-  @override
-  String get dateBetweenDays => 'au';
-
-  @override
-  String get dateStarting => 'Commence';
-
-  @override
-  String get dateLast => '';
-
-  @override
-  String get dateUntil => 'Jusqu\'au';
-
-  @override
-  String get feedFilterAll => 'Tous';
-
-  @override
-  String get feedFilterPending => 'En attente';
-
-  @override
-  String get feedFilterApproved => 'Approuvés';
-
-  @override
-  String get feedFilterRejected => 'Rejetés';
-
-  @override
-  String get feedEmptyAll => 'Aucun événement disponible';
-
-  @override
-  String get feedEmptyPending => 'Aucun événement en attente de validation';
-
-  @override
-  String get feedEmptyApproved => 'Aucun événement approuvé';
-
-  @override
-  String get feedEmptyRejected => 'Aucun événement rejeté';
-
-  @override
-  String get feedEventManagement => 'Gestion des événements';
-
-  @override
-  String get feedTitle => 'Titre';
-
-  @override
-  String get feedLocation => 'Lieu';
-
-  @override
-  String get feedSGDate => 'Date du SG';
-
-  @override
-  String get feedSGExternalLink => 'Lien externe du SG';
-
-  @override
-  String get feedCreateEvent => 'Créer l\'événement';
-
-  @override
-  String get feedNotification => 'Envoyer une notification';
-
-  @override
-  String get feedPleaseSelectAnAssociation =>
-      'Veuillez sélectionner une association';
-
-  @override
-  String get feedReject => 'Rejeter';
-
-  @override
-  String get feedApprove => 'Approuver';
-
-  @override
-  String get feedEnded => 'Terminé';
-
-  @override
-  String get feedOngoing => 'En cours';
-
-  @override
-  String get feedFilter => 'Filtrer';
-
-  @override
-  String get feedAssociation => 'Association';
-
-  @override
-  String feedAssociationEvent(String name) {
-    return 'Event de $name';
-  }
-
-  @override
-  String get feedEditEvent => 'Modifier l\'événement';
-
-  @override
-  String get feedManageAssociationEvents =>
-      'Gérer les événements de l\'association';
-
-  @override
-  String get feedNews => 'Calendrier';
-
-  @override
-  String get feedNewsType => 'Type d\'actualité';
-
-  @override
-  String get feedNoAssociationEvents => 'Aucun événement d\'association';
-
-  @override
-  String get feedApply => 'Appliquer';
-
-  @override
-  String get feedAdmin => 'Administration';
-
-  @override
-  String get feedCreateAnEvent => 'Créer un événement';
-
-  @override
-  String get feedManageRequests => 'Demandes de publication';
-
-  @override
-  String get feedNoNewsAvailable => 'Aucune actualité disponible';
-
-  @override
-  String get feedRefresh => 'Actualiser';
-
-  @override
-  String get feedPleaseProvideASGExternalLink =>
-      'Veuillez entrer un lien externe pour le SG';
-
-  @override
-  String get feedPleaseProvideASGDate => 'Veuillez entrer une date de SG';
-
-  @override
-  String feedShotgunIn(String time) {
-    return 'Shotgun $time';
-  }
-
-  @override
-  String feedVoteIn(String time) {
-    return 'Vote $time';
-  }
-
-  @override
-  String get feedCantOpenLink => 'Impossible d\'ouvrir le lien';
-
-  @override
-  String get feedGetReady => 'Prépare-toi !';
-
-  @override
-  String get eventActionCampaign => 'Tu peux voter';
-
-  @override
-  String get eventActionEvent => 'Tu es invité';
-
-  @override
-  String get eventActionCampaignSubtitle => 'Votez maintenant';
-
-  @override
-  String get eventActionEventSubtitle => 'Répondez à l\'invitation';
-
-  @override
-  String get eventActionCampaignButton => 'Voter';
-
-  @override
-  String get eventActionEventButton => 'Réserver';
-
-  @override
-  String get eventActionCampaignValidated => 'J\'ai voté !';
-
-  @override
-  String get eventActionEventValidated => 'Je viens !';
-
-  @override
   String get adminAccountTypes => 'Types de compte';
 
   @override
   String get adminAdd => 'Ajouter';
 
   @override
+  String get adminAddAssociation => 'Ajouter une association';
+
+  @override
   String get adminAddGroup => 'Ajouter un groupe';
 
   @override
+  String get adminAddLoaningGroup => 'Ajouter un groupe de prêt';
+
+  @override
   String get adminAddMember => 'Ajouter un membre';
+
+  @override
+  String get adminAddSchool => 'Ajouter une école';
+
+  @override
+  String get adminAddStructure => 'Ajouter une structure';
 
   @override
   String get adminAddedGroup => 'Groupe créé';
@@ -213,37 +42,51 @@ class AppLocalizationsFr extends AppLocalizations {
   String get adminAddedMember => 'Membre ajouté';
 
   @override
-  String get adminAddingError => 'Erreur lors de l\'ajout';
-
-  @override
-  String get adminAddingMember => 'Ajout d\'un membre';
-
-  @override
-  String get adminAddLoaningGroup => 'Ajouter un groupe de prêt';
-
-  @override
-  String get adminAddSchool => 'Ajouter une école';
-
-  @override
-  String get adminAddStructure => 'Ajouter une structure';
-
-  @override
   String get adminAddedSchool => 'École créée';
 
   @override
   String get adminAddedStructure => 'Structure ajoutée';
 
   @override
-  String get adminEditedStructure => 'Structure modifiée';
+  String get adminAddingError => 'Erreur lors de l\'ajout';
+
+  @override
+  String get adminAddingMember => 'Ajout d\'un membre';
+
+  @override
+  String get adminAdmin => 'Admin';
 
   @override
   String get adminAdministration => 'Administration';
+
+  @override
+  String get adminAssociationCreated => 'Association créée';
+
+  @override
+  String get adminAssociationCreationError =>
+      'Échec de la création de l\'association';
 
   @override
   String get adminAssociationMembership => 'Adhésion';
 
   @override
   String get adminAssociationMembershipName => 'Nom de l\'adhésion';
+
+  @override
+  String get adminAssociationMembershipsManagement => 'Gestion des adhésions';
+
+  @override
+  String get adminAssociationName => 'Nom de l\'association';
+
+  @override
+  String get adminAssociationUpdateError =>
+      'Échec de la mise à jour de l\'association';
+
+  @override
+  String get adminAssociationUpdated => 'Association mise à jour';
+
+  @override
+  String get adminAssociations => 'Associations';
 
   @override
   String get adminAssociationsMemberships => 'Adhésions';
@@ -267,10 +110,23 @@ class AppLocalizationsFr extends AppLocalizations {
   String get adminBicError => 'Le BIC doit faire 11 caractères';
 
   @override
+  String get adminChooseAssociationManagerGroup =>
+      'Choisir un groupe gestionnaire pour l\'association';
+
+  @override
+  String get adminChooseGroup => 'Choisir un groupe';
+
+  @override
+  String get adminChooseGroupManager => 'Groupe gestionnaire de l\'adhésion';
+
+  @override
   String get adminCity => 'Ville';
 
   @override
   String get adminClearFilters => 'Effacer les filtres';
+
+  @override
+  String get adminContent => 'Contenu';
 
   @override
   String get adminCountry => 'Pays';
@@ -306,16 +162,23 @@ class AppLocalizationsFr extends AppLocalizations {
   String get adminDeleteAssociationMembership => 'Supprimer l\'adhésion ?';
 
   @override
-  String get adminDeletedAssociationMembership => 'Adhésion supprimée';
-
-  @override
   String get adminDeleteGroup => 'Supprimer le groupe';
 
   @override
-  String get adminDeletedGroup => 'Groupe supprimé';
+  String get adminDeleteGroupConfirmation =>
+      'Êtes-vous sûr de vouloir supprimer ce groupe ?';
 
   @override
   String get adminDeleteSchool => 'Supprimer l\'école ?';
+
+  @override
+  String get adminDeleteUsers => 'Supprimer des utilisateurs';
+
+  @override
+  String get adminDeletedAssociationMembership => 'Adhésion supprimée';
+
+  @override
+  String get adminDeletedGroup => 'Groupe supprimé';
 
   @override
   String get adminDeletedSchool => 'École supprimée';
@@ -333,16 +196,21 @@ class AppLocalizationsFr extends AppLocalizations {
   String get adminEdit => 'Modifier';
 
   @override
-  String get adminEditStructure => 'Modifier la structure';
+  String adminEditAssociation(String associationName) {
+    return 'Modifier l\'association : $associationName';
+  }
+
+  @override
+  String get adminEditGroup => 'Modifier le groupe';
 
   @override
   String get adminEditMembership => 'Modifier l\'adhésion';
 
   @override
-  String get adminEmptyDate => 'Date vide';
+  String get adminEditStructure => 'Modifier la structure';
 
   @override
-  String get adminEmptyFieldError => 'Le nom ne peut pas être vide';
+  String get adminEditedStructure => 'Structure modifiée';
 
   @override
   String get adminEmailFailed =>
@@ -350,6 +218,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get adminEmailRegex => 'Email Regex';
+
+  @override
+  String get adminEmptyDate => 'Date vide';
+
+  @override
+  String get adminEmptyFieldError => 'Le nom ne peut pas être vide';
 
   @override
   String get adminEmptyUser => 'Utilisateur vide';
@@ -367,13 +241,34 @@ class AppLocalizationsFr extends AppLocalizations {
   String get adminError => 'Erreur';
 
   @override
+  String get adminFailedToDeleteGroup => 'Échec de la suppression du groupe';
+
+  @override
+  String get adminFailedToInviteUsers =>
+      'Échec de l\'invitation des utilisateurs';
+
+  @override
+  String get adminFailedToSendNotification =>
+      'Échec de l\'envoi de la notification';
+
+  @override
+  String get adminFailedToUpdateAssociationLogo =>
+      'Échec de la mise à jour du logo de l\'association';
+
+  @override
   String get adminFilters => 'Filtres';
 
   @override
   String get adminGroup => 'Groupe';
 
   @override
+  String get adminGroupNotification => 'Notification de groupe';
+
+  @override
   String get adminGroups => 'Groupes';
+
+  @override
+  String get adminGroupsManagement => 'Gestion des groupes';
 
   @override
   String get adminIban => 'IBAN';
@@ -382,13 +277,63 @@ class AppLocalizationsFr extends AppLocalizations {
   String get adminIbanError => 'L\'IBAN doit faire 27 caractères';
 
   @override
+  String get adminImportList => 'Importer une liste';
+
+  @override
+  String get adminImportUsersDescription =>
+      'Importer des utilisateurs depuis un fichier CSV. Le fichier CSV doit contenir une adresse email par ligne.';
+
+  @override
+  String get adminInvite => 'Inviter';
+
+  @override
+  String get adminInviteUsers => 'Inviter des utilisateurs';
+
+  @override
+  String adminInviteUsersCounter(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count utilisateurs',
+      one: '$count utilisateur',
+      zero: 'Aucun utilisateur',
+    );
+    return '$_temp0 dans le fichier CSV';
+  }
+
+  @override
+  String get adminInvitedUsers => 'Utilisateurs invités';
+
+  @override
   String get adminLoaningGroup => 'Groupe de prêt';
 
   @override
   String get adminLooking => 'Recherche';
 
   @override
+  String get adminManageAssociations => 'Gérer les associations';
+
+  @override
+  String get adminManageMembers => 'Gérer les membres';
+
+  @override
+  String get adminManagePaiementStructures =>
+      'Gérer les structures du module de paiement';
+
+  @override
+  String get adminManageUserGroups => 'Gérer les groupes d\'utilisateurs';
+
+  @override
+  String get adminManageUsersAssociationMemberships =>
+      'Gérer les adhésions des utilisateurs';
+
+  @override
   String get adminManager => 'Administrateur de la structure';
+
+  @override
+  String adminManagerGroup(String groupName) {
+    return 'Groupe gestionnaire : $groupName';
+  }
 
   @override
   String get adminMaximum => 'Maximum';
@@ -401,11 +346,11 @@ class AppLocalizationsFr extends AppLocalizations {
       'Erreur lors de l\'ajout (surement dû à une superposition de dates)';
 
   @override
-  String get adminMemberships => 'Adhésions';
-
-  @override
   String get adminMembershipUpdatingError =>
       'Erreur lors de la modification (surement dû à une superposition de dates)';
+
+  @override
+  String get adminMemberships => 'Adhésions';
 
   @override
   String get adminMinimum => 'Minimum';
@@ -432,6 +377,20 @@ class AppLocalizationsFr extends AppLocalizations {
   String get adminNoSchool => 'Sans école';
 
   @override
+  String get adminNotificationSent => 'Notification envoyée';
+
+  @override
+  String adminNotifyGroup(String groupName) {
+    return 'Notifier le groupe $groupName';
+  }
+
+  @override
+  String get adminPaiement => 'Paiement';
+
+  @override
+  String get adminPaiementModule => 'Module de paiement';
+
+  @override
   String get adminRemoveGroupMember => 'Supprimer le membre du groupe ?';
 
   @override
@@ -439,6 +398,20 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get adminSchools => 'Écoles';
+
+  @override
+  String get adminSelectGroupAssociationManager =>
+      'Séléctionner roupe gestionnaire de l\'association';
+
+  @override
+  String get adminSelectManager => 'Sélectionner un gestionnaire';
+
+  @override
+  String get adminSend => 'Envoyer';
+
+  @override
+  String get adminSendNotificationToGroup =>
+      'Envoyer une notification à un groupe';
 
   @override
   String get adminShortId => 'Short ID (3 lettres)';
@@ -456,12 +429,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get adminSiretError => 'SIRET must be 14 digits';
 
   @override
-  String get adminStreet => 'Numéro et rue';
-
-  @override
-  String get adminStructures => 'Structures';
-
-  @override
   String get adminStartDate => 'Date de début';
 
   @override
@@ -471,8 +438,24 @@ class AppLocalizationsFr extends AppLocalizations {
   String get adminStartDateMinimal => 'Date de début minimale';
 
   @override
+  String get adminStreet => 'Numéro et rue';
+
+  @override
+  String get adminStructures => 'Structures';
+
+  @override
+  String get adminTitle => 'Titre';
+
+  @override
+  String get adminTooHeavyLogo =>
+      'Le logo de l\'association est trop lourd, il doit faire moins de 4 Mo';
+
+  @override
   String get adminUndefinedBankAccountHolder =>
       'Titulaire du compte bancaire non défini';
+
+  @override
+  String get adminUpdatedAssociationLogo => 'Logo de l\'association mis à jour';
 
   @override
   String get adminUpdatedAssociationMembership => 'Adhésion modifiée';
@@ -490,55 +473,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get adminUser => 'Utilisateur';
 
   @override
-  String get adminValidateFilters => 'Valider les filtres';
-
-  @override
-  String get adminVisibilities => 'Visibilités';
-
-  @override
-  String get adminZipcode => 'Code postal';
-
-  @override
-  String get adminGroupNotification => 'Notification de groupe';
-
-  @override
-  String adminNotifyGroup(String groupName) {
-    return 'Notifier le groupe $groupName';
-  }
-
-  @override
-  String get adminTitle => 'Titre';
-
-  @override
-  String get adminContent => 'Contenu';
-
-  @override
-  String get adminSend => 'Envoyer';
-
-  @override
-  String get adminNotificationSent => 'Notification envoyée';
-
-  @override
-  String get adminFailedToSendNotification =>
-      'Échec de l\'envoi de la notification';
-
-  @override
-  String get adminGroupsManagement => 'Gestion des groupes';
-
-  @override
-  String get adminEditGroup => 'Modifier le groupe';
-
-  @override
-  String get adminManageMembers => 'Gérer les membres';
-
-  @override
-  String get adminDeleteGroupConfirmation =>
-      'Êtes-vous sûr de vouloir supprimer ce groupe ?';
-
-  @override
-  String get adminFailedToDeleteGroup => 'Échec de la suppression du groupe';
-
-  @override
   String get adminUsersAndGroups => 'Utilisateurs et groupes';
 
   @override
@@ -549,130 +483,13 @@ class AppLocalizationsFr extends AppLocalizations {
       'Gérer les utilisateurs de l\'application';
 
   @override
-  String get adminManageUserGroups => 'Gérer les groupes d\'utilisateurs';
+  String get adminValidateFilters => 'Valider les filtres';
 
   @override
-  String get adminSendNotificationToGroup =>
-      'Envoyer une notification à un groupe';
+  String get adminVisibilities => 'Visibilités';
 
   @override
-  String get adminPaiementModule => 'Module de paiement';
-
-  @override
-  String get adminPaiement => 'Paiement';
-
-  @override
-  String get adminManagePaiementStructures =>
-      'Gérer les structures du module de paiement';
-
-  @override
-  String get adminManageUsersAssociationMemberships =>
-      'Gérer les adhésions des utilisateurs';
-
-  @override
-  String get adminAssociationMembershipsManagement => 'Gestion des adhésions';
-
-  @override
-  String get adminChooseGroupManager => 'Groupe gestionnaire de l\'adhésion';
-
-  @override
-  String get adminSelectManager => 'Sélectionner un gestionnaire';
-
-  @override
-  String get adminImportList => 'Importer une liste';
-
-  @override
-  String get adminImportUsersDescription =>
-      'Importer des utilisateurs depuis un fichier CSV. Le fichier CSV doit contenir une adresse email par ligne.';
-
-  @override
-  String get adminFailedToInviteUsers =>
-      'Échec de l\'invitation des utilisateurs';
-
-  @override
-  String get adminDeleteUsers => 'Supprimer des utilisateurs';
-
-  @override
-  String get adminAdmin => 'Admin';
-
-  @override
-  String get adminAssociations => 'Associations';
-
-  @override
-  String get adminManageAssociations => 'Gérer les associations';
-
-  @override
-  String get adminAddAssociation => 'Ajouter une association';
-
-  @override
-  String get adminAssociationName => 'Nom de l\'association';
-
-  @override
-  String get adminSelectGroupAssociationManager =>
-      'Séléctionner roupe gestionnaire de l\'association';
-
-  @override
-  String adminEditAssociation(String associationName) {
-    return 'Modifier l\'association : $associationName';
-  }
-
-  @override
-  String adminManagerGroup(String groupName) {
-    return 'Groupe gestionnaire : $groupName';
-  }
-
-  @override
-  String get adminAssociationCreated => 'Association créée';
-
-  @override
-  String get adminAssociationUpdated => 'Association mise à jour';
-
-  @override
-  String get adminAssociationCreationError =>
-      'Échec de la création de l\'association';
-
-  @override
-  String get adminAssociationUpdateError =>
-      'Échec de la mise à jour de l\'association';
-
-  @override
-  String get adminInvite => 'Inviter';
-
-  @override
-  String get adminInvitedUsers => 'Utilisateurs invités';
-
-  @override
-  String get adminInviteUsers => 'Inviter des utilisateurs';
-
-  @override
-  String adminInviteUsersCounter(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count utilisateurs',
-      one: '$count utilisateur',
-      zero: 'Aucun utilisateur',
-    );
-    return '$_temp0 dans le fichier CSV';
-  }
-
-  @override
-  String get adminUpdatedAssociationLogo => 'Logo de l\'association mis à jour';
-
-  @override
-  String get adminTooHeavyLogo =>
-      'Le logo de l\'association est trop lourd, il doit faire moins de 4 Mo';
-
-  @override
-  String get adminFailedToUpdateAssociationLogo =>
-      'Échec de la mise à jour du logo de l\'association';
-
-  @override
-  String get adminChooseGroup => 'Choisir un groupe';
-
-  @override
-  String get adminChooseAssociationManagerGroup =>
-      'Choisir un groupe gestionnaire pour l\'association';
+  String get adminZipcode => 'Code postal';
 
   @override
   String get advertAdd => 'Ajouter';
@@ -735,19 +552,55 @@ class AppLocalizationsFr extends AppLocalizations {
   String get advertModifyAnnouncingGroup => 'Modifier un groupe d\'annonce';
 
   @override
+  String get advertMonthApr => 'Avr.';
+
+  @override
+  String get advertMonthAug => 'Août';
+
+  @override
+  String get advertMonthDec => 'Déc.';
+
+  @override
+  String get advertMonthFeb => 'Févr.';
+
+  @override
+  String get advertMonthJan => 'Janv';
+
+  @override
+  String get advertMonthJul => 'Juill.';
+
+  @override
+  String get advertMonthJun => 'Juin';
+
+  @override
+  String get advertMonthMar => 'Mars';
+
+  @override
+  String get advertMonthMay => 'Mai';
+
+  @override
+  String get advertMonthNov => 'Nov.';
+
+  @override
+  String get advertMonthOct => 'Oct.';
+
+  @override
+  String get advertMonthSep => 'Sept.';
+
+  @override
   String get advertNoMoreAnnouncer => 'Aucun annonceur n\'est disponible';
 
   @override
   String get advertNoValue => 'Veuillez entrer une valeur';
 
   @override
+  String get advertNotification => 'Envoyer une notification';
+
+  @override
   String get advertPositiveNumber => 'Veuillez entrer un nombre positif';
 
   @override
   String get advertPublishToFeed => 'Publier dans le feed';
-
-  @override
-  String get advertNotification => 'Envoyer une notification';
 
   @override
   String get advertRemovedAnnouncer => 'Annonceur supprimé';
@@ -762,42 +615,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get advertTitle => 'Titre';
 
   @override
-  String get advertMonthJan => 'Janv';
-
-  @override
-  String get advertMonthFeb => 'Févr.';
-
-  @override
-  String get advertMonthMar => 'Mars';
-
-  @override
-  String get advertMonthApr => 'Avr.';
-
-  @override
-  String get advertMonthMay => 'Mai';
-
-  @override
-  String get advertMonthJun => 'Juin';
-
-  @override
-  String get advertMonthJul => 'Juill.';
-
-  @override
-  String get advertMonthAug => 'Août';
-
-  @override
-  String get advertMonthSep => 'Sept.';
-
-  @override
-  String get advertMonthOct => 'Oct.';
-
-  @override
-  String get advertMonthNov => 'Nov.';
-
-  @override
-  String get advertMonthDec => 'Déc.';
-
-  @override
   String get amapAccounts => 'Comptes';
 
   @override
@@ -805,6 +622,15 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get amapAddDelivery => 'Ajouter une livraison';
+
+  @override
+  String get amapAddOrder => 'Ajouter une commande';
+
+  @override
+  String get amapAddProduct => 'Ajouter un produit';
+
+  @override
+  String get amapAddUser => 'Ajouter un utilisateur';
 
   @override
   String get amapAddedCommand => 'Commande ajoutée';
@@ -819,12 +645,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get amapAddedUser => 'Utilisateur ajouté';
 
   @override
-  String get amapAddProduct => 'Ajouter un produit';
-
-  @override
-  String get amapAddUser => 'Ajouter un utilisateur';
-
-  @override
   String get amapAddingACommand => 'Ajouter une commande';
 
   @override
@@ -835,9 +655,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get amapAddingProduct => 'Ajouter un produit';
-
-  @override
-  String get amapAddOrder => 'Ajouter une commande';
 
   @override
   String get amapAdmin => 'Admin';
@@ -896,6 +713,13 @@ class AppLocalizationsFr extends AppLocalizations {
       'Voulez-vous vraiment supprimer cette livraison ?';
 
   @override
+  String get amapDeleteProduct => 'Supprimer le produit ?';
+
+  @override
+  String get amapDeleteProductDescription =>
+      'Voulez-vous vraiment supprimer ce produit ?';
+
+  @override
   String get amapDeletedDelivery => 'Livraison supprimée';
 
   @override
@@ -903,13 +727,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get amapDeletedProduct => 'Produit supprimé';
-
-  @override
-  String get amapDeleteProduct => 'Supprimer le produit ?';
-
-  @override
-  String get amapDeleteProductDescription =>
-      'Voulez-vous vraiment supprimer ce produit ?';
 
   @override
   String get amapDeleting => 'Suppression';
@@ -957,34 +774,34 @@ class AppLocalizationsFr extends AppLocalizations {
   String get amapDeliveryLocked => 'Livraison verrouillée';
 
   @override
+  String get amapDeliveryNotArchived => 'Livraison non archivée';
+
+  @override
+  String get amapDeliveryNotDelivered => 'Livraison non effectuée';
+
+  @override
+  String get amapDeliveryNotLocked => 'Livraison non verrouillée';
+
+  @override
+  String get amapDeliveryNotOpened => 'Livraison non ouverte';
+
+  @override
   String get amapDeliveryOn => 'Livraison le';
 
   @override
   String get amapDeliveryOpened => 'Livraison ouverte';
 
   @override
-  String get amapDeliveryNotArchived => 'Livraison non archivée';
-
-  @override
-  String get amapDeliveryNotLocked => 'Livraison non verrouillée';
-
-  @override
-  String get amapDeliveryNotDelivered => 'Livraison non effectuée';
-
-  @override
-  String get amapDeliveryNotOpened => 'Livraison non ouverte';
-
-  @override
   String get amapEditDelivery => 'Modifier la livraison';
+
+  @override
+  String get amapEditProduct => 'Modifier le produit';
 
   @override
   String get amapEditedCommand => 'Commande modifiée';
 
   @override
   String get amapEditingError => 'Erreur lors de la modification';
-
-  @override
-  String get amapEditProduct => 'Modifier le produit';
 
   @override
   String get amapEndingDelivery => 'Fin de la livraison';
@@ -1030,10 +847,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get amapLockedOrder => 'Commande verrouillée';
 
   @override
-  String get amapLooking => 'Rechercher';
+  String get amapLockingDelivery => 'Verrouiller la livraison ?';
 
   @override
-  String get amapLockingDelivery => 'Verrouiller la livraison ?';
+  String get amapLooking => 'Rechercher';
 
   @override
   String get amapMidDay => 'Midi';
@@ -1048,9 +865,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get amapNextStep => 'Étape suivante';
 
   @override
-  String get amapNoProduct => 'Pas de produit';
-
-  @override
   String get amapNoCurrentOrder => 'Pas de commande en cours';
 
   @override
@@ -1061,6 +875,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get amapNoOrder => 'Pas de commande';
+
+  @override
+  String get amapNoProduct => 'Pas de produit';
 
   @override
   String get amapNoSelectedDelivery => 'Pas de livraison sélectionnée';
@@ -1114,10 +931,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get amapProduct => 'produit';
 
   @override
-  String get amapProducts => 'Produits';
+  String get amapProductInDelivery => 'Produit dans une livraison non terminée';
 
   @override
-  String get amapProductInDelivery => 'Produit dans une livraison non terminée';
+  String get amapProducts => 'Produits';
 
   @override
   String get amapQuantity => 'Quantité';
@@ -1165,28 +982,28 @@ class AppLocalizationsFr extends AppLocalizations {
   String get bookingAdd => 'Ajouter';
 
   @override
+  String get bookingAddBooking => 'Ajouter une réservation';
+
+  @override
   String get bookingAddBookingPage => 'Demande';
+
+  @override
+  String get bookingAddManager => 'Ajouter un gestionnaire';
 
   @override
   String get bookingAddRoom => 'Ajouter une salle';
 
   @override
-  String get bookingAddBooking => 'Ajouter une réservation';
-
-  @override
   String get bookingAddedBooking => 'Demande ajoutée';
-
-  @override
-  String get bookingAddedRoom => 'Salle ajoutée';
 
   @override
   String get bookingAddedManager => 'Gestionnaire ajouté';
 
   @override
-  String get bookingAddingError => 'Erreur lors de l\'ajout';
+  String get bookingAddedRoom => 'Salle ajoutée';
 
   @override
-  String get bookingAddManager => 'Ajouter un gestionnaire';
+  String get bookingAddingError => 'Erreur lors de l\'ajout';
 
   @override
   String get bookingAdminPage => 'Administrateur';
@@ -1222,10 +1039,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get bookingConfirm => 'Confirmer';
 
   @override
-  String get bookingConfirmation => 'Confirmation';
+  String get bookingConfirmBooking => 'Confirmer la réservation ?';
 
   @override
-  String get bookingConfirmBooking => 'Confirmer la réservation ?';
+  String get bookingConfirmation => 'Confirmation';
 
   @override
   String get bookingConfirmed => 'Validée';
@@ -1246,9 +1063,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get bookingDelete => 'Supprimer';
 
   @override
-  String get bookingDeleting => 'Suppression';
-
-  @override
   String get bookingDeleteBooking => 'Suppression';
 
   @override
@@ -1256,21 +1070,24 @@ class AppLocalizationsFr extends AppLocalizations {
       'Êtes-vous sûr de vouloir supprimer cette réservation ?';
 
   @override
-  String get bookingDeletedBooking => 'Réservation supprimée';
-
-  @override
-  String get bookingDeletedRoom => 'Salle supprimée';
-
-  @override
-  String get bookingDeletedManager => 'Gestionnaire supprimé';
+  String get bookingDeleteManagerConfirmation =>
+      'Êtes-vous sûr de vouloir supprimer ce gestionnaire ?\n\nLe gestionnaire ne doit être associé à aucune salle pour pouvoir être supprimé';
 
   @override
   String get bookingDeleteRoomConfirmation =>
       'Êtes-vous sûr de vouloir supprimer cette salle ?\n\nLa salle ne doit avoir aucune réservation en cours ou à venir pour être supprimée';
 
   @override
-  String get bookingDeleteManagerConfirmation =>
-      'Êtes-vous sûr de vouloir supprimer ce gestionnaire ?\n\nLe gestionnaire ne doit être associé à aucune salle pour pouvoir être supprimé';
+  String get bookingDeletedBooking => 'Réservation supprimée';
+
+  @override
+  String get bookingDeletedManager => 'Gestionnaire supprimé';
+
+  @override
+  String get bookingDeletedRoom => 'Salle supprimée';
+
+  @override
+  String get bookingDeleting => 'Suppression';
 
   @override
   String get bookingDeletingBooking => 'Supprimer la réservation ?';
@@ -1288,22 +1105,22 @@ class AppLocalizationsFr extends AppLocalizations {
   String get bookingEditBooking => 'Modifier une réservation';
 
   @override
-  String get bookingEditionError => 'Erreur lors de la modification';
+  String get bookingEditManager => 'Modifier ou supprimer un gestionnaire';
+
+  @override
+  String get bookingEditRoom => 'Modifier ou supprimer une salle';
 
   @override
   String get bookingEditedBooking => 'Réservation modifiée';
 
   @override
-  String get bookingEditedRoom => 'Salle modifiée';
-
-  @override
   String get bookingEditedManager => 'Gestionnaire modifié';
 
   @override
-  String get bookingEditManager => 'Modifier ou supprimer un gestionnaire';
+  String get bookingEditedRoom => 'Salle modifiée';
 
   @override
-  String get bookingEditRoom => 'Modifier ou supprimer une salle';
+  String get bookingEditionError => 'Erreur lors de la modification';
 
   @override
   String get bookingEndDate => 'Date de fin';
@@ -1331,10 +1148,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get bookingInterval => 'Intervalle';
 
   @override
-  String get bookingInvalidIntervalError => 'Intervalle invalide';
+  String get bookingInvalidDates => 'Dates invalides';
 
   @override
-  String get bookingInvalidDates => 'Dates invalides';
+  String get bookingInvalidIntervalError => 'Intervalle invalide';
 
   @override
   String get bookingInvalidRoom => 'Salle invalide';
@@ -1367,14 +1184,14 @@ class AppLocalizationsFr extends AppLocalizations {
   String get bookingNo => 'Non';
 
   @override
+  String get bookingNoAppointmentInReccurence =>
+      'Aucun créneau existe avec ces paramètres de récurrence';
+
+  @override
   String get bookingNoCurrentBooking => 'Pas de réservation en cours';
 
   @override
   String get bookingNoDateError => 'Veuillez choisir une date';
-
-  @override
-  String get bookingNoAppointmentInReccurence =>
-      'Aucun créneau existe avec ces paramètres de récurrence';
 
   @override
   String get bookingNoDaySelected => 'Aucun jour sélectionné';
@@ -1395,10 +1212,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get bookingNoReasonError => 'Veuillez entrer un motif';
 
   @override
-  String get bookingNoRoomFoundError => 'Aucune salle enregistrée';
+  String get bookingNoRoomFound => 'Aucune salle trouvée';
 
   @override
-  String get bookingNoRoomFound => 'Aucune salle trouvée';
+  String get bookingNoRoomFoundError => 'Aucune salle enregistrée';
 
   @override
   String get bookingNote => 'Note';
@@ -1443,25 +1260,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get bookingStartHour => 'Heure de début';
 
   @override
-  String get bookingWeeks => 'Semaines';
-
-  @override
-  String get bookingYes => 'Oui';
+  String get bookingWeekDayFri => 'Vendredi';
 
   @override
   String get bookingWeekDayMon => 'Lundi';
-
-  @override
-  String get bookingWeekDayTue => 'Mardi';
-
-  @override
-  String get bookingWeekDayWed => 'Mercredi';
-
-  @override
-  String get bookingWeekDayThu => 'Jeudi';
-
-  @override
-  String get bookingWeekDayFri => 'Vendredi';
 
   @override
   String get bookingWeekDaySat => 'Samedi';
@@ -1470,16 +1272,31 @@ class AppLocalizationsFr extends AppLocalizations {
   String get bookingWeekDaySun => 'Dimanche';
 
   @override
+  String get bookingWeekDayThu => 'Jeudi';
+
+  @override
+  String get bookingWeekDayTue => 'Mardi';
+
+  @override
+  String get bookingWeekDayWed => 'Mercredi';
+
+  @override
+  String get bookingWeeks => 'Semaines';
+
+  @override
+  String get bookingYes => 'Oui';
+
+  @override
   String get cinemaAdd => 'Ajouter';
+
+  @override
+  String get cinemaAddSession => 'Ajouter une séance';
 
   @override
   String get cinemaAddedSession => 'Séance ajoutée';
 
   @override
   String get cinemaAddingError => 'Erreur lors de l\'ajout';
-
-  @override
-  String get cinemaAddSession => 'Ajouter une séance';
 
   @override
   String get cinemaCinema => 'Cinéma';
@@ -1497,16 +1314,19 @@ class AppLocalizationsFr extends AppLocalizations {
   String get cinemaEdit => 'Modifier';
 
   @override
+  String get cinemaEditSession => 'Modifier la séance';
+
+  @override
   String get cinemaEditedSession => 'Séance modifiée';
 
   @override
   String get cinemaEditingError => 'Erreur lors de la modification';
 
   @override
-  String get cinemaEditSession => 'Modifier la séance';
+  String get cinemaEmptyUrl => 'Veuillez entrer une URL';
 
   @override
-  String get cinemaEmptyUrl => 'Veuillez entrer une URL';
+  String get cinemaGenre => 'Genre';
 
   @override
   String get cinemaImportFromTMDB => 'Importer depuis TMDB';
@@ -1519,9 +1339,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get cinemaInvalidUrl => 'URL invalide';
-
-  @override
-  String get cinemaGenre => 'Genre';
 
   @override
   String get cinemaName => 'Nom';
@@ -1560,6 +1377,36 @@ class AppLocalizationsFr extends AppLocalizations {
   String get cinemaThe => 'Le';
 
   @override
+  String get dateAt => 'à';
+
+  @override
+  String get dateBetweenDays => 'au';
+
+  @override
+  String get dateFrom => 'de';
+
+  @override
+  String get dateLast => '';
+
+  @override
+  String get dateStarting => 'Commence';
+
+  @override
+  String get dateTo => 'à';
+
+  @override
+  String get dateToday => 'Aujourd\'hui';
+
+  @override
+  String get dateTomorrow => 'Demain';
+
+  @override
+  String get dateUntil => 'Jusqu\'au';
+
+  @override
+  String get dateYesterday => 'Hier';
+
+  @override
   String get drawerAdmin => 'Administration';
 
   @override
@@ -1578,16 +1425,40 @@ class AppLocalizationsFr extends AppLocalizations {
       'https://apps.apple.com/fr/app/myecl/id6444443430';
 
   @override
-  String get drawerLoginOut => 'Voulez-vous vous déconnecter ?';
+  String get drawerLogOut => 'Déconnexion';
 
   @override
-  String get drawerLogOut => 'Déconnexion';
+  String get drawerLoginOut => 'Voulez-vous vous déconnecter ?';
 
   @override
   String get drawerOr => ' ou ';
 
   @override
   String get drawerSettings => 'Paramètres';
+
+  @override
+  String get eventActionCampaign => 'Tu peux voter';
+
+  @override
+  String get eventActionCampaignButton => 'Voter';
+
+  @override
+  String get eventActionCampaignSubtitle => 'Votez maintenant';
+
+  @override
+  String get eventActionCampaignValidated => 'J\'ai voté !';
+
+  @override
+  String get eventActionEvent => 'Tu es invité';
+
+  @override
+  String get eventActionEventButton => 'Réserver';
+
+  @override
+  String get eventActionEventSubtitle => 'Répondez à l\'invitation';
+
+  @override
+  String get eventActionEventValidated => 'Je viens !';
 
   @override
   String get eventAdd => 'Ajouter';
@@ -1618,6 +1489,27 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get eventDates => 'Dates';
+
+  @override
+  String get eventDayFri => 'Vendredi';
+
+  @override
+  String get eventDayMon => 'Lundi';
+
+  @override
+  String get eventDaySat => 'Samedi';
+
+  @override
+  String get eventDaySun => 'Dimanche';
+
+  @override
+  String get eventDayThu => 'Jeudi';
+
+  @override
+  String get eventDayTue => 'Mardi';
+
+  @override
+  String get eventDayWed => 'Mercredi';
 
   @override
   String get eventDecline => 'Refuser';
@@ -1671,6 +1563,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get eventError => 'Erreur';
+
+  @override
+  String get eventEventEvery => 'Toutes les';
 
   @override
   String get eventEventList => 'Liste des événements';
@@ -1742,10 +1637,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get eventNoOrganizerError => 'Veuillez entrer un organisateur';
 
   @override
-  String get eventNoPlaceError => 'Veuillez entrer un lieu';
+  String get eventNoPhoneRegistered => 'Numéro non renseigné';
 
   @override
-  String get eventNoPhoneRegistered => 'Numéro non renseigné';
+  String get eventNoPlaceError => 'Veuillez entrer un lieu';
 
   @override
   String get eventNoRuleError => 'Veuillez entrer une règle de récurrence';
@@ -1787,40 +1682,145 @@ class AppLocalizationsFr extends AppLocalizations {
   String get eventTitle => 'Événements';
 
   @override
-  String get eventYes => 'Oui';
-
-  @override
-  String get eventEventEvery => 'Toutes les';
-
-  @override
   String get eventWeeks => 'semaines';
 
   @override
-  String get eventDayMon => 'Lundi';
+  String get eventYes => 'Oui';
 
   @override
-  String get eventDayTue => 'Mardi';
+  String get feedAdmin => 'Administration';
 
   @override
-  String get eventDayWed => 'Mercredi';
+  String get feedApply => 'Appliquer';
 
   @override
-  String get eventDayThu => 'Jeudi';
+  String get feedApprove => 'Approuver';
 
   @override
-  String get eventDayFri => 'Vendredi';
+  String get feedAssociation => 'Association';
 
   @override
-  String get eventDaySat => 'Samedi';
+  String feedAssociationEvent(String name) {
+    return 'Event de $name';
+  }
 
   @override
-  String get eventDaySun => 'Dimanche';
+  String get feedCantOpenLink => 'Impossible d\'ouvrir le lien';
 
   @override
-  String get globalConfirm => 'Confirmer';
+  String get feedCreateAnEvent => 'Créer un événement';
+
+  @override
+  String get feedCreateEvent => 'Créer l\'événement';
+
+  @override
+  String get feedEditEvent => 'Modifier l\'événement';
+
+  @override
+  String get feedEmptyAll => 'Aucun événement disponible';
+
+  @override
+  String get feedEmptyApproved => 'Aucun événement approuvé';
+
+  @override
+  String get feedEmptyPending => 'Aucun événement en attente de validation';
+
+  @override
+  String get feedEmptyRejected => 'Aucun événement rejeté';
+
+  @override
+  String get feedEnded => 'Terminé';
+
+  @override
+  String get feedEventManagement => 'Gestion des événements';
+
+  @override
+  String get feedFilter => 'Filtrer';
+
+  @override
+  String get feedFilterAll => 'Tous';
+
+  @override
+  String get feedFilterApproved => 'Approuvés';
+
+  @override
+  String get feedFilterPending => 'En attente';
+
+  @override
+  String get feedFilterRejected => 'Rejetés';
+
+  @override
+  String get feedGetReady => 'Prépare-toi !';
+
+  @override
+  String get feedLocation => 'Lieu';
+
+  @override
+  String get feedManageAssociationEvents =>
+      'Gérer les événements de l\'association';
+
+  @override
+  String get feedManageRequests => 'Demandes de publication';
+
+  @override
+  String get feedNews => 'Calendrier';
+
+  @override
+  String get feedNewsType => 'Type d\'actualité';
+
+  @override
+  String get feedNoAssociationEvents => 'Aucun événement d\'association';
+
+  @override
+  String get feedNoNewsAvailable => 'Aucune actualité disponible';
+
+  @override
+  String get feedNotification => 'Envoyer une notification';
+
+  @override
+  String get feedOngoing => 'En cours';
+
+  @override
+  String get feedPleaseProvideASGDate => 'Veuillez entrer une date de SG';
+
+  @override
+  String get feedPleaseProvideASGExternalLink =>
+      'Veuillez entrer un lien externe pour le SG';
+
+  @override
+  String get feedPleaseSelectAnAssociation =>
+      'Veuillez sélectionner une association';
+
+  @override
+  String get feedRefresh => 'Actualiser';
+
+  @override
+  String get feedReject => 'Rejeter';
+
+  @override
+  String get feedSGDate => 'Date du SG';
+
+  @override
+  String get feedSGExternalLink => 'Lien externe du SG';
+
+  @override
+  String feedShotgunIn(String time) {
+    return 'Shotgun $time';
+  }
+
+  @override
+  String get feedTitle => 'Titre';
+
+  @override
+  String feedVoteIn(String time) {
+    return 'Vote $time';
+  }
 
   @override
   String get globalCancel => 'Annuler';
+
+  @override
+  String get globalConfirm => 'Confirmer';
 
   @override
   String get globalIrreversibleAction => 'Cette action est irréversible';
@@ -1846,25 +1846,25 @@ class AppLocalizationsFr extends AppLocalizations {
   String get homeNoEvents => 'Aucun évènement';
 
   @override
-  String get homeTranslateDayShortMon => 'Lun';
-
-  @override
-  String get homeTranslateDayShortTue => 'Mar';
-
-  @override
-  String get homeTranslateDayShortWed => 'Mer';
-
-  @override
-  String get homeTranslateDayShortThu => 'Jeu';
-
-  @override
   String get homeTranslateDayShortFri => 'Ven';
+
+  @override
+  String get homeTranslateDayShortMon => 'Lun';
 
   @override
   String get homeTranslateDayShortSat => 'Sam';
 
   @override
   String get homeTranslateDayShortSun => 'Dim';
+
+  @override
+  String get homeTranslateDayShortThu => 'Jeu';
+
+  @override
+  String get homeTranslateDayShortTue => 'Mar';
+
+  @override
+  String get homeTranslateDayShortWed => 'Mer';
 
   @override
   String get loanAdd => 'Ajouter';
@@ -1891,10 +1891,22 @@ class AppLocalizationsFr extends AppLocalizations {
   String get loanAdmin => 'Administrateur';
 
   @override
+  String get loanAnd => 'et';
+
+  @override
+  String get loanAssociation => 'Association';
+
+  @override
   String get loanAvailable => 'Disponible';
 
   @override
+  String get loanAvailableItems => 'Objets disponibles';
+
+  @override
   String get loanAvailableMultiple => 'Disponibles';
+
+  @override
+  String get loanBeginDate => 'Date du début du prêt';
 
   @override
   String get loanBorrowed => 'Emprunté';
@@ -1903,25 +1915,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get loanBorrowedMultiple => 'Empruntés';
 
   @override
-  String get loanAnd => 'et';
-
-  @override
-  String get loanAssociation => 'Association';
-
-  @override
-  String get loanAvailableItems => 'Objets disponibles';
-
-  @override
-  String get loanBeginDate => 'Date du début du prêt';
-
-  @override
   String get loanBorrower => 'Emprunteur';
 
   @override
-  String get loanCaution => 'Caution';
+  String get loanCancel => 'Annuler';
 
   @override
-  String get loanCancel => 'Annuler';
+  String get loanCaution => 'Caution';
 
   @override
   String get loanConfirm => 'Confirmer';
@@ -1942,9 +1942,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get loanDelete => 'Supprimer';
 
   @override
-  String get loanDeletingLoan => 'Supprimer le prêt ?';
-
-  @override
   String get loanDeletedItem => 'Objet supprimé';
 
   @override
@@ -1958,6 +1955,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get loanDeletingItem => 'Supprimer l\'objet ?';
+
+  @override
+  String get loanDeletingLoan => 'Supprimer le prêt ?';
 
   @override
   String get loanDuration => 'Durée';
@@ -1997,22 +1997,22 @@ class AppLocalizationsFr extends AppLocalizations {
       'Des champs sont manquants ou incorrects';
 
   @override
-  String get loanInvalidNumber => 'Veuillez entrer un nombre';
-
-  @override
   String get loanInvalidDates => 'Les dates ne sont pas valides';
 
   @override
-  String get loanItem => 'Objet';
+  String get loanInvalidNumber => 'Veuillez entrer un nombre';
 
   @override
-  String get loanItems => 'Objets';
+  String get loanItem => 'Objet';
 
   @override
   String get loanItemHandling => 'Gestion des objets';
 
   @override
   String get loanItemSelected => 'objet sélectionné';
+
+  @override
+  String get loanItems => 'Objets';
 
   @override
   String get loanItemsSelected => 'objets sélectionnés';
@@ -2048,10 +2048,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get loanNoBorrower => 'Aucun emprunteur';
 
   @override
-  String get loanNoItems => 'Aucun objet';
+  String get loanNoItemSelected => 'Aucun objet sélectionné';
 
   @override
-  String get loanNoItemSelected => 'Aucun objet sélectionné';
+  String get loanNoItems => 'Aucun objet';
 
   @override
   String get loanNoLoan => 'Aucun prêt';
@@ -2060,16 +2060,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get loanNoReturnedDate => 'Pas de date de retour';
 
   @override
-  String get loanQuantity => 'Quantité';
+  String get loanNoValue => 'Veuillez entrer une valeur';
 
   @override
   String get loanNone => 'Aucun';
 
   @override
   String get loanNote => 'Note';
-
-  @override
-  String get loanNoValue => 'Veuillez entrer une valeur';
 
   @override
   String get loanOnGoing => 'En cours';
@@ -2090,6 +2087,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get loanPrevious => 'Précédent';
 
   @override
+  String get loanQuantity => 'Quantité';
+
+  @override
+  String get loanReturnLoan => 'Rendre le prêt ?';
+
+  @override
+  String get loanReturnLoanDescription => 'Voulez-vous rendre ce prêt ?';
+
+  @override
   String get loanReturned => 'Rendu';
 
   @override
@@ -2100,12 +2106,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get loanReturningLoan => 'Retour';
-
-  @override
-  String get loanReturnLoan => 'Rendre le prêt ?';
-
-  @override
-  String get loanReturnLoanDescription => 'Voulez-vous rendre ce prêt ?';
 
   @override
   String get loanToReturn => 'A rendre';
@@ -2159,13 +2159,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get loginRaffles => 'Tombolas';
 
   @override
-  String get loginSignIn => 'Se connecter';
-
-  @override
   String get loginRegister => 'S\'inscrire';
 
   @override
   String get loginShortDescription => 'L\'application de l\'associatif';
+
+  @override
+  String get loginSignIn => 'Se connecter';
 
   @override
   String get loginUpcomingEvents => 'Les évènements à venir';
@@ -2174,8 +2174,182 @@ class AppLocalizationsFr extends AppLocalizations {
   String get loginUpcomingScreenings => 'Les prochaines séances';
 
   @override
+  String get moduleAdmin => 'Admin';
+
+  @override
+  String get moduleAdminDescription =>
+      'Gérer les utilisateurs, groupes et structures';
+
+  @override
+  String get moduleAdvert => 'Feed';
+
+  @override
+  String get moduleAdvertDescription => 'Gérer les feeds';
+
+  @override
+  String get moduleAmap => 'AMAP';
+
+  @override
+  String get moduleAmapDescription => 'Gérer les livraisons et les produits';
+
+  @override
+  String get moduleBooking => 'Réservation';
+
+  @override
+  String get moduleBookingDescription =>
+      'Gérer les réservations, les salles et les managers';
+
+  @override
+  String get moduleCalendar => 'Calendrier';
+
+  @override
+  String get moduleCalendarDescription =>
+      'Consulter les événements et les activités';
+
+  @override
+  String get moduleCentralisation => 'Centralisation';
+
+  @override
+  String get moduleCentralisationDescription =>
+      'Gérer la centralisation des données';
+
+  @override
+  String get moduleCinema => 'Cinéma';
+
+  @override
+  String get moduleCinemaDescription => 'Gérer les séances de cinéma';
+
+  @override
+  String get moduleEvent => 'Événement';
+
+  @override
+  String get moduleEventDescription =>
+      'Gérer les événements et les participants';
+
+  @override
+  String get moduleFeed => 'Events';
+
+  @override
+  String get moduleFeedDescription => 'Consulter les événements';
+
+  @override
+  String get moduleFlappyBird => 'Flappy Bird';
+
+  @override
+  String get moduleFlappyBirdDescription =>
+      'Jouer à Flappy Bird et consulter le classement';
+
+  @override
+  String get moduleLoan => 'Prêt';
+
+  @override
+  String get moduleLoanDescription => 'Gérer les prêts et les articles';
+
+  @override
+  String get moduleOthers => 'Autres';
+
+  @override
+  String get moduleOthersDescription => 'Afficher les autres modules';
+
+  @override
+  String get modulePayment => 'Paiement';
+
+  @override
+  String get modulePaymentDescription =>
+      'Gérer les paiements, les statistiques et les appareils';
+
+  @override
+  String get modulePh => 'PH';
+
+  @override
+  String get modulePhDescription =>
+      'Gérer les PH, les formulaires et les administrateurs';
+
+  @override
+  String get modulePhonebook => 'Annuaire';
+
+  @override
+  String get modulePhonebookDescription =>
+      'Gérer les associations, les membres et les administrateurs';
+
+  @override
+  String get modulePurchases => 'Achats';
+
+  @override
+  String get modulePurchasesDescription =>
+      'Gérer les achats, les tickets et l\'historique';
+
+  @override
+  String get moduleRaffle => 'Tombola';
+
+  @override
+  String get moduleRaffleDescription =>
+      'Gérer les tombolas, les prix et les tickets';
+
+  @override
+  String get moduleRecommendation => 'Bons plans';
+
+  @override
+  String get moduleRecommendationDescription =>
+      'Gérer les recommandations, les informations et les administrateurs';
+
+  @override
+  String get moduleSeedLibrary => 'Grainothèque';
+
+  @override
+  String get moduleSeedLibraryDescription =>
+      'Gérer les graines, les espèces et les stocks';
+
+  @override
+  String get moduleSettings => 'Paramètres';
+
+  @override
+  String get moduleSettingsDescription =>
+      'Gérer les paramètres de l\'application';
+
+  @override
+  String get moduleStyleGuide => 'StyleGuide';
+
+  @override
+  String get moduleStyleGuideDescription =>
+      'Explore the UI components and styles used in Titan';
+
+  @override
+  String get moduleVote => 'Vote';
+
+  @override
+  String get moduleVoteDescription =>
+      'Gérer les votes, les sections et les candidats';
+
+  @override
+  String get othersAdmin => 'Admin';
+
+  @override
   String get othersCheckInternetConnection =>
       'Veuillez vérifier votre connexion internet';
+
+  @override
+  String get othersError => 'Une erreur est survenue';
+
+  @override
+  String get othersImageError => 'Erreur lors de l\'ajout de l\'image';
+
+  @override
+  String get othersImageSizeTooBig =>
+      'La taille de l\'image ne doit pas dépasser 4 Mio';
+
+  @override
+  String get othersInvalidNumber => 'Veuillez entrer un nombre';
+
+  @override
+  String get othersNoDateError => 'Veuillez entrer une date';
+
+  @override
+  String get othersNoModule =>
+      'Aucun module disponible, veuillez réessayer ultérieurement 😢😢';
+
+  @override
+  String get othersNoValue => 'Veuillez entrer une valeur';
 
   @override
   String get othersRetry => 'Réessayer';
@@ -2193,30 +2367,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get othersVersion => 'Version';
 
   @override
-  String get othersNoModule =>
-      'Aucun module disponible, veuillez réessayer ultérieurement 😢😢';
-
-  @override
-  String get othersAdmin => 'Admin';
-
-  @override
-  String get othersError => 'Une erreur est survenue';
-
-  @override
-  String get othersNoValue => 'Veuillez entrer une valeur';
-
-  @override
-  String get othersInvalidNumber => 'Veuillez entrer un nombre';
-
-  @override
-  String get othersNoDateError => 'Veuillez entrer une date';
-
-  @override
-  String get othersImageSizeTooBig =>
-      'La taille de l\'image ne doit pas dépasser 4 Mio';
-
-  @override
-  String get othersImageError => 'Erreur lors de l\'ajout de l\'image';
+  String get paiementAStore => 'un magasin';
 
   @override
   String get paiementAccept => 'Accepter';
@@ -2228,15 +2379,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get paiementAdd => 'Ajouter';
 
   @override
-  String get paiementAddedSeller => 'Vendeur ajouté';
-
-  @override
-  String get paiementAddingSellerError => 'Erreur lors de l\'ajout du vendeur';
-
-  @override
-  String get paiementAddingStoreError => 'Erreur lors de l\'ajout du magasin';
-
-  @override
   String get paiementAddSeller => 'Ajouter un vendeur';
 
   @override
@@ -2244,6 +2386,15 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get paiementAddThisDevice => 'Ajouter cet appareil';
+
+  @override
+  String get paiementAddedSeller => 'Vendeur ajouté';
+
+  @override
+  String get paiementAddingSellerError => 'Erreur lors de l\'ajout du vendeur';
+
+  @override
+  String get paiementAddingStoreError => 'Erreur lors de l\'ajout du magasin';
 
   @override
   String get paiementAdmin => 'Administrateur';
@@ -2254,9 +2405,6 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get paiementAskDeviceActivation =>
       'Demande d\'activation de l\'appareil';
-
-  @override
-  String get paiementAStore => 'un magasin';
 
   @override
   String get paiementAt => 'à';
@@ -2295,13 +2443,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get paiementCanCancelTransaction => 'Peut annuler des transactions';
 
   @override
+  String get paiementCanManageSellers => 'Peut gérer les vendeurs';
+
+  @override
+  String get paiementCanSeeHistory => 'Peut voir l\'historique';
+
+  @override
   String get paiementCancel => 'Annuler';
-
-  @override
-  String get paiementCancelled => 'Annulé';
-
-  @override
-  String get paiementCancelledTransaction => 'Paiement annulé';
 
   @override
   String get paiementCancelTransaction => 'Annuler la transaction';
@@ -2310,10 +2458,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get paiementCancelTransactions => 'Annuler les transactions';
 
   @override
-  String get paiementCanManageSellers => 'Peut gérer les vendeurs';
+  String get paiementCancelled => 'Annulé';
 
   @override
-  String get paiementCanSeeHistory => 'Peut voir l\'historique';
+  String get paiementCancelledTransaction => 'Paiement annulé';
 
   @override
   String get paiementCantLaunchURL => 'Impossible d\'ouvrir le lien';
@@ -2331,9 +2479,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get paiementDecline => 'Refuser';
 
   @override
-  String get paiementDeletedSeller => 'Vendeur supprimé';
-
-  @override
   String get paiementDeleteInvoice => 'Supprimer la facture';
 
   @override
@@ -2344,9 +2489,6 @@ class AppLocalizationsFr extends AppLocalizations {
       'Voulez-vous vraiment supprimer ce vendeur ?';
 
   @override
-  String get paiementDeleteSuccessfully => 'Supprimé avec succès';
-
-  @override
   String get paiementDeleteStore => 'Supprimer le magasin';
 
   @override
@@ -2355,6 +2497,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get paiementDeleteStoreError => 'Impossible de supprimer le magasin';
+
+  @override
+  String get paiementDeleteSuccessfully => 'Supprimé avec succès';
+
+  @override
+  String get paiementDeletedSeller => 'Vendeur supprimé';
 
   @override
   String get paiementDeletingSellerError =>
@@ -2452,10 +2600,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get paiementLimitedTo => 'Limité à';
 
   @override
-  String get paiementManagement => 'Gestion';
+  String get paiementManageSellers => 'Gérer les vendeurs';
 
   @override
-  String get paiementManageSellers => 'Gérer les vendeurs';
+  String get paiementManagement => 'Gestion';
 
   @override
   String get paiementMarkPaid => 'Marquer comme payé';
@@ -2477,11 +2625,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get paiementModify => 'Modifier';
 
   @override
-  String get paiementModifyingStoreError =>
-      'Erreur lors de la modification du magasin';
+  String get paiementModifySuccessfully => 'Modifié avec succès';
 
   @override
-  String get paiementModifySuccessfully => 'Modifié avec succès';
+  String get paiementModifyingStoreError =>
+      'Erreur lors de la modification du magasin';
 
   @override
   String get paiementNewCGU => 'Nouvelles Conditions Générales d\'Utilisation';
@@ -2522,10 +2670,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get paiementPay => 'Payer';
 
   @override
-  String get paiementPayment => 'Paiement';
+  String get paiementPayWithHA => 'Payer avec HelloAsso';
 
   @override
-  String get paiementPayWithHA => 'Payer avec HelloAsso';
+  String get paiementPayment => 'Paiement';
 
   @override
   String get paiementPending => 'En attente';
@@ -2606,11 +2754,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get paiementRightsOf => 'Droits de';
 
   @override
-  String get paiementRightsUpdated => 'Droits mis à jour';
-
-  @override
   String get paiementRightsUpdateError =>
       'Erreur lors de la mise à jour des droits';
+
+  @override
+  String get paiementRightsUpdated => 'Droits mis à jour';
 
   @override
   String get paiementScan => 'Scanner';
@@ -2659,11 +2807,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get paiementStoreDeleted => 'Magasin supprimée';
 
   @override
-  String paiementStructureManagement(String structure) {
-    return 'Gestion de $structure';
-  }
-
-  @override
   String get paiementStoreName => 'Nom du magasin';
 
   @override
@@ -2671,6 +2814,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get paiementStructureAdmin => 'Administrateur de la structure';
+
+  @override
+  String paiementStructureManagement(String structure) {
+    return 'Gestion de $structure';
+  }
 
   @override
   String get paiementSuccededTransaction => 'Paiement réussi';
@@ -2765,10 +2913,22 @@ class AppLocalizationsFr extends AppLocalizations {
       'Vous êtes sur le point de transférer la structure à ';
 
   @override
+  String get phAdd => 'Ajouter';
+
+  @override
   String get phAddNewJournal => 'Ajouter un nouveau journal';
 
   @override
-  String get phNameField => 'Nom : ';
+  String get phAddPdfFile => 'Ajouter un fichier PDF';
+
+  @override
+  String get phAdded => 'Ajouté';
+
+  @override
+  String get phAddingFileError => 'Erreur d\'ajout';
+
+  @override
+  String get phDate => 'Date';
 
   @override
   String get phDateField => 'Date : ';
@@ -2777,50 +2937,38 @@ class AppLocalizationsFr extends AppLocalizations {
   String get phDelete => 'Voulez-vous vraiment supprimer ce journal ?';
 
   @override
-  String get phIrreversibleAction => 'Cette action est irréversible';
-
-  @override
-  String get phToHeavyFile => 'Fichier trop volumineux';
-
-  @override
-  String get phAddPdfFile => 'Ajouter un fichier PDF';
+  String get phEdit => 'Modifier';
 
   @override
   String get phEditPdfFile => 'Modifier le fichier PDF';
 
   @override
-  String get phPhName => 'Nom du PH';
-
-  @override
-  String get phDate => 'Date';
-
-  @override
-  String get phAdded => 'Ajouté';
-
-  @override
   String get phEdited => 'Modifié';
 
   @override
-  String get phAddingFileError => 'Erreur d\'ajout';
+  String get phIrreversibleAction => 'Cette action est irréversible';
 
   @override
   String get phMissingInformatonsOrPdf =>
       'Informations manquantes ou fichier PDF manquant';
 
   @override
-  String get phAdd => 'Ajouter';
-
-  @override
-  String get phEdit => 'Modifier';
-
-  @override
-  String get phSeePreviousJournal => 'Voir les anciens journaux';
+  String get phNameField => 'Nom : ';
 
   @override
   String get phNoJournalInDatabase => 'Pas encore de PH dans la base de donnée';
 
   @override
+  String get phPhName => 'Nom du PH';
+
+  @override
+  String get phSeePreviousJournal => 'Voir les anciens journaux';
+
+  @override
   String get phSuccesDowloading => 'Téléchargé avec succès';
+
+  @override
+  String get phToHeavyFile => 'Fichier trop volumineux';
 
   @override
   String get phonebookAdd => 'Ajouter';
@@ -2833,6 +2981,12 @@ class AppLocalizationsFr extends AppLocalizations {
       'Ajouter un groupement d\'association';
 
   @override
+  String get phonebookAddMember => 'Ajouter un membre';
+
+  @override
+  String get phonebookAddRole => 'Ajouter un rôle';
+
+  @override
   String get phonebookAddedAssociation => 'Association ajoutée';
 
   @override
@@ -2840,12 +2994,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get phonebookAddingError => 'Erreur lors de l\'ajout';
-
-  @override
-  String get phonebookAddMember => 'Ajouter un membre';
-
-  @override
-  String get phonebookAddRole => 'Ajouter un rôle';
 
   @override
   String get phonebookAdmin => 'Admin';
@@ -2878,13 +3026,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get phonebookCancel => 'Annuler';
 
   @override
+  String get phonebookChangeTermConfirm =>
+      'Êtes-vous sûr de vouloir changer tout le mandat ?\nCette action est irréversible !';
+
+  @override
   String phonebookChangeTermYear(int year) {
     return 'Passer au mandat $year';
   }
-
-  @override
-  String get phonebookChangeTermConfirm =>
-      'Êtes-vous sûr de vouloir changer tout le mandat ?\nCette action est irréversible !';
 
   @override
   String get phonebookClose => 'Fermer';
@@ -2899,6 +3047,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get phonebookDeactivateAssociation => 'Désactiver l\'association';
 
   @override
+  String phonebookDeactivateSelectedAssociation(String association) {
+    return 'Désactiver l\'association $association ?';
+  }
+
+  @override
   String get phonebookDeactivatedAssociation => 'Association désactivée';
 
   @override
@@ -2906,15 +3059,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'Attention, cette association est désactivée, vous ne pouvez pas la modifier';
 
   @override
-  String phonebookDeactivateSelectedAssociation(String association) {
-    return 'Désactiver l\'association $association ?';
-  }
+  String get phonebookDeactivating => 'Désactiver l\'association ?';
 
   @override
   String get phonebookDeactivatingError => 'Erreur lors de la désactivation';
-
-  @override
-  String get phonebookDetail => 'Détail :';
 
   @override
   String get phonebookDelete => 'Supprimer';
@@ -2923,22 +3071,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get phonebookDeleteAssociation => 'Supprimer l\'association';
 
   @override
-  String phonebookDeleteSelectedAssociation(String association) {
-    return 'Supprimer l\'association $association ?';
-  }
-
-  @override
   String get phonebookDeleteAssociationDescription =>
       'Ceci va supprimer l\'historique de l\'association';
 
   @override
-  String get phonebookDeletedAssociation => 'Association supprimée';
-
-  @override
-  String get phonebookDeletedMember => 'Membre supprimé';
-
-  @override
   String get phonebookDeleteRole => 'Supprimer le rôle';
+
+  @override
+  String phonebookDeleteSelectedAssociation(String association) {
+    return 'Supprimer l\'association $association ?';
+  }
 
   @override
   String phonebookDeleteUserRole(String name) {
@@ -2946,7 +3088,10 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get phonebookDeactivating => 'Désactiver l\'association ?';
+  String get phonebookDeletedAssociation => 'Association supprimée';
+
+  @override
+  String get phonebookDeletedMember => 'Membre supprimé';
 
   @override
   String get phonebookDeleting => 'Suppression';
@@ -2956,6 +3101,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get phonebookDescription => 'Description';
+
+  @override
+  String get phonebookDetail => 'Détail :';
 
   @override
   String get phonebookEdit => 'Modifier';
@@ -2974,10 +3122,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get phonebookEditAssociationMembers => 'Gérer les membres';
 
   @override
-  String get phonebookEditRole => 'Modifier le rôle';
+  String get phonebookEditMembership => 'Modifier le rôle';
 
   @override
-  String get phonebookEditMembership => 'Modifier le rôle';
+  String get phonebookEditRole => 'Modifier le rôle';
 
   @override
   String get phonebookEmail => 'Email :';
@@ -3047,11 +3195,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get phonebookFirstname => 'Prénom :';
 
   @override
-  String get phonebookGroupementDeleted => 'Groupement d\'association supprimé';
-
-  @override
   String get phonebookGroupementDeleteError =>
       'Erreur lors de la suppression du groupement d\'association';
+
+  @override
+  String get phonebookGroupementDeleted => 'Groupement d\'association supprimé';
 
   @override
   String get phonebookGroupementName => 'Nom du groupement';
@@ -3060,15 +3208,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String phonebookGroups(String association) {
     return 'Gérer les groupes de $association';
   }
-
-  @override
-  String phonebookTerm(int year) {
-    return 'Mandat $year';
-  }
-
-  @override
-  String get phonebookTermChangingError =>
-      'Erreur lors du changement de mandat';
 
   @override
   String get phonebookMember => 'Membre';
@@ -3174,6 +3313,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get phonebookSearchUser => 'Rechercher un utilisateur';
 
   @override
+  String phonebookTerm(int year) {
+    return 'Mandat $year';
+  }
+
+  @override
+  String get phonebookTermChangingError =>
+      'Erreur lors du changement de mandat';
+
+  @override
   String get phonebookTooHeavyAssociationPicture =>
       'L\'image est trop lourde (max 4Mo)';
 
@@ -3200,31 +3348,34 @@ class AppLocalizationsFr extends AppLocalizations {
   String get phonebookValidation => 'Valider';
 
   @override
-  String get purchasesPurchases => 'Achats';
+  String get purchasesAlreadyUsed => 'Déjà utilisé';
 
   @override
-  String get purchasesResearch => 'Rechercher';
+  String get purchasesCancel => 'Annuler';
 
   @override
-  String get purchasesNoPurchasesFound => 'Aucun achat trouvé';
+  String get purchasesHistory => 'Historique';
 
   @override
-  String get purchasesNoTickets => 'Aucun ticket';
+  String get purchasesLeftScan => 'Scans restants';
 
   @override
-  String get purchasesTicketsError => 'Erreur lors du chargement des tickets';
-
-  @override
-  String get purchasesPurchasesError => 'Erreur lors du chargement des achats';
+  String get purchasesLoading => 'En attente de scan';
 
   @override
   String get purchasesNoPurchases => 'Aucun achat';
 
   @override
-  String get purchasesTimes => 'fois';
+  String get purchasesNoPurchasesFound => 'Aucun achat trouvé';
 
   @override
-  String get purchasesAlreadyUsed => 'Déjà utilisé';
+  String get purchasesNoScannableProducts => 'Aucun produit scannable';
+
+  @override
+  String get purchasesNoTagGiven => 'Attention, aucun tag n\'a été entré';
+
+  @override
+  String get purchasesNoTickets => 'Aucun ticket';
 
   @override
   String get purchasesNotPaid => 'Non validé';
@@ -3233,218 +3384,92 @@ class AppLocalizationsFr extends AppLocalizations {
   String get purchasesPleaseSelectProduct => 'Veuillez sélectionner un produit';
 
   @override
-  String get purchasesProducts => 'Produits';
-
-  @override
-  String get purchasesCancel => 'Annuler';
-
-  @override
-  String get purchasesValidate => 'Valider';
-
-  @override
-  String get purchasesLeftScan => 'Scans restants';
-
-  @override
-  String get purchasesTag => 'Tag';
-
-  @override
-  String get purchasesHistory => 'Historique';
-
-  @override
   String get purchasesPleaseSelectSeller => 'Veuillez sélectionner un vendeur';
 
   @override
-  String get purchasesNoTagGiven => 'Attention, aucun tag n\'a été entré';
+  String get purchasesProducts => 'Produits';
 
   @override
-  String get purchasesTickets => 'Tickets';
+  String get purchasesPurchases => 'Achats';
 
   @override
-  String get purchasesNoScannableProducts => 'Aucun produit scannable';
+  String get purchasesPurchasesError => 'Erreur lors du chargement des achats';
 
   @override
-  String get purchasesLoading => 'En attente de scan';
+  String get purchasesResearch => 'Rechercher';
 
   @override
   String get purchasesScan => 'Scanner';
 
   @override
-  String get raffleRaffle => 'Tombola';
+  String get purchasesTag => 'Tag';
 
   @override
-  String get rafflePrize => 'Lot';
+  String get purchasesTickets => 'Tickets';
 
   @override
-  String get rafflePrizes => 'Lots';
+  String get purchasesTicketsError => 'Erreur lors du chargement des tickets';
 
   @override
-  String get raffleActualRaffles => 'Tombola en cours';
+  String get purchasesTimes => 'fois';
 
   @override
-  String get rafflePastRaffles => 'Tombola passés';
-
-  @override
-  String get raffleYourTickets => 'Tous vos tickets';
-
-  @override
-  String get raffleCreateMenu => 'Menu de Création';
-
-  @override
-  String get raffleNextRaffles => 'Prochaines tombolas';
-
-  @override
-  String get raffleNoTicket => 'Vous n\'avez pas de ticket';
-
-  @override
-  String get raffleSeeRaffleDetail => 'Voir lots/tickets';
-
-  @override
-  String get raffleActualPrize => 'Lots actuels';
-
-  @override
-  String get raffleMajorPrize => 'Lot Majeurs';
-
-  @override
-  String get raffleTakeTickets => 'Prendre vos tickets';
-
-  @override
-  String get raffleNoTicketBuyable =>
-      'Vous ne pouvez pas achetez de billets pour l\'instant';
-
-  @override
-  String get raffleNoCurrentPrize => 'Il n\'y a aucun lots actuellement';
-
-  @override
-  String get raffleModifTombola =>
-      'Vous pouvez modifiez vos tombolas ou en créer de nouvelles, toute décision doit ensuite être prise par les admins';
-
-  @override
-  String get raffleCreateYourRaffle => 'Votre menu de création de tombolas';
-
-  @override
-  String get rafflePossiblePrice => 'Prix possible';
-
-  @override
-  String get raffleInformation => 'Information et Statistiques';
+  String get purchasesValidate => 'Valider';
 
   @override
   String get raffleAccounts => 'Comptes';
 
   @override
+  String get raffleActualPrize => 'Lots actuels';
+
+  @override
+  String get raffleActualRaffles => 'Tombola en cours';
+
+  @override
   String get raffleAdd => 'Ajouter';
 
   @override
-  String get raffleUpdatedAmount => 'Montant mis à jour';
-
-  @override
-  String get raffleUpdatingError => 'Erreur lors de la mise à jour';
-
-  @override
-  String get raffleDeletedPrize => 'Lot supprimé';
-
-  @override
-  String get raffleDeletingError => 'Erreur lors de la suppression';
-
-  @override
-  String get raffleQuantity => 'Quantité';
-
-  @override
-  String get raffleClose => 'Fermer';
-
-  @override
-  String get raffleOpen => 'Ouvrir';
-
-  @override
-  String get raffleAddTypeTicketSimple => 'Ajouter';
-
-  @override
-  String get raffleAddingError => 'Erreur lors de l\'ajout';
-
-  @override
-  String get raffleEditTypeTicketSimple => 'Modifier';
-
-  @override
-  String get raffleFillField => 'Le champ ne peut pas être vide';
-
-  @override
-  String get raffleWaiting => 'Chargement';
-
-  @override
-  String get raffleEditingError => 'Erreur lors de la modification';
-
-  @override
-  String get raffleAddedTicket => 'Ticket ajouté';
-
-  @override
-  String get raffleEditedTicket => 'Ticket modifié';
-
-  @override
-  String get raffleAlreadyExistTicket => 'Le ticket existe déjà';
-
-  @override
-  String get raffleNumberExpected => 'Un entier est attendu';
-
-  @override
-  String get raffleDeletedTicket => 'Ticket supprimé';
+  String get raffleAddPackTicket => 'Ajouter un pack de ticket';
 
   @override
   String get raffleAddPrize => 'Ajouter';
 
   @override
-  String get raffleEditPrize => 'Modifier';
+  String get raffleAddTypeTicketSimple => 'Ajouter';
 
   @override
-  String get raffleOpenRaffle => 'Ouvrir la tombola';
+  String get raffleAddedTicket => 'Ticket ajouté';
+
+  @override
+  String get raffleAddingError => 'Erreur lors de l\'ajout';
+
+  @override
+  String get raffleAlreadyExistTicket => 'Le ticket existe déjà';
+
+  @override
+  String get raffleAmount => 'Solde';
+
+  @override
+  String get raffleBoughtTicket => 'Ticket acheté';
+
+  @override
+  String get raffleBuyThisTicket => 'Acheter ce ticket';
+
+  @override
+  String get raffleClose => 'Fermer';
 
   @override
   String get raffleCloseRaffle => 'Fermer la tombola';
-
-  @override
-  String get raffleOpenRaffleDescription =>
-      'Vous allez ouvrir la tombola, les utilisateurs pourront acheter des tickets. Vous ne pourrez plus modifier la tombola. Êtes-vous sûr de vouloir continuer ?';
 
   @override
   String get raffleCloseRaffleDescription =>
       'Vous allez fermer la tombola, les utilisateurs ne pourront plus acheter de tickets. Êtes-vous sûr de vouloir continuer ?';
 
   @override
-  String get raffleNoCurrentRaffle => 'Il n\'y a aucune tombola en cours';
+  String get raffleCreateMenu => 'Menu de Création';
 
   @override
-  String get raffleBoughtTicket => 'Ticket acheté';
-
-  @override
-  String get raffleDrawingError => 'Erreur lors du tirage';
-
-  @override
-  String get raffleInvalidPrice => 'Le prix doit être supérieur à 0';
-
-  @override
-  String get raffleMustBePositive => 'Le nombre doit être strictement positif';
-
-  @override
-  String get raffleDraw => 'Tirer';
-
-  @override
-  String get raffleDrawn => 'Tiré';
-
-  @override
-  String get raffleError => 'Erreur';
-
-  @override
-  String get raffleGathered => 'Récolté';
-
-  @override
-  String get raffleTickets => 'Tickets';
-
-  @override
-  String get raffleTicket => 'ticket';
-
-  @override
-  String get raffleWinner => 'Gagnant';
-
-  @override
-  String get raffleNoPrize => 'Aucun lot';
+  String get raffleCreateYourRaffle => 'Votre menu de création de tombolas';
 
   @override
   String get raffleDeletePrize => 'Supprimer le lot';
@@ -3454,12 +3479,6 @@ class AppLocalizationsFr extends AppLocalizations {
       'Vous allez supprimer le lot, êtes-vous sûr de vouloir continuer ?';
 
   @override
-  String get raffleDrawing => 'Tirage';
-
-  @override
-  String get raffleDrawingDescription => 'Tirer le gagnant du lot ?';
-
-  @override
   String get raffleDeleteTicket => 'Supprimer le ticket';
 
   @override
@@ -3467,83 +3486,188 @@ class AppLocalizationsFr extends AppLocalizations {
       'Vous allez supprimer le ticket, êtes-vous sûr de vouloir continuer ?';
 
   @override
-  String get raffleWinningTickets => 'Tickets gagnants';
+  String get raffleDeletedPrize => 'Lot supprimé';
+
+  @override
+  String get raffleDeletedTicket => 'Ticket supprimé';
+
+  @override
+  String get raffleDeletingError => 'Erreur lors de la suppression';
+
+  @override
+  String get raffleDescription => 'Description';
+
+  @override
+  String get raffleDraw => 'Tirer';
+
+  @override
+  String get raffleDrawing => 'Tirage';
+
+  @override
+  String get raffleDrawingDescription => 'Tirer le gagnant du lot ?';
+
+  @override
+  String get raffleDrawingError => 'Erreur lors du tirage';
+
+  @override
+  String get raffleDrawn => 'Tiré';
+
+  @override
+  String get raffleEdit => 'Modifier';
+
+  @override
+  String get raffleEditPrize => 'Modifier';
+
+  @override
+  String get raffleEditRaffle => 'Modifier la tombola';
+
+  @override
+  String get raffleEditTypeTicketSimple => 'Modifier';
+
+  @override
+  String get raffleEditedTicket => 'Ticket modifié';
+
+  @override
+  String get raffleEditingError => 'Erreur lors de la modification';
+
+  @override
+  String get raffleError => 'Erreur';
+
+  @override
+  String get raffleFillField => 'Le champ ne peut pas être vide';
+
+  @override
+  String get raffleGathered => 'Récolté';
+
+  @override
+  String get raffleInformation => 'Information et Statistiques';
+
+  @override
+  String get raffleInvalidPrice => 'Le prix doit être supérieur à 0';
+
+  @override
+  String get raffleLoading => 'Chargement';
+
+  @override
+  String get raffleLockedRaffle => 'Tombola verrouillée';
+
+  @override
+  String get raffleMajorPrize => 'Lot Majeurs';
+
+  @override
+  String get raffleModifTombola =>
+      'Vous pouvez modifiez vos tombolas ou en créer de nouvelles, toute décision doit ensuite être prise par les admins';
+
+  @override
+  String get raffleMustBePositive => 'Le nombre doit être strictement positif';
+
+  @override
+  String get raffleName => 'Nom';
+
+  @override
+  String get raffleNextRaffles => 'Prochaines tombolas';
+
+  @override
+  String get raffleNoCurrentPrize => 'Il n\'y a aucun lots actuellement';
+
+  @override
+  String get raffleNoCurrentRaffle => 'Il n\'y a aucune tombola en cours';
+
+  @override
+  String get raffleNoDescription => 'Aucune description';
+
+  @override
+  String get raffleNoPrize => 'Aucun lot';
+
+  @override
+  String get raffleNoTicket => 'Vous n\'avez pas de ticket';
+
+  @override
+  String get raffleNoTicketBuyable =>
+      'Vous ne pouvez pas achetez de billets pour l\'instant';
 
   @override
   String get raffleNoWinningTicketYet =>
       'Les tickets gagnants seront affichés ici';
 
   @override
-  String get raffleName => 'Nom';
-
-  @override
-  String get raffleDescription => 'Description';
-
-  @override
-  String get raffleBuyThisTicket => 'Acheter ce ticket';
-
-  @override
-  String get raffleLockedRaffle => 'Tombola verrouillée';
-
-  @override
-  String get raffleUnavailableRaffle => 'Tombola indisponible';
-
-  @override
   String get raffleNotEnoughMoney => 'Vous n\'avez pas assez d\'argent';
 
   @override
-  String get raffleWinnable => 'gagnable';
+  String get raffleNumberExpected => 'Un entier est attendu';
 
   @override
-  String get raffleNoDescription => 'Aucune description';
+  String get raffleOpen => 'Ouvrir';
 
   @override
-  String get raffleAmount => 'Solde';
+  String get raffleOpenRaffle => 'Ouvrir la tombola';
 
   @override
-  String get raffleLoading => 'Chargement';
+  String get raffleOpenRaffleDescription =>
+      'Vous allez ouvrir la tombola, les utilisateurs pourront acheter des tickets. Vous ne pourrez plus modifier la tombola. Êtes-vous sûr de vouloir continuer ?';
 
   @override
-  String get raffleTicketNumber => 'Nombre de ticket';
+  String get rafflePastRaffles => 'Tombola passés';
+
+  @override
+  String get rafflePossiblePrice => 'Prix possible';
 
   @override
   String get rafflePrice => 'Prix';
 
   @override
-  String get raffleEditRaffle => 'Modifier la tombola';
+  String get rafflePrize => 'Lot';
 
   @override
-  String get raffleEdit => 'Modifier';
+  String get rafflePrizes => 'Lots';
 
   @override
-  String get raffleAddPackTicket => 'Ajouter un pack de ticket';
+  String get raffleQuantity => 'Quantité';
 
   @override
-  String get recommendationRecommendation => 'Bons plans';
+  String get raffleRaffle => 'Tombola';
 
   @override
-  String get recommendationTitle => 'Titre';
+  String get raffleSeeRaffleDetail => 'Voir lots/tickets';
 
   @override
-  String get recommendationLogo => 'Logo';
+  String get raffleTakeTickets => 'Prendre vos tickets';
 
   @override
-  String get recommendationCode => 'Code';
+  String get raffleTicket => 'ticket';
 
   @override
-  String get recommendationSummary => 'Court résumé';
+  String get raffleTicketNumber => 'Nombre de ticket';
 
   @override
-  String get recommendationDescription => 'Description';
+  String get raffleTickets => 'Tickets';
+
+  @override
+  String get raffleUnavailableRaffle => 'Tombola indisponible';
+
+  @override
+  String get raffleUpdatedAmount => 'Montant mis à jour';
+
+  @override
+  String get raffleUpdatingError => 'Erreur lors de la mise à jour';
+
+  @override
+  String get raffleWaiting => 'Chargement';
+
+  @override
+  String get raffleWinnable => 'gagnable';
+
+  @override
+  String get raffleWinner => 'Gagnant';
+
+  @override
+  String get raffleWinningTickets => 'Tickets gagnants';
+
+  @override
+  String get raffleYourTickets => 'Tous vos tickets';
 
   @override
   String get recommendationAdd => 'Ajouter';
-
-  @override
-  String get recommendationEdit => 'Modifier';
-
-  @override
-  String get recommendationDelete => 'Supprimer';
 
   @override
   String get recommendationAddImage => 'Veuillez ajouter une image';
@@ -3552,37 +3676,67 @@ class AppLocalizationsFr extends AppLocalizations {
   String get recommendationAddedRecommendation => 'Bon plan ajouté';
 
   @override
-  String get recommendationEditedRecommendation => 'Bon plan modifié';
+  String get recommendationAddingError => 'Échec de l\'ajout';
+
+  @override
+  String get recommendationCode => 'Code';
+
+  @override
+  String get recommendationCopiedCode => 'Code de réduction copié';
+
+  @override
+  String get recommendationDelete => 'Supprimer';
+
+  @override
+  String get recommendationDeleteRecommendation => 'Suppresion';
 
   @override
   String get recommendationDeleteRecommendationConfirmation =>
       'Êtes-vous sûr de vouloir supprimer ce bon plan ?';
 
   @override
-  String get recommendationDeleteRecommendation => 'Suppresion';
+  String get recommendationDeletedRecommendation => 'Bon plan supprimé';
 
   @override
   String get recommendationDeletingRecommendationError =>
       'Erreur lors de la suppression';
 
   @override
-  String get recommendationDeletedRecommendation => 'Bon plan supprimé';
+  String get recommendationDescription => 'Description';
+
+  @override
+  String get recommendationEdit => 'Modifier';
+
+  @override
+  String get recommendationEditedRecommendation => 'Bon plan modifié';
+
+  @override
+  String get recommendationEditingError => 'Échec de la modification';
 
   @override
   String get recommendationIncorrectOrMissingFields =>
       'Champs incorrects ou manquants';
 
   @override
-  String get recommendationEditingError => 'Échec de la modification';
+  String get recommendationLogo => 'Logo';
 
   @override
-  String get recommendationAddingError => 'Échec de l\'ajout';
+  String get recommendationRecommendation => 'Bons plans';
 
   @override
-  String get recommendationCopiedCode => 'Code de réduction copié';
+  String get recommendationSummary => 'Court résumé';
+
+  @override
+  String get recommendationTitle => 'Titre';
 
   @override
   String get seedLibraryAdd => 'Ajouter';
+
+  @override
+  String get seedLibraryAddPlant => 'Déposer une plante';
+
+  @override
+  String get seedLibraryAddSpecies => 'Ajouter une espèce';
 
   @override
   String get seedLibraryAddedPlant => 'Plante ajoutée';
@@ -3592,12 +3746,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get seedLibraryAddingError => 'Erreur lors de l\'ajout';
-
-  @override
-  String get seedLibraryAddPlant => 'Déposer une plante';
-
-  @override
-  String get seedLibraryAddSpecies => 'Ajouter une espèce';
 
   @override
   String get seedLibraryAll => 'Toutes';
@@ -3612,13 +3760,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get seedLibraryAutumn => 'Automne';
 
   @override
+  String get seedLibraryBorrowPlant => 'Emprunter la plante';
+
+  @override
   String get seedLibraryBorrowedPlant => 'Plante empruntée';
 
   @override
   String get seedLibraryBorrowingDate => 'Date d\'emprunt :';
-
-  @override
-  String get seedLibraryBorrowPlant => 'Emprunter la plante';
 
   @override
   String get seedLibraryCard => 'Carte';
@@ -3649,10 +3797,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get seedLibraryDeathDate => 'Date de mort';
 
   @override
-  String get seedLibraryDeletedSpecies => 'Espèce supprimée';
+  String get seedLibraryDeleteSpecies => 'Supprimer l\'espèce ?';
 
   @override
-  String get seedLibraryDeleteSpecies => 'Supprimer l\'espèce ?';
+  String get seedLibraryDeletedSpecies => 'Espèce supprimée';
 
   @override
   String get seedLibraryDeleting => 'Suppression';
@@ -3674,16 +3822,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get seedLibraryEdit => 'Modifier';
 
   @override
-  String get seedLibraryEditedPlant => 'Plante modifiée';
-
-  @override
   String get seedLibraryEditInformation => 'Modifier les informations';
 
   @override
-  String get seedLibraryEditingError => 'Erreur lors de la modification';
+  String get seedLibraryEditSpecies => 'Modifier l\'espèce';
 
   @override
-  String get seedLibraryEditSpecies => 'Modifier l\'espèce';
+  String get seedLibraryEditedPlant => 'Plante modifiée';
+
+  @override
+  String get seedLibraryEditingError => 'Erreur lors de la modification';
 
   @override
   String get seedLibraryEmptyDifficultyError =>
@@ -3721,40 +3869,40 @@ class AppLocalizationsFr extends AppLocalizations {
   String get seedLibraryMaturationTime => 'Temps de maturation';
 
   @override
-  String get seedLibraryMonthJan => 'Janvier';
-
-  @override
-  String get seedLibraryMonthFeb => 'Février';
-
-  @override
-  String get seedLibraryMonthMar => 'Mars';
-
-  @override
   String get seedLibraryMonthApr => 'Avril';
-
-  @override
-  String get seedLibraryMonthMay => 'Mai';
-
-  @override
-  String get seedLibraryMonthJun => 'Juin';
-
-  @override
-  String get seedLibraryMonthJul => 'Juillet';
 
   @override
   String get seedLibraryMonthAug => 'Août';
 
   @override
-  String get seedLibraryMonthSep => 'Septembre';
+  String get seedLibraryMonthDec => 'Décembre';
 
   @override
-  String get seedLibraryMonthOct => 'Octobre';
+  String get seedLibraryMonthFeb => 'Février';
+
+  @override
+  String get seedLibraryMonthJan => 'Janvier';
+
+  @override
+  String get seedLibraryMonthJul => 'Juillet';
+
+  @override
+  String get seedLibraryMonthJun => 'Juin';
+
+  @override
+  String get seedLibraryMonthMar => 'Mars';
+
+  @override
+  String get seedLibraryMonthMay => 'Mai';
 
   @override
   String get seedLibraryMonthNov => 'Novembre';
 
   @override
-  String get seedLibraryMonthDec => 'Décembre';
+  String get seedLibraryMonthOct => 'Octobre';
+
+  @override
+  String get seedLibraryMonthSep => 'Septembre';
 
   @override
   String get seedLibraryMyPlants => 'Mes plantes';
@@ -3797,13 +3945,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get seedLibraryOk => 'OK';
 
   @override
+  String get seedLibraryPlantDetail => 'Détail de la plante';
+
+  @override
   String get seedLibraryPlantationPeriod => 'Période de plantation :';
 
   @override
   String get seedLibraryPlantationType => 'Type de plantation :';
-
-  @override
-  String get seedLibraryPlantDetail => 'Détail de la plante';
 
   @override
   String get seedLibraryPlantingDate => 'Date de plantation';
@@ -3846,19 +3994,19 @@ class AppLocalizationsFr extends AppLocalizations {
   String get seedLibrarySeed => 'Graine';
 
   @override
-  String get seedLibrarySeeds => 'graines';
-
-  @override
   String get seedLibrarySeedDeposit => 'Dépôt de plantes';
 
   @override
   String get seedLibrarySeedLibrary => 'Grainothèque';
 
   @override
+  String get seedLibrarySeedQuantity => 'Quantité de graines :';
+
+  @override
   String get seedLibrarySeedQuantitySimple => 'Quantité de graines';
 
   @override
-  String get seedLibrarySeedQuantity => 'Quantité de graines :';
+  String get seedLibrarySeeds => 'graines';
 
   @override
   String get seedLibraryShowDeadPlants => 'Afficher les plantes mortes';
@@ -3888,10 +4036,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get seedLibraryStock => 'Stock disponible';
 
   @override
-  String get seedLibrarySummer => 'Été';
+  String get seedLibraryStocks => 'Stocks';
 
   @override
-  String get seedLibraryStocks => 'Stocks';
+  String get seedLibrarySummer => 'Été';
 
   @override
   String get seedLibraryTimeUntilMaturation => 'Temps avant maturation :';
@@ -3909,10 +4057,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get seedLibraryUpdatedInformation => 'Informations modifiées';
 
   @override
-  String get seedLibraryUpdatedSpecies => 'Espèce modifiée';
+  String get seedLibraryUpdatedPlant => 'Plante modifiée';
 
   @override
-  String get seedLibraryUpdatedPlant => 'Plante modifiée';
+  String get seedLibraryUpdatedSpecies => 'Espèce modifiée';
 
   @override
   String get seedLibraryUpdatingError => 'Erreur lors de la modification';
@@ -3974,8 +4122,26 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsDeleteLogs => 'Supprimer les logs ?';
 
   @override
+  String get settingsDeleteMyAccount => 'Supprimer mon compte';
+
+  @override
+  String get settingsDeleteMyAccountDescription =>
+      'Cette action notifie l\'administrateur que vous souhaitez supprimer votre compte.';
+
+  @override
+  String get settingsDeleteMyAccountError =>
+      'Erreur lors de la demande de suppression de compte';
+
+  @override
   String get settingsDeleteNotificationLogs =>
       'Supprimer les logs des notifications ?';
+
+  @override
+  String get settingsDeleting => 'Suppresion';
+
+  @override
+  String get settingsDeletionAsked =>
+      'Demande de suppression de compte envoyée';
 
   @override
   String get settingsDetelePersonalData => 'Supprimer mes données personnelles';
@@ -3983,9 +4149,6 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get settingsDetelePersonalDataDesc =>
       'Cette action notifie l\'administrateur que vous souhaitez supprimer vos données personnelles.';
-
-  @override
-  String get settingsDeleting => 'Suppresion';
 
   @override
   String get settingsEdit => 'Modifier';
@@ -4119,6 +4282,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsPhoneNumber => 'Numéro de téléphone';
 
   @override
+  String get settingsProfile => 'Profil';
+
+  @override
   String get settingsProfilePicture => 'Photo de profil';
 
   @override
@@ -4140,6 +4306,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsSettings => 'Paramètres';
 
   @override
+  String get settingsSynncWithCalendar => 'Synchroniser avec votre calendrier';
+
+  @override
   String get settingsTooHeavyProfilePicture =>
       'L\'image est trop lourde (max 4Mo)';
 
@@ -4148,50 +4317,44 @@ class AppLocalizationsFr extends AppLocalizations {
       'Votre version de l\'application est trop récente, contactez un administrateur pour résoudre ce problème';
 
   @override
+  String get settingsUpdateNotification => 'Mettre à jour les notifications';
+
+  @override
   String get settingsUpdatedProfile => 'Profil modifié';
 
   @override
   String get settingsUpdatedProfilePicture => 'Photo de profil modifiée';
 
   @override
-  String get settingsUpdateNotification => 'Mettre à jour les notifications';
-
-  @override
   String get settingsUpdatingError =>
       'Erreur lors de la modification du profil';
-
-  @override
-  String get settingsVersion => 'Version';
 
   @override
   String get settingsValidate => 'Valider';
 
   @override
-  String get settingsSynncWithCalendar => 'Synchroniser avec votre calendrier';
+  String get settingsVersion => 'Version';
 
   @override
-  String get settingsProfile => 'Profil';
+  String get toolDateRequired => 'Date requise';
 
   @override
-  String get settingsDeleteMyAccount => 'Supprimer mon compte';
+  String get toolInvalidNumber => 'Chiffre invalide';
 
   @override
-  String get settingsDeleteMyAccountDescription =>
-      'Cette action notifie l\'administrateur que vous souhaitez supprimer votre compte.';
-
-  @override
-  String get settingsDeletionAsked =>
-      'Demande de suppression de compte envoyée';
-
-  @override
-  String get settingsDeleteMyAccountError =>
-      'Erreur lors de la demande de suppression de compte';
+  String get toolSuccess => 'Succès';
 
   @override
   String get voteAdd => 'Ajouter';
 
   @override
   String get voteAddMember => 'Ajouter un membre';
+
+  @override
+  String get voteAddPretendance => 'Ajouter une liste';
+
+  @override
+  String get voteAddSection => 'Ajouter une section';
 
   @override
   String get voteAddedPretendance => 'Liste ajoutée';
@@ -4203,12 +4366,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get voteAddingError => 'Erreur lors de l\'ajout';
 
   @override
-  String get voteAddPretendance => 'Ajouter une liste';
-
-  @override
-  String get voteAddSection => 'Ajouter une section';
-
-  @override
   String get voteAll => 'Tous';
 
   @override
@@ -4216,6 +4373,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get voteAlreadyVoted => 'Vote enregistré';
+
+  @override
+  String get voteCanNotVote => 'Vous ne pouvez pas voter';
 
   @override
   String get voteChooseList => 'Choisir une liste';
@@ -4227,10 +4387,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get voteClearVotes => 'Réinitialiser les votes';
 
   @override
-  String get voteClosedVote => 'Votes clos';
+  String get voteCloseVote => 'Fermer les votes';
 
   @override
-  String get voteCloseVote => 'Fermer les votes';
+  String get voteClosedVote => 'Votes clos';
 
   @override
   String get voteConfirmVote => 'Confirmer le vote';
@@ -4240,15 +4400,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get voteDelete => 'Supprimer';
-
-  @override
-  String get voteDeletedAll => 'Tout supprimé';
-
-  @override
-  String get voteDeletedPipo => 'Listes pipos supprimées';
-
-  @override
-  String get voteDeletedSection => 'Section supprimée';
 
   @override
   String get voteDeleteAll => 'Supprimer tout';
@@ -4279,6 +4430,15 @@ class AppLocalizationsFr extends AppLocalizations {
       'Voulez-vous vraiment supprimer cette section ?';
 
   @override
+  String get voteDeletedAll => 'Tout supprimé';
+
+  @override
+  String get voteDeletedPipo => 'Listes pipos supprimées';
+
+  @override
+  String get voteDeletedSection => 'Section supprimée';
+
+  @override
   String get voteDeletingError => 'Erreur lors de la suppression';
 
   @override
@@ -4303,11 +4463,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get voteErrorCountingVotes => 'Erreur lors du dépouillement des votes';
 
   @override
-  String get voteErrorResetingVotes =>
-      'Erreur lors de la réinitialisation des votes';
+  String get voteErrorOpeningVotes => 'Erreur lors de l\'ouverture des votes';
 
   @override
-  String get voteErrorOpeningVotes => 'Erreur lors de l\'ouverture des votes';
+  String get voteErrorResetingVotes =>
+      'Erreur lors de la réinitialisation des votes';
 
   @override
   String get voteIncorrectOrMissingFields => 'Champs incorrects ou manquants';
@@ -4323,9 +4483,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get voteNoSection => 'Aucune section';
-
-  @override
-  String get voteCanNotVote => 'Vous ne pouvez pas voter';
 
   @override
   String get voteNoSectionList => 'Aucune section';
@@ -4362,22 +4519,22 @@ class AppLocalizationsFr extends AppLocalizations {
       'Voulez-vous vraiment publier les votes ?';
 
   @override
-  String get voteResetedVotes => 'Votes réinitialisés';
-
-  @override
   String get voteResetVote => 'Réinitialiser les votes';
 
   @override
   String get voteResetVoteDescription => 'Que voulez-vous faire ?';
 
   @override
+  String get voteResetedVotes => 'Votes réinitialisés';
+
+  @override
   String get voteRole => 'Rôle';
 
   @override
-  String get voteSectionDescription => 'Description de la section';
+  String get voteSection => 'Section';
 
   @override
-  String get voteSection => 'Section';
+  String get voteSectionDescription => 'Description de la section';
 
   @override
   String get voteSectionName => 'Nom de la section';
@@ -4404,10 +4561,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get voteVoteNotStarted => 'Vote non ouvert';
 
   @override
-  String get voteVoters => 'Groupes votants';
+  String get voteVoteSuccess => 'Vote enregistré';
 
   @override
-  String get voteVoteSuccess => 'Vote enregistré';
+  String get voteVoters => 'Groupes votants';
 
   @override
   String get voteVotes => 'Voix';
@@ -4427,161 +4584,4 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get voteWarningMessage =>
       'La sélection ne sera pas sauvegardée.\nVoulez-vous continuer ?';
-
-  @override
-  String get moduleAdvert => 'Feed';
-
-  @override
-  String get moduleAdvertDescription => 'Gérer les feeds';
-
-  @override
-  String get moduleAmap => 'AMAP';
-
-  @override
-  String get moduleAmapDescription => 'Gérer les livraisons et les produits';
-
-  @override
-  String get moduleBooking => 'Réservation';
-
-  @override
-  String get moduleBookingDescription =>
-      'Gérer les réservations, les salles et les managers';
-
-  @override
-  String get moduleCalendar => 'Calendrier';
-
-  @override
-  String get moduleCalendarDescription =>
-      'Consulter les événements et les activités';
-
-  @override
-  String get moduleCentralisation => 'Centralisation';
-
-  @override
-  String get moduleCentralisationDescription =>
-      'Gérer la centralisation des données';
-
-  @override
-  String get moduleCinema => 'Cinéma';
-
-  @override
-  String get moduleCinemaDescription => 'Gérer les séances de cinéma';
-
-  @override
-  String get moduleEvent => 'Événement';
-
-  @override
-  String get moduleEventDescription =>
-      'Gérer les événements et les participants';
-
-  @override
-  String get moduleFlappyBird => 'Flappy Bird';
-
-  @override
-  String get moduleFlappyBirdDescription =>
-      'Jouer à Flappy Bird et consulter le classement';
-
-  @override
-  String get moduleLoan => 'Prêt';
-
-  @override
-  String get moduleLoanDescription => 'Gérer les prêts et les articles';
-
-  @override
-  String get modulePhonebook => 'Annuaire';
-
-  @override
-  String get modulePhonebookDescription =>
-      'Gérer les associations, les membres et les administrateurs';
-
-  @override
-  String get modulePurchases => 'Achats';
-
-  @override
-  String get modulePurchasesDescription =>
-      'Gérer les achats, les tickets et l\'historique';
-
-  @override
-  String get moduleRaffle => 'Tombola';
-
-  @override
-  String get moduleRaffleDescription =>
-      'Gérer les tombolas, les prix et les tickets';
-
-  @override
-  String get moduleRecommendation => 'Bons plans';
-
-  @override
-  String get moduleRecommendationDescription =>
-      'Gérer les recommandations, les informations et les administrateurs';
-
-  @override
-  String get moduleSeedLibrary => 'Grainothèque';
-
-  @override
-  String get moduleSeedLibraryDescription =>
-      'Gérer les graines, les espèces et les stocks';
-
-  @override
-  String get moduleVote => 'Vote';
-
-  @override
-  String get moduleVoteDescription =>
-      'Gérer les votes, les sections et les candidats';
-
-  @override
-  String get modulePh => 'PH';
-
-  @override
-  String get modulePhDescription =>
-      'Gérer les PH, les formulaires et les administrateurs';
-
-  @override
-  String get moduleSettings => 'Paramètres';
-
-  @override
-  String get moduleSettingsDescription =>
-      'Gérer les paramètres de l\'application';
-
-  @override
-  String get moduleFeed => 'Events';
-
-  @override
-  String get moduleFeedDescription => 'Consulter les événements';
-
-  @override
-  String get moduleStyleGuide => 'StyleGuide';
-
-  @override
-  String get moduleStyleGuideDescription =>
-      'Explore the UI components and styles used in Titan';
-
-  @override
-  String get moduleAdmin => 'Admin';
-
-  @override
-  String get moduleAdminDescription =>
-      'Gérer les utilisateurs, groupes et structures';
-
-  @override
-  String get moduleOthers => 'Autres';
-
-  @override
-  String get moduleOthersDescription => 'Afficher les autres modules';
-
-  @override
-  String get modulePayment => 'Paiement';
-
-  @override
-  String get modulePaymentDescription =>
-      'Gérer les paiements, les statistiques et les appareils';
-
-  @override
-  String get toolInvalidNumber => 'Chiffre invalide';
-
-  @override
-  String get toolDateRequired => 'Date requise';
-
-  @override
-  String get toolSuccess => 'Succès';
 }
