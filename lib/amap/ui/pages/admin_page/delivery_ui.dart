@@ -48,9 +48,24 @@ class DeliveryUi extends HookConsumerWidget {
       displayToast(context, type, msg);
     }
 
+    final style = TextStyle(
+      fontSize: 18,
+      fontWeight: FontWeight.bold,
+      color: AMAPColorConstants.textDark,
+    );
+
+    final tp = TextPainter(
+      text: TextSpan(text: delivery.name, style: style),
+      textDirection: TextDirection.ltr,
+      maxLines: 3,
+    );
+    final maxTextWidth = 200.0;
+    tp.layout(maxWidth: maxTextWidth);
+    final lines = tp.computeLineMetrics().length;
+
     return CardLayout(
       id: delivery.id,
-      height: 160,
+      height: 155 + 26.0 * (lines),
       width: 280,
       shadowColor: AMAPColorConstants.textDark.withValues(alpha: 0.2),
       padding: const EdgeInsets.all(10),
@@ -69,13 +84,31 @@ class DeliveryUi extends HookConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        '${AppLocalizations.of(context)!.amapThe} ${DateFormat.yMd(locale).format(delivery.deliveryDate)}',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: AMAPColorConstants.textDark,
-                        ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ConstrainedBox(
+                            constraints: BoxConstraints(maxWidth: maxTextWidth),
+                            child: Text(
+                              delivery.name,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: AMAPColorConstants.textDark,
+                              ),
+                              maxLines: 3,
+                            ),
+                          ),
+                          Text(
+                            '${AppLocalizations.of(context)!.amapThe} ${DateFormat.yMd(locale).format(delivery.deliveryDate)}',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: AMAPColorConstants.textDark,
+                            ),
+                          ),
+                        ],
                       ),
                       GestureDetector(
                         onTap: () {

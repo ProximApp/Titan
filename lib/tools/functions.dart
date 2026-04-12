@@ -3,10 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:titan/l10n/app_localizations.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:heroicons/heroicons.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:titan/admin/providers/permissions_list_provider.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/plausible/plausible.dart';
+import 'package:titan/tools/repository/repository.dart';
+import 'package:titan/version/repositories/version_repository.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:toastification/toastification.dart';
+import 'package:titan/user/providers/user_provider.dart';
+import 'package:yaml/yaml.dart';
 
 /// Parses CSV content with automatic separator detection
 /// Supports common separators: comma, semicolon, tab, pipe
@@ -476,20 +487,18 @@ int generateIntFromString(String s) {
   return s.codeUnits.reduce((value, element) => value + 100 * element);
 }
 
-bool isEmailInValid(String email) {
-  final regex = RegExp(previousEmailRegex);
-  return regex.hasMatch(email);
+bool hasUserPermission(Ref ref, String permission) {
+  final me = ref.watch(userProvider);
+  final permissions = ref.watch(mappedPermissionsProvider);
+  return me.groups.any(
+        (g) => permissions[permission]!.authorizedGroupIds.contains(g.id),
+      ) ||
+      permissions[permission]!.authorizedAccountTypes.contains(
+        me.accountType.type,
+      );
 }
 
-bool isStudent(String email) {
-  final regex = RegExp(studentRegex);
-  return regex.hasMatch(email);
-}
-
-bool isNotStaff(String email) {
-  final regex = RegExp(previousStaffEmailRegex);
-  return !regex.hasMatch(email);
-}
+/// getAppFlavor and functions depending on it
 
 String getAppFlavor() {
   if (appFlavor != null) {
@@ -549,6 +558,9 @@ String getTitanURL() {
   if (titanUrl.isEmpty) {
     throw StateError("Could not find TITAN_URL in config.json");
   }
+  if (titanUrl[titanUrl.length - 1] != "/") {
+    throw StateError("TITAN_URL in config.json should end with a /");
+  }
   return titanUrl;
 }
 
@@ -588,3 +600,63 @@ String getAppName() {
 String getTitanLogo() {
   return "assets/images/logo_${getAppFlavor()}.png";
 }
+
+/// Start of functions to choose back-end
+
+bool isVersionCompatible(String currentVersion, String minimalVersion) {
+  final [major, minor, patch] = currentVersion
+      .split('.')
+      .map(int.parse)
+      .toList();
+  final [minimalMajor, minimalMinor, minimalPatch] = minimalVersion
+      .split('.')
+      .map(int.parse)
+      .toList();
+  if (major < minimalMajor ||
+      (major == minimalMajor && minor < minimalMinor) ||
+      (major == minimalMajor &&
+          minor == minimalMinor &&
+          patch < minimalPatch)) {
+    return false;
+  }
+  return true;
+}
+
+Future<String> getMinimalHyperionVersion() async {
+  final String pubspecString = await rootBundle.loadString("pubspec.yaml");
+  final YamlMap pubspec = loadYaml(pubspecString);
+  final String minimalHyperionVersion = pubspec["minimal_hyperion_version"];
+  return minimalHyperionVersion;
+}
+
+Future<String> setHyperionAndGetVersion(String flavor) async {
+  final String? host = getTitanHost();
+  if (host == null || host == "") {
+    throw StateError("Could not retrieve the base URL for the $flavor flavor");
+  }
+  Repository.host = host; // set Titan's back-end
+  final String hyperionVersion = await VersionRepository().getVersion().then(
+    (value) => value.version,
+  );
+  return hyperionVersion;
+}
+
+Future<void> setHyperionHost() async {
+  final String flavor = getAppFlavor();
+  final String minimalHyperionVersion = await getMinimalHyperionVersion();
+
+  try {
+    if (!isVersionCompatible(
+      await setHyperionAndGetVersion(flavor),
+      minimalHyperionVersion,
+    )) {
+      if (flavor != "alpha") {
+        await setHyperionAndGetVersion("alpha");
+      }
+    }
+  } catch (_) {
+    return;
+  }
+}
+
+/// End of functions to choose back-end and functions depending on getAppFlavor
