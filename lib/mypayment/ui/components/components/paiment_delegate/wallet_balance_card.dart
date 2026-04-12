@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:titan/l10n/app_localizations.dart';
-import 'package:titan/paiement/providers/my_wallet_provider.dart';
+import 'package:titan/mypayment/providers/my_wallet_provider.dart';
 import 'package:titan/tools/ui/styleguide/list_item_template.dart';
 
 const _teal = Color(0xff017f80);
