@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:titan/amap/class/delivery.dart';
 import 'package:titan/amap/providers/delivery_id_provider.dart';
 import 'package:titan/amap/providers/delivery_list_provider.dart';
@@ -101,7 +101,7 @@ class DeliveryUi extends HookConsumerWidget {
                             ),
                           ),
                           Text(
-                            '${AppLocalizations.of(context)!.amapThe} ${DateFormat.yMd(locale).format(delivery.deliveryDate)}',
+                            '${AppLocalizations.of(context)!.amapThe} ${intl.DateFormat.yMd(locale).format(delivery.deliveryDate)}',
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,

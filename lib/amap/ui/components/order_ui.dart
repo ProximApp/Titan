@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:titan/amap/class/order.dart';
 import 'package:titan/amap/providers/user_amount_provider.dart';
 import 'package:titan/amap/providers/user_order_list_provider.dart';
@@ -87,7 +87,7 @@ class OrderUI extends HookConsumerWidget {
                     ),
                   ),
                   Text(
-                    '${AppLocalizations.of(context)!.amapThe} ${DateFormat.yMd(locale).format(order.deliveryDate)}',
+                    '${AppLocalizations.of(context)!.amapThe} ${intl.DateFormat.yMd(locale).format(order.deliveryDate)}',
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

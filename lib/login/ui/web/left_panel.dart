@@ -3,8 +3,6 @@ import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/tools/constants.dart';
-import 'package:titan/login/providers/animation_provider.dart';
-import 'package:titan/login/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/providers/path_forwarding_provider.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
@@ -83,7 +81,6 @@ class LeftPanel extends HookConsumerWidget {
                       .watch(authTokenProvider)
                       .when(
                         data: (token) {
-                          controller?.reverse();
                           QR.to(pathForwarding.path);
                         },
                         error: (e, s) {
@@ -93,9 +90,7 @@ class LeftPanel extends HookConsumerWidget {
                             AppLocalizations.of(context)!.loginLoginFailed,
                           );
                         },
-                        loading: () {
-                          controller?.forward();
-                        },
+                        loading: () {},
                       );
                 },
                 builder: (child) => Container(
