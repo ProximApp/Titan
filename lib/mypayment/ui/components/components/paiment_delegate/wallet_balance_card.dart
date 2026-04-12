@@ -54,7 +54,7 @@ class WalletBalanceCard extends ConsumerWidget {
             height: 20,
             child: CircularProgressIndicator(strokeWidth: 2),
           ),
-          error: (_, __) => const Text(
+          error: (_, _) => const Text(
             '—',
             style: TextStyle(
               fontSize: 18,

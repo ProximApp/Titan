@@ -113,9 +113,9 @@ class ConfirmButton extends HookWidget {
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
-                                      Colors.white.withOpacity(0.0),
-                                      Colors.white.withOpacity(0.2),
-                                      Colors.white.withOpacity(0.0),
+                                      Colors.white.withValues(alpha: 0.0),
+                                      Colors.white.withValues(alpha: 0.2),
+                                      Colors.white.withValues(alpha: 0.0),
                                     ],
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
