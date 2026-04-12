@@ -66,7 +66,7 @@ class AddEditDeliveryPage extends HookConsumerWidget {
                     ),
                     const SizedBox(height: 20),
                     TextEntry(
-                      label: AMAPTextConstants.name,
+                      label: AppLocalizations.of(context)!.amapCommandName,
                       controller: nameController,
                       color: AMAPColorConstants.greenGradient2,
                       enabledColor: AMAPColorConstants.enabled,

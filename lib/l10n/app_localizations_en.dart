@@ -861,6 +861,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get amapCommandDate => 'Order date';
 
   @override
+  String get amapCommandName => 'Order name';
+
+  @override
   String get amapCommandProducts => 'Order products';
 
   @override
@@ -2168,7 +2171,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your app version is too old.\n\nPlease update the app.';
 
   @override
-  String get othersUnableToConnectToServer => 'Unable to connect to the server';
+  String othersUnableToConnectToServer(String url) {
+    return 'Unable to connect to the server: $url';
+  }
 
   @override
   String get othersVersion => 'Version';
@@ -3908,7 +3913,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Do you really want to change your password?';
 
   @override
+  String get settingsChooseLanguage => 'Choose a language';
+
+  @override
   String get settingsConfirmPassword => 'Confirm password';
+
+  @override
+  String get settingsConnexion => 'Connection';
 
   @override
   String get settingsCopied => 'Copied!';
@@ -3942,6 +3953,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsEditAccount => 'Edit account';
 
   @override
+  String get settingsEditedAccount => 'Account edited';
+
+  @override
   String get settingsEmail => 'Email';
 
   @override
@@ -3954,10 +3968,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsErrorSendingDemand => 'Error sending request';
 
   @override
+  String get settingsEvent => 'Event';
+
+  @override
   String get settingsEventsIcal => 'Ical link for events';
 
   @override
   String get settingsExpectingDate => 'Expected birth date';
+
+  @override
+  String get settingsFailedToEditAccount => 'Failed to edit account';
 
   @override
   String get settingsFirstname => 'First name';
@@ -3969,7 +3989,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsHelp => 'Help';
 
   @override
+  String get settingsHyperionVersion => 'Hyperion version';
+
+  @override
+  String get settingsIcal => 'Ical link';
+
+  @override
   String get settingsIcalCopied => 'Ical link copied!';
+
+  @override
+  String get settingsIcalLinkCopied => 'Ical link copied';
 
   @override
   String get settingsLanguage => 'Language';
@@ -3978,7 +4007,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsLanguageVar => 'English 🇬🇧';
 
   @override
+  String get settingsLogOut => 'Log out';
+
+  @override
+  String get settingsLogOutDescription => 'Do you really want to log out?';
+
+  @override
+  String get settingsLogOutSuccess => 'Logged out successfully';
+
+  @override
   String get settingsLogs => 'Logs';
+
+  @override
+  String get settingsMinimalHyperionVersion => 'Minimal Hyperion version';
 
   @override
   String get settingsModules => 'Modules';
@@ -3994,6 +4035,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsNickname => 'Nickname';
+
+  @override
+  String settingsNotificationCounter(int active, int total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      active,
+      locale: localeName,
+      other: 'notifications',
+      one: 'notification',
+      zero: 'notification',
+    );
+    return '$active/$total active $_temp0';
+  }
 
   @override
   String get settingsNotifications => 'Notifications';
@@ -4015,6 +4068,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsPhone => 'Phone';
+
+  @override
+  String get settingsPhoneNumber => 'Phone number';
 
   @override
   String get settingsProfilePicture => 'Profile picture';
@@ -4041,6 +4097,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsTooHeavyProfilePicture => 'Image is too large (max 4MB)';
 
   @override
+  String get settingsTooRecentVersion =>
+      'Your version of the app is too recent, please contact the administrator to fix this issue';
+
+  @override
   String get settingsUpdatedProfile => 'Profile updated';
 
   @override
@@ -4056,76 +4116,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsVersion => 'Version';
 
   @override
-  String get settingsPasswordStrength => 'Password strength';
-
-  @override
-  String get settingsPasswordStrengthVeryWeak => 'Very weak';
-
-  @override
-  String get settingsPasswordStrengthWeak => 'Weak';
-
-  @override
-  String get settingsPasswordStrengthMedium => 'Medium';
-
-  @override
-  String get settingsPasswordStrengthStrong => 'Strong';
-
-  @override
-  String get settingsPasswordStrengthVeryStrong => 'Very strong';
-
-  @override
-  String get settingsPhoneNumber => 'Phone number';
-
-  @override
   String get settingsValidate => 'Confirm';
-
-  @override
-  String get settingsEditedAccount => 'Account edited';
-
-  @override
-  String get settingsFailedToEditAccount => 'Failed to edit account';
-
-  @override
-  String get settingsChooseLanguage => 'Choose a language';
-
-  @override
-  String settingsNotificationCounter(int active, int total) {
-    String _temp0 = intl.Intl.pluralLogic(
-      active,
-      locale: localeName,
-      other: 'notifications',
-      one: 'notification',
-      zero: 'notification',
-    );
-    return '$active/$total active $_temp0';
-  }
-
-  @override
-  String get settingsEvent => 'Event';
-
-  @override
-  String get settingsIcal => 'Ical link';
 
   @override
   String get settingsSynncWithCalendar => 'Sync with calendar';
 
   @override
-  String get settingsIcalLinkCopied => 'Ical link copied';
-
-  @override
   String get settingsProfile => 'Profile';
-
-  @override
-  String get settingsConnexion => 'Connection';
-
-  @override
-  String get settingsLogOut => 'Log out';
-
-  @override
-  String get settingsLogOutDescription => 'Do you really want to log out?';
-
-  @override
-  String get settingsLogOutSuccess => 'Logged out successfully';
 
   @override
   String get settingsDeleteMyAccount => 'Delete my account';

@@ -16,6 +16,7 @@ class StructureInvoicesPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final controller = useScrollController();
     final page = useState(1);
     final pageSize = useState(20);
 
@@ -36,6 +37,7 @@ class StructureInvoicesPage extends HookConsumerWidget {
 
     return PaymentTemplate(
       child: Refresher(
+        controller: controller,
         onRefresh: () async {
           refreshInvoices();
         },
@@ -56,8 +58,8 @@ class StructureInvoicesPage extends HookConsumerWidget {
                                 page.value--;
                                 refreshInvoices();
                               },
-                        color: Colors.white,
-                        disabledColor: ColorConstants.deactivated1,
+                        color: ColorConstants.onTertiary,
+                        disabledColor: ColorConstants.background,
                       ),
                       DropdownButton<int>(
                         items: [10, 20, 50, 100]
@@ -84,8 +86,8 @@ class StructureInvoicesPage extends HookConsumerWidget {
                                 page.value++;
                                 refreshInvoices();
                               },
-                        color: Colors.white,
-                        disabledColor: ColorConstants.deactivated1,
+                        color: ColorConstants.onTertiary,
+                        disabledColor: ColorConstants.background,
                       ),
                     ],
                   ),

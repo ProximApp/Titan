@@ -9,6 +9,7 @@ import 'package:titan/mypayment/class/structure.dart';
 import 'package:titan/mypayment/providers/bank_account_holder_provider.dart';
 import 'package:titan/mypayment/providers/structure_list_provider.dart';
 import 'package:titan/tools/constants.dart';
+import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 import 'package:titan/tools/ui/styleguide/button.dart';

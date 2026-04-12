@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/admin/providers/is_admin_provider.dart';
-import 'package:titan/admin/providers/permissions_list_provider.dart';
+import 'package:titan/super_admin/providers/permissions_list_provider.dart';
 import 'package:titan/admin/router.dart';
 import 'package:titan/advert/router.dart';
 import 'package:titan/amap/router.dart';

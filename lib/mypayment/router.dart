@@ -98,7 +98,7 @@ class PaymentRouter {
       ),
       QRoute(
         path: PaymentRouter.structureStores,
-        builder: () => structure_admin_page.StructureStoresPage(),
+        builder: () => structure_admin_page.StructureStorePage(),
         middleware: [
           DeferredLoadingMiddleware(structure_admin_page.loadLibrary),
           AdminMiddleware(ref, isStructureAdminProvider),

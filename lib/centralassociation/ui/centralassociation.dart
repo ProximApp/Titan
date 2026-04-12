@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:titan/tools/ui/widgets/top_bar.dart';
-import 'package:titan/centralassociation/tools/constants.dart';
 import 'package:titan/centralassociation/router.dart';
 
 class CentralassociationTemplate extends StatelessWidget {
@@ -16,10 +15,7 @@ class CentralassociationTemplate extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const TopBar(
-                title: CentralassociationTextConstants.centralassociation,
-                root: CentralassociationRouter.root,
-              ),
+              const TopBar(root: CentralassociationRouter.root),
               Expanded(child: child),
             ],
           ),

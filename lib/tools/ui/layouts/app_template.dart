@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/navigation/ui/navigation_template.dart';
-import 'package:titan/drawer/ui/drawer_template.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/version/providers/minimal_hyperion_version_provider.dart';
 import 'package:titan/version/providers/titan_version_provider.dart';

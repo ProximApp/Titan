@@ -871,6 +871,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get amapCommandDate => 'Date de la commande';
 
   @override
+  String get amapCommandName => 'Nom de la commande';
+
+  @override
   String get amapCommandProducts => 'Produits de la commande';
 
   @override
@@ -2182,8 +2185,9 @@ class AppLocalizationsFr extends AppLocalizations {
       'Votre version de l\'application est trop ancienne.\n\nVeuillez mettre à jour l\'application.';
 
   @override
-  String get othersUnableToConnectToServer =>
-      'Impossible de se connecter au serveur';
+  String othersUnableToConnectToServer(String url) {
+    return 'Impossible de se connecter au serveur : $url';
+  }
 
   @override
   String get othersVersion => 'Version';
@@ -3949,7 +3953,13 @@ class AppLocalizationsFr extends AppLocalizations {
       'Voulez-vous vraiment changer votre mot de passe ?';
 
   @override
+  String get settingsChooseLanguage => 'Choix de la langue';
+
+  @override
   String get settingsConfirmPassword => 'Confirmer le mot de passe';
+
+  @override
+  String get settingsConnexion => 'Connexion';
 
   @override
   String get settingsCopied => 'Copié !';
@@ -3984,6 +3994,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsEditAccount => 'Modifier mon profil';
 
   @override
+  String get settingsEditedAccount => 'Compte modifié avec succès';
+
+  @override
   String get settingsEmail => 'Email';
 
   @override
@@ -3998,10 +4011,17 @@ class AppLocalizationsFr extends AppLocalizations {
       'Erreur lors de l\'envoi de la demande';
 
   @override
+  String get settingsEvent => 'Événement';
+
+  @override
   String get settingsEventsIcal => 'Lien Ical des événements';
 
   @override
   String get settingsExpectingDate => 'Date de naissance attendue';
+
+  @override
+  String get settingsFailedToEditAccount =>
+      'Échec de la modification du compte';
 
   @override
   String get settingsFirstname => 'Prénom';
@@ -4013,7 +4033,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsHelp => 'Aide';
 
   @override
+  String get settingsHyperionVersion => 'Version d\'Hyperion';
+
+  @override
+  String get settingsIcal => 'Lien Ical';
+
+  @override
   String get settingsIcalCopied => 'Lien Ical copié !';
+
+  @override
+  String get settingsIcalLinkCopied => 'Lien Ical copié dans le presse-papier';
 
   @override
   String get settingsLanguage => 'Langue';
@@ -4022,7 +4051,20 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsLanguageVar => 'Français 🇫🇷';
 
   @override
+  String get settingsLogOut => 'Se déconnecter';
+
+  @override
+  String get settingsLogOutDescription =>
+      'Êtes-vous sûr de vouloir vous déconnecter ?';
+
+  @override
+  String get settingsLogOutSuccess => 'Déconnexion réussie';
+
+  @override
   String get settingsLogs => 'Logs';
+
+  @override
+  String get settingsMinimalHyperionVersion => 'Version minimale d\'Hyperion';
 
   @override
   String get settingsModules => 'Modules';
@@ -4038,6 +4080,18 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get settingsNickname => 'Surnom';
+
+  @override
+  String settingsNotificationCounter(int active, int total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      active,
+      locale: localeName,
+      other: 'activées',
+      one: 'activée',
+      zero: 'activée',
+    );
+    return '$active/$total $_temp0';
+  }
 
   @override
   String get settingsNotifications => 'Notifications';
@@ -4060,6 +4114,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get settingsPhone => 'Téléphone';
+
+  @override
+  String get settingsPhoneNumber => 'Numéro de téléphone';
 
   @override
   String get settingsProfilePicture => 'Photo de profil';
@@ -4087,6 +4144,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'L\'image est trop lourde (max 4Mo)';
 
   @override
+  String get settingsTooRecentVersion =>
+      'Votre version de l\'application est trop récente, contactez un administrateur pour résoudre ce problème';
+
+  @override
   String get settingsUpdatedProfile => 'Profil modifié';
 
   @override
@@ -4103,78 +4164,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsVersion => 'Version';
 
   @override
-  String get settingsPasswordStrength => 'Force du mot de passe';
-
-  @override
-  String get settingsPasswordStrengthVeryWeak => 'Très faible';
-
-  @override
-  String get settingsPasswordStrengthWeak => 'Faible';
-
-  @override
-  String get settingsPasswordStrengthMedium => 'Moyen';
-
-  @override
-  String get settingsPasswordStrengthStrong => 'Fort';
-
-  @override
-  String get settingsPasswordStrengthVeryStrong => 'Très fort';
-
-  @override
-  String get settingsPhoneNumber => 'Numéro de téléphone';
-
-  @override
   String get settingsValidate => 'Valider';
-
-  @override
-  String get settingsEditedAccount => 'Compte modifié avec succès';
-
-  @override
-  String get settingsFailedToEditAccount =>
-      'Échec de la modification du compte';
-
-  @override
-  String get settingsChooseLanguage => 'Choix de la langue';
-
-  @override
-  String settingsNotificationCounter(int active, int total) {
-    String _temp0 = intl.Intl.pluralLogic(
-      active,
-      locale: localeName,
-      other: 'activées',
-      one: 'activée',
-      zero: 'activée',
-    );
-    return '$active/$total $_temp0';
-  }
-
-  @override
-  String get settingsEvent => 'Événement';
-
-  @override
-  String get settingsIcal => 'Lien Ical';
 
   @override
   String get settingsSynncWithCalendar => 'Synchroniser avec votre calendrier';
 
   @override
-  String get settingsIcalLinkCopied => 'Lien Ical copié dans le presse-papier';
-
-  @override
   String get settingsProfile => 'Profil';
-
-  @override
-  String get settingsConnexion => 'Connexion';
-
-  @override
-  String get settingsLogOut => 'Se déconnecter';
-
-  @override
-  String get settingsLogOutDescription =>
-      'Êtes-vous sûr de vouloir vous déconnecter ?';
-
-  @override
-  String get settingsLogOutSuccess => 'Déconnexion réussie';
 
   @override
   String get settingsDeleteMyAccount => 'Supprimer mon compte';

@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-<<<<<<<< HEAD:lib/paiement/ui/pages/structure_admin_page/admin_store_card.dart
 import 'package:titan/l10n/app_localizations.dart';
-import 'package:titan/paiement/class/store.dart';
-import 'package:titan/paiement/providers/store_provider.dart';
-import 'package:titan/paiement/providers/stores_list_provider.dart';
-import 'package:titan/paiement/router.dart';
-========
 import 'package:titan/mypayment/class/store.dart';
 import 'package:titan/mypayment/providers/store_provider.dart';
 import 'package:titan/mypayment/providers/stores_list_provider.dart';
 import 'package:titan/mypayment/router.dart';
->>>>>>>> main:lib/mypayment/ui/pages/structure_admin_page/admin_store_card.dart
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';

@@ -1,30 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-<<<<<<<< HEAD:lib/paiement/ui/pages/structure_admin_page/structure_admin_page.dart
 import 'package:titan/l10n/app_localizations.dart';
-import 'package:titan/paiement/providers/selected_structure_provider.dart';
-import 'package:titan/paiement/providers/stores_list_provider.dart';
-import 'package:titan/paiement/ui/pages/structure_admin_page/add_store_card.dart';
-import 'package:titan/paiement/ui/pages/structure_admin_page/admin_store_card.dart';
-import 'package:titan/paiement/ui/paiement.dart';
-========
 import 'package:titan/mypayment/providers/selected_structure_provider.dart';
 import 'package:titan/mypayment/providers/stores_list_provider.dart';
 import 'package:titan/mypayment/ui/pages/structure_admin_page/add_store_card.dart';
 import 'package:titan/mypayment/ui/pages/structure_admin_page/admin_store_card.dart';
 import 'package:titan/mypayment/ui/mypayment.dart';
->>>>>>>> main:lib/mypayment/ui/pages/structure_admin_page/structure_admin_page.dart
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 
-<<<<<<<< HEAD:lib/paiement/ui/pages/structure_admin_page/structure_admin_page.dart
-class StructureStoresPage extends ConsumerWidget {
-  const StructureStoresPage({super.key});
-========
-class StructureAdminPage extends ConsumerWidget {
-  const StructureAdminPage({super.key});
->>>>>>>> main:lib/mypayment/ui/pages/structure_admin_page/structure_admin_page.dart
+class StructureStorePage extends ConsumerWidget {
+  const StructureStorePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

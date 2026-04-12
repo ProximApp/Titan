@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/admin/class/account_type.dart';
-import 'package:titan/admin/class/permissions.dart';
+import 'package:titan/super_admin/class/permissions.dart';
 import 'package:titan/admin/class/simple_group.dart';
-import 'package:titan/admin/providers/permissions_list_provider.dart';
-import 'package:titan/admin/tools/constants.dart';
-import 'package:titan/admin/tools/function.dart';
-import 'package:titan/admin/ui/pages/permissions/permission_row.dart';
+import 'package:titan/super_admin/providers/permissions_list_provider.dart';
+import 'package:titan/admin/tools/functions.dart';
+import 'package:titan/super_admin/ui/pages/permissions/permission_row.dart';
+import 'package:titan/super_admin/class/account_type.dart';
 
 class PermissionsExpansionPanel extends HookConsumerWidget {
   const PermissionsExpansionPanel({

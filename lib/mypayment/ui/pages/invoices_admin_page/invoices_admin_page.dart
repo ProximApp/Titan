@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/admin/providers/structure_provider.dart';
+import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/mypayment/providers/invoice_list_provider.dart';
 import 'package:titan/mypayment/providers/structure_list_provider.dart';
 import 'package:titan/mypayment/ui/pages/invoices_admin_page/invoice_card.dart';
@@ -13,10 +14,11 @@ import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/token_expire_wrapper.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
-import 'package:titan/tools/ui/layouts/bottom_modal_template.dart';
-import 'package:titan/tools/ui/layouts/button.dart';
-import 'package:titan/tools/ui/layouts/item_chip.dart';
 import 'package:titan/tools/ui/layouts/refresher.dart';
+import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
+import 'package:titan/tools/ui/styleguide/button.dart';
+import 'package:titan/tools/ui/styleguide/item_chip.dart';
+import 'package:titan/tools/ui/styleguide/list_item_template.dart';
 import 'package:tuple/tuple.dart';
 
 class InvoicesAdminPage extends HookConsumerWidget {
@@ -24,12 +26,15 @@ class InvoicesAdminPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final controller = useScrollController();
     final page = useState(1);
     final pageSize = useState(20);
     final invoices = ref.watch(invoiceListProvider);
     final structures = ref.watch(structureListProvider);
     final structureNotifier = ref.watch(structureProvider.notifier);
     final invoicesNotifier = ref.read(invoiceListProvider.notifier);
+
+    final localizeWithContext = AppLocalizations.of(context)!;
 
     void refreshInvoices() {
       tokenExpireWrapper(
@@ -50,6 +55,7 @@ class InvoicesAdminPage extends HookConsumerWidget {
         onRefresh: () async {
           refreshInvoices();
         },
+        controller: controller,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Async2Children(
@@ -67,15 +73,19 @@ class InvoicesAdminPage extends HookConsumerWidget {
                                 page.value--;
                                 refreshInvoices();
                               },
-                        color: Colors.white,
-                        disabledColor: ColorConstants.deactivated1,
+                        color: ColorConstants.onTertiary,
+                        disabledColor: ColorConstants.background,
                       ),
                       DropdownButton<int>(
                         items: [10, 20, 50, 100]
                             .map(
                               (size) => DropdownMenuItem<int>(
                                 value: size,
-                                child: Text("$size par page"),
+                                child: Text(
+                                  localizeWithContext.paiementInvoicesPerPage(
+                                    size,
+                                  ),
+                                ),
                               ),
                             )
                             .toList(),
@@ -95,24 +105,25 @@ class InvoicesAdminPage extends HookConsumerWidget {
                                 page.value++;
                                 refreshInvoices();
                               },
-                        color: Colors.white,
-                        disabledColor: ColorConstants.deactivated1,
+                        color: ColorConstants.onTertiary,
+                        disabledColor: ColorConstants.background,
                       ),
                     ],
                   ),
                   const SizedBox(height: 10),
-                  Button.secondary(
-                    onPressed: () => showCustomBottomModal(
+                  ListItemTemplate(
+                    title: localizeWithContext.paiementCreateInvoice,
+                    onTap: () => showCustomBottomModal(
                       context: context,
                       modal: Consumer(
                         builder: (context, ref, _) {
                           final structure = ref.watch(structureProvider);
                           return BottomModalTemplate(
-                            title: "Créer une nouvelle facture",
+                            title: localizeWithContext.paiementCreateInvoice,
                             child: Column(
                               children: [
                                 Text(
-                                  "Sélectionnez une structure",
+                                  localizeWithContext.paiementSelectStructure,
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -128,7 +139,7 @@ class InvoicesAdminPage extends HookConsumerWidget {
                                       children: structures
                                           .map(
                                             (e) => ItemChip(
-                                              vertical: true,
+                                              scrollDirection: Axis.vertical,
                                               onTap: () => structureNotifier
                                                   .setStructure(e),
                                               selected: structure.id == e.id,
@@ -148,6 +159,7 @@ class InvoicesAdminPage extends HookConsumerWidget {
                                   ),
                                 ),
                                 Button(
+                                  text: localizeWithContext.paiementCreate,
                                   onPressed: () async {
                                     if (structure.id == "") return;
                                     Navigator.pop(context);
@@ -157,26 +169,31 @@ class InvoicesAdminPage extends HookConsumerWidget {
                                       if (value) {
                                         displayToastWithContext(
                                           TypeMsg.msg,
-                                          "Facture créée avec succès",
+                                          localizeWithContext
+                                              .paiementInvoiceCreatedSuccessfully,
                                         );
                                         refreshInvoices();
                                       } else {
                                         displayToastWithContext(
                                           TypeMsg.error,
-                                          "Aucune facture à générer pour cette structure",
+                                          localizeWithContext
+                                              .paiementNoInvoiceToCreate,
                                         );
                                       }
                                     });
                                   },
-                                  text: "Créer la facture",
                                 ),
                               ],
                             ),
                           );
                         },
                       ),
+                      ref: ref,
                     ),
-                    text: "Créer une nouvelle facture",
+                    trailing: HeroIcon(
+                      HeroIcons.plus,
+                      color: ColorConstants.onTertiary,
+                    ),
                   ),
                   const SizedBox(height: 10),
                   ...invoices.map(

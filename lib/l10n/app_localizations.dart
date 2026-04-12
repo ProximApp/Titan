@@ -1724,6 +1724,12 @@ abstract class AppLocalizations {
   /// **'Date de la commande'**
   String get amapCommandDate;
 
+  /// No description provided for @amapCommandName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nom de la commande'**
+  String get amapCommandName;
+
   /// No description provided for @amapCommandProducts.
   ///
   /// In fr, this message translates to:
@@ -4298,11 +4304,11 @@ abstract class AppLocalizations {
   /// **'Votre version de l\'application est trop ancienne.\n\nVeuillez mettre à jour l\'application.'**
   String get othersTooOldVersion;
 
-  /// No description provided for @othersUnableToConnectToServer.
+  /// Message when the app can't connect to the server with the url of the server
   ///
   /// In fr, this message translates to:
-  /// **'Impossible de se connecter au serveur'**
-  String get othersUnableToConnectToServer;
+  /// **'Impossible de se connecter au serveur : {url}'**
+  String othersUnableToConnectToServer(String url);
 
   /// No description provided for @othersVersion.
   ///
@@ -7610,11 +7616,23 @@ abstract class AppLocalizations {
   /// **'Voulez-vous vraiment changer votre mot de passe ?'**
   String get settingsChangingPassword;
 
+  /// No description provided for @settingsChooseLanguage.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choix de la langue'**
+  String get settingsChooseLanguage;
+
   /// No description provided for @settingsConfirmPassword.
   ///
   /// In fr, this message translates to:
   /// **'Confirmer le mot de passe'**
   String get settingsConfirmPassword;
+
+  /// No description provided for @settingsConnexion.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connexion'**
+  String get settingsConnexion;
 
   /// No description provided for @settingsCopied.
   ///
@@ -7676,6 +7694,12 @@ abstract class AppLocalizations {
   /// **'Modifier mon profil'**
   String get settingsEditAccount;
 
+  /// No description provided for @settingsEditedAccount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Compte modifié avec succès'**
+  String get settingsEditedAccount;
+
   /// No description provided for @settingsEmail.
   ///
   /// In fr, this message translates to:
@@ -7700,6 +7724,12 @@ abstract class AppLocalizations {
   /// **'Erreur lors de l\'envoi de la demande'**
   String get settingsErrorSendingDemand;
 
+  /// No description provided for @settingsEvent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Événement'**
+  String get settingsEvent;
+
   /// No description provided for @settingsEventsIcal.
   ///
   /// In fr, this message translates to:
@@ -7711,6 +7741,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Date de naissance attendue'**
   String get settingsExpectingDate;
+
+  /// No description provided for @settingsFailedToEditAccount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Échec de la modification du compte'**
+  String get settingsFailedToEditAccount;
 
   /// No description provided for @settingsFirstname.
   ///
@@ -7730,11 +7766,29 @@ abstract class AppLocalizations {
   /// **'Aide'**
   String get settingsHelp;
 
+  /// No description provided for @settingsHyperionVersion.
+  ///
+  /// In fr, this message translates to:
+  /// **'Version d\'Hyperion'**
+  String get settingsHyperionVersion;
+
+  /// No description provided for @settingsIcal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lien Ical'**
+  String get settingsIcal;
+
   /// No description provided for @settingsIcalCopied.
   ///
   /// In fr, this message translates to:
   /// **'Lien Ical copié !'**
   String get settingsIcalCopied;
+
+  /// No description provided for @settingsIcalLinkCopied.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lien Ical copié dans le presse-papier'**
+  String get settingsIcalLinkCopied;
 
   /// No description provided for @settingsLanguage.
   ///
@@ -7748,11 +7802,35 @@ abstract class AppLocalizations {
   /// **'Français 🇫🇷'**
   String get settingsLanguageVar;
 
+  /// No description provided for @settingsLogOut.
+  ///
+  /// In fr, this message translates to:
+  /// **'Se déconnecter'**
+  String get settingsLogOut;
+
+  /// No description provided for @settingsLogOutDescription.
+  ///
+  /// In fr, this message translates to:
+  /// **'Êtes-vous sûr de vouloir vous déconnecter ?'**
+  String get settingsLogOutDescription;
+
+  /// No description provided for @settingsLogOutSuccess.
+  ///
+  /// In fr, this message translates to:
+  /// **'Déconnexion réussie'**
+  String get settingsLogOutSuccess;
+
   /// No description provided for @settingsLogs.
   ///
   /// In fr, this message translates to:
   /// **'Logs'**
   String get settingsLogs;
+
+  /// No description provided for @settingsMinimalHyperionVersion.
+  ///
+  /// In fr, this message translates to:
+  /// **'Version minimale d\'Hyperion'**
+  String get settingsMinimalHyperionVersion;
 
   /// No description provided for @settingsModules.
   ///
@@ -7783,6 +7861,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Surnom'**
   String get settingsNickname;
+
+  /// Affiche le nombre de notifications actives sur le total des notifications disponibles, avec gestion du pluriel
+  ///
+  /// In fr, this message translates to:
+  /// **'{active}/{total} {active, plural, zero {activée} one {activée} other {activées}}'**
+  String settingsNotificationCounter(int active, int total);
 
   /// No description provided for @settingsNotifications.
   ///
@@ -7825,6 +7909,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Téléphone'**
   String get settingsPhone;
+
+  /// No description provided for @settingsPhoneNumber.
+  ///
+  /// In fr, this message translates to:
+  /// **'Numéro de téléphone'**
+  String get settingsPhoneNumber;
 
   /// No description provided for @settingsProfilePicture.
   ///
@@ -7874,6 +7964,12 @@ abstract class AppLocalizations {
   /// **'L\'image est trop lourde (max 4Mo)'**
   String get settingsTooHeavyProfilePicture;
 
+  /// No description provided for @settingsTooRecentVersion.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre version de l\'application est trop récente, contactez un administrateur pour résoudre ce problème'**
+  String get settingsTooRecentVersion;
+
   /// No description provided for @settingsUpdatedProfile.
   ///
   /// In fr, this message translates to:
@@ -7904,89 +8000,11 @@ abstract class AppLocalizations {
   /// **'Version'**
   String get settingsVersion;
 
-  /// No description provided for @settingsPasswordStrength.
-  ///
-  /// In fr, this message translates to:
-  /// **'Force du mot de passe'**
-  String get settingsPasswordStrength;
-
-  /// No description provided for @settingsPasswordStrengthVeryWeak.
-  ///
-  /// In fr, this message translates to:
-  /// **'Très faible'**
-  String get settingsPasswordStrengthVeryWeak;
-
-  /// No description provided for @settingsPasswordStrengthWeak.
-  ///
-  /// In fr, this message translates to:
-  /// **'Faible'**
-  String get settingsPasswordStrengthWeak;
-
-  /// No description provided for @settingsPasswordStrengthMedium.
-  ///
-  /// In fr, this message translates to:
-  /// **'Moyen'**
-  String get settingsPasswordStrengthMedium;
-
-  /// No description provided for @settingsPasswordStrengthStrong.
-  ///
-  /// In fr, this message translates to:
-  /// **'Fort'**
-  String get settingsPasswordStrengthStrong;
-
-  /// No description provided for @settingsPasswordStrengthVeryStrong.
-  ///
-  /// In fr, this message translates to:
-  /// **'Très fort'**
-  String get settingsPasswordStrengthVeryStrong;
-
-  /// No description provided for @settingsPhoneNumber.
-  ///
-  /// In fr, this message translates to:
-  /// **'Numéro de téléphone'**
-  String get settingsPhoneNumber;
-
   /// No description provided for @settingsValidate.
   ///
   /// In fr, this message translates to:
   /// **'Valider'**
   String get settingsValidate;
-
-  /// No description provided for @settingsEditedAccount.
-  ///
-  /// In fr, this message translates to:
-  /// **'Compte modifié avec succès'**
-  String get settingsEditedAccount;
-
-  /// No description provided for @settingsFailedToEditAccount.
-  ///
-  /// In fr, this message translates to:
-  /// **'Échec de la modification du compte'**
-  String get settingsFailedToEditAccount;
-
-  /// No description provided for @settingsChooseLanguage.
-  ///
-  /// In fr, this message translates to:
-  /// **'Choix de la langue'**
-  String get settingsChooseLanguage;
-
-  /// Affiche le nombre de notifications actives sur le total des notifications disponibles, avec gestion du pluriel
-  ///
-  /// In fr, this message translates to:
-  /// **'{active}/{total} {active, plural, zero {activée} one {activée} other {activées}}'**
-  String settingsNotificationCounter(int active, int total);
-
-  /// No description provided for @settingsEvent.
-  ///
-  /// In fr, this message translates to:
-  /// **'Événement'**
-  String get settingsEvent;
-
-  /// No description provided for @settingsIcal.
-  ///
-  /// In fr, this message translates to:
-  /// **'Lien Ical'**
-  String get settingsIcal;
 
   /// No description provided for @settingsSynncWithCalendar.
   ///
@@ -7994,41 +8012,11 @@ abstract class AppLocalizations {
   /// **'Synchroniser avec votre calendrier'**
   String get settingsSynncWithCalendar;
 
-  /// No description provided for @settingsIcalLinkCopied.
-  ///
-  /// In fr, this message translates to:
-  /// **'Lien Ical copié dans le presse-papier'**
-  String get settingsIcalLinkCopied;
-
   /// No description provided for @settingsProfile.
   ///
   /// In fr, this message translates to:
   /// **'Profil'**
   String get settingsProfile;
-
-  /// No description provided for @settingsConnexion.
-  ///
-  /// In fr, this message translates to:
-  /// **'Connexion'**
-  String get settingsConnexion;
-
-  /// No description provided for @settingsLogOut.
-  ///
-  /// In fr, this message translates to:
-  /// **'Se déconnecter'**
-  String get settingsLogOut;
-
-  /// No description provided for @settingsLogOutDescription.
-  ///
-  /// In fr, this message translates to:
-  /// **'Êtes-vous sûr de vouloir vous déconnecter ?'**
-  String get settingsLogOutDescription;
-
-  /// No description provided for @settingsLogOutSuccess.
-  ///
-  /// In fr, this message translates to:
-  /// **'Déconnexion réussie'**
-  String get settingsLogOutSuccess;
 
   /// No description provided for @settingsDeleteMyAccount.
   ///

@@ -1,4 +1,4 @@
-import 'package:titan/admin/class/permissions.dart';
+import 'package:titan/super_admin/class/permissions.dart';
 import 'package:titan/tools/repository/repository.dart';
 
 class PermissionRepository extends Repository {

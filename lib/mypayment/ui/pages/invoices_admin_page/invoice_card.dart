@@ -4,15 +4,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/mypayment/class/invoice.dart';
 import 'package:titan/mypayment/providers/invoice_list_provider.dart';
 import 'package:titan/mypayment/providers/invoice_pdf_provider.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/ui/layouts/bottom_modal_template.dart';
-import 'package:titan/tools/ui/layouts/button.dart';
-import 'package:titan/tools/ui/layouts/card_layout.dart';
-import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
+import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
+import 'package:titan/tools/ui/styleguide/button.dart';
+import 'package:titan/tools/ui/styleguide/confirm_modal.dart';
+import 'package:titan/tools/ui/styleguide/list_item_template.dart';
 
 class InvoiceCard extends HookConsumerWidget {
   final Invoice invoice;
@@ -23,6 +24,7 @@ class InvoiceCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final localizeWithContext = AppLocalizations.of(context)!;
     final invoicesNotifier = ref.read(invoiceListProvider.notifier);
     final invoicePdf = ref.watch(invoicePdfProvider(invoice.id).future);
 
@@ -32,7 +34,9 @@ class InvoiceCard extends HookConsumerWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
-      child: GestureDetector(
+      child: ListItemTemplate(
+        title: invoice.reference,
+        subtitle: invoice.structure.name,
         onTap: () => showCustomBottomModal(
           context: context,
           modal: BottomModalTemplate(
@@ -40,6 +44,7 @@ class InvoiceCard extends HookConsumerWidget {
             child: Column(
               children: [
                 Button(
+                  text: localizeWithContext.paiementDownload,
                   onPressed: () async {
                     late final Uint8List pdfBytes;
                     try {
@@ -64,77 +69,80 @@ class InvoiceCard extends HookConsumerWidget {
                     if (path != null) {
                       displayToastWithContext(
                         TypeMsg.msg,
-                        "Téléchargement réussi",
+                        localizeWithContext.phSuccesDowloading,
                       );
                     }
                   },
-                  text: "Télécharger la facture (PDF)",
                 ),
                 if (!invoice.received && isAdmin) ...[
                   const SizedBox(height: 10),
                   Button(
+                    text: invoice.paid
+                        ? localizeWithContext.paiementMarkUnpaid
+                        : localizeWithContext.paiementMarkPaid,
                     onPressed: () async {
                       final value = await invoicesNotifier
                           .updateInvoicePaidStatus(invoice, !invoice.paid);
                       if (value) {
                         displayToastWithContext(
                           TypeMsg.msg,
-                          "Statut mis à jour avec succès",
+                          localizeWithContext.paiementModifySuccessfully,
                         );
                       } else {
                         displayToastWithContext(
                           TypeMsg.error,
-                          "Erreur lors de la mise à jour du statut",
+                          localizeWithContext.paiementErrorUpdatingStatus,
                         );
                       }
                     },
-                    text: invoice.paid
-                        ? "Marquer comme impayée"
-                        : "Marquer comme payée",
                   ),
                 ],
                 if (!isAdmin && invoice.paid && !invoice.received) ...[
                   const SizedBox(height: 10),
                   Button(
+                    text: localizeWithContext.paiementMarkReceived,
                     onPressed: () async {
                       Navigator.of(context).pop();
-                      showDialog(
+                      showCustomBottomModal(
                         context: context,
-                        builder: (context) => CustomDialogBox(
-                          title: "Marquer comme reçue",
-                          descriptions:
-                              "Confirmez-vous avoir bien reçu le paiement ?",
+                        ref: ref,
+                        modal: ConfirmModal.danger(
+                          title: localizeWithContext.paiementDeleteInvoice,
+                          description:
+                              localizeWithContext.globalIrreversibleAction,
                           onYes: () async {
                             final value = await invoicesNotifier
                                 .updateInvoiceReceivedStatus(invoice, true);
                             if (value) {
                               displayToastWithContext(
                                 TypeMsg.msg,
-                                "Statut mis à jour avec succès",
+                                localizeWithContext.paiementModifySuccessfully,
                               );
                             } else {
                               displayToastWithContext(
                                 TypeMsg.error,
-                                "Erreur lors de la mise à jour du statut",
+                                localizeWithContext.paiementErrorUpdatingStatus,
                               );
                             }
                           },
                         ),
                       );
                     },
-                    text: "Marquer comme reçue",
                   ),
                 ],
                 if (!invoice.paid && isAdmin) ...[
                   const SizedBox(height: 10),
                   Button(
+                    text: localizeWithContext.paiementDeleteInvoice,
                     onPressed: () async {
                       Navigator.of(context).pop();
-                      showDialog(
+                      showCustomBottomModal(
                         context: context,
-                        builder: (context) => CustomDialogBox(
-                          title: "Supprimer la facture",
-                          descriptions: "Cette action est irréversible",
+                        ref: ref,
+                        modal: ConfirmModal.danger(
+                          title: localizeWithContext.paiementDeleteInvoice,
+                          description:
+                              localizeWithContext.globalIrreversibleAction,
                           onYes: () async {
                             final value = await invoicesNotifier.deleteInvoice(
                               invoice,
@@ -142,94 +150,70 @@ class InvoiceCard extends HookConsumerWidget {
                             if (value) {
                               displayToastWithContext(
                                 TypeMsg.msg,
-                                "Facture supprimée avec succès",
+                                localizeWithContext.paiementDeleteSuccessfully,
                               );
                             } else {
                               displayToastWithContext(
                                 TypeMsg.error,
-                                "Erreur lors de la suppression de la facture",
+                                localizeWithContext.paiementErrorDeleting,
                               );
                             }
                           },
                         ),
                       );
                     },
-                    text: "Supprimer la facture",
                   ),
                 ],
               ],
             ),
           ),
+          ref: ref,
         ),
-        child: CardLayout(
-          margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-          shadowColor: Colors.grey.withValues(alpha: 0.2),
+        trailing: Expanded(
+          flex: kIsWeb ? 2 : 1,
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              if (kIsWeb)
+                Column(
                   children: [
                     Text(
-                      invoice.reference,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      invoice.structure.name,
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                flex: kIsWeb ? 2 : 1,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    if (kIsWeb)
-                      Column(
-                        children: [
-                          Text(
-                            '${(invoice.total / 100).toStringAsFixed(2)} €',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: ColorConstants.background2,
-                            ),
-                          ),
-                          AutoSizeText(
-                            "Du ${processDate(invoice.startDate)} au ${processDate(invoice.endDate)}",
-                            maxLines: 2,
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ],
-                      ),
-                    Text(
-                      invoice.received
-                          ? "Reçue"
-                          : invoice.paid
-                          ? "Payée"
-                          : "En attente",
+                      '${(invoice.total / 100).toStringAsFixed(2)} €',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        color: invoice.received
-                            ? Colors.green
-                            : invoice.paid
-                            ? Colors.blue
-                            : Colors.orange,
+                        color: ColorConstants.tertiary,
                       ),
                     ),
-                    const HeroIcon(
-                      HeroIcons.chevronRight,
-                      color: ColorConstants.background2,
+                    AutoSizeText(
+                      localizeWithContext.paiementFromTo(
+                        invoice.startDate,
+                        invoice.endDate,
+                      ),
+                      maxLines: 2,
+                      style: TextStyle(fontSize: 12),
                     ),
                   ],
                 ),
+              Text(
+                invoice.received
+                    ? localizeWithContext.paiementReceived
+                    : invoice.paid
+                    ? localizeWithContext.paiementPaid
+                    : localizeWithContext.paiementPending,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: invoice.received
+                      ? Colors.green
+                      : invoice.paid
+                      ? Colors.blue
+                      : Colors.orange,
+                ),
+              ),
+              const HeroIcon(
+                HeroIcons.chevronRight,
+                color: ColorConstants.tertiary,
               ),
             ],
           ),
