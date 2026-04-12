@@ -98,6 +98,18 @@ abstract class AppLocalizations {
     Locale('fr'),
   ];
 
+  /// No description provided for @moduleCentralassociation.
+  ///
+  /// In fr, this message translates to:
+  /// **'Centralassociation'**
+  String get moduleCentralassociation;
+
+  /// No description provided for @moduleCentralassociationDescription.
+  ///
+  /// In fr, this message translates to:
+  /// **'Agrégateur des liens des associations'**
+  String get moduleCentralassociationDescription;
+
   /// No description provided for @adminAccountTypes.
   ///
   /// In fr, this message translates to:
@@ -115,36 +127,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Ajouter une association'**
   String get adminAddAssociation;
-
-  /// No description provided for @adminAddGroup.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter un groupe'**
-  String get adminAddGroup;
-
-  /// No description provided for @adminAddLoaningGroup.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter un groupe de prêt'**
-  String get adminAddLoaningGroup;
-
-  /// No description provided for @adminAddMember.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter un membre'**
-  String get adminAddMember;
-
-  /// No description provided for @adminAddSchool.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter une école'**
-  String get adminAddSchool;
-
-  /// No description provided for @adminAddStructure.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter une structure'**
-  String get adminAddStructure;
 
   /// No description provided for @adminAddedGroup.
   ///
@@ -176,6 +158,12 @@ abstract class AppLocalizations {
   /// **'Structure ajoutée'**
   String get adminAddedStructure;
 
+  /// No description provided for @adminAddGroup.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un groupe'**
+  String get adminAddGroup;
+
   /// No description provided for @adminAddingError.
   ///
   /// In fr, this message translates to:
@@ -187,6 +175,30 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Ajout d\'un membre'**
   String get adminAddingMember;
+
+  /// No description provided for @adminAddLoaningGroup.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un groupe de prêt'**
+  String get adminAddLoaningGroup;
+
+  /// No description provided for @adminAddMember.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un membre'**
+  String get adminAddMember;
+
+  /// No description provided for @adminAddSchool.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter une école'**
+  String get adminAddSchool;
+
+  /// No description provided for @adminAddStructure.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter une structure'**
+  String get adminAddStructure;
 
   /// No description provided for @adminAdmin.
   ///
@@ -236,18 +248,6 @@ abstract class AppLocalizations {
   /// **'Nom de l\'association'**
   String get adminAssociationName;
 
-  /// No description provided for @adminAssociationUpdateError.
-  ///
-  /// In fr, this message translates to:
-  /// **'Échec de la mise à jour de l\'association'**
-  String get adminAssociationUpdateError;
-
-  /// No description provided for @adminAssociationUpdated.
-  ///
-  /// In fr, this message translates to:
-  /// **'Association mise à jour'**
-  String get adminAssociationUpdated;
-
   /// No description provided for @adminAssociations.
   ///
   /// In fr, this message translates to:
@@ -259,6 +259,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Adhésions'**
   String get adminAssociationsMemberships;
+
+  /// No description provided for @adminAssociationUpdated.
+  ///
+  /// In fr, this message translates to:
+  /// **'Association mise à jour'**
+  String get adminAssociationUpdated;
+
+  /// No description provided for @adminAssociationUpdateError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Échec de la mise à jour de l\'association'**
+  String get adminAssociationUpdateError;
 
   /// Displays the bank account holder's name
   ///
@@ -386,6 +398,24 @@ abstract class AppLocalizations {
   /// **'Supprimer l\'adhésion ?'**
   String get adminDeleteAssociationMembership;
 
+  /// No description provided for @adminDeletedAssociationMembership.
+  ///
+  /// In fr, this message translates to:
+  /// **'Adhésion supprimée'**
+  String get adminDeletedAssociationMembership;
+
+  /// No description provided for @adminDeletedGroup.
+  ///
+  /// In fr, this message translates to:
+  /// **'Groupe supprimé'**
+  String get adminDeletedGroup;
+
+  /// No description provided for @adminDeletedSchool.
+  ///
+  /// In fr, this message translates to:
+  /// **'École supprimée'**
+  String get adminDeletedSchool;
+
   /// No description provided for @adminDeleteGroup.
   ///
   /// In fr, this message translates to:
@@ -409,24 +439,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Supprimer des utilisateurs'**
   String get adminDeleteUsers;
-
-  /// No description provided for @adminDeletedAssociationMembership.
-  ///
-  /// In fr, this message translates to:
-  /// **'Adhésion supprimée'**
-  String get adminDeletedAssociationMembership;
-
-  /// No description provided for @adminDeletedGroup.
-  ///
-  /// In fr, this message translates to:
-  /// **'Groupe supprimé'**
-  String get adminDeletedGroup;
-
-  /// No description provided for @adminDeletedSchool.
-  ///
-  /// In fr, this message translates to:
-  /// **'École supprimée'**
-  String get adminDeletedSchool;
 
   /// No description provided for @adminDeleting.
   ///
@@ -458,6 +470,12 @@ abstract class AppLocalizations {
   /// **'Modifier l\'association : {associationName}'**
   String adminEditAssociation(String associationName);
 
+  /// No description provided for @adminEditedStructure.
+  ///
+  /// In fr, this message translates to:
+  /// **'Structure modifiée'**
+  String get adminEditedStructure;
+
   /// No description provided for @adminEditGroup.
   ///
   /// In fr, this message translates to:
@@ -475,12 +493,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Modifier la structure'**
   String get adminEditStructure;
-
-  /// No description provided for @adminEditedStructure.
-  ///
-  /// In fr, this message translates to:
-  /// **'Structure modifiée'**
-  String get adminEditedStructure;
 
   /// No description provided for @adminEmailFailed.
   ///
@@ -620,6 +632,12 @@ abstract class AppLocalizations {
   /// **'Inviter'**
   String get adminInvite;
 
+  /// No description provided for @adminInvitedUsers.
+  ///
+  /// In fr, this message translates to:
+  /// **'Utilisateurs invités'**
+  String get adminInvitedUsers;
+
   /// No description provided for @adminInviteUsers.
   ///
   /// In fr, this message translates to:
@@ -631,12 +649,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'{count, plural, zero {Aucun utilisateur} one {{count} utilisateur} other {{count} utilisateurs}} dans le fichier CSV'**
   String adminInviteUsersCounter(int count);
-
-  /// No description provided for @adminInvitedUsers.
-  ///
-  /// In fr, this message translates to:
-  /// **'Utilisateurs invités'**
-  String get adminInvitedUsers;
 
   /// No description provided for @adminLoaningGroup.
   ///
@@ -668,18 +680,6 @@ abstract class AppLocalizations {
   /// **'Gérer les structures du module de paiement'**
   String get adminManagePaiementStructures;
 
-  /// No description provided for @adminManageUserGroups.
-  ///
-  /// In fr, this message translates to:
-  /// **'Gérer les groupes d\'utilisateurs'**
-  String get adminManageUserGroups;
-
-  /// No description provided for @adminManageUsersAssociationMemberships.
-  ///
-  /// In fr, this message translates to:
-  /// **'Gérer les adhésions des utilisateurs'**
-  String get adminManageUsersAssociationMemberships;
-
   /// No description provided for @adminManager.
   ///
   /// In fr, this message translates to:
@@ -691,6 +691,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Groupe gestionnaire : {groupName}'**
   String adminManagerGroup(String groupName);
+
+  /// No description provided for @adminManageUserGroups.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gérer les groupes d\'utilisateurs'**
+  String get adminManageUserGroups;
+
+  /// No description provided for @adminManageUsersAssociationMemberships.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gérer les adhésions des utilisateurs'**
+  String get adminManageUsersAssociationMemberships;
 
   /// No description provided for @adminMaximum.
   ///
@@ -710,17 +722,17 @@ abstract class AppLocalizations {
   /// **'Erreur lors de l\'ajout (surement dû à une superposition de dates)'**
   String get adminMembershipAddingError;
 
-  /// No description provided for @adminMembershipUpdatingError.
-  ///
-  /// In fr, this message translates to:
-  /// **'Erreur lors de la modification (surement dû à une superposition de dates)'**
-  String get adminMembershipUpdatingError;
-
   /// No description provided for @adminMemberships.
   ///
   /// In fr, this message translates to:
   /// **'Adhésions'**
   String get adminMemberships;
+
+  /// No description provided for @adminMembershipUpdatingError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreur lors de la modification (surement dû à une superposition de dates)'**
+  String get adminMembershipUpdatingError;
 
   /// No description provided for @adminMinimum.
   ///
@@ -728,11 +740,11 @@ abstract class AppLocalizations {
   /// **'Minimum'**
   String get adminMinimum;
 
-  /// No description provided for @adminModifyModuleVisibility.
+  /// No description provided for @adminModifyPermissions.
   ///
   /// In fr, this message translates to:
-  /// **'Visibilité des modules'**
-  String get adminModifyModuleVisibility;
+  /// **'Modifier les permissions'**
+  String get adminModifyPermissions;
 
   /// No description provided for @adminName.
   ///
@@ -1184,17 +1196,17 @@ abstract class AppLocalizations {
   /// **'Aucun annonceur n\'est disponible'**
   String get advertNoMoreAnnouncer;
 
-  /// No description provided for @advertNoValue.
-  ///
-  /// In fr, this message translates to:
-  /// **'Veuillez entrer une valeur'**
-  String get advertNoValue;
-
   /// No description provided for @advertNotification.
   ///
   /// In fr, this message translates to:
   /// **'Envoyer une notification'**
   String get advertNotification;
+
+  /// No description provided for @advertNoValue.
+  ///
+  /// In fr, this message translates to:
+  /// **'Veuillez entrer une valeur'**
+  String get advertNoValue;
 
   /// No description provided for @advertPositiveNumber.
   ///
@@ -1250,24 +1262,6 @@ abstract class AppLocalizations {
   /// **'Ajouter une livraison'**
   String get amapAddDelivery;
 
-  /// No description provided for @amapAddOrder.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter une commande'**
-  String get amapAddOrder;
-
-  /// No description provided for @amapAddProduct.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter un produit'**
-  String get amapAddProduct;
-
-  /// No description provided for @amapAddUser.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter un utilisateur'**
-  String get amapAddUser;
-
   /// No description provided for @amapAddedCommand.
   ///
   /// In fr, this message translates to:
@@ -1315,6 +1309,24 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Ajouter un produit'**
   String get amapAddingProduct;
+
+  /// No description provided for @amapAddOrder.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter une commande'**
+  String get amapAddOrder;
+
+  /// No description provided for @amapAddProduct.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un produit'**
+  String get amapAddProduct;
+
+  /// No description provided for @amapAddUser.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un utilisateur'**
+  String get amapAddUser;
 
   /// No description provided for @amapAdmin.
   ///
@@ -1412,6 +1424,12 @@ abstract class AppLocalizations {
   /// **'Supprimer'**
   String get amapDelete;
 
+  /// No description provided for @amapDeletedDelivery.
+  ///
+  /// In fr, this message translates to:
+  /// **'Livraison supprimée'**
+  String get amapDeletedDelivery;
+
   /// No description provided for @amapDeleteDelivery.
   ///
   /// In fr, this message translates to:
@@ -1424,24 +1442,6 @@ abstract class AppLocalizations {
   /// **'Voulez-vous vraiment supprimer cette livraison ?'**
   String get amapDeleteDeliveryDescription;
 
-  /// No description provided for @amapDeleteProduct.
-  ///
-  /// In fr, this message translates to:
-  /// **'Supprimer le produit ?'**
-  String get amapDeleteProduct;
-
-  /// No description provided for @amapDeleteProductDescription.
-  ///
-  /// In fr, this message translates to:
-  /// **'Voulez-vous vraiment supprimer ce produit ?'**
-  String get amapDeleteProductDescription;
-
-  /// No description provided for @amapDeletedDelivery.
-  ///
-  /// In fr, this message translates to:
-  /// **'Livraison supprimée'**
-  String get amapDeletedDelivery;
-
   /// No description provided for @amapDeletedOrder.
   ///
   /// In fr, this message translates to:
@@ -1453,6 +1453,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Produit supprimé'**
   String get amapDeletedProduct;
+
+  /// No description provided for @amapDeleteProduct.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer le produit ?'**
+  String get amapDeleteProduct;
+
+  /// No description provided for @amapDeleteProductDescription.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voulez-vous vraiment supprimer ce produit ?'**
+  String get amapDeleteProductDescription;
 
   /// No description provided for @amapDeleting.
   ///
@@ -1586,12 +1598,6 @@ abstract class AppLocalizations {
   /// **'Modifier la livraison'**
   String get amapEditDelivery;
 
-  /// No description provided for @amapEditProduct.
-  ///
-  /// In fr, this message translates to:
-  /// **'Modifier le produit'**
-  String get amapEditProduct;
-
   /// No description provided for @amapEditedCommand.
   ///
   /// In fr, this message translates to:
@@ -1603,6 +1609,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Erreur lors de la modification'**
   String get amapEditingError;
+
+  /// No description provided for @amapEditProduct.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier le produit'**
+  String get amapEditProduct;
 
   /// No description provided for @amapEndingDelivery.
   ///
@@ -1651,6 +1663,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Gérer les comptes'**
   String get amapHandlingAccount;
+
+  /// No description provided for @amapIncorrectlyFilledForm.
+  ///
+  /// In fr, this message translates to:
+  /// **'Formulaire incorrectement rempli'**
+  String get amapIncorrectlyFilledForm;
 
   /// No description provided for @amapLoading.
   ///
@@ -1964,18 +1982,6 @@ abstract class AppLocalizations {
   /// **'Demande'**
   String get bookingAddBookingPage;
 
-  /// No description provided for @bookingAddManager.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter un gestionnaire'**
-  String get bookingAddManager;
-
-  /// No description provided for @bookingAddRoom.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter une salle'**
-  String get bookingAddRoom;
-
   /// No description provided for @bookingAddedBooking.
   ///
   /// In fr, this message translates to:
@@ -1999,6 +2005,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Erreur lors de l\'ajout'**
   String get bookingAddingError;
+
+  /// No description provided for @bookingAddManager.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un gestionnaire'**
+  String get bookingAddManager;
+
+  /// No description provided for @bookingAddRoom.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter une salle'**
+  String get bookingAddRoom;
 
   /// No description provided for @bookingAdminPage.
   ///
@@ -2066,17 +2084,17 @@ abstract class AppLocalizations {
   /// **'Confirmer'**
   String get bookingConfirm;
 
-  /// No description provided for @bookingConfirmBooking.
-  ///
-  /// In fr, this message translates to:
-  /// **'Confirmer la réservation ?'**
-  String get bookingConfirmBooking;
-
   /// No description provided for @bookingConfirmation.
   ///
   /// In fr, this message translates to:
   /// **'Confirmation'**
   String get bookingConfirmation;
+
+  /// No description provided for @bookingConfirmBooking.
+  ///
+  /// In fr, this message translates to:
+  /// **'Confirmer la réservation ?'**
+  String get bookingConfirmBooking;
 
   /// No description provided for @bookingConfirmed.
   ///
@@ -2126,18 +2144,6 @@ abstract class AppLocalizations {
   /// **'Êtes-vous sûr de vouloir supprimer cette réservation ?'**
   String get bookingDeleteBookingConfirmation;
 
-  /// No description provided for @bookingDeleteManagerConfirmation.
-  ///
-  /// In fr, this message translates to:
-  /// **'Êtes-vous sûr de vouloir supprimer ce gestionnaire ?\n\nLe gestionnaire ne doit être associé à aucune salle pour pouvoir être supprimé'**
-  String get bookingDeleteManagerConfirmation;
-
-  /// No description provided for @bookingDeleteRoomConfirmation.
-  ///
-  /// In fr, this message translates to:
-  /// **'Êtes-vous sûr de vouloir supprimer cette salle ?\n\nLa salle ne doit avoir aucune réservation en cours ou à venir pour être supprimée'**
-  String get bookingDeleteRoomConfirmation;
-
   /// No description provided for @bookingDeletedBooking.
   ///
   /// In fr, this message translates to:
@@ -2155,6 +2161,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Salle supprimée'**
   String get bookingDeletedRoom;
+
+  /// No description provided for @bookingDeleteManagerConfirmation.
+  ///
+  /// In fr, this message translates to:
+  /// **'Êtes-vous sûr de vouloir supprimer ce gestionnaire ?\n\nLe gestionnaire ne doit être associé à aucune salle pour pouvoir être supprimé'**
+  String get bookingDeleteManagerConfirmation;
+
+  /// No description provided for @bookingDeleteRoomConfirmation.
+  ///
+  /// In fr, this message translates to:
+  /// **'Êtes-vous sûr de vouloir supprimer cette salle ?\n\nLa salle ne doit avoir aucune réservation en cours ou à venir pour être supprimée'**
+  String get bookingDeleteRoomConfirmation;
 
   /// No description provided for @bookingDeleting.
   ///
@@ -2192,18 +2210,6 @@ abstract class AppLocalizations {
   /// **'Modifier une réservation'**
   String get bookingEditBooking;
 
-  /// No description provided for @bookingEditManager.
-  ///
-  /// In fr, this message translates to:
-  /// **'Modifier ou supprimer un gestionnaire'**
-  String get bookingEditManager;
-
-  /// No description provided for @bookingEditRoom.
-  ///
-  /// In fr, this message translates to:
-  /// **'Modifier ou supprimer une salle'**
-  String get bookingEditRoom;
-
   /// No description provided for @bookingEditedBooking.
   ///
   /// In fr, this message translates to:
@@ -2227,6 +2233,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Erreur lors de la modification'**
   String get bookingEditionError;
+
+  /// No description provided for @bookingEditManager.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier ou supprimer un gestionnaire'**
+  String get bookingEditManager;
+
+  /// No description provided for @bookingEditRoom.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier ou supprimer une salle'**
+  String get bookingEditRoom;
 
   /// No description provided for @bookingEndDate.
   ///
@@ -2558,12 +2576,6 @@ abstract class AppLocalizations {
   /// **'Ajouter'**
   String get cinemaAdd;
 
-  /// No description provided for @cinemaAddSession.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter une séance'**
-  String get cinemaAddSession;
-
   /// No description provided for @cinemaAddedSession.
   ///
   /// In fr, this message translates to:
@@ -2575,6 +2587,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Erreur lors de l\'ajout'**
   String get cinemaAddingError;
+
+  /// No description provided for @cinemaAddSession.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter une séance'**
+  String get cinemaAddSession;
 
   /// No description provided for @cinemaCinema.
   ///
@@ -2606,12 +2624,6 @@ abstract class AppLocalizations {
   /// **'Modifier'**
   String get cinemaEdit;
 
-  /// No description provided for @cinemaEditSession.
-  ///
-  /// In fr, this message translates to:
-  /// **'Modifier la séance'**
-  String get cinemaEditSession;
-
   /// No description provided for @cinemaEditedSession.
   ///
   /// In fr, this message translates to:
@@ -2623,6 +2635,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Erreur lors de la modification'**
   String get cinemaEditingError;
+
+  /// No description provided for @cinemaEditSession.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier la séance'**
+  String get cinemaEditSession;
 
   /// No description provided for @cinemaEmptyUrl.
   ///
@@ -2822,17 +2840,17 @@ abstract class AppLocalizations {
   /// **'https://apps.apple.com/fr/app/myecl/id6444443430'**
   String get drawerIosAppLink;
 
-  /// No description provided for @drawerLogOut.
-  ///
-  /// In fr, this message translates to:
-  /// **'Déconnexion'**
-  String get drawerLogOut;
-
   /// No description provided for @drawerLoginOut.
   ///
   /// In fr, this message translates to:
   /// **'Voulez-vous vous déconnecter ?'**
   String get drawerLoginOut;
+
+  /// No description provided for @drawerLogOut.
+  ///
+  /// In fr, this message translates to:
+  /// **'Déconnexion'**
+  String get drawerLogOut;
 
   /// No description provided for @drawerOr.
   ///
@@ -2900,17 +2918,17 @@ abstract class AppLocalizations {
   /// **'Ajouter'**
   String get eventAdd;
 
-  /// No description provided for @eventAddEvent.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter un événement'**
-  String get eventAddEvent;
-
   /// No description provided for @eventAddedEvent.
   ///
   /// In fr, this message translates to:
   /// **'Événement ajouté'**
   String get eventAddedEvent;
+
+  /// No description provided for @eventAddEvent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un événement'**
+  String get eventAddEvent;
 
   /// No description provided for @eventAddingError.
   ///
@@ -2930,12 +2948,6 @@ abstract class AppLocalizations {
   /// **'Confirmer'**
   String get eventConfirm;
 
-  /// No description provided for @eventConfirmEvent.
-  ///
-  /// In fr, this message translates to:
-  /// **'Confirmer l\'événement ?'**
-  String get eventConfirmEvent;
-
   /// No description provided for @eventConfirmation.
   ///
   /// In fr, this message translates to:
@@ -2947,6 +2959,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Confirmé'**
   String get eventConfirmed;
+
+  /// No description provided for @eventConfirmEvent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Confirmer l\'événement ?'**
+  String get eventConfirmEvent;
 
   /// No description provided for @eventDates.
   ///
@@ -3002,17 +3020,17 @@ abstract class AppLocalizations {
   /// **'Refuser'**
   String get eventDecline;
 
-  /// No description provided for @eventDeclineEvent.
-  ///
-  /// In fr, this message translates to:
-  /// **'Refuser l\'événement ?'**
-  String get eventDeclineEvent;
-
   /// No description provided for @eventDeclined.
   ///
   /// In fr, this message translates to:
   /// **'Refusé'**
   String get eventDeclined;
+
+  /// No description provided for @eventDeclineEvent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Refuser l\'événement ?'**
+  String get eventDeclineEvent;
 
   /// No description provided for @eventDelete.
   ///
@@ -3062,17 +3080,17 @@ abstract class AppLocalizations {
   /// **'Modifier'**
   String get eventEdit;
 
-  /// No description provided for @eventEditEvent.
-  ///
-  /// In fr, this message translates to:
-  /// **'Modifier un événement'**
-  String get eventEditEvent;
-
   /// No description provided for @eventEditedEvent.
   ///
   /// In fr, this message translates to:
   /// **'Événement modifié'**
   String get eventEditedEvent;
+
+  /// No description provided for @eventEditEvent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier un événement'**
+  String get eventEditEvent;
 
   /// No description provided for @eventEditingError.
   ///
@@ -3680,18 +3698,6 @@ abstract class AppLocalizations {
   /// **'Ajouter'**
   String get loanAdd;
 
-  /// No description provided for @loanAddLoan.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter un prêt'**
-  String get loanAddLoan;
-
-  /// No description provided for @loanAddObject.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter un objet'**
-  String get loanAddObject;
-
   /// No description provided for @loanAddedLoan.
   ///
   /// In fr, this message translates to:
@@ -3715,6 +3721,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Erreur lors de l\'ajout'**
   String get loanAddingError;
+
+  /// No description provided for @loanAddLoan.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un prêt'**
+  String get loanAddLoan;
+
+  /// No description provided for @loanAddObject.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un objet'**
+  String get loanAddObject;
 
   /// No description provided for @loanAdmin.
   ///
@@ -3872,6 +3890,12 @@ abstract class AppLocalizations {
   /// **'Modifier'**
   String get loanEdit;
 
+  /// No description provided for @loanEditedRoom.
+  ///
+  /// In fr, this message translates to:
+  /// **'Salle modifiée'**
+  String get loanEditedRoom;
+
   /// No description provided for @loanEditItem.
   ///
   /// In fr, this message translates to:
@@ -3883,12 +3907,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Modifier le prêt'**
   String get loanEditLoan;
-
-  /// No description provided for @loanEditedRoom.
-  ///
-  /// In fr, this message translates to:
-  /// **'Salle modifiée'**
-  String get loanEditedRoom;
 
   /// No description provided for @loanEndDate.
   ///
@@ -3956,17 +3974,17 @@ abstract class AppLocalizations {
   /// **'Gestion des objets'**
   String get loanItemHandling;
 
-  /// No description provided for @loanItemSelected.
-  ///
-  /// In fr, this message translates to:
-  /// **'objet sélectionné'**
-  String get loanItemSelected;
-
   /// No description provided for @loanItems.
   ///
   /// In fr, this message translates to:
   /// **'Objets'**
   String get loanItems;
+
+  /// No description provided for @loanItemSelected.
+  ///
+  /// In fr, this message translates to:
+  /// **'objet sélectionné'**
+  String get loanItemSelected;
 
   /// No description provided for @loanItemsSelected.
   ///
@@ -4034,17 +4052,17 @@ abstract class AppLocalizations {
   /// **'Aucun emprunteur'**
   String get loanNoBorrower;
 
-  /// No description provided for @loanNoItemSelected.
-  ///
-  /// In fr, this message translates to:
-  /// **'Aucun objet sélectionné'**
-  String get loanNoItemSelected;
-
   /// No description provided for @loanNoItems.
   ///
   /// In fr, this message translates to:
   /// **'Aucun objet'**
   String get loanNoItems;
+
+  /// No description provided for @loanNoItemSelected.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun objet sélectionné'**
+  String get loanNoItemSelected;
 
   /// No description provided for @loanNoLoan.
   ///
@@ -4052,29 +4070,29 @@ abstract class AppLocalizations {
   /// **'Aucun prêt'**
   String get loanNoLoan;
 
-  /// No description provided for @loanNoReturnedDate.
-  ///
-  /// In fr, this message translates to:
-  /// **'Pas de date de retour'**
-  String get loanNoReturnedDate;
-
-  /// No description provided for @loanNoValue.
-  ///
-  /// In fr, this message translates to:
-  /// **'Veuillez entrer une valeur'**
-  String get loanNoValue;
-
   /// No description provided for @loanNone.
   ///
   /// In fr, this message translates to:
   /// **'Aucun'**
   String get loanNone;
 
+  /// No description provided for @loanNoReturnedDate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pas de date de retour'**
+  String get loanNoReturnedDate;
+
   /// No description provided for @loanNote.
   ///
   /// In fr, this message translates to:
   /// **'Note'**
   String get loanNote;
+
+  /// No description provided for @loanNoValue.
+  ///
+  /// In fr, this message translates to:
+  /// **'Veuillez entrer une valeur'**
+  String get loanNoValue;
 
   /// No description provided for @loanOnGoing.
   ///
@@ -4118,18 +4136,6 @@ abstract class AppLocalizations {
   /// **'Quantité'**
   String get loanQuantity;
 
-  /// No description provided for @loanReturnLoan.
-  ///
-  /// In fr, this message translates to:
-  /// **'Rendre le prêt ?'**
-  String get loanReturnLoan;
-
-  /// No description provided for @loanReturnLoanDescription.
-  ///
-  /// In fr, this message translates to:
-  /// **'Voulez-vous rendre ce prêt ?'**
-  String get loanReturnLoanDescription;
-
   /// No description provided for @loanReturned.
   ///
   /// In fr, this message translates to:
@@ -4153,6 +4159,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Retour'**
   String get loanReturningLoan;
+
+  /// No description provided for @loanReturnLoan.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rendre le prêt ?'**
+  String get loanReturnLoan;
+
+  /// No description provided for @loanReturnLoanDescription.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voulez-vous rendre ce prêt ?'**
+  String get loanReturnLoanDescription;
 
   /// No description provided for @loanToReturn.
   ///
@@ -4628,12 +4646,6 @@ abstract class AppLocalizations {
   /// **'Version'**
   String get othersVersion;
 
-  /// No description provided for @paiementAStore.
-  ///
-  /// In fr, this message translates to:
-  /// **'un magasin'**
-  String get paiementAStore;
-
   /// No description provided for @paiementAccept.
   ///
   /// In fr, this message translates to:
@@ -4651,24 +4663,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Ajouter'**
   String get paiementAdd;
-
-  /// No description provided for @paiementAddSeller.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter un vendeur'**
-  String get paiementAddSeller;
-
-  /// No description provided for @paiementAddStore.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter un magasin'**
-  String get paiementAddStore;
-
-  /// No description provided for @paiementAddThisDevice.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter cet appareil'**
-  String get paiementAddThisDevice;
 
   /// No description provided for @paiementAddedSeller.
   ///
@@ -4688,6 +4682,24 @@ abstract class AppLocalizations {
   /// **'Erreur lors de l\'ajout du magasin'**
   String get paiementAddingStoreError;
 
+  /// No description provided for @paiementAddSeller.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un vendeur'**
+  String get paiementAddSeller;
+
+  /// No description provided for @paiementAddStore.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un magasin'**
+  String get paiementAddStore;
+
+  /// No description provided for @paiementAddThisDevice.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter cet appareil'**
+  String get paiementAddThisDevice;
+
   /// No description provided for @paiementAdmin.
   ///
   /// In fr, this message translates to:
@@ -4705,6 +4717,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Demande d\'activation de l\'appareil'**
   String get paiementAskDeviceActivation;
+
+  /// No description provided for @paiementAStore.
+  ///
+  /// In fr, this message translates to:
+  /// **'un magasin'**
+  String get paiementAStore;
 
   /// No description provided for @paiementAt.
   ///
@@ -4772,23 +4790,23 @@ abstract class AppLocalizations {
   /// **'Peut annuler des transactions'**
   String get paiementCanCancelTransaction;
 
-  /// No description provided for @paiementCanManageSellers.
-  ///
-  /// In fr, this message translates to:
-  /// **'Peut gérer les vendeurs'**
-  String get paiementCanManageSellers;
-
-  /// No description provided for @paiementCanSeeHistory.
-  ///
-  /// In fr, this message translates to:
-  /// **'Peut voir l\'historique'**
-  String get paiementCanSeeHistory;
-
   /// No description provided for @paiementCancel.
   ///
   /// In fr, this message translates to:
   /// **'Annuler'**
   String get paiementCancel;
+
+  /// No description provided for @paiementCancelled.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annulé'**
+  String get paiementCancelled;
+
+  /// No description provided for @paiementCancelledTransaction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Paiement annulé'**
+  String get paiementCancelledTransaction;
 
   /// No description provided for @paiementCancelTransaction.
   ///
@@ -4802,17 +4820,17 @@ abstract class AppLocalizations {
   /// **'Annuler les transactions'**
   String get paiementCancelTransactions;
 
-  /// No description provided for @paiementCancelled.
+  /// No description provided for @paiementCanManageSellers.
   ///
   /// In fr, this message translates to:
-  /// **'Annulé'**
-  String get paiementCancelled;
+  /// **'Peut gérer les vendeurs'**
+  String get paiementCanManageSellers;
 
-  /// No description provided for @paiementCancelledTransaction.
+  /// No description provided for @paiementCanSeeHistory.
   ///
   /// In fr, this message translates to:
-  /// **'Paiement annulé'**
-  String get paiementCancelledTransaction;
+  /// **'Peut voir l\'historique'**
+  String get paiementCanSeeHistory;
 
   /// No description provided for @paiementCantLaunchURL.
   ///
@@ -4843,6 +4861,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Refuser'**
   String get paiementDecline;
+
+  /// No description provided for @paiementDeletedSeller.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vendeur supprimé'**
+  String get paiementDeletedSeller;
 
   /// No description provided for @paiementDeleteInvoice.
   ///
@@ -4885,12 +4909,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Supprimé avec succès'**
   String get paiementDeleteSuccessfully;
-
-  /// No description provided for @paiementDeletedSeller.
-  ///
-  /// In fr, this message translates to:
-  /// **'Vendeur supprimé'**
-  String get paiementDeletedSeller;
 
   /// No description provided for @paiementDeletingSellerError.
   ///
@@ -5042,17 +5060,17 @@ abstract class AppLocalizations {
   /// **'Limité à'**
   String get paiementLimitedTo;
 
-  /// No description provided for @paiementManageSellers.
-  ///
-  /// In fr, this message translates to:
-  /// **'Gérer les vendeurs'**
-  String get paiementManageSellers;
-
   /// No description provided for @paiementManagement.
   ///
   /// In fr, this message translates to:
   /// **'Gestion'**
   String get paiementManagement;
+
+  /// No description provided for @paiementManageSellers.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gérer les vendeurs'**
+  String get paiementManageSellers;
 
   /// No description provided for @paiementMarkPaid.
   ///
@@ -5090,17 +5108,17 @@ abstract class AppLocalizations {
   /// **'Modifier'**
   String get paiementModify;
 
-  /// No description provided for @paiementModifySuccessfully.
-  ///
-  /// In fr, this message translates to:
-  /// **'Modifié avec succès'**
-  String get paiementModifySuccessfully;
-
   /// No description provided for @paiementModifyingStoreError.
   ///
   /// In fr, this message translates to:
   /// **'Erreur lors de la modification du magasin'**
   String get paiementModifyingStoreError;
+
+  /// No description provided for @paiementModifySuccessfully.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifié avec succès'**
+  String get paiementModifySuccessfully;
 
   /// No description provided for @paiementNewCGU.
   ///
@@ -5174,17 +5192,17 @@ abstract class AppLocalizations {
   /// **'Payer'**
   String get paiementPay;
 
-  /// No description provided for @paiementPayWithHA.
-  ///
-  /// In fr, this message translates to:
-  /// **'Payer avec HelloAsso'**
-  String get paiementPayWithHA;
-
   /// No description provided for @paiementPayment.
   ///
   /// In fr, this message translates to:
   /// **'Paiement'**
   String get paiementPayment;
+
+  /// No description provided for @paiementPayWithHA.
+  ///
+  /// In fr, this message translates to:
+  /// **'Payer avec HelloAsso'**
+  String get paiementPayWithHA;
 
   /// No description provided for @paiementPending.
   ///
@@ -5330,17 +5348,17 @@ abstract class AppLocalizations {
   /// **'Droits de'**
   String get paiementRightsOf;
 
-  /// No description provided for @paiementRightsUpdateError.
-  ///
-  /// In fr, this message translates to:
-  /// **'Erreur lors de la mise à jour des droits'**
-  String get paiementRightsUpdateError;
-
   /// No description provided for @paiementRightsUpdated.
   ///
   /// In fr, this message translates to:
   /// **'Droits mis à jour'**
   String get paiementRightsUpdated;
+
+  /// No description provided for @paiementRightsUpdateError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreur lors de la mise à jour des droits'**
+  String get paiementRightsUpdateError;
 
   /// No description provided for @paiementScan.
   ///
@@ -5630,18 +5648,6 @@ abstract class AppLocalizations {
   /// **'Ajouter'**
   String get phAdd;
 
-  /// No description provided for @phAddNewJournal.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter un nouveau journal'**
-  String get phAddNewJournal;
-
-  /// No description provided for @phAddPdfFile.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter un fichier PDF'**
-  String get phAddPdfFile;
-
   /// No description provided for @phAdded.
   ///
   /// In fr, this message translates to:
@@ -5653,6 +5659,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Erreur d\'ajout'**
   String get phAddingFileError;
+
+  /// No description provided for @phAddNewJournal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un nouveau journal'**
+  String get phAddNewJournal;
+
+  /// No description provided for @phAddPdfFile.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un fichier PDF'**
+  String get phAddPdfFile;
 
   /// No description provided for @phDate.
   ///
@@ -5678,17 +5696,17 @@ abstract class AppLocalizations {
   /// **'Modifier'**
   String get phEdit;
 
-  /// No description provided for @phEditPdfFile.
-  ///
-  /// In fr, this message translates to:
-  /// **'Modifier le fichier PDF'**
-  String get phEditPdfFile;
-
   /// No description provided for @phEdited.
   ///
   /// In fr, this message translates to:
   /// **'Modifié'**
   String get phEdited;
+
+  /// No description provided for @phEditPdfFile.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier le fichier PDF'**
+  String get phEditPdfFile;
 
   /// No description provided for @phIrreversibleAction.
   ///
@@ -5714,30 +5732,6 @@ abstract class AppLocalizations {
   /// **'Pas encore de PH dans la base de donnée'**
   String get phNoJournalInDatabase;
 
-  /// No description provided for @phPhName.
-  ///
-  /// In fr, this message translates to:
-  /// **'Nom du PH'**
-  String get phPhName;
-
-  /// No description provided for @phSeePreviousJournal.
-  ///
-  /// In fr, this message translates to:
-  /// **'Voir les anciens journaux'**
-  String get phSeePreviousJournal;
-
-  /// No description provided for @phSuccesDowloading.
-  ///
-  /// In fr, this message translates to:
-  /// **'Téléchargé avec succès'**
-  String get phSuccesDowloading;
-
-  /// No description provided for @phToHeavyFile.
-  ///
-  /// In fr, this message translates to:
-  /// **'Fichier trop volumineux'**
-  String get phToHeavyFile;
-
   /// No description provided for @phonebookAdd.
   ///
   /// In fr, this message translates to:
@@ -5756,18 +5750,6 @@ abstract class AppLocalizations {
   /// **'Ajouter un groupement d\'association'**
   String get phonebookAddAssociationGroupement;
 
-  /// No description provided for @phonebookAddMember.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter un membre'**
-  String get phonebookAddMember;
-
-  /// No description provided for @phonebookAddRole.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter un rôle'**
-  String get phonebookAddRole;
-
   /// No description provided for @phonebookAddedAssociation.
   ///
   /// In fr, this message translates to:
@@ -5785,6 +5767,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Erreur lors de l\'ajout'**
   String get phonebookAddingError;
+
+  /// No description provided for @phonebookAddMember.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un membre'**
+  String get phonebookAddMember;
+
+  /// No description provided for @phonebookAddRole.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un rôle'**
+  String get phonebookAddRole;
 
   /// No description provided for @phonebookAdmin.
   ///
@@ -5882,12 +5876,6 @@ abstract class AppLocalizations {
   /// **'Désactiver l\'association'**
   String get phonebookDeactivateAssociation;
 
-  /// Permet de désactiver une association
-  ///
-  /// In fr, this message translates to:
-  /// **'Désactiver l\'association {association} ?'**
-  String phonebookDeactivateSelectedAssociation(String association);
-
   /// No description provided for @phonebookDeactivatedAssociation.
   ///
   /// In fr, this message translates to:
@@ -5899,6 +5887,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Attention, cette association est désactivée, vous ne pouvez pas la modifier'**
   String get phonebookDeactivatedAssociationWarning;
+
+  /// Permet de désactiver une association
+  ///
+  /// In fr, this message translates to:
+  /// **'Désactiver l\'association {association} ?'**
+  String phonebookDeactivateSelectedAssociation(String association);
 
   /// No description provided for @phonebookDeactivating.
   ///
@@ -5930,6 +5924,18 @@ abstract class AppLocalizations {
   /// **'Ceci va supprimer l\'historique de l\'association'**
   String get phonebookDeleteAssociationDescription;
 
+  /// No description provided for @phonebookDeletedAssociation.
+  ///
+  /// In fr, this message translates to:
+  /// **'Association supprimée'**
+  String get phonebookDeletedAssociation;
+
+  /// No description provided for @phonebookDeletedMember.
+  ///
+  /// In fr, this message translates to:
+  /// **'Membre supprimé'**
+  String get phonebookDeletedMember;
+
   /// No description provided for @phonebookDeleteRole.
   ///
   /// In fr, this message translates to:
@@ -5947,18 +5953,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Supprimer le rôle de l\'utilisateur {name} ?'**
   String phonebookDeleteUserRole(String name);
-
-  /// No description provided for @phonebookDeletedAssociation.
-  ///
-  /// In fr, this message translates to:
-  /// **'Association supprimée'**
-  String get phonebookDeletedAssociation;
-
-  /// No description provided for @phonebookDeletedMember.
-  ///
-  /// In fr, this message translates to:
-  /// **'Membre supprimé'**
-  String get phonebookDeletedMember;
 
   /// No description provided for @phonebookDeleting.
   ///
@@ -6140,17 +6134,17 @@ abstract class AppLocalizations {
   /// **'Prénom :'**
   String get phonebookFirstname;
 
-  /// No description provided for @phonebookGroupementDeleteError.
-  ///
-  /// In fr, this message translates to:
-  /// **'Erreur lors de la suppression du groupement d\'association'**
-  String get phonebookGroupementDeleteError;
-
   /// No description provided for @phonebookGroupementDeleted.
   ///
   /// In fr, this message translates to:
   /// **'Groupement d\'association supprimé'**
   String get phonebookGroupementDeleted;
+
+  /// No description provided for @phonebookGroupementDeleteError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreur lors de la suppression du groupement d\'association'**
+  String get phonebookGroupementDeleteError;
 
   /// No description provided for @phonebookGroupementName.
   ///
@@ -6356,6 +6350,12 @@ abstract class AppLocalizations {
   /// **'Rechercher un utilisateur'**
   String get phonebookSearchUser;
 
+  /// No description provided for @phonebookSelectManagerGroup.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sélectionner le groupe de managers'**
+  String get phonebookSelectManagerGroup;
+
   /// Année de mandat d'une association
   ///
   /// In fr, this message translates to:
@@ -6373,12 +6373,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'L\'image est trop lourde (max 4Mo)'**
   String get phonebookTooHeavyAssociationPicture;
-
-  /// No description provided for @phonebookUpdateGroups.
-  ///
-  /// In fr, this message translates to:
-  /// **'Mettre à jour les groupes'**
-  String get phonebookUpdateGroups;
 
   /// No description provided for @phonebookUpdatedAssociation.
   ///
@@ -6404,6 +6398,12 @@ abstract class AppLocalizations {
   /// **'Membre modifié'**
   String get phonebookUpdatedMember;
 
+  /// No description provided for @phonebookUpdateGroups.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mettre à jour les groupes'**
+  String get phonebookUpdateGroups;
+
   /// No description provided for @phonebookUpdatingError.
   ///
   /// In fr, this message translates to:
@@ -6415,6 +6415,30 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Valider'**
   String get phonebookValidation;
+
+  /// No description provided for @phPhName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nom du PH'**
+  String get phPhName;
+
+  /// No description provided for @phSeePreviousJournal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voir les anciens journaux'**
+  String get phSeePreviousJournal;
+
+  /// No description provided for @phSuccesDowloading.
+  ///
+  /// In fr, this message translates to:
+  /// **'Téléchargé avec succès'**
+  String get phSuccesDowloading;
+
+  /// No description provided for @phToHeavyFile.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fichier trop volumineux'**
+  String get phToHeavyFile;
 
   /// No description provided for @purchasesAlreadyUsed.
   ///
@@ -6578,6 +6602,18 @@ abstract class AppLocalizations {
   /// **'Ajouter'**
   String get raffleAdd;
 
+  /// No description provided for @raffleAddedTicket.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ticket ajouté'**
+  String get raffleAddedTicket;
+
+  /// No description provided for @raffleAddingError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreur lors de l\'ajout'**
+  String get raffleAddingError;
+
   /// No description provided for @raffleAddPackTicket.
   ///
   /// In fr, this message translates to:
@@ -6595,18 +6631,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Ajouter'**
   String get raffleAddTypeTicketSimple;
-
-  /// No description provided for @raffleAddedTicket.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ticket ajouté'**
-  String get raffleAddedTicket;
-
-  /// No description provided for @raffleAddingError.
-  ///
-  /// In fr, this message translates to:
-  /// **'Erreur lors de l\'ajout'**
-  String get raffleAddingError;
 
   /// No description provided for @raffleAlreadyExistTicket.
   ///
@@ -6662,6 +6686,18 @@ abstract class AppLocalizations {
   /// **'Votre menu de création de tombolas'**
   String get raffleCreateYourRaffle;
 
+  /// No description provided for @raffleDeletedPrize.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lot supprimé'**
+  String get raffleDeletedPrize;
+
+  /// No description provided for @raffleDeletedTicket.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ticket supprimé'**
+  String get raffleDeletedTicket;
+
   /// No description provided for @raffleDeletePrize.
   ///
   /// In fr, this message translates to:
@@ -6685,18 +6721,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Vous allez supprimer le ticket, êtes-vous sûr de vouloir continuer ?'**
   String get raffleDeleteTicketDescription;
-
-  /// No description provided for @raffleDeletedPrize.
-  ///
-  /// In fr, this message translates to:
-  /// **'Lot supprimé'**
-  String get raffleDeletedPrize;
-
-  /// No description provided for @raffleDeletedTicket.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ticket supprimé'**
-  String get raffleDeletedTicket;
 
   /// No description provided for @raffleDeletingError.
   ///
@@ -6746,6 +6770,18 @@ abstract class AppLocalizations {
   /// **'Modifier'**
   String get raffleEdit;
 
+  /// No description provided for @raffleEditedTicket.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ticket modifié'**
+  String get raffleEditedTicket;
+
+  /// No description provided for @raffleEditingError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreur lors de la modification'**
+  String get raffleEditingError;
+
   /// No description provided for @raffleEditPrize.
   ///
   /// In fr, this message translates to:
@@ -6763,18 +6799,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Modifier'**
   String get raffleEditTypeTicketSimple;
-
-  /// No description provided for @raffleEditedTicket.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ticket modifié'**
-  String get raffleEditedTicket;
-
-  /// No description provided for @raffleEditingError.
-  ///
-  /// In fr, this message translates to:
-  /// **'Erreur lors de la modification'**
-  String get raffleEditingError;
 
   /// No description provided for @raffleError.
   ///
@@ -6872,6 +6896,12 @@ abstract class AppLocalizations {
   /// **'Aucun lot'**
   String get raffleNoPrize;
 
+  /// No description provided for @raffleNotEnoughMoney.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous n\'avez pas assez d\'argent'**
+  String get raffleNotEnoughMoney;
+
   /// No description provided for @raffleNoTicket.
   ///
   /// In fr, this message translates to:
@@ -6889,12 +6919,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Les tickets gagnants seront affichés ici'**
   String get raffleNoWinningTicketYet;
-
-  /// No description provided for @raffleNotEnoughMoney.
-  ///
-  /// In fr, this message translates to:
-  /// **'Vous n\'avez pas assez d\'argent'**
-  String get raffleNotEnoughMoney;
 
   /// No description provided for @raffleNumberExpected.
   ///
@@ -7046,17 +7070,17 @@ abstract class AppLocalizations {
   /// **'Ajouter'**
   String get recommendationAdd;
 
-  /// No description provided for @recommendationAddImage.
-  ///
-  /// In fr, this message translates to:
-  /// **'Veuillez ajouter une image'**
-  String get recommendationAddImage;
-
   /// No description provided for @recommendationAddedRecommendation.
   ///
   /// In fr, this message translates to:
   /// **'Bon plan ajouté'**
   String get recommendationAddedRecommendation;
+
+  /// No description provided for @recommendationAddImage.
+  ///
+  /// In fr, this message translates to:
+  /// **'Veuillez ajouter une image'**
+  String get recommendationAddImage;
 
   /// No description provided for @recommendationAddingError.
   ///
@@ -7082,6 +7106,12 @@ abstract class AppLocalizations {
   /// **'Supprimer'**
   String get recommendationDelete;
 
+  /// No description provided for @recommendationDeletedRecommendation.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bon plan supprimé'**
+  String get recommendationDeletedRecommendation;
+
   /// No description provided for @recommendationDeleteRecommendation.
   ///
   /// In fr, this message translates to:
@@ -7093,12 +7123,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Êtes-vous sûr de vouloir supprimer ce bon plan ?'**
   String get recommendationDeleteRecommendationConfirmation;
-
-  /// No description provided for @recommendationDeletedRecommendation.
-  ///
-  /// In fr, this message translates to:
-  /// **'Bon plan supprimé'**
-  String get recommendationDeletedRecommendation;
 
   /// No description provided for @recommendationDeletingRecommendationError.
   ///
@@ -7166,18 +7190,6 @@ abstract class AppLocalizations {
   /// **'Ajouter'**
   String get seedLibraryAdd;
 
-  /// No description provided for @seedLibraryAddPlant.
-  ///
-  /// In fr, this message translates to:
-  /// **'Déposer une plante'**
-  String get seedLibraryAddPlant;
-
-  /// No description provided for @seedLibraryAddSpecies.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter une espèce'**
-  String get seedLibraryAddSpecies;
-
   /// No description provided for @seedLibraryAddedPlant.
   ///
   /// In fr, this message translates to:
@@ -7195,6 +7207,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Erreur lors de l\'ajout'**
   String get seedLibraryAddingError;
+
+  /// No description provided for @seedLibraryAddPlant.
+  ///
+  /// In fr, this message translates to:
+  /// **'Déposer une plante'**
+  String get seedLibraryAddPlant;
+
+  /// No description provided for @seedLibraryAddSpecies.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter une espèce'**
+  String get seedLibraryAddSpecies;
 
   /// No description provided for @seedLibraryAll.
   ///
@@ -7220,12 +7244,6 @@ abstract class AppLocalizations {
   /// **'Automne'**
   String get seedLibraryAutumn;
 
-  /// No description provided for @seedLibraryBorrowPlant.
-  ///
-  /// In fr, this message translates to:
-  /// **'Emprunter la plante'**
-  String get seedLibraryBorrowPlant;
-
   /// No description provided for @seedLibraryBorrowedPlant.
   ///
   /// In fr, this message translates to:
@@ -7237,6 +7255,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Date d\'emprunt :'**
   String get seedLibraryBorrowingDate;
+
+  /// No description provided for @seedLibraryBorrowPlant.
+  ///
+  /// In fr, this message translates to:
+  /// **'Emprunter la plante'**
+  String get seedLibraryBorrowPlant;
 
   /// No description provided for @seedLibraryCard.
   ///
@@ -7292,17 +7316,17 @@ abstract class AppLocalizations {
   /// **'Date de mort'**
   String get seedLibraryDeathDate;
 
-  /// No description provided for @seedLibraryDeleteSpecies.
-  ///
-  /// In fr, this message translates to:
-  /// **'Supprimer l\'espèce ?'**
-  String get seedLibraryDeleteSpecies;
-
   /// No description provided for @seedLibraryDeletedSpecies.
   ///
   /// In fr, this message translates to:
   /// **'Espèce supprimée'**
   String get seedLibraryDeletedSpecies;
+
+  /// No description provided for @seedLibraryDeleteSpecies.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer l\'espèce ?'**
+  String get seedLibraryDeleteSpecies;
 
   /// No description provided for @seedLibraryDeleting.
   ///
@@ -7340,29 +7364,29 @@ abstract class AppLocalizations {
   /// **'Modifier'**
   String get seedLibraryEdit;
 
-  /// No description provided for @seedLibraryEditInformation.
-  ///
-  /// In fr, this message translates to:
-  /// **'Modifier les informations'**
-  String get seedLibraryEditInformation;
-
-  /// No description provided for @seedLibraryEditSpecies.
-  ///
-  /// In fr, this message translates to:
-  /// **'Modifier l\'espèce'**
-  String get seedLibraryEditSpecies;
-
   /// No description provided for @seedLibraryEditedPlant.
   ///
   /// In fr, this message translates to:
   /// **'Plante modifiée'**
   String get seedLibraryEditedPlant;
 
+  /// No description provided for @seedLibraryEditInformation.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier les informations'**
+  String get seedLibraryEditInformation;
+
   /// No description provided for @seedLibraryEditingError.
   ///
   /// In fr, this message translates to:
   /// **'Erreur lors de la modification'**
   String get seedLibraryEditingError;
+
+  /// No description provided for @seedLibraryEditSpecies.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier l\'espèce'**
+  String get seedLibraryEditSpecies;
 
   /// No description provided for @seedLibraryEmptyDifficultyError.
   ///
@@ -7574,12 +7598,6 @@ abstract class AppLocalizations {
   /// **'OK'**
   String get seedLibraryOk;
 
-  /// No description provided for @seedLibraryPlantDetail.
-  ///
-  /// In fr, this message translates to:
-  /// **'Détail de la plante'**
-  String get seedLibraryPlantDetail;
-
   /// No description provided for @seedLibraryPlantationPeriod.
   ///
   /// In fr, this message translates to:
@@ -7591,6 +7609,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Type de plantation :'**
   String get seedLibraryPlantationType;
+
+  /// No description provided for @seedLibraryPlantDetail.
+  ///
+  /// In fr, this message translates to:
+  /// **'Détail de la plante'**
+  String get seedLibraryPlantDetail;
 
   /// No description provided for @seedLibraryPlantingDate.
   ///
@@ -8270,12 +8294,6 @@ abstract class AppLocalizations {
   /// **'Votre version de l\'application est trop récente, contactez un administrateur pour résoudre ce problème'**
   String get settingsTooRecentVersion;
 
-  /// No description provided for @settingsUpdateNotification.
-  ///
-  /// In fr, this message translates to:
-  /// **'Mettre à jour les notifications'**
-  String get settingsUpdateNotification;
-
   /// No description provided for @settingsUpdatedProfile.
   ///
   /// In fr, this message translates to:
@@ -8287,6 +8305,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Photo de profil modifiée'**
   String get settingsUpdatedProfilePicture;
+
+  /// No description provided for @settingsUpdateNotification.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mettre à jour les notifications'**
+  String get settingsUpdateNotification;
 
   /// No description provided for @settingsUpdatingError.
   ///
@@ -8330,24 +8354,6 @@ abstract class AppLocalizations {
   /// **'Ajouter'**
   String get voteAdd;
 
-  /// No description provided for @voteAddMember.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter un membre'**
-  String get voteAddMember;
-
-  /// No description provided for @voteAddPretendance.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter une liste'**
-  String get voteAddPretendance;
-
-  /// No description provided for @voteAddSection.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ajouter une section'**
-  String get voteAddSection;
-
   /// No description provided for @voteAddedPretendance.
   ///
   /// In fr, this message translates to:
@@ -8365,6 +8371,24 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Erreur lors de l\'ajout'**
   String get voteAddingError;
+
+  /// No description provided for @voteAddMember.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un membre'**
+  String get voteAddMember;
+
+  /// No description provided for @voteAddPretendance.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter une liste'**
+  String get voteAddPretendance;
+
+  /// No description provided for @voteAddSection.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter une section'**
+  String get voteAddSection;
 
   /// No description provided for @voteAll.
   ///
@@ -8408,17 +8432,17 @@ abstract class AppLocalizations {
   /// **'Réinitialiser les votes'**
   String get voteClearVotes;
 
-  /// No description provided for @voteCloseVote.
-  ///
-  /// In fr, this message translates to:
-  /// **'Fermer les votes'**
-  String get voteCloseVote;
-
   /// No description provided for @voteClosedVote.
   ///
   /// In fr, this message translates to:
   /// **'Votes clos'**
   String get voteClosedVote;
+
+  /// No description provided for @voteCloseVote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fermer les votes'**
+  String get voteCloseVote;
 
   /// No description provided for @voteConfirmVote.
   ///
@@ -8449,6 +8473,24 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Voulez-vous vraiment supprimer tout ?'**
   String get voteDeleteAllDescription;
+
+  /// No description provided for @voteDeletedAll.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tout supprimé'**
+  String get voteDeletedAll;
+
+  /// No description provided for @voteDeletedPipo.
+  ///
+  /// In fr, this message translates to:
+  /// **'Listes pipos supprimées'**
+  String get voteDeletedPipo;
+
+  /// No description provided for @voteDeletedSection.
+  ///
+  /// In fr, this message translates to:
+  /// **'Section supprimée'**
+  String get voteDeletedSection;
 
   /// No description provided for @voteDeletePipo.
   ///
@@ -8485,24 +8527,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Voulez-vous vraiment supprimer cette section ?'**
   String get voteDeleteSectionDescription;
-
-  /// No description provided for @voteDeletedAll.
-  ///
-  /// In fr, this message translates to:
-  /// **'Tout supprimé'**
-  String get voteDeletedAll;
-
-  /// No description provided for @voteDeletedPipo.
-  ///
-  /// In fr, this message translates to:
-  /// **'Listes pipos supprimées'**
-  String get voteDeletedPipo;
-
-  /// No description provided for @voteDeletedSection.
-  ///
-  /// In fr, this message translates to:
-  /// **'Section supprimée'**
-  String get voteDeletedSection;
 
   /// No description provided for @voteDeletingError.
   ///
@@ -8660,6 +8684,12 @@ abstract class AppLocalizations {
   /// **'Voulez-vous vraiment publier les votes ?'**
   String get votePublishVoteDescription;
 
+  /// No description provided for @voteResetedVotes.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votes réinitialisés'**
+  String get voteResetedVotes;
+
   /// No description provided for @voteResetVote.
   ///
   /// In fr, this message translates to:
@@ -8671,12 +8701,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Que voulez-vous faire ?'**
   String get voteResetVoteDescription;
-
-  /// No description provided for @voteResetedVotes.
-  ///
-  /// In fr, this message translates to:
-  /// **'Votes réinitialisés'**
-  String get voteResetedVotes;
 
   /// No description provided for @voteRole.
   ///
@@ -8744,12 +8768,6 @@ abstract class AppLocalizations {
   /// **'Vote non ouvert'**
   String get voteVoteNotStarted;
 
-  /// No description provided for @voteVoteSuccess.
-  ///
-  /// In fr, this message translates to:
-  /// **'Vote enregistré'**
-  String get voteVoteSuccess;
-
   /// No description provided for @voteVoters.
   ///
   /// In fr, this message translates to:
@@ -8779,6 +8797,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Votes ouverts'**
   String get voteVotesOpened;
+
+  /// No description provided for @voteVoteSuccess.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vote enregistré'**
+  String get voteVoteSuccess;
 
   /// No description provided for @voteWarning.
   ///

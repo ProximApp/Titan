@@ -10,9 +10,9 @@ import 'package:titan/booking/providers/manager_confirmed_booking_list_provider.
 import 'package:titan/booking/providers/selected_days_provider.dart';
 import 'package:titan/booking/providers/user_booking_list_provider.dart';
 import 'package:titan/booking/router.dart';
-import 'package:titan/booking/tools/constants.dart';
 import 'package:titan/booking/ui/calendar/appointment_data_source.dart';
 import 'package:titan/booking/ui/calendar/calendar_dialog.dart';
+import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/navigation/providers/is_web_format_provider.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -51,6 +51,8 @@ class Calendar extends HookConsumerWidget {
       QR.to(BookingRouter.root + BookingRouter.manager + BookingRouter.addEdit);
     }
 
+    final localizeWithContext = AppLocalizations.of(context)!;
+
     void calendarTapped(CalendarTapDetails details, BuildContext context) {
       if (details.targetElement == CalendarElement.appointment ||
           details.targetElement == CalendarElement.agenda) {
@@ -71,8 +73,8 @@ class Calendar extends HookConsumerWidget {
                 context: context,
                 builder: (context) {
                   return CustomDialogBox(
-                    title: BookingTextConstants.confirm,
-                    descriptions: BookingTextConstants.confirmBooking,
+                    title: localizeWithContext.bookingConfirm,
+                    descriptions: localizeWithContext.bookingConfirmBooking,
                     onYes: () async {
                       await tokenExpireWrapper(ref, () async {
                         Booking newBooking = booking.copyWith(
@@ -104,8 +106,8 @@ class Calendar extends HookConsumerWidget {
                 context: context,
                 builder: (context) {
                   return CustomDialogBox(
-                    title: BookingTextConstants.decline,
-                    descriptions: BookingTextConstants.declineBooking,
+                    title: localizeWithContext.bookingDecline,
+                    descriptions: localizeWithContext.bookingDeclineBooking,
                     onYes: () async {
                       await tokenExpireWrapper(ref, () async {
                         Booking newBooking = booking.copyWith(

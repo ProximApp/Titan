@@ -40,10 +40,13 @@ class AddEditDeliveryPage extends HookConsumerWidget {
     final sortedProductsList = ref.watch(sortedByCategoryProductsProvider);
     final selected = ref.watch(selectedListProvider);
     final selectedNotifier = ref.watch(selectedListProvider.notifier);
+    final deliveryNotifier = ref.watch(deliveryListProvider.notifier);
 
     void displayToastWithContext(TypeMsg type, String msg) {
       displayToast(context, type, msg);
     }
+
+    final localizeWithContext = AppLocalizations.of(context)!;
 
     return AmapTemplate(
       child: SingleChildScrollView(
@@ -164,22 +167,6 @@ class AddEditDeliveryPage extends HookConsumerWidget {
                                   status: DeliveryStatus.creation,
                                 );
                                 await tokenExpireWrapper(ref, () async {
-                                  final deliveryNotifier = ref.watch(
-                                    deliveryListProvider.notifier,
-                                  );
-                                  final editedCommandMsg = AppLocalizations.of(
-                                    context,
-                                  )!.amapEditedCommand;
-                                  final addedCommandMsg = AppLocalizations.of(
-                                    context,
-                                  )!.amapAddedCommand;
-                                  final editingErrorMsg = AppLocalizations.of(
-                                    context,
-                                  )!.amapEditingError;
-                                  final alreadyExistCommandMsg =
-                                      AppLocalizations.of(
-                                        context,
-                                      )!.amapAlreadyExistCommand;
                                   final value = isEdit
                                       ? await deliveryNotifier.updateDelivery(
                                           del,
@@ -190,7 +177,7 @@ class AddEditDeliveryPage extends HookConsumerWidget {
                                     if (isEdit) {
                                       displayToastWithContext(
                                         TypeMsg.msg,
-                                        editedCommandMsg,
+                                        localizeWithContext.amapEditedCommand,
                                       );
                                     } else {
                                       final deliveryOrdersNotifier = ref.watch(
@@ -206,19 +193,19 @@ class AddEditDeliveryPage extends HookConsumerWidget {
                                       });
                                       displayToastWithContext(
                                         TypeMsg.msg,
-                                        addedCommandMsg,
+                                        localizeWithContext.amapAddedCommand,
                                       );
                                     }
                                   } else {
                                     if (isEdit) {
                                       displayToastWithContext(
                                         TypeMsg.error,
-                                        editingErrorMsg,
+                                        localizeWithContext.amapEditingError,
                                       );
                                     } else {
                                       displayToastWithContext(
                                         TypeMsg.error,
-                                        AMAPTextConstants.addingError,
+                                        localizeWithContext.amapAddingError,
                                       );
                                     }
                                   }
@@ -227,7 +214,7 @@ class AddEditDeliveryPage extends HookConsumerWidget {
                                 displayToast(
                                   context,
                                   TypeMsg.error,
-                                  AppLocalizations.of(context)!.amapAddingError,
+                                  localizeWithContext.amapIncorrectlyFilledForm,
                                 );
                               }
                             },

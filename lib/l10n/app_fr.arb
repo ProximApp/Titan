@@ -1,228 +1,21 @@
 {
-  "@@locale": "fr",
-  "@adminBankAccountHolder": {
-    "description": "Displays the bank account holder's name",
-    "placeholders": {
-      "bankAccountHolder": {
-        "type": "String"
-      }
-    }
-  },
-  "@adminEditAssociation": {
-    "description": "Modifier les informations de l'association",
-    "placeholders": {
-      "associationName": {
-        "type": "String"
-      }
-    }
-  },
-  "@adminInviteUsersCounter": {
-    "description": "Text with the number of users in the CSV file",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "@adminManagerGroup": {
-    "description": "Groupe qui gère l'association",
-    "placeholders": {
-      "groupName": {
-        "type": "String"
-      }
-    }
-  },
-  "@adminNotifyGroup": {
-    "description": "Notifie les membres du groupe sélectionné",
-    "placeholders": {
-      "groupName": {
-        "type": "String"
-      }
-    }
-  },
-  "@eventDeleteConfirm": {
-    "description": "Delete the event with its name",
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@feedAssociationEvent": {
-    "description": "Association event",
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@feedShotgunIn": {
-    "description": "Placeholder pour le temps restant avant le shotgun",
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "@feedVoteIn": {
-    "description": "Temps restant avant le vote",
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "@globalOptionnal": {
-    "description": "Texte avec complément optionnel",
-    "placeholders": {
-      "text": {
-        "type": "String"
-      }
-    }
-  },
-  "@othersUnableToConnectToServer": {
-    "description": "Message when the app can't connect to the server with the url of the server",
-    "placeholders": {
-      "url": {
-        "type": "String"
-      }
-    }
-  },
-  "@paiementEditStore": {
-    "description": "Modifier le magasin",
-    "placeholders": {
-      "store": {
-        "type": "String"
-      }
-    }
-  },
-  "@paiementFromTo": {
-    "description": "Text with a date range",
-    "placeholders": {
-      "from": {
-        "type": "DateTime",
-        "format": "yMd"
-      },
-      "to": {
-        "type": "DateTime",
-        "format": "yMd"
-      }
-    }
-  },
-  "@paiementInvoicesPerPage": {
-    "description": "Text with the number of invoices per page",
-    "placeholders": {
-      "quantity": {
-        "type": "int"
-      }
-    }
-  },
-  "@paiementStructureManagement": {
-    "description": "Gestion de la structure",
-    "placeholders": {
-      "structure": {
-        "type": "String"
-      }
-    }
-  },
-  "@phonebookChangeTermYear": {
-    "description": "Permet de changer le mandat d'une association",
-    "placeholders": {
-      "year": {
-        "type": "int"
-      }
-    }
-  },
-  "@phonebookDeactivateSelectedAssociation": {
-    "description": "Permet de désactiver une association",
-    "placeholders": {
-      "association": {
-        "type": "String"
-      }
-    }
-  },
-  "@phonebookDeleteSelectedAssociation": {
-    "description": "Permet de supprimer une association",
-    "placeholders": {
-      "association": {
-        "type": "String"
-      }
-    }
-  },
-  "@phonebookDeleteUserRole": {
-    "description": "Permet de supprimer le rôle d'un utilisateur dans une association",
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@phonebookGroups": {
-    "description": "Permet de gérer les groupes d'une association",
-    "placeholders": {
-      "association": {
-        "type": "String"
-      }
-    }
-  },
-  "@phonebookMembers": {
-    "description": "Permet de gérer les membres d'une association",
-    "placeholders": {
-      "association": {
-        "type": "String"
-      }
-    }
-  },
-  "@phonebookModifyMembership": {
-    "description": "Permet de modifier le rôle d'un membre dans une association",
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@phonebookPromotion": {
-    "description": "Année de promotion d'un membre",
-    "placeholders": {
-      "year": {
-        "type": "int"
-      }
-    }
-  },
-  "@phonebookTerm": {
-    "description": "Année de mandat d'une association",
-    "placeholders": {
-      "year": {
-        "type": "int"
-      }
-    }
-  },
-  "@settingsNotificationCounter": {
-    "description": "Affiche le nombre de notifications actives sur le total des notifications disponibles, avec gestion du pluriel",
-    "placeholders": {
-      "active": {
-        "type": "int"
-      },
-      "total": {
-        "type": "int"
-      }
-    }
-  },
+  "moduleCentralassociation": "Centralassociation",
+  "moduleCentralassociationDescription": "Agrégateur des liens des associations",
   "adminAccountTypes": "Types de compte",
   "adminAdd": "Ajouter",
   "adminAddAssociation": "Ajouter une association",
-  "adminAddGroup": "Ajouter un groupe",
-  "adminAddLoaningGroup": "Ajouter un groupe de prêt",
-  "adminAddMember": "Ajouter un membre",
-  "adminAddSchool": "Ajouter une école",
-  "adminAddStructure": "Ajouter une structure",
   "adminAddedGroup": "Groupe créé",
   "adminAddedLoaner": "Préteur ajouté",
   "adminAddedMember": "Membre ajouté",
   "adminAddedSchool": "École créée",
   "adminAddedStructure": "Structure ajoutée",
+  "adminAddGroup": "Ajouter un groupe",
   "adminAddingError": "Erreur lors de l'ajout",
   "adminAddingMember": "Ajout d'un membre",
+  "adminAddLoaningGroup": "Ajouter un groupe de prêt",
+  "adminAddMember": "Ajouter un membre",
+  "adminAddSchool": "Ajouter une école",
+  "adminAddStructure": "Ajouter une structure",
   "adminAdmin": "Admin",
   "adminAdministration": "Administration",
   "adminAssociationCreated": "Association créée",
@@ -231,11 +24,19 @@
   "adminAssociationMembershipName": "Nom de l'adhésion",
   "adminAssociationMembershipsManagement": "Gestion des adhésions",
   "adminAssociationName": "Nom de l'association",
-  "adminAssociationUpdateError": "Échec de la mise à jour de l'association",
-  "adminAssociationUpdated": "Association mise à jour",
   "adminAssociations": "Associations",
   "adminAssociationsMemberships": "Adhésions",
+  "adminAssociationUpdated": "Association mise à jour",
+  "adminAssociationUpdateError": "Échec de la mise à jour de l'association",
   "adminBankAccountHolder": "Titulaire du compte bancaire : {bankAccountHolder}",
+  "@adminBankAccountHolder": {
+    "description": "Displays the bank account holder's name",
+    "placeholders": {
+      "bankAccountHolder": {
+        "type": "String"
+      }
+    }
+  },
   "adminBankAccountHolderModified": "Titulaire du compte bancaire modifié",
   "adminBankDetails": "Coordonnées bancaires",
   "adminBic": "BIC",
@@ -256,22 +57,30 @@
   "adminDeleteAssociationMember": "Supprimer le membre ?",
   "adminDeleteAssociationMemberConfirmation": "Êtes-vous sûr de vouloir supprimer ce membre ?",
   "adminDeleteAssociationMembership": "Supprimer l'adhésion ?",
+  "adminDeletedAssociationMembership": "Adhésion supprimée",
+  "adminDeletedGroup": "Groupe supprimé",
+  "adminDeletedSchool": "École supprimée",
   "adminDeleteGroup": "Supprimer le groupe",
   "adminDeleteGroupConfirmation": "Êtes-vous sûr de vouloir supprimer ce groupe ?",
   "adminDeleteSchool": "Supprimer l'école ?",
   "adminDeleteUsers": "Supprimer des utilisateurs",
-  "adminDeletedAssociationMembership": "Adhésion supprimée",
-  "adminDeletedGroup": "Groupe supprimé",
-  "adminDeletedSchool": "École supprimée",
   "adminDeleting": "Suppression",
   "adminDeletingError": "Erreur lors de la suppression",
   "adminDescription": "Description",
   "adminEdit": "Modifier",
   "adminEditAssociation": "Modifier l'association : {associationName}",
+  "@adminEditAssociation": {
+    "description": "Modifier les informations de l'association",
+    "placeholders": {
+      "associationName": {
+        "type": "String"
+      }
+    }
+  },
+  "adminEditedStructure": "Structure modifiée",
   "adminEditGroup": "Modifier le groupe",
   "adminEditMembership": "Modifier l'adhésion",
   "adminEditStructure": "Modifier la structure",
-  "adminEditedStructure": "Structure modifiée",
   "adminEmailFailed": "Impossible d'envoyer un mail aux adresses suivantes",
   "adminEmailRegex": "Email Regex",
   "adminEmptyDate": "Date vide",
@@ -295,25 +104,41 @@
   "adminImportList": "Importer une liste",
   "adminImportUsersDescription": "Importer des utilisateurs depuis un fichier CSV. Le fichier CSV doit contenir une adresse email par ligne.",
   "adminInvite": "Inviter",
+  "adminInvitedUsers": "Utilisateurs invités",
   "adminInviteUsers": "Inviter des utilisateurs",
   "adminInviteUsersCounter": "{count, plural, zero {Aucun utilisateur} one {{count} utilisateur} other {{count} utilisateurs}} dans le fichier CSV",
-  "adminInvitedUsers": "Utilisateurs invités",
+  "@adminInviteUsersCounter": {
+    "description": "Text with the number of users in the CSV file",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "adminLoaningGroup": "Groupe de prêt",
   "adminLooking": "Recherche",
   "adminManageAssociations": "Gérer les associations",
   "adminManageMembers": "Gérer les membres",
   "adminManagePaiementStructures": "Gérer les structures du module de paiement",
-  "adminManageUserGroups": "Gérer les groupes d'utilisateurs",
-  "adminManageUsersAssociationMemberships": "Gérer les adhésions des utilisateurs",
   "adminManager": "Administrateur de la structure",
   "adminManagerGroup": "Groupe gestionnaire : {groupName}",
+  "@adminManagerGroup": {
+    "description": "Groupe qui gère l'association",
+    "placeholders": {
+      "groupName": {
+        "type": "String"
+      }
+    }
+  },
+  "adminManageUserGroups": "Gérer les groupes d'utilisateurs",
+  "adminManageUsersAssociationMemberships": "Gérer les adhésions des utilisateurs",
   "adminMaximum": "Maximum",
   "adminMembers": "Membres",
   "adminMembershipAddingError": "Erreur lors de l'ajout (surement dû à une superposition de dates)",
-  "adminMembershipUpdatingError": "Erreur lors de la modification (surement dû à une superposition de dates)",
   "adminMemberships": "Adhésions",
+  "adminMembershipUpdatingError": "Erreur lors de la modification (surement dû à une superposition de dates)",
   "adminMinimum": "Minimum",
-  "adminModifyModuleVisibility": "Visibilité des modules",
+  "adminModifyPermissions": "Modifier les permissions",
   "adminName": "Nom",
   "adminNoGroup": "Aucun groupe",
   "adminNoManager": "Aucun manager n'est sélectionné",
@@ -322,6 +147,14 @@
   "adminNoSchool": "Sans école",
   "adminNotificationSent": "Notification envoyée",
   "adminNotifyGroup": "Notifier le groupe {groupName}",
+  "@adminNotifyGroup": {
+    "description": "Notifie les membres du groupe sélectionné",
+    "placeholders": {
+      "groupName": {
+        "type": "String"
+      }
+    }
+  },
   "adminPaiement": "Paiement",
   "adminPaiementModule": "Module de paiement",
   "adminRemoveGroupMember": "Supprimer le membre du groupe ?",
@@ -389,8 +222,8 @@
   "advertMonthOct": "Oct.",
   "advertMonthSep": "Sept.",
   "advertNoMoreAnnouncer": "Aucun annonceur n'est disponible",
-  "advertNoValue": "Veuillez entrer une valeur",
   "advertNotification": "Envoyer une notification",
+  "advertNoValue": "Veuillez entrer une valeur",
   "advertPositiveNumber": "Veuillez entrer un nombre positif",
   "advertPublishToFeed": "Publier dans le feed",
   "advertRemovedAnnouncer": "Annonceur supprimé",
@@ -400,9 +233,6 @@
   "amapAccounts": "Comptes",
   "amapAdd": "Ajouter",
   "amapAddDelivery": "Ajouter une livraison",
-  "amapAddOrder": "Ajouter une commande",
-  "amapAddProduct": "Ajouter un produit",
-  "amapAddUser": "Ajouter un utilisateur",
   "amapAddedCommand": "Commande ajoutée",
   "amapAddedOrder": "Commande ajoutée",
   "amapAddedProduct": "Produit ajouté",
@@ -411,6 +241,9 @@
   "amapAddingCommand": "Ajouter la commande",
   "amapAddingError": "Erreur lors de l'ajout",
   "amapAddingProduct": "Ajouter un produit",
+  "amapAddOrder": "Ajouter une commande",
+  "amapAddProduct": "Ajouter un produit",
+  "amapAddUser": "Ajouter un utilisateur",
   "amapAdmin": "Admin",
   "amapAlreadyExistCommand": "Il existe déjà une commande à cette date",
   "amapAmap": "Amap",
@@ -427,13 +260,13 @@
   "amapContact": "Contacts associatifs ",
   "amapCreateCategory": "Créer une catégorie",
   "amapDelete": "Supprimer",
+  "amapDeletedDelivery": "Livraison supprimée",
   "amapDeleteDelivery": "Supprimer la livraison ?",
   "amapDeleteDeliveryDescription": "Voulez-vous vraiment supprimer cette livraison ?",
-  "amapDeleteProduct": "Supprimer le produit ?",
-  "amapDeleteProductDescription": "Voulez-vous vraiment supprimer ce produit ?",
-  "amapDeletedDelivery": "Livraison supprimée",
   "amapDeletedOrder": "Commande supprimée",
   "amapDeletedProduct": "Produit supprimé",
+  "amapDeleteProduct": "Supprimer le produit ?",
+  "amapDeleteProductDescription": "Voulez-vous vraiment supprimer ce produit ?",
   "amapDeleting": "Suppression",
   "amapDeletingDelivery": "Supprimer la livraison ?",
   "amapDeletingError": "Erreur lors de la suppression",
@@ -456,9 +289,9 @@
   "amapDeliveryOn": "Livraison le",
   "amapDeliveryOpened": "Livraison ouverte",
   "amapEditDelivery": "Modifier la livraison",
-  "amapEditProduct": "Modifier le produit",
   "amapEditedCommand": "Commande modifiée",
   "amapEditingError": "Erreur lors de la modification",
+  "amapEditProduct": "Modifier le produit",
   "amapEndingDelivery": "Fin de la livraison",
   "amapError": "Erreur",
   "amapErrorLink": "Erreur lors de l'ouverture du lien",
@@ -467,6 +300,7 @@
   "amapExpectingNumber": "Veuillez entrer un nombre",
   "amapFillField": "Veuillez remplir ce champ",
   "amapHandlingAccount": "Gérer les comptes",
+  "amapIncorrectlyFilledForm": "Formulaire incorrectement rempli",
   "amapLoading": "Chargement...",
   "amapLoadingError": "Erreur lors du chargement",
   "amapLock": "Verrouiller",
@@ -519,12 +353,12 @@
   "bookingAdd": "Ajouter",
   "bookingAddBooking": "Ajouter une réservation",
   "bookingAddBookingPage": "Demande",
-  "bookingAddManager": "Ajouter un gestionnaire",
-  "bookingAddRoom": "Ajouter une salle",
   "bookingAddedBooking": "Demande ajoutée",
   "bookingAddedManager": "Gestionnaire ajouté",
   "bookingAddedRoom": "Salle ajoutée",
   "bookingAddingError": "Erreur lors de l'ajout",
+  "bookingAddManager": "Ajouter un gestionnaire",
+  "bookingAddRoom": "Ajouter une salle",
   "bookingAdminPage": "Administrateur",
   "bookingAllDay": "Toute la journée",
   "bookingBookedFor": "Réservé pour",
@@ -536,8 +370,8 @@
   "bookingBookingReason": "Motif de la réservation",
   "bookingBy": "par",
   "bookingConfirm": "Confirmer",
-  "bookingConfirmBooking": "Confirmer la réservation ?",
   "bookingConfirmation": "Confirmation",
+  "bookingConfirmBooking": "Confirmer la réservation ?",
   "bookingConfirmed": "Validée",
   "bookingDates": "Dates",
   "bookingDecline": "Refuser",
@@ -546,23 +380,23 @@
   "bookingDelete": "Supprimer",
   "bookingDeleteBooking": "Suppression",
   "bookingDeleteBookingConfirmation": "Êtes-vous sûr de vouloir supprimer cette réservation ?",
-  "bookingDeleteManagerConfirmation": "Êtes-vous sûr de vouloir supprimer ce gestionnaire ?\n\nLe gestionnaire ne doit être associé à aucune salle pour pouvoir être supprimé",
-  "bookingDeleteRoomConfirmation": "Êtes-vous sûr de vouloir supprimer cette salle ?\n\nLa salle ne doit avoir aucune réservation en cours ou à venir pour être supprimée",
   "bookingDeletedBooking": "Réservation supprimée",
   "bookingDeletedManager": "Gestionnaire supprimé",
   "bookingDeletedRoom": "Salle supprimée",
+  "bookingDeleteManagerConfirmation": "Êtes-vous sûr de vouloir supprimer ce gestionnaire ?\n\nLe gestionnaire ne doit être associé à aucune salle pour pouvoir être supprimé",
+  "bookingDeleteRoomConfirmation": "Êtes-vous sûr de vouloir supprimer cette salle ?\n\nLa salle ne doit avoir aucune réservation en cours ou à venir pour être supprimée",
   "bookingDeleting": "Suppression",
   "bookingDeletingBooking": "Supprimer la réservation ?",
   "bookingDeletingError": "Erreur lors de la suppression",
   "bookingDeletingRoom": "Supprimer la salle ?",
   "bookingEdit": "Modifier",
   "bookingEditBooking": "Modifier une réservation",
-  "bookingEditManager": "Modifier ou supprimer un gestionnaire",
-  "bookingEditRoom": "Modifier ou supprimer une salle",
   "bookingEditedBooking": "Réservation modifiée",
   "bookingEditedManager": "Gestionnaire modifié",
   "bookingEditedRoom": "Salle modifiée",
   "bookingEditionError": "Erreur lors de la modification",
+  "bookingEditManager": "Modifier ou supprimer un gestionnaire",
+  "bookingEditRoom": "Modifier ou supprimer une salle",
   "bookingEndDate": "Date de fin",
   "bookingEndHour": "Heure de fin",
   "bookingEntity": "Pour qui ?",
@@ -618,17 +452,17 @@
   "bookingWeeks": "Semaines",
   "bookingYes": "Oui",
   "cinemaAdd": "Ajouter",
-  "cinemaAddSession": "Ajouter une séance",
   "cinemaAddedSession": "Séance ajoutée",
   "cinemaAddingError": "Erreur lors de l'ajout",
+  "cinemaAddSession": "Ajouter une séance",
   "cinemaCinema": "Cinéma",
   "cinemaDeleteSession": "Supprimer la séance ?",
   "cinemaDeleting": "Suppression",
   "cinemaDuration": "Durée",
   "cinemaEdit": "Modifier",
-  "cinemaEditSession": "Modifier la séance",
   "cinemaEditedSession": "Séance modifiée",
   "cinemaEditingError": "Erreur lors de la modification",
+  "cinemaEditSession": "Modifier la séance",
   "cinemaEmptyUrl": "Veuillez entrer une URL",
   "cinemaGenre": "Genre",
   "cinemaImportFromTMDB": "Importer depuis TMDB",
@@ -662,8 +496,8 @@
   "drawerCopied": "Copié !",
   "drawerDownloadAppOnMobileDevice": "Ce site est la version Web de l'application MyECL. Nous vous invitons à télécharger l'application. N'utilisez ce site qu'en cas de problème avec l'application.\n",
   "drawerIosAppLink": "https://apps.apple.com/fr/app/myecl/id6444443430",
-  "drawerLogOut": "Déconnexion",
   "drawerLoginOut": "Voulez-vous vous déconnecter ?",
+  "drawerLogOut": "Déconnexion",
   "drawerOr": " ou ",
   "drawerSettings": "Paramètres",
   "eventActionCampaign": "Tu peux voter",
@@ -675,14 +509,14 @@
   "eventActionEventSubtitle": "Répondez à l'invitation",
   "eventActionEventValidated": "Je viens !",
   "eventAdd": "Ajouter",
-  "eventAddEvent": "Ajouter un événement",
   "eventAddedEvent": "Événement ajouté",
+  "eventAddEvent": "Ajouter un événement",
   "eventAddingError": "Erreur lors de l'ajout",
   "eventAllDay": "Toute la journée",
   "eventConfirm": "Confirmer",
-  "eventConfirmEvent": "Confirmer l'événement ?",
   "eventConfirmation": "Confirmation",
   "eventConfirmed": "Confirmé",
+  "eventConfirmEvent": "Confirmer l'événement ?",
   "eventDates": "Dates",
   "eventDayFri": "Vendredi",
   "eventDayMon": "Lundi",
@@ -692,18 +526,26 @@
   "eventDayTue": "Mardi",
   "eventDayWed": "Mercredi",
   "eventDecline": "Refuser",
-  "eventDeclineEvent": "Refuser l'événement ?",
   "eventDeclined": "Refusé",
+  "eventDeclineEvent": "Refuser l'événement ?",
   "eventDelete": "Supprimer",
   "eventDeleteConfirm": "Supprimer l'event {name} ?",
+  "@eventDeleteConfirm": {
+    "description": "Delete the event with its name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "eventDeletedEvent": "Événement supprimé",
   "eventDeleting": "Suppression",
   "eventDeletingError": "Erreur lors de la suppression",
   "eventDeletingEvent": "Supprimer l'événement ?",
   "eventDescription": "Description",
   "eventEdit": "Modifier",
-  "eventEditEvent": "Modifier un événement",
   "eventEditedEvent": "Événement modifié",
+  "eventEditEvent": "Modifier un événement",
   "eventEditingError": "Erreur lors de la modification",
   "eventEndDate": "Date de fin",
   "eventEndHour": "Heure de fin",
@@ -753,6 +595,14 @@
   "feedApprove": "Approuver",
   "feedAssociation": "Association",
   "feedAssociationEvent": "Event de {name}",
+  "@feedAssociationEvent": {
+    "description": "Association event",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "feedCantOpenLink": "Impossible d'ouvrir le lien",
   "feedCreateAnEvent": "Créer un événement",
   "feedCreateEvent": "Créer l'événement",
@@ -786,12 +636,36 @@
   "feedSGDate": "Date du SG",
   "feedSGExternalLink": "Lien externe du SG",
   "feedShotgunIn": "Shotgun {time}",
+  "@feedShotgunIn": {
+    "description": "Placeholder pour le temps restant avant le shotgun",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "feedTitle": "Titre",
   "feedVoteIn": "Vote {time}",
+  "@feedVoteIn": {
+    "description": "Temps restant avant le vote",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "globalCancel": "Annuler",
   "globalConfirm": "Confirmer",
   "globalIrreversibleAction": "Cette action est irréversible",
   "globalOptionnal": "{text} (Optionnel)",
+  "@globalOptionnal": {
+    "description": "Texte avec complément optionnel",
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
   "homeCalendar": "Calendrier",
   "homeEventOf": "Évènements du",
   "homeIncomingEvents": "Évènements à venir",
@@ -805,12 +679,12 @@
   "homeTranslateDayShortTue": "Mar",
   "homeTranslateDayShortWed": "Mer",
   "loanAdd": "Ajouter",
-  "loanAddLoan": "Ajouter un prêt",
-  "loanAddObject": "Ajouter un objet",
   "loanAddedLoan": "Prêt ajouté",
   "loanAddedObject": "Objet ajouté",
   "loanAddedRoom": "Salle ajoutée",
   "loanAddingError": "Erreur lors de l'ajout",
+  "loanAddLoan": "Ajouter un prêt",
+  "loanAddObject": "Ajouter un objet",
   "loanAdmin": "Administrateur",
   "loanAnd": "et",
   "loanAssociation": "Association",
@@ -837,9 +711,9 @@
   "loanDeletingLoan": "Supprimer le prêt ?",
   "loanDuration": "Durée",
   "loanEdit": "Modifier",
+  "loanEditedRoom": "Salle modifiée",
   "loanEditItem": "Modifier l'objet",
   "loanEditLoan": "Modifier le prêt",
-  "loanEditedRoom": "Salle modifiée",
   "loanEndDate": "Date de fin du prêt",
   "loanEnded": "Terminé",
   "loanEnterDate": "Veuillez entrer une date",
@@ -851,8 +725,8 @@
   "loanInvalidNumber": "Veuillez entrer un nombre",
   "loanItem": "Objet",
   "loanItemHandling": "Gestion des objets",
-  "loanItemSelected": "objet sélectionné",
   "loanItems": "Objets",
+  "loanItemSelected": "objet sélectionné",
   "loanItemsSelected": "objets sélectionnés",
   "loanLendingDuration": "Durée possible du prêt",
   "loanLoan": "Prêt",
@@ -864,13 +738,13 @@
   "loanNoAssociationsFounded": "Aucune association trouvée",
   "loanNoAvailableItems": "Aucun objet disponible",
   "loanNoBorrower": "Aucun emprunteur",
-  "loanNoItemSelected": "Aucun objet sélectionné",
   "loanNoItems": "Aucun objet",
+  "loanNoItemSelected": "Aucun objet sélectionné",
   "loanNoLoan": "Aucun prêt",
-  "loanNoReturnedDate": "Pas de date de retour",
-  "loanNoValue": "Veuillez entrer une valeur",
   "loanNone": "Aucun",
+  "loanNoReturnedDate": "Pas de date de retour",
   "loanNote": "Note",
+  "loanNoValue": "Veuillez entrer une valeur",
   "loanOnGoing": "En cours",
   "loanOnGoingLoan": "Prêt en cours",
   "loanOthers": "autres",
@@ -878,12 +752,12 @@
   "loanPositiveNumber": "Veuillez entrer un nombre positif",
   "loanPrevious": "Précédent",
   "loanQuantity": "Quantité",
-  "loanReturnLoan": "Rendre le prêt ?",
-  "loanReturnLoanDescription": "Voulez-vous rendre ce prêt ?",
   "loanReturned": "Rendu",
   "loanReturnedLoan": "Prêt rendu",
   "loanReturningError": "Erreur lors du retour",
   "loanReturningLoan": "Retour",
+  "loanReturnLoan": "Rendre le prêt ?",
+  "loanReturnLoanDescription": "Voulez-vous rendre ce prêt ?",
   "loanToReturn": "A rendre",
   "loanUnavailable": "Indisponible",
   "loanUpdate": "Modifier",
@@ -891,6 +765,7 @@
   "loanUpdatedLoan": "Prêt modifié",
   "loanUpdatingError": "Erreur lors de la modification",
   "loanYes": "Oui",
+  "@@locale": "fr",
   "loginAppName": "MyECL",
   "loginCreateAccount": "Créer un compte",
   "loginForgotPassword": "Mot de passe oublié ?",
@@ -962,20 +837,28 @@
   "othersRetry": "Réessayer",
   "othersTooOldVersion": "Votre version de l'application est trop ancienne.\n\nVeuillez mettre à jour l'application.",
   "othersUnableToConnectToServer": "Impossible de se connecter au serveur : {url}",
+  "@othersUnableToConnectToServer": {
+    "description": "Message when the app can't connect to the server with the url of the server",
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
   "othersVersion": "Version",
-  "paiementAStore": "un magasin",
   "paiementAccept": "Accepter",
   "paiementAccessPage": "Accéder à la page",
   "paiementAdd": "Ajouter",
-  "paiementAddSeller": "Ajouter un vendeur",
-  "paiementAddStore": "Ajouter un magasin",
-  "paiementAddThisDevice": "Ajouter cet appareil",
   "paiementAddedSeller": "Vendeur ajouté",
   "paiementAddingSellerError": "Erreur lors de l'ajout du vendeur",
   "paiementAddingStoreError": "Erreur lors de l'ajout du magasin",
+  "paiementAddSeller": "Ajouter un vendeur",
+  "paiementAddStore": "Ajouter un magasin",
+  "paiementAddThisDevice": "Ajouter cet appareil",
   "paiementAdmin": "Administrateur",
   "paiementAmount": "Montant",
   "paiementAskDeviceActivation": "Demande d'activation de l'appareil",
+  "paiementAStore": "un magasin",
   "paiementAt": "à",
   "paiementAuthenticationRequired": "Authentification requise pour payer",
   "paiementAuthentificationFailed": "Échec de l'authentification",
@@ -987,18 +870,19 @@
   "paiementCameraPerssionRequiredDescription": "Pour scanner un QR Code, vous devez autoriser l'accès à la caméra.",
   "paiementCanBank": "Peut encaisser",
   "paiementCanCancelTransaction": "Peut annuler des transactions",
-  "paiementCanManageSellers": "Peut gérer les vendeurs",
-  "paiementCanSeeHistory": "Peut voir l'historique",
   "paiementCancel": "Annuler",
-  "paiementCancelTransaction": "Annuler la transaction",
-  "paiementCancelTransactions": "Annuler les transactions",
   "paiementCancelled": "Annulé",
   "paiementCancelledTransaction": "Paiement annulé",
+  "paiementCancelTransaction": "Annuler la transaction",
+  "paiementCancelTransactions": "Annuler les transactions",
+  "paiementCanManageSellers": "Peut gérer les vendeurs",
+  "paiementCanSeeHistory": "Peut voir l'historique",
   "paiementCantLaunchURL": "Impossible d'ouvrir le lien",
   "paiementClose": "Fermer",
   "paiementCreate": "Créer",
   "paiementCreateInvoice": "Créer une facture",
   "paiementDecline": "Refuser",
+  "paiementDeletedSeller": "Vendeur supprimé",
   "paiementDeleteInvoice": "Supprimer la facture",
   "paiementDeleteSeller": "Supprimer le vendeur",
   "paiementDeleteSellerDescription": "Voulez-vous vraiment supprimer ce vendeur ?",
@@ -1006,7 +890,6 @@
   "paiementDeleteStoreDescription": "Voulez-vous vraiment supprimer ce magasin ?",
   "paiementDeleteStoreError": "Impossible de supprimer le magasin",
   "paiementDeleteSuccessfully": "Supprimé avec succès",
-  "paiementDeletedSeller": "Vendeur supprimé",
   "paiementDeletingSellerError": "Erreur lors de la suppression du vendeur",
   "paiementDeviceActivationReceived": "La demande d'activation est prise en compte, veuilliez consulter votre boite mail pour finaliser la démarche",
   "paiementDeviceNotActivated": "Appareil non activé",
@@ -1020,9 +903,30 @@
   "paiementDoneTransaction": "Transaction effectuée",
   "paiementDownload": "Télécharger",
   "paiementEditStore": "Modifier le magasin {store}",
+  "@paiementEditStore": {
+    "description": "Modifier le magasin",
+    "placeholders": {
+      "store": {
+        "type": "String"
+      }
+    }
+  },
   "paiementErrorDeleting": "Erreur lors de la suppression",
   "paiementErrorUpdatingStatus": "Erreur lors de la mise à jour du statut",
   "paiementFromTo": "Du {from} au {to}",
+  "@paiementFromTo": {
+    "description": "Text with a date range",
+    "placeholders": {
+      "from": {
+        "type": "DateTime",
+        "format": "yMd"
+      },
+      "to": {
+        "type": "DateTime",
+        "format": "yMd"
+      }
+    }
+  },
   "paiementGetBalanceError": "Erreur lors de la récupération du solde : ",
   "paiementGetTransactionsError": "Erreur lors de la récupération des transactions : ",
   "paiementHandOver": "Passation",
@@ -1030,18 +934,26 @@
   "paiementInvoiceCreatedSuccessfully": "Facture créée avec succès",
   "paiementInvoices": "Factures",
   "paiementInvoicesPerPage": "{quantity} factures/page",
+  "@paiementInvoicesPerPage": {
+    "description": "Text with the number of invoices per page",
+    "placeholders": {
+      "quantity": {
+        "type": "int"
+      }
+    }
+  },
   "paiementLastTransactions": "Dernières transactions",
   "paiementLimitedTo": "Limité à",
-  "paiementManageSellers": "Gérer les vendeurs",
   "paiementManagement": "Gestion",
+  "paiementManageSellers": "Gérer les vendeurs",
   "paiementMarkPaid": "Marquer comme payé",
   "paiementMarkReceived": "Marquer comme reçu",
   "paiementMarkUnpaid": "Marquer comme non payé",
   "paiementMaxAmount": "Le montant maximum de votre portefeuille est de",
   "paiementMean": "Moyenne : ",
   "paiementModify": "Modifier",
-  "paiementModifySuccessfully": "Modifié avec succès",
   "paiementModifyingStoreError": "Erreur lors de la modification du magasin",
+  "paiementModifySuccessfully": "Modifié avec succès",
   "paiementNewCGU": "Nouvelles Conditions Générales d'Utilisation",
   "paiementNext": "Suivant",
   "paiementNextAccountable": "Prochain responsable",
@@ -1054,8 +966,8 @@
   "paiementOf": "de",
   "paiementPaid": "Payé",
   "paiementPay": "Payer",
-  "paiementPayWithHA": "Payer avec HelloAsso",
   "paiementPayment": "Paiement",
+  "paiementPayWithHA": "Payer avec HelloAsso",
   "paiementPending": "En attente",
   "paiementPersonalBalance": "Solde personnel",
   "paiementAddFunds": "Ajouter des fonds",
@@ -1080,8 +992,8 @@
   "paiementRevokeDevice": "Révoquer l'appareil ?",
   "paiementRevokeDeviceDescription": "Vous ne pourrez plus utiliser cet appareil pour les paiements",
   "paiementRightsOf": "Droits de",
-  "paiementRightsUpdateError": "Erreur lors de la mise à jour des droits",
   "paiementRightsUpdated": "Droits mis à jour",
+  "paiementRightsUpdateError": "Erreur lors de la mise à jour des droits",
   "paiementScan": "Scanner",
   "paiementScanAlreadyUsedQRCode": "QR Code déjà utilisé",
   "paiementScanCode": "Scanner un code",
@@ -1101,6 +1013,14 @@
   "paiementStores": "Magasins",
   "paiementStructureAdmin": "Administrateur de la structure",
   "paiementStructureManagement": "Gestion de {structure}",
+  "@paiementStructureManagement": {
+    "description": "Gestion de la structure",
+    "placeholders": {
+      "structure": {
+        "type": "String"
+      }
+    }
+  },
   "paiementSuccededTransaction": "Paiement réussi",
   "paiementConfirmYourPurchase": "Confirmer votre achat",
   "paiementYourBalance": "Votre solde",
@@ -1131,32 +1051,28 @@
   "paiementValidUntil": "Valide jusqu'à",
   "paiementYouAreTransferingStructureTo": "Vous êtes sur le point de transférer la structure à ",
   "phAdd": "Ajouter",
-  "phAddNewJournal": "Ajouter un nouveau journal",
-  "phAddPdfFile": "Ajouter un fichier PDF",
   "phAdded": "Ajouté",
   "phAddingFileError": "Erreur d'ajout",
+  "phAddNewJournal": "Ajouter un nouveau journal",
+  "phAddPdfFile": "Ajouter un fichier PDF",
   "phDate": "Date",
   "phDateField": "Date : ",
   "phDelete": "Voulez-vous vraiment supprimer ce journal ?",
   "phEdit": "Modifier",
-  "phEditPdfFile": "Modifier le fichier PDF",
   "phEdited": "Modifié",
+  "phEditPdfFile": "Modifier le fichier PDF",
   "phIrreversibleAction": "Cette action est irréversible",
   "phMissingInformatonsOrPdf": "Informations manquantes ou fichier PDF manquant",
   "phNameField": "Nom : ",
   "phNoJournalInDatabase": "Pas encore de PH dans la base de donnée",
-  "phPhName": "Nom du PH",
-  "phSeePreviousJournal": "Voir les anciens journaux",
-  "phSuccesDowloading": "Téléchargé avec succès",
-  "phToHeavyFile": "Fichier trop volumineux",
   "phonebookAdd": "Ajouter",
   "phonebookAddAssociation": "Ajouter une association",
   "phonebookAddAssociationGroupement": "Ajouter un groupement d'association",
-  "phonebookAddMember": "Ajouter un membre",
-  "phonebookAddRole": "Ajouter un rôle",
   "phonebookAddedAssociation": "Association ajoutée",
   "phonebookAddedMember": "Membre ajouté",
   "phonebookAddingError": "Erreur lors de l'ajout",
+  "phonebookAddMember": "Ajouter un membre",
+  "phonebookAddRole": "Ajouter un rôle",
   "phonebookAdmin": "Admin",
   "phonebookAll": "Toutes",
   "phonebookApparentName": "Nom public du rôle :",
@@ -1169,23 +1085,55 @@
   "phonebookCancel": "Annuler",
   "phonebookChangeTermConfirm": "Êtes-vous sûr de vouloir changer tout le mandat ?\nCette action est irréversible !",
   "phonebookChangeTermYear": "Passer au mandat {year}",
+  "@phonebookChangeTermYear": {
+    "description": "Permet de changer le mandat d'une association",
+    "placeholders": {
+      "year": {
+        "type": "int"
+      }
+    }
+  },
   "phonebookClose": "Fermer",
   "phonebookConfirm": "Confirmer",
   "phonebookCopied": "Copié dans le presse-papier",
   "phonebookDeactivateAssociation": "Désactiver l'association",
-  "phonebookDeactivateSelectedAssociation": "Désactiver l'association {association} ?",
   "phonebookDeactivatedAssociation": "Association désactivée",
   "phonebookDeactivatedAssociationWarning": "Attention, cette association est désactivée, vous ne pouvez pas la modifier",
+  "phonebookDeactivateSelectedAssociation": "Désactiver l'association {association} ?",
+  "@phonebookDeactivateSelectedAssociation": {
+    "description": "Permet de désactiver une association",
+    "placeholders": {
+      "association": {
+        "type": "String"
+      }
+    }
+  },
   "phonebookDeactivating": "Désactiver l'association ?",
   "phonebookDeactivatingError": "Erreur lors de la désactivation",
   "phonebookDelete": "Supprimer",
   "phonebookDeleteAssociation": "Supprimer l'association",
   "phonebookDeleteAssociationDescription": "Ceci va supprimer l'historique de l'association",
-  "phonebookDeleteRole": "Supprimer le rôle",
-  "phonebookDeleteSelectedAssociation": "Supprimer l'association {association} ?",
-  "phonebookDeleteUserRole": "Supprimer le rôle de l'utilisateur {name} ?",
   "phonebookDeletedAssociation": "Association supprimée",
   "phonebookDeletedMember": "Membre supprimé",
+  "phonebookDeleteRole": "Supprimer le rôle",
+  "phonebookDeleteSelectedAssociation": "Supprimer l'association {association} ?",
+  "@phonebookDeleteSelectedAssociation": {
+    "description": "Permet de supprimer une association",
+    "placeholders": {
+      "association": {
+        "type": "String"
+      }
+    }
+  },
+  "phonebookDeleteUserRole": "Supprimer le rôle de l'utilisateur {name} ?",
+  "@phonebookDeleteUserRole": {
+    "description": "Permet de supprimer le rôle d'un utilisateur dans une association",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "phonebookDeleting": "Suppression",
   "phonebookDeletingError": "Erreur lors de la suppression",
   "phonebookDescription": "Description",
@@ -1216,17 +1164,41 @@
   "phonebookFilter": "Filtrer",
   "phonebookFilterDescription": "Filtrer les associations par type",
   "phonebookFirstname": "Prénom :",
-  "phonebookGroupementDeleteError": "Erreur lors de la suppression du groupement d'association",
   "phonebookGroupementDeleted": "Groupement d'association supprimé",
+  "phonebookGroupementDeleteError": "Erreur lors de la suppression du groupement d'association",
   "phonebookGroupementName": "Nom du groupement",
   "phonebookGroups": "Gérer les groupes de {association}",
+  "@phonebookGroups": {
+    "description": "Permet de gérer les groupes d'une association",
+    "placeholders": {
+      "association": {
+        "type": "String"
+      }
+    }
+  },
   "phonebookMember": "Membre",
   "phonebookMemberReordered": "Membre réordonné",
   "phonebookMembers": "Gérer les membres de {association}",
+  "@phonebookMembers": {
+    "description": "Permet de gérer les membres d'une association",
+    "placeholders": {
+      "association": {
+        "type": "String"
+      }
+    }
+  },
   "phonebookMembershipAssociationError": "Veuillez choisir une association",
   "phonebookMembershipRole": "Rôle :",
   "phonebookMembershipRoleError": "Veuillez choisir un rôle",
   "phonebookModifyMembership": "Modifier le rôle de {name}",
+  "@phonebookModifyMembership": {
+    "description": "Permet de modifier le rôle d'un membre dans une association",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "phonebookName": "Nom :",
   "phonebookNameCopied": "Nom et prénom copié dans le presse-papier",
   "phonebookNamePure": "Nom",
@@ -1248,20 +1220,41 @@
   "phonebookPresidentRoleTag": "Prez'",
   "phonebookPromoNotGiven": "Promo non renseignée",
   "phonebookPromotion": "Promotion {year}",
+  "@phonebookPromotion": {
+    "description": "Année de promotion d'un membre",
+    "placeholders": {
+      "year": {
+        "type": "int"
+      }
+    }
+  },
   "phonebookReorderingError": "Erreur lors du réordonnement",
   "phonebookResearch": "Rechercher",
   "phonebookRolePure": "Rôle",
   "phonebookSearchUser": "Rechercher un utilisateur",
+  "phonebookSelectManagerGroup": "Sélectionner le groupe de managers",
   "phonebookTerm": "Mandat {year}",
+  "@phonebookTerm": {
+    "description": "Année de mandat d'une association",
+    "placeholders": {
+      "year": {
+        "type": "int"
+      }
+    }
+  },
   "phonebookTermChangingError": "Erreur lors du changement de mandat",
   "phonebookTooHeavyAssociationPicture": "L'image est trop lourde (max 4Mo)",
-  "phonebookUpdateGroups": "Mettre à jour les groupes",
   "phonebookUpdatedAssociation": "Association modifiée",
   "phonebookUpdatedAssociationPicture": "La photo d'association a été changée",
   "phonebookUpdatedGroups": "Groupes mis à jour",
   "phonebookUpdatedMember": "Membre modifié",
+  "phonebookUpdateGroups": "Mettre à jour les groupes",
   "phonebookUpdatingError": "Erreur lors de la modification",
   "phonebookValidation": "Valider",
+  "phPhName": "Nom du PH",
+  "phSeePreviousJournal": "Voir les anciens journaux",
+  "phSuccesDowloading": "Téléchargé avec succès",
+  "phToHeavyFile": "Fichier trop volumineux",
   "purchasesAlreadyUsed": "Déjà utilisé",
   "purchasesCancel": "Annuler",
   "purchasesHistory": "Historique",
@@ -1289,11 +1282,11 @@
   "raffleActualPrize": "Lots actuels",
   "raffleActualRaffles": "Tombola en cours",
   "raffleAdd": "Ajouter",
+  "raffleAddedTicket": "Ticket ajouté",
+  "raffleAddingError": "Erreur lors de l'ajout",
   "raffleAddPackTicket": "Ajouter un pack de ticket",
   "raffleAddPrize": "Ajouter",
   "raffleAddTypeTicketSimple": "Ajouter",
-  "raffleAddedTicket": "Ticket ajouté",
-  "raffleAddingError": "Erreur lors de l'ajout",
   "raffleAlreadyExistTicket": "Le ticket existe déjà",
   "raffleAmount": "Solde",
   "raffleBoughtTicket": "Ticket acheté",
@@ -1303,12 +1296,12 @@
   "raffleCloseRaffleDescription": "Vous allez fermer la tombola, les utilisateurs ne pourront plus acheter de tickets. Êtes-vous sûr de vouloir continuer ?",
   "raffleCreateMenu": "Menu de Création",
   "raffleCreateYourRaffle": "Votre menu de création de tombolas",
+  "raffleDeletedPrize": "Lot supprimé",
+  "raffleDeletedTicket": "Ticket supprimé",
   "raffleDeletePrize": "Supprimer le lot",
   "raffleDeletePrizeDescription": "Vous allez supprimer le lot, êtes-vous sûr de vouloir continuer ?",
   "raffleDeleteTicket": "Supprimer le ticket",
   "raffleDeleteTicketDescription": "Vous allez supprimer le ticket, êtes-vous sûr de vouloir continuer ?",
-  "raffleDeletedPrize": "Lot supprimé",
-  "raffleDeletedTicket": "Ticket supprimé",
   "raffleDeletingError": "Erreur lors de la suppression",
   "raffleDescription": "Description",
   "raffleDraw": "Tirer",
@@ -1317,11 +1310,11 @@
   "raffleDrawingError": "Erreur lors du tirage",
   "raffleDrawn": "Tiré",
   "raffleEdit": "Modifier",
+  "raffleEditedTicket": "Ticket modifié",
+  "raffleEditingError": "Erreur lors de la modification",
   "raffleEditPrize": "Modifier",
   "raffleEditRaffle": "Modifier la tombola",
   "raffleEditTypeTicketSimple": "Modifier",
-  "raffleEditedTicket": "Ticket modifié",
-  "raffleEditingError": "Erreur lors de la modification",
   "raffleError": "Erreur",
   "raffleFillField": "Le champ ne peut pas être vide",
   "raffleGathered": "Récolté",
@@ -1338,10 +1331,10 @@
   "raffleNoCurrentRaffle": "Il n'y a aucune tombola en cours",
   "raffleNoDescription": "Aucune description",
   "raffleNoPrize": "Aucun lot",
+  "raffleNotEnoughMoney": "Vous n'avez pas assez d'argent",
   "raffleNoTicket": "Vous n'avez pas de ticket",
   "raffleNoTicketBuyable": "Vous ne pouvez pas achetez de billets pour l'instant",
   "raffleNoWinningTicketYet": "Les tickets gagnants seront affichés ici",
-  "raffleNotEnoughMoney": "Vous n'avez pas assez d'argent",
   "raffleNumberExpected": "Un entier est attendu",
   "raffleOpen": "Ouvrir",
   "raffleOpenRaffle": "Ouvrir la tombola",
@@ -1367,15 +1360,15 @@
   "raffleWinningTickets": "Tickets gagnants",
   "raffleYourTickets": "Tous vos tickets",
   "recommendationAdd": "Ajouter",
-  "recommendationAddImage": "Veuillez ajouter une image",
   "recommendationAddedRecommendation": "Bon plan ajouté",
+  "recommendationAddImage": "Veuillez ajouter une image",
   "recommendationAddingError": "Échec de l'ajout",
   "recommendationCode": "Code",
   "recommendationCopiedCode": "Code de réduction copié",
   "recommendationDelete": "Supprimer",
+  "recommendationDeletedRecommendation": "Bon plan supprimé",
   "recommendationDeleteRecommendation": "Suppresion",
   "recommendationDeleteRecommendationConfirmation": "Êtes-vous sûr de vouloir supprimer ce bon plan ?",
-  "recommendationDeletedRecommendation": "Bon plan supprimé",
   "recommendationDeletingRecommendationError": "Erreur lors de la suppression",
   "recommendationDescription": "Description",
   "recommendationEdit": "Modifier",
@@ -1387,18 +1380,18 @@
   "recommendationSummary": "Court résumé",
   "recommendationTitle": "Titre",
   "seedLibraryAdd": "Ajouter",
-  "seedLibraryAddPlant": "Déposer une plante",
-  "seedLibraryAddSpecies": "Ajouter une espèce",
   "seedLibraryAddedPlant": "Plante ajoutée",
   "seedLibraryAddedSpecies": "Espèce ajoutée",
   "seedLibraryAddingError": "Erreur lors de l'ajout",
+  "seedLibraryAddPlant": "Déposer une plante",
+  "seedLibraryAddSpecies": "Ajouter une espèce",
   "seedLibraryAll": "Toutes",
   "seedLibraryAncestor": "Ancêtre",
   "seedLibraryAround": "environ",
   "seedLibraryAutumn": "Automne",
-  "seedLibraryBorrowPlant": "Emprunter la plante",
   "seedLibraryBorrowedPlant": "Plante empruntée",
   "seedLibraryBorrowingDate": "Date d'emprunt :",
+  "seedLibraryBorrowPlant": "Emprunter la plante",
   "seedLibraryCard": "Carte",
   "seedLibraryChoosingAncestor": "Veuillez choisir un ancêtre",
   "seedLibraryChoosingSpecies": "Veuillez choisir une espèce",
@@ -1408,18 +1401,18 @@
   "seedLibraryDeadMsg": "Voulez-vous déclarer la plante morte ?",
   "seedLibraryDeadPlant": "Plante morte",
   "seedLibraryDeathDate": "Date de mort",
-  "seedLibraryDeleteSpecies": "Supprimer l'espèce ?",
   "seedLibraryDeletedSpecies": "Espèce supprimée",
+  "seedLibraryDeleteSpecies": "Supprimer l'espèce ?",
   "seedLibraryDeleting": "Suppression",
   "seedLibraryDeletingError": "Erreur lors de la suppression",
   "seedLibraryDepositNotAvailable": "Le dépôt de plantes n'est pas possible sans emprunter une plante au préalable",
   "seedLibraryDescription": "Description",
   "seedLibraryDifficulty": "Difficulté :",
   "seedLibraryEdit": "Modifier",
-  "seedLibraryEditInformation": "Modifier les informations",
-  "seedLibraryEditSpecies": "Modifier l'espèce",
   "seedLibraryEditedPlant": "Plante modifiée",
+  "seedLibraryEditInformation": "Modifier les informations",
   "seedLibraryEditingError": "Erreur lors de la modification",
+  "seedLibraryEditSpecies": "Modifier l'espèce",
   "seedLibraryEmptyDifficultyError": "Veuillez choisir une difficulté",
   "seedLibraryEmptyFieldError": "Veuillez remplir tous les champs",
   "seedLibraryEmptyTypeError": "Veuillez choisir un type de plante",
@@ -1455,9 +1448,9 @@
   "seedLibraryNoStockPlants": "Aucune plante disponible dans le stock",
   "seedLibraryNotes": "Notes",
   "seedLibraryOk": "OK",
-  "seedLibraryPlantDetail": "Détail de la plante",
   "seedLibraryPlantationPeriod": "Période de plantation :",
   "seedLibraryPlantationType": "Type de plantation :",
+  "seedLibraryPlantDetail": "Détail de la plante",
   "seedLibraryPlantingDate": "Date de plantation",
   "seedLibraryPlantingNow": "Je la plante maintenant",
   "seedLibraryPrefix": "Préfixe",
@@ -1552,6 +1545,17 @@
   "settingsNewPassword": "Nouveau mot de passe",
   "settingsNickname": "Surnom",
   "settingsNotificationCounter": "{active}/{total} {active, plural, zero {activée} one {activée} other {activées}}",
+  "@settingsNotificationCounter": {
+    "description": "Affiche le nombre de notifications actives sur le total des notifications disponibles, avec gestion du pluriel",
+    "placeholders": {
+      "active": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "settingsNotifications": "Notifications",
   "settingsOldPassword": "Ancien mot de passe",
   "settingsPasswordChanged": "Mot de passe changé",
@@ -1571,9 +1575,9 @@
   "settingsSynncWithCalendar": "Synchroniser avec votre calendrier",
   "settingsTooHeavyProfilePicture": "L'image est trop lourde (max 4Mo)",
   "settingsTooRecentVersion": "Votre version de l'application est trop récente, contactez un administrateur pour résoudre ce problème",
-  "settingsUpdateNotification": "Mettre à jour les notifications",
   "settingsUpdatedProfile": "Profil modifié",
   "settingsUpdatedProfilePicture": "Photo de profil modifiée",
+  "settingsUpdateNotification": "Mettre à jour les notifications",
   "settingsUpdatingError": "Erreur lors de la modification du profil",
   "settingsValidate": "Valider",
   "settingsVersion": "Version",
@@ -1581,12 +1585,12 @@
   "toolInvalidNumber": "Chiffre invalide",
   "toolSuccess": "Succès",
   "voteAdd": "Ajouter",
-  "voteAddMember": "Ajouter un membre",
-  "voteAddPretendance": "Ajouter une liste",
-  "voteAddSection": "Ajouter une section",
   "voteAddedPretendance": "Liste ajoutée",
   "voteAddedSection": "Section ajoutée",
   "voteAddingError": "Erreur lors de l'ajout",
+  "voteAddMember": "Ajouter un membre",
+  "voteAddPretendance": "Ajouter une liste",
+  "voteAddSection": "Ajouter une section",
   "voteAll": "Tous",
   "voteAlreadyAddedMember": "Membre déjà ajouté",
   "voteAlreadyVoted": "Vote enregistré",
@@ -1594,22 +1598,22 @@
   "voteChooseList": "Choisir une liste",
   "voteClear": "Réinitialiser",
   "voteClearVotes": "Réinitialiser les votes",
-  "voteCloseVote": "Fermer les votes",
   "voteClosedVote": "Votes clos",
+  "voteCloseVote": "Fermer les votes",
   "voteConfirmVote": "Confirmer le vote",
   "voteCountVote": "Dépouiller les votes",
   "voteDelete": "Supprimer",
   "voteDeleteAll": "Supprimer tout",
   "voteDeleteAllDescription": "Voulez-vous vraiment supprimer tout ?",
+  "voteDeletedAll": "Tout supprimé",
+  "voteDeletedPipo": "Listes pipos supprimées",
+  "voteDeletedSection": "Section supprimée",
   "voteDeletePipo": "Supprimer les listes pipos",
   "voteDeletePipoDescription": "Voulez-vous vraiment supprimer les listes pipos ?",
   "voteDeletePretendance": "Supprimer la liste",
   "voteDeletePretendanceDesc": "Voulez-vous vraiment supprimer cette liste ?",
   "voteDeleteSection": "Supprimer la section",
   "voteDeleteSectionDescription": "Voulez-vous vraiment supprimer cette section ?",
-  "voteDeletedAll": "Tout supprimé",
-  "voteDeletedPipo": "Listes pipos supprimées",
-  "voteDeletedSection": "Section supprimée",
   "voteDeletingError": "Erreur lors de la suppression",
   "voteDescription": "Description",
   "voteEdit": "Modifier",
@@ -1636,9 +1640,9 @@
   "voteProgram": "Programme",
   "votePublish": "Publier",
   "votePublishVoteDescription": "Voulez-vous vraiment publier les votes ?",
+  "voteResetedVotes": "Votes réinitialisés",
   "voteResetVote": "Réinitialiser les votes",
   "voteResetVoteDescription": "Que voulez-vous faire ?",
-  "voteResetedVotes": "Votes réinitialisés",
   "voteRole": "Rôle",
   "voteSection": "Section",
   "voteSectionDescription": "Description de la section",
@@ -1650,12 +1654,12 @@
   "voteVoteError": "Erreur lors de l'enregistrement du vote",
   "voteVoteFor": "Voter pour ",
   "voteVoteNotStarted": "Vote non ouvert",
-  "voteVoteSuccess": "Vote enregistré",
   "voteVoters": "Groupes votants",
   "voteVotes": "Voix",
   "voteVotesClosed": "Votes clos",
   "voteVotesCounted": "Votes dépouillés",
   "voteVotesOpened": "Votes ouverts",
+  "voteVoteSuccess": "Vote enregistré",
   "voteWarning": "Attention",
   "voteWarningMessage": "La sélection ne sera pas sauvegardée.\nVoulez-vous continuer ?"
 }

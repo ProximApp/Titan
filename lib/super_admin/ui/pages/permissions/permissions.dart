@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/admin/providers/group_list_provider.dart';
+import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/super_admin/providers/account_types_list_provider.dart';
 import 'package:titan/super_admin/providers/permission_name_list_provider.dart';
 import 'package:titan/super_admin/providers/permissions_list_provider.dart';
@@ -19,6 +20,9 @@ class PermissionsPage extends HookConsumerWidget {
     final permissions = ref.watch(permissionsProvider);
     final groups = ref.watch(allGroupListProvider);
     final accountTypes = ref.watch(allAccountTypesListProvider);
+
+    final localizeWithContext = AppLocalizations.of(context)!;
+
     return SuperAdminTemplate(
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -29,10 +33,10 @@ class PermissionsPage extends HookConsumerWidget {
               SizedBox(
                 child: Column(
                   children: [
-                    const Align(
+                    Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        AdminTextConstants.modifyModuleVisibility,
+                        localizeWithContext.adminModifyPermissions,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
