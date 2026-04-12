@@ -27,7 +27,7 @@ void main() {
           mappedPermissionsProvider.overrideWithValue({
             EventPermissionConstants.manageEvents: CorePermission(
               permissionName: EventPermissionConstants.manageEvents,
-              authorizedGroupIds: ['53a669d6-84b1-4352-8d7c-421c1fbd9c6a'],
+              authorizedGroupIds: ['b0357687-2211-410a-9e2a-144519eeaafa'],
               authorizedAccountTypes: [],
             ),
           }),
