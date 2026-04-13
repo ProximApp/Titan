@@ -6,6 +6,9 @@ version: 3.0.0+197
 
 minimal_hyperion_version: 6.0.0
 
+scripts:
+  sort-arb: dart run .\lib\l10n\sort_arb.dart
+
 environment:
   sdk: ^3.10.0
   flutter: ^3.38.6
