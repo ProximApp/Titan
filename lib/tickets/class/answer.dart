@@ -31,10 +31,7 @@ class Answer {
     final data = <String, dynamic>{};
     data['question_id'] = questionId;
     // Backend expects nested structure for answer
-    data['answer'] = {
-      'answer_type': answerType.value,
-      'answer': answer,
-    };
+    data['answer'] = {'answer_type': answerType.value, 'answer': answer};
     return data;
   }
 
