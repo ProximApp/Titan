@@ -789,7 +789,7 @@ class _EditQuestionsSection extends StatelessWidget {
                           children: [
                             Expanded(
                               child: DropdownButtonFormField<AnswerType>(
-                                value: question.answerType,
+                                initialValue: question.answerType,
                                 decoration: InputDecoration(
                                   labelText: l10n.ticketsQuestionTypeLabel,
                                   border: OutlineInputBorder(
