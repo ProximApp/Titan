@@ -67,9 +67,7 @@ class SuperAdminRouter {
       QRoute(
         path: superAdmins,
         builder: () => super_admins_page.SuperAdminsPage(),
-        middleware: [
-          DeferredLoadingMiddleware(super_admins_page.loadLibrary),
-        ],
+        middleware: [DeferredLoadingMiddleware(super_admins_page.loadLibrary)],
       ),
       QRoute(
         path: schools,

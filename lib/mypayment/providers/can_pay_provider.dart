@@ -42,10 +42,10 @@ final canPayProvider = FutureProvider.autoDispose<CanPayResult>((ref) async {
 
 final canPayWithAmountProvider = FutureProvider.autoDispose
     .family<CanPayResult, int>((ref, amount) async {
-  final baseResult = await ref.watch(canPayProvider.future);
-  if (!baseResult.success) {
-    return baseResult;
-  }
+      final baseResult = await ref.watch(canPayProvider.future);
+      if (!baseResult.success) {
+        return baseResult;
+      }
 
-  return baseResult;
-});
+      return baseResult;
+    });

@@ -153,9 +153,7 @@ class AdminRouter {
       QRoute(
         path: accountTypes,
         builder: () => account_types_page.AccountTypesPage(),
-        middleware: [
-          DeferredLoadingMiddleware(account_types_page.loadLibrary),
-        ],
+        middleware: [DeferredLoadingMiddleware(account_types_page.loadLibrary)],
       ),
     ],
   );

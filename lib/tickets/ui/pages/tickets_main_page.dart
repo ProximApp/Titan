@@ -131,20 +131,21 @@ class TicketsMainPage extends HookConsumerWidget {
                     return _buildEmptyState(l10n);
                   }
                   final now = DateTime.now();
-                  final sortedTickets = [...tickets]..sort((a, b) {
-                    final aUpcoming = a.session.startDatetime.isAfter(now);
-                    final bUpcoming = b.session.startDatetime.isAfter(now);
-                    if (aUpcoming != bUpcoming) {
-                      return aUpcoming ? -1 : 1;
-                    }
-                    return aUpcoming
-                        ? a.session.startDatetime.compareTo(
-                            b.session.startDatetime,
-                          )
-                        : b.session.startDatetime.compareTo(
-                            a.session.startDatetime,
-                          );
-                  });
+                  final sortedTickets = [...tickets]
+                    ..sort((a, b) {
+                      final aUpcoming = a.session.startDatetime.isAfter(now);
+                      final bUpcoming = b.session.startDatetime.isAfter(now);
+                      if (aUpcoming != bUpcoming) {
+                        return aUpcoming ? -1 : 1;
+                      }
+                      return aUpcoming
+                          ? a.session.startDatetime.compareTo(
+                              b.session.startDatetime,
+                            )
+                          : b.session.startDatetime.compareTo(
+                              a.session.startDatetime,
+                            );
+                    });
                   return Column(
                     children: [
                       const SizedBox(height: 8),

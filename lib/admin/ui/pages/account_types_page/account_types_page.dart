@@ -163,8 +163,7 @@ class AccountTypesPage extends HookConsumerWidget {
                             child: ListItem(
                               title: user.getName(),
                               subtitle: user.accountType.type,
-                              onTap: () =>
-                                  openAccountTypeSelector(user, types),
+                              onTap: () => openAccountTypeSelector(user, types),
                             ),
                           );
                         },
