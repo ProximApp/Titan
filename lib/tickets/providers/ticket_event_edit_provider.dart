@@ -49,6 +49,8 @@ class ShotgunEditNotifier extends StateNotifier<AsyncValue<void>> {
     String questionText,
     AnswerType answerType,
     bool required,
+    bool disabled,
+    int? price,
   ) async {
     try {
       return await repository.updateQuestion(
@@ -57,7 +59,82 @@ class ShotgunEditNotifier extends StateNotifier<AsyncValue<void>> {
         questionText,
         answerType,
         required,
+        disabled,
+        price,
       );
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+      return false;
+    }
+  }
+
+  Future<bool> updateQuestionDisabled(
+    String eventId,
+    String questionId,
+    String questionText,
+    AnswerType answerType,
+    bool required,
+    bool disabled,
+    int? price,
+  ) async {
+    try {
+      return await repository.updateQuestion(
+        eventId,
+        questionId,
+        questionText,
+        answerType,
+        required,
+        disabled,
+        price,
+      );
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+      return false;
+    }
+  }
+
+  Future<bool> updateCategoryDisabled(
+    String eventId,
+    Category category,
+  ) async {
+    try {
+      return await repository.updateCategory(eventId, category);
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+      return false;
+    }
+  }
+
+  Future<bool> updateSessionDisabled(
+    String eventId,
+    Session session,
+  ) async {
+    try {
+      return await repository.updateSession(eventId, session);
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+      return false;
+    }
+  }
+
+  Future<bool> createSession(String eventId, Session session) async {
+    state = const AsyncValue.loading();
+    try {
+      final result = await repository.createSession(eventId, session);
+      state = const AsyncValue.data(null);
+      return result;
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+      return false;
+    }
+  }
+
+  Future<bool> createCategory(String eventId, Category category) async {
+    state = const AsyncValue.loading();
+    try {
+      final result = await repository.createCategory(eventId, category);
+      state = const AsyncValue.data(null);
+      return result;
     } catch (e, st) {
       state = AsyncValue.error(e, st);
       return false;

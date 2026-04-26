@@ -12,6 +12,7 @@ import 'package:titan/tickets/class/ticket_event.dart';
 import 'package:titan/tickets/class/ticket.dart';
 import 'package:titan/tickets/class/user_ticket.dart';
 import 'package:titan/tickets/tools/functions.dart';
+import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/repository/repository.dart';
 
 class TicketsRepository extends Repository {
@@ -108,6 +109,8 @@ class TicketsRepository extends Repository {
     String questionText,
     AnswerType answerType,
     bool required,
+    bool disabled,
+    int? price,
   ) async {
     final response = await http.patch(
       Uri.parse(
@@ -118,6 +121,8 @@ class TicketsRepository extends Repository {
         'question': questionText,
         'answer_type': answerType.value,
         'required': required,
+        'disabled': disabled,
+        'price': price != null ? price * 100 : null,
       }),
     );
     if (response.statusCode == 204 || response.statusCode == 200) {
@@ -125,6 +130,45 @@ class TicketsRepository extends Repository {
     } else {
       throw Exception(
         'Failed to update question: ${response.statusCode} ${response.body}',
+      );
+    }
+  }
+
+  Future<bool> createSession(String eventId, Session session) async {
+    final response = await http.post(
+      Uri.parse('${Repository.host}${ext}admin/events/$eventId/sessions'),
+      headers: headers,
+      body: jsonEncode({
+        'name': session.name,
+        'start_datetime': processDateToAPI(session.startDatetime),
+        'quota': session.quota,
+      }),
+    );
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception(
+        'Failed to create session: ${response.statusCode} ${response.body}',
+      );
+    }
+  }
+
+  Future<bool> createCategory(String eventId, Category category) async {
+    final response = await http.post(
+      Uri.parse('${Repository.host}${ext}admin/events/$eventId/categories'),
+      headers: headers,
+      body: jsonEncode({
+        'name': category.name,
+        'price': category.price * 100,
+        'quota': category.quota,
+        'required_membership': category.requiredMembership,
+      }),
+    );
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception(
+        'Failed to create category: ${response.statusCode} ${response.body}',
       );
     }
   }

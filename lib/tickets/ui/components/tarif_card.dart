@@ -20,13 +20,14 @@ class TarifCard extends HookWidget {
 
     void notify() => onChanged(
       entries.value
-          .map(
+          .map<Category>(
             (e) => Category(
               id: '',
               name: e['label']!.text,
               price: int.tryParse(e['value']!.text) ?? 0,
               quota: int.tryParse(e['quota']!.text),
               requiredMembership: null,
+              disabled: false,
             ),
           )
           .toList(),

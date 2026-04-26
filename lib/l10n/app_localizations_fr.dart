@@ -4496,11 +4496,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'Date de fermeture de la billetterie (optionnel)';
 
   @override
-  String get shotgunManageAssociation =>
-      'Gérer les billetteries de l\'association';
+  String get shotgunManageAssociation => 'Gérer les billetteries du store';
 
   @override
-  String get shotgunManageTitle => 'Gérer les billetteries de l\'association';
+  String get shotgunManageTitle => 'Gérer les billetteries du store';
 
   @override
   String get shotgunMinPriceError => 'Le prix minimum est 1€';
@@ -4879,8 +4878,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get ticketsCreate => 'Créer une billetterie';
 
   @override
-  String get ticketsManageAssociation =>
-      'Gérer les billeteries de l\'association';
+  String get ticketsManageAssociation => 'Gérer les billeteries du store';
 
   @override
   String get ticketsTitleLabel => 'Titre de la billetterie *';
@@ -4937,7 +4935,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get ticketsQuestionRequiredLabel => 'Obligatoire';
 
   @override
-  String get ticketsEditTitle => 'Modifier le tickets';
+  String get ticketsEditTitle => 'Modifier la billetterie';
 
   @override
   String get ticketsTariffs => 'Tarifs';
@@ -4964,7 +4962,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get ticketsSaveChanges => 'Enregistrer les modifications';
 
   @override
-  String get ticketsManageTitle => 'Gérer les tickets de l\'association';
+  String get ticketsManageTitle => 'Gérer les billetteries du store';
 
   @override
   String get ticketsNoTickets => 'Vous n\'avez pas encore de billets';
@@ -5030,4 +5028,20 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get ticketsSessionSoldOut => 'Cette session est complète';
+
+  @override
+  String get ticketsNoStoreTicketing =>
+      'Pas de billetterie existante pour ce store';
+
+  @override
+  String get ticketsEnabled => 'Activé';
+
+  @override
+  String get ticketsDisabled => 'Désactivé';
+
+  @override
+  String get ticketsDeleteCategoryTooltip => 'Supprimer cette catégorie';
+
+  @override
+  String get ticketsDeleteSessionTooltip => 'Supprimer cette session';
 }

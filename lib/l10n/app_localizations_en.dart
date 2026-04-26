@@ -4955,4 +4955,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ticketsSessionSoldOut => 'This session is sold out';
+
+  @override
+  String get ticketsNoStoreTicketing => 'No ticketing exists for this store';
+
+  @override
+  String get ticketsEnabled => 'Enabled';
+
+  @override
+  String get ticketsDisabled => 'Disabled';
+
+  @override
+  String get ticketsDeleteCategoryTooltip => 'Delete this category';
+
+  @override
+  String get ticketsDeleteSessionTooltip => 'Delete this session';
 }
