@@ -93,10 +93,7 @@ class ShotgunEditNotifier extends StateNotifier<AsyncValue<void>> {
     }
   }
 
-  Future<bool> updateCategoryDisabled(
-    String eventId,
-    Category category,
-  ) async {
+  Future<bool> updateCategoryDisabled(String eventId, Category category) async {
     try {
       return await repository.updateCategory(eventId, category);
     } catch (e, st) {
@@ -105,10 +102,7 @@ class ShotgunEditNotifier extends StateNotifier<AsyncValue<void>> {
     }
   }
 
-  Future<bool> updateSessionDisabled(
-    String eventId,
-    Session session,
-  ) async {
+  Future<bool> updateSessionDisabled(String eventId, Session session) async {
     try {
       return await repository.updateSession(eventId, session);
     } catch (e, st) {
