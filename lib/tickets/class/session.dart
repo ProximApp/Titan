@@ -6,17 +6,20 @@ class Session {
     required this.name,
     required this.startDatetime,
     this.quota,
+    required this.disabled,
   });
   late final String id;
   late final String name;
   late final DateTime startDatetime;
   late final int? quota;
+  late final bool disabled;
 
   Session.fromJson(Map<String, dynamic> json) {
     id = json['id']?.toString() ?? '';
     name = json['name']?.toString() ?? '';
     startDatetime = processDateFromAPI(json['start_datetime'] ?? '');
     quota = json['quota'];
+    disabled = json['disabled'] ?? false;
   }
 
   Map<String, dynamic> toJson() {
@@ -25,6 +28,7 @@ class Session {
     data['name'] = name;
     data['start_datetime'] = processDateToAPI(startDatetime);
     data['quota'] = quota;
+    data['disabled'] = disabled;
     return data;
   }
 
@@ -33,12 +37,14 @@ class Session {
     String? name,
     DateTime? startDatetime,
     int? quota,
+    bool? disabled,
   }) {
     return Session(
       id: id ?? this.id,
       name: name ?? this.name,
       startDatetime: startDatetime ?? this.startDatetime,
       quota: quota ?? this.quota,
+      disabled: disabled ?? this.disabled,
     );
   }
 
@@ -47,10 +53,11 @@ class Session {
     name = '';
     startDatetime = DateTime.now();
     quota = null;
+    disabled = false;
   }
 
   @override
   String toString() {
-    return 'Session{id : $id, name: $name, startDatetime: $startDatetime, quota: $quota}';
+    return 'Session{id : $id, name: $name, startDatetime: $startDatetime, quota: $quota, disabled: $disabled}';
   }
 }

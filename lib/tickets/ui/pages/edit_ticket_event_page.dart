@@ -265,13 +265,21 @@ class EditTicketEventPage extends HookConsumerWidget {
 
                       if (!success || !context.mounted) return;
 
-                      // Mettre à jour les catégories modifiées
+                      // Traiter les catégories (création + modification)
                       for (int i = 0; i < categories.value.length; i++) {
-                        if (i < ticketEvent.categories.length) {
+                        final updated = categories.value[i];
+                        if (updated.id.isEmpty) {
+                          // Nouvelle catégorie
+                          await ticketEventEditNotifier.createCategory(
+                            ticketEvent.id,
+                            updated,
+                          );
+                        } else if (i < ticketEvent.categories.length) {
+                          // Catégorie existante - vérifier si elle a changé
                           final original = ticketEvent.categories[i];
-                          final updated = categories.value[i];
                           if (original.name != updated.name ||
-                              original.price != updated.price) {
+                              original.price != updated.price ||
+                              original.disabled != updated.disabled) {
                             await ticketEventEditNotifier.updateCategory(
                               ticketEvent.id,
                               updated,
@@ -282,14 +290,22 @@ class EditTicketEventPage extends HookConsumerWidget {
 
                       if (!context.mounted) return;
 
-                      // Mettre à jour les sessions modifiées
+                      // Traiter les sessions (création + modification)
                       for (int i = 0; i < sessions.value.length; i++) {
-                        if (i < ticketEvent.sessions.length) {
+                        final updated = sessions.value[i];
+                        if (updated.id.isEmpty) {
+                          // Nouvelle session
+                          await ticketEventEditNotifier.createSession(
+                            ticketEvent.id,
+                            updated,
+                          );
+                        } else if (i < ticketEvent.sessions.length) {
+                          // Session existante - vérifier si elle a changé
                           final original = ticketEvent.sessions[i];
-                          final updated = sessions.value[i];
                           if (original.name != updated.name ||
                               original.startDatetime != updated.startDatetime ||
-                              original.quota != updated.quota) {
+                              original.quota != updated.quota ||
+                              original.disabled != updated.disabled) {
                             await ticketEventEditNotifier.updateSession(
                               ticketEvent.id,
                               updated,
@@ -300,10 +316,26 @@ class EditTicketEventPage extends HookConsumerWidget {
 
                       if (!context.mounted) return;
 
-                      // Mettre à jour ou créer les questions
+                      // Traiter les questions (création + modification)
                       for (int i = 0; i < questions.value.length; i++) {
                         final questionData = questions.value[i];
-                        if (questionData.id != null) {
+                        final questionPrice =
+                            questionData.priceController.text.isEmpty
+                                ? null
+                                : int.tryParse(
+                                    questionData.priceController.text,
+                                  );
+
+                        if (questionData.id == null ||
+                            questionData.id!.isEmpty) {
+                          // Nouvelle question
+                          await ticketEventEditNotifier.createQuestion(
+                            ticketEvent.id,
+                            questionData.controller.text,
+                            questionData.answerType,
+                            questionData.required,
+                          );
+                        } else {
                           // Question existante - vérifier si elle a changé
                           final originalQuestion = ticketEvent.questions
                               .firstWhere((q) => q.id == questionData.id);
@@ -312,23 +344,20 @@ class EditTicketEventPage extends HookConsumerWidget {
                               questionData.answerType !=
                                   originalQuestion.answerType ||
                               questionData.required !=
-                                  originalQuestion.required) {
+                                  originalQuestion.required ||
+                              questionData.disabled !=
+                                  originalQuestion.disabled ||
+                              questionPrice != originalQuestion.price) {
                             await ticketEventEditNotifier.updateQuestion(
                               ticketEvent.id,
                               questionData.id!,
                               questionData.controller.text,
                               questionData.answerType,
                               questionData.required,
+                              questionData.disabled,
+                              questionPrice,
                             );
                           }
-                        } else {
-                          // Nouvelle question - la créer
-                          await ticketEventEditNotifier.createQuestion(
-                            ticketEvent.id,
-                            questionData.controller.text,
-                            questionData.answerType,
-                            questionData.required,
-                          );
                         }
                       }
 
@@ -378,6 +407,18 @@ class _EditCategoriesSection extends HookWidget {
     required this.onChanged,
   });
 
+  void addCategory() {
+    onChanged([
+      ...categories,
+      Category.empty(),
+    ]);
+  }
+
+  void removeCategory(int index) {
+    final updated = [...categories]..removeAt(index);
+    onChanged(updated);
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -391,7 +432,6 @@ class _EditCategoriesSection extends HookWidget {
       () => categories
           .map((c) => TextEditingController(text: c.price.toString()))
           .toList(),
-      [],
     );
 
     // Update controllers when categories change externally
@@ -435,47 +475,133 @@ class _EditCategoriesSection extends HookWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              l10n.ticketsTariffs,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  l10n.ticketsTariffs,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                OutlinedButton.icon(
+                  onPressed: addCategory,
+                  icon: const HeroIcon(HeroIcons.plus, size: 18),
+                  label: Text(l10n.ticketsAddTariff),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: ColorConstants.main,
+                    side: const BorderSide(color: ColorConstants.main),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
             ...List.generate(categories.length, (i) {
               final category = categories[i];
               return Padding(
                 padding: const EdgeInsets.only(bottom: 12),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: TextEntry(
-                        label: l10n.ticketsTariffLabel(i + 1),
-                        controller: nameControllers[i],
-                        onChanged: (value) {
-                          final updated = [...categories];
-                          updated[i] = category.copyWith(name: value);
-                          onChanged(updated);
-                        },
-                      ),
+                child: Card(
+                  margin: EdgeInsets.zero,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    side: BorderSide(
+                      color: category.disabled
+                          ? ColorConstants.secondary.withValues(alpha: 0.3)
+                          : ColorConstants.secondary.withValues(alpha: 0.5),
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      flex: 1,
-                      child: TextEntry(
-                        label: l10n.ticketsPriceLabel,
-                        controller: priceControllers[i],
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) {
-                          final updated = [...categories];
-                          updated[i] = category.copyWith(
-                            price: int.tryParse(value) ?? category.price,
-                          );
-                          onChanged(updated);
-                        },
-                      ),
+                  ),
+                  color: category.disabled
+                      ? ColorConstants.background.withValues(alpha: 0.5)
+                      : null,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: TextEntry(
+                                label: l10n.ticketsTariffLabel(i + 1),
+                                controller: nameControllers[i],
+                                onChanged: (value) {
+                                  final updated = [...categories];
+                                  updated[i] = category.copyWith(name: value);
+                                  onChanged(updated);
+                                },
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              flex: 1,
+                              child: TextEntry(
+                                label: l10n.ticketsPriceLabel,
+                                controller: priceControllers[i],
+                                keyboardType: TextInputType.number,
+                                onChanged: (value) {
+                                  final updated = [...categories];
+                                  updated[i] = category.copyWith(
+                                    price:
+                                        int.tryParse(value) ?? category.price,
+                                  );
+                                  onChanged(updated);
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Switch(
+                                  value: !category.disabled,
+                                  onChanged: (value) {
+                                    final updated = [...categories];
+                                    updated[i] = category.copyWith(
+                                      disabled: !value,
+                                    );
+                                    onChanged(updated);
+                                  },
+                                  activeColor: ColorConstants.main,
+                                ),
+                                Text(
+                                  category.disabled
+                                      ? l10n.ticketsDisabled
+                                      : l10n.ticketsEnabled,
+                                  style: TextStyle(
+                                    color: category.disabled
+                                        ? ColorConstants.tertiary
+                                        : ColorConstants.main,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            IconButton(
+                              onPressed: () => removeCategory(i),
+                              icon: HeroIcon(
+                                HeroIcons.trash,
+                                size: 20,
+                                color: ColorConstants.error,
+                              ),
+                              tooltip: l10n.ticketsDeleteCategoryTooltip,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               );
             }),
@@ -493,6 +619,18 @@ class _EditSessionsSection extends HookWidget {
   final ValueChanged<List<Session>> onChanged;
 
   const _EditSessionsSection({required this.sessions, required this.onChanged});
+
+  void addSession() {
+    onChanged([
+      ...sessions,
+      Session.empty(),
+    ]);
+  }
+
+  void removeSession(int index) {
+    final updated = [...sessions]..removeAt(index);
+    onChanged(updated);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -513,13 +651,11 @@ class _EditSessionsSection extends HookWidget {
             ),
           )
           .toList(),
-      [],
     );
     final quotaControllers = useMemoized(
       () => sessions
           .map((s) => TextEditingController(text: s.quota?.toString() ?? ''))
           .toList(),
-      [],
     );
 
     // Update controllers when sessions change externally
@@ -571,84 +707,158 @@ class _EditSessionsSection extends HookWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              l10n.ticketsSessions,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  l10n.ticketsSessions,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                OutlinedButton.icon(
+                  onPressed: addSession,
+                  icon: const HeroIcon(HeroIcons.plus, size: 18),
+                  label: Text(l10n.ticketsAddSession),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: ColorConstants.main,
+                    side: const BorderSide(color: ColorConstants.main),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
             ...List.generate(sessions.length, (i) {
               final session = sessions[i];
               return Padding(
                 padding: const EdgeInsets.only(bottom: 12),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TextEntry(
-                            label: l10n.ticketsSessionLabelNumbered(i + 1),
-                            controller: nameControllers[i],
-                            onChanged: (value) {
-                              final updated = [...sessions];
-                              updated[i] = session.copyWith(name: value);
-                              onChanged(updated);
-                            },
-                          ),
-                          const SizedBox(height: 8),
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: DateEntry(
-                                  label: l10n.ticketsDateLabel,
-                                  controller: dateControllers[i],
-                                  onTap: () async {
-                                    await getFullDate(
-                                      context,
-                                      dateControllers[i],
-                                    );
-                                    if (dateControllers[i].text.isNotEmpty) {
-                                      final updated = [...sessions];
-                                      updated[i] = session.copyWith(
-                                        startDatetime: DateTime.parse(
-                                          processDateBackWithHourMaybe(
-                                            dateControllers[i].text,
-                                            locale.toString(),
-                                          ),
+                child: Card(
+                  margin: EdgeInsets.zero,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    side: BorderSide(
+                      color: session.disabled
+                          ? ColorConstants.secondary.withValues(alpha: 0.3)
+                          : ColorConstants.secondary.withValues(alpha: 0.5),
+                    ),
+                  ),
+                  color: session.disabled
+                      ? ColorConstants.background.withValues(alpha: 0.5)
+                      : null,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextEntry(
+                          label: l10n.ticketsSessionLabelNumbered(i + 1),
+                          controller: nameControllers[i],
+                          onChanged: (value) {
+                            final updated = [...sessions];
+                            updated[i] = session.copyWith(name: value);
+                            onChanged(updated);
+                          },
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: DateEntry(
+                                label: l10n.ticketsDateLabel,
+                                controller: dateControllers[i],
+                                onTap: () async {
+                                  await getFullDate(
+                                    context,
+                                    dateControllers[i],
+                                  );
+                                  if (dateControllers[i].text.isNotEmpty) {
+                                    final updated = [...sessions];
+                                    updated[i] = session.copyWith(
+                                      startDatetime: DateTime.parse(
+                                        processDateBackWithHourMaybe(
+                                          dateControllers[i].text,
+                                          locale.toString(),
                                         ),
-                                      );
-                                      onChanged(updated);
-                                    }
-                                  },
-                                ),
+                                      ),
+                                    );
+                                    onChanged(updated);
+                                  }
+                                },
                               ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                flex: 1,
-                                child: TextEntry(
-                                  label: l10n.ticketsQuotaLabel,
-                                  controller: quotaControllers[i],
-                                  keyboardType: TextInputType.number,
-                                  canBeEmpty: true,
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              flex: 1,
+                              child: TextEntry(
+                                label: l10n.ticketsQuotaLabel,
+                                controller: quotaControllers[i],
+                                keyboardType: TextInputType.number,
+                                canBeEmpty: true,
+                                displayOptionnal: false,
+                                onChanged: (value) {
+                                  final updated = [...sessions];
+                                  updated[i] = session.copyWith(
+                                    quota: value.isEmpty
+                                        ? null
+                                        : int.tryParse(value),
+                                  );
+                                  onChanged(updated);
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Switch(
+                                  value: !session.disabled,
                                   onChanged: (value) {
                                     final updated = [...sessions];
                                     updated[i] = session.copyWith(
-                                      quota: value.isEmpty
-                                          ? null
-                                          : int.tryParse(value),
+                                      disabled: !value,
                                     );
                                     onChanged(updated);
                                   },
+                                  activeColor: ColorConstants.main,
                                 ),
+                                Text(
+                                  session.disabled
+                                      ? l10n.ticketsDisabled
+                                      : l10n.ticketsEnabled,
+                                  style: TextStyle(
+                                    color: session.disabled
+                                        ? ColorConstants.tertiary
+                                        : ColorConstants.main,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            IconButton(
+                              onPressed: () => removeSession(i),
+                              icon: HeroIcon(
+                                HeroIcons.trash,
+                                size: 20,
+                                color: ColorConstants.error,
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
+                              tooltip: l10n.ticketsDeleteSessionTooltip,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               );
             }),
@@ -663,28 +873,40 @@ class _EditSessionsSection extends HookWidget {
 
 class _QuestionEditFormData {
   final TextEditingController controller;
+  final TextEditingController priceController;
   AnswerType answerType;
   bool required;
+  bool disabled;
+  int? price;
   String? id;
 
   _QuestionEditFormData({
     required this.controller,
+    required this.priceController,
     this.answerType = AnswerType.text,
     this.required = false,
+    this.disabled = false,
+    this.price,
     this.id,
   });
 
   factory _QuestionEditFormData.fromQuestion(Question question) {
     return _QuestionEditFormData(
       controller: TextEditingController(text: question.question),
+      priceController: TextEditingController(
+        text: question.price?.toString() ?? '',
+      ),
       answerType: question.answerType,
       required: question.required,
+      disabled: question.disabled,
+      price: question.price,
       id: question.id,
     );
   }
 
   void dispose() {
     controller.dispose();
+    priceController.dispose();
   }
 }
 
@@ -704,8 +926,10 @@ class _EditQuestionsSection extends StatelessWidget {
       ...questions,
       _QuestionEditFormData(
         controller: TextEditingController(),
+        priceController: TextEditingController(),
         answerType: AnswerType.text,
         required: false,
+        disabled: false,
       ),
     ]);
   }
@@ -754,9 +978,14 @@ class _EditQuestionsSection extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                     side: BorderSide(
-                      color: ColorConstants.secondary.withValues(alpha: 0.3),
+                      color: question.disabled
+                          ? ColorConstants.secondary.withValues(alpha: 0.3)
+                          : ColorConstants.secondary.withValues(alpha: 0.5),
                     ),
                   ),
+                  color: question.disabled
+                      ? ColorConstants.background.withValues(alpha: 0.5)
+                      : null,
                   child: Padding(
                     padding: const EdgeInsets.all(12),
                     child: Column(
@@ -776,8 +1005,8 @@ class _EditQuestionsSection extends StatelessWidget {
                             IconButton(
                               onPressed: () => removeQuestion(i),
                               icon: HeroIcon(
-                                HeroIcons.minusCircle,
-                                size: 22,
+                                HeroIcons.trash,
+                                size: 20,
                                 color: ColorConstants.error,
                               ),
                               tooltip: l10n.ticketsDeleteQuestionTooltip,
@@ -788,6 +1017,7 @@ class _EditQuestionsSection extends StatelessWidget {
                         Row(
                           children: [
                             Expanded(
+                              flex: 2,
                               child: DropdownButtonFormField<AnswerType>(
                                 initialValue: question.answerType,
                                 decoration: InputDecoration(
@@ -820,8 +1050,11 @@ class _EditQuestionsSection extends StatelessWidget {
                                       i,
                                       _QuestionEditFormData(
                                         controller: question.controller,
+                                        priceController: question.priceController,
                                         answerType: value,
                                         required: question.required,
+                                        disabled: question.disabled,
+                                        price: question.price,
                                         id: question.id,
                                       ),
                                     );
@@ -829,7 +1062,38 @@ class _EditQuestionsSection extends StatelessWidget {
                                 },
                               ),
                             ),
-                            const SizedBox(width: 16),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              flex: 1,
+                              child: TextEntry(
+                                label: l10n.ticketsPriceLabel,
+                                controller: question.priceController,
+                                keyboardType: TextInputType.number,
+                                canBeEmpty: true,
+                                onChanged: (value) {
+                                  updateQuestion(
+                                    i,
+                                    _QuestionEditFormData(
+                                      controller: question.controller,
+                                      priceController: question.priceController,
+                                      answerType: question.answerType,
+                                      required: question.required,
+                                      disabled: question.disabled,
+                                      price: value.isEmpty
+                                          ? null
+                                          : int.tryParse(value),
+                                      id: question.id,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
                             Row(
                               children: [
                                 Checkbox(
@@ -839,8 +1103,11 @@ class _EditQuestionsSection extends StatelessWidget {
                                       i,
                                       _QuestionEditFormData(
                                         controller: question.controller,
+                                        priceController: question.priceController,
                                         answerType: question.answerType,
                                         required: value ?? false,
+                                        disabled: question.disabled,
+                                        price: question.price,
                                         id: question.id,
                                       ),
                                     );
@@ -848,6 +1115,39 @@ class _EditQuestionsSection extends StatelessWidget {
                                   activeColor: ColorConstants.main,
                                 ),
                                 Text(l10n.ticketsQuestionRequiredLabel),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Switch(
+                                  value: !question.disabled,
+                                  onChanged: (value) {
+                                    updateQuestion(
+                                      i,
+                                      _QuestionEditFormData(
+                                        controller: question.controller,
+                                        priceController: question.priceController,
+                                        answerType: question.answerType,
+                                        required: question.required,
+                                        disabled: !value,
+                                        price: question.price,
+                                        id: question.id,
+                                      ),
+                                    );
+                                  },
+                                  activeColor: ColorConstants.main,
+                                ),
+                                Text(
+                                  question.disabled
+                                      ? l10n.ticketsDisabled
+                                      : l10n.ticketsEnabled,
+                                  style: TextStyle(
+                                    color: question.disabled
+                                        ? ColorConstants.tertiary
+                                        : ColorConstants.main,
+                                    fontSize: 14,
+                                  ),
+                                ),
                               ],
                             ),
                           ],

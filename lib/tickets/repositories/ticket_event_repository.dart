@@ -64,37 +64,19 @@ class TicketEventRepository extends Repository {
   }
 
   Future<bool> updateSession(String eventId, Session session) async {
-    final response = await http.patch(
-      Uri.parse(
-        '${Repository.host}${ext}admin/events/$eventId/sessions/${session.id}',
-      ),
-      headers: headers,
-      body: jsonEncode(session.toJson()),
+    return await update(
+      session.toJson(),
+      '',
+      suffix: 'admin/events/$eventId/sessions/${session.id}',
     );
-    if (response.statusCode == 204 || response.statusCode == 200) {
-      return true;
-    } else {
-      throw Exception(
-        'Failed to update session: ${response.statusCode} ${response.body}',
-      );
-    }
   }
 
   Future<bool> updateCategory(String eventId, Category category) async {
-    final response = await http.patch(
-      Uri.parse(
-        '${Repository.host}${ext}admin/events/$eventId/categories/${category.id}',
-      ),
-      headers: headers,
-      body: jsonEncode(category.toJson()),
+    return await update(
+      category.toJson(),
+      '',
+      suffix: 'admin/events/$eventId/categories/${category.id}',
     );
-    if (response.statusCode == 204 || response.statusCode == 200) {
-      return true;
-    } else {
-      throw Exception(
-        'Failed to update category: ${response.statusCode} ${response.body}',
-      );
-    }
   }
 
   Future<bool> updateQuestion(
