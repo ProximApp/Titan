@@ -22,13 +22,14 @@ class SessionCard extends HookWidget {
 
     void notify() => onChanged(
       entries.value
-          .map(
+          .map<Session>(
             (e) => Session(
               id: '',
               name: e['label']!.text,
               startDatetime:
                   DateTime.tryParse(e['date']!.text) ?? DateTime.now(),
               quota: int.tryParse(e['quota']!.text),
+              disabled: false,
             ),
           )
           .toList(),

@@ -105,7 +105,7 @@ class ManageTicketEventPage extends HookConsumerWidget {
                     if (ticketEventList.isEmpty) {
                       return Center(
                         child: Text(
-                          "Hello",
+                          l10n.ticketsNoStoreTicketing,
                           style: const TextStyle(
                             color: ColorConstants.tertiary,
                           ),

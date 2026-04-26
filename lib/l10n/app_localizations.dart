@@ -8603,13 +8603,13 @@ abstract class AppLocalizations {
   /// No description provided for @shotgunManageAssociation.
   ///
   /// In fr, this message translates to:
-  /// **'Gérer les billetteries de l\'association'**
+  /// **'Gérer les billetteries du store'**
   String get shotgunManageAssociation;
 
   /// No description provided for @shotgunManageTitle.
   ///
   /// In fr, this message translates to:
-  /// **'Gérer les billetteries de l\'association'**
+  /// **'Gérer les billetteries du store'**
   String get shotgunManageTitle;
 
   /// No description provided for @shotgunMinPriceError.
@@ -9335,7 +9335,7 @@ abstract class AppLocalizations {
   /// No description provided for @ticketsManageAssociation.
   ///
   /// In fr, this message translates to:
-  /// **'Gérer les billeteries de l\'association'**
+  /// **'Gérer les billeteries du store'**
   String get ticketsManageAssociation;
 
   /// No description provided for @ticketsTitleLabel.
@@ -9443,7 +9443,7 @@ abstract class AppLocalizations {
   /// No description provided for @ticketsEditTitle.
   ///
   /// In fr, this message translates to:
-  /// **'Modifier le tickets'**
+  /// **'Modifier la billetterie'**
   String get ticketsEditTitle;
 
   /// No description provided for @ticketsTariffs.
@@ -9497,7 +9497,7 @@ abstract class AppLocalizations {
   /// No description provided for @ticketsManageTitle.
   ///
   /// In fr, this message translates to:
-  /// **'Gérer les tickets de l\'association'**
+  /// **'Gérer les billetteries du store'**
   String get ticketsManageTitle;
 
   /// No description provided for @ticketsNoTickets.
@@ -9619,6 +9619,36 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Cette session est complète'**
   String get ticketsSessionSoldOut;
+
+  /// No description provided for @ticketsNoStoreTicketing.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pas de billetterie existante pour ce store'**
+  String get ticketsNoStoreTicketing;
+
+  /// No description provided for @ticketsEnabled.
+  ///
+  /// In fr, this message translates to:
+  /// **'Activé'**
+  String get ticketsEnabled;
+
+  /// No description provided for @ticketsDisabled.
+  ///
+  /// In fr, this message translates to:
+  /// **'Désactivé'**
+  String get ticketsDisabled;
+
+  /// No description provided for @ticketsDeleteCategoryTooltip.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer cette catégorie'**
+  String get ticketsDeleteCategoryTooltip;
+
+  /// No description provided for @ticketsDeleteSessionTooltip.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer cette session'**
+  String get ticketsDeleteSessionTooltip;
 }
 
 class _AppLocalizationsDelegate
