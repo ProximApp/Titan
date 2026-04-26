@@ -321,10 +321,8 @@ class EditTicketEventPage extends HookConsumerWidget {
                         final questionData = questions.value[i];
                         final questionPrice =
                             questionData.priceController.text.isEmpty
-                                ? null
-                                : int.tryParse(
-                                    questionData.priceController.text,
-                                  );
+                            ? null
+                            : int.tryParse(questionData.priceController.text);
 
                         if (questionData.id == null ||
                             questionData.id!.isEmpty) {
@@ -408,10 +406,7 @@ class _EditCategoriesSection extends HookWidget {
   });
 
   void addCategory() {
-    onChanged([
-      ...categories,
-      Category.empty(),
-    ]);
+    onChanged([...categories, Category.empty()]);
   }
 
   void removeCategory(int index) {
@@ -621,10 +616,7 @@ class _EditSessionsSection extends HookWidget {
   const _EditSessionsSection({required this.sessions, required this.onChanged});
 
   void addSession() {
-    onChanged([
-      ...sessions,
-      Session.empty(),
-    ]);
+    onChanged([...sessions, Session.empty()]);
   }
 
   void removeSession(int index) {
@@ -1050,7 +1042,8 @@ class _EditQuestionsSection extends StatelessWidget {
                                       i,
                                       _QuestionEditFormData(
                                         controller: question.controller,
-                                        priceController: question.priceController,
+                                        priceController:
+                                            question.priceController,
                                         answerType: value,
                                         required: question.required,
                                         disabled: question.disabled,
@@ -1103,7 +1096,8 @@ class _EditQuestionsSection extends StatelessWidget {
                                       i,
                                       _QuestionEditFormData(
                                         controller: question.controller,
-                                        priceController: question.priceController,
+                                        priceController:
+                                            question.priceController,
                                         answerType: question.answerType,
                                         required: value ?? false,
                                         disabled: question.disabled,
@@ -1126,7 +1120,8 @@ class _EditQuestionsSection extends StatelessWidget {
                                       i,
                                       _QuestionEditFormData(
                                         controller: question.controller,
-                                        priceController: question.priceController,
+                                        priceController:
+                                            question.priceController,
                                         answerType: question.answerType,
                                         required: question.required,
                                         disabled: !value,
