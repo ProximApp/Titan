@@ -568,7 +568,7 @@ class _EditCategoriesSection extends HookWidget {
                                     );
                                     onChanged(updated);
                                   },
-                                  activeColor: ColorConstants.main,
+                                  activeThumbColor: ColorConstants.main,
                                 ),
                                 Text(
                                   category.disabled
@@ -822,7 +822,7 @@ class _EditSessionsSection extends HookWidget {
                                     );
                                     onChanged(updated);
                                   },
-                                  activeColor: ColorConstants.main,
+                                  activeThumbColor: ColorConstants.main,
                                 ),
                                 Text(
                                   session.disabled
@@ -1130,7 +1130,7 @@ class _EditQuestionsSection extends StatelessWidget {
                                       ),
                                     );
                                   },
-                                  activeColor: ColorConstants.main,
+                                  activeThumbColor: ColorConstants.main,
                                 ),
                                 Text(
                                   question.disabled
