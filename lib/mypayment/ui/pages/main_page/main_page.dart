@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/navigation/ui/scroll_to_hide_navbar.dart';
-import 'package:titan/mypayment/class/payment_request.dart';
 import 'package:titan/mypayment/providers/has_accepted_tos_provider.dart';
 import 'package:titan/mypayment/providers/my_wallet_provider.dart';
 import 'package:titan/mypayment/providers/payment_requests_provider.dart';
@@ -13,6 +14,7 @@ import 'package:titan/mypayment/providers/my_history_provider.dart';
 import 'package:titan/mypayment/providers/my_stores_provider.dart';
 import 'package:titan/mypayment/providers/register_provider.dart';
 import 'package:titan/mypayment/providers/should_display_tos_dialog.dart';
+import 'package:titan/mypayment/tools/functions.dart' as mypayment_functions;
 import 'package:titan/mypayment/ui/components/show_request_modal.dart';
 import 'package:titan/mypayment/ui/pages/main_page/account_card/account_card.dart';
 import 'package:titan/mypayment/ui/pages/main_page/tos_dialog.dart';
@@ -30,6 +32,7 @@ class PaymentMainPage extends HookConsumerWidget {
   const PaymentMainPage({super.key});
 
   static final Set<String> _handledKeys = {};
+  static final Set<String> _shownPendingRequestIds = {};
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -53,7 +56,6 @@ class PaymentMainPage extends HookConsumerWidget {
     final flipped = useState(true);
     final paymentRequests = ref.watch(paymentRequestsProvider);
     final paymentRequestsNotifier = ref.read(paymentRequestsProvider.notifier);
-    final hasShownRequestModal = useState(false);
 
     ref.listen(pathForwardingProvider, (previous, next) async {
       final params = next.queryParameters;
@@ -90,7 +92,7 @@ class PaymentMainPage extends HookConsumerWidget {
       }
     }
 
-    Future<void> onShowRequestModal(PaymentRequest request) async {
+    Future<void> onShowRequestModal(Request$ request) async {
       await showRequestModal(
         context: context,
         ref: ref,
@@ -109,19 +111,26 @@ class PaymentMainPage extends HookConsumerWidget {
 
     useEffect(() {
       paymentRequests.whenData((requests) {
-        final pendingRequests = requests
+        // Forget requests that are no longer pending so the modal can show
+        // again if a new one arrives (but keep showing it only once each).
+        _shownPendingRequestIds.removeWhere((id) {
+          final request = requests.where((r) => r.id == id).firstOrNull;
+          return request == null ||
+              request.status != RequestStatus.proposed ||
+              mypayment_functions.isRequestExpired(request);
+        });
+        final nextPending = requests
             .where(
               (r) =>
                   r.status == RequestStatus.proposed &&
-                  r.creation
-                      .add(const Duration(minutes: 15))
-                      .isAfter(DateTime.now()),
+                  !mypayment_functions.isRequestExpired(r) &&
+                  !_shownPendingRequestIds.contains(r.id),
             )
             .toList();
-        if (pendingRequests.isNotEmpty && !hasShownRequestModal.value) {
-          hasShownRequestModal.value = true;
+        if (nextPending.isNotEmpty) {
+          _shownPendingRequestIds.add(nextPending.first.id);
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            onShowRequestModal(pendingRequests.first);
+            onShowRequestModal(nextPending.first);
           });
         }
       });
@@ -132,14 +141,9 @@ class PaymentMainPage extends HookConsumerWidget {
       orElse: () {},
       error: (e, s) async {
         final value = await registerNotifier.register();
-        value.maybeWhen(
-          orElse: () {},
-          data: (value) async {
-            if (value) {
-              tosNotifier.getTOS();
-            }
-          },
-        );
+        if (value) {
+          tosNotifier.getTOS();
+        }
       },
     );
 
@@ -189,8 +193,6 @@ class PaymentMainPage extends HookConsumerWidget {
                     await myHistoryNotifier.getHistory();
                     await myWalletNotifier.getMyWallet();
                     await tosNotifier.getTOS();
-                    hasShownRequestModal.value = false;
-                    await paymentRequestsNotifier.getRequests();
                   },
                   child: Column(
                     children: [
