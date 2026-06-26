@@ -81,6 +81,12 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   mocktail: ^1.0.3
+  path_provider_platform_interface: ^2.0.0
+  plugin_platform_interface: ^2.0.0
+  swagger_dart_code_generator:
+    git:
+      url: https://github.com/maximeroucher/swagger-dart-code-generator.git
+      ref: master
   vector_math: ^2.1.2
 
 flutter:
@@ -89,24 +95,3 @@ flutter:
     - assets/images/logo_prod.png
     - assets/images/logo_alpha.png
     - assets/images/logo_dev.png
-    - assets/images/gift.png
-    - assets/images/soli.png
-    - assets/images/proximapp.png
-    - assets/images/login.webp
-    - assets/web/back.webp
-    - assets/web/AMAP.webp
-    - assets/web/Calendrier.webp
-    - assets/web/Cine.webp
-    - assets/web/Parametres.webp
-    - assets/web/Pret.webp
-    - assets/web/Tombola.webp
-    - assets/web/Vote.webp
-    - assets/my_document.pdf
-    - assets/images/bird.png
-    - assets/images/pipe.png
-    - assets/images/logo_flappybird.svg
-    - assets/images/helloasso.svg
-    - assets/images/vache.png
-
-  uses-material-design: true
-  generate: true
