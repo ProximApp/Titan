@@ -4,8 +4,8 @@ import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/admin/providers/my_association_list_provider.dart';
-import 'package:titan/feed/class/news.dart';
 import 'package:titan/feed/providers/association_event_list_provider.dart';
+import 'package:titan/feed/providers/event_provider.dart';
 import 'package:titan/feed/providers/is_feed_admin_provider.dart';
 import 'package:titan/feed/providers/is_user_a_member_of_an_association.dart';
 import 'package:titan/feed/providers/news_list_provider.dart';
@@ -14,6 +14,7 @@ import 'package:titan/feed/ui/feed.dart';
 import 'package:titan/feed/ui/pages/main_page/feed_timeline.dart';
 import 'package:titan/feed/ui/pages/main_page/filter_news.dart';
 import 'package:titan/feed/ui/pages/main_page/scroll_with_refresh_button.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
@@ -28,6 +29,7 @@ class FeedMainPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final news = ref.watch(newsListProvider);
     final newsListNotifier = ref.watch(newsListProvider.notifier);
+    final eventNotifier = ref.watch(eventProvider.notifier);
     final isUserAMemberOfAnAssociation = ref.watch(
       isUserAMemberOfAnAssociationProvider,
     );
@@ -160,6 +162,9 @@ class FeedMainPage extends HookConsumerWidget {
                                           localizeWithContext.feedCreateAnEvent,
                                       onPressed: () {
                                         Navigator.of(context).pop();
+                                        eventNotifier.setEvent(
+                                          EventCompleteTicketUrl.empty(),
+                                        );
                                         QR.to(
                                           FeedRouter.root +
                                               FeedRouter.addEditEvent,
