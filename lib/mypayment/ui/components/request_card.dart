@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:intl/intl.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
-import 'package:titan/mypayment/class/payment_request.dart';
+import 'package:titan/mypayment/tools/functions.dart';
 import 'package:titan/tools/providers/locale_notifier.dart';
 
 class RequestCard extends ConsumerWidget {
-  final PaymentRequest request;
+  final Request$ request;
   final VoidCallback? onTap;
   const RequestCard({super.key, required this.request, this.onTap});
 
@@ -20,19 +22,13 @@ class RequestCard extends ConsumerWidget {
       symbol: "€",
     );
     final localizeWithContext = AppLocalizations.of(context)!;
+    final expired = isRequestExpired(request);
 
     final HeroIcons icon;
     final List<Color> colors;
     final String? statusLabel;
 
     switch (request.status) {
-      case RequestStatus.proposed:
-        icon = HeroIcons.clock;
-        colors = [
-          const Color.fromARGB(255, 255, 165, 0),
-          const Color.fromARGB(255, 204, 130, 0),
-        ];
-        statusLabel = localizeWithContext.paiementRequestStatusPending;
       case RequestStatus.accepted:
         icon = HeroIcons.checkCircle;
         colors = [
@@ -47,13 +43,23 @@ class RequestCard extends ConsumerWidget {
           const Color.fromARGB(255, 163, 56, 20),
         ];
         statusLabel = localizeWithContext.paiementRequestStatusRefused;
-      case RequestStatus.expired:
-        icon = HeroIcons.clock;
-        colors = [
-          const Color.fromARGB(255, 128, 128, 128),
-          const Color.fromARGB(255, 100, 100, 100),
-        ];
-        statusLabel = localizeWithContext.paiementRequestStatusExpired;
+      case RequestStatus.proposed:
+      case RequestStatus.swaggerGeneratedUnknown:
+        if (expired) {
+          icon = HeroIcons.clock;
+          colors = [
+            const Color.fromARGB(255, 128, 128, 128),
+            const Color.fromARGB(255, 100, 100, 100),
+          ];
+          statusLabel = localizeWithContext.paiementRequestStatusExpired;
+        } else {
+          icon = HeroIcons.clock;
+          colors = [
+            const Color.fromARGB(255, 255, 165, 0),
+            const Color.fromARGB(255, 204, 130, 0),
+          ];
+          statusLabel = localizeWithContext.paiementRequestStatusPending;
+        }
     }
 
     return GestureDetector(
@@ -140,8 +146,7 @@ class RequestCard extends ConsumerWidget {
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 decoration:
-                    request.status == RequestStatus.refused ||
-                        request.status == RequestStatus.expired
+                    request.status == RequestStatus.refused || expired
                     ? TextDecoration.lineThrough
                     : TextDecoration.none,
                 decorationColor: const Color(0xff204550).withValues(alpha: 0.8),
