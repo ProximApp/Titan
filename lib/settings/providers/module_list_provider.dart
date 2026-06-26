@@ -33,8 +33,8 @@ final modulesProvider = NotifierProvider<ModulesNotifier, List<Module>>(
 class ModulesNotifier extends Notifier<List<Module>> {
   String dbModule = "modules";
   String dbAllModules = "allModules";
-  late final bool isAdmin;
-  late final bool isSuperAdmin;
+  bool isAdmin = false;
+  bool isSuperAdmin = false;
   final eq = const DeepCollectionEquality.unordered();
   List<Module> allModules = [
     HomeRouter.module,
@@ -139,11 +139,15 @@ class ModulesNotifier extends Notifier<List<Module>> {
     for (Module module in toDelete) {
       allModules.remove(module);
     }
-    allModules.addAll([
+    for (final module in [
       SettingsRouter.module,
       if (isAdmin) AdminRouter.module,
       if (isSuperAdmin) SuperAdminRouter.module,
-    ]);
+    ]) {
+      if (!allModules.contains(module)) {
+        allModules.add(module);
+      }
+    }
     state = allModules;
   }
 

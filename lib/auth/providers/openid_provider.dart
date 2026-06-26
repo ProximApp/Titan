@@ -19,21 +19,19 @@ class IsLoggedInProvider extends Notifier<bool> {
     final authToken = ref.watch(authTokenProvider);
     final isCaching = ref.watch(isCachingProvider);
 
+    // The state is what `build` returns, so it must not be assigned here: the
+    // returned value would immediately overwrite it.
     if (isConnected) {
-      refresh(authToken);
-    } else if (isCaching) {
-      return true;
+      return _isValid(authToken);
     }
 
-    return false;
+    return isCaching;
   }
 
-  void refresh(AsyncValue<models.TokenResponse> token) {
-    state = token.maybeWhen(
-      data: (tokens) => !JwtDecoder.isExpired(tokens.accessToken),
-      orElse: () => false,
-    );
-  }
+  bool _isValid(AsyncValue<models.TokenResponse> token) => token.maybeWhen(
+    data: (tokens) => !JwtDecoder.isExpired(tokens.accessToken),
+    orElse: () => false,
+  );
 }
 
 class IsCachingProvider extends Notifier<bool> {
