@@ -27,5 +27,3 @@ const String previousStaffEmailRegex = r'^[\w\-.]*@ec-lyon.fr$';
 const String studentRegex = r'^[\w\-.]*@etu(-enise)?.ec-lyon.fr$';
 
 const String unableToOpen = 'Impossible d\'ouvrir le lien';
-
-const int maxHyperionFileSize = 4194304;

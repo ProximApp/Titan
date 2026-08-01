@@ -2382,7 +2382,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get othersImageError => 'Error adding the image';
 
   @override
-  String get othersImageSizeTooBig => 'Image size must not exceed 4 MB';
+  String get othersImageSizeTooBig =>
+      'This image could not be compressed enough to be uploaded';
 
   @override
   String get othersInvalidNumber => 'Please enter a number';

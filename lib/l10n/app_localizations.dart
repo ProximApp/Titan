@@ -4709,7 +4709,7 @@ abstract class AppLocalizations {
   /// No description provided for @othersImageSizeTooBig.
   ///
   /// In fr, this message translates to:
-  /// **'La taille de l\'image ne doit pas dépasser 4 Mio'**
+  /// **'Cette image n\'a pas pu être compressée assez pour être envoyée'**
   String get othersImageSizeTooBig;
 
   /// No description provided for @othersInvalidNumber.

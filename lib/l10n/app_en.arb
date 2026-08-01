@@ -864,7 +864,7 @@
   "othersCheckInternetConnection": "Please check your internet connection",
   "othersError": "An error occurred",
   "othersImageError": "Error adding the image",
-  "othersImageSizeTooBig": "Image size must not exceed 4 MB",
+  "othersImageSizeTooBig": "This image could not be compressed enough to be uploaded",
   "othersInvalidNumber": "Please enter a number",
   "othersNoDateError": "Please enter a date",
   "othersNoModule": "No modules available, please try again later 😢😢",

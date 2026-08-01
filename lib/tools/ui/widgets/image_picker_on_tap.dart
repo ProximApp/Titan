@@ -1,11 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:titan/l10n/app_localizations.dart';
-import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
+import 'package:titan/tools/image_compression.dart';
 
 class ImagePickerOnTap extends StatelessWidget {
   final ImagePicker picker;
@@ -35,24 +33,23 @@ class ImagePickerOnTap extends StatelessWidget {
           source: ImageSource.gallery,
           imageQuality: imageQuality,
         );
-        if (crossFile != null) {
-          final size = await crossFile.length();
-          if (size > maxHyperionFileSize) {
-            displayToastWithContext(
-              TypeMsg.error,
-              localizeWithContext.othersImageSizeTooBig,
-            );
-          } else {
-            if (kIsWeb) {
-              imageBytesNotifier.value = await crossFile.readAsBytes();
-              imageNotifier.value = Image.network(crossFile.path);
-            } else {
-              final file = File(crossFile.path);
-              imageBytesNotifier.value = await file.readAsBytes();
-              imageNotifier.value = Image.file(file);
-            }
-          }
+        if (crossFile == null) {
+          return;
         }
+        // The preview shows the compressed bytes rather than the picked file
+        // so what the user validates is what gets sent.
+        final bytes = await compressImageForUpload(
+          await crossFile.readAsBytes(),
+        );
+        if (bytes == null) {
+          displayToastWithContext(
+            TypeMsg.error,
+            localizeWithContext.othersImageSizeTooBig,
+          );
+          return;
+        }
+        imageBytesNotifier.value = bytes;
+        imageNotifier.value = Image.memory(bytes);
       },
       child: child,
     );
