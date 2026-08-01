@@ -9,6 +9,7 @@ import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/mypayment/providers/invoice_list_provider.dart';
 import 'package:titan/mypayment/providers/invoice_pdf_provider.dart';
 import 'package:titan/tools/constants.dart';
+import 'package:titan/tools/file_download.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 import 'package:titan/tools/ui/styleguide/button.dart';
@@ -43,36 +44,35 @@ class InvoiceCard extends HookConsumerWidget {
             title: invoice.reference,
             child: Column(
               children: [
-                Button(
-                  text: localizeWithContext.paiementDownload,
-                  onPressed: () async {
-                    late final Uint8List pdfBytes;
-                    try {
-                      pdfBytes = await invoicePdf;
-                    } catch (e) {
-                      displayToastWithContext(TypeMsg.error, e.toString());
-                      return;
-                    }
-                    final path = kIsWeb
-                        ? await FileSaver.instance.saveFile(
-                            name: invoice.reference,
-                            bytes: pdfBytes,
-                            fileExtension: "pdf",
-                            mimeType: MimeType.pdf,
-                          )
-                        : await FileSaver.instance.saveAs(
-                            name: invoice.reference,
-                            bytes: pdfBytes,
-                            fileExtension: "pdf",
-                            mimeType: MimeType.pdf,
-                          );
-                    if (path != null) {
-                      displayToastWithContext(
-                        TypeMsg.msg,
-                        localizeWithContext.phSuccesDowloading,
+                // The share sheet is a popover on iPad, so it has to be anchored
+                // to the button rather than to the whole modal.
+                Builder(
+                  builder: (buttonContext) => Button(
+                    text: localizeWithContext.paiementDownload,
+                    onPressed: () async {
+                      final shareOrigin = shareOriginOf(buttonContext);
+                      late final Uint8List pdfBytes;
+                      try {
+                        pdfBytes = await invoicePdf;
+                      } catch (e) {
+                        displayToastWithContext(TypeMsg.error, e.toString());
+                        return;
+                      }
+                      final downloaded = await downloadFile(
+                        name: invoice.reference,
+                        bytes: pdfBytes,
+                        fileExtension: "pdf",
+                        mimeType: MimeType.pdf,
+                        shareOrigin: shareOrigin,
                       );
-                    }
-                  },
+                      if (downloaded) {
+                        displayToastWithContext(
+                          TypeMsg.msg,
+                          localizeWithContext.phSuccesDowloading,
+                        );
+                      }
+                    },
+                  ),
                 ),
                 if (invoice.received != true && isAdmin) ...[
                   const SizedBox(height: 10),
