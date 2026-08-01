@@ -2414,7 +2414,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get othersImageSizeTooBig =>
-      'La taille de l\'image ne doit pas dépasser 4 Mio';
+      'Cette image n\'a pas pu être compressée assez pour être envoyée';
 
   @override
   String get othersInvalidNumber => 'Veuillez entrer un nombre';

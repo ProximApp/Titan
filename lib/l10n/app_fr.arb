@@ -872,7 +872,7 @@
   "othersCheckInternetConnection": "Veuillez vérifier votre connexion internet",
   "othersError": "Une erreur est survenue",
   "othersImageError": "Erreur lors de l'ajout de l'image",
-  "othersImageSizeTooBig": "La taille de l'image ne doit pas dépasser 4 Mio",
+  "othersImageSizeTooBig": "Cette image n'a pas pu être compressée assez pour être envoyée",
   "othersInvalidNumber": "Veuillez entrer un nombre",
   "othersNoDateError": "Veuillez entrer une date",
   "othersNoModule": "Aucun module disponible, veuillez réessayer ultérieurement 😢😢",

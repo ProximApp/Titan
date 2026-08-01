@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/constants.dart';
+import 'package:titan/tools/image_compression.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
 import 'package:titan/tools/repository/file_response.dart';
 import 'package:titan/tools/repository/repository.dart';
@@ -48,7 +49,11 @@ class ProfilePictureNotifier extends SingleNotifier<Uint8List> {
     );
     if (image != null) {
       try {
-        final bytes = await image.readAsBytes();
+        final bytes = await compressImageForUpload(await image.readAsBytes());
+        if (bytes == null) {
+          state = previousState;
+          return false;
+        }
         await repository.usersMeProfilePicturePost(image: bytes);
         state = AsyncValue.data(bytes);
         return true;
@@ -100,7 +105,13 @@ class ProfilePictureNotifier extends SingleNotifier<Uint8List> {
       );
       if (croppedFile != null) {
         try {
-          final bytes = await croppedFile.readAsBytes();
+          final bytes = await compressImageForUpload(
+            await croppedFile.readAsBytes(),
+          );
+          if (bytes == null) {
+            state = previousState;
+            return false;
+          }
           await repository.usersMeProfilePicturePost(image: bytes);
           state = AsyncValue.data(bytes);
           return true;

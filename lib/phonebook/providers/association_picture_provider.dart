@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/phonebook/providers/associations_picture_map_provider.dart';
 import 'package:titan/tools/functions.dart';
+import 'package:titan/tools/image_compression.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
 import 'package:titan/tools/repository/file_response.dart';
 import 'package:titan/tools/repository/repository.dart';
@@ -48,7 +49,11 @@ class AssociationPictureProvider extends SingleNotifier<Image> {
     );
     if (image != null) {
       try {
-        final bytes = await image.readAsBytes();
+        final bytes = await compressImageForUpload(await image.readAsBytes());
+        if (bytes == null) {
+          state = previousState;
+          return false;
+        }
         await repository.phonebookAssociationsAssociationIdPicturePost(
           associationId: associationId,
           image: bytes,

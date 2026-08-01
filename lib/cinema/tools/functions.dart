@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
+import 'package:titan/tools/image_compression.dart';
 
 String formatDuration(int duration) {
   final hours = duration ~/ 60;
@@ -31,5 +32,9 @@ String parseDurationBack(int duration) {
 }
 
 Future<Uint8List> getFromUrl(String url) async {
-  return (await http.get(Uri.parse(url))).bodyBytes;
+  final bytes = (await http.get(Uri.parse(url))).bodyBytes;
+  // Posters come from whatever URL was typed in, so they can be over the size
+  // Hyperion accepts. Bytes we fail to compress are kept as they are, the
+  // upload will report the problem.
+  return await compressImageForUpload(bytes) ?? bytes;
 }
