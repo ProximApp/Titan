@@ -5,30 +5,78 @@
 
     <meta charset="UTF-8" />
     <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
-    <title>{{ APP_NAME }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#ffffff" />
     <meta
       name="description"
       content="Application associative de {{ SCHOOL_NAME }}, développée par {{ ENTITY_NAME }}"
     />
 
     <!-- iOS meta tags & icons -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="apple-mobile-web-app-title" content="myecl" />
+    <meta name="mobile-web-app-title" content="{{ APP_NAME }}" />
     <link rel="apple-touch-icon" href="icons/Icon-192.png" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png" />
+
+    <!-- There used to be preconnects to www.gstatic.com and fonts.gstatic.com
+         here, for the renderer and for the engine's Roboto fallback. Neither is
+         fetched any more: the build passes `--no-web-resources-cdn` so the
+         renderer is served from this origin, and pubspec.yaml declares a
+         `Roboto` family, which is the condition under which the engine skips its
+         own download. A preconnect to an origin the page never uses is not free
+         — it spends a connection slot and a DNS lookup during the busiest part
+         of the load. fonts.gstatic.com is still reachable for the Noto fallbacks
+         the engine fetches when a glyph is missing from every registered font,
+         but that is rare and lazy, and not worth warming on every visit. -->
 
     <title>{{ APP_NAME }}</title>
     <link rel="manifest" href="manifest.json" />
     <style>
       html,
       body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #fff;
+      }
+
+      /* The splash is taken out of the flow so that Flutter attaching its own
+         view underneath it shifts nothing: a splash that participates in layout
+         is worth ~0.17 of Cumulative Layout Shift on its own. */
+      #splash {
+        position: fixed;
+        inset: 0;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        min-height: calc(100vh - 12px);
+        gap: 32px;
+        background: #fff;
+        z-index: 1000;
+        transition: opacity 0.25s ease-out;
+      }
+
+      #splash.done {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      /* Real text, not decoration. The animated dots below are painted within
+         ~150 ms but a browser does not count a coloured <div> as content, so
+         without this the page measures as blank until Flutter's first frame —
+         several seconds of First Contentful Paint that the user never saw. */
+      #splash-title {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        color: #111;
+        margin: 0;
       }
 
       .container,
@@ -121,25 +169,20 @@
           transform: translate(-39px, -67px);
         }
       }
+
+      @media (prefers-reduced-motion: reduce) {
+        .container,
+        .dot,
+        #splash {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
     </style>
   </head>
   <body>
-    <script
-      defer
-      type="module"
-      src="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.min.mjs"
-    ></script>
-    <script defer type="module">
-      var { pdfjsLib } = globalThis;
-      pdfjsLib.GlobalWorkerOptions.workerSrc =
-        "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.worker.mjs";
-
-      var pdfRenderOptions = {
-        cMapUrl: "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/cmaps/",
-        cMapPacked: true,
-      };
-    </script>
-    <div>
+    <div id="splash">
+      <p id="splash-title">{{ APP_NAME }}</p>
       <!-- https://codepen.io/oliverholretz/pen/Rgreaq -->
       <div class="container">
         <div class="dot-container">
@@ -159,72 +202,51 @@
         </div>
       </div>
     </div>
-    <!-- This script installs service_worker.js to provide PWA functionality to
-       application. For more information, see:
-       https://developers.google.com/web/fundamentals/primers/service-workers -->
     <script>
-      var serviceWorkerVersion = {{flutter_service_worker_version}};
-      var scriptLoaded = false;
-      function loadMainDartJs() {
-        if (scriptLoaded) {
-          return;
-        }
-        scriptLoaded = true;
-        var scriptTag = document.createElement("script");
-        scriptTag.src = "main.dart.js";
-        scriptTag.type = "application/javascript";
-        document.body.append(scriptTag);
-      }
+      // pdf.js is ~92 KB from a third origin and only the PH module ever needs
+      // it, so it is fetched the first time a PDF is opened rather than on
+      // every single page load. `ensurePdfJs()` on the Dart side awaits this.
+      window.loadPdfJs = function () {
+        const version = "4.6.82";
+        const base = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${version}`;
+        window.__pdfJsPromise ??= import(`${base}/build/pdf.min.mjs`).then(
+          (lib) => {
+            // pdfx reads these two off the global scope, lazily, at the moment
+            // it opens a document.
+            globalThis.pdfjsLib ??= lib;
+            globalThis.pdfjsLib.GlobalWorkerOptions.workerSrc = `${base}/build/pdf.worker.mjs`;
+            globalThis.pdfRenderOptions = {
+              cMapUrl: `${base}/cmaps/`,
+              cMapPacked: true,
+            };
+          },
+        );
+        return window.__pdfJsPromise;
+      };
 
-      if ("serviceWorker" in navigator) {
-        // Service workers are supported. Use them.
-        window.addEventListener("load", function () {
-          // Wait for registration to finish before dropping the <script> tag.
-          // Otherwise, the browser will load the script multiple times,
-          // potentially different versions.
-          var serviceWorkerUrl =
-            "flutter_service_worker.js?v=" + serviceWorkerVersion;
-          navigator.serviceWorker.register(serviceWorkerUrl).then((reg) => {
-            function waitForActivation(serviceWorker) {
-              serviceWorker.addEventListener("statechange", () => {
-                if (serviceWorker.state == "activated") {
-                  console.log("Installed new service worker.");
-                  loadMainDartJs();
-                }
-              });
-            }
-            if (!reg.active && (reg.installing || reg.waiting)) {
-              // No active web worker and we have installed or are installing
-              // one for the first time. Simply wait for it to activate.
-              waitForActivation(reg.installing || reg.waiting);
-            } else if (!reg.active.scriptURL.endsWith(serviceWorkerVersion)) {
-              // When the app updates the serviceWorkerVersion changes, so we
-              // need to ask the service worker to update.
-              console.log("New service worker available.");
-              reg.update();
-              waitForActivation(reg.installing);
-            } else {
-              // Existing service worker is still good.
-              console.log("Loading app from service worker.");
-              loadMainDartJs();
-            }
-          });
-
-          // If service worker doesn't succeed in a reasonable amount of time,
-          // fallback to plaint <script> tag.
-          setTimeout(() => {
-            if (!scriptLoaded) {
-              console.warn(
-                "Failed to load app from service worker. Falling back to plain <script> tag.",
-              );
-              loadMainDartJs();
-            }
-          }, 4000);
+      // Fired by the engine once it has painted; until then the splash is what
+      // the user is looking at.
+      window.addEventListener("flutter-first-frame", function () {
+        const splash = document.getElementById("splash");
+        if (!splash) return;
+        splash.classList.add("done");
+        splash.addEventListener("transitionend", () => splash.remove(), {
+          once: true,
         });
-      } else {
-        // Service workers not supported. Just drop the <script> tag.
-        loadMainDartJs();
-      }
+        // Belt and braces: `transitionend` never fires when motion is reduced.
+        setTimeout(() => splash.remove(), 400);
+      });
+    </script>
+    <script>
+      // The loader picks the WebAssembly build when the browser supports it and
+      // falls back to the JavaScript one otherwise, so `--wasm` builds boot
+      // without a second index.html. The placeholders are filled in at build
+      // time by `flutter build web`.
+      // prettier-ignore
+      {{flutter_js}}
+      // prettier-ignore
+      {{flutter_build_config}}
+      _flutter.loader.load();
     </script>
   </body>
 </html>
