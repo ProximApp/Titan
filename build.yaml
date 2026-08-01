@@ -19,6 +19,11 @@ targets:
               type: DateTime
               deserialize: dateTimeFromJson
               serialize: dateTimeToJson
+          # Optional fields with a server-side default (e.g. `post_to_feed: bool = False`)
+          # are generated as nullable in Dart. Serializing them as an explicit `null`
+          # makes Pydantic reject the body with a 422 instead of applying the default,
+          # so unset fields must be omitted from the payload entirely.
+          include_if_null: false
           default_values_map:
             - type_name: int
               default_value: '0'
