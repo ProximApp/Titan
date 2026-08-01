@@ -9,6 +9,9 @@ class NewsListNotifier extends ListNotifierAPI<News> {
 
   @override
   AsyncValue<List<News>> build() {
+    // Nothing else fetches the feed on entry, so without this the state stays
+    // `loading` forever and the page only ever shows a spinner.
+    loadNewsList();
     return const AsyncValue.loading();
   }
 

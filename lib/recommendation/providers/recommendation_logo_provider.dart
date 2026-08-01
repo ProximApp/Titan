@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/tools/repository/file_response.dart';
 import 'package:titan/tools/repository/repository.dart';
 
 class RecommendationLogoNotifier extends SingleNotifier<Image> {
@@ -20,9 +21,8 @@ class RecommendationLogoNotifier extends SingleNotifier<Image> {
         .recommendationRecommendationsRecommendationIdPictureGet(
           recommendationId: id,
         );
-    return response.bodyBytes.isEmpty
-        ? Image.asset(getTitanLogo())
-        : Image.memory(response.bodyBytes);
+    final bytes = response.fileBytes;
+    return bytes.isEmpty ? Image.asset(getTitanLogo()) : Image.memory(bytes);
   }
 
   Future<Image> updateRecommendationLogo(String id, Uint8List bytes) async {

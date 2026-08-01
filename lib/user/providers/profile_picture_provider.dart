@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/tools/repository/file_response.dart';
 import 'package:titan/tools/repository/repository.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -26,7 +27,7 @@ class ProfilePictureNotifier extends SingleNotifier<Uint8List> {
     return await load(
       () async => (await repository.usersUserIdProfilePictureGet(
         userId: userId,
-      )).bodyBytes,
+      )).fileBytes,
     );
   }
 
@@ -34,7 +35,7 @@ class ProfilePictureNotifier extends SingleNotifier<Uint8List> {
     return await load(
       () async => (await repository.usersUserIdProfilePictureGet(
         userId: "me",
-      )).bodyBytes,
+      )).fileBytes,
     );
   }
 

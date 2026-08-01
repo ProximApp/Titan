@@ -5,6 +5,7 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/phonebook/providers/associations_picture_map_provider.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/tools/repository/file_response.dart';
 import 'package:titan/tools/repository/repository.dart';
 
 class AssociationPictureProvider extends SingleNotifier<Image> {
@@ -26,9 +27,10 @@ class AssociationPictureProvider extends SingleNotifier<Image> {
         .phonebookAssociationsAssociationIdPictureGet(
           associationId: associationId,
         );
-    final image = response.bodyBytes.isEmpty
+    final bytes = response.fileBytes;
+    final image = bytes.isEmpty
         ? Image.asset(getTitanLogo())
-        : Image.memory(response.bodyBytes);
+        : Image.memory(bytes);
     associationPictureMapNotifier.setTData(associationId, AsyncData([image]));
     state = AsyncData(image);
     return image;

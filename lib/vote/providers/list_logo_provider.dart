@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/tools/repository/file_response.dart';
 import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/vote/providers/list_logos_provider.dart';
 
@@ -20,9 +21,10 @@ class ListLogoProvider extends SingleNotifier<Image> {
 
   Future<Image> getLogo(String id) async {
     final response = await repository.campaignListsListIdLogoGet(listId: id);
-    final image = response.bodyBytes.isEmpty
+    final bytes = response.fileBytes;
+    final image = bytes.isEmpty
         ? Image.asset(getTitanLogo())
-        : Image.memory(response.bodyBytes);
+        : Image.memory(bytes);
     listLogosNotifier.setTData(id, AsyncData([image]));
     return image;
   }

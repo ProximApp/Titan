@@ -4,6 +4,7 @@ import 'package:titan/feed/providers/news_images_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/tools/repository/file_response.dart';
 import 'package:titan/tools/repository/repository.dart';
 
 class NewsImageNotifier extends SingleNotifier<Image> {
@@ -19,9 +20,10 @@ class NewsImageNotifier extends SingleNotifier<Image> {
 
   Future<Image> getNewsImage(String id) async {
     final response = await repository.feedNewsNewsIdImageGet(newsId: id);
-    final image = response.bodyBytes.isEmpty
+    final bytes = response.fileBytes;
+    final image = bytes.isEmpty
         ? Image.asset(getTitanLogo())
-        : Image.memory(response.bodyBytes);
+        : Image.memory(bytes);
     newsImagesNotifier.setTData(id, AsyncData([image]));
     return image;
   }
