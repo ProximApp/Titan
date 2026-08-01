@@ -13,9 +13,9 @@ class LoadSwitchTopic extends ConsumerWidget {
     final notificationTopicListNotifier = ref.watch(
       notificationTopicListProvider.notifier,
     );
-    return LoadSwitch(
+    return LoadSwitch.managed(
       value: notificationTopic.isUserSubscribed,
-      future: () async {
+      onToggle: () async {
         await notificationTopicListNotifier.toggleSubscription(
           TopicUser(
             id: notificationTopic.id,
@@ -31,7 +31,7 @@ class LoadSwitchTopic extends ConsumerWidget {
       width: 60,
       curveIn: Curves.easeInBack,
       curveOut: Curves.easeOutBack,
-      animationDuration: const Duration(milliseconds: 500),
+      switchAnimationDuration: const Duration(milliseconds: 500),
       switchDecoration: (value, _) => BoxDecoration(
         color: value ? Colors.red.withValues(alpha: 0.3) : Colors.grey.shade200,
         borderRadius: BorderRadius.circular(30),
@@ -64,7 +64,7 @@ class LoadSwitchTopic extends ConsumerWidget {
           ),
         ],
       ),
-      onChange: (v) {},
+      onChanged: (v) {},
       onTap: (v) {},
     );
   }

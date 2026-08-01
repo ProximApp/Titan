@@ -1,7 +1,6 @@
-import 'dart:io';
+import 'dart:convert';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -49,26 +48,15 @@ class AddUsersModalContent extends HookConsumerWidget {
           Button.secondary(
             text: selectedFileName.value ?? localizeWithContext.adminImportList,
             onPressed: () async {
-              final result = await FilePicker.platform.pickFiles(
+              final file = await FilePicker.pickFile(
                 type: FileType.custom,
                 allowedExtensions: ['csv'],
               );
-              if (result != null && result.files.isNotEmpty) {
-                final file = result.files.first;
-
+              if (file != null) {
                 selectedFileName.value = file.name;
 
-                if (file.path != null) {
-                  String fileContent = '';
-                  if (kIsWeb) {
-                    fileContent = file.bytes != null
-                        ? String.fromCharCodes(file.bytes!)
-                        : '';
-                  } else {
-                    fileContent = await File(file.path!).readAsString();
-                  }
-                  mailList.value = admin_utils.parseCsvContent(fileContent);
-                }
+                final fileContent = utf8.decode(await file.readAsBytes());
+                mailList.value = admin_utils.parseCsvContent(fileContent);
               }
             },
           ),
