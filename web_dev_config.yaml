@@ -1,5 +1,12 @@
 server:
   port: 3000
   headers:
+    # Caching
     - name: Cache-Control
       value: no-store, no-cache, must-revalidate
+    # WebAssembly: keep cross-origin isolation off, or the login and HelloAsso
+    # popups stop working
+    - name: Cross-Origin-Embedder-Policy
+      value: credentialless
+    - name: Cross-Origin-Opener-Policy
+      value: unsafe-none
