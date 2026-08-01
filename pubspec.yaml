@@ -97,6 +97,12 @@ dev_dependencies:
 
 flutter:
   assets:
+    # Bundled Google Fonts, subset to the Latin ranges this app renders and
+    # stripped of hinting: ~23 KB brotli each, against ~62 KB for the copy
+    # Google's CDN serves. `google_fonts` picks these up from the asset
+    # manifest and loads them lazily, so an unused weight costs nothing, and
+    # the app no longer opens a connection to fonts.gstatic.com at all.
+    - assets/google_fonts/
     - pubspec.yaml
     - assets/images/logo_prod.webp
     - assets/images/logo_alpha.webp
@@ -121,6 +127,22 @@ flutter:
     - assets/images/pipe.png
     - assets/images/helloasso.svg
     - assets/images/vache.png
+
+  fonts:
+    # Not a font the app ever asks for. The web engine hard-codes Roboto as the
+    # family it lays text out in before anything else is registered, and fetches
+    # it from `https://fonts.gstatic.com/s/roboto/v32/…woff2` — 62 KB from a
+    # third origin, awaited before the first frame can paint. It skips that
+    # download entirely when the font manifest already declares a family called
+    # `Roboto`, which is all this entry is for: the same Latin subset, 22 KB
+    # brotli'd, from our own connection.
+    #
+    # Regenerate with `tool/subset_font.py`. It has to be declared here rather
+    # than under `assets:` like the others, because only `fonts:` entries reach
+    # FontManifest.json, and the manifest is what the engine checks.
+    - family: Roboto
+      fonts:
+        - asset: assets/google_fonts/Roboto-Regular.ttf
 
   uses-material-design: true
   generate: true
