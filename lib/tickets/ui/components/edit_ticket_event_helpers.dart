@@ -56,6 +56,23 @@ Future<bool> showDeleteConfirm(BuildContext context, WidgetRef ref) async {
   return confirmed;
 }
 
+/// Confirms cancelling the whole event, which refunds the attendees rather than
+/// erasing the sales the way a delete would.
+Future<bool> showCancelConfirm(BuildContext context, WidgetRef ref) async {
+  final l10n = AppLocalizations.of(context)!;
+  var confirmed = false;
+  await showCustomBottomModal(
+    context: context,
+    ref: ref,
+    modal: ConfirmModal.danger(
+      title: l10n.ticketsCancelEventConfirm,
+      description: l10n.ticketsCancelEventDescription,
+      onYes: () => confirmed = true,
+    ),
+  );
+  return confirmed;
+}
+
 /// Reports a refused edit, with [reason] naming the cause the call site can
 /// already anticipate — a delete the backend only rejects because rows depend
 /// on the row being removed.

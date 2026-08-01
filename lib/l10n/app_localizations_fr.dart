@@ -5089,6 +5089,26 @@ class AppLocalizationsFr extends AppLocalizations {
   String get ticketsStatistics => 'Statistiques';
 
   @override
+  String get ticketsCancelEvent => 'Annuler l\'évènement';
+
+  @override
+  String get ticketsCancelEventConfirm => 'Annuler cet évènement ?';
+
+  @override
+  String get ticketsCancelEventDescription =>
+      'Les participants seront prévenus et leurs billets remboursés.';
+
+  @override
+  String get ticketsCancelEventSuccess => 'Évènement annulé';
+
+  @override
+  String get ticketsCancelEventUnavailable =>
+      'L\'annulation n\'est pas encore disponible';
+
+  @override
+  String get ticketsDateNotSet => 'Non définie';
+
+  @override
   String feedShotgunIn(String time) {
     return 'Shotgun $time';
   }

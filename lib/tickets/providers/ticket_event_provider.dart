@@ -48,6 +48,17 @@ class TicketEventNotifier extends SingleNotifierAPI<EventAdmin> {
     );
   }
 
+  /// Cancels the event: unlike a delete, the sales stay on record and the
+  /// attendees are refunded.
+  ///
+  /// The endpoint does not exist yet — it arrives with a later codegen pass —
+  /// so this reports a failure rather than pretending the event was cancelled.
+  /// Once generated, call it through [update] like the other mutations and drop
+  /// the `ticketsCancelEventUnavailable` reason at the call site.
+  Future<bool> cancelEvent(String eventId) async {
+    return false;
+  }
+
   // --- Sessions ---
 
   /// Returns the created session, or null when the backend refused it.
