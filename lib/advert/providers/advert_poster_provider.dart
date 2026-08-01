@@ -6,6 +6,7 @@ import 'package:titan/advert/providers/advert_posters_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/tools/repository/file_response.dart';
 import 'package:titan/tools/repository/repository.dart';
 
 class AdvertPosterNotifier extends SingleNotifier<Image> {
@@ -22,9 +23,10 @@ class AdvertPosterNotifier extends SingleNotifier<Image> {
     final response = await repository.advertAdvertsAdvertIdPictureGet(
       advertId: id,
     );
-    final image = response.bodyBytes.isEmpty
+    final bytes = response.fileBytes;
+    final image = bytes.isEmpty
         ? Image.asset(getTitanLogo())
-        : Image.memory(response.bodyBytes);
+        : Image.memory(bytes);
     _advertPostersNotifier!.setTData(id, AsyncData([image]));
     return image;
   }

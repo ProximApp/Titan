@@ -6,6 +6,7 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/raffle/providers/tombola_logos_provider.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/tools/repository/file_response.dart';
 import 'package:titan/tools/repository/repository.dart';
 
 class TombolaLogoProvider extends SingleNotifier<Image> {
@@ -22,9 +23,10 @@ class TombolaLogoProvider extends SingleNotifier<Image> {
     final response = await repository.tombolaRafflesRaffleIdLogoGet(
       raffleId: id,
     );
-    final logo = response.bodyBytes.isEmpty
+    final bytes = response.fileBytes;
+    final logo = bytes.isEmpty
         ? Image.asset(getTitanLogo())
-        : Image.memory(response.bodyBytes);
+        : Image.memory(bytes);
     tombolaLogosNotifier.setTData(id, AsyncData([logo]));
     state = AsyncValue.data(logo);
     return logo;

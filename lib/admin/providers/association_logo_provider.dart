@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:titan/admin/providers/associations_logo_map_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/tools/repository/file_response.dart';
 import 'package:titan/tools/repository/repository.dart';
 
 class AssociationLogoNotifier extends SingleNotifier<Image> {
@@ -23,9 +24,10 @@ class AssociationLogoNotifier extends SingleNotifier<Image> {
     final response = await repository.associationsAssociationIdLogoGet(
       associationId: associationId,
     );
-    final image = response.bodyBytes.isEmpty
+    final bytes = response.fileBytes;
+    final image = bytes.isEmpty
         ? Image.asset("assets/images/vache.png", fit: BoxFit.cover)
-        : Image.memory(response.bodyBytes);
+        : Image.memory(bytes);
     associationLogoMapNotifier.setTData(associationId, AsyncData([image]));
     state = AsyncData(image);
     return image;

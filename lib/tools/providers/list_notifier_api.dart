@@ -35,7 +35,7 @@ abstract class ListNotifierAPI<T> extends Notifier<AsyncValue<List<T>>> {
       } else {
         throw response.error!;
       }
-    }, (error) => AsyncValue.error(error, StackTrace.current));
+    }, (error) => state = AsyncValue.error(error, StackTrace.current));
   }
 
   Future<AsyncValue<List<T>>> loadFromList(List<T>? listT) async {

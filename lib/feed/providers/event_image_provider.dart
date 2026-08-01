@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/tools/repository/file_response.dart';
 import 'package:titan/tools/repository/repository.dart';
 
 class EventImageNotifier extends SingleNotifier<Image> {
@@ -25,10 +26,9 @@ class EventImageNotifier extends SingleNotifier<Image> {
     final response = await repository.calendarEventsEventIdImageGet(
       eventId: id,
     );
+    final bytes = response.fileBytes;
     state = AsyncData(
-      response.bodyBytes.isEmpty
-          ? Image.asset(getTitanLogo())
-          : Image.memory(response.bodyBytes),
+      bytes.isEmpty ? Image.asset(getTitanLogo()) : Image.memory(bytes),
     );
   }
 }
