@@ -6,6 +6,7 @@ import 'package:titan/event/ui/pages/admin_page/list_event.dart';
 import 'package:titan/generated/openapi.enums.swagger.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/functions.dart';
+import 'package:titan/tools/recurrence.dart';
 import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/ui/widgets/calendar.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';

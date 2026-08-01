@@ -3,6 +3,7 @@ import 'package:titan/event/providers/confirmed_event_list_provider.dart';
 import 'package:titan/event/tools/functions.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/functions.dart';
+import 'package:titan/tools/recurrence.dart';
 
 final sortedEventListProvider =
     Provider<Map<String, List<EventCompleteTicketUrl>>>((ref) {

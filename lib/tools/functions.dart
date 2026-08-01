@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/plausible/plausible.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:toastification/toastification.dart';
 import 'package:yaml/yaml.dart';
 
@@ -206,13 +205,6 @@ String processDateBackWithHourMaybe(String d, String locale) {
   } catch (e) {
     return DateFormat.yMd(locale).parse(d).toIso8601String();
   }
-}
-
-List<DateTime> getDateInRecurrence(String recurrenceRule, DateTime start) {
-  if (recurrenceRule.isEmpty) {
-    return [];
-  }
-  return SfCalendar.getRecurrenceDateTimeCollection(recurrenceRule, start);
 }
 
 DateTime normalizedDate(DateTime date) {
