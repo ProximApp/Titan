@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/navigation/class/module.dart';
-import 'package:titan/tools/ui/styleguide/styleguide_page.dart';
+import 'package:titan/tools/middlewares/deferred_middleware.dart';
+import 'package:titan/tools/ui/styleguide/styleguide_page.dart'
+    deferred as styleguide_page;
 import 'package:qlevar_router/qlevar_router.dart';
 
 class StyleGuideRouter {
@@ -17,6 +19,7 @@ class StyleGuideRouter {
   QRoute route() => QRoute(
     name: "styleguide",
     path: StyleGuideRouter.root,
-    builder: () => const StyleGuidePage(),
+    builder: () => styleguide_page.StyleGuidePage(),
+    middleware: [DeferredLoadingMiddleware(styleguide_page.loadLibrary)],
   );
 }
