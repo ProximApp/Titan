@@ -87,6 +87,8 @@ dev_dependencies:
     sdk: flutter
   json_serializable: ^6.11.1
   mocktail: ^1.0.3
+  path_provider_platform_interface: ^2.0.0
+  plugin_platform_interface: ^2.0.0
   swagger_dart_code_generator:
     git:
       url: https://github.com/maximeroucher/swagger-dart-code-generator.git
@@ -96,12 +98,12 @@ dev_dependencies:
 flutter:
   assets:
     - pubspec.yaml
-    - assets/images/logo_prod.png
-    - assets/images/logo_alpha.png
-    - assets/images/logo_dev.png
-    - assets/images/gift.png
-    - assets/images/soli.png
-    - assets/images/proximapp.png
+    - assets/images/logo_prod.webp
+    - assets/images/logo_alpha.webp
+    - assets/images/logo_dev.webp
+    - assets/images/gift.webp
+    - assets/images/soli.webp
+    - assets/images/proximapp.webp
     - assets/images/login.webp
     - assets/web/back.webp
     - assets/web/AMAP.webp
@@ -111,10 +113,12 @@ flutter:
     - assets/web/Pret.webp
     - assets/web/Tombola.webp
     - assets/web/Vote.webp
-    - assets/my_document.pdf
+    # `assets/my_document.pdf` (200 KB) and `assets/images/logo_flappybird.svg`
+    # used to be declared here but are referenced from nowhere in lib/, so they
+    # were only ever dead weight in the image and two more asset-manifest
+    # entries. The files themselves are still in the repository.
     - assets/images/bird.png
     - assets/images/pipe.png
-    - assets/images/logo_flappybird.svg
     - assets/images/helloasso.svg
     - assets/images/vache.png
 

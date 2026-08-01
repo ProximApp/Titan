@@ -787,7 +787,7 @@ class _TicketEventContent extends HookConsumerWidget {
                                       SizedBox(
                                         height: 28,
                                         child: Image.asset(
-                                          'assets/images/logo_prod.png',
+                                          'assets/images/logo_prod.webp',
                                           fit: BoxFit.contain,
                                           color: isDisabled
                                               ? ColorConstants.tertiary

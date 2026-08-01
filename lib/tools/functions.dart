@@ -611,5 +611,5 @@ String getAppName() {
 }
 
 String getTitanLogo() {
-  return "assets/images/logo_${getAppFlavor()}.png";
+  return "assets/images/logo_${getAppFlavor()}.webp";
 }
