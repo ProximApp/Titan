@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:heroicons/heroicons.dart';
+import 'package:titan/tools/ui/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/auth/providers/is_connected_provider.dart';
 import 'package:titan/home/router.dart';

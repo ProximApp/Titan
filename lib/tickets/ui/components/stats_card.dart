@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:heroicons/heroicons.dart';
+import 'package:titan/tools/ui/heroicons.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tickets/ui/components/stat_tile.dart';
 import 'package:titan/tools/constants.dart';

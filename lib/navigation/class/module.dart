@@ -1,6 +1,6 @@
 import 'package:either_dart/either.dart';
 import 'package:flutter/widgets.dart';
-import 'package:heroicons/heroicons.dart';
+import 'package:titan/tools/ui/heroicons.dart';
 
 class Module {
   final String Function(BuildContext) getName;

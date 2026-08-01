@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:heroicons/heroicons.dart';
+import 'package:titan/tools/ui/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/admin/providers/user_association_membership_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:heroicons/heroicons.dart';
+import 'package:titan/tools/ui/heroicons.dart';
 import 'package:titan/booking/ui/calendar/calendar_dialog_button.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/functions.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:heroicons/heroicons.dart';
+import 'package:titan/tools/ui/heroicons.dart';
 import 'package:titan/admin/admin.dart';
 import 'package:titan/admin/providers/all_group_list_provider.dart';
 import 'package:titan/admin/providers/assocation_list_provider.dart';
