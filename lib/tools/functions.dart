@@ -510,7 +510,13 @@ String getAppFlavor() {
     return appFlavor!.toLowerCase();
   }
 
-  const flavor = String.fromEnvironment("FLAVOR");
+  // `flutter build web` rejects `--flavor`, so `appFlavor` is always null on
+  // the web and the flavor has to come from the config file, which spells the
+  // key in lower case. `FLAVOR` stays supported for `--dart-define=FLAVOR=…`.
+  const flavor = String.fromEnvironment(
+    "FLAVOR",
+    defaultValue: String.fromEnvironment("flavor"),
+  );
 
   if (flavor.isEmpty) {
     throw StateError("App flavor not set");
