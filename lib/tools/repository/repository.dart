@@ -4,6 +4,7 @@ import 'package:titan/tools/authenticator/authenticator.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/interceptors/auth_interceptor.dart';
 import 'package:titan/tools/interceptors/log_interceptor.dart';
+import 'package:titan/tools/repository/multipart_file_converter.dart';
 
 final repositoryProvider = Provider((ref) {
   final authenticator = ref.watch(authenticatorProvider);
@@ -13,5 +14,6 @@ final repositoryProvider = Provider((ref) {
     baseUrl: Uri.parse(getTitanHost()),
     authenticator: authenticator,
     interceptors: [authInterceptor, logInterceptor],
+    converter: MultipartFileConverter(),
   );
 });
