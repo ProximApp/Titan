@@ -32,7 +32,7 @@ class TransactionChart extends HookConsumerWidget {
     final List<String> keys = [];
     final formatter = NumberFormat.currency(
       locale: locale.toString(),
-      symbol: "€",
+      symbol: "ʍ",
     );
 
     for (final (index, wallet) in transactionPerStore.keys.indexed) {

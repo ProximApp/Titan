@@ -19,7 +19,7 @@ class RequestCard extends ConsumerWidget {
     final locale = ref.watch(localeProvider);
     final formatter = NumberFormat.currency(
       locale: locale.toString(),
-      symbol: "€",
+      symbol: "ʍ",
     );
     final localizeWithContext = AppLocalizations.of(context)!;
     final expired = isRequestExpired(request);

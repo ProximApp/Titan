@@ -24,7 +24,7 @@ class PayPage extends ConsumerWidget {
     );
     final formatter = NumberFormat.currency(
       locale: locale.toString(),
-      symbol: "€",
+      symbol: "ʍ",
     );
 
     final amountToSub = double.tryParse(payAmount.replaceAll(",", ".")) ?? 0;
@@ -81,7 +81,7 @@ class PayPage extends ConsumerWidget {
                     }),
                     if (payAmount.isNotEmpty)
                       Text(
-                        ' €',
+                        ' ʍ',
                         style: TextStyle(
                           color: isValid
                               ? Colors.white

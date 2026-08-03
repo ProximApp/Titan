@@ -48,7 +48,7 @@ class ConfirmButton extends ConsumerWidget {
 
     final formatter = NumberFormat.currency(
       locale: locale.toString(),
-      symbol: "€",
+      symbol: "ʍ",
     );
 
     void displayQRModal() {

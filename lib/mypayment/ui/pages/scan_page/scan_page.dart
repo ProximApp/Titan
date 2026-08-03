@@ -33,7 +33,7 @@ class ScanPage extends HookConsumerWidget {
     final barcodeNotifier = ref.watch(barcodeProvider.notifier);
     final formatter = NumberFormat.currency(
       locale: locale.toString(),
-      symbol: "€",
+      symbol: "ʍ",
     );
     final transactionNotifier = ref.watch(transactionProvider.notifier);
     final ongoingTransaction = ref.watch(ongoingTransactionProvider);

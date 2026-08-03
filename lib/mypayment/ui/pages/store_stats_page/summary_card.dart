@@ -55,7 +55,7 @@ class SummaryCard extends ConsumerWidget {
 
     final formatter = NumberFormat.currency(
       locale: locale.toString(),
-      symbol: "€",
+      symbol: "ʍ",
     );
     return Container(
       height: 75,

@@ -183,7 +183,7 @@ class InvoiceCard extends HookConsumerWidget {
                 Column(
                   children: [
                     Text(
-                      '${(invoice.total / 100).toStringAsFixed(2)} €',
+                      '${(invoice.total / 100).toStringAsFixed(2)} ʍ',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,

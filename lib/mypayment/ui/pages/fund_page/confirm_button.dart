@@ -131,7 +131,7 @@ class ConfirmFundButton extends ConsumerWidget {
         if (!maxValidFundAmount) {
           displayToastWithContext(
             TypeMsg.error,
-            "${AppLocalizations.of(context)!.paiementMaxAmount} ${maxBalanceAmount.toStringAsFixed(2)}€",
+            "${AppLocalizations.of(context)!.paiementMaxAmount} ${maxBalanceAmount.toStringAsFixed(2)}ʍ",
           );
           return;
         }
