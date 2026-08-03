@@ -40,6 +40,18 @@ class ScrollWithRefreshButton extends HookConsumerWidget {
             currentScrollPosition - lastScrollPosition.value;
         final maxScrollExtent = position.maxScrollExtent;
 
+        // Ignore programmatic jumps (jumpTo): the feed auto-scrolls to the
+        // next upcoming event on load, and scroll positions may be restored.
+        // These are not user scrolls and must not hide the navbar.
+        final bool isUserScrolling = position.isScrollingNotifier.value;
+        final bool isProgrammaticJump =
+            (scrollDirection.abs() > 500) ||
+            (!isUserScrolling && scrollDirection.abs() > 1);
+
+        if (isProgrammaticJump) {
+          lastScrollPosition.value = currentScrollPosition;
+          return;
+        }
         if (currentScrollPosition <= 0) {
           navbarVisibilityNotifier.show();
         } else if (currentScrollPosition >= maxScrollExtent) {
