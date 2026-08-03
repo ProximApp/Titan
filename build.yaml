@@ -17,7 +17,7 @@ targets:
           scalars:
             date-time:
               type: DateTime
-              deserialize: DateTime.parse
+              deserialize: dateTimeFromJson
               serialize: dateTimeToJson
           default_values_map:
             - type_name: int

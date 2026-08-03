@@ -31,6 +31,9 @@
 .pub/
 /build/
 /windows/flutter/generated_*
+
+# Swagger spec downloaded by the code generator (regeneration byproduct)
+swaggers/openapi.json
 .cxx
 
 # Symbolication related
