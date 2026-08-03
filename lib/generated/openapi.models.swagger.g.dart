@@ -42,9 +42,7 @@ AdvertComplete _$AdvertCompleteFromJson(Map<String, dynamic> json) =>
       postToFeed: json['post_to_feed'] as bool? ?? false,
       notification: json['notification'] as bool? ?? false,
       id: json['id'] as String? ?? '',
-      date: json['date'] == null
-          ? null
-          : DateTime.parse(json['date'] as String),
+      date: const _$DateTimeJsonConverter().fromJson(json['date']),
     );
 
 Map<String, dynamic> _$AdvertCompleteToJson(AdvertComplete instance) =>
@@ -55,8 +53,16 @@ Map<String, dynamic> _$AdvertCompleteToJson(AdvertComplete instance) =>
       'post_to_feed': instance.postToFeed,
       'notification': instance.notification,
       'id': instance.id,
-      'date': instance.date?.toIso8601String(),
+      'date': _$JsonConverterToJson<dynamic, DateTime>(
+        instance.date,
+        const _$DateTimeJsonConverter().toJson,
+      ),
     };
+
+Json? _$JsonConverterToJson<Json, Value>(
+  Value? value,
+  Json? Function(Value value) toJson,
+) => value == null ? null : toJson(value);
 
 AdvertUpdate _$AdvertUpdateFromJson(Map<String, dynamic> json) => AdvertUpdate(
   title: json['title'] as String?,
@@ -609,9 +615,9 @@ _$BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificat
 
 BookingBase _$BookingBaseFromJson(Map<String, dynamic> json) => BookingBase(
   reason: json['reason'] as String? ?? '',
-  start: DateTime.parse(json['start'] as String),
-  end: DateTime.parse(json['end'] as String),
-  creation: DateTime.parse(json['creation'] as String),
+  start: const _$DateTimeJsonConverter().fromJson(json['start']),
+  end: const _$DateTimeJsonConverter().fromJson(json['end']),
+  creation: const _$DateTimeJsonConverter().fromJson(json['creation']),
   note: json['note'] as String?,
   roomId: json['room_id'] as String? ?? '',
   key: json['key'] as bool? ?? false,
@@ -622,9 +628,9 @@ BookingBase _$BookingBaseFromJson(Map<String, dynamic> json) => BookingBase(
 Map<String, dynamic> _$BookingBaseToJson(BookingBase instance) =>
     <String, dynamic>{
       'reason': instance.reason,
-      'start': instance.start.toIso8601String(),
-      'end': instance.end.toIso8601String(),
-      'creation': instance.creation.toIso8601String(),
+      'start': const _$DateTimeJsonConverter().toJson(instance.start),
+      'end': const _$DateTimeJsonConverter().toJson(instance.end),
+      'creation': const _$DateTimeJsonConverter().toJson(instance.creation),
       'note': instance.note,
       'room_id': instance.roomId,
       'key': instance.key,
@@ -634,8 +640,8 @@ Map<String, dynamic> _$BookingBaseToJson(BookingBase instance) =>
 
 BookingEdit _$BookingEditFromJson(Map<String, dynamic> json) => BookingEdit(
   reason: json['reason'] as String?,
-  start: json['start'] == null ? null : DateTime.parse(json['start'] as String),
-  end: json['end'] == null ? null : DateTime.parse(json['end'] as String),
+  start: const _$DateTimeJsonConverter().fromJson(json['start']),
+  end: const _$DateTimeJsonConverter().fromJson(json['end']),
   note: json['note'] as String?,
   roomId: json['room_id'] as String?,
   key: json['key'] as bool?,
@@ -646,8 +652,14 @@ BookingEdit _$BookingEditFromJson(Map<String, dynamic> json) => BookingEdit(
 Map<String, dynamic> _$BookingEditToJson(BookingEdit instance) =>
     <String, dynamic>{
       'reason': instance.reason,
-      'start': instance.start?.toIso8601String(),
-      'end': instance.end?.toIso8601String(),
+      'start': _$JsonConverterToJson<dynamic, DateTime>(
+        instance.start,
+        const _$DateTimeJsonConverter().toJson,
+      ),
+      'end': _$JsonConverterToJson<dynamic, DateTime>(
+        instance.end,
+        const _$DateTimeJsonConverter().toJson,
+      ),
       'note': instance.note,
       'room_id': instance.roomId,
       'key': instance.key,
@@ -658,9 +670,9 @@ Map<String, dynamic> _$BookingEditToJson(BookingEdit instance) =>
 BookingReturn _$BookingReturnFromJson(Map<String, dynamic> json) =>
     BookingReturn(
       reason: json['reason'] as String? ?? '',
-      start: DateTime.parse(json['start'] as String),
-      end: DateTime.parse(json['end'] as String),
-      creation: DateTime.parse(json['creation'] as String),
+      start: const _$DateTimeJsonConverter().fromJson(json['start']),
+      end: const _$DateTimeJsonConverter().fromJson(json['end']),
+      creation: const _$DateTimeJsonConverter().fromJson(json['creation']),
       note: json['note'] as String?,
       roomId: json['room_id'] as String? ?? '',
       key: json['key'] as bool? ?? false,
@@ -675,9 +687,9 @@ BookingReturn _$BookingReturnFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$BookingReturnToJson(BookingReturn instance) =>
     <String, dynamic>{
       'reason': instance.reason,
-      'start': instance.start.toIso8601String(),
-      'end': instance.end.toIso8601String(),
-      'creation': instance.creation.toIso8601String(),
+      'start': const _$DateTimeJsonConverter().toJson(instance.start),
+      'end': const _$DateTimeJsonConverter().toJson(instance.end),
+      'creation': const _$DateTimeJsonConverter().toJson(instance.creation),
       'note': instance.note,
       'room_id': instance.roomId,
       'key': instance.key,
@@ -693,9 +705,9 @@ BookingReturnApplicant _$BookingReturnApplicantFromJson(
   Map<String, dynamic> json,
 ) => BookingReturnApplicant(
   reason: json['reason'] as String? ?? '',
-  start: DateTime.parse(json['start'] as String),
-  end: DateTime.parse(json['end'] as String),
-  creation: DateTime.parse(json['creation'] as String),
+  start: const _$DateTimeJsonConverter().fromJson(json['start']),
+  end: const _$DateTimeJsonConverter().fromJson(json['end']),
+  creation: const _$DateTimeJsonConverter().fromJson(json['creation']),
   note: json['note'] as String?,
   roomId: json['room_id'] as String? ?? '',
   key: json['key'] as bool? ?? false,
@@ -712,9 +724,9 @@ Map<String, dynamic> _$BookingReturnApplicantToJson(
   BookingReturnApplicant instance,
 ) => <String, dynamic>{
   'reason': instance.reason,
-  'start': instance.start.toIso8601String(),
-  'end': instance.end.toIso8601String(),
-  'creation': instance.creation.toIso8601String(),
+  'start': const _$DateTimeJsonConverter().toJson(instance.start),
+  'end': const _$DateTimeJsonConverter().toJson(instance.end),
+  'creation': const _$DateTimeJsonConverter().toJson(instance.creation),
   'note': instance.note,
   'room_id': instance.roomId,
   'key': instance.key,
@@ -731,9 +743,9 @@ BookingReturnSimpleApplicant _$BookingReturnSimpleApplicantFromJson(
   Map<String, dynamic> json,
 ) => BookingReturnSimpleApplicant(
   reason: json['reason'] as String? ?? '',
-  start: DateTime.parse(json['start'] as String),
-  end: DateTime.parse(json['end'] as String),
-  creation: DateTime.parse(json['creation'] as String),
+  start: const _$DateTimeJsonConverter().fromJson(json['start']),
+  end: const _$DateTimeJsonConverter().fromJson(json['end']),
+  creation: const _$DateTimeJsonConverter().fromJson(json['creation']),
   note: json['note'] as String?,
   roomId: json['room_id'] as String? ?? '',
   key: json['key'] as bool? ?? false,
@@ -750,9 +762,9 @@ Map<String, dynamic> _$BookingReturnSimpleApplicantToJson(
   BookingReturnSimpleApplicant instance,
 ) => <String, dynamic>{
   'reason': instance.reason,
-  'start': instance.start.toIso8601String(),
-  'end': instance.end.toIso8601String(),
-  'creation': instance.creation.toIso8601String(),
+  'start': const _$DateTimeJsonConverter().toJson(instance.start),
+  'end': const _$DateTimeJsonConverter().toJson(instance.end),
+  'creation': const _$DateTimeJsonConverter().toJson(instance.creation),
   'note': instance.note,
   'room_id': instance.roomId,
   'key': instance.key,
@@ -1027,20 +1039,20 @@ Map<String, dynamic> _$CheckoutToJson(Checkout instance) => <String, dynamic>{
 CheckoutResponse _$CheckoutResponseFromJson(Map<String, dynamic> json) =>
     CheckoutResponse(
       price: (json['price'] as num?)?.toInt() ?? 0,
-      expiration: DateTime.parse(json['expiration'] as String),
+      expiration: const _$DateTimeJsonConverter().fromJson(json['expiration']),
       paymentUrl: json['payment_url'] as String?,
     );
 
 Map<String, dynamic> _$CheckoutResponseToJson(CheckoutResponse instance) =>
     <String, dynamic>{
       'price': instance.price,
-      'expiration': instance.expiration.toIso8601String(),
+      'expiration': const _$DateTimeJsonConverter().toJson(instance.expiration),
       'payment_url': instance.paymentUrl,
     };
 
 CineSessionBase _$CineSessionBaseFromJson(Map<String, dynamic> json) =>
     CineSessionBase(
-      start: DateTime.parse(json['start'] as String),
+      start: const _$DateTimeJsonConverter().fromJson(json['start']),
       duration: (json['duration'] as num?)?.toInt() ?? 0,
       name: json['name'] as String? ?? '',
       overview: json['overview'] as String? ?? '',
@@ -1050,7 +1062,7 @@ CineSessionBase _$CineSessionBaseFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$CineSessionBaseToJson(CineSessionBase instance) =>
     <String, dynamic>{
-      'start': instance.start.toIso8601String(),
+      'start': const _$DateTimeJsonConverter().toJson(instance.start),
       'duration': instance.duration,
       'name': instance.name,
       'overview': instance.overview,
@@ -1060,7 +1072,7 @@ Map<String, dynamic> _$CineSessionBaseToJson(CineSessionBase instance) =>
 
 CineSessionComplete _$CineSessionCompleteFromJson(Map<String, dynamic> json) =>
     CineSessionComplete(
-      start: DateTime.parse(json['start'] as String),
+      start: const _$DateTimeJsonConverter().fromJson(json['start']),
       duration: (json['duration'] as num?)?.toInt() ?? 0,
       name: json['name'] as String? ?? '',
       overview: json['overview'] as String? ?? '',
@@ -1072,7 +1084,7 @@ CineSessionComplete _$CineSessionCompleteFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$CineSessionCompleteToJson(
   CineSessionComplete instance,
 ) => <String, dynamic>{
-  'start': instance.start.toIso8601String(),
+  'start': const _$DateTimeJsonConverter().toJson(instance.start),
   'duration': instance.duration,
   'name': instance.name,
   'overview': instance.overview,
@@ -1084,9 +1096,7 @@ Map<String, dynamic> _$CineSessionCompleteToJson(
 CineSessionUpdate _$CineSessionUpdateFromJson(Map<String, dynamic> json) =>
     CineSessionUpdate(
       name: json['name'] as String?,
-      start: json['start'] == null
-          ? null
-          : DateTime.parse(json['start'] as String),
+      start: const _$DateTimeJsonConverter().fromJson(json['start']),
       duration: (json['duration'] as num?)?.toInt(),
       overview: json['overview'] as String?,
       genre: json['genre'] as String?,
@@ -1096,7 +1106,10 @@ CineSessionUpdate _$CineSessionUpdateFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$CineSessionUpdateToJson(CineSessionUpdate instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'start': instance.start?.toIso8601String(),
+      'start': _$JsonConverterToJson<dynamic, DateTime>(
+        instance.start,
+        const _$DateTimeJsonConverter().toJson,
+      ),
       'duration': instance.duration,
       'overview': instance.overview,
       'genre': instance.genre,
@@ -1107,8 +1120,8 @@ CompetitionEdition _$CompetitionEditionFromJson(Map<String, dynamic> json) =>
     CompetitionEdition(
       name: json['name'] as String? ?? '',
       year: (json['year'] as num?)?.toInt() ?? 0,
-      startDate: DateTime.parse(json['start_date'] as String),
-      endDate: DateTime.parse(json['end_date'] as String),
+      startDate: const _$DateTimeJsonConverter().fromJson(json['start_date']),
+      endDate: const _$DateTimeJsonConverter().fromJson(json['end_date']),
       active: json['active'] as bool? ?? true,
       inscriptionEnabled: json['inscription_enabled'] as bool? ?? false,
       id: json['id'] as String? ?? '',
@@ -1118,8 +1131,8 @@ Map<String, dynamic> _$CompetitionEditionToJson(CompetitionEdition instance) =>
     <String, dynamic>{
       'name': instance.name,
       'year': instance.year,
-      'start_date': instance.startDate.toIso8601String(),
-      'end_date': instance.endDate.toIso8601String(),
+      'start_date': const _$DateTimeJsonConverter().toJson(instance.startDate),
+      'end_date': const _$DateTimeJsonConverter().toJson(instance.endDate),
       'active': instance.active,
       'inscription_enabled': instance.inscriptionEnabled,
       'id': instance.id,
@@ -1130,8 +1143,8 @@ CompetitionEditionBase _$CompetitionEditionBaseFromJson(
 ) => CompetitionEditionBase(
   name: json['name'] as String? ?? '',
   year: (json['year'] as num?)?.toInt() ?? 0,
-  startDate: DateTime.parse(json['start_date'] as String),
-  endDate: DateTime.parse(json['end_date'] as String),
+  startDate: const _$DateTimeJsonConverter().fromJson(json['start_date']),
+  endDate: const _$DateTimeJsonConverter().fromJson(json['end_date']),
   active: json['active'] as bool? ?? true,
   inscriptionEnabled: json['inscription_enabled'] as bool? ?? false,
 );
@@ -1141,8 +1154,8 @@ Map<String, dynamic> _$CompetitionEditionBaseToJson(
 ) => <String, dynamic>{
   'name': instance.name,
   'year': instance.year,
-  'start_date': instance.startDate.toIso8601String(),
-  'end_date': instance.endDate.toIso8601String(),
+  'start_date': const _$DateTimeJsonConverter().toJson(instance.startDate),
+  'end_date': const _$DateTimeJsonConverter().toJson(instance.endDate),
   'active': instance.active,
   'inscription_enabled': instance.inscriptionEnabled,
 };
@@ -1152,12 +1165,8 @@ CompetitionEditionEdit _$CompetitionEditionEditFromJson(
 ) => CompetitionEditionEdit(
   name: json['name'] as String?,
   year: (json['year'] as num?)?.toInt(),
-  startDate: json['start_date'] == null
-      ? null
-      : DateTime.parse(json['start_date'] as String),
-  endDate: json['end_date'] == null
-      ? null
-      : DateTime.parse(json['end_date'] as String),
+  startDate: const _$DateTimeJsonConverter().fromJson(json['start_date']),
+  endDate: const _$DateTimeJsonConverter().fromJson(json['end_date']),
 );
 
 Map<String, dynamic> _$CompetitionEditionEditToJson(
@@ -1165,8 +1174,14 @@ Map<String, dynamic> _$CompetitionEditionEditToJson(
 ) => <String, dynamic>{
   'name': instance.name,
   'year': instance.year,
-  'start_date': instance.startDate?.toIso8601String(),
-  'end_date': instance.endDate?.toIso8601String(),
+  'start_date': _$JsonConverterToJson<dynamic, DateTime>(
+    instance.startDate,
+    const _$DateTimeJsonConverter().toJson,
+  ),
+  'end_date': _$JsonConverterToJson<dynamic, DateTime>(
+    instance.endDate,
+    const _$DateTimeJsonConverter().toJson,
+  ),
 };
 
 CompetitionUser _$CompetitionUserFromJson(Map<String, dynamic> json) =>
@@ -1179,7 +1194,7 @@ CompetitionUser _$CompetitionUserFromJson(Map<String, dynamic> json) =>
       allowPictures: json['allow_pictures'] as bool? ?? true,
       userId: json['user_id'] as String? ?? '',
       editionId: json['edition_id'] as String? ?? '',
-      createdAt: DateTime.parse(json['created_at'] as String),
+      createdAt: const _$DateTimeJsonConverter().fromJson(json['created_at']),
       validated: json['validated'] as bool? ?? false,
       user: CoreUser.fromJson(json['user'] as Map<String, dynamic>),
     );
@@ -1194,7 +1209,7 @@ Map<String, dynamic> _$CompetitionUserToJson(CompetitionUser instance) =>
       'allow_pictures': instance.allowPictures,
       'user_id': instance.userId,
       'edition_id': instance.editionId,
-      'created_at': instance.createdAt.toIso8601String(),
+      'created_at': const _$DateTimeJsonConverter().toJson(instance.createdAt),
       'validated': instance.validated,
       'user': instance.user.toJson(),
     };
@@ -1254,7 +1269,7 @@ CompetitionUserSimple _$CompetitionUserSimpleFromJson(
   allowPictures: json['allow_pictures'] as bool? ?? true,
   userId: json['user_id'] as String? ?? '',
   editionId: json['edition_id'] as String? ?? '',
-  createdAt: DateTime.parse(json['created_at'] as String),
+  createdAt: const _$DateTimeJsonConverter().fromJson(json['created_at']),
   validated: json['validated'] as bool? ?? false,
 );
 
@@ -1269,7 +1284,7 @@ Map<String, dynamic> _$CompetitionUserSimpleToJson(
   'allow_pictures': instance.allowPictures,
   'user_id': instance.userId,
   'edition_id': instance.editionId,
-  'created_at': instance.createdAt.toIso8601String(),
+  'created_at': const _$DateTimeJsonConverter().toJson(instance.createdAt),
   'validated': instance.validated,
 };
 
@@ -1509,9 +1524,7 @@ CoreUser _$CoreUserFromJson(Map<String, dynamic> json) => CoreUser(
   promo: (json['promo'] as num?)?.toInt(),
   floor: json['floor'] as String?,
   phone: json['phone'] as String?,
-  createdOn: json['created_on'] == null
-      ? null
-      : DateTime.parse(json['created_on'] as String),
+  createdOn: const _$DateTimeJsonConverter().fromJson(json['created_on']),
   groups:
       (json['groups'] as List<dynamic>?)
           ?.map((e) => CoreGroupSimple.fromJson(e as Map<String, dynamic>))
@@ -1535,7 +1548,10 @@ Map<String, dynamic> _$CoreUserToJson(CoreUser instance) => <String, dynamic>{
   'promo': instance.promo,
   'floor': instance.floor,
   'phone': instance.phone,
-  'created_on': instance.createdOn?.toIso8601String(),
+  'created_on': _$JsonConverterToJson<dynamic, DateTime>(
+    instance.createdOn,
+    const _$DateTimeJsonConverter().toJson,
+  ),
   'groups': instance.groups?.map((e) => e.toJson()).toList(),
   'school': instance.school?.toJson(),
   'is_super_admin': instance.isSuperAdmin,
@@ -1899,10 +1915,10 @@ EventAdmin _$EventAdminFromJson(Map<String, dynamic> json) => EventAdmin(
   id: json['id'] as String? ?? '',
   name: json['name'] as String? ?? '',
   storeId: json['store_id'] as String? ?? '',
-  openDatetime: DateTime.parse(json['open_datetime'] as String),
-  closeDatetime: json['close_datetime'] == null
-      ? null
-      : DateTime.parse(json['close_datetime'] as String),
+  openDatetime: const _$DateTimeJsonConverter().fromJson(json['open_datetime']),
+  closeDatetime: const _$DateTimeJsonConverter().fromJson(
+    json['close_datetime'],
+  ),
   disabled: json['disabled'] as bool? ?? false,
   quota: (json['quota'] as num?)?.toInt(),
   sessions:
@@ -1929,8 +1945,13 @@ Map<String, dynamic> _$EventAdminToJson(EventAdmin instance) =>
       'id': instance.id,
       'name': instance.name,
       'store_id': instance.storeId,
-      'open_datetime': instance.openDatetime.toIso8601String(),
-      'close_datetime': instance.closeDatetime?.toIso8601String(),
+      'open_datetime': const _$DateTimeJsonConverter().toJson(
+        instance.openDatetime,
+      ),
+      'close_datetime': _$JsonConverterToJson<dynamic, DateTime>(
+        instance.closeDatetime,
+        const _$DateTimeJsonConverter().toJson,
+      ),
       'disabled': instance.disabled,
       'quota': instance.quota,
       'sessions': instance.sessions.map((e) => e.toJson()).toList(),
@@ -1943,15 +1964,15 @@ Map<String, dynamic> _$EventAdminToJson(EventAdmin instance) =>
 EventBaseCreation _$EventBaseCreationFromJson(Map<String, dynamic> json) =>
     EventBaseCreation(
       name: json['name'] as String? ?? '',
-      start: DateTime.parse(json['start'] as String),
-      end: DateTime.parse(json['end'] as String),
+      start: const _$DateTimeJsonConverter().fromJson(json['start']),
+      end: const _$DateTimeJsonConverter().fromJson(json['end']),
       allDay: json['all_day'] as bool? ?? false,
       location: json['location'] as String? ?? '',
       description: json['description'] as String?,
       recurrenceRule: json['recurrence_rule'] as String?,
-      ticketUrlOpening: json['ticket_url_opening'] == null
-          ? null
-          : DateTime.parse(json['ticket_url_opening'] as String),
+      ticketUrlOpening: const _$DateTimeJsonConverter().fromJson(
+        json['ticket_url_opening'],
+      ),
       notification: json['notification'] as bool? ?? false,
       associationId: json['association_id'] as String? ?? '',
       ticketUrl: json['ticket_url'] as String?,
@@ -1961,13 +1982,16 @@ EventBaseCreation _$EventBaseCreationFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$EventBaseCreationToJson(EventBaseCreation instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'start': instance.start.toIso8601String(),
-      'end': instance.end.toIso8601String(),
+      'start': const _$DateTimeJsonConverter().toJson(instance.start),
+      'end': const _$DateTimeJsonConverter().toJson(instance.end),
       'all_day': instance.allDay,
       'location': instance.location,
       'description': instance.description,
       'recurrence_rule': instance.recurrenceRule,
-      'ticket_url_opening': instance.ticketUrlOpening?.toIso8601String(),
+      'ticket_url_opening': _$JsonConverterToJson<dynamic, DateTime>(
+        instance.ticketUrlOpening,
+        const _$DateTimeJsonConverter().toJson,
+      ),
       'notification': instance.notification,
       'association_id': instance.associationId,
       'ticket_url': instance.ticketUrl,
@@ -1978,15 +2002,15 @@ EventCompleteTicketUrl _$EventCompleteTicketUrlFromJson(
   Map<String, dynamic> json,
 ) => EventCompleteTicketUrl(
   name: json['name'] as String? ?? '',
-  start: DateTime.parse(json['start'] as String),
-  end: DateTime.parse(json['end'] as String),
+  start: const _$DateTimeJsonConverter().fromJson(json['start']),
+  end: const _$DateTimeJsonConverter().fromJson(json['end']),
   allDay: json['all_day'] as bool? ?? false,
   location: json['location'] as String? ?? '',
   description: json['description'] as String?,
   recurrenceRule: json['recurrence_rule'] as String?,
-  ticketUrlOpening: json['ticket_url_opening'] == null
-      ? null
-      : DateTime.parse(json['ticket_url_opening'] as String),
+  ticketUrlOpening: const _$DateTimeJsonConverter().fromJson(
+    json['ticket_url_opening'],
+  ),
   notification: json['notification'] as bool? ?? false,
   associationId: json['association_id'] as String? ?? '',
   id: json['id'] as String? ?? '',
@@ -2002,13 +2026,16 @@ Map<String, dynamic> _$EventCompleteTicketUrlToJson(
   EventCompleteTicketUrl instance,
 ) => <String, dynamic>{
   'name': instance.name,
-  'start': instance.start.toIso8601String(),
-  'end': instance.end.toIso8601String(),
+  'start': const _$DateTimeJsonConverter().toJson(instance.start),
+  'end': const _$DateTimeJsonConverter().toJson(instance.end),
   'all_day': instance.allDay,
   'location': instance.location,
   'description': instance.description,
   'recurrence_rule': instance.recurrenceRule,
-  'ticket_url_opening': instance.ticketUrlOpening?.toIso8601String(),
+  'ticket_url_opening': _$JsonConverterToJson<dynamic, DateTime>(
+    instance.ticketUrlOpening,
+    const _$DateTimeJsonConverter().toJson,
+  ),
   'notification': instance.notification,
   'association_id': instance.associationId,
   'id': instance.id,
@@ -2022,10 +2049,10 @@ EventCreate _$EventCreateFromJson(Map<String, dynamic> json) => EventCreate(
   storeId: json['store_id'] as String? ?? '',
   name: json['name'] as String? ?? '',
   quota: (json['quota'] as num?)?.toInt(),
-  openDatetime: DateTime.parse(json['open_datetime'] as String),
-  closeDatetime: json['close_datetime'] == null
-      ? null
-      : DateTime.parse(json['close_datetime'] as String),
+  openDatetime: const _$DateTimeJsonConverter().fromJson(json['open_datetime']),
+  closeDatetime: const _$DateTimeJsonConverter().fromJson(
+    json['close_datetime'],
+  ),
   sessions:
       (json['sessions'] as List<dynamic>?)
           ?.map((e) => SessionCreate.fromJson(e as Map<String, dynamic>))
@@ -2048,8 +2075,13 @@ Map<String, dynamic> _$EventCreateToJson(EventCreate instance) =>
       'store_id': instance.storeId,
       'name': instance.name,
       'quota': instance.quota,
-      'open_datetime': instance.openDatetime.toIso8601String(),
-      'close_datetime': instance.closeDatetime?.toIso8601String(),
+      'open_datetime': const _$DateTimeJsonConverter().toJson(
+        instance.openDatetime,
+      ),
+      'close_datetime': _$JsonConverterToJson<dynamic, DateTime>(
+        instance.closeDatetime,
+        const _$DateTimeJsonConverter().toJson,
+      ),
       'sessions': instance.sessions.map((e) => e.toJson()).toList(),
       'categories': instance.categories.map((e) => e.toJson()).toList(),
       'questions': instance.questions.map((e) => e.toJson()).toList(),
@@ -2057,15 +2089,15 @@ Map<String, dynamic> _$EventCreateToJson(EventCreate instance) =>
 
 EventEdit _$EventEditFromJson(Map<String, dynamic> json) => EventEdit(
   name: json['name'] as String?,
-  start: json['start'] == null ? null : DateTime.parse(json['start'] as String),
-  end: json['end'] == null ? null : DateTime.parse(json['end'] as String),
+  start: const _$DateTimeJsonConverter().fromJson(json['start']),
+  end: const _$DateTimeJsonConverter().fromJson(json['end']),
   allDay: json['all_day'] as bool?,
   location: json['location'] as String?,
   description: json['description'] as String?,
   recurrenceRule: json['recurrence_rule'] as String?,
-  ticketUrlOpening: json['ticket_url_opening'] == null
-      ? null
-      : DateTime.parse(json['ticket_url_opening'] as String),
+  ticketUrlOpening: const _$DateTimeJsonConverter().fromJson(
+    json['ticket_url_opening'],
+  ),
   ticketUrl: json['ticket_url'] as String?,
   ticketEventId: json['ticket_event_id'] as String?,
   notification: json['notification'] as bool?,
@@ -2073,13 +2105,22 @@ EventEdit _$EventEditFromJson(Map<String, dynamic> json) => EventEdit(
 
 Map<String, dynamic> _$EventEditToJson(EventEdit instance) => <String, dynamic>{
   'name': instance.name,
-  'start': instance.start?.toIso8601String(),
-  'end': instance.end?.toIso8601String(),
+  'start': _$JsonConverterToJson<dynamic, DateTime>(
+    instance.start,
+    const _$DateTimeJsonConverter().toJson,
+  ),
+  'end': _$JsonConverterToJson<dynamic, DateTime>(
+    instance.end,
+    const _$DateTimeJsonConverter().toJson,
+  ),
   'all_day': instance.allDay,
   'location': instance.location,
   'description': instance.description,
   'recurrence_rule': instance.recurrenceRule,
-  'ticket_url_opening': instance.ticketUrlOpening?.toIso8601String(),
+  'ticket_url_opening': _$JsonConverterToJson<dynamic, DateTime>(
+    instance.ticketUrlOpening,
+    const _$DateTimeJsonConverter().toJson,
+  ),
   'ticket_url': instance.ticketUrl,
   'ticket_event_id': instance.ticketEventId,
   'notification': instance.notification,
@@ -2089,10 +2130,10 @@ EventPublic _$EventPublicFromJson(Map<String, dynamic> json) => EventPublic(
   id: json['id'] as String? ?? '',
   name: json['name'] as String? ?? '',
   storeId: json['store_id'] as String? ?? '',
-  openDatetime: DateTime.parse(json['open_datetime'] as String),
-  closeDatetime: json['close_datetime'] == null
-      ? null
-      : DateTime.parse(json['close_datetime'] as String),
+  openDatetime: const _$DateTimeJsonConverter().fromJson(json['open_datetime']),
+  closeDatetime: const _$DateTimeJsonConverter().fromJson(
+    json['close_datetime'],
+  ),
   disabled: json['disabled'] as bool? ?? false,
   sessions:
       (json['sessions'] as List<dynamic>?)
@@ -2117,8 +2158,13 @@ Map<String, dynamic> _$EventPublicToJson(EventPublic instance) =>
       'id': instance.id,
       'name': instance.name,
       'store_id': instance.storeId,
-      'open_datetime': instance.openDatetime.toIso8601String(),
-      'close_datetime': instance.closeDatetime?.toIso8601String(),
+      'open_datetime': const _$DateTimeJsonConverter().toJson(
+        instance.openDatetime,
+      ),
+      'close_datetime': _$JsonConverterToJson<dynamic, DateTime>(
+        instance.closeDatetime,
+        const _$DateTimeJsonConverter().toJson,
+      ),
       'disabled': instance.disabled,
       'sessions': instance.sessions.map((e) => e.toJson()).toList(),
       'categories': instance.categories.map((e) => e.toJson()).toList(),
@@ -2130,10 +2176,10 @@ EventSimple _$EventSimpleFromJson(Map<String, dynamic> json) => EventSimple(
   id: json['id'] as String? ?? '',
   name: json['name'] as String? ?? '',
   storeId: json['store_id'] as String? ?? '',
-  openDatetime: DateTime.parse(json['open_datetime'] as String),
-  closeDatetime: json['close_datetime'] == null
-      ? null
-      : DateTime.parse(json['close_datetime'] as String),
+  openDatetime: const _$DateTimeJsonConverter().fromJson(json['open_datetime']),
+  closeDatetime: const _$DateTimeJsonConverter().fromJson(
+    json['close_datetime'],
+  ),
   disabled: json['disabled'] as bool? ?? false,
 );
 
@@ -2142,8 +2188,13 @@ Map<String, dynamic> _$EventSimpleToJson(EventSimple instance) =>
       'id': instance.id,
       'name': instance.name,
       'store_id': instance.storeId,
-      'open_datetime': instance.openDatetime.toIso8601String(),
-      'close_datetime': instance.closeDatetime?.toIso8601String(),
+      'open_datetime': const _$DateTimeJsonConverter().toJson(
+        instance.openDatetime,
+      ),
+      'close_datetime': _$JsonConverterToJson<dynamic, DateTime>(
+        instance.closeDatetime,
+        const _$DateTimeJsonConverter().toJson,
+      ),
       'disabled': instance.disabled,
     };
 
@@ -2156,12 +2207,10 @@ Map<String, dynamic> _$EventTicketUrlToJson(EventTicketUrl instance) =>
 EventUpdate _$EventUpdateFromJson(Map<String, dynamic> json) => EventUpdate(
   name: json['name'] as String?,
   quota: (json['quota'] as num?)?.toInt(),
-  openDatetime: json['open_datetime'] == null
-      ? null
-      : DateTime.parse(json['open_datetime'] as String),
-  closeDatetime: json['close_datetime'] == null
-      ? null
-      : DateTime.parse(json['close_datetime'] as String),
+  openDatetime: const _$DateTimeJsonConverter().fromJson(json['open_datetime']),
+  closeDatetime: const _$DateTimeJsonConverter().fromJson(
+    json['close_datetime'],
+  ),
   disabled: json['disabled'] as bool?,
 );
 
@@ -2169,8 +2218,14 @@ Map<String, dynamic> _$EventUpdateToJson(EventUpdate instance) =>
     <String, dynamic>{
       'name': instance.name,
       'quota': instance.quota,
-      'open_datetime': instance.openDatetime?.toIso8601String(),
-      'close_datetime': instance.closeDatetime?.toIso8601String(),
+      'open_datetime': _$JsonConverterToJson<dynamic, DateTime>(
+        instance.openDatetime,
+        const _$DateTimeJsonConverter().toJson,
+      ),
+      'close_datetime': _$JsonConverterToJson<dynamic, DateTime>(
+        instance.closeDatetime,
+        const _$DateTimeJsonConverter().toJson,
+      ),
       'disabled': instance.disabled,
     };
 
@@ -2198,7 +2253,7 @@ FlappyBirdScoreCompleteFeedBack _$FlappyBirdScoreCompleteFeedBackFromJson(
 ) => FlappyBirdScoreCompleteFeedBack(
   value: (json['value'] as num?)?.toInt() ?? 0,
   user: CoreUserSimple.fromJson(json['user'] as Map<String, dynamic>),
-  creationTime: DateTime.parse(json['creation_time'] as String),
+  creationTime: const _$DateTimeJsonConverter().fromJson(json['creation_time']),
   position: (json['position'] as num?)?.toInt() ?? 0,
 );
 
@@ -2207,7 +2262,9 @@ Map<String, dynamic> _$FlappyBirdScoreCompleteFeedBackToJson(
 ) => <String, dynamic>{
   'value': instance.value,
   'user': instance.user.toJson(),
-  'creation_time': instance.creationTime.toIso8601String(),
+  'creation_time': const _$DateTimeJsonConverter().toJson(
+    instance.creationTime,
+  ),
   'position': instance.position,
 };
 
@@ -2215,7 +2272,9 @@ FlappyBirdScoreInDB _$FlappyBirdScoreInDBFromJson(Map<String, dynamic> json) =>
     FlappyBirdScoreInDB(
       value: (json['value'] as num?)?.toInt() ?? 0,
       user: CoreUserSimple.fromJson(json['user'] as Map<String, dynamic>),
-      creationTime: DateTime.parse(json['creation_time'] as String),
+      creationTime: const _$DateTimeJsonConverter().fromJson(
+        json['creation_time'],
+      ),
       id: json['id'] as String? ?? '',
       userId: json['user_id'] as String? ?? '',
     );
@@ -2225,7 +2284,9 @@ Map<String, dynamic> _$FlappyBirdScoreInDBToJson(
 ) => <String, dynamic>{
   'value': instance.value,
   'user': instance.user.toJson(),
-  'creation_time': instance.creationTime.toIso8601String(),
+  'creation_time': const _$DateTimeJsonConverter().toJson(
+    instance.creationTime,
+  ),
   'id': instance.id,
   'user_id': instance.userId,
 };
@@ -2234,14 +2295,14 @@ GenerateTicketBase _$GenerateTicketBaseFromJson(Map<String, dynamic> json) =>
     GenerateTicketBase(
       name: json['name'] as String? ?? '',
       maxUse: (json['max_use'] as num?)?.toInt() ?? 0,
-      expiration: DateTime.parse(json['expiration'] as String),
+      expiration: const _$DateTimeJsonConverter().fromJson(json['expiration']),
     );
 
 Map<String, dynamic> _$GenerateTicketBaseToJson(GenerateTicketBase instance) =>
     <String, dynamic>{
       'name': instance.name,
       'max_use': instance.maxUse,
-      'expiration': instance.expiration.toIso8601String(),
+      'expiration': const _$DateTimeJsonConverter().toJson(instance.expiration),
     };
 
 GenerateTicketComplete _$GenerateTicketCompleteFromJson(
@@ -2249,7 +2310,7 @@ GenerateTicketComplete _$GenerateTicketCompleteFromJson(
 ) => GenerateTicketComplete(
   name: json['name'] as String? ?? '',
   maxUse: (json['max_use'] as num?)?.toInt() ?? 0,
-  expiration: DateTime.parse(json['expiration'] as String),
+  expiration: const _$DateTimeJsonConverter().fromJson(json['expiration']),
   id: json['id'] as String? ?? '',
 );
 
@@ -2258,7 +2319,7 @@ Map<String, dynamic> _$GenerateTicketCompleteToJson(
 ) => <String, dynamic>{
   'name': instance.name,
   'max_use': instance.maxUse,
-  'expiration': instance.expiration.toIso8601String(),
+  'expiration': const _$DateTimeJsonConverter().toJson(instance.expiration),
   'id': instance.id,
 };
 
@@ -2299,7 +2360,7 @@ History _$HistoryFromJson(Map<String, dynamic> json) => History(
   direction: historyDirectionFromJson(json['direction']),
   otherWalletName: json['other_wallet_name'] as String? ?? '',
   total: (json['total'] as num?)?.toInt() ?? 0,
-  creation: DateTime.parse(json['creation'] as String),
+  creation: const _$DateTimeJsonConverter().fromJson(json['creation']),
   status: transactionStatusFromJson(json['status']),
   refund: json['refund'] == null
       ? null
@@ -2312,7 +2373,7 @@ Map<String, dynamic> _$HistoryToJson(History instance) => <String, dynamic>{
   'direction': historyDirectionToJson(instance.direction),
   'other_wallet_name': instance.otherWalletName,
   'total': instance.total,
-  'creation': instance.creation.toIso8601String(),
+  'creation': const _$DateTimeJsonConverter().toJson(instance.creation),
   'status': transactionStatusToJson(instance.status),
   'refund': instance.refund?.toJson(),
 };
@@ -2320,13 +2381,13 @@ Map<String, dynamic> _$HistoryToJson(History instance) => <String, dynamic>{
 HistoryRefund _$HistoryRefundFromJson(Map<String, dynamic> json) =>
     HistoryRefund(
       total: (json['total'] as num?)?.toInt() ?? 0,
-      creation: DateTime.parse(json['creation'] as String),
+      creation: const _$DateTimeJsonConverter().fromJson(json['creation']),
     );
 
 Map<String, dynamic> _$HistoryRefundToJson(HistoryRefund instance) =>
     <String, dynamic>{
       'total': instance.total,
-      'creation': instance.creation.toIso8601String(),
+      'creation': const _$DateTimeJsonConverter().toJson(instance.creation),
     };
 
 IcalSecret _$IcalSecretFromJson(Map<String, dynamic> json) =>
@@ -2364,7 +2425,7 @@ Map<String, dynamic> _$InformationEditToJson(InformationEdit instance) =>
 
 IntegrityCheckData _$IntegrityCheckDataFromJson(Map<String, dynamic> json) =>
     IntegrityCheckData(
-      date: DateTime.parse(json['date'] as String),
+      date: const _$DateTimeJsonConverter().fromJson(json['date']),
       wallets:
           (json['wallets'] as List<dynamic>?)
               ?.map((e) => WalletBase.fromJson(e as Map<String, dynamic>))
@@ -2389,7 +2450,7 @@ IntegrityCheckData _$IntegrityCheckDataFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$IntegrityCheckDataToJson(IntegrityCheckData instance) =>
     <String, dynamic>{
-      'date': instance.date.toIso8601String(),
+      'date': const _$DateTimeJsonConverter().toJson(instance.date),
       'wallets': instance.wallets.map((e) => e.toJson()).toList(),
       'transactions': instance.transactions.map((e) => e.toJson()).toList(),
       'transfers': instance.transfers.map((e) => e.toJson()).toList(),
@@ -2416,9 +2477,9 @@ Invoice _$InvoiceFromJson(Map<String, dynamic> json) => Invoice(
   id: json['id'] as String? ?? '',
   reference: json['reference'] as String? ?? '',
   structureId: json['structure_id'] as String? ?? '',
-  creation: DateTime.parse(json['creation'] as String),
-  startDate: DateTime.parse(json['start_date'] as String),
-  endDate: DateTime.parse(json['end_date'] as String),
+  creation: const _$DateTimeJsonConverter().fromJson(json['creation']),
+  startDate: const _$DateTimeJsonConverter().fromJson(json['start_date']),
+  endDate: const _$DateTimeJsonConverter().fromJson(json['end_date']),
   total: (json['total'] as num?)?.toInt() ?? 0,
   paid: json['paid'] as bool? ?? false,
   received: json['received'] as bool? ?? false,
@@ -2434,9 +2495,9 @@ Map<String, dynamic> _$InvoiceToJson(Invoice instance) => <String, dynamic>{
   'id': instance.id,
   'reference': instance.reference,
   'structure_id': instance.structureId,
-  'creation': instance.creation.toIso8601String(),
-  'start_date': instance.startDate.toIso8601String(),
-  'end_date': instance.endDate.toIso8601String(),
+  'creation': const _$DateTimeJsonConverter().toJson(instance.creation),
+  'start_date': const _$DateTimeJsonConverter().toJson(instance.startDate),
+  'end_date': const _$DateTimeJsonConverter().toJson(instance.endDate),
   'total': instance.total,
   'paid': instance.paid,
   'received': instance.received,
@@ -2906,7 +2967,7 @@ Match _$MatchFromJson(Map<String, dynamic> json) => Match(
   team1Id: json['team1_id'] as String? ?? '',
   team2Id: json['team2_id'] as String? ?? '',
   locationId: json['location_id'] as String? ?? '',
-  date: json['date'] == null ? null : DateTime.parse(json['date'] as String),
+  date: const _$DateTimeJsonConverter().fromJson(json['date']),
   scoreTeam1: (json['score_team1'] as num?)?.toInt(),
   scoreTeam2: (json['score_team2'] as num?)?.toInt(),
   winnerId: json['winner_id'] as String?,
@@ -2920,7 +2981,10 @@ Map<String, dynamic> _$MatchToJson(Match instance) => <String, dynamic>{
   'team1_id': instance.team1Id,
   'team2_id': instance.team2Id,
   'location_id': instance.locationId,
-  'date': instance.date?.toIso8601String(),
+  'date': _$JsonConverterToJson<dynamic, DateTime>(
+    instance.date,
+    const _$DateTimeJsonConverter().toJson,
+  ),
   'score_team1': instance.scoreTeam1,
   'score_team2': instance.scoreTeam2,
   'winner_id': instance.winnerId,
@@ -2934,7 +2998,7 @@ MatchBase _$MatchBaseFromJson(Map<String, dynamic> json) => MatchBase(
   team1Id: json['team1_id'] as String? ?? '',
   team2Id: json['team2_id'] as String? ?? '',
   locationId: json['location_id'] as String? ?? '',
-  date: json['date'] == null ? null : DateTime.parse(json['date'] as String),
+  date: const _$DateTimeJsonConverter().fromJson(json['date']),
   scoreTeam1: (json['score_team1'] as num?)?.toInt(),
   scoreTeam2: (json['score_team2'] as num?)?.toInt(),
   winnerId: json['winner_id'] as String?,
@@ -2945,7 +3009,10 @@ Map<String, dynamic> _$MatchBaseToJson(MatchBase instance) => <String, dynamic>{
   'team1_id': instance.team1Id,
   'team2_id': instance.team2Id,
   'location_id': instance.locationId,
-  'date': instance.date?.toIso8601String(),
+  'date': _$JsonConverterToJson<dynamic, DateTime>(
+    instance.date,
+    const _$DateTimeJsonConverter().toJson,
+  ),
   'score_team1': instance.scoreTeam1,
   'score_team2': instance.scoreTeam2,
   'winner_id': instance.winnerId,
@@ -2957,9 +3024,7 @@ MatchComplete _$MatchCompleteFromJson(Map<String, dynamic> json) =>
       team1Id: json['team1_id'] as String? ?? '',
       team2Id: json['team2_id'] as String? ?? '',
       locationId: json['location_id'] as String? ?? '',
-      date: json['date'] == null
-          ? null
-          : DateTime.parse(json['date'] as String),
+      date: const _$DateTimeJsonConverter().fromJson(json['date']),
       scoreTeam1: (json['score_team1'] as num?)?.toInt(),
       scoreTeam2: (json['score_team2'] as num?)?.toInt(),
       winnerId: json['winner_id'] as String?,
@@ -2977,7 +3042,10 @@ Map<String, dynamic> _$MatchCompleteToJson(MatchComplete instance) =>
       'team1_id': instance.team1Id,
       'team2_id': instance.team2Id,
       'location_id': instance.locationId,
-      'date': instance.date?.toIso8601String(),
+      'date': _$JsonConverterToJson<dynamic, DateTime>(
+        instance.date,
+        const _$DateTimeJsonConverter().toJson,
+      ),
       'score_team1': instance.scoreTeam1,
       'score_team2': instance.scoreTeam2,
       'winner_id': instance.winnerId,
@@ -2994,7 +3062,7 @@ MatchEdit _$MatchEditFromJson(Map<String, dynamic> json) => MatchEdit(
   sportId: json['sport_id'] as String?,
   team1Id: json['team1_id'] as String?,
   team2Id: json['team2_id'] as String?,
-  date: json['date'] == null ? null : DateTime.parse(json['date'] as String),
+  date: const _$DateTimeJsonConverter().fromJson(json['date']),
   locationId: json['location_id'] as String?,
   scoreTeam1: (json['score_team1'] as num?)?.toInt(),
   scoreTeam2: (json['score_team2'] as num?)?.toInt(),
@@ -3006,7 +3074,10 @@ Map<String, dynamic> _$MatchEditToJson(MatchEdit instance) => <String, dynamic>{
   'sport_id': instance.sportId,
   'team1_id': instance.team1Id,
   'team2_id': instance.team2Id,
-  'date': instance.date?.toIso8601String(),
+  'date': _$JsonConverterToJson<dynamic, DateTime>(
+    instance.date,
+    const _$DateTimeJsonConverter().toJson,
+  ),
   'location_id': instance.locationId,
   'score_team1': instance.scoreTeam1,
   'score_team2': instance.scoreTeam2,
@@ -3126,13 +3197,11 @@ Map<String, dynamic> _$MyPaymentBankAccountHolderToJson(
 News _$NewsFromJson(Map<String, dynamic> json) => News(
   id: json['id'] as String? ?? '',
   title: json['title'] as String? ?? '',
-  start: DateTime.parse(json['start'] as String),
-  end: json['end'] == null ? null : DateTime.parse(json['end'] as String),
+  start: const _$DateTimeJsonConverter().fromJson(json['start']),
+  end: const _$DateTimeJsonConverter().fromJson(json['end']),
   entity: json['entity'] as String? ?? '',
   location: json['location'] as String?,
-  actionStart: json['action_start'] == null
-      ? null
-      : DateTime.parse(json['action_start'] as String),
+  actionStart: const _$DateTimeJsonConverter().fromJson(json['action_start']),
   module: json['module'] as String? ?? '',
   moduleObjectId: json['module_object_id'] as String? ?? '',
   status: newsStatusFromJson(json['status']),
@@ -3141,11 +3210,17 @@ News _$NewsFromJson(Map<String, dynamic> json) => News(
 Map<String, dynamic> _$NewsToJson(News instance) => <String, dynamic>{
   'id': instance.id,
   'title': instance.title,
-  'start': instance.start.toIso8601String(),
-  'end': instance.end?.toIso8601String(),
+  'start': const _$DateTimeJsonConverter().toJson(instance.start),
+  'end': _$JsonConverterToJson<dynamic, DateTime>(
+    instance.end,
+    const _$DateTimeJsonConverter().toJson,
+  ),
   'entity': instance.entity,
   'location': instance.location,
-  'action_start': instance.actionStart?.toIso8601String(),
+  'action_start': _$JsonConverterToJson<dynamic, DateTime>(
+    instance.actionStart,
+    const _$DateTimeJsonConverter().toJson,
+  ),
   'module': instance.module,
   'module_object_id': instance.moduleObjectId,
   'status': newsStatusToJson(instance.status),
@@ -3203,7 +3278,7 @@ OrderReturn _$OrderReturnFromJson(Map<String, dynamic> json) => OrderReturn(
   collectionSlot: amapSlotTypeFromJson(json['collection_slot']),
   orderId: json['order_id'] as String? ?? '',
   amount: (json['amount'] as num?)?.toInt() ?? 0,
-  orderingDate: DateTime.parse(json['ordering_date'] as String),
+  orderingDate: const _$DateTimeJsonConverter().fromJson(json['ordering_date']),
   deliveryDate: DateTime.parse(json['delivery_date'] as String),
 );
 
@@ -3216,7 +3291,9 @@ Map<String, dynamic> _$OrderReturnToJson(OrderReturn instance) =>
       'collection_slot': amapSlotTypeToJson(instance.collectionSlot),
       'order_id': instance.orderId,
       'amount': instance.amount,
-      'ordering_date': instance.orderingDate.toIso8601String(),
+      'ordering_date': const _$DateTimeJsonConverter().toJson(
+        instance.orderingDate,
+      ),
       'delivery_date': _dateToJson(instance.deliveryDate),
     };
 
@@ -3694,7 +3771,7 @@ Purchase _$PurchaseFromJson(Map<String, dynamic> json) => Purchase(
   userId: json['user_id'] as String? ?? '',
   editionId: json['edition_id'] as String? ?? '',
   validated: json['validated'] as bool? ?? false,
-  purchasedOn: DateTime.parse(json['purchased_on'] as String),
+  purchasedOn: const _$DateTimeJsonConverter().fromJson(json['purchased_on']),
 );
 
 Map<String, dynamic> _$PurchaseToJson(Purchase instance) => <String, dynamic>{
@@ -3703,7 +3780,7 @@ Map<String, dynamic> _$PurchaseToJson(Purchase instance) => <String, dynamic>{
   'user_id': instance.userId,
   'edition_id': instance.editionId,
   'validated': instance.validated,
-  'purchased_on': instance.purchasedOn.toIso8601String(),
+  'purchased_on': const _$DateTimeJsonConverter().toJson(instance.purchasedOn),
 };
 
 PurchaseEdit _$PurchaseEditFromJson(Map<String, dynamic> json) => PurchaseEdit(
@@ -3723,7 +3800,9 @@ PurchaseReturn _$PurchaseReturnFromJson(Map<String, dynamic> json) =>
       userId: json['user_id'] as String? ?? '',
       productVariantId: json['product_variant_id'] as String? ?? '',
       validated: json['validated'] as bool? ?? false,
-      purchasedOn: DateTime.parse(json['purchased_on'] as String),
+      purchasedOn: const _$DateTimeJsonConverter().fromJson(
+        json['purchased_on'],
+      ),
       price: (json['price'] as num?)?.toInt() ?? 0,
       product: AppModulesCdrSchemasCdrProductComplete.fromJson(
         json['product'] as Map<String, dynamic>,
@@ -3731,17 +3810,18 @@ PurchaseReturn _$PurchaseReturnFromJson(Map<String, dynamic> json) =>
       seller: SellerComplete.fromJson(json['seller'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$PurchaseReturnToJson(PurchaseReturn instance) =>
-    <String, dynamic>{
-      'quantity': instance.quantity,
-      'user_id': instance.userId,
-      'product_variant_id': instance.productVariantId,
-      'validated': instance.validated,
-      'purchased_on': instance.purchasedOn.toIso8601String(),
-      'price': instance.price,
-      'product': instance.product.toJson(),
-      'seller': instance.seller.toJson(),
-    };
+Map<String, dynamic> _$PurchaseReturnToJson(
+  PurchaseReturn instance,
+) => <String, dynamic>{
+  'quantity': instance.quantity,
+  'user_id': instance.userId,
+  'product_variant_id': instance.productVariantId,
+  'validated': instance.validated,
+  'purchased_on': const _$DateTimeJsonConverter().toJson(instance.purchasedOn),
+  'price': instance.price,
+  'product': instance.product.toJson(),
+  'seller': instance.seller.toJson(),
+};
 
 Question _$QuestionFromJson(Map<String, dynamic> json) => Question(
   id: json['id'] as String? ?? '',
@@ -4236,7 +4316,7 @@ Recommendation _$RecommendationFromJson(Map<String, dynamic> json) =>
       summary: json['summary'] as String? ?? '',
       description: json['description'] as String? ?? '',
       id: json['id'] as String? ?? '',
-      creation: DateTime.parse(json['creation'] as String),
+      creation: const _$DateTimeJsonConverter().fromJson(json['creation']),
     );
 
 Map<String, dynamic> _$RecommendationToJson(Recommendation instance) =>
@@ -4246,7 +4326,7 @@ Map<String, dynamic> _$RecommendationToJson(Recommendation instance) =>
       'summary': instance.summary,
       'description': instance.description,
       'id': instance.id,
-      'creation': instance.creation.toIso8601String(),
+      'creation': const _$DateTimeJsonConverter().toJson(instance.creation),
     };
 
 RecommendationBase _$RecommendationBaseFromJson(Map<String, dynamic> json) =>
@@ -4284,7 +4364,7 @@ Map<String, dynamic> _$RecommendationEditToJson(RecommendationEdit instance) =>
 RefundBase _$RefundBaseFromJson(Map<String, dynamic> json) => RefundBase(
   id: json['id'] as String? ?? '',
   total: (json['total'] as num?)?.toInt() ?? 0,
-  creation: DateTime.parse(json['creation'] as String),
+  creation: const _$DateTimeJsonConverter().fromJson(json['creation']),
   transactionId: json['transaction_id'] as String? ?? '',
   sellerUserId: json['seller_user_id'] as String?,
   creditedWalletId: json['credited_wallet_id'] as String? ?? '',
@@ -4295,7 +4375,7 @@ Map<String, dynamic> _$RefundBaseToJson(RefundBase instance) =>
     <String, dynamic>{
       'id': instance.id,
       'total': instance.total,
-      'creation': instance.creation.toIso8601String(),
+      'creation': const _$DateTimeJsonConverter().toJson(instance.creation),
       'transaction_id': instance.transactionId,
       'seller_user_id': instance.sellerUserId,
       'credited_wallet_id': instance.creditedWalletId,
@@ -4316,8 +4396,10 @@ Map<String, dynamic> _$RefundInfoToJson(RefundInfo instance) =>
 Request$ _$Request$FromJson(Map<String, dynamic> json) => Request$(
   id: json['id'] as String? ?? '',
   walletId: json['wallet_id'] as String? ?? '',
-  creation: DateTime.parse(json['creation'] as String),
-  expirationDate: DateTime.parse(json['expiration_date'] as String),
+  creation: const _$DateTimeJsonConverter().fromJson(json['creation']),
+  expirationDate: const _$DateTimeJsonConverter().fromJson(
+    json['expiration_date'],
+  ),
   total: (json['total'] as num?)?.toInt() ?? 0,
   storeId: json['store_id'] as String? ?? '',
   name: json['name'] as String? ?? '',
@@ -4331,8 +4413,10 @@ Request$ _$Request$FromJson(Map<String, dynamic> json) => Request$(
 Map<String, dynamic> _$Request$ToJson(Request$ instance) => <String, dynamic>{
   'id': instance.id,
   'wallet_id': instance.walletId,
-  'creation': instance.creation.toIso8601String(),
-  'expiration_date': instance.expirationDate.toIso8601String(),
+  'creation': const _$DateTimeJsonConverter().toJson(instance.creation),
+  'expiration_date': const _$DateTimeJsonConverter().toJson(
+    instance.expirationDate,
+  ),
   'total': instance.total,
   'store_id': instance.storeId,
   'name': instance.name,
@@ -4393,7 +4477,7 @@ Map<String, dynamic> _$RoomCompleteToJson(RoomComplete instance) =>
 ScanInfo _$ScanInfoFromJson(Map<String, dynamic> json) => ScanInfo(
   id: json['id'] as String? ?? '',
   tot: (json['tot'] as num?)?.toInt() ?? 0,
-  iat: DateTime.parse(json['iat'] as String),
+  iat: const _$DateTimeJsonConverter().fromJson(json['iat']),
   key: json['key'] as String? ?? '',
   store: json['store'] as bool? ?? false,
   signature: json['signature'] as String? ?? '',
@@ -4403,7 +4487,7 @@ ScanInfo _$ScanInfoFromJson(Map<String, dynamic> json) => ScanInfo(
 Map<String, dynamic> _$ScanInfoToJson(ScanInfo instance) => <String, dynamic>{
   'id': instance.id,
   'tot': instance.tot,
-  'iat': instance.iat.toIso8601String(),
+  'iat': const _$DateTimeJsonConverter().toJson(instance.iat),
   'key': instance.key,
   'store': instance.store,
   'signature': instance.signature,
@@ -4829,7 +4913,9 @@ Session _$SessionFromJson(Map<String, dynamic> json) => Session(
   id: json['id'] as String? ?? '',
   eventId: json['event_id'] as String? ?? '',
   name: json['name'] as String? ?? '',
-  startDatetime: DateTime.parse(json['start_datetime'] as String),
+  startDatetime: const _$DateTimeJsonConverter().fromJson(
+    json['start_datetime'],
+  ),
   disabled: json['disabled'] as bool? ?? false,
 );
 
@@ -4837,7 +4923,9 @@ Map<String, dynamic> _$SessionToJson(Session instance) => <String, dynamic>{
   'id': instance.id,
   'event_id': instance.eventId,
   'name': instance.name,
-  'start_datetime': instance.startDatetime.toIso8601String(),
+  'start_datetime': const _$DateTimeJsonConverter().toJson(
+    instance.startDatetime,
+  ),
   'disabled': instance.disabled,
 };
 
@@ -4845,7 +4933,9 @@ SessionAdmin _$SessionAdminFromJson(Map<String, dynamic> json) => SessionAdmin(
   id: json['id'] as String? ?? '',
   eventId: json['event_id'] as String? ?? '',
   name: json['name'] as String? ?? '',
-  startDatetime: DateTime.parse(json['start_datetime'] as String),
+  startDatetime: const _$DateTimeJsonConverter().fromJson(
+    json['start_datetime'],
+  ),
   disabled: json['disabled'] as bool? ?? false,
   quota: (json['quota'] as num?)?.toInt(),
   ticketsInCheckout: (json['tickets_in_checkout'] as num?)?.toInt() ?? 0,
@@ -4857,7 +4947,9 @@ Map<String, dynamic> _$SessionAdminToJson(SessionAdmin instance) =>
       'id': instance.id,
       'event_id': instance.eventId,
       'name': instance.name,
-      'start_datetime': instance.startDatetime.toIso8601String(),
+      'start_datetime': const _$DateTimeJsonConverter().toJson(
+        instance.startDatetime,
+      ),
       'disabled': instance.disabled,
       'quota': instance.quota,
       'tickets_in_checkout': instance.ticketsInCheckout,
@@ -4869,7 +4961,9 @@ SessionComplete _$SessionCompleteFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String? ?? '',
       eventId: json['event_id'] as String? ?? '',
       name: json['name'] as String? ?? '',
-      startDatetime: DateTime.parse(json['start_datetime'] as String),
+      startDatetime: const _$DateTimeJsonConverter().fromJson(
+        json['start_datetime'],
+      ),
       disabled: json['disabled'] as bool? ?? false,
       quota: (json['quota'] as num?)?.toInt(),
     );
@@ -4879,7 +4973,9 @@ Map<String, dynamic> _$SessionCompleteToJson(SessionComplete instance) =>
       'id': instance.id,
       'event_id': instance.eventId,
       'name': instance.name,
-      'start_datetime': instance.startDatetime.toIso8601String(),
+      'start_datetime': const _$DateTimeJsonConverter().toJson(
+        instance.startDatetime,
+      ),
       'disabled': instance.disabled,
       'quota': instance.quota,
     };
@@ -4887,14 +4983,18 @@ Map<String, dynamic> _$SessionCompleteToJson(SessionComplete instance) =>
 SessionCreate _$SessionCreateFromJson(Map<String, dynamic> json) =>
     SessionCreate(
       name: json['name'] as String? ?? '',
-      startDatetime: DateTime.parse(json['start_datetime'] as String),
+      startDatetime: const _$DateTimeJsonConverter().fromJson(
+        json['start_datetime'],
+      ),
       quota: (json['quota'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$SessionCreateToJson(SessionCreate instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'start_datetime': instance.startDatetime.toIso8601String(),
+      'start_datetime': const _$DateTimeJsonConverter().toJson(
+        instance.startDatetime,
+      ),
       'quota': instance.quota,
     };
 
@@ -4903,7 +5003,9 @@ SessionPublic _$SessionPublicFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String? ?? '',
       eventId: json['event_id'] as String? ?? '',
       name: json['name'] as String? ?? '',
-      startDatetime: DateTime.parse(json['start_datetime'] as String),
+      startDatetime: const _$DateTimeJsonConverter().fromJson(
+        json['start_datetime'],
+      ),
       disabled: json['disabled'] as bool? ?? false,
       soldOut: json['sold_out'] as bool? ?? false,
     );
@@ -4913,7 +5015,9 @@ Map<String, dynamic> _$SessionPublicToJson(SessionPublic instance) =>
       'id': instance.id,
       'event_id': instance.eventId,
       'name': instance.name,
-      'start_datetime': instance.startDatetime.toIso8601String(),
+      'start_datetime': const _$DateTimeJsonConverter().toJson(
+        instance.startDatetime,
+      ),
       'disabled': instance.disabled,
       'sold_out': instance.soldOut,
     };
@@ -4921,9 +5025,9 @@ Map<String, dynamic> _$SessionPublicToJson(SessionPublic instance) =>
 SessionUpdate _$SessionUpdateFromJson(Map<String, dynamic> json) =>
     SessionUpdate(
       name: json['name'] as String?,
-      startDatetime: json['start_datetime'] == null
-          ? null
-          : DateTime.parse(json['start_datetime'] as String),
+      startDatetime: const _$DateTimeJsonConverter().fromJson(
+        json['start_datetime'],
+      ),
       quota: (json['quota'] as num?)?.toInt(),
       disabled: json['disabled'] as bool?,
     );
@@ -4931,7 +5035,10 @@ SessionUpdate _$SessionUpdateFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$SessionUpdateToJson(SessionUpdate instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'start_datetime': instance.startDatetime?.toIso8601String(),
+      'start_datetime': _$JsonConverterToJson<dynamic, DateTime>(
+        instance.startDatetime,
+        const _$DateTimeJsonConverter().toJson,
+      ),
       'quota': instance.quota,
       'disabled': instance.disabled,
     };
@@ -4968,7 +5075,7 @@ SignedContent _$SignedContentFromJson(Map<String, dynamic> json) =>
     SignedContent(
       id: json['id'] as String? ?? '',
       tot: (json['tot'] as num?)?.toInt() ?? 0,
-      iat: DateTime.parse(json['iat'] as String),
+      iat: const _$DateTimeJsonConverter().fromJson(json['iat']),
       key: json['key'] as String? ?? '',
       store: json['store'] as bool? ?? false,
       signature: json['signature'] as String? ?? '',
@@ -4978,7 +5085,7 @@ Map<String, dynamic> _$SignedContentToJson(SignedContent instance) =>
     <String, dynamic>{
       'id': instance.id,
       'tot': instance.tot,
-      'iat': instance.iat.toIso8601String(),
+      'iat': const _$DateTimeJsonConverter().toJson(instance.iat),
       'key': instance.key,
       'store': instance.store,
       'signature': instance.signature,
@@ -5176,7 +5283,7 @@ Store _$StoreFromJson(Map<String, dynamic> json) => Store(
   id: json['id'] as String? ?? '',
   structureId: json['structure_id'] as String? ?? '',
   walletId: json['wallet_id'] as String? ?? '',
-  creation: DateTime.parse(json['creation'] as String),
+  creation: const _$DateTimeJsonConverter().fromJson(json['creation']),
   structure: Structure.fromJson(json['structure'] as Map<String, dynamic>),
 );
 
@@ -5186,7 +5293,7 @@ Map<String, dynamic> _$StoreToJson(Store instance) => <String, dynamic>{
   'id': instance.id,
   'structure_id': instance.structureId,
   'wallet_id': instance.walletId,
-  'creation': instance.creation.toIso8601String(),
+  'creation': const _$DateTimeJsonConverter().toJson(instance.creation),
   'structure': instance.structure.toJson(),
 };
 
@@ -5206,7 +5313,7 @@ StoreSimple _$StoreSimpleFromJson(Map<String, dynamic> json) => StoreSimple(
   id: json['id'] as String? ?? '',
   structureId: json['structure_id'] as String? ?? '',
   walletId: json['wallet_id'] as String? ?? '',
-  creation: DateTime.parse(json['creation'] as String),
+  creation: const _$DateTimeJsonConverter().fromJson(json['creation']),
 );
 
 Map<String, dynamic> _$StoreSimpleToJson(StoreSimple instance) =>
@@ -5216,7 +5323,7 @@ Map<String, dynamic> _$StoreSimpleToJson(StoreSimple instance) =>
       'id': instance.id,
       'structure_id': instance.structureId,
       'wallet_id': instance.walletId,
-      'creation': instance.creation.toIso8601String(),
+      'creation': const _$DateTimeJsonConverter().toJson(instance.creation),
     };
 
 StoreUpdate _$StoreUpdateFromJson(Map<String, dynamic> json) => StoreUpdate(
@@ -5243,7 +5350,7 @@ Structure _$StructureFromJson(Map<String, dynamic> json) => Structure(
   iban: json['iban'] as String? ?? '',
   bic: json['bic'] as String? ?? '',
   id: json['id'] as String? ?? '',
-  creation: DateTime.parse(json['creation'] as String),
+  creation: const _$DateTimeJsonConverter().fromJson(json['creation']),
   managerUser: CoreUserSimple.fromJson(
     json['manager_user'] as Map<String, dynamic>,
   ),
@@ -5267,7 +5374,7 @@ Map<String, dynamic> _$StructureToJson(Structure instance) => <String, dynamic>{
   'iban': instance.iban,
   'bic': instance.bic,
   'id': instance.id,
-  'creation': instance.creation.toIso8601String(),
+  'creation': const _$DateTimeJsonConverter().toJson(instance.creation),
   'manager_user': instance.managerUser.toJson(),
   'association_membership': instance.associationMembership?.toJson(),
 };
@@ -5372,7 +5479,7 @@ Team _$TeamFromJson(Map<String, dynamic> json) => Team(
   sportId: json['sport_id'] as String? ?? '',
   captainId: json['captain_id'] as String? ?? '',
   id: json['id'] as String? ?? '',
-  createdAt: DateTime.parse(json['created_at'] as String),
+  createdAt: const _$DateTimeJsonConverter().fromJson(json['created_at']),
 );
 
 Map<String, dynamic> _$TeamToJson(Team instance) => <String, dynamic>{
@@ -5382,7 +5489,7 @@ Map<String, dynamic> _$TeamToJson(Team instance) => <String, dynamic>{
   'sport_id': instance.sportId,
   'captain_id': instance.captainId,
   'id': instance.id,
-  'created_at': instance.createdAt.toIso8601String(),
+  'created_at': const _$DateTimeJsonConverter().toJson(instance.createdAt),
 };
 
 TeamComplete _$TeamCompleteFromJson(Map<String, dynamic> json) => TeamComplete(
@@ -5392,7 +5499,7 @@ TeamComplete _$TeamCompleteFromJson(Map<String, dynamic> json) => TeamComplete(
   sportId: json['sport_id'] as String? ?? '',
   captainId: json['captain_id'] as String? ?? '',
   id: json['id'] as String? ?? '',
-  createdAt: DateTime.parse(json['created_at'] as String),
+  createdAt: const _$DateTimeJsonConverter().fromJson(json['created_at']),
   participants:
       (json['participants'] as List<dynamic>?)
           ?.map((e) => ParticipantComplete.fromJson(e as Map<String, dynamic>))
@@ -5408,7 +5515,7 @@ Map<String, dynamic> _$TeamCompleteToJson(TeamComplete instance) =>
       'sport_id': instance.sportId,
       'captain_id': instance.captainId,
       'id': instance.id,
-      'created_at': instance.createdAt.toIso8601String(),
+      'created_at': const _$DateTimeJsonConverter().toJson(instance.createdAt),
       'participants': instance.participants.map((e) => e.toJson()).toList(),
     };
 
@@ -5600,7 +5707,7 @@ TransactionBase _$TransactionBaseFromJson(Map<String, dynamic> json) =>
       transactionType: transactionTypeFromJson(json['transaction_type']),
       sellerUserId: json['seller_user_id'] as String?,
       total: (json['total'] as num?)?.toInt() ?? 0,
-      creation: DateTime.parse(json['creation'] as String),
+      creation: const _$DateTimeJsonConverter().fromJson(json['creation']),
       status: transactionStatusFromJson(json['status']),
       qrCodeId: json['qr_code_id'] as String?,
     );
@@ -5613,7 +5720,7 @@ Map<String, dynamic> _$TransactionBaseToJson(TransactionBase instance) =>
       'transaction_type': transactionTypeToJson(instance.transactionType),
       'seller_user_id': instance.sellerUserId,
       'total': instance.total,
-      'creation': instance.creation.toIso8601String(),
+      'creation': const _$DateTimeJsonConverter().toJson(instance.creation),
       'status': transactionStatusToJson(instance.status),
       'qr_code_id': instance.qrCodeId,
     };
@@ -5625,7 +5732,7 @@ Transfer _$TransferFromJson(Map<String, dynamic> json) => Transfer(
   approverUserId: json['approver_user_id'] as String?,
   walletId: json['wallet_id'] as String? ?? '',
   total: (json['total'] as num?)?.toInt() ?? 0,
-  creation: DateTime.parse(json['creation'] as String),
+  creation: const _$DateTimeJsonConverter().fromJson(json['creation']),
   confirmed: json['confirmed'] as bool? ?? false,
   module: json['module'] as String?,
   objectId: json['object_id'] as String?,
@@ -5639,7 +5746,7 @@ Map<String, dynamic> _$TransferToJson(Transfer instance) => <String, dynamic>{
   'approver_user_id': instance.approverUserId,
   'wallet_id': instance.walletId,
   'total': instance.total,
-  'creation': instance.creation.toIso8601String(),
+  'creation': const _$DateTimeJsonConverter().toJson(instance.creation),
   'confirmed': instance.confirmed,
   'module': instance.module,
   'object_id': instance.objectId,
@@ -5749,7 +5856,7 @@ UserStore _$UserStoreFromJson(Map<String, dynamic> json) => UserStore(
   id: json['id'] as String? ?? '',
   structureId: json['structure_id'] as String? ?? '',
   walletId: json['wallet_id'] as String? ?? '',
-  creation: DateTime.parse(json['creation'] as String),
+  creation: const _$DateTimeJsonConverter().fromJson(json['creation']),
   structure: Structure.fromJson(json['structure'] as Map<String, dynamic>),
   canBank: json['can_bank'] as bool? ?? false,
   canSeeHistory: json['can_see_history'] as bool? ?? false,
@@ -5763,7 +5870,7 @@ Map<String, dynamic> _$UserStoreToJson(UserStore instance) => <String, dynamic>{
   'id': instance.id,
   'structure_id': instance.structureId,
   'wallet_id': instance.walletId,
-  'creation': instance.creation.toIso8601String(),
+  'creation': const _$DateTimeJsonConverter().toJson(instance.creation),
   'structure': instance.structure.toJson(),
   'can_bank': instance.canBank,
   'can_see_history': instance.canSeeHistory,
@@ -5780,9 +5887,7 @@ UserTicket _$UserTicketFromJson(Map<String, dynamic> json) => UserTicket(
   schoolId: json['school_id'] as String? ?? '',
   promo: (json['promo'] as num?)?.toInt(),
   floor: json['floor'] as String?,
-  createdOn: json['created_on'] == null
-      ? null
-      : DateTime.parse(json['created_on'] as String),
+  createdOn: const _$DateTimeJsonConverter().fromJson(json['created_on']),
 );
 
 Map<String, dynamic> _$UserTicketToJson(UserTicket instance) =>
@@ -5795,7 +5900,10 @@ Map<String, dynamic> _$UserTicketToJson(UserTicket instance) =>
       'school_id': instance.schoolId,
       'promo': instance.promo,
       'floor': instance.floor,
-      'created_on': instance.createdOn?.toIso8601String(),
+      'created_on': _$JsonConverterToJson<dynamic, DateTime>(
+        instance.createdOn,
+        const _$DateTimeJsonConverter().toJson,
+      ),
     };
 
 ValidationError _$ValidationErrorFromJson(
@@ -5823,7 +5931,7 @@ VolunteerRegistrationComplete _$VolunteerRegistrationCompleteFromJson(
   userId: json['user_id'] as String? ?? '',
   editionId: json['edition_id'] as String? ?? '',
   shiftId: json['shift_id'] as String? ?? '',
-  registeredAt: DateTime.parse(json['registered_at'] as String),
+  registeredAt: const _$DateTimeJsonConverter().fromJson(json['registered_at']),
   validated: json['validated'] as bool? ?? false,
   shift: VolunteerShiftComplete.fromJson(json['shift'] as Map<String, dynamic>),
 );
@@ -5834,7 +5942,9 @@ Map<String, dynamic> _$VolunteerRegistrationCompleteToJson(
   'user_id': instance.userId,
   'edition_id': instance.editionId,
   'shift_id': instance.shiftId,
-  'registered_at': instance.registeredAt.toIso8601String(),
+  'registered_at': const _$DateTimeJsonConverter().toJson(
+    instance.registeredAt,
+  ),
   'validated': instance.validated,
   'shift': instance.shift.toJson(),
 };
@@ -5845,8 +5955,8 @@ VolunteerShift _$VolunteerShiftFromJson(Map<String, dynamic> json) =>
       managerId: json['manager_id'] as String? ?? '',
       description: json['description'] as String?,
       value: (json['value'] as num?)?.toInt() ?? 0,
-      startTime: DateTime.parse(json['start_time'] as String),
-      endTime: DateTime.parse(json['end_time'] as String),
+      startTime: const _$DateTimeJsonConverter().fromJson(json['start_time']),
+      endTime: const _$DateTimeJsonConverter().fromJson(json['end_time']),
       location: json['location'] as String?,
       maxVolunteers: (json['max_volunteers'] as num?)?.toInt() ?? 0,
       id: json['id'] as String? ?? '',
@@ -5859,8 +5969,8 @@ Map<String, dynamic> _$VolunteerShiftToJson(VolunteerShift instance) =>
       'manager_id': instance.managerId,
       'description': instance.description,
       'value': instance.value,
-      'start_time': instance.startTime.toIso8601String(),
-      'end_time': instance.endTime.toIso8601String(),
+      'start_time': const _$DateTimeJsonConverter().toJson(instance.startTime),
+      'end_time': const _$DateTimeJsonConverter().toJson(instance.endTime),
       'location': instance.location,
       'max_volunteers': instance.maxVolunteers,
       'id': instance.id,
@@ -5873,8 +5983,8 @@ VolunteerShiftBase _$VolunteerShiftBaseFromJson(Map<String, dynamic> json) =>
       managerId: json['manager_id'] as String? ?? '',
       description: json['description'] as String?,
       value: (json['value'] as num?)?.toInt() ?? 0,
-      startTime: DateTime.parse(json['start_time'] as String),
-      endTime: DateTime.parse(json['end_time'] as String),
+      startTime: const _$DateTimeJsonConverter().fromJson(json['start_time']),
+      endTime: const _$DateTimeJsonConverter().fromJson(json['end_time']),
       location: json['location'] as String?,
       maxVolunteers: (json['max_volunteers'] as num?)?.toInt() ?? 0,
     );
@@ -5885,8 +5995,8 @@ Map<String, dynamic> _$VolunteerShiftBaseToJson(VolunteerShiftBase instance) =>
       'manager_id': instance.managerId,
       'description': instance.description,
       'value': instance.value,
-      'start_time': instance.startTime.toIso8601String(),
-      'end_time': instance.endTime.toIso8601String(),
+      'start_time': const _$DateTimeJsonConverter().toJson(instance.startTime),
+      'end_time': const _$DateTimeJsonConverter().toJson(instance.endTime),
       'location': instance.location,
       'max_volunteers': instance.maxVolunteers,
     };
@@ -5898,8 +6008,8 @@ VolunteerShiftComplete _$VolunteerShiftCompleteFromJson(
   managerId: json['manager_id'] as String? ?? '',
   description: json['description'] as String?,
   value: (json['value'] as num?)?.toInt() ?? 0,
-  startTime: DateTime.parse(json['start_time'] as String),
-  endTime: DateTime.parse(json['end_time'] as String),
+  startTime: const _$DateTimeJsonConverter().fromJson(json['start_time']),
+  endTime: const _$DateTimeJsonConverter().fromJson(json['end_time']),
   location: json['location'] as String?,
   maxVolunteers: (json['max_volunteers'] as num?)?.toInt() ?? 0,
   id: json['id'] as String? ?? '',
@@ -5914,8 +6024,8 @@ Map<String, dynamic> _$VolunteerShiftCompleteToJson(
   'manager_id': instance.managerId,
   'description': instance.description,
   'value': instance.value,
-  'start_time': instance.startTime.toIso8601String(),
-  'end_time': instance.endTime.toIso8601String(),
+  'start_time': const _$DateTimeJsonConverter().toJson(instance.startTime),
+  'end_time': const _$DateTimeJsonConverter().toJson(instance.endTime),
   'location': instance.location,
   'max_volunteers': instance.maxVolunteers,
   'id': instance.id,
@@ -5928,12 +6038,8 @@ VolunteerShiftEdit _$VolunteerShiftEditFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String?,
       description: json['description'] as String?,
       value: (json['value'] as num?)?.toInt(),
-      startTime: json['start_time'] == null
-          ? null
-          : DateTime.parse(json['start_time'] as String),
-      endTime: json['end_time'] == null
-          ? null
-          : DateTime.parse(json['end_time'] as String),
+      startTime: const _$DateTimeJsonConverter().fromJson(json['start_time']),
+      endTime: const _$DateTimeJsonConverter().fromJson(json['end_time']),
       location: json['location'] as String?,
       maxVolunteers: (json['max_volunteers'] as num?)?.toInt(),
     );
@@ -5943,8 +6049,14 @@ Map<String, dynamic> _$VolunteerShiftEditToJson(VolunteerShiftEdit instance) =>
       'name': instance.name,
       'description': instance.description,
       'value': instance.value,
-      'start_time': instance.startTime?.toIso8601String(),
-      'end_time': instance.endTime?.toIso8601String(),
+      'start_time': _$JsonConverterToJson<dynamic, DateTime>(
+        instance.startTime,
+        const _$DateTimeJsonConverter().toJson,
+      ),
+      'end_time': _$JsonConverterToJson<dynamic, DateTime>(
+        instance.endTime,
+        const _$DateTimeJsonConverter().toJson,
+      ),
       'location': instance.location,
       'max_volunteers': instance.maxVolunteers,
     };
@@ -6009,7 +6121,7 @@ WalletDevice _$WalletDeviceFromJson(Map<String, dynamic> json) => WalletDevice(
   name: json['name'] as String? ?? '',
   id: json['id'] as String? ?? '',
   walletId: json['wallet_id'] as String? ?? '',
-  creation: DateTime.parse(json['creation'] as String),
+  creation: const _$DateTimeJsonConverter().fromJson(json['creation']),
   status: walletDeviceStatusFromJson(json['status']),
 );
 
@@ -6018,7 +6130,7 @@ Map<String, dynamic> _$WalletDeviceToJson(WalletDevice instance) =>
       'name': instance.name,
       'id': instance.id,
       'wallet_id': instance.walletId,
-      'creation': instance.creation.toIso8601String(),
+      'creation': const _$DateTimeJsonConverter().toJson(instance.creation),
       'status': walletDeviceStatusToJson(instance.status),
     };
 
@@ -6145,7 +6257,9 @@ _$AppModulesAmapSchemasAmapCashCompleteFromJson(Map<String, dynamic> json) =>
       balance: (json['balance'] as num?)?.toInt() ?? 0,
       userId: json['user_id'] as String? ?? '',
       user: CoreUserSimple.fromJson(json['user'] as Map<String, dynamic>),
-      lastOrderDate: DateTime.parse(json['last_order_date'] as String),
+      lastOrderDate: const _$DateTimeJsonConverter().fromJson(
+        json['last_order_date'],
+      ),
     );
 
 Map<String, dynamic> _$AppModulesAmapSchemasAmapCashCompleteToJson(
@@ -6154,7 +6268,9 @@ Map<String, dynamic> _$AppModulesAmapSchemasAmapCashCompleteToJson(
   'balance': instance.balance,
   'user_id': instance.userId,
   'user': instance.user.toJson(),
-  'last_order_date': instance.lastOrderDate.toIso8601String(),
+  'last_order_date': const _$DateTimeJsonConverter().toJson(
+    instance.lastOrderDate,
+  ),
 };
 
 AppModulesAmapSchemasAmapProductComplete
@@ -6516,7 +6632,9 @@ _$AppModulesCdrSchemasCdrPurchaseCompleteFromJson(Map<String, dynamic> json) =>
       userId: json['user_id'] as String? ?? '',
       productVariantId: json['product_variant_id'] as String? ?? '',
       validated: json['validated'] as bool? ?? false,
-      purchasedOn: DateTime.parse(json['purchased_on'] as String),
+      purchasedOn: const _$DateTimeJsonConverter().fromJson(
+        json['purchased_on'],
+      ),
     );
 
 Map<String, dynamic> _$AppModulesCdrSchemasCdrPurchaseCompleteToJson(
@@ -6526,7 +6644,7 @@ Map<String, dynamic> _$AppModulesCdrSchemasCdrPurchaseCompleteToJson(
   'user_id': instance.userId,
   'product_variant_id': instance.productVariantId,
   'validated': instance.validated,
-  'purchased_on': instance.purchasedOn.toIso8601String(),
+  'purchased_on': const _$DateTimeJsonConverter().toJson(instance.purchasedOn),
 };
 
 AppModulesCdrSchemasCdrTicket _$AppModulesCdrSchemasCdrTicketFromJson(
@@ -6539,7 +6657,7 @@ AppModulesCdrSchemasCdrTicket _$AppModulesCdrSchemasCdrTicketFromJson(
   user: UserTicket.fromJson(json['user'] as Map<String, dynamic>),
   scanLeft: (json['scan_left'] as num?)?.toInt() ?? 0,
   tags: json['tags'] as String? ?? '',
-  expiration: DateTime.parse(json['expiration'] as String),
+  expiration: const _$DateTimeJsonConverter().fromJson(json['expiration']),
   name: json['name'] as String? ?? '',
 );
 
@@ -6551,7 +6669,7 @@ Map<String, dynamic> _$AppModulesCdrSchemasCdrTicketToJson(
   'user': instance.user.toJson(),
   'scan_left': instance.scanLeft,
   'tags': instance.tags,
-  'expiration': instance.expiration.toIso8601String(),
+  'expiration': const _$DateTimeJsonConverter().toJson(instance.expiration),
   'name': instance.name,
 };
 
@@ -6863,7 +6981,7 @@ _$AppModulesSportCompetitionSchemasSportCompetitionPurchaseCompleteFromJson(
   userId: json['user_id'] as String? ?? '',
   editionId: json['edition_id'] as String? ?? '',
   validated: json['validated'] as bool? ?? false,
-  purchasedOn: DateTime.parse(json['purchased_on'] as String),
+  purchasedOn: const _$DateTimeJsonConverter().fromJson(json['purchased_on']),
   productVariant: ProductVariant.fromJson(
     json['product_variant'] as Map<String, dynamic>,
   ),
@@ -6878,7 +6996,7 @@ _$AppModulesSportCompetitionSchemasSportCompetitionPurchaseCompleteToJson(
   'user_id': instance.userId,
   'edition_id': instance.editionId,
   'validated': instance.validated,
-  'purchased_on': instance.purchasedOn.toIso8601String(),
+  'purchased_on': const _$DateTimeJsonConverter().toJson(instance.purchasedOn),
   'product_variant': instance.productVariant.toJson(),
 };
 

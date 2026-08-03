@@ -2,12 +2,24 @@
 // ignore_for_file: type=lint
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:json_annotation/json_annotation.dart' as json;
+
 import 'package:collection/collection.dart';
 import 'dart:convert';
-
+import 'package:titan/tools/date_time_json.dart';
 import 'openapi.enums.swagger.dart' as enums;
 
 part 'openapi.models.swagger.g.dart';
+
+class _$DateTimeJsonConverter implements json.JsonConverter<DateTime, dynamic> {
+  const _$DateTimeJsonConverter();
+
+  @override
+  fromJson(json) => DateTime.parse(json);
+
+  @override
+  toJson(json) => dateTimeToJson(json);
+}
 
 @JsonSerializable(explicitToJson: true)
 class AccessToken {
@@ -217,6 +229,7 @@ class AdvertComplete {
   final bool notification;
   @JsonKey(name: 'id', defaultValue: '')
   final String id;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'date')
   final DateTime? date;
   static const fromJsonFactory = _$AdvertCompleteFromJson;
@@ -3237,10 +3250,13 @@ class BookingBase {
 
   @JsonKey(name: 'reason', defaultValue: '')
   final String reason;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start')
   final DateTime start;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'end')
   final DateTime end;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'creation')
   final DateTime creation;
   @JsonKey(name: 'note')
@@ -3376,8 +3392,10 @@ class BookingEdit {
 
   @JsonKey(name: 'reason')
   final String? reason;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start')
   final DateTime? start;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'end')
   final DateTime? end;
   @JsonKey(name: 'note')
@@ -3519,10 +3537,13 @@ class BookingReturn {
 
   @JsonKey(name: 'reason', defaultValue: '')
   final String reason;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start')
   final DateTime start;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'end')
   final DateTime end;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'creation')
   final DateTime creation;
   @JsonKey(name: 'note')
@@ -3718,10 +3739,13 @@ class BookingReturnApplicant {
 
   @JsonKey(name: 'reason', defaultValue: '')
   final String reason;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start')
   final DateTime start;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'end')
   final DateTime end;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'creation')
   final DateTime creation;
   @JsonKey(name: 'note')
@@ -3929,10 +3953,13 @@ class BookingReturnSimpleApplicant {
 
   @JsonKey(name: 'reason', defaultValue: '')
   final String reason;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start')
   final DateTime start;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'end')
   final DateTime end;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'creation')
   final DateTime creation;
   @JsonKey(name: 'note')
@@ -5583,6 +5610,7 @@ class CheckoutResponse {
 
   @JsonKey(name: 'price', defaultValue: 0)
   final int price;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'expiration')
   final DateTime expiration;
   @JsonKey(name: 'payment_url')
@@ -5667,6 +5695,7 @@ class CineSessionBase {
   static const toJsonFactory = _$CineSessionBaseToJson;
   Map<String, dynamic> toJson() => _$CineSessionBaseToJson(this);
 
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start')
   final DateTime start;
   @JsonKey(name: 'duration', defaultValue: 0)
@@ -5782,6 +5811,7 @@ class CineSessionComplete {
   static const toJsonFactory = _$CineSessionCompleteToJson;
   Map<String, dynamic> toJson() => _$CineSessionCompleteToJson(this);
 
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start')
   final DateTime start;
   @JsonKey(name: 'duration', defaultValue: 0)
@@ -5904,6 +5934,7 @@ class CineSessionUpdate {
 
   @JsonKey(name: 'name')
   final String? name;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start')
   final DateTime? start;
   @JsonKey(name: 'duration')
@@ -6021,8 +6052,10 @@ class CompetitionEdition {
   final String name;
   @JsonKey(name: 'year', defaultValue: 0)
   final int year;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start_date')
   final DateTime startDate;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'end_date')
   final DateTime endDate;
   @JsonKey(name: 'active', defaultValue: true)
@@ -6148,8 +6181,10 @@ class CompetitionEditionBase {
   final String name;
   @JsonKey(name: 'year', defaultValue: 0)
   final int year;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start_date')
   final DateTime startDate;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'end_date')
   final DateTime endDate;
   @JsonKey(name: 'active', defaultValue: true)
@@ -6259,8 +6294,10 @@ class CompetitionEditionEdit {
   final String? name;
   @JsonKey(name: 'year')
   final int? year;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start_date')
   final DateTime? startDate;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'end_date')
   final DateTime? endDate;
   static const fromJsonFactory = _$CompetitionEditionEditFromJson;
@@ -6373,6 +6410,7 @@ class CompetitionUser {
   final String userId;
   @JsonKey(name: 'edition_id', defaultValue: '')
   final String editionId;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
   @JsonKey(name: 'validated', defaultValue: false)
@@ -6834,6 +6872,7 @@ class CompetitionUserSimple {
   final String userId;
   @JsonKey(name: 'edition_id', defaultValue: '')
   final String editionId;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
   @JsonKey(name: 'validated', defaultValue: false)
@@ -8132,6 +8171,7 @@ class CoreUser {
   final String? floor;
   @JsonKey(name: 'phone')
   final String? phone;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'created_on')
   final DateTime? createdOn;
   @JsonKey(name: 'groups', defaultValue: <CoreGroupSimple>[])
@@ -10208,8 +10248,10 @@ class EventAdmin {
   final String name;
   @JsonKey(name: 'store_id', defaultValue: '')
   final String storeId;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'open_datetime')
   final DateTime openDatetime;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'close_datetime')
   final DateTime? closeDatetime;
   @JsonKey(name: 'disabled', defaultValue: false)
@@ -10407,8 +10449,10 @@ class EventBaseCreation {
 
   @JsonKey(name: 'name', defaultValue: '')
   final String name;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start')
   final DateTime start;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'end')
   final DateTime end;
   @JsonKey(name: 'all_day', defaultValue: false)
@@ -10419,6 +10463,7 @@ class EventBaseCreation {
   final String? description;
   @JsonKey(name: 'recurrence_rule')
   final String? recurrenceRule;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'ticket_url_opening')
   final DateTime? ticketUrlOpening;
   @JsonKey(name: 'notification', defaultValue: false)
@@ -10617,8 +10662,10 @@ class EventCompleteTicketUrl {
 
   @JsonKey(name: 'name', defaultValue: '')
   final String name;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start')
   final DateTime start;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'end')
   final DateTime end;
   @JsonKey(name: 'all_day', defaultValue: false)
@@ -10629,6 +10676,7 @@ class EventCompleteTicketUrl {
   final String? description;
   @JsonKey(name: 'recurrence_rule')
   final String? recurrenceRule;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'ticket_url_opening')
   final DateTime? ticketUrlOpening;
   @JsonKey(name: 'notification', defaultValue: false)
@@ -10855,8 +10903,10 @@ class EventCreate {
   final String name;
   @JsonKey(name: 'quota')
   final int? quota;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'open_datetime')
   final DateTime openDatetime;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'close_datetime')
   final DateTime? closeDatetime;
   @JsonKey(name: 'sessions', defaultValue: <SessionCreate>[])
@@ -10998,8 +11048,10 @@ class EventEdit {
 
   @JsonKey(name: 'name')
   final String? name;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start')
   final DateTime? start;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'end')
   final DateTime? end;
   @JsonKey(name: 'all_day')
@@ -11010,6 +11062,7 @@ class EventEdit {
   final String? description;
   @JsonKey(name: 'recurrence_rule')
   final String? recurrenceRule;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'ticket_url_opening')
   final DateTime? ticketUrlOpening;
   @JsonKey(name: 'ticket_url')
@@ -11193,8 +11246,10 @@ class EventPublic {
   final String name;
   @JsonKey(name: 'store_id', defaultValue: '')
   final String storeId;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'open_datetime')
   final DateTime openDatetime;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'close_datetime')
   final DateTime? closeDatetime;
   @JsonKey(name: 'disabled', defaultValue: false)
@@ -11363,8 +11418,10 @@ class EventSimple {
   final String name;
   @JsonKey(name: 'store_id', defaultValue: '')
   final String storeId;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'open_datetime')
   final DateTime openDatetime;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'close_datetime')
   final DateTime? closeDatetime;
   @JsonKey(name: 'disabled', defaultValue: false)
@@ -11524,8 +11581,10 @@ class EventUpdate {
   final String? name;
   @JsonKey(name: 'quota')
   final int? quota;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'open_datetime')
   final DateTime? openDatetime;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'close_datetime')
   final DateTime? closeDatetime;
   @JsonKey(name: 'disabled')
@@ -11739,6 +11798,7 @@ class FlappyBirdScoreCompleteFeedBack {
   final int value;
   @JsonKey(name: 'user')
   final CoreUserSimple user;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'creation_time')
   final DateTime creationTime;
   @JsonKey(name: 'position', defaultValue: 0)
@@ -11837,6 +11897,7 @@ class FlappyBirdScoreInDB {
   final int value;
   @JsonKey(name: 'user')
   final CoreUserSimple user;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'creation_time')
   final DateTime creationTime;
   @JsonKey(name: 'id', defaultValue: '')
@@ -11933,6 +11994,7 @@ class GenerateTicketBase {
   final String name;
   @JsonKey(name: 'max_use', defaultValue: 0)
   final int maxUse;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'expiration')
   final DateTime expiration;
   static const fromJsonFactory = _$GenerateTicketBaseFromJson;
@@ -12014,6 +12076,7 @@ class GenerateTicketComplete {
   final String name;
   @JsonKey(name: 'max_use', defaultValue: 0)
   final int maxUse;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'expiration')
   final DateTime expiration;
   @JsonKey(name: 'id', defaultValue: '')
@@ -12246,6 +12309,7 @@ class History {
   final String otherWalletName;
   @JsonKey(name: 'total', defaultValue: 0)
   final int total;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'creation')
   final DateTime creation;
   @JsonKey(
@@ -12367,6 +12431,7 @@ class HistoryRefund {
 
   @JsonKey(name: 'total', defaultValue: 0)
   final int total;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'creation')
   final DateTime creation;
   static const fromJsonFactory = _$HistoryRefundFromJson;
@@ -12626,6 +12691,7 @@ class IntegrityCheckData {
   static const toJsonFactory = _$IntegrityCheckDataToJson;
   Map<String, dynamic> toJson() => _$IntegrityCheckDataToJson(this);
 
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'date')
   final DateTime date;
   @JsonKey(name: 'wallets', defaultValue: <WalletBase>[])
@@ -12851,10 +12917,13 @@ class Invoice {
   final String reference;
   @JsonKey(name: 'structure_id', defaultValue: '')
   final String structureId;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'creation')
   final DateTime creation;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start_date')
   final DateTime startDate;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'end_date')
   final DateTime endDate;
   @JsonKey(name: 'total', defaultValue: 0)
@@ -15638,6 +15707,7 @@ class Match {
   final String team2Id;
   @JsonKey(name: 'location_id', defaultValue: '')
   final String locationId;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'date')
   final DateTime? date;
   @JsonKey(name: 'score_team1')
@@ -15812,6 +15882,7 @@ class MatchBase {
   final String team2Id;
   @JsonKey(name: 'location_id', defaultValue: '')
   final String locationId;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'date')
   final DateTime? date;
   @JsonKey(name: 'score_team1')
@@ -15969,6 +16040,7 @@ class MatchComplete {
   final String team2Id;
   @JsonKey(name: 'location_id', defaultValue: '')
   final String locationId;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'date')
   final DateTime? date;
   @JsonKey(name: 'score_team1')
@@ -16173,6 +16245,7 @@ class MatchEdit {
   final String? team1Id;
   @JsonKey(name: 'team2_id')
   final String? team2Id;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'date')
   final DateTime? date;
   @JsonKey(name: 'location_id')
@@ -16929,14 +17002,17 @@ class News {
   final String id;
   @JsonKey(name: 'title', defaultValue: '')
   final String title;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start')
   final DateTime start;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'end')
   final DateTime? end;
   @JsonKey(name: 'entity', defaultValue: '')
   final String entity;
   @JsonKey(name: 'location')
   final String? location;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'action_start')
   final DateTime? actionStart;
   @JsonKey(name: 'module', defaultValue: '')
@@ -17316,6 +17392,7 @@ class OrderReturn {
   final String orderId;
   @JsonKey(name: 'amount', defaultValue: 0)
   final int amount;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'ordering_date')
   final DateTime orderingDate;
   @JsonKey(name: 'delivery_date', toJson: _dateToJson)
@@ -20141,6 +20218,7 @@ class Purchase {
   final String editionId;
   @JsonKey(name: 'validated', defaultValue: false)
   final bool validated;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'purchased_on')
   final DateTime purchasedOn;
   static const fromJsonFactory = _$PurchaseFromJson;
@@ -20331,6 +20409,7 @@ class PurchaseReturn {
   final String productVariantId;
   @JsonKey(name: 'validated', defaultValue: false)
   final bool validated;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'purchased_on')
   final DateTime purchasedOn;
   @JsonKey(name: 'price', defaultValue: 0)
@@ -23276,6 +23355,7 @@ class Recommendation {
   final String description;
   @JsonKey(name: 'id', defaultValue: '')
   final String id;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'creation')
   final DateTime creation;
   static const fromJsonFactory = _$RecommendationFromJson;
@@ -23566,6 +23646,7 @@ class RefundBase {
   final String id;
   @JsonKey(name: 'total', defaultValue: 0)
   final int total;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'creation')
   final DateTime creation;
   @JsonKey(name: 'transaction_id', defaultValue: '')
@@ -23766,8 +23847,10 @@ class Request$ {
   final String id;
   @JsonKey(name: 'wallet_id', defaultValue: '')
   final String walletId;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'creation')
   final DateTime creation;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'expiration_date')
   final DateTime expirationDate;
   @JsonKey(name: 'total', defaultValue: 0)
@@ -24196,6 +24279,7 @@ class ScanInfo {
   final String id;
   @JsonKey(name: 'tot', defaultValue: 0)
   final int tot;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'iat')
   final DateTime iat;
   @JsonKey(name: 'key', defaultValue: '')
@@ -26794,6 +26878,7 @@ class Session {
   final String eventId;
   @JsonKey(name: 'name', defaultValue: '')
   final String name;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start_datetime')
   final DateTime startDatetime;
   @JsonKey(name: 'disabled', defaultValue: false)
@@ -26909,6 +26994,7 @@ class SessionAdmin {
   final String eventId;
   @JsonKey(name: 'name', defaultValue: '')
   final String name;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start_datetime')
   final DateTime startDatetime;
   @JsonKey(name: 'disabled', defaultValue: false)
@@ -27055,6 +27141,7 @@ class SessionComplete {
   final String eventId;
   @JsonKey(name: 'name', defaultValue: '')
   final String name;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start_datetime')
   final DateTime startDatetime;
   @JsonKey(name: 'disabled', defaultValue: false)
@@ -27162,6 +27249,7 @@ class SessionCreate {
 
   @JsonKey(name: 'name', defaultValue: '')
   final String name;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start_datetime')
   final DateTime startDatetime;
   @JsonKey(name: 'quota')
@@ -27249,6 +27337,7 @@ class SessionPublic {
   final String eventId;
   @JsonKey(name: 'name', defaultValue: '')
   final String name;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start_datetime')
   final DateTime startDatetime;
   @JsonKey(name: 'disabled', defaultValue: false)
@@ -27356,6 +27445,7 @@ class SessionUpdate {
 
   @JsonKey(name: 'name')
   final String? name;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start_datetime')
   final DateTime? startDatetime;
   @JsonKey(name: 'quota')
@@ -27634,6 +27724,7 @@ class SignedContent {
   final String id;
   @JsonKey(name: 'tot', defaultValue: 0)
   final int tot;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'iat')
   final DateTime iat;
   @JsonKey(name: 'key', defaultValue: '')
@@ -28795,6 +28886,7 @@ class Store {
   final String structureId;
   @JsonKey(name: 'wallet_id', defaultValue: '')
   final String walletId;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'creation')
   final DateTime creation;
   @JsonKey(name: 'structure')
@@ -28990,6 +29082,7 @@ class StoreSimple {
   final String structureId;
   @JsonKey(name: 'wallet_id', defaultValue: '')
   final String walletId;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'creation')
   final DateTime creation;
   static const fromJsonFactory = _$StoreSimpleFromJson;
@@ -29204,6 +29297,7 @@ class Structure {
   final String bic;
   @JsonKey(name: 'id', defaultValue: '')
   final String id;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'creation')
   final DateTime creation;
   @JsonKey(name: 'manager_user')
@@ -30028,6 +30122,7 @@ class Team {
   final String captainId;
   @JsonKey(name: 'id', defaultValue: '')
   final String id;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
   static const fromJsonFactory = _$TeamFromJson;
@@ -30165,6 +30260,7 @@ class TeamComplete {
   final String captainId;
   @JsonKey(name: 'id', defaultValue: '')
   final String id;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
   @JsonKey(name: 'participants', defaultValue: <ParticipantComplete>[])
@@ -31393,6 +31489,7 @@ class TransactionBase {
   final String? sellerUserId;
   @JsonKey(name: 'total', defaultValue: 0)
   final int total;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'creation')
   final DateTime creation;
   @JsonKey(
@@ -31573,6 +31670,7 @@ class Transfer {
   final String walletId;
   @JsonKey(name: 'total', defaultValue: 0)
   final int total;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'creation')
   final DateTime creation;
   @JsonKey(name: 'confirmed', defaultValue: false)
@@ -32267,6 +32365,7 @@ class UserStore {
   final String structureId;
   @JsonKey(name: 'wallet_id', defaultValue: '')
   final String walletId;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'creation')
   final DateTime creation;
   @JsonKey(name: 'structure')
@@ -32466,6 +32565,7 @@ class UserTicket {
   final int? promo;
   @JsonKey(name: 'floor')
   final String? floor;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'created_on')
   final DateTime? createdOn;
   static const fromJsonFactory = _$UserTicketFromJson;
@@ -32700,6 +32800,7 @@ class VolunteerRegistrationComplete {
   final String editionId;
   @JsonKey(name: 'shift_id', defaultValue: '')
   final String shiftId;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'registered_at')
   final DateTime registeredAt;
   @JsonKey(name: 'validated', defaultValue: false)
@@ -32832,8 +32933,10 @@ class VolunteerShift {
   final String? description;
   @JsonKey(name: 'value', defaultValue: 0)
   final int value;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start_time')
   final DateTime startTime;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'end_time')
   final DateTime endTime;
   @JsonKey(name: 'location')
@@ -33002,8 +33105,10 @@ class VolunteerShiftBase {
   final String? description;
   @JsonKey(name: 'value', defaultValue: 0)
   final int value;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start_time')
   final DateTime startTime;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'end_time')
   final DateTime endTime;
   @JsonKey(name: 'location')
@@ -33157,8 +33262,10 @@ class VolunteerShiftComplete {
   final String? description;
   @JsonKey(name: 'value', defaultValue: 0)
   final int value;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start_time')
   final DateTime startTime;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'end_time')
   final DateTime endTime;
   @JsonKey(name: 'location')
@@ -33326,8 +33433,10 @@ class VolunteerShiftEdit {
   final String? description;
   @JsonKey(name: 'value')
   final int? value;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'start_time')
   final DateTime? startTime;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'end_time')
   final DateTime? endTime;
   @JsonKey(name: 'location')
@@ -33770,6 +33879,7 @@ class WalletDevice {
   final String id;
   @JsonKey(name: 'wallet_id', defaultValue: '')
   final String walletId;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'creation')
   final DateTime creation;
   @JsonKey(
@@ -34479,6 +34589,7 @@ class AppModulesAmapSchemasAmapCashComplete {
   final String userId;
   @JsonKey(name: 'user')
   final CoreUserSimple user;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'last_order_date')
   final DateTime lastOrderDate;
   static const fromJsonFactory =
@@ -36205,6 +36316,7 @@ class AppModulesCdrSchemasCdrPurchaseComplete {
   final String productVariantId;
   @JsonKey(name: 'validated', defaultValue: false)
   final bool validated;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'purchased_on')
   final DateTime purchasedOn;
   static const fromJsonFactory =
@@ -36325,6 +36437,7 @@ class AppModulesCdrSchemasCdrTicket {
   final int scanLeft;
   @JsonKey(name: 'tags', defaultValue: '')
   final String tags;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'expiration')
   final DateTime expiration;
   @JsonKey(name: 'name', defaultValue: '')
@@ -38025,6 +38138,7 @@ class AppModulesSportCompetitionSchemasSportCompetitionPurchaseComplete {
   final String editionId;
   @JsonKey(name: 'validated', defaultValue: false)
   final bool validated;
+  @_$DateTimeJsonConverter()
   @JsonKey(name: 'purchased_on')
   final DateTime purchasedOn;
   @JsonKey(name: 'product_variant')

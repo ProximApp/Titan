@@ -24,7 +24,7 @@ final class _$Openapi extends Openapi {
       description:
           'Return all species from database as a list of SpeciesComplete schemas',
       summary: 'Get All Species',
-      operationId: 'get_seed_library_species_',
+      operationId: 'get_all_species_seed_library_species__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -49,7 +49,7 @@ final class _$Openapi extends Openapi {
       description: '''Create a new Species by giving an SpeciesBase scheme
 **This endpoint is only usable by seed_library **''',
       summary: 'Create Species',
-      operationId: 'post_seed_library_species_',
+      operationId: 'create_species_seed_library_species__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -75,7 +75,7 @@ final class _$Openapi extends Openapi {
       description:
           'Return all available types of species from SpeciesType enum.',
       summary: 'Get All Species Types',
-      operationId: 'get_seed_library_species_types',
+      operationId: 'get_all_species_types_seed_library_species_types_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -94,14 +94,14 @@ final class _$Openapi extends Openapi {
   }
 
   @override
-  Future<Response<dynamic>> _seedLibrarySpeciesSpeciesIdPatch({
+  Future<Response<void>> _seedLibrarySpeciesSpeciesIdPatch({
     required String? speciesId,
     required SpeciesEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Update a Species
 **This endpoint is only usable by seed_library**''',
       summary: 'Update Species',
-      operationId: 'patch_seed_library_species_{species_id}',
+      operationId: 'update_species_seed_library_species__species_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -118,17 +118,17 @@ final class _$Openapi extends Openapi {
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _seedLibrarySpeciesSpeciesIdDelete({
+  Future<Response<void>> _seedLibrarySpeciesSpeciesIdDelete({
     required String? speciesId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a Species
 **This endpoint is only usable by seed_library**''',
       summary: 'Delete Species',
-      operationId: 'delete_seed_library_species_{species_id}',
+      operationId: 'delete_species_seed_library_species__species_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -143,7 +143,7 @@ final class _$Openapi extends Openapi {
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -152,7 +152,7 @@ final class _$Openapi extends Openapi {
       description:
           'Return all plants where state=waiting from database as a list of PlantsComplete schemas',
       summary: 'Get Waiting Plants',
-      operationId: 'get_seed_library_plants_waiting',
+      operationId: 'get_waiting_plants_seed_library_plants_waiting_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -176,7 +176,7 @@ final class _$Openapi extends Openapi {
       description:
           'Return all plants where user ={user_id} from database as a list of PlantsComplete schemas',
       summary: 'Get My Plants',
-      operationId: 'get_seed_library_plants_users_me',
+      operationId: 'get_my_plants_seed_library_plants_users_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -201,7 +201,8 @@ final class _$Openapi extends Openapi {
       description:
           'Return all plants where borrower_id = {user_id} from database as a list of PlantsComplete schemas',
       summary: 'Get Plants By User Id',
-      operationId: 'get_seed_library_plants_users_{user_id}',
+      operationId:
+          'get_plants_by_user_id_seed_library_plants_users__user_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -226,7 +227,7 @@ final class _$Openapi extends Openapi {
       description:
           'Return the plants where plant ={plant_id} from database as a PlantsComplete schemas',
       summary: 'Get Plant By Id',
-      operationId: 'get_seed_library_plants_{plant_id}',
+      operationId: 'get_plant_by_id_seed_library_plants__plant_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -245,14 +246,14 @@ final class _$Openapi extends Openapi {
   }
 
   @override
-  Future<Response<dynamic>> _seedLibraryPlantsPlantIdPatch({
+  Future<Response<void>> _seedLibraryPlantsPlantIdPatch({
     required String? plantId,
     required PlantEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Update a Plant
 **This endpoint is only usable by the owner of the plant**''',
       summary: 'Update Plant',
-      operationId: 'patch_seed_library_plants_{plant_id}',
+      operationId: 'update_plant_seed_library_plants__plant_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -269,17 +270,17 @@ final class _$Openapi extends Openapi {
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _seedLibraryPlantsPlantIdDelete({
+  Future<Response<void>> _seedLibraryPlantsPlantIdDelete({
     required String? plantId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a Plant
 **This endpoint is only usable by seed_library**''',
       summary: 'Delete Plant',
-      operationId: 'delete_seed_library_plants_{plant_id}',
+      operationId: 'delete_plant_seed_library_plants__plant_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -294,7 +295,7 @@ final class _$Openapi extends Openapi {
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -304,7 +305,7 @@ final class _$Openapi extends Openapi {
       description: '''Create a new Plant by giving an PlantCreation scheme
 **This endpoint is only usable if the plant has an ancestor_id or by seed_library **''',
       summary: 'Create Plant',
-      operationId: 'post_seed_library_plants_',
+      operationId: 'create_plant_seed_library_plants__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -325,14 +326,15 @@ final class _$Openapi extends Openapi {
   }
 
   @override
-  Future<Response<dynamic>> _seedLibraryPlantsPlantIdAdminPatch({
+  Future<Response<void>> _seedLibraryPlantsPlantIdAdminPatch({
     required String? plantId,
     required PlantEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Update a Plant
 **This endpoint is only usable by seed_library**''',
       summary: 'Update Plant Admin',
-      operationId: 'patch_seed_library_plants_{plant_id}_admin',
+      operationId:
+          'update_plant_admin_seed_library_plants__plant_id__admin_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -349,17 +351,17 @@ final class _$Openapi extends Openapi {
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _seedLibraryPlantsPlantIdBorrowPatch({
+  Future<Response<void>> _seedLibraryPlantsPlantIdBorrowPatch({
     required String? plantId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           'Plant borrowed by the user (modify borrowing date, borrower and state)',
       summary: 'Borrow Plant',
-      operationId: 'patch_seed_library_plants_{plant_id}_borrow',
+      operationId: 'borrow_plant_seed_library_plants__plant_id__borrow_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -374,7 +376,7 @@ final class _$Openapi extends Openapi {
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -382,7 +384,7 @@ final class _$Openapi extends Openapi {
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Seed Library Information',
-      operationId: 'get_seed_library_information',
+      operationId: 'get_seed_library_information_seed_library_information_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -403,12 +405,13 @@ final class _$Openapi extends Openapi {
   }
 
   @override
-  Future<Response<dynamic>> _seedLibraryInformationPatch({
+  Future<Response<void>> _seedLibraryInformationPatch({
     required SeedLibraryInformation? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Update Seed Library Information',
-      operationId: 'patch_seed_library_information',
+      operationId:
+          'update_seed_library_information_seed_library_information_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -425,7 +428,7 @@ final class _$Openapi extends Openapi {
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -436,7 +439,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Get Products',
-      operationId: 'get_amap_products',
+      operationId: 'get_products_amap_products_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -465,7 +468,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Create Product',
-      operationId: 'post_amap_products',
+      operationId: 'create_product_amap_products_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -495,7 +498,7 @@ final class _$Openapi extends Openapi {
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get a specific product',
       summary: 'Get Product By Id',
-      operationId: 'get_amap_products_{product_id}',
+      operationId: 'get_product_by_id_amap_products__product_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -517,7 +520,7 @@ final class _$Openapi extends Openapi {
   }
 
   @override
-  Future<Response<dynamic>> _amapProductsProductIdPatch({
+  Future<Response<void>> _amapProductsProductIdPatch({
     required String? productId,
     required AppModulesAmapSchemasAmapProductEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -525,7 +528,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Edit Product',
-      operationId: 'patch_amap_products_{product_id}',
+      operationId: 'edit_product_amap_products__product_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -542,11 +545,11 @@ final class _$Openapi extends Openapi {
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _amapProductsProductIdDelete({
+  Future<Response<void>> _amapProductsProductIdDelete({
     required String? productId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
@@ -554,7 +557,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Delete Product',
-      operationId: 'delete_amap_products_{product_id}',
+      operationId: 'delete_product_amap_products__product_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -569,7 +572,7 @@ final class _$Openapi extends Openapi {
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -577,7 +580,7 @@ final class _$Openapi extends Openapi {
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all deliveries.',
       summary: 'Get Deliveries',
-      operationId: 'get_amap_deliveries',
+      operationId: 'get_deliveries_amap_deliveries_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -603,7 +606,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Create Delivery',
-      operationId: 'post_amap_deliveries',
+      operationId: 'create_delivery_amap_deliveries_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -624,14 +627,14 @@ final class _$Openapi extends Openapi {
   }
 
   @override
-  Future<Response<dynamic>> _amapDeliveriesDeliveryIdDelete({
+  Future<Response<void>> _amapDeliveriesDeliveryIdDelete({
     required String? deliveryId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a delivery.
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Delete Delivery',
-      operationId: 'delete_amap_deliveries_{delivery_id}',
+      operationId: 'delete_delivery_amap_deliveries__delivery_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -646,11 +649,11 @@ final class _$Openapi extends Openapi {
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _amapDeliveriesDeliveryIdPatch({
+  Future<Response<void>> _amapDeliveriesDeliveryIdPatch({
     required String? deliveryId,
     required DeliveryUpdate? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -658,7 +661,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Edit Delivery',
-      operationId: 'patch_amap_deliveries_{delivery_id}',
+      operationId: 'edit_delivery_amap_deliveries__delivery_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -675,11 +678,11 @@ final class _$Openapi extends Openapi {
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _amapDeliveriesDeliveryIdProductsPost({
+  Future<Response<void>> _amapDeliveriesDeliveryIdProductsPost({
     required String? deliveryId,
     required DeliveryProductsUpdate? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -688,7 +691,8 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Add Product To Delivery',
-      operationId: 'post_amap_deliveries_{delivery_id}_products',
+      operationId:
+          'add_product_to_delivery_amap_deliveries__delivery_id__products_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -705,11 +709,11 @@ final class _$Openapi extends Openapi {
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _amapDeliveriesDeliveryIdProductsDelete({
+  Future<Response<void>> _amapDeliveriesDeliveryIdProductsDelete({
     required String? deliveryId,
     required DeliveryProductsUpdate? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -718,7 +722,8 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Remove Product From Delivery',
-      operationId: 'delete_amap_deliveries_{delivery_id}_products',
+      operationId:
+          'remove_product_from_delivery_amap_deliveries__delivery_id__products_delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -735,7 +740,7 @@ final class _$Openapi extends Openapi {
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -746,7 +751,8 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Get Orders From Delivery',
-      operationId: 'get_amap_deliveries_{delivery_id}_orders',
+      operationId:
+          'get_orders_from_delivery_amap_deliveries__delivery_id__orders_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -772,7 +778,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Get Order By Id',
-      operationId: 'get_amap_orders_{order_id}',
+      operationId: 'get_order_by_id_amap_orders__order_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -791,7 +797,7 @@ final class _$Openapi extends Openapi {
   }
 
   @override
-  Future<Response<dynamic>> _amapOrdersOrderIdPatch({
+  Future<Response<void>> _amapOrdersOrderIdPatch({
     required String? orderId,
     required OrderEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -799,7 +805,7 @@ final class _$Openapi extends Openapi {
 
 **A member of the group AMAP can edit orders of other users**''',
       summary: 'Edit Order From Delivery',
-      operationId: 'patch_amap_orders_{order_id}',
+      operationId: 'edit_order_from_delivery_amap_orders__order_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -816,18 +822,18 @@ final class _$Openapi extends Openapi {
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _amapOrdersOrderIdDelete({
+  Future<Response<void>> _amapOrdersOrderIdDelete({
     required String? orderId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete an order.
 
 **A member of the group AMAP can delete orders of other users**''',
       summary: 'Remove Order',
-      operationId: 'delete_amap_orders_{order_id}',
+      operationId: 'remove_order_amap_orders__order_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -842,7 +848,7 @@ final class _$Openapi extends Openapi {
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -853,7 +859,7 @@ final class _$Openapi extends Openapi {
 
 **A member of the group AMAP can create an order for every user**''',
       summary: 'Add Order To Delievery',
-      operationId: 'post_amap_orders',
+      operationId: 'add_order_to_delievery_amap_orders_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -874,12 +880,13 @@ final class _$Openapi extends Openapi {
   }
 
   @override
-  Future<Response<dynamic>> _amapDeliveriesDeliveryIdOpenorderingPost({
+  Future<Response<void>> _amapDeliveriesDeliveryIdOpenorderingPost({
     required String? deliveryId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Open Ordering Of Delivery',
-      operationId: 'post_amap_deliveries_{delivery_id}_openordering',
+      operationId:
+          'open_ordering_of_delivery_amap_deliveries__delivery_id__openordering_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -894,16 +901,16 @@ final class _$Openapi extends Openapi {
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _amapDeliveriesDeliveryIdLockPost({
+  Future<Response<void>> _amapDeliveriesDeliveryIdLockPost({
     required String? deliveryId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Lock Delivery',
-      operationId: 'post_amap_deliveries_{delivery_id}_lock',
+      operationId: 'lock_delivery_amap_deliveries__delivery_id__lock_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -918,16 +925,17 @@ final class _$Openapi extends Openapi {
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _amapDeliveriesDeliveryIdDeliveredPost({
+  Future<Response<void>> _amapDeliveriesDeliveryIdDeliveredPost({
     required String? deliveryId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Mark Delivery As Delivered',
-      operationId: 'post_amap_deliveries_{delivery_id}_delivered',
+      operationId:
+          'mark_delivery_as_delivered_amap_deliveries__delivery_id__delivered_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -942,16 +950,17 @@ final class _$Openapi extends Openapi {
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _amapDeliveriesDeliveryIdArchivePost({
+  Future<Response<void>> _amapDeliveriesDeliveryIdArchivePost({
     required String? deliveryId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Archive Of Delivery',
-      operationId: 'post_amap_deliveries_{delivery_id}_archive',
+      operationId:
+          'archive_of_delivery_amap_deliveries__delivery_id__archive_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -966,7 +975,7 @@ final class _$Openapi extends Openapi {
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -977,7 +986,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Get Users Cash',
-      operationId: 'get_amap_users_cash',
+      operationId: 'get_users_cash_amap_users_cash_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1007,7 +1016,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of the group AMAP to use this endpoint or can only access the endpoint for its own user_id**''',
       summary: 'Get Cash By Id',
-      operationId: 'get_amap_users_{user_id}_cash',
+      operationId: 'get_cash_by_id_amap_users__user_id__cash_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1038,7 +1047,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Create Cash Of User',
-      operationId: 'post_amap_users_{user_id}_cash',
+      operationId: 'create_cash_of_user_amap_users__user_id__cash_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1062,7 +1071,7 @@ final class _$Openapi extends Openapi {
   }
 
   @override
-  Future<Response<dynamic>> _amapUsersUserIdCashPatch({
+  Future<Response<void>> _amapUsersUserIdCashPatch({
     required String? userId,
     required CashEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -1072,7 +1081,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Edit Cash By Id',
-      operationId: 'patch_amap_users_{user_id}_cash',
+      operationId: 'edit_cash_by_id_amap_users__user_id__cash_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1089,7 +1098,7 @@ A negative value can be provided to remove money from the user.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -1100,7 +1109,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be a member of the group AMAP to use this endpoint or can only access the endpoint for its own user_id**''',
       summary: 'Get Orders Of User',
-      operationId: 'get_amap_users_{user_id}_orders',
+      operationId: 'get_orders_of_user_amap_users__user_id__orders_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1123,7 +1132,7 @@ A negative value can be provided to remove money from the user.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all information',
       summary: 'Get Information',
-      operationId: 'get_amap_information',
+      operationId: 'get_information_amap_information_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1142,14 +1151,14 @@ A negative value can be provided to remove money from the user.
   }
 
   @override
-  Future<Response<dynamic>> _amapInformationPatch({
+  Future<Response<void>> _amapInformationPatch({
     required InformationEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Update information
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Edit Information',
-      operationId: 'patch_amap_information',
+      operationId: 'edit_information_amap_information_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1166,7 +1175,7 @@ A negative value can be provided to remove money from the user.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -1176,7 +1185,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Get Managers',
-      operationId: 'get_booking_managers',
+      operationId: 'get_managers_booking_managers_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1202,7 +1211,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Manager',
-      operationId: 'post_booking_managers',
+      operationId: 'create_manager_booking_managers_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1223,7 +1232,7 @@ A negative value can be provided to remove money from the user.
   }
 
   @override
-  Future<Response<dynamic>> _bookingManagersManagerIdPatch({
+  Future<Response<void>> _bookingManagersManagerIdPatch({
     required String? managerId,
     required ManagerUpdate? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -1232,7 +1241,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update Manager',
-      operationId: 'patch_booking_managers_{manager_id}',
+      operationId: 'update_manager_booking_managers__manager_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1249,11 +1258,11 @@ A negative value can be provided to remove money from the user.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _bookingManagersManagerIdDelete({
+  Future<Response<void>> _bookingManagersManagerIdDelete({
     required String? managerId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
@@ -1261,7 +1270,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Delete Manager',
-      operationId: 'delete_booking_managers_{manager_id}',
+      operationId: 'delete_manager_booking_managers__manager_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1276,7 +1285,7 @@ A negative value can be provided to remove money from the user.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -1286,7 +1295,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Current User Managers',
-      operationId: 'get_booking_managers_users_me',
+      operationId: 'get_current_user_managers_booking_managers_users_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1312,7 +1321,8 @@ A negative value can be provided to remove money from the user.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Bookings For Manager',
-      operationId: 'get_booking_bookings_users_me_manage',
+      operationId:
+          'get_bookings_for_manager_booking_bookings_users_me_manage_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1339,7 +1349,8 @@ A negative value can be provided to remove money from the user.
       description: '''Return all confirmed bookings a user can manage.
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Confirmed Bookings For Manager',
-      operationId: 'get_booking_bookings_confirmed_users_me_manage',
+      operationId:
+          'get_confirmed_bookings_for_manager_booking_bookings_confirmed_users_me_manage_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1367,7 +1378,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Confirmed Bookings',
-      operationId: 'get_booking_bookings_confirmed',
+      operationId: 'get_confirmed_bookings_booking_bookings_confirmed_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1395,7 +1406,7 @@ A negative value can be provided to remove money from the user.
 
 **Only usable by the user**''',
       summary: 'Get Applicant Bookings',
-      operationId: 'get_booking_bookings_users_me',
+      operationId: 'get_applicant_bookings_booking_bookings_users_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1421,7 +1432,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Create Booking',
-      operationId: 'post_booking_bookings',
+      operationId: 'create_booking_booking_bookings_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1442,7 +1453,7 @@ A negative value can be provided to remove money from the user.
   }
 
   @override
-  Future<Response<dynamic>> _bookingBookingsBookingIdPatch({
+  Future<Response<void>> _bookingBookingsBookingIdPatch({
     required String? bookingId,
     required BookingEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -1450,7 +1461,7 @@ A negative value can be provided to remove money from the user.
 
 **Only usable by a user in the manager group of the booking or applicant before decision**''',
       summary: 'Edit Booking',
-      operationId: 'patch_booking_bookings_{booking_id}',
+      operationId: 'edit_booking_booking_bookings__booking_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1467,18 +1478,18 @@ A negative value can be provided to remove money from the user.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _bookingBookingsBookingIdDelete({
+  Future<Response<void>> _bookingBookingsBookingIdDelete({
     required String? bookingId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Remove a booking.
 
 **Only usable by the applicant before decision**''',
       summary: 'Delete Booking',
-      operationId: 'delete_booking_bookings_{booking_id}',
+      operationId: 'delete_booking_booking_bookings__booking_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1493,11 +1504,11 @@ A negative value can be provided to remove money from the user.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _bookingBookingsBookingIdReplyDecisionPatch({
+  Future<Response<void>> _bookingBookingsBookingIdReplyDecisionPatch({
     required String? bookingId,
     required String? decision,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -1505,7 +1516,8 @@ A negative value can be provided to remove money from the user.
 
 **Only usable by a user in the manager group of the booking**''',
       summary: 'Confirm Booking',
-      operationId: 'patch_booking_bookings_{booking_id}_reply_{decision}',
+      operationId:
+          'confirm_booking_booking_bookings__booking_id__reply__decision__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1522,7 +1534,7 @@ A negative value can be provided to remove money from the user.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -1532,7 +1544,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Rooms',
-      operationId: 'get_booking_rooms',
+      operationId: 'get_rooms_booking_rooms_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1558,7 +1570,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by admins**''',
       summary: 'Create Room',
-      operationId: 'post_booking_rooms',
+      operationId: 'create_room_booking_rooms_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1579,7 +1591,7 @@ A negative value can be provided to remove money from the user.
   }
 
   @override
-  Future<Response<dynamic>> _bookingRoomsRoomIdPatch({
+  Future<Response<void>> _bookingRoomsRoomIdPatch({
     required String? roomId,
     required RoomBase? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -1587,7 +1599,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by admins**''',
       summary: 'Edit Room',
-      operationId: 'patch_booking_rooms_{room_id}',
+      operationId: 'edit_room_booking_rooms__room_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1604,11 +1616,11 @@ A negative value can be provided to remove money from the user.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _bookingRoomsRoomIdDelete({
+  Future<Response<void>> _bookingRoomsRoomIdDelete({
     required String? roomId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
@@ -1616,7 +1628,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by admins**''',
       summary: 'Delete Room',
-      operationId: 'delete_booking_rooms_{room_id}',
+      operationId: 'delete_room_booking_rooms__room_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1631,7 +1643,7 @@ A negative value can be provided to remove money from the user.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -1642,7 +1654,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be a member of a group authorized to vote or to manage the campaign to use this endpoint**''',
       summary: 'Get Sections',
-      operationId: 'get_campaign_sections',
+      operationId: 'get_sections_campaign_sections_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1670,7 +1682,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Add Section',
-      operationId: 'post_campaign_sections',
+      operationId: 'add_section_campaign_sections_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1691,7 +1703,7 @@ This endpoint can only be used in \'waiting\' status.
   }
 
   @override
-  Future<Response<dynamic>> _campaignSectionsSectionIdDelete({
+  Future<Response<void>> _campaignSectionsSectionIdDelete({
     required String? sectionId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a section.
@@ -1700,7 +1712,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Delete Section',
-      operationId: 'delete_campaign_sections_{section_id}',
+      operationId: 'delete_section_campaign_sections__section_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1715,7 +1727,7 @@ This endpoint can only be used in \'waiting\' status.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -1725,7 +1737,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to vote or to manage the campaign to use this endpoint**''',
       summary: 'Get Lists',
-      operationId: 'get_campaign_lists',
+      operationId: 'get_lists_campaign_lists_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1753,7 +1765,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Add List',
-      operationId: 'post_campaign_lists',
+      operationId: 'add_list_campaign_lists_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1774,7 +1786,7 @@ This endpoint can only be used in \'waiting\' status.
   }
 
   @override
-  Future<Response<dynamic>> _campaignListsListIdDelete({
+  Future<Response<void>> _campaignListsListIdDelete({
     required String? listId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete the campaign list with the given id.
@@ -1783,7 +1795,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Delete List',
-      operationId: 'delete_campaign_lists_{list_id}',
+      operationId: 'delete_list_campaign_lists__list_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1798,11 +1810,11 @@ This endpoint can only be used in \'waiting\' status.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _campaignListsListIdPatch({
+  Future<Response<void>> _campaignListsListIdPatch({
     required String? listId,
     required ListEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -1812,7 +1824,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Update List',
-      operationId: 'patch_campaign_lists_{list_id}',
+      operationId: 'update_list_campaign_lists__list_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1829,11 +1841,11 @@ This endpoint can only be used in \'waiting\' status.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _campaignListsDelete({
+  Future<Response<void>> _campaignListsDelete({
     Object? listType,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete the all lists by type.
@@ -1842,7 +1854,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Delete Lists By Type',
-      operationId: 'delete_campaign_lists_',
+      operationId: 'delete_lists_by_type_campaign_lists__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1861,7 +1873,7 @@ This endpoint can only be used in \'waiting\' status.
       parameters: $params,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -1871,7 +1883,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Get Voters',
-      operationId: 'get_campaign_voters',
+      operationId: 'get_voters_campaign_voters_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1890,13 +1902,13 @@ This endpoint can only be used in \'waiting\' status.
   }
 
   @override
-  Future<Response<dynamic>> _campaignVotersDelete({
+  Future<Response<void>> _campaignVotersDelete({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete all voters.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Delete Voters',
-      operationId: 'delete_campaign_voters',
+      operationId: 'delete_voters_campaign_voters_delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1911,18 +1923,18 @@ This endpoint can only be used in \'waiting\' status.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _campaignVotersGroupIdPost({
+  Future<Response<void>> _campaignVotersGroupIdPost({
     required String? groupId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Add a voter.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Add Voter',
-      operationId: 'post_campaign_voters_{group_id}',
+      operationId: 'add_voter_campaign_voters__group_id__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1937,18 +1949,18 @@ This endpoint can only be used in \'waiting\' status.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _campaignVotersGroupIdDelete({
+  Future<Response<void>> _campaignVotersGroupIdDelete({
     required String? groupId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a voter.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Delete Voter',
-      operationId: 'delete_campaign_voters_{group_id}',
+      operationId: 'delete_voter_campaign_voters__group_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1963,11 +1975,11 @@ This endpoint can only be used in \'waiting\' status.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _campaignStatusOpenPost({
+  Future<Response<void>> _campaignStatusOpenPost({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           '''If the status is \'waiting\', change it to \'voting\' and create the blank lists.
@@ -1977,7 +1989,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Open Vote',
-      operationId: 'post_campaign_status_open',
+      operationId: 'open_vote_campaign_status_open_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1992,11 +2004,11 @@ This endpoint can only be used in \'waiting\' status.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _campaignStatusClosePost({
+  Future<Response<void>> _campaignStatusClosePost({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''If the status is \'open\', change it to \'closed\'.
 
@@ -2005,7 +2017,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Close Vote',
-      operationId: 'post_campaign_status_close',
+      operationId: 'close_vote_campaign_status_close_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2020,11 +2032,11 @@ This endpoint can only be used in \'waiting\' status.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _campaignStatusCountingPost({
+  Future<Response<void>> _campaignStatusCountingPost({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''If the status is \'closed\', change it to \'counting\'.
 
@@ -2033,7 +2045,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Count Voting',
-      operationId: 'post_campaign_status_counting',
+      operationId: 'count_voting_campaign_status_counting_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2048,11 +2060,11 @@ This endpoint can only be used in \'waiting\' status.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _campaignStatusPublishedPost({
+  Future<Response<void>> _campaignStatusPublishedPost({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''If the status is \'counting\', change it to \'published\'.
 
@@ -2061,7 +2073,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Publish Vote',
-      operationId: 'post_campaign_status_published',
+      operationId: 'publish_vote_campaign_status_published_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2076,11 +2088,11 @@ This endpoint can only be used in \'waiting\' status.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _campaignStatusResetPost({
+  Future<Response<void>> _campaignStatusResetPost({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           '''Reset the vote. Can only be used if the current status is counting ou published.
@@ -2089,7 +2101,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Reset Vote',
-      operationId: 'post_campaign_status_reset',
+      operationId: 'reset_vote_campaign_status_reset_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2104,7 +2116,7 @@ This endpoint can only be used in \'waiting\' status.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -2115,7 +2127,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to vote to use this endpoint**''',
       summary: 'Get Sections Already Voted',
-      operationId: 'get_campaign_votes',
+      operationId: 'get_sections_already_voted_campaign_votes_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2134,7 +2146,7 @@ This endpoint can only be used in \'waiting\' status.
   }
 
   @override
-  Future<Response<dynamic>> _campaignVotesPost({
+  Future<Response<void>> _campaignVotesPost({
     required VoteBase? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Add a vote for a given campaign list.
@@ -2143,7 +2155,7 @@ An user can only vote for one list per section.
 
 **The user must be a member of a group authorized to vote to use this endpoint**''',
       summary: 'Vote',
-      operationId: 'post_campaign_votes',
+      operationId: 'vote_campaign_votes_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2160,7 +2172,7 @@ An user can only vote for one list per section.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -2171,7 +2183,7 @@ An user can only vote for one list per section.
 
 **The user must be a member of a group authorized to vote or to manage the campaign to use this endpoint**''',
       summary: 'Get Results',
-      operationId: 'get_campaign_results',
+      operationId: 'get_results_campaign_results_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2199,7 +2211,7 @@ An user can only vote for one list per section.
 
 **The user must be a member of a group authorized to vote or to manage the campaign to use this endpoint**''',
       summary: 'Get Status Vote',
-      operationId: 'get_campaign_status',
+      operationId: 'get_status_vote_campaign_status_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2225,7 +2237,7 @@ An user can only vote for one list per section.
 
 **The user must be authorized to vote to use this endpoint**''',
       summary: 'Get Stats For Section',
-      operationId: 'get_campaign_stats_{section_id}',
+      operationId: 'get_stats_for_section_campaign_stats__section_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2253,7 +2265,7 @@ An user can only vote for one list per section.
 
 **The user must be authorized to manage the campaign to use this endpoint**''',
       summary: 'Create Campaigns Logo',
-      operationId: 'post_campaign_lists_{list_id}_logo',
+      operationId: 'create_campaigns_logo_campaign_lists__list_id__logo_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2280,13 +2292,13 @@ An user can only vote for one list per section.
   }
 
   @override
-  Future<Response<dynamic>> _campaignListsListIdLogoGet({
+  Future<Response<List<int>>> _campaignListsListIdLogoGet({
     required String? listId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Get the logo of a campaign list.
 **The user must be a member of a group authorized to vote or to manage the campaign to use this endpoint**''',
       summary: 'Read Campaigns Logo',
-      operationId: 'get_campaign_lists_{list_id}_logo',
+      operationId: 'read_campaigns_logo_campaign_lists__list_id__logo_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2301,7 +2313,7 @@ An user can only vote for one list per section.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
@@ -2311,7 +2323,7 @@ An user can only vote for one list per section.
 
 **User must be part of a seller group to use this endpoint**''',
       summary: 'Get Cdr Users',
-      operationId: 'get_cdr_users_',
+      operationId: 'get_cdr_users_cdr_users__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2336,7 +2348,7 @@ An user can only vote for one list per section.
 
 **User must be part of a seller group to use this endpoint**''',
       summary: 'Get Cdr Users Pending Validation',
-      operationId: 'get_cdr_users_pending_',
+      operationId: 'get_cdr_users_pending_validation_cdr_users_pending__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2362,7 +2374,7 @@ An user can only vote for one list per section.
 
 **User must be part of a seller group or trying to get itself to use this endpoint**''',
       summary: 'Get Cdr User',
-      operationId: 'get_cdr_users_{user_id}_',
+      operationId: 'get_cdr_user_cdr_users__user_id___get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2381,7 +2393,7 @@ An user can only vote for one list per section.
   }
 
   @override
-  Future<Response<dynamic>> _cdrUsersUserIdPatch({
+  Future<Response<void>> _cdrUsersUserIdPatch({
     required String? userId,
     required CdrUserUpdate? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -2391,7 +2403,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of a seller group to use this endpoint**''',
       summary: 'Update Cdr User',
-      operationId: 'patch_cdr_users_{user_id}_',
+      operationId: 'update_cdr_user_cdr_users__user_id___patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2408,7 +2420,7 @@ An email will be send to the user, to confirm its new address.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -2418,7 +2430,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Get Sellers',
-      operationId: 'get_cdr_sellers_',
+      operationId: 'get_sellers_cdr_sellers__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2444,7 +2456,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Create Seller',
-      operationId: 'post_cdr_sellers_',
+      operationId: 'create_seller_cdr_sellers__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2472,7 +2484,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be authenticated to use this endpoint**''',
       summary: 'Get Sellers By User Id',
-      operationId: 'get_cdr_users_me_sellers_',
+      operationId: 'get_sellers_by_user_id_cdr_users_me_sellers__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2497,7 +2509,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be authenticated to use this endpoint**''',
       summary: 'Get Online Sellers',
-      operationId: 'get_cdr_online_sellers_',
+      operationId: 'get_online_sellers_cdr_online_sellers__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2516,14 +2528,14 @@ An email will be send to the user, to confirm its new address.
   }
 
   @override
-  Future<Response<dynamic>> _cdrSellersSellerIdResultsGet({
+  Future<Response<List<int>>> _cdrSellersSellerIdResultsGet({
     required String? sellerId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Get a seller\'s results.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Send Seller Results',
-      operationId: 'get_cdr_sellers_{seller_id}_results_',
+      operationId: 'send_seller_results_cdr_sellers__seller_id__results__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2538,7 +2550,7 @@ An email will be send to the user, to confirm its new address.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
@@ -2549,7 +2561,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be authenticated to use this endpoint**''',
       summary: 'Get All Available Online Products',
-      operationId: 'get_cdr_online_products_',
+      operationId: 'get_all_available_online_products_cdr_online_products__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2578,7 +2590,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of a seller group to use this endpoint**''',
       summary: 'Get All Products',
-      operationId: 'get_cdr_products_',
+      operationId: 'get_all_products_cdr_products__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2600,7 +2612,7 @@ An email will be send to the user, to confirm its new address.
   }
 
   @override
-  Future<Response<dynamic>> _cdrSellersSellerIdPatch({
+  Future<Response<void>> _cdrSellersSellerIdPatch({
     required String? sellerId,
     required SellerEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -2608,7 +2620,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Update Seller',
-      operationId: 'patch_cdr_sellers_{seller_id}_',
+      operationId: 'update_seller_cdr_sellers__seller_id___patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2625,18 +2637,18 @@ An email will be send to the user, to confirm its new address.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _cdrSellersSellerIdDelete({
+  Future<Response<void>> _cdrSellersSellerIdDelete({
     required String? sellerId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a seller.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Delete Seller',
-      operationId: 'delete_cdr_sellers_{seller_id}_',
+      operationId: 'delete_seller_cdr_sellers__seller_id___delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2651,7 +2663,7 @@ An email will be send to the user, to confirm its new address.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -2663,7 +2675,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Get Products By Seller Id',
-      operationId: 'get_cdr_sellers_{seller_id}_products_',
+      operationId:
+          'get_products_by_seller_id_cdr_sellers__seller_id__products__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2694,7 +2707,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Create Product',
-      operationId: 'post_cdr_sellers_{seller_id}_products_',
+      operationId: 'create_product_cdr_sellers__seller_id__products__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2726,7 +2739,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must be authenticated to use this endpoint**''',
       summary: 'Get Available Online Products',
-      operationId: 'get_cdr_online_sellers_{seller_id}_products_',
+      operationId:
+          'get_available_online_products_cdr_online_sellers__seller_id__products__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2748,7 +2762,7 @@ An email will be send to the user, to confirm its new address.
   }
 
   @override
-  Future<Response<dynamic>> _cdrSellersSellerIdProductsProductIdPatch({
+  Future<Response<void>> _cdrSellersSellerIdProductsProductIdPatch({
     required String? sellerId,
     required String? productId,
     required AppModulesCdrSchemasCdrProductEdit? body,
@@ -2757,7 +2771,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Update Product',
-      operationId: 'patch_cdr_sellers_{seller_id}_products_{product_id}_',
+      operationId:
+          'update_product_cdr_sellers__seller_id__products__product_id___patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2776,11 +2791,11 @@ An email will be send to the user, to confirm its new address.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _cdrSellersSellerIdProductsProductIdDelete({
+  Future<Response<void>> _cdrSellersSellerIdProductsProductIdDelete({
     required String? sellerId,
     required String? productId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -2788,7 +2803,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Delete Product',
-      operationId: 'delete_cdr_sellers_{seller_id}_products_{product_id}_',
+      operationId:
+          'delete_product_cdr_sellers__seller_id__products__product_id___delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2805,7 +2821,7 @@ An email will be send to the user, to confirm its new address.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -2820,7 +2836,7 @@ An email will be send to the user, to confirm its new address.
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Create Product Variant',
       operationId:
-          'post_cdr_sellers_{seller_id}_products_{product_id}_variants_',
+          'create_product_variant_cdr_sellers__seller_id__products__product_id__variants__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2846,7 +2862,7 @@ An email will be send to the user, to confirm its new address.
   }
 
   @override
-  Future<Response<dynamic>>
+  Future<Response<void>>
   _cdrSellersSellerIdProductsProductIdVariantsVariantIdPatch({
     required String? sellerId,
     required String? productId,
@@ -2858,7 +2874,7 @@ An email will be send to the user, to confirm its new address.
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Update Product Variant',
       operationId:
-          'patch_cdr_sellers_{seller_id}_products_{product_id}_variants_{variant_id}_',
+          'update_product_variant_cdr_sellers__seller_id__products__product_id__variants__variant_id___patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2877,11 +2893,11 @@ An email will be send to the user, to confirm its new address.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>>
+  Future<Response<void>>
   _cdrSellersSellerIdProductsProductIdVariantsVariantIdDelete({
     required String? sellerId,
     required String? productId,
@@ -2892,7 +2908,7 @@ An email will be send to the user, to confirm its new address.
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Delete Product Variant',
       operationId:
-          'delete_cdr_sellers_{seller_id}_products_{product_id}_variants_{variant_id}_',
+          'delete_product_variant_cdr_sellers__seller_id__products__product_id__variants__variant_id___delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2909,7 +2925,7 @@ An email will be send to the user, to confirm its new address.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -2920,7 +2936,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Get Seller Documents',
-      operationId: 'get_cdr_sellers_{seller_id}_documents_',
+      operationId:
+          'get_seller_documents_cdr_sellers__seller_id__documents__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2947,7 +2964,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Create Document',
-      operationId: 'post_cdr_sellers_{seller_id}_documents_',
+      operationId: 'create_document_cdr_sellers__seller_id__documents__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2974,7 +2991,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of a seller\'s group to use this endpoint**''',
       summary: 'Get All Sellers Documents',
-      operationId: 'get_cdr_documents_',
+      operationId: 'get_all_sellers_documents_cdr_documents__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2993,7 +3010,7 @@ An email will be send to the user, to confirm its new address.
   }
 
   @override
-  Future<Response<dynamic>> _cdrSellersSellerIdDocumentsDocumentIdDelete({
+  Future<Response<void>> _cdrSellersSellerIdDocumentsDocumentIdDelete({
     required String? sellerId,
     required String? documentId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -3001,7 +3018,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Delete Document',
-      operationId: 'delete_cdr_sellers_{seller_id}_documents_{document_id}_',
+      operationId:
+          'delete_document_cdr_sellers__seller_id__documents__document_id___delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3018,7 +3036,7 @@ An email will be send to the user, to confirm its new address.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -3029,7 +3047,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must get his own purchases or be CDR Admin to use this endpoint**''',
       summary: 'Get Purchases By User Id',
-      operationId: 'get_cdr_users_{user_id}_purchases_',
+      operationId:
+          'get_purchases_by_user_id_cdr_users__user_id__purchases__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3052,7 +3071,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get My Purchases',
-      operationId: 'get_cdr_me_purchases_',
+      operationId: 'get_my_purchases_cdr_me_purchases__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3075,7 +3094,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get All My Purchases',
-      operationId: 'get_cdr_me_purchases_all',
+      operationId: 'get_all_my_purchases_cdr_me_purchases_all_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3103,7 +3122,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must get his own purchases or be part of the seller\'s group to use this endpoint**''',
       summary: 'Get Purchases By User Id By Seller Id',
-      operationId: 'get_cdr_sellers_{seller_id}_users_{user_id}_purchases_',
+      operationId:
+          'get_purchases_by_user_id_by_seller_id_cdr_sellers__seller_id__users__user_id__purchases__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3134,7 +3154,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must create a purchase for themself and for an online available product or be part of the seller\'s group to use this endpoint**''',
       summary: 'Create Purchase',
-      operationId: 'post_cdr_users_{user_id}_purchases_{product_variant_id}_',
+      operationId:
+          'create_purchase_cdr_users__user_id__purchases__product_variant_id___post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3160,7 +3181,7 @@ An email will be send to the user, to confirm its new address.
   }
 
   @override
-  Future<Response<dynamic>> _cdrUsersUserIdPurchasesProductVariantIdDelete({
+  Future<Response<void>> _cdrUsersUserIdPurchasesProductVariantIdDelete({
     required String? userId,
     required String? productVariantId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -3168,7 +3189,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must create a purchase for themself and for an online available product or be part of the seller\'s group to use this endpoint**''',
       summary: 'Delete Purchase',
-      operationId: 'delete_cdr_users_{user_id}_purchases_{product_variant_id}_',
+      operationId:
+          'delete_purchase_cdr_users__user_id__purchases__product_variant_id___delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3185,18 +3207,18 @@ An email will be send to the user, to confirm its new address.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _cdrBatchPurchasesPost({
+  Future<Response<void>> _cdrBatchPurchasesPost({
     required BatchPurchase? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Create a purchase for a list of user.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Create Purchase Batch',
-      operationId: 'post_cdr_batch-purchases_',
+      operationId: 'create_purchase_batch_cdr_batch_purchases__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3213,11 +3235,11 @@ An email will be send to the user, to confirm its new address.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>>
+  Future<Response<void>>
   _cdrUsersUserIdPurchasesProductVariantIdValidatedPatch({
     required String? userId,
     required String? productVariantId,
@@ -3228,7 +3250,7 @@ An email will be send to the user, to confirm its new address.
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Mark Purchase As Validated',
       operationId:
-          'patch_cdr_users_{user_id}_purchases_{product_variant_id}_validated_',
+          'mark_purchase_as_validated_cdr_users__user_id__purchases__product_variant_id__validated__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3249,16 +3271,16 @@ An email will be send to the user, to confirm its new address.
       parameters: $params,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _cdrBatchValidationPost({
+  Future<Response<void>> _cdrBatchValidationPost({
     required BatchValidation? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Validate Purchase Batch',
-      operationId: 'post_cdr_batch-validation_',
+      operationId: 'validate_purchase_batch_cdr_batch_validation__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3275,7 +3297,7 @@ An email will be send to the user, to confirm its new address.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -3286,7 +3308,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must get his own signatures or be CDR Admin to use this endpoint**''',
       summary: 'Get Signatures By User Id',
-      operationId: 'get_cdr_users_{user_id}_signatures_',
+      operationId:
+          'get_signatures_by_user_id_cdr_users__user_id__signatures__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3314,7 +3337,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must get his own signatures or be part of the seller\'s group to use this endpoint**''',
       summary: 'Get Signatures By User Id By Seller Id',
-      operationId: 'get_cdr_sellers_{seller_id}_users_{user_id}_signatures_',
+      operationId:
+          'get_signatures_by_user_id_by_seller_id_cdr_sellers__seller_id__users__user_id__signatures__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3344,7 +3368,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must sign numerically or be part of the seller\'s group to use this endpoint**''',
       summary: 'Create Signature',
-      operationId: 'post_cdr_users_{user_id}_signatures_{document_id}_',
+      operationId:
+          'create_signature_cdr_users__user_id__signatures__document_id___post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3367,7 +3392,7 @@ An email will be send to the user, to confirm its new address.
   }
 
   @override
-  Future<Response<dynamic>> _cdrUsersUserIdSignaturesDocumentIdDelete({
+  Future<Response<void>> _cdrUsersUserIdSignaturesDocumentIdDelete({
     required String? userId,
     required String? documentId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -3375,7 +3400,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Delete Signature',
-      operationId: 'delete_cdr_users_{user_id}_signatures_{document_id}_',
+      operationId:
+          'delete_signature_cdr_users__user_id__signatures__document_id___delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3392,7 +3418,7 @@ An email will be send to the user, to confirm its new address.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -3402,7 +3428,7 @@ An email will be send to the user, to confirm its new address.
 
 **User be authenticated to use this endpoint**''',
       summary: 'Get Curriculums',
-      operationId: 'get_cdr_curriculums_',
+      operationId: 'get_curriculums_cdr_curriculums__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3428,7 +3454,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Create Curriculum',
-      operationId: 'post_cdr_curriculums_',
+      operationId: 'create_curriculum_cdr_curriculums__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3449,14 +3475,14 @@ An email will be send to the user, to confirm its new address.
   }
 
   @override
-  Future<Response<dynamic>> _cdrCurriculumsCurriculumIdDelete({
+  Future<Response<void>> _cdrCurriculumsCurriculumIdDelete({
     required String? curriculumId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a curriculum.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Delete Curriculum',
-      operationId: 'delete_cdr_curriculums_{curriculum_id}_',
+      operationId: 'delete_curriculum_cdr_curriculums__curriculum_id___delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3471,11 +3497,11 @@ An email will be send to the user, to confirm its new address.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _cdrUsersUserIdCurriculumsCurriculumIdPost({
+  Future<Response<void>> _cdrUsersUserIdCurriculumsCurriculumIdPost({
     required String? userId,
     required String? curriculumId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -3483,7 +3509,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must add a curriculum to themself or be CDR Admin to use this endpoint**''',
       summary: 'Create Curriculum Membership',
-      operationId: 'post_cdr_users_{user_id}_curriculums_{curriculum_id}_',
+      operationId:
+          'create_curriculum_membership_cdr_users__user_id__curriculums__curriculum_id___post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3500,11 +3527,11 @@ An email will be send to the user, to confirm its new address.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _cdrUsersUserIdCurriculumsCurriculumIdPatch({
+  Future<Response<void>> _cdrUsersUserIdCurriculumsCurriculumIdPatch({
     required String? userId,
     required String? curriculumId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -3512,7 +3539,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must add a curriculum to themself or be CDR Admin to use this endpoint**''',
       summary: 'Update Curriculum Membership',
-      operationId: 'patch_cdr_users_{user_id}_curriculums_{curriculum_id}_',
+      operationId:
+          'update_curriculum_membership_cdr_users__user_id__curriculums__curriculum_id___patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3529,11 +3557,11 @@ An email will be send to the user, to confirm its new address.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _cdrUsersUserIdCurriculumsCurriculumIdDelete({
+  Future<Response<void>> _cdrUsersUserIdCurriculumsCurriculumIdDelete({
     required String? userId,
     required String? curriculumId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -3541,7 +3569,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must add a curriculum to themself or be CDR Admin to use this endpoint**''',
       summary: 'Delete Curriculum Membership',
-      operationId: 'delete_cdr_users_{user_id}_curriculums_{curriculum_id}_',
+      operationId:
+          'delete_curriculum_membership_cdr_users__user_id__curriculums__curriculum_id___delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3558,7 +3587,7 @@ An email will be send to the user, to confirm its new address.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -3570,7 +3599,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must get his own payments or be CDR Admin to use this endpoint**''',
       summary: 'Get Payments By User Id',
-      operationId: 'get_cdr_users_{user_id}_payments_',
+      operationId: 'get_payments_by_user_id_cdr_users__user_id__payments__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3601,7 +3630,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Create Payment',
-      operationId: 'post_cdr_users_{user_id}_payments_',
+      operationId: 'create_payment_cdr_users__user_id__payments__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3625,7 +3654,7 @@ An email will be send to the user, to confirm its new address.
   }
 
   @override
-  Future<Response<dynamic>> _cdrUsersUserIdPaymentsPaymentIdDelete({
+  Future<Response<void>> _cdrUsersUserIdPaymentsPaymentIdDelete({
     required String? userId,
     required String? paymentId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -3633,7 +3662,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Delete Payment',
-      operationId: 'delete_cdr_users_{user_id}_payments_{payment_id}_',
+      operationId:
+          'delete_payment_cdr_users__user_id__payments__payment_id___delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3648,7 +3678,7 @@ An email will be send to the user, to confirm its new address.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -3656,7 +3686,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get payment url',
       summary: 'Get Payment Url',
-      operationId: 'post_cdr_pay_',
+      operationId: 'get_payment_url_cdr_pay__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3679,7 +3709,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Cdr Year',
-      operationId: 'get_cdr_year_',
+      operationId: 'get_cdr_year_cdr_year__get',
       consumes: [],
       produces: [],
       security: [],
@@ -3698,12 +3728,12 @@ An email will be send to the user, to confirm its new address.
   }
 
   @override
-  Future<Response<dynamic>> _cdrYearPatch({
+  Future<Response<void>> _cdrYearPatch({
     required CdrYear? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Update Cdr Year',
-      operationId: 'patch_cdr_year_',
+      operationId: 'update_cdr_year_cdr_year__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3720,7 +3750,7 @@ An email will be send to the user, to confirm its new address.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -3728,7 +3758,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Status',
-      operationId: 'get_cdr_status_',
+      operationId: 'get_status_cdr_status__get',
       consumes: [],
       produces: [],
       security: [],
@@ -3747,12 +3777,12 @@ An email will be send to the user, to confirm its new address.
   }
 
   @override
-  Future<Response<dynamic>> _cdrStatusPatch({
+  Future<Response<void>> _cdrStatusPatch({
     required Status? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Update Status',
-      operationId: 'patch_cdr_status_',
+      operationId: 'update_status_cdr_status__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3769,7 +3799,7 @@ An email will be send to the user, to confirm its new address.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -3777,7 +3807,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get My Tickets',
-      operationId: 'get_cdr_users_me_tickets_',
+      operationId: 'get_my_tickets_cdr_users_me_tickets__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3805,7 +3835,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Tickets Of User',
-      operationId: 'get_cdr_users_{user_id}_tickets_',
+      operationId: 'get_tickets_of_user_cdr_users__user_id__tickets__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3832,7 +3862,8 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Ticket Secret',
-      operationId: 'get_cdr_users_me_tickets_{ticket_id}_secret_',
+      operationId:
+          'get_ticket_secret_cdr_users_me_tickets__ticket_id__secret__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3861,7 +3892,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Get Ticket By Secret',
       operationId:
-          'get_cdr_sellers_{seller_id}_products_{product_id}_tickets_{generator_id}_{secret}_',
+          'get_ticket_by_secret_cdr_sellers__seller_id__products__product_id__tickets__generator_id___secret___get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3885,7 +3916,7 @@ An email will be send to the user, to confirm its new address.
   }
 
   @override
-  Future<Response<dynamic>>
+  Future<Response<void>>
   _cdrSellersSellerIdProductsProductIdTicketsGeneratorIdSecretPatch({
     required String? sellerId,
     required String? productId,
@@ -3896,7 +3927,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Scan Ticket',
       operationId:
-          'patch_cdr_sellers_{seller_id}_products_{product_id}_tickets_{generator_id}_{secret}_',
+          'scan_ticket_cdr_sellers__seller_id__products__product_id__tickets__generator_id___secret___patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3915,7 +3946,7 @@ An email will be send to the user, to confirm its new address.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -3929,7 +3960,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Get Users By Tag',
       operationId:
-          'get_cdr_sellers_{seller_id}_products_{product_id}_tickets_{generator_id}_lists_{tag}_',
+          'get_users_by_tag_cdr_sellers__seller_id__products__product_id__tickets__generator_id__lists__tag___get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3959,7 +3990,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Get Tags Of Ticket',
       operationId:
-          'get_cdr_sellers_{seller_id}_products_{product_id}_tags_{generator_id}_',
+          'get_tags_of_ticket_cdr_sellers__seller_id__products__product_id__tags__generator_id___get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3989,7 +4020,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Generate Ticket For Product',
       operationId:
-          'post_cdr_sellers_{seller_id}_products_{product_id}_tickets_',
+          'generate_ticket_for_product_cdr_sellers__seller_id__products__product_id__tickets__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4015,7 +4046,7 @@ An email will be send to the user, to confirm its new address.
   }
 
   @override
-  Future<Response<dynamic>>
+  Future<Response<void>>
   _cdrSellersSellerIdProductsProductIdTicketsTicketGeneratorIdDelete({
     required String? sellerId,
     required String? productId,
@@ -4024,7 +4055,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Delete Ticket Generator For Product',
       operationId:
-          'delete_cdr_sellers_{seller_id}_products_{product_id}_tickets_{ticket_generator_id}',
+          'delete_ticket_generator_for_product_cdr_sellers__seller_id__products__product_id__tickets__ticket_generator_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4041,7 +4072,7 @@ An email will be send to the user, to confirm its new address.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -4052,7 +4083,8 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Custom Data Fields',
-      operationId: 'get_cdr_sellers_{seller_id}_products_{product_id}_data_',
+      operationId:
+          'get_custom_data_fields_cdr_sellers__seller_id__products__product_id__data__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4083,7 +4115,8 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Custom Data Field',
-      operationId: 'post_cdr_sellers_{seller_id}_products_{product_id}_data_',
+      operationId:
+          'create_custom_data_field_cdr_sellers__seller_id__products__product_id__data__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4108,8 +4141,7 @@ An email will be send to the user, to confirm its new address.
   }
 
   @override
-  Future<Response<dynamic>>
-  _cdrSellersSellerIdProductsProductIdDataFieldIdPatch({
+  Future<Response<void>> _cdrSellersSellerIdProductsProductIdDataFieldIdPatch({
     required String? sellerId,
     required String? productId,
     required String? fieldId,
@@ -4118,7 +4150,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Update Custom Data Field',
       operationId:
-          'patch_cdr_sellers_{seller_id}_products_{product_id}_data_{field_id}_',
+          'update_custom_data_field_cdr_sellers__seller_id__products__product_id__data__field_id___patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4137,12 +4169,11 @@ An email will be send to the user, to confirm its new address.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>>
-  _cdrSellersSellerIdProductsProductIdDataFieldIdDelete({
+  Future<Response<void>> _cdrSellersSellerIdProductsProductIdDataFieldIdDelete({
     required String? sellerId,
     required String? productId,
     required String? fieldId,
@@ -4150,7 +4181,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Delete Customdata Field',
       operationId:
-          'delete_cdr_sellers_{seller_id}_products_{product_id}_data_{field_id}_',
+          'delete_customdata_field_cdr_sellers__seller_id__products__product_id__data__field_id___delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4167,7 +4198,7 @@ An email will be send to the user, to confirm its new address.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -4181,7 +4212,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Get Customdata',
       operationId:
-          'get_cdr_sellers_{seller_id}_products_{product_id}_users_{user_id}_data_{field_id}_',
+          'get_customdata_cdr_sellers__seller_id__products__product_id__users__user_id__data__field_id___get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4213,7 +4244,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Create Custom Data',
       operationId:
-          'post_cdr_sellers_{seller_id}_products_{product_id}_users_{user_id}_data_{field_id}_',
+          'create_custom_data_cdr_sellers__seller_id__products__product_id__users__user_id__data__field_id___post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4236,7 +4267,7 @@ An email will be send to the user, to confirm its new address.
   }
 
   @override
-  Future<Response<dynamic>>
+  Future<Response<void>>
   _cdrSellersSellerIdProductsProductIdUsersUserIdDataFieldIdPatch({
     required String? sellerId,
     required String? productId,
@@ -4247,7 +4278,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Update Custom Data',
       operationId:
-          'patch_cdr_sellers_{seller_id}_products_{product_id}_users_{user_id}_data_{field_id}_',
+          'update_custom_data_cdr_sellers__seller_id__products__product_id__users__user_id__data__field_id___patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4266,11 +4297,11 @@ An email will be send to the user, to confirm its new address.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>>
+  Future<Response<void>>
   _cdrSellersSellerIdProductsProductIdUsersUserIdDataFieldIdDelete({
     required String? sellerId,
     required String? productId,
@@ -4280,7 +4311,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Delete Customdata',
       operationId:
-          'delete_cdr_sellers_{seller_id}_products_{product_id}_users_{user_id}_data_{field_id}_',
+          'delete_customdata_cdr_sellers__seller_id__products__product_id__users__user_id__data__field_id___delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4297,7 +4328,7 @@ An email will be send to the user, to confirm its new address.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -4309,7 +4340,7 @@ using an API key and returns a TheMovieDB object
 * https://developer.themoviedb.org/reference/movie-details
 * https://developer.themoviedb.org/docs/errors''',
       summary: 'Get Movie',
-      operationId: 'get_cinema_themoviedb_{themoviedb_id}',
+      operationId: 'get_movie_cinema_themoviedb__themoviedb_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4332,7 +4363,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Sessions',
-      operationId: 'get_cinema_sessions',
+      operationId: 'get_sessions_cinema_sessions_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4358,7 +4389,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Session',
-      operationId: 'post_cinema_sessions',
+      operationId: 'create_session_cinema_sessions_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4385,7 +4416,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Update Session',
-      operationId: 'patch_cinema_sessions_{session_id}',
+      operationId: 'update_session_cinema_sessions__session_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4406,12 +4437,12 @@ using an API key and returns a TheMovieDB object
   }
 
   @override
-  Future<Response<dynamic>> _cinemaSessionsSessionIdDelete({
+  Future<Response<void>> _cinemaSessionsSessionIdDelete({
     required String? sessionId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Session',
-      operationId: 'delete_cinema_sessions_{session_id}',
+      operationId: 'delete_session_cinema_sessions__session_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4426,7 +4457,7 @@ using an API key and returns a TheMovieDB object
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -4437,7 +4468,8 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Campaigns Logo',
-      operationId: 'post_cinema_sessions_{session_id}_poster',
+      operationId:
+          'create_campaigns_logo_cinema_sessions__session_id__poster_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4464,12 +4496,13 @@ using an API key and returns a TheMovieDB object
   }
 
   @override
-  Future<Response<dynamic>> _cinemaSessionsSessionIdPosterGet({
+  Future<Response<List<int>>> _cinemaSessionsSessionIdPosterGet({
     required String? sessionId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Read Session Poster',
-      operationId: 'get_cinema_sessions_{session_id}_poster',
+      operationId:
+          'read_session_poster_cinema_sessions__session_id__poster_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4484,7 +4517,7 @@ using an API key and returns a TheMovieDB object
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
@@ -4492,7 +4525,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all raffles',
       summary: 'Get Raffle',
-      operationId: 'get_tombola_raffles',
+      operationId: 'get_raffle_tombola_raffles_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4518,7 +4551,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the group admin to use this endpoint**''',
       summary: 'Create Raffle',
-      operationId: 'post_tombola_raffles',
+      operationId: 'create_raffle_tombola_raffles_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4539,7 +4572,7 @@ using an API key and returns a TheMovieDB object
   }
 
   @override
-  Future<Response<dynamic>> _tombolaRafflesRaffleIdPatch({
+  Future<Response<void>> _tombolaRafflesRaffleIdPatch({
     required String? raffleId,
     required RaffleEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -4547,7 +4580,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Edit Raffle',
-      operationId: 'patch_tombola_raffles_{raffle_id}',
+      operationId: 'edit_raffle_tombola_raffles__raffle_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4564,18 +4597,18 @@ using an API key and returns a TheMovieDB object
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _tombolaRafflesRaffleIdDelete({
+  Future<Response<void>> _tombolaRafflesRaffleIdDelete({
     required String? raffleId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a raffle.
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Delete Raffle',
-      operationId: 'delete_tombola_raffles_{raffle_id}',
+      operationId: 'delete_raffle_tombola_raffles__raffle_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4590,7 +4623,7 @@ using an API key and returns a TheMovieDB object
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -4599,7 +4632,8 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all raffles from a group',
       summary: 'Get Raffles By Group Id',
-      operationId: 'get_tombola_group_{group_id}_raffles',
+      operationId:
+          'get_raffles_by_group_id_tombola_group__group_id__raffles_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4624,7 +4658,7 @@ using an API key and returns a TheMovieDB object
       description:
           'Return the number of ticket sold and the total amount recollected for a raffle',
       summary: 'Get Raffle Stats',
-      operationId: 'get_tombola_raffles_{raffle_id}_stats',
+      operationId: 'get_raffle_stats_tombola_raffles__raffle_id__stats_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4652,7 +4686,8 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Create Current Raffle Logo',
-      operationId: 'post_tombola_raffles_{raffle_id}_logo',
+      operationId:
+          'create_current_raffle_logo_tombola_raffles__raffle_id__logo_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4679,12 +4714,12 @@ using an API key and returns a TheMovieDB object
   }
 
   @override
-  Future<Response<dynamic>> _tombolaRafflesRaffleIdLogoGet({
+  Future<Response<List<int>>> _tombolaRafflesRaffleIdLogoGet({
     required String? raffleId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get the logo of a specific raffle.',
       summary: 'Read Raffle Logo',
-      operationId: 'get_tombola_raffles_{raffle_id}_logo',
+      operationId: 'read_raffle_logo_tombola_raffles__raffle_id__logo_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4699,7 +4734,7 @@ using an API key and returns a TheMovieDB object
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
@@ -4707,7 +4742,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all tickets',
       summary: 'Get Pack Tickets',
-      operationId: 'get_tombola_pack_tickets',
+      operationId: 'get_pack_tickets_tombola_pack_tickets_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4733,7 +4768,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Create Packticket',
-      operationId: 'post_tombola_pack_tickets',
+      operationId: 'create_packticket_tombola_pack_tickets_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4754,7 +4789,7 @@ using an API key and returns a TheMovieDB object
   }
 
   @override
-  Future<Response<dynamic>> _tombolaPackTicketsPackticketIdPatch({
+  Future<Response<void>> _tombolaPackTicketsPackticketIdPatch({
     required String? packticketId,
     required PackTicketEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -4762,7 +4797,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Edit Packticket',
-      operationId: 'patch_tombola_pack_tickets_{packticket_id}',
+      operationId: 'edit_packticket_tombola_pack_tickets__packticket_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4779,18 +4814,19 @@ using an API key and returns a TheMovieDB object
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _tombolaPackTicketsPackticketIdDelete({
+  Future<Response<void>> _tombolaPackTicketsPackticketIdDelete({
     required String? packticketId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a packticket.
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Delete Packticket',
-      operationId: 'delete_tombola_pack_tickets_{packticket_id}',
+      operationId:
+          'delete_packticket_tombola_pack_tickets__packticket_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4805,7 +4841,7 @@ using an API key and returns a TheMovieDB object
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -4815,7 +4851,8 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all pack_tickets associated to a raffle',
       summary: 'Get Pack Tickets By Raffle Id',
-      operationId: 'get_tombola_raffles_{raffle_id}_pack_tickets',
+      operationId:
+          'get_pack_tickets_by_raffle_id_tombola_raffles__raffle_id__pack_tickets_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4840,7 +4877,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the group admin to use this endpoint**''',
       summary: 'Get Tickets',
-      operationId: 'get_tombola_tickets',
+      operationId: 'get_tickets_tombola_tickets_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4865,7 +4902,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Buy a ticket',
       summary: 'Buy Ticket',
-      operationId: 'post_tombola_tickets_buy_{pack_id}',
+      operationId: 'buy_ticket_tombola_tickets_buy__pack_id__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4895,7 +4932,7 @@ using an API key and returns a TheMovieDB object
 
 **Only admin users can get tickets of another user**''',
       summary: 'Get Tickets By Userid',
-      operationId: 'get_tombola_users_{user_id}_tickets',
+      operationId: 'get_tickets_by_userid_tombola_users__user_id__tickets_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4925,7 +4962,8 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint''',
       summary: 'Get Tickets By Raffleid',
-      operationId: 'get_tombola_raffles_{raffle_id}_tickets',
+      operationId:
+          'get_tickets_by_raffleid_tombola_raffles__raffle_id__tickets_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4951,7 +4989,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all prizes',
       summary: 'Get Prizes',
-      operationId: 'get_tombola_prizes',
+      operationId: 'get_prizes_tombola_prizes_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4977,7 +5015,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint''',
       summary: 'Create Prize',
-      operationId: 'post_tombola_prizes',
+      operationId: 'create_prize_tombola_prizes_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4998,7 +5036,7 @@ using an API key and returns a TheMovieDB object
   }
 
   @override
-  Future<Response<dynamic>> _tombolaPrizesPrizeIdPatch({
+  Future<Response<void>> _tombolaPrizesPrizeIdPatch({
     required String? prizeId,
     required PrizeEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -5006,7 +5044,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the group raffle\'s to use this endpoint''',
       summary: 'Edit Prize',
-      operationId: 'patch_tombola_prizes_{prize_id}',
+      operationId: 'edit_prize_tombola_prizes__prize_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5023,18 +5061,18 @@ using an API key and returns a TheMovieDB object
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _tombolaPrizesPrizeIdDelete({
+  Future<Response<void>> _tombolaPrizesPrizeIdDelete({
     required String? prizeId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a prize.
 
 **The user must be a member of the group raffle\'s to use this endpoint''',
       summary: 'Delete Prize',
-      operationId: 'delete_tombola_prizes_{prize_id}',
+      operationId: 'delete_prize_tombola_prizes__prize_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5049,7 +5087,7 @@ using an API key and returns a TheMovieDB object
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -5058,7 +5096,8 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get prizes from a specific raffle.',
       summary: 'Get Prizes By Raffleid',
-      operationId: 'get_tombola_raffles_{raffle_id}_prizes',
+      operationId:
+          'get_prizes_by_raffleid_tombola_raffles__raffle_id__prizes_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5086,7 +5125,8 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Create Prize Picture',
-      operationId: 'post_tombola_prizes_{prize_id}_picture',
+      operationId:
+          'create_prize_picture_tombola_prizes__prize_id__picture_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5113,12 +5153,12 @@ using an API key and returns a TheMovieDB object
   }
 
   @override
-  Future<Response<dynamic>> _tombolaPrizesPrizeIdPictureGet({
+  Future<Response<List<int>>> _tombolaPrizesPrizeIdPictureGet({
     required String? prizeId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get the logo of a specific prize.',
       summary: 'Read Prize Logo',
-      operationId: 'get_tombola_prizes_{prize_id}_picture',
+      operationId: 'read_prize_logo_tombola_prizes__prize_id__picture_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5133,7 +5173,7 @@ using an API key and returns a TheMovieDB object
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
@@ -5144,7 +5184,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the group admin to use this endpoint''',
       summary: 'Get Users Cash',
-      operationId: 'get_tombola_users_cash',
+      operationId: 'get_users_cash_tombola_users_cash_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5174,7 +5214,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the group admin to use this endpoint or can only access the endpoint for its own user_id**''',
       summary: 'Get Cash By Id',
-      operationId: 'get_tombola_users_{user_id}_cash',
+      operationId: 'get_cash_by_id_tombola_users__user_id__cash_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5205,7 +5245,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the group admin to use this endpoint**''',
       summary: 'Create Cash Of User',
-      operationId: 'post_tombola_users_{user_id}_cash',
+      operationId: 'create_cash_of_user_tombola_users__user_id__cash_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5229,7 +5269,7 @@ using an API key and returns a TheMovieDB object
   }
 
   @override
-  Future<Response<dynamic>> _tombolaUsersUserIdCashPatch({
+  Future<Response<void>> _tombolaUsersUserIdCashPatch({
     required String? userId,
     required CashEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -5239,7 +5279,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be a member of the group admin to use this endpoint**''',
       summary: 'Edit Cash By Id',
-      operationId: 'patch_tombola_users_{user_id}_cash',
+      operationId: 'edit_cash_by_id_tombola_users__user_id__cash_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5256,7 +5296,7 @@ A negative value can be provided to remove money from the user.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -5266,7 +5306,7 @@ A negative value can be provided to remove money from the user.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Draw Winner',
-      operationId: 'post_tombola_prizes_{prize_id}_draw',
+      operationId: 'draw_winner_tombola_prizes__prize_id__draw_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5288,14 +5328,14 @@ A negative value can be provided to remove money from the user.
   }
 
   @override
-  Future<Response<dynamic>> _tombolaRafflesRaffleIdOpenPatch({
+  Future<Response<void>> _tombolaRafflesRaffleIdOpenPatch({
     required String? raffleId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Open a raffle
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Open Raffle',
-      operationId: 'patch_tombola_raffles_{raffle_id}_open',
+      operationId: 'open_raffle_tombola_raffles__raffle_id__open_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5310,18 +5350,18 @@ A negative value can be provided to remove money from the user.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _tombolaRafflesRaffleIdLockPatch({
+  Future<Response<void>> _tombolaRafflesRaffleIdLockPatch({
     required String? raffleId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Lock a raffle
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Lock Raffle',
-      operationId: 'patch_tombola_raffles_{raffle_id}_lock',
+      operationId: 'lock_raffle_tombola_raffles__raffle_id__lock_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5336,7 +5376,7 @@ A negative value can be provided to remove money from the user.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -5346,7 +5386,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Recommendation',
-      operationId: 'get_recommendation_recommendations',
+      operationId: 'get_recommendation_recommendation_recommendations_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5372,7 +5412,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by members of the group BDE**''',
       summary: 'Create Recommendation',
-      operationId: 'post_recommendation_recommendations',
+      operationId: 'create_recommendation_recommendation_recommendations_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5393,8 +5433,7 @@ A negative value can be provided to remove money from the user.
   }
 
   @override
-  Future<Response<dynamic>>
-  _recommendationRecommendationsRecommendationIdPatch({
+  Future<Response<void>> _recommendationRecommendationsRecommendationIdPatch({
     required String? recommendationId,
     required RecommendationEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -5402,7 +5441,8 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by members of the group BDE**''',
       summary: 'Edit Recommendation',
-      operationId: 'patch_recommendation_recommendations_{recommendation_id}',
+      operationId:
+          'edit_recommendation_recommendation_recommendations__recommendation_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5421,19 +5461,19 @@ A negative value can be provided to remove money from the user.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>>
-  _recommendationRecommendationsRecommendationIdDelete({
+  Future<Response<void>> _recommendationRecommendationsRecommendationIdDelete({
     required String? recommendationId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a recommendation.
 
 **This endpoint is only usable by members of the group BDE**''',
       summary: 'Delete Recommendation',
-      operationId: 'delete_recommendation_recommendations_{recommendation_id}',
+      operationId:
+          'delete_recommendation_recommendation_recommendations__recommendation_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5450,11 +5490,11 @@ A negative value can be provided to remove money from the user.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>>
+  Future<Response<List<int>>>
   _recommendationRecommendationsRecommendationIdPictureGet({
     required String? recommendationId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -5463,7 +5503,7 @@ A negative value can be provided to remove money from the user.
 **The user must be authenticated to use this endpoint**''',
       summary: 'Read Recommendation Image',
       operationId:
-          'get_recommendation_recommendations_{recommendation_id}_picture',
+          'read_recommendation_image_recommendation_recommendations__recommendation_id__picture_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5480,7 +5520,7 @@ A negative value can be provided to remove money from the user.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
@@ -5494,7 +5534,7 @@ A negative value can be provided to remove money from the user.
 **This endpoint is only usable by members of the group BDE**''',
       summary: 'Create Recommendation Image',
       operationId:
-          'post_recommendation_recommendations_{recommendation_id}_picture',
+          'create_recommendation_image_recommendation_recommendations__recommendation_id__picture_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5523,12 +5563,12 @@ A negative value can be provided to remove money from the user.
   }
 
   @override
-  Future<Response<dynamic>> _phPaperIdPdfGet({
+  Future<Response<List<int>>> _phPaperIdPdfGet({
     required String? paperId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Paper Pdf',
-      operationId: 'get_ph_{paper_id}_pdf',
+      operationId: 'get_paper_pdf_ph__paper_id__pdf_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5543,17 +5583,17 @@ A negative value can be provided to remove money from the user.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
-  Future<Response<dynamic>> _phPaperIdPdfPost({
+  Future<Response<void>> _phPaperIdPdfPost({
     required String? paperId,
     required List<int> pdf,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Paper Pdf And Cover',
-      operationId: 'post_ph_{paper_id}_pdf',
+      operationId: 'create_paper_pdf_and_cover_ph__paper_id__pdf_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5573,7 +5613,7 @@ A negative value can be provided to remove money from the user.
       multipart: true,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -5582,7 +5622,7 @@ A negative value can be provided to remove money from the user.
       description:
           'Return all editions until now, sorted from the latest to the oldest',
       summary: 'Get Papers',
-      operationId: 'get_ph_',
+      operationId: 'get_papers_ph__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5606,7 +5646,7 @@ A negative value can be provided to remove money from the user.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a new paper.',
       summary: 'Create Paper',
-      operationId: 'post_ph_',
+      operationId: 'create_paper_ph__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5631,7 +5671,7 @@ A negative value can be provided to remove money from the user.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all editions, sorted from the latest to the oldest',
       summary: 'Get Papers Admin',
-      operationId: 'get_ph_admin',
+      operationId: 'get_papers_admin_ph_admin_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5655,7 +5695,7 @@ A negative value can be provided to remove money from the user.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Cover',
-      operationId: 'get_ph_{paper_id}_cover',
+      operationId: 'get_cover_ph__paper_id__cover_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5674,13 +5714,13 @@ A negative value can be provided to remove money from the user.
   }
 
   @override
-  Future<Response<dynamic>> _phPaperIdPatch({
+  Future<Response<void>> _phPaperIdPatch({
     required String? paperId,
     required PaperUpdate? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Update Paper',
-      operationId: 'patch_ph_{paper_id}',
+      operationId: 'update_paper_ph__paper_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5697,16 +5737,16 @@ A negative value can be provided to remove money from the user.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _phPaperIdDelete({
+  Future<Response<void>> _phPaperIdDelete({
     required String? paperId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Paper',
-      operationId: 'delete_ph_{paper_id}',
+      operationId: 'delete_paper_ph__paper_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5721,7 +5761,7 @@ A negative value can be provided to remove money from the user.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -5731,7 +5771,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Read Loaners',
-      operationId: 'get_loans_loaners_',
+      operationId: 'read_loaners_loans_loaners__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5759,7 +5799,7 @@ Each loaner is associated with a `manager_group`. Users belonging to this group 
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Loaner',
-      operationId: 'post_loans_loaners_',
+      operationId: 'create_loaner_loans_loaners__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5780,7 +5820,7 @@ Each loaner is associated with a `manager_group`. Users belonging to this group 
   }
 
   @override
-  Future<Response<dynamic>> _loansLoanersLoanerIdDelete({
+  Future<Response<void>> _loansLoanersLoanerIdDelete({
     required String? loanerId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
@@ -5788,7 +5828,7 @@ Each loaner is associated with a `manager_group`. Users belonging to this group 
 
 **This endpoint is only usable by administrators**''',
       summary: 'Delete Loaner',
-      operationId: 'delete_loans_loaners_{loaner_id}',
+      operationId: 'delete_loaner_loans_loaners__loaner_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5803,11 +5843,11 @@ Each loaner is associated with a `manager_group`. Users belonging to this group 
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _loansLoanersLoanerIdPatch({
+  Future<Response<void>> _loansLoanersLoanerIdPatch({
     required String? loanerId,
     required LoanerUpdate? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -5816,7 +5856,7 @@ Each loaner is associated with a `manager_group`. Users belonging to this group 
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update Loaner',
-      operationId: 'patch_loans_loaners_{loaner_id}',
+      operationId: 'update_loaner_loans_loaners__loaner_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5833,7 +5873,7 @@ Each loaner is associated with a `manager_group`. Users belonging to this group 
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -5849,7 +5889,7 @@ The query string `returned` can be used to get only return or non returned loans
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Get Loans By Loaner',
-      operationId: 'get_loans_loaners_{loaner_id}_loans',
+      operationId: 'get_loans_by_loaner_loans_loaners__loaner_id__loans_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5879,7 +5919,7 @@ The query string `returned` can be used to get only return or non returned loans
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Get Items By Loaner',
-      operationId: 'get_loans_loaners_{loaner_id}_items',
+      operationId: 'get_items_by_loaner_loans_loaners__loaner_id__items_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5907,7 +5947,8 @@ The query string `returned` can be used to get only return or non returned loans
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Create Items For Loaner',
-      operationId: 'post_loans_loaners_{loaner_id}_items',
+      operationId:
+          'create_items_for_loaner_loans_loaners__loaner_id__items_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5928,7 +5969,7 @@ The query string `returned` can be used to get only return or non returned loans
   }
 
   @override
-  Future<Response<dynamic>> _loansLoanersLoanerIdItemsItemIdPatch({
+  Future<Response<void>> _loansLoanersLoanerIdItemsItemIdPatch({
     required String? loanerId,
     required String? itemId,
     required ItemUpdate? body,
@@ -5937,7 +5978,8 @@ The query string `returned` can be used to get only return or non returned loans
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Update Items For Loaner',
-      operationId: 'patch_loans_loaners_{loaner_id}_items_{item_id}',
+      operationId:
+          'update_items_for_loaner_loans_loaners__loaner_id__items__item_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5954,11 +5996,11 @@ The query string `returned` can be used to get only return or non returned loans
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _loansLoanersLoanerIdItemsItemIdDelete({
+  Future<Response<void>> _loansLoanersLoanerIdItemsItemIdDelete({
     required String? loanerId,
     required String? itemId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -5967,7 +6009,8 @@ This will remove the item from all loans but won\'t delete any loan.
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Delete Loaner Item',
-      operationId: 'delete_loans_loaners_{loaner_id}_items_{item_id}',
+      operationId:
+          'delete_loaner_item_loans_loaners__loaner_id__items__item_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5982,7 +6025,7 @@ This will remove the item from all loans but won\'t delete any loan.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -5995,7 +6038,7 @@ The query string `returned` can be used to get only returned or non returned loa
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Current User Loans',
-      operationId: 'get_loans_users_me',
+      operationId: 'get_current_user_loans_loans_users_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6024,7 +6067,7 @@ The query string `returned` can be used to get only returned or non returned loa
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Current User Loaners',
-      operationId: 'get_loans_users_me_loaners',
+      operationId: 'get_current_user_loaners_loans_users_me_loaners_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6050,7 +6093,7 @@ The query string `returned` can be used to get only returned or non returned loa
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Create Loan',
-      operationId: 'post_loans_',
+      operationId: 'create_loan_loans__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6071,7 +6114,7 @@ The query string `returned` can be used to get only returned or non returned loa
   }
 
   @override
-  Future<Response<dynamic>> _loansLoanIdPatch({
+  Future<Response<void>> _loansLoanIdPatch({
     required String? loanId,
     required LoanUpdate? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -6082,7 +6125,7 @@ the new representation of the loan `Loan` including the new items relationships
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Update Loan',
-      operationId: 'patch_loans_{loan_id}',
+      operationId: 'update_loan_loans__loan_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6099,11 +6142,11 @@ the new representation of the loan `Loan` including the new items relationships
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _loansLoanIdDelete({
+  Future<Response<void>> _loansLoanIdDelete({
     required String? loanId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a loan
@@ -6111,7 +6154,7 @@ This will remove the loan but won\'t delete any loaner items.
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Delete Loan',
-      operationId: 'delete_loans_{loan_id}',
+      operationId: 'delete_loan_loans__loan_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6126,11 +6169,11 @@ This will remove the loan but won\'t delete any loaner items.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _loansLoanIdReturnPost({
+  Future<Response<void>> _loansLoanIdReturnPost({
     required String? loanId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
@@ -6138,7 +6181,7 @@ This will remove the loan but won\'t delete any loaner items.
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Return Loan',
-      operationId: 'post_loans_{loan_id}_return',
+      operationId: 'return_loan_loans__loan_id__return_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6153,11 +6196,11 @@ This will remove the loan but won\'t delete any loaner items.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _loansLoanIdExtendPost({
+  Future<Response<void>> _loansLoanIdExtendPost({
     required String? loanId,
     required LoanExtend? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -6166,7 +6209,7 @@ This will remove the loan but won\'t delete any loaner items.
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Extend Loan',
-      operationId: 'post_loans_{loan_id}_extend',
+      operationId: 'extend_loan_loans__loan_id__extend_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6183,7 +6226,7 @@ This will remove the loan but won\'t delete any loaner items.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -6191,7 +6234,7 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return the leaderboard',
       summary: 'Get Flappybird Score',
-      operationId: 'get_flappybird_scores',
+      operationId: 'get_flappybird_score_flappybird_scores_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6217,7 +6260,7 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Flappybird Score',
-      operationId: 'post_flappybird_scores',
+      operationId: 'create_flappybird_score_flappybird_scores_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6242,7 +6285,8 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Current User Flappybird Personal Best',
-      operationId: 'get_flappybird_scores_me',
+      operationId:
+          'get_current_user_flappybird_personal_best_flappybird_scores_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6264,12 +6308,13 @@ This will remove the loan but won\'t delete any loaner items.
   }
 
   @override
-  Future<Response<dynamic>> _flappybirdScoresTargetedUserIdDelete({
+  Future<Response<void>> _flappybirdScoresTargetedUserIdDelete({
     required String? targetedUserId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Remove Flappybird Score',
-      operationId: 'delete_flappybird_scores_{targeted_user_id}',
+      operationId:
+          'remove_flappybird_score_flappybird_scores__targeted_user_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6284,7 +6329,7 @@ This will remove the loan but won\'t delete any loaner items.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -6292,7 +6337,7 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Sports',
-      operationId: 'get_competition_sports',
+      operationId: 'get_sports_competition_sports_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6316,7 +6361,7 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Sport',
-      operationId: 'post_competition_sports',
+      operationId: 'create_sport_competition_sports_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6337,13 +6382,13 @@ This will remove the loan but won\'t delete any loaner items.
   }
 
   @override
-  Future<Response<dynamic>> _competitionSportsSportIdPatch({
+  Future<Response<void>> _competitionSportsSportIdPatch({
     required String? sportId,
     required SportEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Edit Sport',
-      operationId: 'patch_competition_sports_{sport_id}',
+      operationId: 'edit_sport_competition_sports__sport_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6360,16 +6405,16 @@ This will remove the loan but won\'t delete any loaner items.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _competitionSportsSportIdDelete({
+  Future<Response<void>> _competitionSportsSportIdDelete({
     required String? sportId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Sport',
-      operationId: 'delete_competition_sports_{sport_id}',
+      operationId: 'delete_sport_competition_sports__sport_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6384,7 +6429,7 @@ This will remove the loan but won\'t delete any loaner items.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -6392,7 +6437,7 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Editions',
-      operationId: 'get_competition_editions',
+      operationId: 'get_editions_competition_editions_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6416,7 +6461,7 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Edition',
-      operationId: 'post_competition_editions',
+      operationId: 'create_edition_competition_editions_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6442,7 +6487,7 @@ This will remove the loan but won\'t delete any loaner items.
       description: '''Get the currently active competition edition.
 Returns None if no edition is active.''',
       summary: 'Get Active Edition',
-      operationId: 'get_competition_editions_active',
+      operationId: 'get_active_edition_competition_editions_active_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6461,13 +6506,14 @@ Returns None if no edition is active.''',
   }
 
   @override
-  Future<Response<dynamic>> _competitionEditionsEditionIdActivatePost({
+  Future<Response<void>> _competitionEditionsEditionIdActivatePost({
     required String? editionId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Activate a competition edition.
 If another edition is already active, it will be deactivated.''',
       summary: 'Activate Edition',
-      operationId: 'post_competition_editions_{edition_id}_activate',
+      operationId:
+          'activate_edition_competition_editions__edition_id__activate_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6482,18 +6528,19 @@ If another edition is already active, it will be deactivated.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _competitionEditionsEditionIdInscriptionPost({
+  Future<Response<void>> _competitionEditionsEditionIdInscriptionPost({
     required String? editionId,
     required bool? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Enable inscription for a competition edition.
 The edition must already be active.''',
       summary: 'Enable Inscription',
-      operationId: 'post_competition_editions_{edition_id}_inscription',
+      operationId:
+          'enable_inscription_competition_editions__edition_id__inscription_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6512,17 +6559,17 @@ The edition must already be active.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _competitionEditionsEditionIdPatch({
+  Future<Response<void>> _competitionEditionsEditionIdPatch({
     required String? editionId,
     required CompetitionEditionEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Edit Edition',
-      operationId: 'patch_competition_editions_{edition_id}',
+      operationId: 'edit_edition_competition_editions__edition_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6539,7 +6586,7 @@ The edition must already be active.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -6547,7 +6594,7 @@ The edition must already be active.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all competition users for the current edition.',
       summary: 'Get Competition Users',
-      operationId: 'get_competition_users',
+      operationId: 'get_competition_users_competition_users_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6572,7 +6619,7 @@ The edition must already be active.''',
       description: '''Create a competition user for the current edition.
 The user must exist in the core users database.''',
       summary: 'Create Competition User',
-      operationId: 'post_competition_users',
+      operationId: 'create_competition_user_competition_users_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6599,7 +6646,8 @@ The user must exist in the core users database.''',
       description:
           'Get all competition users for the current edition by school.',
       summary: 'Get Competition Users By School',
-      operationId: 'get_competition_users_schools_{school_id}',
+      operationId:
+          'get_competition_users_by_school_competition_users_schools__school_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6623,7 +6671,7 @@ The user must exist in the core users database.''',
       description: '''Get the competition user for the current edition.
 This is the user making the request.''',
       summary: 'Get Current User Competition',
-      operationId: 'get_competition_users_me',
+      operationId: 'get_current_user_competition_competition_users_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6642,14 +6690,14 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _competitionUsersMePatch({
+  Future<Response<void>> _competitionUsersMePatch({
     required CompetitionUserEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           '''Edit the current user\'s competition user for the current edition.
 The user must exist in the core users database.''',
       summary: 'Edit Current User Competition',
-      operationId: 'patch_competition_users_me',
+      operationId: 'edit_current_user_competition_competition_users_me_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6666,7 +6714,7 @@ The user must exist in the core users database.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -6676,7 +6724,7 @@ The user must exist in the core users database.''',
       description:
           'Get a competition user by their user ID for the current edition.',
       summary: 'Get Competition User',
-      operationId: 'get_competition_users_{user_id}',
+      operationId: 'get_competition_user_competition_users__user_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6695,14 +6743,14 @@ The user must exist in the core users database.''',
   }
 
   @override
-  Future<Response<dynamic>> _competitionUsersUserIdPatch({
+  Future<Response<void>> _competitionUsersUserIdPatch({
     required String? userId,
     required CompetitionUserEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Edit a competition user for the current edition.
 The user must exist in the core users database.''',
       summary: 'Edit Competition User',
-      operationId: 'patch_competition_users_{user_id}',
+      operationId: 'edit_competition_user_competition_users__user_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6719,16 +6767,16 @@ The user must exist in the core users database.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _competitionUsersUserIdDelete({
+  Future<Response<void>> _competitionUsersUserIdDelete({
     required String? userId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Competition User',
-      operationId: 'delete_competition_users_{user_id}',
+      operationId: 'delete_competition_user_competition_users__user_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6743,16 +6791,17 @@ The user must exist in the core users database.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _competitionUsersUserIdValidatePatch({
+  Future<Response<void>> _competitionUsersUserIdValidatePatch({
     required String? userId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Validate Competition User',
-      operationId: 'patch_competition_users_{user_id}_validate',
+      operationId:
+          'validate_competition_user_competition_users__user_id__validate_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6767,16 +6816,17 @@ The user must exist in the core users database.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _competitionUsersUserIdInvalidatePatch({
+  Future<Response<void>> _competitionUsersUserIdInvalidatePatch({
     required String? userId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Invalidate Competition User',
-      operationId: 'patch_competition_users_{user_id}_invalidate',
+      operationId:
+          'invalidate_competition_user_competition_users__user_id__invalidate_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6791,7 +6841,7 @@ The user must exist in the core users database.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -6802,7 +6852,7 @@ The user must exist in the core users database.''',
       description:
           'Get all users in a specific competition group for the current edition.',
       summary: 'Get Group Members',
-      operationId: 'get_competition_groups_{group}',
+      operationId: 'get_group_members_competition_groups__group__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6830,7 +6880,7 @@ The user must exist in the core users database.''',
           '''Get all groups the current user is a member of in the current edition.
 This is the user making the request.''',
       summary: 'Get Current User Groups',
-      operationId: 'get_competition_users_me_groups',
+      operationId: 'get_current_user_groups_competition_users_me_groups_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6857,7 +6907,7 @@ This is the user making the request.''',
       description:
           'Get all groups a user is a member of in the current edition.',
       summary: 'Get User Groups',
-      operationId: 'get_competition_users_{user_id}_groups',
+      operationId: 'get_user_groups_competition_users__user_id__groups_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6884,7 +6934,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Add User To Group',
-      operationId: 'post_competition_groups_{group}_users_{user_id}',
+      operationId:
+          'add_user_to_group_competition_groups__group__users__user_id__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6903,13 +6954,14 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _competitionGroupsGroupUsersUserIdDelete({
+  Future<Response<void>> _competitionGroupsGroupUsersUserIdDelete({
     required String? group,
     required String? userId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Remove User From Group',
-      operationId: 'delete_competition_groups_{group}_users_{user_id}',
+      operationId:
+          'remove_user_from_group_competition_groups__group__users__user_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6924,7 +6976,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -6932,7 +6984,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Schools',
-      operationId: 'get_competition_schools',
+      operationId: 'get_schools_competition_schools_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6956,7 +7008,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create School Extension',
-      operationId: 'post_competition_schools',
+      operationId: 'create_school_extension_competition_schools_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6982,7 +7034,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get School',
-      operationId: 'get_competition_schools_{school_id}',
+      operationId: 'get_school_competition_schools__school_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7001,13 +7053,14 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _competitionSchoolsSchoolIdPatch({
+  Future<Response<void>> _competitionSchoolsSchoolIdPatch({
     required String? schoolId,
     required SchoolExtensionEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Edit School Extension',
-      operationId: 'patch_competition_schools_{school_id}',
+      operationId:
+          'edit_school_extension_competition_schools__school_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7024,16 +7077,17 @@ This is the user making the request.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _competitionSchoolsSchoolIdDelete({
+  Future<Response<void>> _competitionSchoolsSchoolIdDelete({
     required String? schoolId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete School Extension',
-      operationId: 'delete_competition_schools_{school_id}',
+      operationId:
+          'delete_school_extension_competition_schools__school_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7048,7 +7102,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -7058,7 +7112,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get School General Quota',
-      operationId: 'get_competition_schools_{school_id}_general-quota',
+      operationId:
+          'get_school_general_quota_competition_schools__school_id__general_quota_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7086,7 +7141,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create School General Quota',
-      operationId: 'post_competition_schools_{school_id}_general-quota',
+      operationId:
+          'create_school_general_quota_competition_schools__school_id__general_quota_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7109,13 +7165,14 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _competitionSchoolsSchoolIdGeneralQuotaPatch({
+  Future<Response<void>> _competitionSchoolsSchoolIdGeneralQuotaPatch({
     required String? schoolId,
     required SchoolGeneralQuotaBase? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Edit School General Quota',
-      operationId: 'patch_competition_schools_{school_id}_general-quota',
+      operationId:
+          'edit_school_general_quota_competition_schools__school_id__general_quota_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7134,7 +7191,7 @@ This is the user making the request.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -7143,7 +7200,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Quotas For Sport',
-      operationId: 'get_competition_sports_{sport_id}_quotas',
+      operationId:
+          'get_quotas_for_sport_competition_sports__sport_id__quotas_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7168,7 +7226,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Quotas For School',
-      operationId: 'get_competition_schools_{school_id}_sports-quotas',
+      operationId:
+          'get_quotas_for_school_competition_schools__school_id__sports_quotas_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7189,7 +7248,7 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _competitionSchoolsSchoolIdSportsSportIdQuotasPost({
+  Future<Response<void>> _competitionSchoolsSchoolIdSportsSportIdQuotasPost({
     required String? schoolId,
     required String? sportId,
     required SportQuotaInfo? body,
@@ -7197,7 +7256,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Create Sport Quota',
       operationId:
-          'post_competition_schools_{school_id}_sports_{sport_id}_quotas',
+          'create_sport_quota_competition_schools__school_id__sports__sport_id__quotas_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7216,12 +7275,11 @@ This is the user making the request.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>>
-  _competitionSchoolsSchoolIdSportsSportIdQuotasPatch({
+  Future<Response<void>> _competitionSchoolsSchoolIdSportsSportIdQuotasPatch({
     required String? schoolId,
     required String? sportId,
     required SchoolSportQuotaEdit? body,
@@ -7229,7 +7287,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Edit Sport Quota',
       operationId:
-          'patch_competition_schools_{school_id}_sports_{sport_id}_quotas',
+          'edit_sport_quota_competition_schools__school_id__sports__sport_id__quotas_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7248,19 +7306,18 @@ This is the user making the request.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>>
-  _competitionSchoolsSchoolIdSportsSportIdQuotasDelete({
+  Future<Response<void>> _competitionSchoolsSchoolIdSportsSportIdQuotasDelete({
     required String? schoolId,
     required String? sportId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Sport Quota',
       operationId:
-          'delete_competition_schools_{school_id}_sports_{sport_id}_quotas',
+          'delete_sport_quota_competition_schools__school_id__sports__sport_id__quotas_delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7277,7 +7334,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -7287,7 +7344,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Product Quotas For School',
-      operationId: 'get_competition_schools_{school_id}_product-quotas',
+      operationId:
+          'get_product_quotas_for_school_competition_schools__school_id__product_quotas_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7315,7 +7373,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Product Quota',
-      operationId: 'post_competition_schools_{school_id}_product-quotas',
+      operationId:
+          'create_product_quota_competition_schools__school_id__product_quotas_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7344,7 +7403,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Product Quotas For Product',
-      operationId: 'get_competition_products_{product_id}_schools-quotas',
+      operationId:
+          'get_product_quotas_for_product_competition_products__product_id__schools_quotas_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7365,7 +7425,7 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>>
+  Future<Response<void>>
   _competitionSchoolsSchoolIdProductQuotasProductIdPatch({
     required String? schoolId,
     required String? productId,
@@ -7374,7 +7434,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Edit Product Quota',
       operationId:
-          'patch_competition_schools_{school_id}_product-quotas_{product_id}',
+          'edit_product_quota_competition_schools__school_id__product_quotas__product_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7393,11 +7453,11 @@ This is the user making the request.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>>
+  Future<Response<void>>
   _competitionSchoolsSchoolIdProductQuotasProductIdDelete({
     required String? schoolId,
     required String? productId,
@@ -7405,7 +7465,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Delete Product Quota',
       operationId:
-          'delete_competition_schools_{school_id}_product-quotas_{product_id}',
+          'delete_product_quota_competition_schools__school_id__product_quotas__product_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7422,7 +7482,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -7430,7 +7490,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Teams',
-      operationId: 'get_competition_teams',
+      operationId: 'get_teams_competition_teams_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7454,7 +7514,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Team',
-      operationId: 'post_competition_teams',
+      operationId: 'create_team_competition_teams_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7479,7 +7539,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Current User Team As Captain',
-      operationId: 'get_competition_teams_me',
+      operationId: 'get_current_user_team_as_captain_competition_teams_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7503,7 +7563,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Teams For Sport',
-      operationId: 'get_competition_teams_sports_{sport_id}',
+      operationId:
+          'get_teams_for_sport_competition_teams_sports__sport_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7527,7 +7588,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Teams For School',
-      operationId: 'get_competition_teams_schools_{school_id}',
+      operationId:
+          'get_teams_for_school_competition_teams_schools__school_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7554,7 +7616,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Get Sport Teams For School And Sport',
       operationId:
-          'get_competition_teams_sports_{sport_id}_schools_{school_id}',
+          'get_sport_teams_for_school_and_sport_competition_teams_sports__sport_id__schools__school_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7575,13 +7637,13 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _competitionTeamsTeamIdPatch({
+  Future<Response<void>> _competitionTeamsTeamIdPatch({
     required String? teamId,
     required TeamEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Edit Team',
-      operationId: 'patch_competition_teams_{team_id}',
+      operationId: 'edit_team_competition_teams__team_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7598,16 +7660,16 @@ This is the user making the request.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _competitionTeamsTeamIdDelete({
+  Future<Response<void>> _competitionTeamsTeamIdDelete({
     required String? teamId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Team',
-      operationId: 'delete_competition_teams_{team_id}',
+      operationId: 'delete_team_competition_teams__team_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7622,7 +7684,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -7630,7 +7692,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Current User Participant',
-      operationId: 'get_competition_participants_me',
+      operationId:
+          'get_current_user_participant_competition_participants_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7655,7 +7718,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Participants For Sport',
-      operationId: 'get_competition_participants_sports_{sport_id}',
+      operationId:
+          'get_participants_for_sport_competition_participants_sports__sport_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7682,7 +7746,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Participants For School',
-      operationId: 'get_competition_participants_schools_{school_id}',
+      operationId:
+          'get_participants_for_school_competition_participants_schools__school_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7703,12 +7768,14 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _competitionParticipantsUsersUserIdCertificateGet({
+  Future<Response<List<int>>>
+  _competitionParticipantsUsersUserIdCertificateGet({
     required String? userId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Download Participant Certificate',
-      operationId: 'get_competition_participants_users_{user_id}_certificate',
+      operationId:
+          'download_participant_certificate_competition_participants_users__user_id__certificate_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7725,7 +7792,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
@@ -7735,7 +7802,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Join Sport',
-      operationId: 'post_competition_sports_{sport_id}_participate',
+      operationId: 'join_sport_competition_sports__sport_id__participate_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7756,15 +7823,14 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>>
-  _competitionParticipantsSportsSportIdCertificatePost({
+  Future<Response<void>> _competitionParticipantsSportsSportIdCertificatePost({
     required String? sportId,
     required List<int> certificate,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Upload Participant Certificate',
       operationId:
-          'post_competition_participants_sports_{sport_id}_certificate',
+          'upload_participant_certificate_competition_participants_sports__sport_id__certificate_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7786,18 +7852,18 @@ This is the user making the request.''',
       multipart: true,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>>
+  Future<Response<void>>
   _competitionParticipantsSportsSportIdCertificateDelete({
     required String? sportId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Participant Certificate File',
       operationId:
-          'delete_competition_participants_sports_{sport_id}_certificate',
+          'delete_participant_certificate_file_competition_participants_sports__sport_id__certificate_delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7814,11 +7880,11 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>>
+  Future<Response<void>>
   _competitionParticipantsSportsSportIdUsersUserIdLicensePatch({
     required String? sportId,
     required String? userId,
@@ -7827,7 +7893,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Mark Participant License As Valid',
       operationId:
-          'patch_competition_participants_sports_{sport_id}_users_{user_id}_license',
+          'mark_participant_license_as_valid_competition_participants_sports__sport_id__users__user_id__license_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7848,16 +7914,17 @@ This is the user making the request.''',
       parameters: $params,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _competitionSportsSportIdWithdrawDelete({
+  Future<Response<void>> _competitionSportsSportIdWithdrawDelete({
     required String? sportId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Withdraw From Sport',
-      operationId: 'delete_competition_sports_{sport_id}_withdraw',
+      operationId:
+          'withdraw_from_sport_competition_sports__sport_id__withdraw_delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7872,18 +7939,18 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _competitionParticipantsUserIdSportsSportIdDelete({
+  Future<Response<void>> _competitionParticipantsUserIdSportsSportIdDelete({
     required String? userId,
     required String? sportId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Participant',
       operationId:
-          'delete_competition_participants_{user_id}_sports_{sport_id}',
+          'delete_participant_competition_participants__user_id__sports__sport_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7900,7 +7967,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -7908,7 +7975,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get All Locations',
-      operationId: 'get_competition_locations',
+      operationId: 'get_all_locations_competition_locations_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7932,7 +7999,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Location',
-      operationId: 'post_competition_locations',
+      operationId: 'create_location_competition_locations_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7958,7 +8025,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Location By Id',
-      operationId: 'get_competition_locations_{location_id}',
+      operationId: 'get_location_by_id_competition_locations__location_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7977,13 +8044,13 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _competitionLocationsLocationIdPatch({
+  Future<Response<void>> _competitionLocationsLocationIdPatch({
     required String? locationId,
     required LocationEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Edit Location',
-      operationId: 'patch_competition_locations_{location_id}',
+      operationId: 'edit_location_competition_locations__location_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8000,16 +8067,16 @@ This is the user making the request.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _competitionLocationsLocationIdDelete({
+  Future<Response<void>> _competitionLocationsLocationIdDelete({
     required String? locationId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Location',
-      operationId: 'delete_competition_locations_{location_id}',
+      operationId: 'delete_location_competition_locations__location_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8024,7 +8091,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -8032,7 +8099,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get All Matches For Edition',
-      operationId: 'get_competition_matches',
+      operationId: 'get_all_matches_for_edition_competition_matches_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8056,7 +8123,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Matches For Sport And Edition',
-      operationId: 'get_competition_matches_sports_{sport_id}',
+      operationId:
+          'get_matches_for_sport_and_edition_competition_matches_sports__sport_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8081,7 +8149,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Match',
-      operationId: 'post_competition_matches_sports_{sport_id}',
+      operationId: 'create_match_competition_matches_sports__sport_id__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8107,7 +8175,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Matches For School Sport And Edition',
-      operationId: 'get_competition_matches_schools_{school_id}',
+      operationId:
+          'get_matches_for_school_sport_and_edition_competition_matches_schools__school_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8126,13 +8195,13 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _competitionMatchesMatchIdPatch({
+  Future<Response<void>> _competitionMatchesMatchIdPatch({
     required String? matchId,
     required MatchEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Edit Match',
-      operationId: 'patch_competition_matches_{match_id}',
+      operationId: 'edit_match_competition_matches__match_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8149,16 +8218,16 @@ This is the user making the request.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _competitionMatchesMatchIdDelete({
+  Future<Response<void>> _competitionMatchesMatchIdDelete({
     required String? matchId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Match',
-      operationId: 'delete_competition_matches_{match_id}',
+      operationId: 'delete_match_competition_matches__match_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8173,7 +8242,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -8181,7 +8250,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get the global podiums for the current edition.',
       summary: 'Get Global Podiums',
-      operationId: 'get_competition_podiums_global',
+      operationId: 'get_global_podiums_competition_podiums_global_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8207,7 +8276,8 @@ This is the user making the request.''',
       description:
           'Get the podiums for a specific sport in the current edition.',
       summary: 'Get Sport Podiums',
-      operationId: 'get_competition_podiums_sports_{sport_id}',
+      operationId:
+          'get_sport_podiums_competition_podiums_sports__sport_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8235,7 +8305,8 @@ This is the user making the request.''',
       description:
           'Create or update the podium for a specific sport in the current edition.',
       summary: 'Create Sport Podium',
-      operationId: 'post_competition_podiums_sports_{sport_id}',
+      operationId:
+          'create_sport_podium_competition_podiums_sports__sport_id__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8256,13 +8327,14 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _competitionPodiumsSportsSportIdDelete({
+  Future<Response<void>> _competitionPodiumsSportsSportIdDelete({
     required String? sportId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           'Delete the podium for a specific sport in the current edition.',
       summary: 'Delete Sport Podium',
-      operationId: 'delete_competition_podiums_sports_{sport_id}',
+      operationId:
+          'delete_sport_podium_competition_podiums_sports__sport_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8277,7 +8349,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -8285,7 +8357,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get the pompoms podiums in the current edition.',
       summary: 'Get Pompom Podiums',
-      operationId: 'get_competition_podiums_pompoms',
+      operationId: 'get_pompom_podiums_competition_podiums_pompoms_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8310,7 +8382,7 @@ This is the user making the request.''',
       description:
           'Create or update the pompoms podium in the current edition.',
       summary: 'Create Pompom Podium',
-      operationId: 'post_competition_podiums_pompoms',
+      operationId: 'create_pompom_podium_competition_podiums_pompoms_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8331,11 +8403,11 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _competitionPodiumsPompomsDelete({
+  Future<Response<void>> _competitionPodiumsPompomsDelete({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete the pompoms podium in the current edition.',
       summary: 'Delete Pompom Podium',
-      operationId: 'delete_competition_podiums_pompoms',
+      operationId: 'delete_pompom_podium_competition_podiums_pompoms_delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8350,7 +8422,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -8361,7 +8433,8 @@ This is the user making the request.''',
       description:
           'Get the podiums for a specific school in the current edition.',
       summary: 'Get School Podiums',
-      operationId: 'get_competition_podiums_schools_{school_id}',
+      operationId:
+          'get_school_podiums_competition_podiums_schools__school_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8391,7 +8464,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all products.',
       summary: 'Get All Products',
-      operationId: 'get_competition_products',
+      operationId: 'get_all_products_competition_products_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8421,7 +8494,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a product.',
       summary: 'Create Product',
-      operationId: 'post_competition_products',
+      operationId: 'create_product_competition_products_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8445,7 +8518,7 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _competitionProductsProductIdPatch({
+  Future<Response<void>> _competitionProductsProductIdPatch({
     required String? productId,
     required AppModulesSportCompetitionSchemasSportCompetitionProductEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -8453,7 +8526,7 @@ This is the user making the request.''',
 
 **User must be a competition admin to use this endpoint**''',
       summary: 'Update Product',
-      operationId: 'patch_competition_products_{product_id}',
+      operationId: 'update_product_competition_products__product_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8470,18 +8543,18 @@ This is the user making the request.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _competitionProductsProductIdDelete({
+  Future<Response<void>> _competitionProductsProductIdDelete({
     required String? productId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a product.
 
 **User must be a competition admin to use this endpoint**''',
       summary: 'Delete Product',
-      operationId: 'delete_competition_products_{product_id}',
+      operationId: 'delete_product_competition_products__product_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8496,7 +8569,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -8512,7 +8585,8 @@ This is the user making the request.''',
       description:
           'Get all available product variants of the current edition for this user.',
       summary: 'Get Available Product Variants',
-      operationId: 'get_competition_products_available',
+      operationId:
+          'get_available_product_variants_competition_products_available_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8545,7 +8619,8 @@ This is the user making the request.''',
 
 **User must be a competition admin to use this endpoint**''',
       summary: 'Create Product Variant',
-      operationId: 'post_competition_products_{product_id}_variants',
+      operationId:
+          'create_product_variant_competition_products__product_id__variants_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8566,7 +8641,7 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _competitionProductsVariantsVariantIdPatch({
+  Future<Response<void>> _competitionProductsVariantsVariantIdPatch({
     required String? variantId,
     required AppModulesSportCompetitionSchemasSportCompetitionProductVariantEdit?
     body,
@@ -8575,7 +8650,8 @@ This is the user making the request.''',
 
 **User must be a competition admin to use this endpoint**''',
       summary: 'Update Product Variant',
-      operationId: 'patch_competition_products_variants_{variant_id}',
+      operationId:
+          'update_product_variant_competition_products_variants__variant_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8592,18 +8668,19 @@ This is the user making the request.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _competitionProductsVariantsVariantIdDelete({
+  Future<Response<void>> _competitionProductsVariantsVariantIdDelete({
     required String? variantId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a product variant.
 
 **User must be a competition admin to use this endpoint**''',
       summary: 'Delete Product Variant',
-      operationId: 'delete_competition_products_variants_{variant_id}',
+      operationId:
+          'delete_product_variant_competition_products_variants__variant_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8618,7 +8695,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -8629,7 +8706,8 @@ This is the user making the request.''',
 
 **User must be competition admin to use this endpoint**''',
       summary: 'Get Purchases By School Id',
-      operationId: 'get_competition_purchases_schools_{school_id}',
+      operationId:
+          'get_purchases_by_school_id_competition_purchases_schools__school_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8655,7 +8733,8 @@ This is the user making the request.''',
 
 **User must be competition admin to use this endpoint**''',
       summary: 'Get Purchases By User Id',
-      operationId: 'get_competition_purchases_users_{user_id}',
+      operationId:
+          'get_purchases_by_user_id_competition_purchases_users__user_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8683,7 +8762,8 @@ This is the user making the request.''',
 
 **User must be competition admin to use this endpoint**''',
       summary: 'Create User Purchase',
-      operationId: 'post_competition_purchases_users_{user_id}',
+      operationId:
+          'create_user_purchase_competition_purchases_users__user_id__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8708,7 +8788,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get My Purchases',
-      operationId: 'get_competition_purchases_me',
+      operationId: 'get_my_purchases_competition_purchases_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8735,7 +8815,7 @@ This is the user making the request.''',
 
 **User must create a purchase for themself**''',
       summary: 'Create Purchase',
-      operationId: 'post_competition_purchases_me',
+      operationId: 'create_purchase_competition_purchases_me_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8756,7 +8836,7 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>>
+  Future<Response<void>>
   _competitionPurchasesUsersUserIdVariantsVariantIdPatch({
     required String? userId,
     required String? variantId,
@@ -8767,7 +8847,7 @@ This is the user making the request.''',
 **User must be competition admin to use this endpoint**''',
       summary: 'Update User Purchase',
       operationId:
-          'patch_competition_purchases_users_{user_id}_variants_{variant_id}',
+          'update_user_purchase_competition_purchases_users__user_id__variants__variant_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8786,18 +8866,19 @@ This is the user making the request.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _competitionPurchasesProductVariantIdDelete({
+  Future<Response<void>> _competitionPurchasesProductVariantIdDelete({
     required String? productVariantId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a purchase.
 
 **User must delete their own purchase**''',
       summary: 'Delete Purchase',
-      operationId: 'delete_competition_purchases_{product_variant_id}',
+      operationId:
+          'delete_purchase_competition_purchases__product_variant_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8812,11 +8893,11 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>>
+  Future<Response<void>>
   _competitionUsersUserIdPurchasesProductVariantIdDelete({
     required String? userId,
     required String? productVariantId,
@@ -8826,7 +8907,7 @@ This is the user making the request.''',
 **User must be competition admin to use this endpoint**''',
       summary: 'Delete User Purchase',
       operationId:
-          'delete_competition_users_{user_id}_purchases_{product_variant_id}',
+          'delete_user_purchase_competition_users__user_id__purchases__product_variant_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8843,7 +8924,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -8854,7 +8935,8 @@ This is the user making the request.''',
 
 **User must be competition admin to use this endpoint**''',
       summary: 'Get Users Payments By School Id',
-      operationId: 'get_competition_payments_schools_{school_id}',
+      operationId:
+          'get_users_payments_by_school_id_competition_payments_schools__school_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8885,7 +8967,8 @@ This is the user making the request.''',
 
 **User must get his own payments or be competition admin to use this endpoint**''',
       summary: 'Get Payments By User Id',
-      operationId: 'get_competition_users_{user_id}_payments',
+      operationId:
+          'get_payments_by_user_id_competition_users__user_id__payments_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8918,7 +9001,7 @@ This is the user making the request.''',
 
 **User must be competition admin to use this endpoint**''',
       summary: 'Create Payment',
-      operationId: 'post_competition_users_{user_id}_payments',
+      operationId: 'create_payment_competition_users__user_id__payments_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8942,7 +9025,7 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _competitionUsersUserIdPaymentsPaymentIdDelete({
+  Future<Response<void>> _competitionUsersUserIdPaymentsPaymentIdDelete({
     required String? userId,
     required String? paymentId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -8950,7 +9033,8 @@ This is the user making the request.''',
 
 **User must be competition admin to use this endpoint**''',
       summary: 'Delete Payment',
-      operationId: 'delete_competition_users_{user_id}_payments_{payment_id}',
+      operationId:
+          'delete_payment_competition_users__user_id__payments__payment_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8967,7 +9051,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -8975,7 +9059,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get payment url',
       summary: 'Get Payment Url',
-      operationId: 'post_competition_pay',
+      operationId: 'get_payment_url_competition_pay_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8999,7 +9083,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all volunteer shifts.',
       summary: 'Get All Volunteer Shifts',
-      operationId: 'get_competition_volunteers_shifts',
+      operationId: 'get_all_volunteer_shifts_competition_volunteers_shifts_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9025,7 +9109,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a volunteer shift.',
       summary: 'Create Volunteer Shift',
-      operationId: 'post_competition_volunteers_shifts',
+      operationId: 'create_volunteer_shift_competition_volunteers_shifts_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9046,7 +9130,7 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _competitionVolunteersShiftsShiftIdPatch({
+  Future<Response<void>> _competitionVolunteersShiftsShiftIdPatch({
     required String? shiftId,
     required VolunteerShiftEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -9054,7 +9138,8 @@ This is the user making the request.''',
 
 **User must be a competition admin to use this endpoint**''',
       summary: 'Update Volunteer Shift',
-      operationId: 'patch_competition_volunteers_shifts_{shift_id}',
+      operationId:
+          'update_volunteer_shift_competition_volunteers_shifts__shift_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9071,18 +9156,19 @@ This is the user making the request.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _competitionVolunteersShiftsShiftIdDelete({
+  Future<Response<void>> _competitionVolunteersShiftsShiftIdDelete({
     required String? shiftId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a volunteer shift.
 
 **User must be a competition admin to use this endpoint**''',
       summary: 'Delete Volunteer Shift',
-      operationId: 'delete_competition_volunteers_shifts_{shift_id}',
+      operationId:
+          'delete_volunteer_shift_competition_volunteers_shifts__shift_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9097,7 +9183,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -9106,7 +9192,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get my volunteer registrations.',
       summary: 'Get My Volunteer Registrations',
-      operationId: 'get_competition_volunteers_me',
+      operationId:
+          'get_my_volunteer_registrations_competition_volunteers_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9128,12 +9215,13 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _competitionVolunteersShiftsShiftIdRegisterPost({
+  Future<Response<void>> _competitionVolunteersShiftsShiftIdRegisterPost({
     required String? shiftId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Register to a volunteer shift.',
       summary: 'Register To Volunteer Shift',
-      operationId: 'post_competition_volunteers_shifts_{shift_id}_register',
+      operationId:
+          'register_to_volunteer_shift_competition_volunteers_shifts__shift_id__register_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9150,18 +9238,19 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _competitionDataExportUsersGet({
+  Future<Response<List<int>>> _competitionDataExportUsersGet({
     List<Object?>? includedFields,
     bool? excludeNonValidated,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           'Export competition users data for the current edition as a CSV file.',
       summary: 'Export Competition Users Data',
-      operationId: 'get_competition_data-export_users',
+      operationId:
+          'export_competition_users_data_competition_data_export_users_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9181,11 +9270,11 @@ This is the user making the request.''',
       parameters: $params,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
-  Future<Response<dynamic>> _competitionDataExportSchoolsSchoolIdUsersGet({
+  Future<Response<List<int>>> _competitionDataExportSchoolsSchoolIdUsersGet({
     required String? schoolId,
     List<Object?>? includedFields,
     bool? excludeNonValidated,
@@ -9193,7 +9282,8 @@ This is the user making the request.''',
       description:
           'Export competition users data for the current edition as a CSV file.',
       summary: 'Export School Competition Users Data',
-      operationId: 'get_competition_data-export_schools_{school_id}_users',
+      operationId:
+          'export_school_competition_users_data_competition_data_export_schools__school_id__users_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9215,16 +9305,17 @@ This is the user making the request.''',
       parameters: $params,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
-  Future<Response<dynamic>> _competitionDataExportParticipantsCaptainsGet({
+  Future<Response<List<int>>> _competitionDataExportParticipantsCaptainsGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           'Export participants captains data for the current edition as an Excel file.',
       summary: 'Export Participants Captains Data',
-      operationId: 'get_competition_data-export_participants_captains',
+      operationId:
+          'export_participants_captains_data_competition_data_export_participants_captains_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9241,17 +9332,18 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
-  Future<Response<dynamic>> _competitionDataExportSchoolsSchoolIdQuotasGet({
+  Future<Response<List<int>>> _competitionDataExportSchoolsSchoolIdQuotasGet({
     required String? schoolId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           'Export school quotas data for the current edition as an Excel file.',
       summary: 'Export School Quotas Data',
-      operationId: 'get_competition_data-export_schools_{school_id}_quotas',
+      operationId:
+          'export_school_quotas_data_competition_data_export_schools__school_id__quotas_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9268,17 +9360,18 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
-  Future<Response<dynamic>> _competitionDataExportSportsSportIdQuotasGet({
+  Future<Response<List<int>>> _competitionDataExportSportsSportIdQuotasGet({
     required String? sportId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           'Export sport quotas data for the current edition as an Excel file.',
       summary: 'Export Sport Quotas Data',
-      operationId: 'get_competition_data-export_sports_{sport_id}_quotas',
+      operationId:
+          'export_sport_quotas_data_competition_data_export_sports__sport_id__quotas_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9295,17 +9388,19 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
-  Future<Response<dynamic>> _competitionDataExportSportsSportIdParticipantsGet({
+  Future<Response<List<int>>>
+  _competitionDataExportSportsSportIdParticipantsGet({
     required String? sportId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           'Export sport quotas data for the current edition as an Excel file.',
       summary: 'Export Sport Participants Data',
-      operationId: 'get_competition_data-export_sports_{sport_id}_participants',
+      operationId:
+          'export_sport_participants_data_competition_data_export_sports__sport_id__participants_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9322,7 +9417,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
@@ -9334,7 +9429,7 @@ This is the user making the request.''',
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Read Adverts',
-      operationId: 'get_advert_adverts',
+      operationId: 'read_adverts_advert_adverts_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9364,7 +9459,7 @@ This is the user making the request.''',
 
 **The user must be a member of the advertiser group to use this endpoint**''',
       summary: 'Create Advert',
-      operationId: 'post_advert_adverts',
+      operationId: 'create_advert_advert_adverts_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9392,7 +9487,7 @@ This is the user making the request.''',
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Read Advert',
-      operationId: 'get_advert_adverts_{advert_id}',
+      operationId: 'read_advert_advert_adverts__advert_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9411,7 +9506,7 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _advertAdvertsAdvertIdPatch({
+  Future<Response<void>> _advertAdvertsAdvertIdPatch({
     required String? advertId,
     required AdvertUpdate? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -9419,7 +9514,7 @@ This is the user making the request.''',
 
 **The user must be a member of the advertiser group_manager to use this endpoint**''',
       summary: 'Update Advert',
-      operationId: 'patch_advert_adverts_{advert_id}',
+      operationId: 'update_advert_advert_adverts__advert_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9436,18 +9531,18 @@ This is the user making the request.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _advertAdvertsAdvertIdDelete({
+  Future<Response<void>> _advertAdvertsAdvertIdDelete({
     required String? advertId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete an advert
 
 **The user must be admin or a member of the advertiser group_manager to use this endpoint**''',
       summary: 'Delete Advert',
-      operationId: 'delete_advert_adverts_{advert_id}',
+      operationId: 'delete_advert_advert_adverts__advert_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9462,18 +9557,18 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _advertAdvertsAdvertIdPictureGet({
+  Future<Response<List<int>>> _advertAdvertsAdvertIdPictureGet({
     required String? advertId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Get the image of an advert
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Read Advert Image',
-      operationId: 'get_advert_adverts_{advert_id}_picture',
+      operationId: 'read_advert_image_advert_adverts__advert_id__picture_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9488,11 +9583,11 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
-  Future<Response<dynamic>> _advertAdvertsAdvertIdPicturePost({
+  Future<Response<void>> _advertAdvertsAdvertIdPicturePost({
     required String? advertId,
     required List<int> image,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -9500,7 +9595,8 @@ This is the user making the request.''',
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Create Advert Image',
-      operationId: 'post_advert_adverts_{advert_id}_picture',
+      operationId:
+          'create_advert_image_advert_adverts__advert_id__picture_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9520,7 +9616,7 @@ This is the user making the request.''',
       multipart: true,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -9529,7 +9625,7 @@ This is the user making the request.''',
       description:
           'Return all associations from database as a list of AssociationComplete schemas',
       summary: 'Get All Associations',
-      operationId: 'get_phonebook_associations_',
+      operationId: 'get_all_associations_phonebook_associations__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9556,7 +9652,7 @@ This is the user making the request.''',
       description:
           'Create a new Association by giving an AssociationBase scheme',
       summary: 'Create Association',
-      operationId: 'post_phonebook_associations_',
+      operationId: 'create_association_phonebook_associations__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9581,7 +9677,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all available role tags from RoleTags enum.',
       summary: 'Get All Role Tags',
-      operationId: 'get_phonebook_roletags',
+      operationId: 'get_all_role_tags_phonebook_roletags_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9605,7 +9701,7 @@ This is the user making the request.''',
       description:
           'Return all groupements from database as a list of AssociationGroupement schemas',
       summary: 'Get All Groupements',
-      operationId: 'get_phonebook_groupements_',
+      operationId: 'get_all_groupements_phonebook_groupements__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9631,7 +9727,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Groupement',
-      operationId: 'post_phonebook_groupements_',
+      operationId: 'create_groupement_phonebook_groupements__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9652,13 +9748,14 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _phonebookGroupementsGroupementIdPatch({
+  Future<Response<void>> _phonebookGroupementsGroupementIdPatch({
     required String? groupementId,
     required AssociationGroupementBase? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update a groupement',
       summary: 'Update Groupement',
-      operationId: 'patch_phonebook_groupements_{groupement_id}',
+      operationId:
+          'update_groupement_phonebook_groupements__groupement_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9675,16 +9772,17 @@ This is the user making the request.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _phonebookGroupementsGroupementIdDelete({
+  Future<Response<void>> _phonebookGroupementsGroupementIdDelete({
     required String? groupementId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete a groupement',
       summary: 'Delete Groupement',
-      operationId: 'delete_phonebook_groupements_{groupement_id}',
+      operationId:
+          'delete_groupement_phonebook_groupements__groupement_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9699,17 +9797,18 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _phonebookAssociationsAssociationIdPatch({
+  Future<Response<void>> _phonebookAssociationsAssociationIdPatch({
     required String? associationId,
     required AssociationEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update an Association',
       summary: 'Update Association',
-      operationId: 'patch_phonebook_associations_{association_id}',
+      operationId:
+          'update_association_phonebook_associations__association_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9726,18 +9825,19 @@ This is the user making the request.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _phonebookAssociationsAssociationIdDelete({
+  Future<Response<void>> _phonebookAssociationsAssociationIdDelete({
     required String? associationId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete an Association
 
 [!] Memberships linked to association_id will be deleted too''',
       summary: 'Delete Association',
-      operationId: 'delete_phonebook_associations_{association_id}',
+      operationId:
+          'delete_association_phonebook_associations__association_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9752,17 +9852,18 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _phonebookAssociationsAssociationIdGroupsPatch({
+  Future<Response<void>> _phonebookAssociationsAssociationIdGroupsPatch({
     required String? associationId,
     required AssociationGroupsEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update the groups associated with an Association',
       summary: 'Update Association Groups',
-      operationId: 'patch_phonebook_associations_{association_id}_groups',
+      operationId:
+          'update_association_groups_phonebook_associations__association_id__groups_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9781,16 +9882,17 @@ This is the user making the request.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _phonebookAssociationsAssociationIdDeactivatePatch({
+  Future<Response<void>> _phonebookAssociationsAssociationIdDeactivatePatch({
     required String? associationId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Deactivate an Association',
       summary: 'Deactivate Association',
-      operationId: 'patch_phonebook_associations_{association_id}_deactivate',
+      operationId:
+          'deactivate_association_phonebook_associations__association_id__deactivate_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9807,7 +9909,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -9817,7 +9919,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return the list of MemberComplete of an Association.',
       summary: 'Get Association Members',
-      operationId: 'get_phonebook_associations_{association_id}_members_',
+      operationId:
+          'get_association_members_phonebook_associations__association_id__members__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9847,7 +9950,7 @@ This is the user making the request.''',
           'Return the list of MemberComplete of an Association with given mandate_year.',
       summary: 'Get Association Members By Mandate Year',
       operationId:
-          'get_phonebook_associations_{association_id}_members_{mandate_year}',
+          'get_association_members_by_mandate_year_phonebook_associations__association_id__members__mandate_year__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9873,7 +9976,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return MemberComplete for given user_id.',
       summary: 'Get Member Details',
-      operationId: 'get_phonebook_member_{user_id}',
+      operationId: 'get_member_details_phonebook_member__user_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9898,7 +10001,7 @@ This is the user making the request.''',
       description: '''Create a new Membership.
 \'role_tags\' are used to indicate if the members has a main role in the association (president, secretary ...) and \'role_name\' is the display name for this membership''',
       summary: 'Create Membership',
-      operationId: 'post_phonebook_associations_memberships',
+      operationId: 'create_membership_phonebook_associations_memberships_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9919,13 +10022,14 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _phonebookAssociationsMembershipsMembershipIdPatch({
+  Future<Response<void>> _phonebookAssociationsMembershipsMembershipIdPatch({
     required String? membershipId,
     required MembershipEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update a Membership.',
       summary: 'Update Membership',
-      operationId: 'patch_phonebook_associations_memberships_{membership_id}',
+      operationId:
+          'update_membership_phonebook_associations_memberships__membership_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9944,17 +10048,17 @@ This is the user making the request.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>>
-  _phonebookAssociationsMembershipsMembershipIdDelete({
+  Future<Response<void>> _phonebookAssociationsMembershipsMembershipIdDelete({
     required String? membershipId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete a membership.',
       summary: 'Delete Membership',
-      operationId: 'delete_phonebook_associations_memberships_{membership_id}',
+      operationId:
+          'delete_membership_phonebook_associations_memberships__membership_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9971,7 +10075,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -9984,7 +10088,8 @@ This is the user making the request.''',
 
 **The user must be a member of the group phonebook_admin or the president of the association to use this endpoint**''',
       summary: 'Create Association Logo',
-      operationId: 'post_phonebook_associations_{association_id}_picture',
+      operationId:
+          'create_association_logo_phonebook_associations__association_id__picture_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10013,12 +10118,13 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _phonebookAssociationsAssociationIdPictureGet({
+  Future<Response<List<int>>> _phonebookAssociationsAssociationIdPictureGet({
     required String? associationId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get the logo of an Association.',
       summary: 'Read Association Logo',
-      operationId: 'get_phonebook_associations_{association_id}_picture',
+      operationId:
+          'read_association_logo_phonebook_associations__association_id__picture_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10035,7 +10141,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
@@ -10044,7 +10150,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get a participant by id',
       summary: 'Get Participant By Id',
-      operationId: 'get_raid_participants_{participant_id}',
+      operationId:
+          'get_participant_by_id_raid_participants__participant_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10063,13 +10170,14 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _raidParticipantsParticipantIdPatch({
+  Future<Response<void>> _raidParticipantsParticipantIdPatch({
     required String? participantId,
     required RaidParticipantUpdate? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update a participant',
       summary: 'Update Participant',
-      operationId: 'patch_raid_participants_{participant_id}',
+      operationId:
+          'update_participant_raid_participants__participant_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10086,7 +10194,7 @@ This is the user making the request.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -10095,7 +10203,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a participant',
       summary: 'Create Participant',
-      operationId: 'post_raid_participants',
+      operationId: 'create_participant_raid_participants_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10120,7 +10228,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all teams',
       summary: 'Get All Teams',
-      operationId: 'get_raid_teams',
+      operationId: 'get_all_teams_raid_teams_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10144,7 +10252,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a team',
       summary: 'Create Team',
-      operationId: 'post_raid_teams',
+      operationId: 'create_team_raid_teams_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10165,11 +10273,11 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _raidTeamsDelete({
+  Future<Response<void>> _raidTeamsDelete({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete all teams',
       summary: 'Delete All Teams',
-      operationId: 'delete_raid_teams',
+      operationId: 'delete_all_teams_raid_teams_delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10184,7 +10292,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -10193,7 +10301,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get a team by participant id',
       summary: 'Get Team By Participant Id',
-      operationId: 'get_raid_participants_{participant_id}_team',
+      operationId:
+          'get_team_by_participant_id_raid_participants__participant_id__team_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10217,7 +10326,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get a team by id',
       summary: 'Get Team By Id',
-      operationId: 'get_raid_teams_{team_id}',
+      operationId: 'get_team_by_id_raid_teams__team_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10236,13 +10345,13 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _raidTeamsTeamIdPatch({
+  Future<Response<void>> _raidTeamsTeamIdPatch({
     required String? teamId,
     required RaidTeamUpdate? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update a team',
       summary: 'Update Team',
-      operationId: 'patch_raid_teams_{team_id}',
+      operationId: 'update_team_raid_teams__team_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10259,16 +10368,16 @@ This is the user making the request.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _raidTeamsTeamIdDelete({
+  Future<Response<void>> _raidTeamsTeamIdDelete({
     required String? teamId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete a team',
       summary: 'Delete Team',
-      operationId: 'delete_raid_teams_{team_id}',
+      operationId: 'delete_team_raid_teams__team_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10283,7 +10392,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -10293,7 +10402,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Upload a document',
       summary: 'Upload Document',
-      operationId: 'post_raid_document_{document_type}',
+      operationId: 'upload_document_raid_document__document_type__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10317,12 +10426,12 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _raidDocumentDocumentIdGet({
+  Future<Response<List<int>>> _raidDocumentDocumentIdGet({
     required String? documentId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Read a document',
       summary: 'Read Document',
-      operationId: 'get_raid_document_{document_id}',
+      operationId: 'read_document_raid_document__document_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10337,17 +10446,18 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
-  Future<Response<dynamic>> _raidDocumentDocumentIdValidatePost({
+  Future<Response<void>> _raidDocumentDocumentIdValidatePost({
     required String? documentId,
     required String? validation,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Validate a document',
       summary: 'Validate Document',
-      operationId: 'post_raid_document_{document_id}_validate',
+      operationId:
+          'validate_document_raid_document__document_id__validate_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10366,7 +10476,7 @@ This is the user making the request.''',
       parameters: $params,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -10376,7 +10486,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Confirm security file',
       summary: 'Set Security File',
-      operationId: 'post_raid_security_file_',
+      operationId: 'set_security_file_raid_security_file__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10401,12 +10511,13 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _raidParticipantParticipantIdPaymentPost({
+  Future<Response<void>> _raidParticipantParticipantIdPaymentPost({
     required String? participantId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Confirm payment manually',
       summary: 'Confirm Payment',
-      operationId: 'post_raid_participant_{participant_id}_payment',
+      operationId:
+          'confirm_payment_raid_participant__participant_id__payment_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10421,16 +10532,17 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _raidParticipantParticipantIdTShirtPaymentPost({
+  Future<Response<void>> _raidParticipantParticipantIdTShirtPaymentPost({
     required String? participantId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Confirm T shirt payment',
       summary: 'Confirm T Shirt Payment',
-      operationId: 'post_raid_participant_{participant_id}_t_shirt_payment',
+      operationId:
+          'confirm_t_shirt_payment_raid_participant__participant_id__t_shirt_payment_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10447,16 +10559,17 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _raidParticipantParticipantIdHonourPost({
+  Future<Response<void>> _raidParticipantParticipantIdHonourPost({
     required String? participantId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Validate attestation on honour',
       summary: 'Validate Attestation On Honour',
-      operationId: 'post_raid_participant_{participant_id}_honour',
+      operationId:
+          'validate_attestation_on_honour_raid_participant__participant_id__honour_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10471,7 +10584,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -10480,7 +10593,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create an invite token',
       summary: 'Create Invite Token',
-      operationId: 'post_raid_teams_{team_id}_invite',
+      operationId: 'create_invite_token_raid_teams__team_id__invite_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10499,12 +10612,12 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _raidTeamsJoinTokenPost({
+  Future<Response<void>> _raidTeamsJoinTokenPost({
     required String? token,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Join a team',
       summary: 'Join Team',
-      operationId: 'post_raid_teams_join_{token}',
+      operationId: 'join_team_raid_teams_join__token__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10519,7 +10632,7 @@ This is the user making the request.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -10529,7 +10642,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Leave a team',
       summary: 'Kick Team Member',
-      operationId: 'post_raid_teams_{team_id}_kick_{participant_id}',
+      operationId:
+          'kick_team_member_raid_teams__team_id__kick__participant_id__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10554,7 +10668,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Merge two teams',
       summary: 'Merge Teams',
-      operationId: 'post_raid_teams_merge',
+      operationId: 'merge_teams_raid_teams_merge_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10582,7 +10696,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get raid information',
       summary: 'Get Raid Information',
-      operationId: 'get_raid_information',
+      operationId: 'get_raid_information_raid_information_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10601,12 +10715,12 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _raidInformationPatch({
+  Future<Response<void>> _raidInformationPatch({
     required RaidInformation? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update raid information',
       summary: 'Update Raid Information',
-      operationId: 'patch_raid_information',
+      operationId: 'update_raid_information_raid_information_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10623,7 +10737,7 @@ This is the user making the request.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -10631,7 +10745,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get drive folders',
       summary: 'Get Drive Folders',
-      operationId: 'get_raid_drive',
+      operationId: 'get_drive_folders_raid_drive_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10652,12 +10766,12 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _raidDrivePatch({
+  Future<Response<void>> _raidDrivePatch({
     required RaidDriveFoldersCreation? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update drive folders',
       summary: 'Update Drive Folders',
-      operationId: 'patch_raid_drive',
+      operationId: 'update_drive_folders_raid_drive_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10674,7 +10788,7 @@ This is the user making the request.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -10682,7 +10796,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get raid price',
       summary: 'Get Raid Price',
-      operationId: 'get_raid_price',
+      operationId: 'get_raid_price_raid_price_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10701,12 +10815,12 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _raidPricePatch({
+  Future<Response<void>> _raidPricePatch({
     required RaidPrice? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update raid price',
       summary: 'Update Raid Price',
-      operationId: 'patch_raid_price',
+      operationId: 'update_raid_price_raid_price_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10723,7 +10837,7 @@ This is the user making the request.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -10731,7 +10845,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get payment url',
       summary: 'Get Payment Url',
-      operationId: 'get_raid_pay',
+      operationId: 'get_payment_url_raid_pay_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10750,13 +10864,13 @@ This is the user making the request.''',
   }
 
   @override
-  Future<Response<dynamic>> _raidSecurityFilesZipGet({
+  Future<Response<List<int>>> _raidSecurityFilesZipGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           '''Generate and serve a ZIP file containing all security files.
 Only accessible to raid admins.''',
       summary: 'Download Security Files Zip',
-      operationId: 'get_raid_security_files_zip',
+      operationId: 'download_security_files_zip_raid_security_files_zip_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10771,16 +10885,16 @@ Only accessible to raid admins.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
-  Future<Response<dynamic>> _raidTeamFilesZipGet({
+  Future<Response<List<int>>> _raidTeamFilesZipGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Generate and serve a ZIP file containing all team files.
 Only accessible to raid admins.''',
       summary: 'Download Team Files Zip',
-      operationId: 'get_raid_team_files_zip',
+      operationId: 'download_team_files_zip_raid_team_files_zip_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10795,7 +10909,7 @@ Only accessible to raid admins.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
@@ -10803,7 +10917,7 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all events from the database.',
       summary: 'Get Events',
-      operationId: 'get_calendar_events_',
+      operationId: 'get_events_calendar_events__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10829,7 +10943,7 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Add an event to the calendar.',
       summary: 'Add Event',
-      operationId: 'post_calendar_events_',
+      operationId: 'add_event_calendar_events__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10858,7 +10972,7 @@ Only accessible to raid admins.''',
 
 **Usable by every member**''',
       summary: 'Get Confirmed Events',
-      operationId: 'get_calendar_events_confirmed',
+      operationId: 'get_confirmed_events_calendar_events_confirmed_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10887,7 +11001,8 @@ Only accessible to raid admins.''',
 
 **Usable by members of the association**''',
       summary: 'Get Association Events',
-      operationId: 'get_calendar_events_associations_{association_id}',
+      operationId:
+          'get_association_events_calendar_events_associations__association_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10917,7 +11032,7 @@ Only accessible to raid admins.''',
 
 **Non approved events are only accessible for BDE or the event\'s association members**''',
       summary: 'Get Event By Id',
-      operationId: 'get_calendar_events_{event_id}',
+      operationId: 'get_event_by_id_calendar_events__event_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10938,7 +11053,7 @@ Only accessible to raid admins.''',
   }
 
   @override
-  Future<Response<dynamic>> _calendarEventsEventIdPatch({
+  Future<Response<void>> _calendarEventsEventIdPatch({
     required String? eventId,
     required EventEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -10946,7 +11061,7 @@ Only accessible to raid admins.''',
 
 **Only usable by admins or members of the event\'s association**''',
       summary: 'Edit Event',
-      operationId: 'patch_calendar_events_{event_id}',
+      operationId: 'edit_event_calendar_events__event_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10963,18 +11078,18 @@ Only accessible to raid admins.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _calendarEventsEventIdDelete({
+  Future<Response<void>> _calendarEventsEventIdDelete({
     required Object? eventId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Remove an event.
 
 **Only usable by admins or, if the event is pending, members of the event\'s association**''',
       summary: 'Delete Event',
-      operationId: 'delete_calendar_events_{event_id}',
+      operationId: 'delete_event_calendar_events__event_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10989,7 +11104,7 @@ Only accessible to raid admins.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -10998,7 +11113,8 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Event Ticket Url',
-      operationId: 'get_calendar_events_{event_id}_ticket-url',
+      operationId:
+          'get_event_ticket_url_calendar_events__event_id__ticket_url_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11017,14 +11133,14 @@ Only accessible to raid admins.''',
   }
 
   @override
-  Future<Response<dynamic>> _calendarEventsEventIdImageGet({
+  Future<Response<List<int>>> _calendarEventsEventIdImageGet({
     required String? eventId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Get the image of an event
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Event Image',
-      operationId: 'get_calendar_events_{event_id}_image',
+      operationId: 'get_event_image_calendar_events__event_id__image_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11039,11 +11155,11 @@ Only accessible to raid admins.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
-  Future<Response<dynamic>> _calendarEventsEventIdImagePost({
+  Future<Response<void>> _calendarEventsEventIdImagePost({
     required String? eventId,
     required List<int> image,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -11051,7 +11167,7 @@ Only accessible to raid admins.''',
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Create Event Image',
-      operationId: 'post_calendar_events_{event_id}_image',
+      operationId: 'create_event_image_calendar_events__event_id__image_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11071,11 +11187,11 @@ Only accessible to raid admins.''',
       multipart: true,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _calendarEventsEventIdReplyDecisionPatch({
+  Future<Response<void>> _calendarEventsEventIdReplyDecisionPatch({
     required String? eventId,
     required String? decision,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -11083,7 +11199,8 @@ Only accessible to raid admins.''',
 
 **Only usable by admins**''',
       summary: 'Confirm Event',
-      operationId: 'patch_calendar_events_{event_id}_reply_{decision}',
+      operationId:
+          'confirm_event_calendar_events__event_id__reply__decision__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11098,7 +11215,7 @@ Only accessible to raid admins.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -11106,7 +11223,7 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Generate a unique ical url for the user',
       summary: 'Get Ical Url',
-      operationId: 'get_calendar_ical-url',
+      operationId: 'get_ical_url_calendar_ical_url_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11125,13 +11242,13 @@ Only accessible to raid admins.''',
   }
 
   @override
-  Future<Response<dynamic>> _calendarIcalCreatePost({
+  Future<Response<void>> _calendarIcalCreatePost({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Create manually the icalendar file
 
 **Only usable by global admins**''',
       summary: 'Recreate Ical File',
-      operationId: 'post_calendar_ical_create',
+      operationId: 'recreate_ical_file_calendar_ical_create_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11146,17 +11263,17 @@ Only accessible to raid admins.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _calendarIcalGet({
+  Future<Response<List<int>>> _calendarIcalGet({
     required String? secret,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           'Get the icalendar file corresponding to the event in the database.',
       summary: 'Get Icalendar File',
-      operationId: 'get_calendar_ical',
+      operationId: 'get_icalendar_file_calendar_ical_get',
       consumes: [],
       produces: [],
       security: [],
@@ -11173,7 +11290,7 @@ Only accessible to raid admins.''',
       parameters: $params,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
@@ -11181,7 +11298,7 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return published news from the feed',
       summary: 'Get Published News',
-      operationId: 'get_feed_news',
+      operationId: 'get_published_news_feed_news_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11200,12 +11317,12 @@ Only accessible to raid admins.''',
   }
 
   @override
-  Future<Response<dynamic>> _feedNewsNewsIdImageGet({
+  Future<Response<List<int>>> _feedNewsNewsIdImageGet({
     required String? newsId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return the image of a news',
       summary: 'Get News Image',
-      operationId: 'get_feed_news_{news_id}_image',
+      operationId: 'get_news_image_feed_news__news_id__image_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11220,7 +11337,7 @@ Only accessible to raid admins.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
@@ -11230,7 +11347,7 @@ Only accessible to raid admins.''',
 
 **This endpoint is only usable by feed administrators**''',
       summary: 'Get Admin News',
-      operationId: 'get_feed_admin_news',
+      operationId: 'get_admin_news_feed_admin_news_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11249,14 +11366,14 @@ Only accessible to raid admins.''',
   }
 
   @override
-  Future<Response<dynamic>> _feedAdminNewsNewsIdApprovePost({
+  Future<Response<void>> _feedAdminNewsNewsIdApprovePost({
     required String? newsId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Approve a news
 
 **This endpoint is only usable by feed administrators**''',
       summary: 'Approve News',
-      operationId: 'post_feed_admin_news_{news_id}_approve',
+      operationId: 'approve_news_feed_admin_news__news_id__approve_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11271,18 +11388,18 @@ Only accessible to raid admins.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _feedAdminNewsNewsIdRejectPost({
+  Future<Response<void>> _feedAdminNewsNewsIdRejectPost({
     required String? newsId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Reject a news
 
 **This endpoint is only usable by feed administrators**''',
       summary: 'Reject News',
-      operationId: 'post_feed_admin_news_{news_id}_reject',
+      operationId: 'reject_news_feed_admin_news__news_id__reject_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11297,7 +11414,7 @@ Only accessible to raid admins.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -11305,7 +11422,7 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all schools from database as a list of dictionaries',
       summary: 'Read Schools',
-      operationId: 'get_schools_',
+      operationId: 'read_schools_schools__get',
       consumes: [],
       produces: [],
       security: [],
@@ -11332,7 +11449,7 @@ Only accessible to raid admins.''',
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create School',
-      operationId: 'post_schools_',
+      operationId: 'create_school_schools__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11360,7 +11477,7 @@ Only accessible to raid admins.''',
 
 **This endpoint is only usable by administrators**''',
       summary: 'Read School',
-      operationId: 'get_schools_{school_id}',
+      operationId: 'read_school_schools__school_id__get',
       consumes: [],
       produces: [],
       security: [],
@@ -11379,7 +11496,7 @@ Only accessible to raid admins.''',
   }
 
   @override
-  Future<Response<dynamic>> _schoolsSchoolIdPatch({
+  Future<Response<void>> _schoolsSchoolIdPatch({
     required String? schoolId,
     required CoreSchoolUpdate? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -11387,7 +11504,7 @@ Only accessible to raid admins.''',
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update School',
-      operationId: 'patch_schools_{school_id}',
+      operationId: 'update_school_schools__school_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11404,11 +11521,11 @@ Only accessible to raid admins.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _schoolsSchoolIdDelete({
+  Future<Response<void>> _schoolsSchoolIdDelete({
     required String? schoolId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete school from database.
@@ -11418,7 +11535,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Delete School',
-      operationId: 'delete_schools_{school_id}',
+      operationId: 'delete_school_schools__school_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11433,7 +11550,7 @@ This will remove the school from all users but won\'t delete any user.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -11443,7 +11560,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **User must be authenticated**''',
       summary: 'Read Associations',
-      operationId: 'get_associations_',
+      operationId: 'read_associations_associations__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11469,7 +11586,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Association',
-      operationId: 'post_associations_',
+      operationId: 'create_association_associations__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11497,7 +11614,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **User must be authenticated**''',
       summary: 'Read Associations Me',
-      operationId: 'get_associations_me',
+      operationId: 'read_associations_me_associations_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11516,7 +11633,7 @@ This will remove the school from all users but won\'t delete any user.
   }
 
   @override
-  Future<Response<dynamic>> _associationsAssociationIdPatch({
+  Future<Response<void>> _associationsAssociationIdPatch({
     required String? associationId,
     required AssociationUpdate? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -11524,7 +11641,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update Association',
-      operationId: 'patch_associations_{association_id}',
+      operationId: 'update_association_associations__association_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11541,11 +11658,11 @@ This will remove the school from all users but won\'t delete any user.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _associationsAssociationIdLogoPost({
+  Future<Response<void>> _associationsAssociationIdLogoPost({
     required String? associationId,
     required List<int> image,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -11553,7 +11670,8 @@ This will remove the school from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Association Logo',
-      operationId: 'post_associations_{association_id}_logo',
+      operationId:
+          'create_association_logo_associations__association_id__logo_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11573,18 +11691,19 @@ This will remove the school from all users but won\'t delete any user.
       multipart: true,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _associationsAssociationIdLogoGet({
+  Future<Response<List<int>>> _associationsAssociationIdLogoGet({
     required String? associationId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Get the logo of an association
 
 **User must be authenticated**''',
       summary: 'Read Association Logo',
-      operationId: 'get_associations_{association_id}_logo',
+      operationId:
+          'read_association_logo_associations__association_id__logo_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11599,7 +11718,7 @@ This will remove the school from all users but won\'t delete any user.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
@@ -11611,7 +11730,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Read Users',
-      operationId: 'get_users',
+      operationId: 'read_users_users_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11640,7 +11759,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Count Users',
-      operationId: 'get_users_count',
+      operationId: 'count_users_users_count_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11672,7 +11791,7 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Search Users',
-      operationId: 'get_users_search',
+      operationId: 'search_users_users_search_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11703,7 +11822,7 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all account types hardcoded in the system',
       summary: 'Get Account Types',
-      operationId: 'get_users_account-types_',
+      operationId: 'get_account_types_users_account_types__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11728,7 +11847,7 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Read Current User',
-      operationId: 'get_users_me',
+      operationId: 'read_current_user_users_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11747,7 +11866,7 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
   }
 
   @override
-  Future<Response<dynamic>> _usersMePatch({
+  Future<Response<void>> _usersMePatch({
     required CoreUserUpdate? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
@@ -11755,7 +11874,7 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Update Current User',
-      operationId: 'patch_users_me',
+      operationId: 'update_current_user_users_me_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11772,7 +11891,7 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -11788,7 +11907,7 @@ If the **password** is not provided, it will be required during the activation p
 When creating **student** or **staff** account a valid ECL email is required.
 Only admin users can create other **account types**, contact ÉCLAIR for more information.''',
       summary: 'Create User By User',
-      operationId: 'post_users_create',
+      operationId: 'create_user_by_user_users_create_post',
       consumes: [],
       produces: [],
       security: [],
@@ -11827,7 +11946,7 @@ NOTE: the activation link will only be valid for a limited time. You should prob
 
 **This endpoint is only usable by administrators**''',
       summary: 'Batch Create Users',
-      operationId: 'post_users_batch-creation',
+      operationId: 'batch_create_users_users_batch_creation_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11859,7 +11978,7 @@ The endpoint return a dictionary of unsuccessful user creation: `{email: error m
 
 **This endpoint is only usable by administrators**''',
       summary: 'Batch Invite Users',
-      operationId: 'post_users_batch-invitation',
+      operationId: 'batch_invite_users_users_batch_invitation_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11889,7 +12008,7 @@ The endpoint return a dictionary of unsuccessful user creation: `{email: error m
 
 **password**: user password, required if it was not provided previously''',
       summary: 'Activate User',
-      operationId: 'post_users_activate',
+      operationId: 'activate_user_users_activate_post',
       consumes: [],
       produces: [],
       security: [],
@@ -11913,14 +12032,14 @@ The endpoint return a dictionary of unsuccessful user creation: `{email: error m
   }
 
   @override
-  Future<Response<dynamic>> _usersS3InitPost({
+  Future<Response<void>> _usersS3InitPost({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           '''This endpoint is used to initialize the S3 bucket for users.
 It will create a file for each existing user in the S3 bucket.
 It should be used only once, when the S3 bucket is created.''',
       summary: 'Init S3 For Users',
-      operationId: 'post_users_s3-init',
+      operationId: 'init_s3_for_users_users_s3_init_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11935,7 +12054,7 @@ It should be used only once, when the S3 bucket is created.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -11947,7 +12066,7 @@ It should be used only once, when the S3 bucket is created.''',
 If the provided **email** corresponds to an existing account, a password reset token will be sent.
 Using this token, the password can be changed with `/users/reset-password` endpoint''',
       summary: 'Recover User',
-      operationId: 'post_users_recover',
+      operationId: 'recover_user_users_recover_post',
       consumes: [],
       produces: [],
       security: [],
@@ -11977,7 +12096,7 @@ Using this token, the password can be changed with `/users/reset-password` endpo
       description:
           'Reset the user password, using a **reset_token** provided by `/users/recover` endpoint.',
       summary: 'Reset Password',
-      operationId: 'post_users_reset-password',
+      operationId: 'reset_password_users_reset_password_post',
       consumes: [],
       produces: [],
       security: [],
@@ -12001,13 +12120,13 @@ Using this token, the password can be changed with `/users/reset-password` endpo
   }
 
   @override
-  Future<Response<dynamic>> _usersMigrateMailPost({
+  Future<Response<void>> _usersMigrateMailPost({
     required MailMigrationRequest? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           'This endpoint will send a confirmation code to the user\'s new email address. He will need to use this code to confirm the change with `/users/confirm-mail-migration` endpoint.',
       summary: 'Migrate Mail',
-      operationId: 'post_users_migrate-mail',
+      operationId: 'migrate_mail_users_migrate_mail_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12024,7 +12143,7 @@ Using this token, the password can be changed with `/users/reset-password` endpo
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -12034,7 +12153,7 @@ Using this token, the password can be changed with `/users/reset-password` endpo
       description: '''This endpoint will updates the user new email address.
 The user will need to use the confirmation code sent by the `/users/migrate-mail` endpoint.''',
       summary: 'Migrate Mail Confirm',
-      operationId: 'get_users_migrate-mail-confirm',
+      operationId: 'migrate_mail_confirm_users_migrate_mail_confirm_get',
       consumes: [],
       produces: [],
       security: [],
@@ -12062,7 +12181,7 @@ The user will need to use the confirmation code sent by the `/users/migrate-mail
 
 This endpoint will check the **old_password**, see also the `/users/reset-password` endpoint if the user forgot their password.''',
       summary: 'Change Password',
-      operationId: 'post_users_change-password',
+      operationId: 'change_password_users_change_password_post',
       consumes: [],
       produces: [],
       security: [],
@@ -12093,7 +12212,7 @@ This endpoint will check the **old_password**, see also the `/users/reset-passwo
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Read User',
-      operationId: 'get_users_{user_id}',
+      operationId: 'read_user_users__user_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12112,7 +12231,7 @@ This endpoint will check the **old_password**, see also the `/users/reset-passwo
   }
 
   @override
-  Future<Response<dynamic>> _usersUserIdPatch({
+  Future<Response<void>> _usersUserIdPatch({
     required String? userId,
     required CoreUserUpdateAdmin? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -12121,7 +12240,7 @@ This endpoint will check the **old_password**, see also the `/users/reset-passwo
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update User',
-      operationId: 'patch_users_{user_id}',
+      operationId: 'update_user_users__user_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12138,17 +12257,17 @@ This endpoint will check the **old_password**, see also the `/users/reset-passwo
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _usersMeAskDeletionPost({
+  Future<Response<void>> _usersMeAskDeletionPost({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           '''This endpoint will ask administrators to process to the user deletion.
 This manual verification is needed to prevent data from being deleting for other users''',
       summary: 'Delete User',
-      operationId: 'post_users_me_ask-deletion',
+      operationId: 'delete_user_users_me_ask_deletion_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12163,17 +12282,17 @@ This manual verification is needed to prevent data from being deleting for other
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _usersMergePost({
+  Future<Response<void>> _usersMergePost({
     required CoreUserFusionRequest? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           'Fusion two users into one. The first user will be deleted and its data will be transferred to the second user.',
       summary: 'Merge Users',
-      operationId: 'post_users_merge',
+      operationId: 'merge_users_users_merge_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12190,11 +12309,11 @@ This manual verification is needed to prevent data from being deleting for other
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _usersUserIdSuperAdminPatch({
+  Future<Response<void>> _usersUserIdSuperAdminPatch({
     required String? userId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
@@ -12202,7 +12321,8 @@ This manual verification is needed to prevent data from being deleting for other
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update User As Super Admin',
-      operationId: 'patch_users_{user_id}_super-admin',
+      operationId:
+          'update_user_as_super_admin_users__user_id__super_admin_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12217,15 +12337,15 @@ This manual verification is needed to prevent data from being deleting for other
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _usersMeProfilePictureGet({
+  Future<Response<List<int>>> _usersMeProfilePictureGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get the profile picture of the authenticated user.',
       summary: 'Read Own Profile Picture',
-      operationId: 'get_users_me_profile-picture',
+      operationId: 'read_own_profile_picture_users_me_profile_picture_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12240,7 +12360,7 @@ This manual verification is needed to prevent data from being deleting for other
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
@@ -12251,7 +12371,8 @@ This manual verification is needed to prevent data from being deleting for other
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Create Current User Profile Picture',
-      operationId: 'post_users_me_profile-picture',
+      operationId:
+          'create_current_user_profile_picture_users_me_profile_picture_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12278,14 +12399,15 @@ This manual verification is needed to prevent data from being deleting for other
   }
 
   @override
-  Future<Response<dynamic>> _usersUserIdProfilePictureGet({
+  Future<Response<List<int>>> _usersUserIdProfilePictureGet({
     required String? userId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Get the profile picture of an user.
 
 Unauthenticated users can use this endpoint (needed for some OIDC services)''',
       summary: 'Read User Profile Picture',
-      operationId: 'get_users_{user_id}_profile-picture',
+      operationId:
+          'read_user_profile_picture_users__user_id__profile_picture_get',
       consumes: [],
       produces: [],
       security: [],
@@ -12300,15 +12422,15 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
-  Future<Response<dynamic>> _checkoutHelloassoWebhookPost({
+  Future<Response<void>> _checkoutHelloassoWebhookPost({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Webhook',
-      operationId: 'post_checkout_helloasso_webhook',
+      operationId: 'webhook_checkout_helloasso_webhook_post',
       consumes: [],
       produces: [],
       security: [],
@@ -12323,7 +12445,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -12332,7 +12454,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
       description:
           'Return all memberships from database as a list of dictionaries',
       summary: 'Read Associations Memberships',
-      operationId: 'get_memberships_',
+      operationId: 'read_associations_memberships_memberships__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12358,7 +12480,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Association Membership',
-      operationId: 'post_memberships_',
+      operationId: 'create_association_membership_memberships__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12391,7 +12513,8 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
 
 **This endpoint is only usable by ECL members**''',
       summary: 'Read Association Membership',
-      operationId: 'get_memberships_{association_membership_id}_members',
+      operationId:
+          'read_association_membership_memberships__association_membership_id__members_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12421,7 +12544,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
   }
 
   @override
-  Future<Response<dynamic>> _membershipsAssociationMembershipIdPatch({
+  Future<Response<void>> _membershipsAssociationMembershipIdPatch({
     required String? associationMembershipId,
     required AppCoreMembershipsSchemasMembershipsMembershipBase? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -12429,7 +12552,8 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update Association Membership',
-      operationId: 'patch_memberships_{association_membership_id}',
+      operationId:
+          'update_association_membership_memberships__association_membership_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12446,18 +12570,19 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _membershipsAssociationMembershipIdDelete({
+  Future<Response<void>> _membershipsAssociationMembershipIdDelete({
     required String? associationMembershipId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a membership.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Delete Association Membership',
-      operationId: 'delete_memberships_{association_membership_id}',
+      operationId:
+          'delete_association_membership_memberships__association_membership_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12472,7 +12597,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -12481,7 +12606,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all memberships for a user.',
       summary: 'Read User Memberships',
-      operationId: 'get_memberships_users_{user_id}',
+      operationId: 'read_user_memberships_memberships_users__user_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12510,7 +12635,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
 
 **This endpoint is only usable by administrators and membership managers**''',
       summary: 'Create User Membership',
-      operationId: 'post_memberships_users_{user_id}',
+      operationId: 'create_user_membership_memberships_users__user_id__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12544,7 +12669,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
 **This endpoint is only usable by administrators and membership managers**''',
       summary: 'Read User Association Membership History',
       operationId:
-          'get_memberships_users_{user_id}_{association_membership_id}',
+          'read_user_association_membership_history_memberships_users__user_id___association_membership_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12578,7 +12703,8 @@ Return the list of unknown users whose email is not in the database.
 
 **User must be an administrator or a membership manager to use this endpoint.**''',
       summary: 'Add Batch Membership',
-      operationId: 'post_memberships_{association_membership_id}_add-batch_',
+      operationId:
+          'add_batch_membership_memberships__association_membership_id__add_batch__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12604,7 +12730,7 @@ Return the list of unknown users whose email is not in the database.
   }
 
   @override
-  Future<Response<dynamic>> _membershipsUsersMembershipIdPatch({
+  Future<Response<void>> _membershipsUsersMembershipIdPatch({
     required String? membershipId,
     required UserMembershipEdit? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -12612,7 +12738,8 @@ Return the list of unknown users whose email is not in the database.
 
 **This endpoint is only usable by administrators and membership managers**''',
       summary: 'Update User Membership',
-      operationId: 'patch_memberships_users_{membership_id}',
+      operationId:
+          'update_user_membership_memberships_users__membership_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12629,18 +12756,19 @@ Return the list of unknown users whose email is not in the database.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _membershipsUsersMembershipIdDelete({
+  Future<Response<void>> _membershipsUsersMembershipIdDelete({
     required String? membershipId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a user membership.
 
 **This endpoint is only usable by administrators and membership managers**''',
       summary: 'Delete User Membership',
-      operationId: 'delete_memberships_users_{membership_id}',
+      operationId:
+          'delete_user_membership_memberships_users__membership_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12655,12 +12783,11 @@ Return the list of unknown users whose email is not in the database.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>>
-  _membershipsMembershipIdGroupGroupIdSynchronizePost({
+  Future<Response<void>> _membershipsMembershipIdGroupGroupIdSynchronizePost({
     required String? membershipId,
     required String? groupId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -12669,7 +12796,7 @@ Return the list of unknown users whose email is not in the database.
 **This endpoint is only usable by administrators**''',
       summary: 'Synchronize Membership With Group',
       operationId:
-          'post_memberships_{membership_id}_group_{group_id}_synchronize',
+          'synchronize_membership_with_group_memberships__membership_id__group__group_id__synchronize_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12686,7 +12813,7 @@ Return the list of unknown users whose email is not in the database.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -12694,7 +12821,7 @@ Return the list of unknown users whose email is not in the database.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all groups from database as a list of dictionaries',
       summary: 'Read Groups',
-      operationId: 'get_groups_',
+      operationId: 'read_groups_groups__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12720,7 +12847,7 @@ Return the list of unknown users whose email is not in the database.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Group',
-      operationId: 'post_groups_',
+      operationId: 'create_group_groups__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12749,7 +12876,7 @@ Return the list of unknown users whose email is not in the database.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Read Group',
-      operationId: 'get_groups_{group_id}',
+      operationId: 'read_group_groups__group_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12768,7 +12895,7 @@ Return the list of unknown users whose email is not in the database.
   }
 
   @override
-  Future<Response<dynamic>> _groupsGroupIdPatch({
+  Future<Response<void>> _groupsGroupIdPatch({
     required String? groupId,
     required CoreGroupUpdate? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -12776,7 +12903,7 @@ Return the list of unknown users whose email is not in the database.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update Group',
-      operationId: 'patch_groups_{group_id}',
+      operationId: 'update_group_groups__group_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12793,11 +12920,11 @@ Return the list of unknown users whose email is not in the database.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _groupsGroupIdDelete({
+  Future<Response<void>> _groupsGroupIdDelete({
     required String? groupId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete group from database.
@@ -12807,7 +12934,7 @@ This will remove the group from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Delete Group',
-      operationId: 'delete_groups_{group_id}',
+      operationId: 'delete_group_groups__group_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12822,7 +12949,7 @@ This will remove the group from all users but won\'t delete any user.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -12834,7 +12961,7 @@ This will remove the group from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Membership',
-      operationId: 'post_groups_membership',
+      operationId: 'create_membership_groups_membership_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12855,14 +12982,14 @@ This will remove the group from all users but won\'t delete any user.
   }
 
   @override
-  Future<Response<dynamic>> _groupsMembershipDelete({
+  Future<Response<void>> _groupsMembershipDelete({
     required CoreMembershipDelete? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a membership using the user and group ids.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Delete Membership',
-      operationId: 'delete_groups_membership',
+      operationId: 'delete_membership_groups_membership_delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12879,11 +13006,11 @@ This will remove the group from all users but won\'t delete any user.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _groupsBatchMembershipPost({
+  Future<Response<void>> _groupsBatchMembershipPost({
     required CoreBatchMembership? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Add a list of user to a group, using a list of email.
@@ -12891,7 +13018,7 @@ If an user does not exist it will be ignored.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Batch Membership',
-      operationId: 'post_groups_batch-membership',
+      operationId: 'create_batch_membership_groups_batch_membership_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12908,18 +13035,18 @@ If an user does not exist it will be ignored.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _groupsBatchMembershipDelete({
+  Future<Response<void>> _groupsBatchMembershipDelete({
     required CoreBatchDeleteMembership? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''This endpoint removes all users from a given group.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Delete Batch Membership',
-      operationId: 'delete_groups_batch-membership',
+      operationId: 'delete_batch_membership_groups_batch_membership_delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12936,11 +13063,11 @@ If an user does not exist it will be ignored.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _groupsGroupIdLogoPost({
+  Future<Response<void>> _groupsGroupIdLogoPost({
     required String? groupId,
     required List<int> image,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -12948,7 +13075,7 @@ If an user does not exist it will be ignored.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Group Logo',
-      operationId: 'post_groups_{group_id}_logo',
+      operationId: 'create_group_logo_groups__group_id__logo_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12968,18 +13095,18 @@ If an user does not exist it will be ignored.
       multipart: true,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _groupsGroupIdLogoGet({
+  Future<Response<List<int>>> _groupsGroupIdLogoGet({
     required String? groupId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Get the logo of a group.
 
 **User must be authenticated**''',
       summary: 'Read User Profile Picture',
-      operationId: 'get_groups_{group_id}_logo',
+      operationId: 'read_user_profile_picture_groups__group_id__logo_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12994,7 +13121,7 @@ If an user does not exist it will be ignored.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
@@ -13003,7 +13130,7 @@ If an user does not exist it will be ignored.
       description:
           'Return information about Hyperion. This endpoint can be used to check if the API is up.',
       summary: 'Read Information',
-      operationId: 'get_information',
+      operationId: 'read_information_information_get',
       consumes: [],
       produces: [],
       security: [],
@@ -13026,7 +13153,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return Hyperion privacy',
       summary: 'Read Privacy',
-      operationId: 'get_privacy',
+      operationId: 'read_privacy_privacy_get',
       consumes: [],
       produces: [],
       security: [],
@@ -13049,7 +13176,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return Hyperion terms and conditions pages',
       summary: 'Read Terms And Conditions',
-      operationId: 'get_terms-and-conditions',
+      operationId: 'read_terms_and_conditions_terms_and_conditions_get',
       consumes: [],
       produces: [],
       security: [],
@@ -13072,7 +13199,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return MyPayment latest ToS',
       summary: 'Read Mypayment Tos',
-      operationId: 'get_mypayment-terms-of-service',
+      operationId: 'read_mypayment_tos_mypayment_terms_of_service_get',
       consumes: [],
       produces: [],
       security: [],
@@ -13095,7 +13222,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return Hyperion support',
       summary: 'Read Support',
-      operationId: 'get_support',
+      operationId: 'read_support_support_get',
       consumes: [],
       produces: [],
       security: [],
@@ -13118,7 +13245,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return Hyperion security.txt file',
       summary: 'Read Security Txt',
-      operationId: 'get_security.txt',
+      operationId: 'read_security_txt_security_txt_get',
       consumes: [],
       produces: [],
       security: [],
@@ -13141,7 +13268,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return Hyperion security.txt file',
       summary: 'Read Wellknown Security Txt',
-      operationId: 'get_.well-known_security.txt',
+      operationId: 'read_wellknown_security_txt__well_known_security_txt_get',
       consumes: [],
       produces: [],
       security: [],
@@ -13164,7 +13291,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return Hyperion robots.txt file',
       summary: 'Read Robots Txt',
-      operationId: 'get_robots.txt',
+      operationId: 'read_robots_txt_robots_txt_get',
       consumes: [],
       produces: [],
       security: [],
@@ -13187,7 +13314,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return Hyperion account deletion information',
       summary: 'Read Account Deletion',
-      operationId: 'get_account-deletion',
+      operationId: 'read_account_deletion_account_deletion_get',
       consumes: [],
       produces: [],
       security: [],
@@ -13210,7 +13337,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return a style file from the assets folder',
       summary: 'Get Variables',
-      operationId: 'get_variables',
+      operationId: 'get_variables_variables_get',
       consumes: [],
       produces: [],
       security: [],
@@ -13229,11 +13356,11 @@ If an user does not exist it will be ignored.
   }
 
   @override
-  Future<Response<dynamic>> _faviconIcoGet({
+  Future<Response<List<int>>> _faviconIcoGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Favicon',
-      operationId: 'get_favicon.ico',
+      operationId: 'get_favicon_favicon_ico_get',
       consumes: [],
       produces: [],
       security: [],
@@ -13248,7 +13375,7 @@ If an user does not exist it will be ignored.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
@@ -13261,7 +13388,7 @@ If an user does not exist it will be ignored.
 
 Note: the request body needs to use **form-data** and not json.''',
       summary: 'Login For Access Token',
-      operationId: 'post_auth_simple_token',
+      operationId: 'login_for_access_token_auth_simple_token_post',
       consumes: [],
       produces: [],
       security: [],
@@ -13313,7 +13440,7 @@ See `/auth/authorization-flow/authorize-validation` endpoint for information abo
 
 **This endpoint is a UI endpoint which send and html page response. It will redirect to `/auth/authorization-flow/authorize-validation`**''',
       summary: 'Get Authorize Page',
-      operationId: 'get_auth_authorize',
+      operationId: 'get_authorize_page_auth_authorize_get',
       consumes: [],
       produces: [],
       security: [],
@@ -13360,7 +13487,7 @@ See `/auth/authorization-flow/authorize-validation` endpoint for information abo
 
 **This endpoint is a UI endpoint which send and html page response. It will redirect to `/auth/authorization-flow/authorize-validation`**''',
       summary: 'Post Authorize Page',
-      operationId: 'post_auth_authorize',
+      operationId: 'post_authorize_page_auth_authorize_post',
       consumes: [],
       produces: [],
       security: [],
@@ -13418,7 +13545,8 @@ References:
  * https://www.rfc-editor.org/rfc/rfc6749.html#section-4.1.2
  * https://openid.net/specs/openid-connect-core-1_0.html#AuthRequest''',
       summary: 'Authorize Validation',
-      operationId: 'post_auth_authorization-flow_authorize-validation',
+      operationId:
+          'authorize_validation_auth_authorization_flow_authorize_validation_post',
       consumes: [],
       produces: [],
       security: [],
@@ -13470,7 +13598,7 @@ Parameters must be `application/x-www-form-urlencoded` and include:
 https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.3
 https://openid.net/specs/openid-connect-core-1_0.html#TokenRequestValidation''',
       summary: 'Token',
-      operationId: 'post_auth_token',
+      operationId: 'token_auth_token_post',
       consumes: [],
       produces: [],
       security: [],
@@ -13519,7 +13647,7 @@ Reference:
 https://www.oauth.com/oauth2-servers/token-introspection-endpoint/
 https://datatracker.ietf.org/doc/html/rfc7662''',
       summary: 'Introspect',
-      operationId: 'post_auth_introspect',
+      operationId: 'introspect_auth_introspect_post',
       consumes: [],
       produces: [],
       security: [],
@@ -13564,7 +13692,7 @@ This procedure is not implemented in Hyperion as we can customize the response u
 Reference:
 https://openid.net/specs/openid-connect-core-1_0.html#UserInfo''',
       summary: 'Auth Get Userinfo',
-      operationId: 'get_auth_userinfo',
+      operationId: 'auth_get_userinfo_auth_userinfo_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13587,7 +13715,7 @@ https://openid.net/specs/openid-connect-core-1_0.html#UserInfo''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Jwks Uri',
-      operationId: 'get_oidc_authorization-flow_jwks_uri',
+      operationId: 'jwks_uri_oidc_authorization_flow_jwks_uri_get',
       consumes: [],
       produces: [],
       security: [],
@@ -13610,7 +13738,8 @@ https://openid.net/specs/openid-connect-core-1_0.html#UserInfo''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Oauth Configuration',
-      operationId: 'get_.well-known_oauth-authorization-server',
+      operationId:
+          'oauth_configuration__well_known_oauth_authorization_server_get',
       consumes: [],
       produces: [],
       security: [],
@@ -13633,7 +13762,7 @@ https://openid.net/specs/openid-connect-core-1_0.html#UserInfo''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Oidc Configuration',
-      operationId: 'get_.well-known_openid-configuration',
+      operationId: 'oidc_configuration__well_known_openid_configuration_get',
       consumes: [],
       produces: [],
       security: [],
@@ -13652,7 +13781,7 @@ https://openid.net/specs/openid-connect-core-1_0.html#UserInfo''',
   }
 
   @override
-  Future<Response<dynamic>> _notificationDevicesPost({
+  Future<Response<void>> _notificationDevicesPost({
     required BodyRegisterFirebaseDeviceNotificationDevicesPost? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
@@ -13661,7 +13790,7 @@ This endpoint should be called once a month to ensure that the token is still va
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Register Firebase Device',
-      operationId: 'post_notification_devices',
+      operationId: 'register_firebase_device_notification_devices_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13678,7 +13807,7 @@ This endpoint should be called once a month to ensure that the token is still va
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -13690,7 +13819,7 @@ This endpoint is useful to get firebase tokens for debugging purposes.
 
 **Only admins can use this endpoint**''',
       summary: 'Get Devices',
-      operationId: 'get_notification_devices',
+      operationId: 'get_devices_notification_devices_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13711,14 +13840,15 @@ This endpoint is useful to get firebase tokens for debugging purposes.
   }
 
   @override
-  Future<Response<dynamic>> _notificationDevicesFirebaseTokenDelete({
+  Future<Response<void>> _notificationDevicesFirebaseTokenDelete({
     required String? firebaseToken,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Unregister a firebase device for the user
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Unregister Firebase Device',
-      operationId: 'delete_notification_devices_{firebase_token}',
+      operationId:
+          'unregister_firebase_device_notification_devices__firebase_token__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13733,11 +13863,11 @@ This endpoint is useful to get firebase tokens for debugging purposes.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _notificationTopicsTopicIdSubscribePost({
+  Future<Response<void>> _notificationTopicsTopicIdSubscribePost({
     required String? topicId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Subscribe to a topic.
@@ -13746,7 +13876,8 @@ If the topic define restrictions, the user must be in the corresponding group or
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Subscribe To Topic',
-      operationId: 'post_notification_topics_{topic_id}_subscribe',
+      operationId:
+          'subscribe_to_topic_notification_topics__topic_id__subscribe_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13761,18 +13892,19 @@ If the topic define restrictions, the user must be in the corresponding group or
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _notificationTopicsTopicIdUnsubscribePost({
+  Future<Response<void>> _notificationTopicsTopicIdUnsubscribePost({
     required String? topicId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Unsubscribe to a topic
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Unsubscribe To Topic',
-      operationId: 'post_notification_topics_{topic_id}_unsubscribe',
+      operationId:
+          'unsubscribe_to_topic_notification_topics__topic_id__unsubscribe_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13787,7 +13919,7 @@ If the topic define restrictions, the user must be in the corresponding group or
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -13797,7 +13929,7 @@ If the topic define restrictions, the user must be in the corresponding group or
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Topics',
-      operationId: 'get_notification_topics',
+      operationId: 'get_topics_notification_topics_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13816,14 +13948,14 @@ If the topic define restrictions, the user must be in the corresponding group or
   }
 
   @override
-  Future<Response<dynamic>> _notificationSendPost({
+  Future<Response<void>> _notificationSendPost({
     required GroupNotificationRequest? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Send a notification to a group.
 
 **Only admins can use this endpoint**''',
       summary: 'Send Notification',
-      operationId: 'post_notification_send',
+      operationId: 'send_notification_notification_send_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13840,18 +13972,18 @@ If the topic define restrictions, the user must be in the corresponding group or
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _notificationTestSendPost({
+  Future<Response<void>> _notificationTestSendPost({
     String? userId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Send ourself a test notification.
 
 **Only admins can use this endpoint**''',
       summary: 'Send Test Notification',
-      operationId: 'post_notification_test_send',
+      operationId: 'send_test_notification_notification_test_send_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13868,18 +14000,19 @@ If the topic define restrictions, the user must be in the corresponding group or
       parameters: $params,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _notificationTestSendFuturePost({
+  Future<Response<void>> _notificationTestSendFuturePost({
     String? userId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Send ourself a test notification.
 
 **Only admins can use this endpoint**''',
       summary: 'Send Test Future Notification',
-      operationId: 'post_notification_test_send_future',
+      operationId:
+          'send_test_future_notification_notification_test_send_future_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13896,17 +14029,18 @@ If the topic define restrictions, the user must be in the corresponding group or
       parameters: $params,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _notificationTestSendTopicPost({
+  Future<Response<void>> _notificationTestSendTopicPost({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Send ourself a test notification.
 
 **Only admins can use this endpoint**''',
       summary: 'Send Test Notification Topic',
-      operationId: 'post_notification_test_send_topic',
+      operationId:
+          'send_test_notification_topic_notification_test_send_topic_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13921,17 +14055,18 @@ If the topic define restrictions, the user must be in the corresponding group or
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _notificationTestSendTopicFuturePost({
+  Future<Response<void>> _notificationTestSendTopicFuturePost({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Send ourself a test notification.
 
 **Only admins can use this endpoint**''',
       summary: 'Send Test Future Notification Topic',
-      operationId: 'post_notification_test_send_topic_future',
+      operationId:
+          'send_test_future_notification_topic_notification_test_send_topic_future_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13946,7 +14081,7 @@ If the topic define restrictions, the user must be in the corresponding group or
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -13954,7 +14089,7 @@ If the topic define restrictions, the user must be in the corresponding group or
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get the current bank account holder information.',
       summary: 'Get Bank Account Holder',
-      operationId: 'get_mypayment_bank-account-holder',
+      operationId: 'get_bank_account_holder_mypayment_bank_account_holder_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13978,7 +14113,7 @@ If the topic define restrictions, the user must be in the corresponding group or
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Set the bank account holder information.',
       summary: 'Set Bank Account Holder',
-      operationId: 'post_mypayment_bank-account-holder',
+      operationId: 'set_bank_account_holder_mypayment_bank_account_holder_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14003,7 +14138,7 @@ If the topic define restrictions, the user must be in the corresponding group or
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all structures.',
       summary: 'Get Structures',
-      operationId: 'get_mypayment_structures',
+      operationId: 'get_structures_mypayment_structures_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14035,7 +14170,7 @@ A structure contains:
 
 **The user must be an admin to use this endpoint**''',
       summary: 'Create Structure',
-      operationId: 'post_mypayment_structures',
+      operationId: 'create_structure_mypayment_structures_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14056,7 +14191,7 @@ A structure contains:
   }
 
   @override
-  Future<Response<dynamic>> _mypaymentStructuresStructureIdPatch({
+  Future<Response<void>> _mypaymentStructuresStructureIdPatch({
     required String? structureId,
     required StructureUpdate? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -14064,7 +14199,7 @@ A structure contains:
 
 **The user must be an admin to use this endpoint**''',
       summary: 'Update Structure',
-      operationId: 'patch_mypayment_structures_{structure_id}',
+      operationId: 'update_structure_mypayment_structures__structure_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14081,11 +14216,11 @@ A structure contains:
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _mypaymentStructuresStructureIdDelete({
+  Future<Response<void>> _mypaymentStructuresStructureIdDelete({
     required String? structureId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
@@ -14093,7 +14228,8 @@ A structure contains:
 
 **The user must be an admin to use this endpoint**''',
       summary: 'Delete Structure',
-      operationId: 'delete_mypayment_structures_{structure_id}',
+      operationId:
+          'delete_structure_mypayment_structures__structure_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14108,11 +14244,11 @@ A structure contains:
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>>
+  Future<Response<void>>
   _mypaymentStructuresStructureIdInitManagerTransferPost({
     required String? structureId,
     required StructureTranfert? body,
@@ -14124,7 +14260,7 @@ The link will only be valid for a limited time.
 **The user must be the manager for this structure**''',
       summary: 'Init Transfer Structure Manager',
       operationId:
-          'post_mypayment_structures_{structure_id}_init-manager-transfer',
+          'init_transfer_structure_manager_mypayment_structures__structure_id__init_manager_transfer_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14143,7 +14279,7 @@ The link will only be valid for a limited time.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -14154,7 +14290,8 @@ The link will only be valid for a limited time.
 
 The user must have initiated the update of the manager with `init_update_structure_manager`''',
       summary: 'Confirm Structure Manager Transfer',
-      operationId: 'get_mypayment_structures_confirm-manager-transfer',
+      operationId:
+          'confirm_structure_manager_transfer_mypayment_structures_confirm_manager_transfer_get',
       consumes: [],
       produces: [],
       security: [],
@@ -14189,7 +14326,8 @@ Stores name should be unique, as an user need to be able to identify a store by 
 **The user must be the manager for this structure**
 **The user must be a member of the associated CoreAssociation**''',
       summary: 'Create Store',
-      operationId: 'post_mypayment_structures_{structure_id}_stores',
+      operationId:
+          'create_store_mypayment_structures__structure_id__stores_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14219,7 +14357,7 @@ Stores name should be unique, as an user need to be able to identify a store by 
 
 **The user must be authorized to see the store history**''',
       summary: 'Get Store History',
-      operationId: 'get_mypayment_stores_{store_id}_history',
+      operationId: 'get_store_history_mypayment_stores__store_id__history_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14250,7 +14388,8 @@ Stores name should be unique, as an user need to be able to identify a store by 
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Export store payment history as a CSV file.',
       summary: 'Export Store History',
-      operationId: 'get_mypayment_stores_{store_id}_history_data-export',
+      operationId:
+          'export_store_history_mypayment_stores__store_id__history_data_export_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14282,7 +14421,7 @@ Stores name should be unique, as an user need to be able to identify a store by 
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get User Stores',
-      operationId: 'get_mypayment_users_me_stores',
+      operationId: 'get_user_stores_mypayment_users_me_stores_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14301,7 +14440,7 @@ Stores name should be unique, as an user need to be able to identify a store by 
   }
 
   @override
-  Future<Response<dynamic>> _mypaymentStoresStoreIdPatch({
+  Future<Response<void>> _mypaymentStoresStoreIdPatch({
     required String? storeId,
     required StoreUpdate? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -14309,7 +14448,7 @@ Stores name should be unique, as an user need to be able to identify a store by 
 
 **The user must be the manager for this store\'s structure**''',
       summary: 'Update Store',
-      operationId: 'patch_mypayment_stores_{store_id}',
+      operationId: 'update_store_mypayment_stores__store_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14326,11 +14465,11 @@ Stores name should be unique, as an user need to be able to identify a store by 
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _mypaymentStoresStoreIdDelete({
+  Future<Response<void>> _mypaymentStoresStoreIdDelete({
     required String? storeId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
@@ -14338,7 +14477,7 @@ Stores name should be unique, as an user need to be able to identify a store by 
 
 **The user must be the manager for this store\'s structure**''',
       summary: 'Delete Store',
-      operationId: 'delete_mypayment_stores_{store_id}',
+      operationId: 'delete_store_mypayment_stores__store_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14353,7 +14492,7 @@ Stores name should be unique, as an user need to be able to identify a store by 
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -14371,7 +14510,8 @@ This seller will have authorized permissions among:
 
 **The user must have the `can_manage_sellers` permission for this store**''',
       summary: 'Create Store Seller',
-      operationId: 'post_mypayment_stores_{store_id}_sellers',
+      operationId:
+          'create_store_seller_mypayment_stores__store_id__sellers_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14399,7 +14539,7 @@ This seller will have authorized permissions among:
 
 **The user must have the `can_manage_sellers` permission for this store**''',
       summary: 'Get Store Sellers',
-      operationId: 'get_mypayment_stores_{store_id}_sellers',
+      operationId: 'get_store_sellers_mypayment_stores__store_id__sellers_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14418,7 +14558,7 @@ This seller will have authorized permissions among:
   }
 
   @override
-  Future<Response<dynamic>> _mypaymentStoresStoreIdSellersSellerUserIdPatch({
+  Future<Response<void>> _mypaymentStoresStoreIdSellersSellerUserIdPatch({
     required String? storeId,
     required String? sellerUserId,
     required SellerUpdate? body,
@@ -14428,7 +14568,8 @@ The structure manager cannot be updated as a seller.
 
 **The user must have the `can_manage_sellers` permission for this store**''',
       summary: 'Update Store Seller',
-      operationId: 'patch_mypayment_stores_{store_id}_sellers_{seller_user_id}',
+      operationId:
+          'update_store_seller_mypayment_stores__store_id__sellers__seller_user_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14447,11 +14588,11 @@ The structure manager cannot be updated as a seller.
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _mypaymentStoresStoreIdSellersSellerUserIdDelete({
+  Future<Response<void>> _mypaymentStoresStoreIdSellersSellerUserIdDelete({
     required String? storeId,
     required String? sellerUserId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -14461,7 +14602,7 @@ The structure manager cannot be deleted as a seller.
 **The user must have the `can_manage_sellers` permission for this store**''',
       summary: 'Delete Store Seller',
       operationId:
-          'delete_mypayment_stores_{store_id}_sellers_{seller_user_id}',
+          'delete_store_seller_mypayment_stores__store_id__sellers__seller_user_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14478,11 +14619,11 @@ The structure manager cannot be deleted as a seller.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _mypaymentUsersMeRegisterPost({
+  Future<Response<void>> _mypaymentUsersMeRegisterPost({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Sign MyPayment TOS for the given user.
 
@@ -14490,7 +14631,7 @@ The user will need to accept the latest TOS version to be able to use MyPayment.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Register User',
-      operationId: 'post_mypayment_users_me_register',
+      operationId: 'register_user_mypayment_users_me_register_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14505,7 +14646,7 @@ The user will need to accept the latest TOS version to be able to use MyPayment.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -14516,7 +14657,7 @@ The user will need to accept the latest TOS version to be able to use MyPayment.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get User Tos',
-      operationId: 'get_mypayment_users_me_tos',
+      operationId: 'get_user_tos_mypayment_users_me_tos_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14535,7 +14676,7 @@ The user will need to accept the latest TOS version to be able to use MyPayment.
   }
 
   @override
-  Future<Response<dynamic>> _mypaymentUsersMeTosPost({
+  Future<Response<void>> _mypaymentUsersMeTosPost({
     required TOSSignature? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Sign MyPayment TOS for the given user.
@@ -14544,7 +14685,7 @@ If the user is already registered in the MyPayment system, this will update the 
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Sign Tos',
-      operationId: 'post_mypayment_users_me_tos',
+      operationId: 'sign_tos_mypayment_users_me_tos_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14561,7 +14702,7 @@ If the user is already registered in the MyPayment system, this will update the 
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -14571,7 +14712,7 @@ If the user is already registered in the MyPayment system, this will update the 
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get User Devices',
-      operationId: 'get_mypayment_users_me_wallet_devices',
+      operationId: 'get_user_devices_mypayment_users_me_wallet_devices_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14598,7 +14739,7 @@ The user will need to activate it using a token sent by email.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Create User Devices',
-      operationId: 'post_mypayment_users_me_wallet_devices',
+      operationId: 'create_user_devices_mypayment_users_me_wallet_devices_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14627,7 +14768,8 @@ The user will need to activate it using a token sent by email.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get User Device',
-      operationId: 'get_mypayment_users_me_wallet_devices_{wallet_device_id}',
+      operationId:
+          'get_user_device_mypayment_users_me_wallet_devices__wallet_device_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14654,7 +14796,7 @@ The user will need to activate it using a token sent by email.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get User Wallet',
-      operationId: 'get_mypayment_users_me_wallet',
+      operationId: 'get_user_wallet_mypayment_users_me_wallet_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14678,7 +14820,7 @@ The user will need to activate it using a token sent by email.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Activate a wallet device',
       summary: 'Activate User Device',
-      operationId: 'get_mypayment_devices_activate',
+      operationId: 'activate_user_device_mypayment_devices_activate_get',
       consumes: [],
       produces: [],
       security: [],
@@ -14699,7 +14841,7 @@ The user will need to activate it using a token sent by email.
   }
 
   @override
-  Future<Response<dynamic>>
+  Future<Response<void>>
   _mypaymentUsersMeWalletDevicesWalletDeviceIdRevokePost({
     required String? walletDeviceId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -14708,7 +14850,7 @@ The user will need to activate it using a token sent by email.
 **The user must be authenticated to use this endpoint**''',
       summary: 'Revoke User Devices',
       operationId:
-          'post_mypayment_users_me_wallet_devices_{wallet_device_id}_revoke',
+          'revoke_user_devices_mypayment_users_me_wallet_devices__wallet_device_id__revoke_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14725,7 +14867,7 @@ The user will need to activate it using a token sent by email.
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -14737,7 +14879,8 @@ The user will need to activate it using a token sent by email.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get User Wallet History',
-      operationId: 'get_mypayment_users_me_wallet_history',
+      operationId:
+          'get_user_wallet_history_mypayment_users_me_wallet_history_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14767,7 +14910,7 @@ The user will need to activate it using a token sent by email.
       description:
           'Initiate HelloAsso transfer, return a payment url to complete the transaction on HelloAsso website.',
       summary: 'Init Ha Transfer',
-      operationId: 'post_mypayment_transfer_init',
+      operationId: 'init_ha_transfer_mypayment_transfer_init_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14801,7 +14944,7 @@ The user will need to activate it using a token sent by email.
 Redirect the user to the provided redirect `url`. The parameters `checkoutIntentId`, `code`, `orderId` and `error` passed by HelloAsso will be added to the redirect URL.
 The redirect `url` must be trusted by Hyperion in the dotenv.''',
       summary: 'Redirect From Ha Transfer',
-      operationId: 'get_mypayment_transfer_redirect',
+      operationId: 'redirect_from_ha_transfer_mypayment_transfer_redirect_get',
       consumes: [],
       produces: [],
       security: [],
@@ -14842,7 +14985,8 @@ If the store structure has an association membership, the user should be a membe
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Validate Can Scan Qrcode',
-      operationId: 'post_mypayment_stores_{store_id}_scan_check',
+      operationId:
+          'validate_can_scan_qrcode_mypayment_stores__store_id__scan_check_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14895,7 +15039,7 @@ The provided content is checked to ensure:
 **The user must be authenticated to use this endpoint**
 **The user must have the `can_bank` permission for this store**''',
       summary: 'Store Scan Qrcode',
-      operationId: 'post_mypayment_stores_{store_id}_scan',
+      operationId: 'store_scan_qrcode_mypayment_stores__store_id__scan_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14916,7 +15060,7 @@ The provided content is checked to ensure:
   }
 
   @override
-  Future<Response<dynamic>> _mypaymentTransactionsTransactionIdRefundPost({
+  Future<Response<void>> _mypaymentTransactionsTransactionIdRefundPost({
     required String? transactionId,
     required RefundInfo? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -14929,7 +15073,8 @@ To cancel a transaction made in the last 30 seconds, the endpoint `/mypayment/tr
 
 **The user must either be the credited user or a seller with cancel permissions of the credited store of the transaction**''',
       summary: 'Refund Transaction',
-      operationId: 'post_mypayment_transactions_{transaction_id}_refund',
+      operationId:
+          'refund_transaction_mypayment_transactions__transaction_id__refund_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14948,11 +15093,11 @@ To cancel a transaction made in the last 30 seconds, the endpoint `/mypayment/tr
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _mypaymentTransactionsTransactionIdCancelPost({
+  Future<Response<void>> _mypaymentTransactionsTransactionIdCancelPost({
     required String? transactionId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Cancel a transaction.
@@ -14962,7 +15107,8 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must either be the credited user or the seller of the transaction**''',
       summary: 'Cancel Transaction',
-      operationId: 'post_mypayment_transactions_{transaction_id}_cancel',
+      operationId:
+          'cancel_transaction_mypayment_transactions__transaction_id__cancel_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14979,7 +15125,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -14990,7 +15136,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get User Requests',
-      operationId: 'get_mypayment_requests',
+      operationId: 'get_user_requests_mypayment_requests_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15011,7 +15157,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
   }
 
   @override
-  Future<Response<dynamic>> _mypaymentRequestsRequestIdAcceptPost({
+  Future<Response<void>> _mypaymentRequestsRequestIdAcceptPost({
     required String? requestId,
     required SignedContent? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -15019,7 +15165,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Accept Request',
-      operationId: 'post_mypayment_requests_{request_id}_accept',
+      operationId: 'accept_request_mypayment_requests__request_id__accept_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15036,18 +15182,18 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _mypaymentRequestsRequestIdRefusePost({
+  Future<Response<void>> _mypaymentRequestsRequestIdRefusePost({
     required String? requestId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Refuse a request.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Refuse Request',
-      operationId: 'post_mypayment_requests_{request_id}_refuse',
+      operationId: 'refuse_request_mypayment_requests__request_id__refuse_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15062,7 +15208,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -15077,7 +15223,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Invoices',
-      operationId: 'get_mypayment_invoices',
+      operationId: 'get_invoices_mypayment_invoices_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15115,7 +15261,8 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be the structure manager**''',
       summary: 'Get Structure Invoices',
-      operationId: 'get_mypayment_invoices_structures_{structure_id}',
+      operationId:
+          'get_structure_invoices_mypayment_invoices_structures__structure_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15148,7 +15295,8 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be the bank account holder**''',
       summary: 'Create Structure Invoice',
-      operationId: 'post_mypayment_invoices_structures_{structure_id}',
+      operationId:
+          'create_structure_invoice_mypayment_invoices_structures__structure_id__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15167,12 +15315,12 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
   }
 
   @override
-  Future<Response<dynamic>> _mypaymentInvoicesInvoiceIdGet({
+  Future<Response<List<int>>> _mypaymentInvoicesInvoiceIdGet({
     required String? invoiceId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Download Invoice',
-      operationId: 'get_mypayment_invoices_{invoice_id}',
+      operationId: 'download_invoice_mypayment_invoices__invoice_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15187,18 +15335,19 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
-  Future<Response<dynamic>> _mypaymentInvoicesInvoiceIdDelete({
+  Future<Response<void>> _mypaymentInvoicesInvoiceIdDelete({
     required String? invoiceId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a structure invoice.
 
 **The user must be the bank account holder**''',
       summary: 'Delete Structure Invoice',
-      operationId: 'delete_mypayment_invoices_{invoice_id}',
+      operationId:
+          'delete_structure_invoice_mypayment_invoices__invoice_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15213,11 +15362,11 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _mypaymentInvoicesInvoiceIdPaidPatch({
+  Future<Response<void>> _mypaymentInvoicesInvoiceIdPaidPatch({
     required String? invoiceId,
     required bool? paid,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -15225,7 +15374,8 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be the bank account holder**''',
       summary: 'Update Invoice Paid Status',
-      operationId: 'patch_mypayment_invoices_{invoice_id}_paid',
+      operationId:
+          'update_invoice_paid_status_mypayment_invoices__invoice_id__paid_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15242,18 +15392,19 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
       parameters: $params,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _mypaymentInvoicesInvoiceIdReceivedPatch({
+  Future<Response<void>> _mypaymentInvoicesInvoiceIdReceivedPatch({
     required String? invoiceId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Update the received status of a structure invoice.
 
 **The user must be the structure manager**''',
       summary: 'Aknowledge Invoice As Received',
-      operationId: 'patch_mypayment_invoices_{invoice_id}_received',
+      operationId:
+          'aknowledge_invoice_as_received_mypayment_invoices__invoice_id__received_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15268,7 +15419,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -15286,7 +15437,7 @@ Data includes:
 
 **The header must contain the MYPAYMENT_DATA_VERIFIER_ACCESS_TOKEN defined in the settings in the `x-data-verifier-token` field**''',
       summary: 'Get Data For Integrity Check',
-      operationId: 'get_mypayment_integrity-check',
+      operationId: 'get_data_for_integrity_check_mypayment_integrity_check_get',
       consumes: [],
       produces: [],
       security: [],
@@ -15319,7 +15470,7 @@ Data includes:
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Google Api Callback',
-      operationId: 'get_google-api_oauth2callback',
+      operationId: 'google_api_callback_google_api_oauth2callback_get',
       consumes: [],
       produces: [],
       security: [],
@@ -15344,7 +15495,7 @@ Data includes:
 
 To be considered open, an event should have its opening date in the past and its closing date in the future or not defined. Moreover, we only return enabled events.''',
       summary: 'Get Open Events',
-      operationId: 'get_tickets_events',
+      operationId: 'get_open_events_tickets_events_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15370,7 +15521,7 @@ To be considered open, an event should have its opening date in the past and its
 
 Only enabled sessions and categories are returned''',
       summary: 'Get Event',
-      operationId: 'get_tickets_events_{event_id}',
+      operationId: 'get_event_tickets_events__event_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15395,7 +15546,7 @@ Only enabled sessions and categories are returned''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a checkout for an open event',
       summary: 'Create Checkout',
-      operationId: 'post_tickets_events_{event_id}_checkout',
+      operationId: 'create_checkout_tickets_events__event_id__checkout_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15421,7 +15572,7 @@ Only enabled sessions and categories are returned''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all tickets of the current user',
       summary: 'Get User Tickets',
-      operationId: 'get_tickets_user_me_tickets',
+      operationId: 'get_user_tickets_tickets_user_me_tickets_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15443,7 +15594,7 @@ Only enabled sessions and categories are returned''',
   }
 
   @override
-  Future<Response<dynamic>> _ticketsUserMeTicketsChangeOverRequestPost({
+  Future<Response<void>> _ticketsUserMeTicketsChangeOverRequestPost({
     required TicketChangeOverInvitation? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
@@ -15451,7 +15602,8 @@ Only enabled sessions and categories are returned''',
 
 Using this endpoint will invalidate existing transfer invitations.''',
       summary: 'Ticket Request Change Over',
-      operationId: 'post_tickets_user_me_tickets_change-over_request',
+      operationId:
+          'ticket_request_change_over_tickets_user_me_tickets_change_over_request_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15468,7 +15620,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -15478,7 +15630,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
       description:
           'Accept a ticket transfer invitation. The user will become the new owner of the ticket.',
       summary: 'Ticket Accept Change Over',
-      operationId: 'get_tickets_user_me_tickets_change-over_accept',
+      operationId:
+          'ticket_accept_change_over_tickets_user_me_tickets_change_over_accept_get',
       consumes: [],
       produces: [],
       security: [],
@@ -15506,7 +15659,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Get Event Admin',
-      operationId: 'get_tickets_admin_events_{event_id}',
+      operationId: 'get_event_admin_tickets_admin_events__event_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15525,13 +15678,13 @@ Using this endpoint will invalidate existing transfer invitations.''',
   }
 
   @override
-  Future<Response<dynamic>> _ticketsAdminEventsEventIdPatch({
+  Future<Response<void>> _ticketsAdminEventsEventIdPatch({
     required String? eventId,
     required EventUpdate? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Edit one event for admin',
       summary: 'Update Event',
-      operationId: 'patch_tickets_admin_events_{event_id}',
+      operationId: 'update_event_tickets_admin_events__event_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15548,16 +15701,16 @@ Using this endpoint will invalidate existing transfer invitations.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _ticketsAdminEventsEventIdDelete({
+  Future<Response<void>> _ticketsAdminEventsEventIdDelete({
     required String? eventId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete one event for admin',
       summary: 'Delete Event',
-      operationId: 'delete_tickets_admin_events_{event_id}',
+      operationId: 'delete_event_tickets_admin_events__event_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15572,7 +15725,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -15583,7 +15736,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Create Event',
-      operationId: 'post_tickets_admin_events',
+      operationId: 'create_event_tickets_admin_events_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15612,7 +15765,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Create Session',
-      operationId: 'post_tickets_admin_events_{event_id}_sessions',
+      operationId:
+          'create_session_tickets_admin_events__event_id__sessions_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15633,7 +15787,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
   }
 
   @override
-  Future<Response<dynamic>> _ticketsAdminEventsEventIdSessionsSessionIdPatch({
+  Future<Response<void>> _ticketsAdminEventsEventIdSessionsSessionIdPatch({
     required String? eventId,
     required String? sessionId,
     required SessionUpdate? body,
@@ -15641,7 +15795,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       description: 'Edit one event for admin',
       summary: 'Update Session',
       operationId:
-          'patch_tickets_admin_events_{event_id}_sessions_{session_id}',
+          'update_session_tickets_admin_events__event_id__sessions__session_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15660,18 +15814,18 @@ Using this endpoint will invalidate existing transfer invitations.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _ticketsAdminEventsEventIdSessionsSessionIdDelete({
+  Future<Response<void>> _ticketsAdminEventsEventIdSessionsSessionIdDelete({
     required String? eventId,
     required String? sessionId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete one session for admin',
       summary: 'Delete Session',
       operationId:
-          'delete_tickets_admin_events_{event_id}_sessions_{session_id}',
+          'delete_session_tickets_admin_events__event_id__sessions__session_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15688,7 +15842,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -15700,7 +15854,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Create Category',
-      operationId: 'post_tickets_admin_events_{event_id}_categories',
+      operationId:
+          'create_category_tickets_admin_events__event_id__categories_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15721,8 +15876,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
   }
 
   @override
-  Future<Response<dynamic>>
-  _ticketsAdminEventsEventIdCategoriesCategoryIdPatch({
+  Future<Response<void>> _ticketsAdminEventsEventIdCategoriesCategoryIdPatch({
     required String? eventId,
     required String? categoryId,
     required CategoryUpdate? body,
@@ -15730,7 +15884,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       description: 'Edit one event for admin',
       summary: 'Update Category',
       operationId:
-          'patch_tickets_admin_events_{event_id}_categories_{category_id}',
+          'update_category_tickets_admin_events__event_id__categories__category_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15749,19 +15903,18 @@ Using this endpoint will invalidate existing transfer invitations.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>>
-  _ticketsAdminEventsEventIdCategoriesCategoryIdDelete({
+  Future<Response<void>> _ticketsAdminEventsEventIdCategoriesCategoryIdDelete({
     required String? eventId,
     required String? categoryId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete one category for admin',
       summary: 'Delete Category',
       operationId:
-          'delete_tickets_admin_events_{event_id}_categories_{category_id}',
+          'delete_category_tickets_admin_events__event_id__categories__category_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15778,7 +15931,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -15790,7 +15943,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Create Question',
-      operationId: 'post_tickets_admin_events_{event_id}_questions',
+      operationId:
+          'create_question_tickets_admin_events__event_id__questions_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15811,7 +15965,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
   }
 
   @override
-  Future<Response<dynamic>> _ticketsAdminEventsEventIdQuestionsQuestionIdPatch({
+  Future<Response<void>> _ticketsAdminEventsEventIdQuestionsQuestionIdPatch({
     required String? eventId,
     required String? questionId,
     required QuestionUpdate? body,
@@ -15819,7 +15973,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       description: 'Edit one event for admin',
       summary: 'Update Question',
       operationId:
-          'patch_tickets_admin_events_{event_id}_questions_{question_id}',
+          'update_question_tickets_admin_events__event_id__questions__question_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15838,19 +15992,18 @@ Using this endpoint will invalidate existing transfer invitations.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>>
-  _ticketsAdminEventsEventIdQuestionsQuestionIdDelete({
+  Future<Response<void>> _ticketsAdminEventsEventIdQuestionsQuestionIdDelete({
     required String? eventId,
     required String? questionId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete one question for admin',
       summary: 'Delete Question',
       operationId:
-          'delete_tickets_admin_events_{event_id}_questions_{question_id}',
+          'delete_question_tickets_admin_events__event_id__questions__question_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15867,7 +16020,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -15879,7 +16032,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Get Event Tickets',
-      operationId: 'get_tickets_admin_events_{event_id}_tickets',
+      operationId:
+          'get_event_tickets_tickets_admin_events__event_id__tickets_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15901,14 +16055,15 @@ Using this endpoint will invalidate existing transfer invitations.''',
   }
 
   @override
-  Future<Response<dynamic>> _ticketsAdminEventsEventIdTicketsCsvGet({
+  Future<Response<List<int>>> _ticketsAdminEventsEventIdTicketsCsvGet({
     required String? eventId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Get all tickets of an event as csv
 
 **The user should have the right to manage the event seller**''',
       summary: 'Get Event Tickets Csv',
-      operationId: 'get_tickets_admin_events_{event_id}_tickets_csv',
+      operationId:
+          'get_event_tickets_csv_tickets_admin_events__event_id__tickets_csv_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15923,7 +16078,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<int>, int>($request);
   }
 
   @override
@@ -15935,7 +16090,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Check Ticket',
-      operationId: 'post_tickets_admin_tickets_{ticket_id}_check',
+      operationId: 'check_ticket_tickets_admin_tickets__ticket_id__check_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15957,14 +16112,14 @@ Using this endpoint will invalidate existing transfer invitations.''',
   }
 
   @override
-  Future<Response<dynamic>> _ticketsAdminTicketsTicketIdScanPost({
+  Future<Response<void>> _ticketsAdminTicketsTicketIdScanPost({
     required String? ticketId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Mark a ticket as scanned
 
 **The user should have the right to manage the event seller**''',
       summary: 'Scan Ticket',
-      operationId: 'post_tickets_admin_tickets_{ticket_id}_scan',
+      operationId: 'scan_ticket_tickets_admin_tickets__ticket_id__scan_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15979,7 +16134,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -15988,7 +16143,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Events By Store',
-      operationId: 'get_tickets_admin_store_{store_id}_events',
+      operationId:
+          'get_events_by_store_tickets_admin_store__store_id__events_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16015,7 +16171,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Get Events By Association',
-      operationId: 'get_tickets_admin_association_{association_id}_events',
+      operationId:
+          'get_events_by_association_tickets_admin_association__association_id__events_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16040,7 +16197,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all permissions from database',
       summary: 'Read Permissions List',
-      operationId: 'get_permissions_list',
+      operationId: 'read_permissions_list_permissions_list_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16063,7 +16220,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all permissions from database',
       summary: 'Read Permissions',
-      operationId: 'get_permissions_',
+      operationId: 'read_permissions_permissions__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16082,12 +16239,12 @@ Using this endpoint will invalidate existing transfer invitations.''',
   }
 
   @override
-  Future<Response<dynamic>> _permissionsPost({
+  Future<Response<void>> _permissionsPost({
     required Object? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a new permission in database',
       summary: 'Create Permission',
-      operationId: 'post_permissions_',
+      operationId: 'create_permission_permissions__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16104,16 +16261,16 @@ Using this endpoint will invalidate existing transfer invitations.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
-  Future<Response<dynamic>> _permissionsDelete({
+  Future<Response<void>> _permissionsDelete({
     required Object? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete a permission from database by name',
       summary: 'Delete Permission',
-      operationId: 'delete_permissions_',
+      operationId: 'delete_permission_permissions__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16130,7 +16287,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<void, void>($request);
   }
 
   @override
@@ -16139,7 +16296,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return permission with name from database',
       summary: 'Read Permission',
-      operationId: 'get_permissions_{permission_name}',
+      operationId: 'read_permission_permissions__permission_name__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],

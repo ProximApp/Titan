@@ -56,6 +56,7 @@ import 'openapi.enums.swagger.dart'
         WalletDeviceStatus,
         WalletType;
 import 'openapi.metadata.swagger.dart';
+import 'package:titan/tools/date_time_json.dart';
 export 'openapi.enums.swagger.dart';
 export 'openapi.models.swagger.dart';
 
@@ -110,7 +111,7 @@ abstract class Openapi extends ChopperService {
       description:
           'Return all species from database as a list of SpeciesComplete schemas',
       summary: 'Get All Species',
-      operationId: 'get_seed_library_species_',
+      operationId: 'get_all_species_seed_library_species__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -140,7 +141,7 @@ abstract class Openapi extends ChopperService {
       description: '''Create a new Species by giving an SpeciesBase scheme
 **This endpoint is only usable by seed_library **''',
       summary: 'Create Species',
-      operationId: 'post_seed_library_species_',
+      operationId: 'create_species_seed_library_species__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -167,7 +168,7 @@ abstract class Openapi extends ChopperService {
       description:
           'Return all available types of species from SpeciesType enum.',
       summary: 'Get All Species Types',
-      operationId: 'get_seed_library_species_types',
+      operationId: 'get_all_species_types_seed_library_species_types_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -178,7 +179,7 @@ abstract class Openapi extends ChopperService {
 
   ///Update Species
   ///@param species_id
-  Future<chopper.Response> seedLibrarySpeciesSpeciesIdPatch({
+  Future<chopper.Response<void>> seedLibrarySpeciesSpeciesIdPatch({
     required String? speciesId,
     required SpeciesEdit? body,
   }) {
@@ -188,7 +189,7 @@ abstract class Openapi extends ChopperService {
   ///Update Species
   ///@param species_id
   @PATCH(path: '/seed_library/species/{species_id}', optionalBody: true)
-  Future<chopper.Response> _seedLibrarySpeciesSpeciesIdPatch({
+  Future<chopper.Response<void>> _seedLibrarySpeciesSpeciesIdPatch({
     @Path('species_id') required String? speciesId,
     @Body() required SpeciesEdit? body,
     @chopper.Tag()
@@ -196,7 +197,7 @@ abstract class Openapi extends ChopperService {
       description: '''Update a Species
 **This endpoint is only usable by seed_library**''',
       summary: 'Update Species',
-      operationId: 'patch_seed_library_species_{species_id}',
+      operationId: 'update_species_seed_library_species__species_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -207,7 +208,7 @@ abstract class Openapi extends ChopperService {
 
   ///Delete Species
   ///@param species_id
-  Future<chopper.Response> seedLibrarySpeciesSpeciesIdDelete({
+  Future<chopper.Response<void>> seedLibrarySpeciesSpeciesIdDelete({
     required String? speciesId,
   }) {
     return _seedLibrarySpeciesSpeciesIdDelete(speciesId: speciesId);
@@ -216,14 +217,14 @@ abstract class Openapi extends ChopperService {
   ///Delete Species
   ///@param species_id
   @DELETE(path: '/seed_library/species/{species_id}')
-  Future<chopper.Response> _seedLibrarySpeciesSpeciesIdDelete({
+  Future<chopper.Response<void>> _seedLibrarySpeciesSpeciesIdDelete({
     @Path('species_id') required String? speciesId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a Species
 **This endpoint is only usable by seed_library**''',
       summary: 'Delete Species',
-      operationId: 'delete_seed_library_species_{species_id}',
+      operationId: 'delete_species_seed_library_species__species_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -250,7 +251,7 @@ abstract class Openapi extends ChopperService {
       description:
           'Return all plants where state=waiting from database as a list of PlantsComplete schemas',
       summary: 'Get Waiting Plants',
-      operationId: 'get_seed_library_plants_waiting',
+      operationId: 'get_waiting_plants_seed_library_plants_waiting_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -277,7 +278,7 @@ abstract class Openapi extends ChopperService {
       description:
           'Return all plants where user ={user_id} from database as a list of PlantsComplete schemas',
       summary: 'Get My Plants',
-      operationId: 'get_seed_library_plants_users_me',
+      operationId: 'get_my_plants_seed_library_plants_users_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -309,7 +310,8 @@ abstract class Openapi extends ChopperService {
       description:
           'Return all plants where borrower_id = {user_id} from database as a list of PlantsComplete schemas',
       summary: 'Get Plants By User Id',
-      operationId: 'get_seed_library_plants_users_{user_id}',
+      operationId:
+          'get_plants_by_user_id_seed_library_plants_users__user_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -341,7 +343,7 @@ abstract class Openapi extends ChopperService {
       description:
           'Return the plants where plant ={plant_id} from database as a PlantsComplete schemas',
       summary: 'Get Plant By Id',
-      operationId: 'get_seed_library_plants_{plant_id}',
+      operationId: 'get_plant_by_id_seed_library_plants__plant_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -352,7 +354,7 @@ abstract class Openapi extends ChopperService {
 
   ///Update Plant
   ///@param plant_id
-  Future<chopper.Response> seedLibraryPlantsPlantIdPatch({
+  Future<chopper.Response<void>> seedLibraryPlantsPlantIdPatch({
     required String? plantId,
     required PlantEdit? body,
   }) {
@@ -362,7 +364,7 @@ abstract class Openapi extends ChopperService {
   ///Update Plant
   ///@param plant_id
   @PATCH(path: '/seed_library/plants/{plant_id}', optionalBody: true)
-  Future<chopper.Response> _seedLibraryPlantsPlantIdPatch({
+  Future<chopper.Response<void>> _seedLibraryPlantsPlantIdPatch({
     @Path('plant_id') required String? plantId,
     @Body() required PlantEdit? body,
     @chopper.Tag()
@@ -370,7 +372,7 @@ abstract class Openapi extends ChopperService {
       description: '''Update a Plant
 **This endpoint is only usable by the owner of the plant**''',
       summary: 'Update Plant',
-      operationId: 'patch_seed_library_plants_{plant_id}',
+      operationId: 'update_plant_seed_library_plants__plant_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -381,7 +383,7 @@ abstract class Openapi extends ChopperService {
 
   ///Delete Plant
   ///@param plant_id
-  Future<chopper.Response> seedLibraryPlantsPlantIdDelete({
+  Future<chopper.Response<void>> seedLibraryPlantsPlantIdDelete({
     required String? plantId,
   }) {
     return _seedLibraryPlantsPlantIdDelete(plantId: plantId);
@@ -390,14 +392,14 @@ abstract class Openapi extends ChopperService {
   ///Delete Plant
   ///@param plant_id
   @DELETE(path: '/seed_library/plants/{plant_id}')
-  Future<chopper.Response> _seedLibraryPlantsPlantIdDelete({
+  Future<chopper.Response<void>> _seedLibraryPlantsPlantIdDelete({
     @Path('plant_id') required String? plantId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete a Plant
 **This endpoint is only usable by seed_library**''',
       summary: 'Delete Plant',
-      operationId: 'delete_seed_library_plants_{plant_id}',
+      operationId: 'delete_plant_seed_library_plants__plant_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -427,7 +429,7 @@ abstract class Openapi extends ChopperService {
       description: '''Create a new Plant by giving an PlantCreation scheme
 **This endpoint is only usable if the plant has an ancestor_id or by seed_library **''',
       summary: 'Create Plant',
-      operationId: 'post_seed_library_plants_',
+      operationId: 'create_plant_seed_library_plants__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -438,7 +440,7 @@ abstract class Openapi extends ChopperService {
 
   ///Update Plant Admin
   ///@param plant_id
-  Future<chopper.Response> seedLibraryPlantsPlantIdAdminPatch({
+  Future<chopper.Response<void>> seedLibraryPlantsPlantIdAdminPatch({
     required String? plantId,
     required PlantEdit? body,
   }) {
@@ -448,7 +450,7 @@ abstract class Openapi extends ChopperService {
   ///Update Plant Admin
   ///@param plant_id
   @PATCH(path: '/seed_library/plants/{plant_id}/admin', optionalBody: true)
-  Future<chopper.Response> _seedLibraryPlantsPlantIdAdminPatch({
+  Future<chopper.Response<void>> _seedLibraryPlantsPlantIdAdminPatch({
     @Path('plant_id') required String? plantId,
     @Body() required PlantEdit? body,
     @chopper.Tag()
@@ -456,7 +458,8 @@ abstract class Openapi extends ChopperService {
       description: '''Update a Plant
 **This endpoint is only usable by seed_library**''',
       summary: 'Update Plant Admin',
-      operationId: 'patch_seed_library_plants_{plant_id}_admin',
+      operationId:
+          'update_plant_admin_seed_library_plants__plant_id__admin_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -467,7 +470,7 @@ abstract class Openapi extends ChopperService {
 
   ///Borrow Plant
   ///@param plant_id
-  Future<chopper.Response> seedLibraryPlantsPlantIdBorrowPatch({
+  Future<chopper.Response<void>> seedLibraryPlantsPlantIdBorrowPatch({
     required String? plantId,
   }) {
     return _seedLibraryPlantsPlantIdBorrowPatch(plantId: plantId);
@@ -476,14 +479,14 @@ abstract class Openapi extends ChopperService {
   ///Borrow Plant
   ///@param plant_id
   @PATCH(path: '/seed_library/plants/{plant_id}/borrow', optionalBody: true)
-  Future<chopper.Response> _seedLibraryPlantsPlantIdBorrowPatch({
+  Future<chopper.Response<void>> _seedLibraryPlantsPlantIdBorrowPatch({
     @Path('plant_id') required String? plantId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           'Plant borrowed by the user (modify borrowing date, borrower and state)',
       summary: 'Borrow Plant',
-      operationId: 'patch_seed_library_plants_{plant_id}_borrow',
+      operationId: 'borrow_plant_seed_library_plants__plant_id__borrow_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -509,7 +512,7 @@ abstract class Openapi extends ChopperService {
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Seed Library Information',
-      operationId: 'get_seed_library_information',
+      operationId: 'get_seed_library_information_seed_library_information_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -519,7 +522,7 @@ abstract class Openapi extends ChopperService {
   });
 
   ///Update Seed Library Information
-  Future<chopper.Response> seedLibraryInformationPatch({
+  Future<chopper.Response<void>> seedLibraryInformationPatch({
     required SeedLibraryInformation? body,
   }) {
     return _seedLibraryInformationPatch(body: body);
@@ -527,13 +530,14 @@ abstract class Openapi extends ChopperService {
 
   ///Update Seed Library Information
   @PATCH(path: '/seed_library/information', optionalBody: true)
-  Future<chopper.Response> _seedLibraryInformationPatch({
+  Future<chopper.Response<void>> _seedLibraryInformationPatch({
     @Body() required SeedLibraryInformation? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Update Seed Library Information',
-      operationId: 'patch_seed_library_information',
+      operationId:
+          'update_seed_library_information_seed_library_information_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -563,7 +567,7 @@ abstract class Openapi extends ChopperService {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Get Products',
-      operationId: 'get_amap_products',
+      operationId: 'get_products_amap_products_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -594,7 +598,7 @@ abstract class Openapi extends ChopperService {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Create Product',
-      operationId: 'post_amap_products',
+      operationId: 'create_product_amap_products_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -625,7 +629,7 @@ abstract class Openapi extends ChopperService {
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get a specific product',
       summary: 'Get Product By Id',
-      operationId: 'get_amap_products_{product_id}',
+      operationId: 'get_product_by_id_amap_products__product_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -636,7 +640,7 @@ abstract class Openapi extends ChopperService {
 
   ///Edit Product
   ///@param product_id
-  Future<chopper.Response> amapProductsProductIdPatch({
+  Future<chopper.Response<void>> amapProductsProductIdPatch({
     required String? productId,
     required AppModulesAmapSchemasAmapProductEdit? body,
   }) {
@@ -646,7 +650,7 @@ abstract class Openapi extends ChopperService {
   ///Edit Product
   ///@param product_id
   @PATCH(path: '/amap/products/{product_id}', optionalBody: true)
-  Future<chopper.Response> _amapProductsProductIdPatch({
+  Future<chopper.Response<void>> _amapProductsProductIdPatch({
     @Path('product_id') required String? productId,
     @Body() required AppModulesAmapSchemasAmapProductEdit? body,
     @chopper.Tag()
@@ -655,7 +659,7 @@ abstract class Openapi extends ChopperService {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Edit Product',
-      operationId: 'patch_amap_products_{product_id}',
+      operationId: 'edit_product_amap_products__product_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -666,7 +670,7 @@ abstract class Openapi extends ChopperService {
 
   ///Delete Product
   ///@param product_id
-  Future<chopper.Response> amapProductsProductIdDelete({
+  Future<chopper.Response<void>> amapProductsProductIdDelete({
     required String? productId,
   }) {
     return _amapProductsProductIdDelete(productId: productId);
@@ -675,7 +679,7 @@ abstract class Openapi extends ChopperService {
   ///Delete Product
   ///@param product_id
   @DELETE(path: '/amap/products/{product_id}')
-  Future<chopper.Response> _amapProductsProductIdDelete({
+  Future<chopper.Response<void>> _amapProductsProductIdDelete({
     @Path('product_id') required String? productId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -684,7 +688,7 @@ abstract class Openapi extends ChopperService {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Delete Product',
-      operationId: 'delete_amap_products_{product_id}',
+      operationId: 'delete_product_amap_products__product_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -710,7 +714,7 @@ abstract class Openapi extends ChopperService {
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all deliveries.',
       summary: 'Get Deliveries',
-      operationId: 'get_amap_deliveries',
+      operationId: 'get_deliveries_amap_deliveries_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -741,7 +745,7 @@ abstract class Openapi extends ChopperService {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Create Delivery',
-      operationId: 'post_amap_deliveries',
+      operationId: 'create_delivery_amap_deliveries_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -752,7 +756,7 @@ abstract class Openapi extends ChopperService {
 
   ///Delete Delivery
   ///@param delivery_id
-  Future<chopper.Response> amapDeliveriesDeliveryIdDelete({
+  Future<chopper.Response<void>> amapDeliveriesDeliveryIdDelete({
     required String? deliveryId,
   }) {
     return _amapDeliveriesDeliveryIdDelete(deliveryId: deliveryId);
@@ -761,7 +765,7 @@ abstract class Openapi extends ChopperService {
   ///Delete Delivery
   ///@param delivery_id
   @DELETE(path: '/amap/deliveries/{delivery_id}')
-  Future<chopper.Response> _amapDeliveriesDeliveryIdDelete({
+  Future<chopper.Response<void>> _amapDeliveriesDeliveryIdDelete({
     @Path('delivery_id') required String? deliveryId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -769,7 +773,7 @@ abstract class Openapi extends ChopperService {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Delete Delivery',
-      operationId: 'delete_amap_deliveries_{delivery_id}',
+      operationId: 'delete_delivery_amap_deliveries__delivery_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -780,7 +784,7 @@ abstract class Openapi extends ChopperService {
 
   ///Edit Delivery
   ///@param delivery_id
-  Future<chopper.Response> amapDeliveriesDeliveryIdPatch({
+  Future<chopper.Response<void>> amapDeliveriesDeliveryIdPatch({
     required String? deliveryId,
     required DeliveryUpdate? body,
   }) {
@@ -790,7 +794,7 @@ abstract class Openapi extends ChopperService {
   ///Edit Delivery
   ///@param delivery_id
   @PATCH(path: '/amap/deliveries/{delivery_id}', optionalBody: true)
-  Future<chopper.Response> _amapDeliveriesDeliveryIdPatch({
+  Future<chopper.Response<void>> _amapDeliveriesDeliveryIdPatch({
     @Path('delivery_id') required String? deliveryId,
     @Body() required DeliveryUpdate? body,
     @chopper.Tag()
@@ -799,7 +803,7 @@ abstract class Openapi extends ChopperService {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Edit Delivery',
-      operationId: 'patch_amap_deliveries_{delivery_id}',
+      operationId: 'edit_delivery_amap_deliveries__delivery_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -810,7 +814,7 @@ abstract class Openapi extends ChopperService {
 
   ///Add Product To Delivery
   ///@param delivery_id
-  Future<chopper.Response> amapDeliveriesDeliveryIdProductsPost({
+  Future<chopper.Response<void>> amapDeliveriesDeliveryIdProductsPost({
     required String? deliveryId,
     required DeliveryProductsUpdate? body,
   }) {
@@ -823,7 +827,7 @@ abstract class Openapi extends ChopperService {
   ///Add Product To Delivery
   ///@param delivery_id
   @POST(path: '/amap/deliveries/{delivery_id}/products', optionalBody: true)
-  Future<chopper.Response> _amapDeliveriesDeliveryIdProductsPost({
+  Future<chopper.Response<void>> _amapDeliveriesDeliveryIdProductsPost({
     @Path('delivery_id') required String? deliveryId,
     @Body() required DeliveryProductsUpdate? body,
     @chopper.Tag()
@@ -833,7 +837,8 @@ abstract class Openapi extends ChopperService {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Add Product To Delivery',
-      operationId: 'post_amap_deliveries_{delivery_id}_products',
+      operationId:
+          'add_product_to_delivery_amap_deliveries__delivery_id__products_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -844,7 +849,7 @@ abstract class Openapi extends ChopperService {
 
   ///Remove Product From Delivery
   ///@param delivery_id
-  Future<chopper.Response> amapDeliveriesDeliveryIdProductsDelete({
+  Future<chopper.Response<void>> amapDeliveriesDeliveryIdProductsDelete({
     required String? deliveryId,
     required DeliveryProductsUpdate? body,
   }) {
@@ -857,7 +862,7 @@ abstract class Openapi extends ChopperService {
   ///Remove Product From Delivery
   ///@param delivery_id
   @DELETE(path: '/amap/deliveries/{delivery_id}/products')
-  Future<chopper.Response> _amapDeliveriesDeliveryIdProductsDelete({
+  Future<chopper.Response<void>> _amapDeliveriesDeliveryIdProductsDelete({
     @Path('delivery_id') required String? deliveryId,
     @Body() required DeliveryProductsUpdate? body,
     @chopper.Tag()
@@ -867,7 +872,8 @@ abstract class Openapi extends ChopperService {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Remove Product From Delivery',
-      operationId: 'delete_amap_deliveries_{delivery_id}_products',
+      operationId:
+          'remove_product_from_delivery_amap_deliveries__delivery_id__products_delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -900,7 +906,8 @@ abstract class Openapi extends ChopperService {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Get Orders From Delivery',
-      operationId: 'get_amap_deliveries_{delivery_id}_orders',
+      operationId:
+          'get_orders_from_delivery_amap_deliveries__delivery_id__orders_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -933,7 +940,7 @@ abstract class Openapi extends ChopperService {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Get Order By Id',
-      operationId: 'get_amap_orders_{order_id}',
+      operationId: 'get_order_by_id_amap_orders__order_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -944,7 +951,7 @@ abstract class Openapi extends ChopperService {
 
   ///Edit Order From Delivery
   ///@param order_id
-  Future<chopper.Response> amapOrdersOrderIdPatch({
+  Future<chopper.Response<void>> amapOrdersOrderIdPatch({
     required String? orderId,
     required OrderEdit? body,
   }) {
@@ -954,7 +961,7 @@ abstract class Openapi extends ChopperService {
   ///Edit Order From Delivery
   ///@param order_id
   @PATCH(path: '/amap/orders/{order_id}', optionalBody: true)
-  Future<chopper.Response> _amapOrdersOrderIdPatch({
+  Future<chopper.Response<void>> _amapOrdersOrderIdPatch({
     @Path('order_id') required String? orderId,
     @Body() required OrderEdit? body,
     @chopper.Tag()
@@ -963,7 +970,7 @@ abstract class Openapi extends ChopperService {
 
 **A member of the group AMAP can edit orders of other users**''',
       summary: 'Edit Order From Delivery',
-      operationId: 'patch_amap_orders_{order_id}',
+      operationId: 'edit_order_from_delivery_amap_orders__order_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -974,14 +981,16 @@ abstract class Openapi extends ChopperService {
 
   ///Remove Order
   ///@param order_id
-  Future<chopper.Response> amapOrdersOrderIdDelete({required String? orderId}) {
+  Future<chopper.Response<void>> amapOrdersOrderIdDelete({
+    required String? orderId,
+  }) {
     return _amapOrdersOrderIdDelete(orderId: orderId);
   }
 
   ///Remove Order
   ///@param order_id
   @DELETE(path: '/amap/orders/{order_id}')
-  Future<chopper.Response> _amapOrdersOrderIdDelete({
+  Future<chopper.Response<void>> _amapOrdersOrderIdDelete({
     @Path('order_id') required String? orderId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -989,7 +998,7 @@ abstract class Openapi extends ChopperService {
 
 **A member of the group AMAP can delete orders of other users**''',
       summary: 'Remove Order',
-      operationId: 'delete_amap_orders_{order_id}',
+      operationId: 'remove_order_amap_orders__order_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1020,7 +1029,7 @@ abstract class Openapi extends ChopperService {
 
 **A member of the group AMAP can create an order for every user**''',
       summary: 'Add Order To Delievery',
-      operationId: 'post_amap_orders',
+      operationId: 'add_order_to_delievery_amap_orders_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1031,7 +1040,7 @@ abstract class Openapi extends ChopperService {
 
   ///Open Ordering Of Delivery
   ///@param delivery_id
-  Future<chopper.Response> amapDeliveriesDeliveryIdOpenorderingPost({
+  Future<chopper.Response<void>> amapDeliveriesDeliveryIdOpenorderingPost({
     required String? deliveryId,
   }) {
     return _amapDeliveriesDeliveryIdOpenorderingPost(deliveryId: deliveryId);
@@ -1040,13 +1049,14 @@ abstract class Openapi extends ChopperService {
   ///Open Ordering Of Delivery
   ///@param delivery_id
   @POST(path: '/amap/deliveries/{delivery_id}/openordering', optionalBody: true)
-  Future<chopper.Response> _amapDeliveriesDeliveryIdOpenorderingPost({
+  Future<chopper.Response<void>> _amapDeliveriesDeliveryIdOpenorderingPost({
     @Path('delivery_id') required String? deliveryId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Open Ordering Of Delivery',
-      operationId: 'post_amap_deliveries_{delivery_id}_openordering',
+      operationId:
+          'open_ordering_of_delivery_amap_deliveries__delivery_id__openordering_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1057,7 +1067,7 @@ abstract class Openapi extends ChopperService {
 
   ///Lock Delivery
   ///@param delivery_id
-  Future<chopper.Response> amapDeliveriesDeliveryIdLockPost({
+  Future<chopper.Response<void>> amapDeliveriesDeliveryIdLockPost({
     required String? deliveryId,
   }) {
     return _amapDeliveriesDeliveryIdLockPost(deliveryId: deliveryId);
@@ -1066,13 +1076,13 @@ abstract class Openapi extends ChopperService {
   ///Lock Delivery
   ///@param delivery_id
   @POST(path: '/amap/deliveries/{delivery_id}/lock', optionalBody: true)
-  Future<chopper.Response> _amapDeliveriesDeliveryIdLockPost({
+  Future<chopper.Response<void>> _amapDeliveriesDeliveryIdLockPost({
     @Path('delivery_id') required String? deliveryId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Lock Delivery',
-      operationId: 'post_amap_deliveries_{delivery_id}_lock',
+      operationId: 'lock_delivery_amap_deliveries__delivery_id__lock_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1083,7 +1093,7 @@ abstract class Openapi extends ChopperService {
 
   ///Mark Delivery As Delivered
   ///@param delivery_id
-  Future<chopper.Response> amapDeliveriesDeliveryIdDeliveredPost({
+  Future<chopper.Response<void>> amapDeliveriesDeliveryIdDeliveredPost({
     required String? deliveryId,
   }) {
     return _amapDeliveriesDeliveryIdDeliveredPost(deliveryId: deliveryId);
@@ -1092,13 +1102,14 @@ abstract class Openapi extends ChopperService {
   ///Mark Delivery As Delivered
   ///@param delivery_id
   @POST(path: '/amap/deliveries/{delivery_id}/delivered', optionalBody: true)
-  Future<chopper.Response> _amapDeliveriesDeliveryIdDeliveredPost({
+  Future<chopper.Response<void>> _amapDeliveriesDeliveryIdDeliveredPost({
     @Path('delivery_id') required String? deliveryId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Mark Delivery As Delivered',
-      operationId: 'post_amap_deliveries_{delivery_id}_delivered',
+      operationId:
+          'mark_delivery_as_delivered_amap_deliveries__delivery_id__delivered_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1109,7 +1120,7 @@ abstract class Openapi extends ChopperService {
 
   ///Archive Of Delivery
   ///@param delivery_id
-  Future<chopper.Response> amapDeliveriesDeliveryIdArchivePost({
+  Future<chopper.Response<void>> amapDeliveriesDeliveryIdArchivePost({
     required String? deliveryId,
   }) {
     return _amapDeliveriesDeliveryIdArchivePost(deliveryId: deliveryId);
@@ -1118,13 +1129,14 @@ abstract class Openapi extends ChopperService {
   ///Archive Of Delivery
   ///@param delivery_id
   @POST(path: '/amap/deliveries/{delivery_id}/archive', optionalBody: true)
-  Future<chopper.Response> _amapDeliveriesDeliveryIdArchivePost({
+  Future<chopper.Response<void>> _amapDeliveriesDeliveryIdArchivePost({
     @Path('delivery_id') required String? deliveryId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Archive Of Delivery',
-      operationId: 'post_amap_deliveries_{delivery_id}_archive',
+      operationId:
+          'archive_of_delivery_amap_deliveries__delivery_id__archive_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1154,7 +1166,7 @@ abstract class Openapi extends ChopperService {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Get Users Cash',
-      operationId: 'get_amap_users_cash',
+      operationId: 'get_users_cash_amap_users_cash_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1187,7 +1199,7 @@ abstract class Openapi extends ChopperService {
 
 **The user must be a member of the group AMAP to use this endpoint or can only access the endpoint for its own user_id**''',
       summary: 'Get Cash By Id',
-      operationId: 'get_amap_users_{user_id}_cash',
+      operationId: 'get_cash_by_id_amap_users__user_id__cash_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1221,7 +1233,7 @@ abstract class Openapi extends ChopperService {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Create Cash Of User',
-      operationId: 'post_amap_users_{user_id}_cash',
+      operationId: 'create_cash_of_user_amap_users__user_id__cash_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1232,7 +1244,7 @@ abstract class Openapi extends ChopperService {
 
   ///Edit Cash By Id
   ///@param user_id
-  Future<chopper.Response> amapUsersUserIdCashPatch({
+  Future<chopper.Response<void>> amapUsersUserIdCashPatch({
     required String? userId,
     required CashEdit? body,
   }) {
@@ -1242,7 +1254,7 @@ abstract class Openapi extends ChopperService {
   ///Edit Cash By Id
   ///@param user_id
   @PATCH(path: '/amap/users/{user_id}/cash', optionalBody: true)
-  Future<chopper.Response> _amapUsersUserIdCashPatch({
+  Future<chopper.Response<void>> _amapUsersUserIdCashPatch({
     @Path('user_id') required String? userId,
     @Body() required CashEdit? body,
     @chopper.Tag()
@@ -1253,7 +1265,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Edit Cash By Id',
-      operationId: 'patch_amap_users_{user_id}_cash',
+      operationId: 'edit_cash_by_id_amap_users__user_id__cash_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1286,7 +1298,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be a member of the group AMAP to use this endpoint or can only access the endpoint for its own user_id**''',
       summary: 'Get Orders Of User',
-      operationId: 'get_amap_users_{user_id}_orders',
+      operationId: 'get_orders_of_user_amap_users__user_id__orders_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1312,7 +1324,7 @@ A negative value can be provided to remove money from the user.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all information',
       summary: 'Get Information',
-      operationId: 'get_amap_information',
+      operationId: 'get_information_amap_information_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1322,7 +1334,7 @@ A negative value can be provided to remove money from the user.
   });
 
   ///Edit Information
-  Future<chopper.Response> amapInformationPatch({
+  Future<chopper.Response<void>> amapInformationPatch({
     required InformationEdit? body,
   }) {
     return _amapInformationPatch(body: body);
@@ -1330,7 +1342,7 @@ A negative value can be provided to remove money from the user.
 
   ///Edit Information
   @PATCH(path: '/amap/information', optionalBody: true)
-  Future<chopper.Response> _amapInformationPatch({
+  Future<chopper.Response<void>> _amapInformationPatch({
     @Body() required InformationEdit? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -1338,7 +1350,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Edit Information',
-      operationId: 'patch_amap_information',
+      operationId: 'edit_information_amap_information_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1363,7 +1375,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Get Managers',
-      operationId: 'get_booking_managers',
+      operationId: 'get_managers_booking_managers_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1391,7 +1403,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Manager',
-      operationId: 'post_booking_managers',
+      operationId: 'create_manager_booking_managers_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1402,7 +1414,7 @@ A negative value can be provided to remove money from the user.
 
   ///Update Manager
   ///@param manager_id
-  Future<chopper.Response> bookingManagersManagerIdPatch({
+  Future<chopper.Response<void>> bookingManagersManagerIdPatch({
     required String? managerId,
     required ManagerUpdate? body,
   }) {
@@ -1412,7 +1424,7 @@ A negative value can be provided to remove money from the user.
   ///Update Manager
   ///@param manager_id
   @PATCH(path: '/booking/managers/{manager_id}', optionalBody: true)
-  Future<chopper.Response> _bookingManagersManagerIdPatch({
+  Future<chopper.Response<void>> _bookingManagersManagerIdPatch({
     @Path('manager_id') required String? managerId,
     @Body() required ManagerUpdate? body,
     @chopper.Tag()
@@ -1422,7 +1434,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update Manager',
-      operationId: 'patch_booking_managers_{manager_id}',
+      operationId: 'update_manager_booking_managers__manager_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1433,7 +1445,7 @@ A negative value can be provided to remove money from the user.
 
   ///Delete Manager
   ///@param manager_id
-  Future<chopper.Response> bookingManagersManagerIdDelete({
+  Future<chopper.Response<void>> bookingManagersManagerIdDelete({
     required String? managerId,
   }) {
     return _bookingManagersManagerIdDelete(managerId: managerId);
@@ -1442,7 +1454,7 @@ A negative value can be provided to remove money from the user.
   ///Delete Manager
   ///@param manager_id
   @DELETE(path: '/booking/managers/{manager_id}')
-  Future<chopper.Response> _bookingManagersManagerIdDelete({
+  Future<chopper.Response<void>> _bookingManagersManagerIdDelete({
     @Path('manager_id') required String? managerId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -1451,7 +1463,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Delete Manager',
-      operationId: 'delete_booking_managers_{manager_id}',
+      operationId: 'delete_manager_booking_managers__manager_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1476,7 +1488,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Current User Managers',
-      operationId: 'get_booking_managers_users_me',
+      operationId: 'get_current_user_managers_booking_managers_users_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1506,7 +1518,8 @@ A negative value can be provided to remove money from the user.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Bookings For Manager',
-      operationId: 'get_booking_bookings_users_me_manage',
+      operationId:
+          'get_bookings_for_manager_booking_bookings_users_me_manage_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1535,7 +1548,8 @@ A negative value can be provided to remove money from the user.
       description: '''Return all confirmed bookings a user can manage.
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Confirmed Bookings For Manager',
-      operationId: 'get_booking_bookings_confirmed_users_me_manage',
+      operationId:
+          'get_confirmed_bookings_for_manager_booking_bookings_confirmed_users_me_manage_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1565,7 +1579,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Confirmed Bookings',
-      operationId: 'get_booking_bookings_confirmed',
+      operationId: 'get_confirmed_bookings_booking_bookings_confirmed_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1593,7 +1607,7 @@ A negative value can be provided to remove money from the user.
 
 **Only usable by the user**''',
       summary: 'Get Applicant Bookings',
-      operationId: 'get_booking_bookings_users_me',
+      operationId: 'get_applicant_bookings_booking_bookings_users_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1624,7 +1638,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Create Booking',
-      operationId: 'post_booking_bookings',
+      operationId: 'create_booking_booking_bookings_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1635,7 +1649,7 @@ A negative value can be provided to remove money from the user.
 
   ///Edit Booking
   ///@param booking_id
-  Future<chopper.Response> bookingBookingsBookingIdPatch({
+  Future<chopper.Response<void>> bookingBookingsBookingIdPatch({
     required String? bookingId,
     required BookingEdit? body,
   }) {
@@ -1645,7 +1659,7 @@ A negative value can be provided to remove money from the user.
   ///Edit Booking
   ///@param booking_id
   @PATCH(path: '/booking/bookings/{booking_id}', optionalBody: true)
-  Future<chopper.Response> _bookingBookingsBookingIdPatch({
+  Future<chopper.Response<void>> _bookingBookingsBookingIdPatch({
     @Path('booking_id') required String? bookingId,
     @Body() required BookingEdit? body,
     @chopper.Tag()
@@ -1654,7 +1668,7 @@ A negative value can be provided to remove money from the user.
 
 **Only usable by a user in the manager group of the booking or applicant before decision**''',
       summary: 'Edit Booking',
-      operationId: 'patch_booking_bookings_{booking_id}',
+      operationId: 'edit_booking_booking_bookings__booking_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1665,7 +1679,7 @@ A negative value can be provided to remove money from the user.
 
   ///Delete Booking
   ///@param booking_id
-  Future<chopper.Response> bookingBookingsBookingIdDelete({
+  Future<chopper.Response<void>> bookingBookingsBookingIdDelete({
     required String? bookingId,
   }) {
     return _bookingBookingsBookingIdDelete(bookingId: bookingId);
@@ -1674,7 +1688,7 @@ A negative value can be provided to remove money from the user.
   ///Delete Booking
   ///@param booking_id
   @DELETE(path: '/booking/bookings/{booking_id}')
-  Future<chopper.Response> _bookingBookingsBookingIdDelete({
+  Future<chopper.Response<void>> _bookingBookingsBookingIdDelete({
     @Path('booking_id') required String? bookingId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -1682,7 +1696,7 @@ A negative value can be provided to remove money from the user.
 
 **Only usable by the applicant before decision**''',
       summary: 'Delete Booking',
-      operationId: 'delete_booking_bookings_{booking_id}',
+      operationId: 'delete_booking_booking_bookings__booking_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1694,7 +1708,7 @@ A negative value can be provided to remove money from the user.
   ///Confirm Booking
   ///@param booking_id
   ///@param decision
-  Future<chopper.Response> bookingBookingsBookingIdReplyDecisionPatch({
+  Future<chopper.Response<void>> bookingBookingsBookingIdReplyDecisionPatch({
     required String? bookingId,
     required enums.Decision? decision,
   }) {
@@ -1711,7 +1725,7 @@ A negative value can be provided to remove money from the user.
     path: '/booking/bookings/{booking_id}/reply/{decision}',
     optionalBody: true,
   )
-  Future<chopper.Response> _bookingBookingsBookingIdReplyDecisionPatch({
+  Future<chopper.Response<void>> _bookingBookingsBookingIdReplyDecisionPatch({
     @Path('booking_id') required String? bookingId,
     @Path('decision') required String? decision,
     @chopper.Tag()
@@ -1720,7 +1734,8 @@ A negative value can be provided to remove money from the user.
 
 **Only usable by a user in the manager group of the booking**''',
       summary: 'Confirm Booking',
-      operationId: 'patch_booking_bookings_{booking_id}_reply_{decision}',
+      operationId:
+          'confirm_booking_booking_bookings__booking_id__reply__decision__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1748,7 +1763,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Rooms',
-      operationId: 'get_booking_rooms',
+      operationId: 'get_rooms_booking_rooms_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1779,7 +1794,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by admins**''',
       summary: 'Create Room',
-      operationId: 'post_booking_rooms',
+      operationId: 'create_room_booking_rooms_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1790,7 +1805,7 @@ A negative value can be provided to remove money from the user.
 
   ///Edit Room
   ///@param room_id
-  Future<chopper.Response> bookingRoomsRoomIdPatch({
+  Future<chopper.Response<void>> bookingRoomsRoomIdPatch({
     required String? roomId,
     required RoomBase? body,
   }) {
@@ -1800,7 +1815,7 @@ A negative value can be provided to remove money from the user.
   ///Edit Room
   ///@param room_id
   @PATCH(path: '/booking/rooms/{room_id}', optionalBody: true)
-  Future<chopper.Response> _bookingRoomsRoomIdPatch({
+  Future<chopper.Response<void>> _bookingRoomsRoomIdPatch({
     @Path('room_id') required String? roomId,
     @Body() required RoomBase? body,
     @chopper.Tag()
@@ -1809,7 +1824,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by admins**''',
       summary: 'Edit Room',
-      operationId: 'patch_booking_rooms_{room_id}',
+      operationId: 'edit_room_booking_rooms__room_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1820,14 +1835,16 @@ A negative value can be provided to remove money from the user.
 
   ///Delete Room
   ///@param room_id
-  Future<chopper.Response> bookingRoomsRoomIdDelete({required String? roomId}) {
+  Future<chopper.Response<void>> bookingRoomsRoomIdDelete({
+    required String? roomId,
+  }) {
     return _bookingRoomsRoomIdDelete(roomId: roomId);
   }
 
   ///Delete Room
   ///@param room_id
   @DELETE(path: '/booking/rooms/{room_id}')
-  Future<chopper.Response> _bookingRoomsRoomIdDelete({
+  Future<chopper.Response<void>> _bookingRoomsRoomIdDelete({
     @Path('room_id') required String? roomId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -1836,7 +1853,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by admins**''',
       summary: 'Delete Room',
-      operationId: 'delete_booking_rooms_{room_id}',
+      operationId: 'delete_room_booking_rooms__room_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1865,7 +1882,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be a member of a group authorized to vote or to manage the campaign to use this endpoint**''',
       summary: 'Get Sections',
-      operationId: 'get_campaign_sections',
+      operationId: 'get_sections_campaign_sections_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1898,7 +1915,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Add Section',
-      operationId: 'post_campaign_sections',
+      operationId: 'add_section_campaign_sections_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1909,7 +1926,7 @@ This endpoint can only be used in \'waiting\' status.
 
   ///Delete Section
   ///@param section_id
-  Future<chopper.Response> campaignSectionsSectionIdDelete({
+  Future<chopper.Response<void>> campaignSectionsSectionIdDelete({
     required String? sectionId,
   }) {
     return _campaignSectionsSectionIdDelete(sectionId: sectionId);
@@ -1918,7 +1935,7 @@ This endpoint can only be used in \'waiting\' status.
   ///Delete Section
   ///@param section_id
   @DELETE(path: '/campaign/sections/{section_id}')
-  Future<chopper.Response> _campaignSectionsSectionIdDelete({
+  Future<chopper.Response<void>> _campaignSectionsSectionIdDelete({
     @Path('section_id') required String? sectionId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -1928,7 +1945,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Delete Section',
-      operationId: 'delete_campaign_sections_{section_id}',
+      operationId: 'delete_section_campaign_sections__section_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1953,7 +1970,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to vote or to manage the campaign to use this endpoint**''',
       summary: 'Get Lists',
-      operationId: 'get_campaign_lists',
+      operationId: 'get_lists_campaign_lists_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1983,7 +2000,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Add List',
-      operationId: 'post_campaign_lists',
+      operationId: 'add_list_campaign_lists_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1994,7 +2011,7 @@ This endpoint can only be used in \'waiting\' status.
 
   ///Delete List
   ///@param list_id
-  Future<chopper.Response> campaignListsListIdDelete({
+  Future<chopper.Response<void>> campaignListsListIdDelete({
     required String? listId,
   }) {
     return _campaignListsListIdDelete(listId: listId);
@@ -2003,7 +2020,7 @@ This endpoint can only be used in \'waiting\' status.
   ///Delete List
   ///@param list_id
   @DELETE(path: '/campaign/lists/{list_id}')
-  Future<chopper.Response> _campaignListsListIdDelete({
+  Future<chopper.Response<void>> _campaignListsListIdDelete({
     @Path('list_id') required String? listId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -2013,7 +2030,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Delete List',
-      operationId: 'delete_campaign_lists_{list_id}',
+      operationId: 'delete_list_campaign_lists__list_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2024,7 +2041,7 @@ This endpoint can only be used in \'waiting\' status.
 
   ///Update List
   ///@param list_id
-  Future<chopper.Response> campaignListsListIdPatch({
+  Future<chopper.Response<void>> campaignListsListIdPatch({
     required String? listId,
     required ListEdit? body,
   }) {
@@ -2034,7 +2051,7 @@ This endpoint can only be used in \'waiting\' status.
   ///Update List
   ///@param list_id
   @PATCH(path: '/campaign/lists/{list_id}', optionalBody: true)
-  Future<chopper.Response> _campaignListsListIdPatch({
+  Future<chopper.Response<void>> _campaignListsListIdPatch({
     @Path('list_id') required String? listId,
     @Body() required ListEdit? body,
     @chopper.Tag()
@@ -2045,7 +2062,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Update List',
-      operationId: 'patch_campaign_lists_{list_id}',
+      operationId: 'update_list_campaign_lists__list_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2056,14 +2073,14 @@ This endpoint can only be used in \'waiting\' status.
 
   ///Delete Lists By Type
   ///@param list_type
-  Future<chopper.Response> campaignListsDelete({Object? listType}) {
+  Future<chopper.Response<void>> campaignListsDelete({Object? listType}) {
     return _campaignListsDelete(listType: listType);
   }
 
   ///Delete Lists By Type
   ///@param list_type
   @DELETE(path: '/campaign/lists/')
-  Future<chopper.Response> _campaignListsDelete({
+  Future<chopper.Response<void>> _campaignListsDelete({
     @Query('list_type') Object? listType,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -2073,7 +2090,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Delete Lists By Type',
-      operationId: 'delete_campaign_lists_',
+      operationId: 'delete_lists_by_type_campaign_lists__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2101,7 +2118,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Get Voters',
-      operationId: 'get_campaign_voters',
+      operationId: 'get_voters_campaign_voters_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2111,20 +2128,20 @@ This endpoint can only be used in \'waiting\' status.
   });
 
   ///Delete Voters
-  Future<chopper.Response> campaignVotersDelete() {
+  Future<chopper.Response<void>> campaignVotersDelete() {
     return _campaignVotersDelete();
   }
 
   ///Delete Voters
   @DELETE(path: '/campaign/voters')
-  Future<chopper.Response> _campaignVotersDelete({
+  Future<chopper.Response<void>> _campaignVotersDelete({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Delete all voters.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Delete Voters',
-      operationId: 'delete_campaign_voters',
+      operationId: 'delete_voters_campaign_voters_delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2135,7 +2152,7 @@ This endpoint can only be used in \'waiting\' status.
 
   ///Add Voter
   ///@param group_id
-  Future<chopper.Response> campaignVotersGroupIdPost({
+  Future<chopper.Response<void>> campaignVotersGroupIdPost({
     required String? groupId,
   }) {
     return _campaignVotersGroupIdPost(groupId: groupId);
@@ -2144,7 +2161,7 @@ This endpoint can only be used in \'waiting\' status.
   ///Add Voter
   ///@param group_id
   @POST(path: '/campaign/voters/{group_id}', optionalBody: true)
-  Future<chopper.Response> _campaignVotersGroupIdPost({
+  Future<chopper.Response<void>> _campaignVotersGroupIdPost({
     @Path('group_id') required String? groupId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -2152,7 +2169,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Add Voter',
-      operationId: 'post_campaign_voters_{group_id}',
+      operationId: 'add_voter_campaign_voters__group_id__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2163,7 +2180,7 @@ This endpoint can only be used in \'waiting\' status.
 
   ///Delete Voter
   ///@param group_id
-  Future<chopper.Response> campaignVotersGroupIdDelete({
+  Future<chopper.Response<void>> campaignVotersGroupIdDelete({
     required String? groupId,
   }) {
     return _campaignVotersGroupIdDelete(groupId: groupId);
@@ -2172,7 +2189,7 @@ This endpoint can only be used in \'waiting\' status.
   ///Delete Voter
   ///@param group_id
   @DELETE(path: '/campaign/voters/{group_id}')
-  Future<chopper.Response> _campaignVotersGroupIdDelete({
+  Future<chopper.Response<void>> _campaignVotersGroupIdDelete({
     @Path('group_id') required String? groupId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -2180,7 +2197,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Delete Voter',
-      operationId: 'delete_campaign_voters_{group_id}',
+      operationId: 'delete_voter_campaign_voters__group_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2190,13 +2207,13 @@ This endpoint can only be used in \'waiting\' status.
   });
 
   ///Open Vote
-  Future<chopper.Response> campaignStatusOpenPost() {
+  Future<chopper.Response<void>> campaignStatusOpenPost() {
     return _campaignStatusOpenPost();
   }
 
   ///Open Vote
   @POST(path: '/campaign/status/open', optionalBody: true)
-  Future<chopper.Response> _campaignStatusOpenPost({
+  Future<chopper.Response<void>> _campaignStatusOpenPost({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
@@ -2207,7 +2224,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Open Vote',
-      operationId: 'post_campaign_status_open',
+      operationId: 'open_vote_campaign_status_open_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2217,13 +2234,13 @@ This endpoint can only be used in \'waiting\' status.
   });
 
   ///Close Vote
-  Future<chopper.Response> campaignStatusClosePost() {
+  Future<chopper.Response<void>> campaignStatusClosePost() {
     return _campaignStatusClosePost();
   }
 
   ///Close Vote
   @POST(path: '/campaign/status/close', optionalBody: true)
-  Future<chopper.Response> _campaignStatusClosePost({
+  Future<chopper.Response<void>> _campaignStatusClosePost({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''If the status is \'open\', change it to \'closed\'.
@@ -2233,7 +2250,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Close Vote',
-      operationId: 'post_campaign_status_close',
+      operationId: 'close_vote_campaign_status_close_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2243,13 +2260,13 @@ This endpoint can only be used in \'waiting\' status.
   });
 
   ///Count Voting
-  Future<chopper.Response> campaignStatusCountingPost() {
+  Future<chopper.Response<void>> campaignStatusCountingPost() {
     return _campaignStatusCountingPost();
   }
 
   ///Count Voting
   @POST(path: '/campaign/status/counting', optionalBody: true)
-  Future<chopper.Response> _campaignStatusCountingPost({
+  Future<chopper.Response<void>> _campaignStatusCountingPost({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''If the status is \'closed\', change it to \'counting\'.
@@ -2259,7 +2276,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Count Voting',
-      operationId: 'post_campaign_status_counting',
+      operationId: 'count_voting_campaign_status_counting_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2269,13 +2286,13 @@ This endpoint can only be used in \'waiting\' status.
   });
 
   ///Publish Vote
-  Future<chopper.Response> campaignStatusPublishedPost() {
+  Future<chopper.Response<void>> campaignStatusPublishedPost() {
     return _campaignStatusPublishedPost();
   }
 
   ///Publish Vote
   @POST(path: '/campaign/status/published', optionalBody: true)
-  Future<chopper.Response> _campaignStatusPublishedPost({
+  Future<chopper.Response<void>> _campaignStatusPublishedPost({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''If the status is \'counting\', change it to \'published\'.
@@ -2285,7 +2302,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Publish Vote',
-      operationId: 'post_campaign_status_published',
+      operationId: 'publish_vote_campaign_status_published_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2295,13 +2312,13 @@ This endpoint can only be used in \'waiting\' status.
   });
 
   ///Reset Vote
-  Future<chopper.Response> campaignStatusResetPost() {
+  Future<chopper.Response<void>> campaignStatusResetPost() {
     return _campaignStatusResetPost();
   }
 
   ///Reset Vote
   @POST(path: '/campaign/status/reset', optionalBody: true)
-  Future<chopper.Response> _campaignStatusResetPost({
+  Future<chopper.Response<void>> _campaignStatusResetPost({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
@@ -2311,7 +2328,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Reset Vote',
-      operationId: 'post_campaign_status_reset',
+      operationId: 'reset_vote_campaign_status_reset_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2335,7 +2352,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to vote to use this endpoint**''',
       summary: 'Get Sections Already Voted',
-      operationId: 'get_campaign_votes',
+      operationId: 'get_sections_already_voted_campaign_votes_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2345,13 +2362,13 @@ This endpoint can only be used in \'waiting\' status.
   });
 
   ///Vote
-  Future<chopper.Response> campaignVotesPost({required VoteBase? body}) {
+  Future<chopper.Response<void>> campaignVotesPost({required VoteBase? body}) {
     return _campaignVotesPost(body: body);
   }
 
   ///Vote
   @POST(path: '/campaign/votes', optionalBody: true)
-  Future<chopper.Response> _campaignVotesPost({
+  Future<chopper.Response<void>> _campaignVotesPost({
     @Body() required VoteBase? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -2361,7 +2378,7 @@ An user can only vote for one list per section.
 
 **The user must be a member of a group authorized to vote to use this endpoint**''',
       summary: 'Vote',
-      operationId: 'post_campaign_votes',
+      operationId: 'vote_campaign_votes_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2391,7 +2408,7 @@ An user can only vote for one list per section.
 
 **The user must be a member of a group authorized to vote or to manage the campaign to use this endpoint**''',
       summary: 'Get Results',
-      operationId: 'get_campaign_results',
+      operationId: 'get_results_campaign_results_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2416,7 +2433,7 @@ An user can only vote for one list per section.
 
 **The user must be a member of a group authorized to vote or to manage the campaign to use this endpoint**''',
       summary: 'Get Status Vote',
-      operationId: 'get_campaign_status',
+      operationId: 'get_status_vote_campaign_status_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2446,7 +2463,7 @@ An user can only vote for one list per section.
 
 **The user must be authorized to vote to use this endpoint**''',
       summary: 'Get Stats For Section',
-      operationId: 'get_campaign_stats_{section_id}',
+      operationId: 'get_stats_for_section_campaign_stats__section_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2484,7 +2501,7 @@ An user can only vote for one list per section.
 
 **The user must be authorized to manage the campaign to use this endpoint**''',
       summary: 'Create Campaigns Logo',
-      operationId: 'post_campaign_lists_{list_id}_logo',
+      operationId: 'create_campaigns_logo_campaign_lists__list_id__logo_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2495,7 +2512,7 @@ An user can only vote for one list per section.
 
   ///Read Campaigns Logo
   ///@param list_id
-  Future<chopper.Response> campaignListsListIdLogoGet({
+  Future<chopper.Response<List<int>>> campaignListsListIdLogoGet({
     required String? listId,
   }) {
     return _campaignListsListIdLogoGet(listId: listId);
@@ -2504,14 +2521,14 @@ An user can only vote for one list per section.
   ///Read Campaigns Logo
   ///@param list_id
   @GET(path: '/campaign/lists/{list_id}/logo')
-  Future<chopper.Response> _campaignListsListIdLogoGet({
+  Future<chopper.Response<List<int>>> _campaignListsListIdLogoGet({
     @Path('list_id') required String? listId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Get the logo of a campaign list.
 **The user must be a member of a group authorized to vote or to manage the campaign to use this endpoint**''',
       summary: 'Read Campaigns Logo',
-      operationId: 'get_campaign_lists_{list_id}_logo',
+      operationId: 'read_campaigns_logo_campaign_lists__list_id__logo_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2539,7 +2556,7 @@ An user can only vote for one list per section.
 
 **User must be part of a seller group to use this endpoint**''',
       summary: 'Get Cdr Users',
-      operationId: 'get_cdr_users_',
+      operationId: 'get_cdr_users_cdr_users__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2567,7 +2584,7 @@ An user can only vote for one list per section.
 
 **User must be part of a seller group to use this endpoint**''',
       summary: 'Get Cdr Users Pending Validation',
-      operationId: 'get_cdr_users_pending_',
+      operationId: 'get_cdr_users_pending_validation_cdr_users_pending__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2597,7 +2614,7 @@ An user can only vote for one list per section.
 
 **User must be part of a seller group or trying to get itself to use this endpoint**''',
       summary: 'Get Cdr User',
-      operationId: 'get_cdr_users_{user_id}_',
+      operationId: 'get_cdr_user_cdr_users__user_id___get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2608,7 +2625,7 @@ An user can only vote for one list per section.
 
   ///Update Cdr User
   ///@param user_id
-  Future<chopper.Response> cdrUsersUserIdPatch({
+  Future<chopper.Response<void>> cdrUsersUserIdPatch({
     required String? userId,
     required CdrUserUpdate? body,
   }) {
@@ -2618,7 +2635,7 @@ An user can only vote for one list per section.
   ///Update Cdr User
   ///@param user_id
   @PATCH(path: '/cdr/users/{user_id}/', optionalBody: true)
-  Future<chopper.Response> _cdrUsersUserIdPatch({
+  Future<chopper.Response<void>> _cdrUsersUserIdPatch({
     @Path('user_id') required String? userId,
     @Body() required CdrUserUpdate? body,
     @chopper.Tag()
@@ -2629,7 +2646,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of a seller group to use this endpoint**''',
       summary: 'Update Cdr User',
-      operationId: 'patch_cdr_users_{user_id}_',
+      operationId: 'update_cdr_user_cdr_users__user_id___patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2657,7 +2674,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Get Sellers',
-      operationId: 'get_cdr_sellers_',
+      operationId: 'get_sellers_cdr_sellers__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2688,7 +2705,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Create Seller',
-      operationId: 'post_cdr_sellers_',
+      operationId: 'create_seller_cdr_sellers__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2717,7 +2734,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be authenticated to use this endpoint**''',
       summary: 'Get Sellers By User Id',
-      operationId: 'get_cdr_users_me_sellers_',
+      operationId: 'get_sellers_by_user_id_cdr_users_me_sellers__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2745,7 +2762,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be authenticated to use this endpoint**''',
       summary: 'Get Online Sellers',
-      operationId: 'get_cdr_online_sellers_',
+      operationId: 'get_online_sellers_cdr_online_sellers__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2756,7 +2773,7 @@ An email will be send to the user, to confirm its new address.
 
   ///Send Seller Results
   ///@param seller_id
-  Future<chopper.Response> cdrSellersSellerIdResultsGet({
+  Future<chopper.Response<List<int>>> cdrSellersSellerIdResultsGet({
     required String? sellerId,
   }) {
     return _cdrSellersSellerIdResultsGet(sellerId: sellerId);
@@ -2765,7 +2782,7 @@ An email will be send to the user, to confirm its new address.
   ///Send Seller Results
   ///@param seller_id
   @GET(path: '/cdr/sellers/{seller_id}/results/')
-  Future<chopper.Response> _cdrSellersSellerIdResultsGet({
+  Future<chopper.Response<List<int>>> _cdrSellersSellerIdResultsGet({
     @Path('seller_id') required String? sellerId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -2773,7 +2790,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Send Seller Results',
-      operationId: 'get_cdr_sellers_{seller_id}_results_',
+      operationId: 'send_seller_results_cdr_sellers__seller_id__results__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2803,7 +2820,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be authenticated to use this endpoint**''',
       summary: 'Get All Available Online Products',
-      operationId: 'get_cdr_online_products_',
+      operationId: 'get_all_available_online_products_cdr_online_products__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2833,7 +2850,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of a seller group to use this endpoint**''',
       summary: 'Get All Products',
-      operationId: 'get_cdr_products_',
+      operationId: 'get_all_products_cdr_products__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2844,7 +2861,7 @@ An email will be send to the user, to confirm its new address.
 
   ///Update Seller
   ///@param seller_id
-  Future<chopper.Response> cdrSellersSellerIdPatch({
+  Future<chopper.Response<void>> cdrSellersSellerIdPatch({
     required String? sellerId,
     required SellerEdit? body,
   }) {
@@ -2854,7 +2871,7 @@ An email will be send to the user, to confirm its new address.
   ///Update Seller
   ///@param seller_id
   @PATCH(path: '/cdr/sellers/{seller_id}/', optionalBody: true)
-  Future<chopper.Response> _cdrSellersSellerIdPatch({
+  Future<chopper.Response<void>> _cdrSellersSellerIdPatch({
     @Path('seller_id') required String? sellerId,
     @Body() required SellerEdit? body,
     @chopper.Tag()
@@ -2863,7 +2880,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Update Seller',
-      operationId: 'patch_cdr_sellers_{seller_id}_',
+      operationId: 'update_seller_cdr_sellers__seller_id___patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2874,7 +2891,7 @@ An email will be send to the user, to confirm its new address.
 
   ///Delete Seller
   ///@param seller_id
-  Future<chopper.Response> cdrSellersSellerIdDelete({
+  Future<chopper.Response<void>> cdrSellersSellerIdDelete({
     required String? sellerId,
   }) {
     return _cdrSellersSellerIdDelete(sellerId: sellerId);
@@ -2883,7 +2900,7 @@ An email will be send to the user, to confirm its new address.
   ///Delete Seller
   ///@param seller_id
   @DELETE(path: '/cdr/sellers/{seller_id}/')
-  Future<chopper.Response> _cdrSellersSellerIdDelete({
+  Future<chopper.Response<void>> _cdrSellersSellerIdDelete({
     @Path('seller_id') required String? sellerId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -2891,7 +2908,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Delete Seller',
-      operationId: 'delete_cdr_sellers_{seller_id}_',
+      operationId: 'delete_seller_cdr_sellers__seller_id___delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2924,7 +2941,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Get Products By Seller Id',
-      operationId: 'get_cdr_sellers_{seller_id}_products_',
+      operationId:
+          'get_products_by_seller_id_cdr_sellers__seller_id__products__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2961,7 +2979,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Create Product',
-      operationId: 'post_cdr_sellers_{seller_id}_products_',
+      operationId: 'create_product_cdr_sellers__seller_id__products__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2994,7 +3012,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must be authenticated to use this endpoint**''',
       summary: 'Get Available Online Products',
-      operationId: 'get_cdr_online_sellers_{seller_id}_products_',
+      operationId:
+          'get_available_online_products_cdr_online_sellers__seller_id__products__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3006,7 +3025,7 @@ An email will be send to the user, to confirm its new address.
   ///Update Product
   ///@param seller_id
   ///@param product_id
-  Future<chopper.Response> cdrSellersSellerIdProductsProductIdPatch({
+  Future<chopper.Response<void>> cdrSellersSellerIdProductsProductIdPatch({
     required String? sellerId,
     required String? productId,
     required AppModulesCdrSchemasCdrProductEdit? body,
@@ -3025,7 +3044,7 @@ An email will be send to the user, to confirm its new address.
     path: '/cdr/sellers/{seller_id}/products/{product_id}/',
     optionalBody: true,
   )
-  Future<chopper.Response> _cdrSellersSellerIdProductsProductIdPatch({
+  Future<chopper.Response<void>> _cdrSellersSellerIdProductsProductIdPatch({
     @Path('seller_id') required String? sellerId,
     @Path('product_id') required String? productId,
     @Body() required AppModulesCdrSchemasCdrProductEdit? body,
@@ -3035,7 +3054,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Update Product',
-      operationId: 'patch_cdr_sellers_{seller_id}_products_{product_id}_',
+      operationId:
+          'update_product_cdr_sellers__seller_id__products__product_id___patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3047,7 +3067,7 @@ An email will be send to the user, to confirm its new address.
   ///Delete Product
   ///@param seller_id
   ///@param product_id
-  Future<chopper.Response> cdrSellersSellerIdProductsProductIdDelete({
+  Future<chopper.Response<void>> cdrSellersSellerIdProductsProductIdDelete({
     required String? sellerId,
     required String? productId,
   }) {
@@ -3061,7 +3081,7 @@ An email will be send to the user, to confirm its new address.
   ///@param seller_id
   ///@param product_id
   @DELETE(path: '/cdr/sellers/{seller_id}/products/{product_id}/')
-  Future<chopper.Response> _cdrSellersSellerIdProductsProductIdDelete({
+  Future<chopper.Response<void>> _cdrSellersSellerIdProductsProductIdDelete({
     @Path('seller_id') required String? sellerId,
     @Path('product_id') required String? productId,
     @chopper.Tag()
@@ -3070,7 +3090,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Delete Product',
-      operationId: 'delete_cdr_sellers_{seller_id}_products_{product_id}_',
+      operationId:
+          'delete_product_cdr_sellers__seller_id__products__product_id___delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3119,7 +3140,7 @@ An email will be send to the user, to confirm its new address.
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Create Product Variant',
       operationId:
-          'post_cdr_sellers_{seller_id}_products_{product_id}_variants_',
+          'create_product_variant_cdr_sellers__seller_id__products__product_id__variants__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3132,7 +3153,7 @@ An email will be send to the user, to confirm its new address.
   ///@param seller_id
   ///@param product_id
   ///@param variant_id
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   cdrSellersSellerIdProductsProductIdVariantsVariantIdPatch({
     required String? sellerId,
     required String? productId,
@@ -3156,7 +3177,7 @@ An email will be send to the user, to confirm its new address.
         '/cdr/sellers/{seller_id}/products/{product_id}/variants/{variant_id}/',
     optionalBody: true,
   )
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   _cdrSellersSellerIdProductsProductIdVariantsVariantIdPatch({
     @Path('seller_id') required String? sellerId,
     @Path('product_id') required String? productId,
@@ -3169,7 +3190,7 @@ An email will be send to the user, to confirm its new address.
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Update Product Variant',
       operationId:
-          'patch_cdr_sellers_{seller_id}_products_{product_id}_variants_{variant_id}_',
+          'update_product_variant_cdr_sellers__seller_id__products__product_id__variants__variant_id___patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3182,7 +3203,7 @@ An email will be send to the user, to confirm its new address.
   ///@param seller_id
   ///@param product_id
   ///@param variant_id
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   cdrSellersSellerIdProductsProductIdVariantsVariantIdDelete({
     required String? sellerId,
     required String? productId,
@@ -3203,7 +3224,7 @@ An email will be send to the user, to confirm its new address.
     path:
         '/cdr/sellers/{seller_id}/products/{product_id}/variants/{variant_id}/',
   )
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   _cdrSellersSellerIdProductsProductIdVariantsVariantIdDelete({
     @Path('seller_id') required String? sellerId,
     @Path('product_id') required String? productId,
@@ -3215,7 +3236,7 @@ An email will be send to the user, to confirm its new address.
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Delete Product Variant',
       operationId:
-          'delete_cdr_sellers_{seller_id}_products_{product_id}_variants_{variant_id}_',
+          'delete_product_variant_cdr_sellers__seller_id__products__product_id__variants__variant_id___delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3248,7 +3269,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Get Seller Documents',
-      operationId: 'get_cdr_sellers_{seller_id}_documents_',
+      operationId:
+          'get_seller_documents_cdr_sellers__seller_id__documents__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3283,7 +3305,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Create Document',
-      operationId: 'post_cdr_sellers_{seller_id}_documents_',
+      operationId: 'create_document_cdr_sellers__seller_id__documents__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3311,7 +3333,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of a seller\'s group to use this endpoint**''',
       summary: 'Get All Sellers Documents',
-      operationId: 'get_cdr_documents_',
+      operationId: 'get_all_sellers_documents_cdr_documents__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3323,7 +3345,7 @@ An email will be send to the user, to confirm its new address.
   ///Delete Document
   ///@param seller_id
   ///@param document_id
-  Future<chopper.Response> cdrSellersSellerIdDocumentsDocumentIdDelete({
+  Future<chopper.Response<void>> cdrSellersSellerIdDocumentsDocumentIdDelete({
     required String? sellerId,
     required String? documentId,
   }) {
@@ -3337,7 +3359,7 @@ An email will be send to the user, to confirm its new address.
   ///@param seller_id
   ///@param document_id
   @DELETE(path: '/cdr/sellers/{seller_id}/documents/{document_id}/')
-  Future<chopper.Response> _cdrSellersSellerIdDocumentsDocumentIdDelete({
+  Future<chopper.Response<void>> _cdrSellersSellerIdDocumentsDocumentIdDelete({
     @Path('seller_id') required String? sellerId,
     @Path('document_id') required String? documentId,
     @chopper.Tag()
@@ -3346,7 +3368,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Delete Document',
-      operationId: 'delete_cdr_sellers_{seller_id}_documents_{document_id}_',
+      operationId:
+          'delete_document_cdr_sellers__seller_id__documents__document_id___delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3379,7 +3402,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must get his own purchases or be CDR Admin to use this endpoint**''',
       summary: 'Get Purchases By User Id',
-      operationId: 'get_cdr_users_{user_id}_purchases_',
+      operationId:
+          'get_purchases_by_user_id_cdr_users__user_id__purchases__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3405,7 +3429,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get My Purchases',
-      operationId: 'get_cdr_me_purchases_',
+      operationId: 'get_my_purchases_cdr_me_purchases__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3431,7 +3455,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get All My Purchases',
-      operationId: 'get_cdr_me_purchases_all',
+      operationId: 'get_all_my_purchases_cdr_me_purchases_all_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3473,7 +3497,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must get his own purchases or be part of the seller\'s group to use this endpoint**''',
       summary: 'Get Purchases By User Id By Seller Id',
-      operationId: 'get_cdr_sellers_{seller_id}_users_{user_id}_purchases_',
+      operationId:
+          'get_purchases_by_user_id_by_seller_id_cdr_sellers__seller_id__users__user_id__purchases__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3521,7 +3546,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must create a purchase for themself and for an online available product or be part of the seller\'s group to use this endpoint**''',
       summary: 'Create Purchase',
-      operationId: 'post_cdr_users_{user_id}_purchases_{product_variant_id}_',
+      operationId:
+          'create_purchase_cdr_users__user_id__purchases__product_variant_id___post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3533,7 +3559,7 @@ An email will be send to the user, to confirm its new address.
   ///Delete Purchase
   ///@param user_id
   ///@param product_variant_id
-  Future<chopper.Response> cdrUsersUserIdPurchasesProductVariantIdDelete({
+  Future<chopper.Response<void>> cdrUsersUserIdPurchasesProductVariantIdDelete({
     required String? userId,
     required String? productVariantId,
   }) {
@@ -3547,7 +3573,8 @@ An email will be send to the user, to confirm its new address.
   ///@param user_id
   ///@param product_variant_id
   @DELETE(path: '/cdr/users/{user_id}/purchases/{product_variant_id}/')
-  Future<chopper.Response> _cdrUsersUserIdPurchasesProductVariantIdDelete({
+  Future<chopper.Response<void>>
+  _cdrUsersUserIdPurchasesProductVariantIdDelete({
     @Path('user_id') required String? userId,
     @Path('product_variant_id') required String? productVariantId,
     @chopper.Tag()
@@ -3556,7 +3583,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must create a purchase for themself and for an online available product or be part of the seller\'s group to use this endpoint**''',
       summary: 'Delete Purchase',
-      operationId: 'delete_cdr_users_{user_id}_purchases_{product_variant_id}_',
+      operationId:
+          'delete_purchase_cdr_users__user_id__purchases__product_variant_id___delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3566,7 +3594,7 @@ An email will be send to the user, to confirm its new address.
   });
 
   ///Create Purchase Batch
-  Future<chopper.Response> cdrBatchPurchasesPost({
+  Future<chopper.Response<void>> cdrBatchPurchasesPost({
     required BatchPurchase? body,
   }) {
     return _cdrBatchPurchasesPost(body: body);
@@ -3574,7 +3602,7 @@ An email will be send to the user, to confirm its new address.
 
   ///Create Purchase Batch
   @POST(path: '/cdr/batch-purchases/', optionalBody: true)
-  Future<chopper.Response> _cdrBatchPurchasesPost({
+  Future<chopper.Response<void>> _cdrBatchPurchasesPost({
     @Body() required BatchPurchase? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -3582,7 +3610,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Create Purchase Batch',
-      operationId: 'post_cdr_batch-purchases_',
+      operationId: 'create_purchase_batch_cdr_batch_purchases__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3595,7 +3623,7 @@ An email will be send to the user, to confirm its new address.
   ///@param user_id
   ///@param product_variant_id
   ///@param validated
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   cdrUsersUserIdPurchasesProductVariantIdValidatedPatch({
     required String? userId,
     required String? productVariantId,
@@ -3616,7 +3644,7 @@ An email will be send to the user, to confirm its new address.
     path: '/cdr/users/{user_id}/purchases/{product_variant_id}/validated/',
     optionalBody: true,
   )
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   _cdrUsersUserIdPurchasesProductVariantIdValidatedPatch({
     @Path('user_id') required String? userId,
     @Path('product_variant_id') required String? productVariantId,
@@ -3628,7 +3656,7 @@ An email will be send to the user, to confirm its new address.
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Mark Purchase As Validated',
       operationId:
-          'patch_cdr_users_{user_id}_purchases_{product_variant_id}_validated_',
+          'mark_purchase_as_validated_cdr_users__user_id__purchases__product_variant_id__validated__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3638,7 +3666,7 @@ An email will be send to the user, to confirm its new address.
   });
 
   ///Validate Purchase Batch
-  Future<chopper.Response> cdrBatchValidationPost({
+  Future<chopper.Response<void>> cdrBatchValidationPost({
     required BatchValidation? body,
   }) {
     return _cdrBatchValidationPost(body: body);
@@ -3646,13 +3674,13 @@ An email will be send to the user, to confirm its new address.
 
   ///Validate Purchase Batch
   @POST(path: '/cdr/batch-validation/', optionalBody: true)
-  Future<chopper.Response> _cdrBatchValidationPost({
+  Future<chopper.Response<void>> _cdrBatchValidationPost({
     @Body() required BatchValidation? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Validate Purchase Batch',
-      operationId: 'post_cdr_batch-validation_',
+      operationId: 'validate_purchase_batch_cdr_batch_validation__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3685,7 +3713,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must get his own signatures or be CDR Admin to use this endpoint**''',
       summary: 'Get Signatures By User Id',
-      operationId: 'get_cdr_users_{user_id}_signatures_',
+      operationId:
+          'get_signatures_by_user_id_cdr_users__user_id__signatures__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3727,7 +3756,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must get his own signatures or be part of the seller\'s group to use this endpoint**''',
       summary: 'Get Signatures By User Id By Seller Id',
-      operationId: 'get_cdr_sellers_{seller_id}_users_{user_id}_signatures_',
+      operationId:
+          'get_signatures_by_user_id_by_seller_id_cdr_sellers__seller_id__users__user_id__signatures__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3775,7 +3805,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must sign numerically or be part of the seller\'s group to use this endpoint**''',
       summary: 'Create Signature',
-      operationId: 'post_cdr_users_{user_id}_signatures_{document_id}_',
+      operationId:
+          'create_signature_cdr_users__user_id__signatures__document_id___post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3787,7 +3818,7 @@ An email will be send to the user, to confirm its new address.
   ///Delete Signature
   ///@param user_id
   ///@param document_id
-  Future<chopper.Response> cdrUsersUserIdSignaturesDocumentIdDelete({
+  Future<chopper.Response<void>> cdrUsersUserIdSignaturesDocumentIdDelete({
     required String? userId,
     required String? documentId,
   }) {
@@ -3801,7 +3832,7 @@ An email will be send to the user, to confirm its new address.
   ///@param user_id
   ///@param document_id
   @DELETE(path: '/cdr/users/{user_id}/signatures/{document_id}/')
-  Future<chopper.Response> _cdrUsersUserIdSignaturesDocumentIdDelete({
+  Future<chopper.Response<void>> _cdrUsersUserIdSignaturesDocumentIdDelete({
     @Path('user_id') required String? userId,
     @Path('document_id') required String? documentId,
     @chopper.Tag()
@@ -3810,7 +3841,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Delete Signature',
-      operationId: 'delete_cdr_users_{user_id}_signatures_{document_id}_',
+      operationId:
+          'delete_signature_cdr_users__user_id__signatures__document_id___delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3838,7 +3870,7 @@ An email will be send to the user, to confirm its new address.
 
 **User be authenticated to use this endpoint**''',
       summary: 'Get Curriculums',
-      operationId: 'get_cdr_curriculums_',
+      operationId: 'get_curriculums_cdr_curriculums__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3869,7 +3901,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Create Curriculum',
-      operationId: 'post_cdr_curriculums_',
+      operationId: 'create_curriculum_cdr_curriculums__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3880,7 +3912,7 @@ An email will be send to the user, to confirm its new address.
 
   ///Delete Curriculum
   ///@param curriculum_id
-  Future<chopper.Response> cdrCurriculumsCurriculumIdDelete({
+  Future<chopper.Response<void>> cdrCurriculumsCurriculumIdDelete({
     required String? curriculumId,
   }) {
     return _cdrCurriculumsCurriculumIdDelete(curriculumId: curriculumId);
@@ -3889,7 +3921,7 @@ An email will be send to the user, to confirm its new address.
   ///Delete Curriculum
   ///@param curriculum_id
   @DELETE(path: '/cdr/curriculums/{curriculum_id}/')
-  Future<chopper.Response> _cdrCurriculumsCurriculumIdDelete({
+  Future<chopper.Response<void>> _cdrCurriculumsCurriculumIdDelete({
     @Path('curriculum_id') required String? curriculumId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -3897,7 +3929,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Delete Curriculum',
-      operationId: 'delete_cdr_curriculums_{curriculum_id}_',
+      operationId: 'delete_curriculum_cdr_curriculums__curriculum_id___delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3909,7 +3941,7 @@ An email will be send to the user, to confirm its new address.
   ///Create Curriculum Membership
   ///@param user_id
   ///@param curriculum_id
-  Future<chopper.Response> cdrUsersUserIdCurriculumsCurriculumIdPost({
+  Future<chopper.Response<void>> cdrUsersUserIdCurriculumsCurriculumIdPost({
     required String? userId,
     required String? curriculumId,
   }) {
@@ -3926,7 +3958,7 @@ An email will be send to the user, to confirm its new address.
     path: '/cdr/users/{user_id}/curriculums/{curriculum_id}/',
     optionalBody: true,
   )
-  Future<chopper.Response> _cdrUsersUserIdCurriculumsCurriculumIdPost({
+  Future<chopper.Response<void>> _cdrUsersUserIdCurriculumsCurriculumIdPost({
     @Path('user_id') required String? userId,
     @Path('curriculum_id') required String? curriculumId,
     @chopper.Tag()
@@ -3935,7 +3967,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must add a curriculum to themself or be CDR Admin to use this endpoint**''',
       summary: 'Create Curriculum Membership',
-      operationId: 'post_cdr_users_{user_id}_curriculums_{curriculum_id}_',
+      operationId:
+          'create_curriculum_membership_cdr_users__user_id__curriculums__curriculum_id___post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3947,7 +3980,7 @@ An email will be send to the user, to confirm its new address.
   ///Update Curriculum Membership
   ///@param user_id
   ///@param curriculum_id
-  Future<chopper.Response> cdrUsersUserIdCurriculumsCurriculumIdPatch({
+  Future<chopper.Response<void>> cdrUsersUserIdCurriculumsCurriculumIdPatch({
     required String? userId,
     required String? curriculumId,
   }) {
@@ -3964,7 +3997,7 @@ An email will be send to the user, to confirm its new address.
     path: '/cdr/users/{user_id}/curriculums/{curriculum_id}/',
     optionalBody: true,
   )
-  Future<chopper.Response> _cdrUsersUserIdCurriculumsCurriculumIdPatch({
+  Future<chopper.Response<void>> _cdrUsersUserIdCurriculumsCurriculumIdPatch({
     @Path('user_id') required String? userId,
     @Path('curriculum_id') required String? curriculumId,
     @chopper.Tag()
@@ -3973,7 +4006,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must add a curriculum to themself or be CDR Admin to use this endpoint**''',
       summary: 'Update Curriculum Membership',
-      operationId: 'patch_cdr_users_{user_id}_curriculums_{curriculum_id}_',
+      operationId:
+          'update_curriculum_membership_cdr_users__user_id__curriculums__curriculum_id___patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3985,7 +4019,7 @@ An email will be send to the user, to confirm its new address.
   ///Delete Curriculum Membership
   ///@param user_id
   ///@param curriculum_id
-  Future<chopper.Response> cdrUsersUserIdCurriculumsCurriculumIdDelete({
+  Future<chopper.Response<void>> cdrUsersUserIdCurriculumsCurriculumIdDelete({
     required String? userId,
     required String? curriculumId,
   }) {
@@ -3999,7 +4033,7 @@ An email will be send to the user, to confirm its new address.
   ///@param user_id
   ///@param curriculum_id
   @DELETE(path: '/cdr/users/{user_id}/curriculums/{curriculum_id}/')
-  Future<chopper.Response> _cdrUsersUserIdCurriculumsCurriculumIdDelete({
+  Future<chopper.Response<void>> _cdrUsersUserIdCurriculumsCurriculumIdDelete({
     @Path('user_id') required String? userId,
     @Path('curriculum_id') required String? curriculumId,
     @chopper.Tag()
@@ -4008,7 +4042,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must add a curriculum to themself or be CDR Admin to use this endpoint**''',
       summary: 'Delete Curriculum Membership',
-      operationId: 'delete_cdr_users_{user_id}_curriculums_{curriculum_id}_',
+      operationId:
+          'delete_curriculum_membership_cdr_users__user_id__curriculums__curriculum_id___delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4041,7 +4076,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must get his own payments or be CDR Admin to use this endpoint**''',
       summary: 'Get Payments By User Id',
-      operationId: 'get_cdr_users_{user_id}_payments_',
+      operationId: 'get_payments_by_user_id_cdr_users__user_id__payments__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4078,7 +4113,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Create Payment',
-      operationId: 'post_cdr_users_{user_id}_payments_',
+      operationId: 'create_payment_cdr_users__user_id__payments__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4090,7 +4125,7 @@ An email will be send to the user, to confirm its new address.
   ///Delete Payment
   ///@param user_id
   ///@param payment_id
-  Future<chopper.Response> cdrUsersUserIdPaymentsPaymentIdDelete({
+  Future<chopper.Response<void>> cdrUsersUserIdPaymentsPaymentIdDelete({
     required String? userId,
     required String? paymentId,
   }) {
@@ -4104,7 +4139,7 @@ An email will be send to the user, to confirm its new address.
   ///@param user_id
   ///@param payment_id
   @DELETE(path: '/cdr/users/{user_id}/payments/{payment_id}/')
-  Future<chopper.Response> _cdrUsersUserIdPaymentsPaymentIdDelete({
+  Future<chopper.Response<void>> _cdrUsersUserIdPaymentsPaymentIdDelete({
     @Path('user_id') required String? userId,
     @Path('payment_id') required String? paymentId,
     @chopper.Tag()
@@ -4113,7 +4148,8 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Delete Payment',
-      operationId: 'delete_cdr_users_{user_id}_payments_{payment_id}_',
+      operationId:
+          'delete_payment_cdr_users__user_id__payments__payment_id___delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4136,7 +4172,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get payment url',
       summary: 'Get Payment Url',
-      operationId: 'post_cdr_pay_',
+      operationId: 'get_payment_url_cdr_pay__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4159,7 +4195,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Cdr Year',
-      operationId: 'get_cdr_year_',
+      operationId: 'get_cdr_year_cdr_year__get',
       consumes: [],
       produces: [],
       security: [],
@@ -4169,19 +4205,19 @@ An email will be send to the user, to confirm its new address.
   });
 
   ///Update Cdr Year
-  Future<chopper.Response> cdrYearPatch({required CdrYear? body}) {
+  Future<chopper.Response<void>> cdrYearPatch({required CdrYear? body}) {
     return _cdrYearPatch(body: body);
   }
 
   ///Update Cdr Year
   @PATCH(path: '/cdr/year/', optionalBody: true)
-  Future<chopper.Response> _cdrYearPatch({
+  Future<chopper.Response<void>> _cdrYearPatch({
     @Body() required CdrYear? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Update Cdr Year',
-      operationId: 'patch_cdr_year_',
+      operationId: 'update_cdr_year_cdr_year__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4204,7 +4240,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Status',
-      operationId: 'get_cdr_status_',
+      operationId: 'get_status_cdr_status__get',
       consumes: [],
       produces: [],
       security: [],
@@ -4214,19 +4250,19 @@ An email will be send to the user, to confirm its new address.
   });
 
   ///Update Status
-  Future<chopper.Response> cdrStatusPatch({required Status? body}) {
+  Future<chopper.Response<void>> cdrStatusPatch({required Status? body}) {
     return _cdrStatusPatch(body: body);
   }
 
   ///Update Status
   @PATCH(path: '/cdr/status/', optionalBody: true)
-  Future<chopper.Response> _cdrStatusPatch({
+  Future<chopper.Response<void>> _cdrStatusPatch({
     @Body() required Status? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Update Status',
-      operationId: 'patch_cdr_status_',
+      operationId: 'update_status_cdr_status__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4254,7 +4290,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get My Tickets',
-      operationId: 'get_cdr_users_me_tickets_',
+      operationId: 'get_my_tickets_cdr_users_me_tickets__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4285,7 +4321,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Tickets Of User',
-      operationId: 'get_cdr_users_{user_id}_tickets_',
+      operationId: 'get_tickets_of_user_cdr_users__user_id__tickets__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4316,7 +4352,8 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Ticket Secret',
-      operationId: 'get_cdr_users_me_tickets_{ticket_id}_secret_',
+      operationId:
+          'get_ticket_secret_cdr_users_me_tickets__ticket_id__secret__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4370,7 +4407,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Get Ticket By Secret',
       operationId:
-          'get_cdr_sellers_{seller_id}_products_{product_id}_tickets_{generator_id}_{secret}_',
+          'get_ticket_by_secret_cdr_sellers__seller_id__products__product_id__tickets__generator_id___secret___get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4384,7 +4421,7 @@ An email will be send to the user, to confirm its new address.
   ///@param product_id
   ///@param generator_id
   ///@param secret
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   cdrSellersSellerIdProductsProductIdTicketsGeneratorIdSecretPatch({
     required String? sellerId,
     required String? productId,
@@ -4411,7 +4448,7 @@ An email will be send to the user, to confirm its new address.
         '/cdr/sellers/{seller_id}/products/{product_id}/tickets/{generator_id}/{secret}/',
     optionalBody: true,
   )
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   _cdrSellersSellerIdProductsProductIdTicketsGeneratorIdSecretPatch({
     @Path('seller_id') required String? sellerId,
     @Path('product_id') required String? productId,
@@ -4423,7 +4460,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Scan Ticket',
       operationId:
-          'patch_cdr_sellers_{seller_id}_products_{product_id}_tickets_{generator_id}_{secret}_',
+          'scan_ticket_cdr_sellers__seller_id__products__product_id__tickets__generator_id___secret___patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4477,7 +4514,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Get Users By Tag',
       operationId:
-          'get_cdr_sellers_{seller_id}_products_{product_id}_tickets_{generator_id}_lists_{tag}_',
+          'get_users_by_tag_cdr_sellers__seller_id__products__product_id__tickets__generator_id__lists__tag___get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4520,7 +4557,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Get Tags Of Ticket',
       operationId:
-          'get_cdr_sellers_{seller_id}_products_{product_id}_tags_{generator_id}_',
+          'get_tags_of_ticket_cdr_sellers__seller_id__products__product_id__tags__generator_id___get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4567,7 +4604,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Generate Ticket For Product',
       operationId:
-          'post_cdr_sellers_{seller_id}_products_{product_id}_tickets_',
+          'generate_ticket_for_product_cdr_sellers__seller_id__products__product_id__tickets__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4580,7 +4617,7 @@ An email will be send to the user, to confirm its new address.
   ///@param seller_id
   ///@param product_id
   ///@param ticket_generator_id
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   cdrSellersSellerIdProductsProductIdTicketsTicketGeneratorIdDelete({
     required String? sellerId,
     required String? productId,
@@ -4601,7 +4638,7 @@ An email will be send to the user, to confirm its new address.
     path:
         '/cdr/sellers/{seller_id}/products/{product_id}/tickets/{ticket_generator_id}',
   )
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   _cdrSellersSellerIdProductsProductIdTicketsTicketGeneratorIdDelete({
     @Path('seller_id') required String? sellerId,
     @Path('product_id') required String? productId,
@@ -4611,7 +4648,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Delete Ticket Generator For Product',
       operationId:
-          'delete_cdr_sellers_{seller_id}_products_{product_id}_tickets_{ticket_generator_id}',
+          'delete_ticket_generator_for_product_cdr_sellers__seller_id__products__product_id__tickets__ticket_generator_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4651,7 +4688,8 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Custom Data Fields',
-      operationId: 'get_cdr_sellers_{seller_id}_products_{product_id}_data_',
+      operationId:
+          'get_custom_data_fields_cdr_sellers__seller_id__products__product_id__data__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4697,7 +4735,8 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Custom Data Field',
-      operationId: 'post_cdr_sellers_{seller_id}_products_{product_id}_data_',
+      operationId:
+          'create_custom_data_field_cdr_sellers__seller_id__products__product_id__data__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4710,7 +4749,8 @@ An email will be send to the user, to confirm its new address.
   ///@param seller_id
   ///@param product_id
   ///@param field_id
-  Future<chopper.Response> cdrSellersSellerIdProductsProductIdDataFieldIdPatch({
+  Future<chopper.Response<void>>
+  cdrSellersSellerIdProductsProductIdDataFieldIdPatch({
     required String? sellerId,
     required String? productId,
     required String? fieldId,
@@ -4732,7 +4772,7 @@ An email will be send to the user, to confirm its new address.
     path: '/cdr/sellers/{seller_id}/products/{product_id}/data/{field_id}/',
     optionalBody: true,
   )
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   _cdrSellersSellerIdProductsProductIdDataFieldIdPatch({
     @Path('seller_id') required String? sellerId,
     @Path('product_id') required String? productId,
@@ -4743,7 +4783,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Update Custom Data Field',
       operationId:
-          'patch_cdr_sellers_{seller_id}_products_{product_id}_data_{field_id}_',
+          'update_custom_data_field_cdr_sellers__seller_id__products__product_id__data__field_id___patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4756,7 +4796,7 @@ An email will be send to the user, to confirm its new address.
   ///@param seller_id
   ///@param product_id
   ///@param field_id
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   cdrSellersSellerIdProductsProductIdDataFieldIdDelete({
     required String? sellerId,
     required String? productId,
@@ -4776,7 +4816,7 @@ An email will be send to the user, to confirm its new address.
   @DELETE(
     path: '/cdr/sellers/{seller_id}/products/{product_id}/data/{field_id}/',
   )
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   _cdrSellersSellerIdProductsProductIdDataFieldIdDelete({
     @Path('seller_id') required String? sellerId,
     @Path('product_id') required String? productId,
@@ -4786,7 +4826,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Delete Customdata Field',
       operationId:
-          'delete_cdr_sellers_{seller_id}_products_{product_id}_data_{field_id}_',
+          'delete_customdata_field_cdr_sellers__seller_id__products__product_id__data__field_id___delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4840,7 +4880,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Get Customdata',
       operationId:
-          'get_cdr_sellers_{seller_id}_products_{product_id}_users_{user_id}_data_{field_id}_',
+          'get_customdata_cdr_sellers__seller_id__products__product_id__users__user_id__data__field_id___get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4898,7 +4938,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Create Custom Data',
       operationId:
-          'post_cdr_sellers_{seller_id}_products_{product_id}_users_{user_id}_data_{field_id}_',
+          'create_custom_data_cdr_sellers__seller_id__products__product_id__users__user_id__data__field_id___post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4912,7 +4952,7 @@ An email will be send to the user, to confirm its new address.
   ///@param product_id
   ///@param user_id
   ///@param field_id
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   cdrSellersSellerIdProductsProductIdUsersUserIdDataFieldIdPatch({
     required String? sellerId,
     required String? productId,
@@ -4939,7 +4979,7 @@ An email will be send to the user, to confirm its new address.
         '/cdr/sellers/{seller_id}/products/{product_id}/users/{user_id}/data/{field_id}/',
     optionalBody: true,
   )
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   _cdrSellersSellerIdProductsProductIdUsersUserIdDataFieldIdPatch({
     @Path('seller_id') required String? sellerId,
     @Path('product_id') required String? productId,
@@ -4951,7 +4991,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Update Custom Data',
       operationId:
-          'patch_cdr_sellers_{seller_id}_products_{product_id}_users_{user_id}_data_{field_id}_',
+          'update_custom_data_cdr_sellers__seller_id__products__product_id__users__user_id__data__field_id___patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4965,7 +5005,7 @@ An email will be send to the user, to confirm its new address.
   ///@param product_id
   ///@param user_id
   ///@param field_id
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   cdrSellersSellerIdProductsProductIdUsersUserIdDataFieldIdDelete({
     required String? sellerId,
     required String? productId,
@@ -4989,7 +5029,7 @@ An email will be send to the user, to confirm its new address.
     path:
         '/cdr/sellers/{seller_id}/products/{product_id}/users/{user_id}/data/{field_id}/',
   )
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   _cdrSellersSellerIdProductsProductIdUsersUserIdDataFieldIdDelete({
     @Path('seller_id') required String? sellerId,
     @Path('product_id') required String? productId,
@@ -5000,7 +5040,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Delete Customdata',
       operationId:
-          'delete_cdr_sellers_{seller_id}_products_{product_id}_users_{user_id}_data_{field_id}_',
+          'delete_customdata_cdr_sellers__seller_id__products__product_id__users__user_id__data__field_id___delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5031,7 +5071,7 @@ using an API key and returns a TheMovieDB object
 * https://developer.themoviedb.org/reference/movie-details
 * https://developer.themoviedb.org/docs/errors''',
       summary: 'Get Movie',
-      operationId: 'get_cinema_themoviedb_{themoviedb_id}',
+      operationId: 'get_movie_cinema_themoviedb__themoviedb_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5057,7 +5097,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Sessions',
-      operationId: 'get_cinema_sessions',
+      operationId: 'get_sessions_cinema_sessions_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5086,7 +5126,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Session',
-      operationId: 'post_cinema_sessions',
+      operationId: 'create_session_cinema_sessions_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5114,7 +5154,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Update Session',
-      operationId: 'patch_cinema_sessions_{session_id}',
+      operationId: 'update_session_cinema_sessions__session_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5125,7 +5165,7 @@ using an API key and returns a TheMovieDB object
 
   ///Delete Session
   ///@param session_id
-  Future<chopper.Response> cinemaSessionsSessionIdDelete({
+  Future<chopper.Response<void>> cinemaSessionsSessionIdDelete({
     required String? sessionId,
   }) {
     return _cinemaSessionsSessionIdDelete(sessionId: sessionId);
@@ -5134,13 +5174,13 @@ using an API key and returns a TheMovieDB object
   ///Delete Session
   ///@param session_id
   @DELETE(path: '/cinema/sessions/{session_id}')
-  Future<chopper.Response> _cinemaSessionsSessionIdDelete({
+  Future<chopper.Response<void>> _cinemaSessionsSessionIdDelete({
     @Path('session_id') required String? sessionId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Session',
-      operationId: 'delete_cinema_sessions_{session_id}',
+      operationId: 'delete_session_cinema_sessions__session_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5179,7 +5219,8 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Campaigns Logo',
-      operationId: 'post_cinema_sessions_{session_id}_poster',
+      operationId:
+          'create_campaigns_logo_cinema_sessions__session_id__poster_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5190,7 +5231,7 @@ using an API key and returns a TheMovieDB object
 
   ///Read Session Poster
   ///@param session_id
-  Future<chopper.Response> cinemaSessionsSessionIdPosterGet({
+  Future<chopper.Response<List<int>>> cinemaSessionsSessionIdPosterGet({
     required String? sessionId,
   }) {
     return _cinemaSessionsSessionIdPosterGet(sessionId: sessionId);
@@ -5199,13 +5240,14 @@ using an API key and returns a TheMovieDB object
   ///Read Session Poster
   ///@param session_id
   @GET(path: '/cinema/sessions/{session_id}/poster')
-  Future<chopper.Response> _cinemaSessionsSessionIdPosterGet({
+  Future<chopper.Response<List<int>>> _cinemaSessionsSessionIdPosterGet({
     @Path('session_id') required String? sessionId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Read Session Poster',
-      operationId: 'get_cinema_sessions_{session_id}_poster',
+      operationId:
+          'read_session_poster_cinema_sessions__session_id__poster_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5231,7 +5273,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all raffles',
       summary: 'Get Raffle',
-      operationId: 'get_tombola_raffles',
+      operationId: 'get_raffle_tombola_raffles_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5262,7 +5304,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the group admin to use this endpoint**''',
       summary: 'Create Raffle',
-      operationId: 'post_tombola_raffles',
+      operationId: 'create_raffle_tombola_raffles_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5273,7 +5315,7 @@ using an API key and returns a TheMovieDB object
 
   ///Edit Raffle
   ///@param raffle_id
-  Future<chopper.Response> tombolaRafflesRaffleIdPatch({
+  Future<chopper.Response<void>> tombolaRafflesRaffleIdPatch({
     required String? raffleId,
     required RaffleEdit? body,
   }) {
@@ -5283,7 +5325,7 @@ using an API key and returns a TheMovieDB object
   ///Edit Raffle
   ///@param raffle_id
   @PATCH(path: '/tombola/raffles/{raffle_id}', optionalBody: true)
-  Future<chopper.Response> _tombolaRafflesRaffleIdPatch({
+  Future<chopper.Response<void>> _tombolaRafflesRaffleIdPatch({
     @Path('raffle_id') required String? raffleId,
     @Body() required RaffleEdit? body,
     @chopper.Tag()
@@ -5292,7 +5334,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Edit Raffle',
-      operationId: 'patch_tombola_raffles_{raffle_id}',
+      operationId: 'edit_raffle_tombola_raffles__raffle_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5303,7 +5345,7 @@ using an API key and returns a TheMovieDB object
 
   ///Delete Raffle
   ///@param raffle_id
-  Future<chopper.Response> tombolaRafflesRaffleIdDelete({
+  Future<chopper.Response<void>> tombolaRafflesRaffleIdDelete({
     required String? raffleId,
   }) {
     return _tombolaRafflesRaffleIdDelete(raffleId: raffleId);
@@ -5312,7 +5354,7 @@ using an API key and returns a TheMovieDB object
   ///Delete Raffle
   ///@param raffle_id
   @DELETE(path: '/tombola/raffles/{raffle_id}')
-  Future<chopper.Response> _tombolaRafflesRaffleIdDelete({
+  Future<chopper.Response<void>> _tombolaRafflesRaffleIdDelete({
     @Path('raffle_id') required String? raffleId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -5320,7 +5362,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Delete Raffle',
-      operationId: 'delete_tombola_raffles_{raffle_id}',
+      operationId: 'delete_raffle_tombola_raffles__raffle_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5352,7 +5394,8 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all raffles from a group',
       summary: 'Get Raffles By Group Id',
-      operationId: 'get_tombola_group_{group_id}_raffles',
+      operationId:
+          'get_raffles_by_group_id_tombola_group__group_id__raffles_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5384,7 +5427,7 @@ using an API key and returns a TheMovieDB object
       description:
           'Return the number of ticket sold and the total amount recollected for a raffle',
       summary: 'Get Raffle Stats',
-      operationId: 'get_tombola_raffles_{raffle_id}_stats',
+      operationId: 'get_raffle_stats_tombola_raffles__raffle_id__stats_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5422,7 +5465,8 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Create Current Raffle Logo',
-      operationId: 'post_tombola_raffles_{raffle_id}_logo',
+      operationId:
+          'create_current_raffle_logo_tombola_raffles__raffle_id__logo_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5433,7 +5477,7 @@ using an API key and returns a TheMovieDB object
 
   ///Read Raffle Logo
   ///@param raffle_id
-  Future<chopper.Response> tombolaRafflesRaffleIdLogoGet({
+  Future<chopper.Response<List<int>>> tombolaRafflesRaffleIdLogoGet({
     required String? raffleId,
   }) {
     return _tombolaRafflesRaffleIdLogoGet(raffleId: raffleId);
@@ -5442,13 +5486,13 @@ using an API key and returns a TheMovieDB object
   ///Read Raffle Logo
   ///@param raffle_id
   @GET(path: '/tombola/raffles/{raffle_id}/logo')
-  Future<chopper.Response> _tombolaRafflesRaffleIdLogoGet({
+  Future<chopper.Response<List<int>>> _tombolaRafflesRaffleIdLogoGet({
     @Path('raffle_id') required String? raffleId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get the logo of a specific raffle.',
       summary: 'Read Raffle Logo',
-      operationId: 'get_tombola_raffles_{raffle_id}_logo',
+      operationId: 'read_raffle_logo_tombola_raffles__raffle_id__logo_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5474,7 +5518,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all tickets',
       summary: 'Get Pack Tickets',
-      operationId: 'get_tombola_pack_tickets',
+      operationId: 'get_pack_tickets_tombola_pack_tickets_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5505,7 +5549,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Create Packticket',
-      operationId: 'post_tombola_pack_tickets',
+      operationId: 'create_packticket_tombola_pack_tickets_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5516,7 +5560,7 @@ using an API key and returns a TheMovieDB object
 
   ///Edit Packticket
   ///@param packticket_id
-  Future<chopper.Response> tombolaPackTicketsPackticketIdPatch({
+  Future<chopper.Response<void>> tombolaPackTicketsPackticketIdPatch({
     required String? packticketId,
     required PackTicketEdit? body,
   }) {
@@ -5529,7 +5573,7 @@ using an API key and returns a TheMovieDB object
   ///Edit Packticket
   ///@param packticket_id
   @PATCH(path: '/tombola/pack_tickets/{packticket_id}', optionalBody: true)
-  Future<chopper.Response> _tombolaPackTicketsPackticketIdPatch({
+  Future<chopper.Response<void>> _tombolaPackTicketsPackticketIdPatch({
     @Path('packticket_id') required String? packticketId,
     @Body() required PackTicketEdit? body,
     @chopper.Tag()
@@ -5538,7 +5582,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Edit Packticket',
-      operationId: 'patch_tombola_pack_tickets_{packticket_id}',
+      operationId: 'edit_packticket_tombola_pack_tickets__packticket_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5549,7 +5593,7 @@ using an API key and returns a TheMovieDB object
 
   ///Delete Packticket
   ///@param packticket_id
-  Future<chopper.Response> tombolaPackTicketsPackticketIdDelete({
+  Future<chopper.Response<void>> tombolaPackTicketsPackticketIdDelete({
     required String? packticketId,
   }) {
     return _tombolaPackTicketsPackticketIdDelete(packticketId: packticketId);
@@ -5558,7 +5602,7 @@ using an API key and returns a TheMovieDB object
   ///Delete Packticket
   ///@param packticket_id
   @DELETE(path: '/tombola/pack_tickets/{packticket_id}')
-  Future<chopper.Response> _tombolaPackTicketsPackticketIdDelete({
+  Future<chopper.Response<void>> _tombolaPackTicketsPackticketIdDelete({
     @Path('packticket_id') required String? packticketId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -5566,7 +5610,8 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Delete Packticket',
-      operationId: 'delete_tombola_pack_tickets_{packticket_id}',
+      operationId:
+          'delete_packticket_tombola_pack_tickets__packticket_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5597,7 +5642,8 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all pack_tickets associated to a raffle',
       summary: 'Get Pack Tickets By Raffle Id',
-      operationId: 'get_tombola_raffles_{raffle_id}_pack_tickets',
+      operationId:
+          'get_pack_tickets_by_raffle_id_tombola_raffles__raffle_id__pack_tickets_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5625,7 +5671,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the group admin to use this endpoint**''',
       summary: 'Get Tickets',
-      operationId: 'get_tombola_tickets',
+      operationId: 'get_tickets_tombola_tickets_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5656,7 +5702,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Buy a ticket',
       summary: 'Buy Ticket',
-      operationId: 'post_tombola_tickets_buy_{pack_id}',
+      operationId: 'buy_ticket_tombola_tickets_buy__pack_id__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5689,7 +5735,7 @@ using an API key and returns a TheMovieDB object
 
 **Only admin users can get tickets of another user**''',
       summary: 'Get Tickets By Userid',
-      operationId: 'get_tombola_users_{user_id}_tickets',
+      operationId: 'get_tickets_by_userid_tombola_users__user_id__tickets_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5722,7 +5768,8 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint''',
       summary: 'Get Tickets By Raffleid',
-      operationId: 'get_tombola_raffles_{raffle_id}_tickets',
+      operationId:
+          'get_tickets_by_raffleid_tombola_raffles__raffle_id__tickets_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5748,7 +5795,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all prizes',
       summary: 'Get Prizes',
-      operationId: 'get_tombola_prizes',
+      operationId: 'get_prizes_tombola_prizes_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5779,7 +5826,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint''',
       summary: 'Create Prize',
-      operationId: 'post_tombola_prizes',
+      operationId: 'create_prize_tombola_prizes_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5790,7 +5837,7 @@ using an API key and returns a TheMovieDB object
 
   ///Edit Prize
   ///@param prize_id
-  Future<chopper.Response> tombolaPrizesPrizeIdPatch({
+  Future<chopper.Response<void>> tombolaPrizesPrizeIdPatch({
     required String? prizeId,
     required PrizeEdit? body,
   }) {
@@ -5800,7 +5847,7 @@ using an API key and returns a TheMovieDB object
   ///Edit Prize
   ///@param prize_id
   @PATCH(path: '/tombola/prizes/{prize_id}', optionalBody: true)
-  Future<chopper.Response> _tombolaPrizesPrizeIdPatch({
+  Future<chopper.Response<void>> _tombolaPrizesPrizeIdPatch({
     @Path('prize_id') required String? prizeId,
     @Body() required PrizeEdit? body,
     @chopper.Tag()
@@ -5809,7 +5856,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the group raffle\'s to use this endpoint''',
       summary: 'Edit Prize',
-      operationId: 'patch_tombola_prizes_{prize_id}',
+      operationId: 'edit_prize_tombola_prizes__prize_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5820,7 +5867,7 @@ using an API key and returns a TheMovieDB object
 
   ///Delete Prize
   ///@param prize_id
-  Future<chopper.Response> tombolaPrizesPrizeIdDelete({
+  Future<chopper.Response<void>> tombolaPrizesPrizeIdDelete({
     required String? prizeId,
   }) {
     return _tombolaPrizesPrizeIdDelete(prizeId: prizeId);
@@ -5829,7 +5876,7 @@ using an API key and returns a TheMovieDB object
   ///Delete Prize
   ///@param prize_id
   @DELETE(path: '/tombola/prizes/{prize_id}')
-  Future<chopper.Response> _tombolaPrizesPrizeIdDelete({
+  Future<chopper.Response<void>> _tombolaPrizesPrizeIdDelete({
     @Path('prize_id') required String? prizeId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -5837,7 +5884,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the group raffle\'s to use this endpoint''',
       summary: 'Delete Prize',
-      operationId: 'delete_tombola_prizes_{prize_id}',
+      operationId: 'delete_prize_tombola_prizes__prize_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5868,7 +5915,8 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get prizes from a specific raffle.',
       summary: 'Get Prizes By Raffleid',
-      operationId: 'get_tombola_raffles_{raffle_id}_prizes',
+      operationId:
+          'get_prizes_by_raffleid_tombola_raffles__raffle_id__prizes_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5906,7 +5954,8 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Create Prize Picture',
-      operationId: 'post_tombola_prizes_{prize_id}_picture',
+      operationId:
+          'create_prize_picture_tombola_prizes__prize_id__picture_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5917,7 +5966,7 @@ using an API key and returns a TheMovieDB object
 
   ///Read Prize Logo
   ///@param prize_id
-  Future<chopper.Response> tombolaPrizesPrizeIdPictureGet({
+  Future<chopper.Response<List<int>>> tombolaPrizesPrizeIdPictureGet({
     required String? prizeId,
   }) {
     return _tombolaPrizesPrizeIdPictureGet(prizeId: prizeId);
@@ -5926,13 +5975,13 @@ using an API key and returns a TheMovieDB object
   ///Read Prize Logo
   ///@param prize_id
   @GET(path: '/tombola/prizes/{prize_id}/picture')
-  Future<chopper.Response> _tombolaPrizesPrizeIdPictureGet({
+  Future<chopper.Response<List<int>>> _tombolaPrizesPrizeIdPictureGet({
     @Path('prize_id') required String? prizeId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get the logo of a specific prize.',
       summary: 'Read Prize Logo',
-      operationId: 'get_tombola_prizes_{prize_id}_picture',
+      operationId: 'read_prize_logo_tombola_prizes__prize_id__picture_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5962,7 +6011,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the group admin to use this endpoint''',
       summary: 'Get Users Cash',
-      operationId: 'get_tombola_users_cash',
+      operationId: 'get_users_cash_tombola_users_cash_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5995,7 +6044,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the group admin to use this endpoint or can only access the endpoint for its own user_id**''',
       summary: 'Get Cash By Id',
-      operationId: 'get_tombola_users_{user_id}_cash',
+      operationId: 'get_cash_by_id_tombola_users__user_id__cash_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6032,7 +6081,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the group admin to use this endpoint**''',
       summary: 'Create Cash Of User',
-      operationId: 'post_tombola_users_{user_id}_cash',
+      operationId: 'create_cash_of_user_tombola_users__user_id__cash_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6043,7 +6092,7 @@ using an API key and returns a TheMovieDB object
 
   ///Edit Cash By Id
   ///@param user_id
-  Future<chopper.Response> tombolaUsersUserIdCashPatch({
+  Future<chopper.Response<void>> tombolaUsersUserIdCashPatch({
     required String? userId,
     required CashEdit? body,
   }) {
@@ -6053,7 +6102,7 @@ using an API key and returns a TheMovieDB object
   ///Edit Cash By Id
   ///@param user_id
   @PATCH(path: '/tombola/users/{user_id}/cash', optionalBody: true)
-  Future<chopper.Response> _tombolaUsersUserIdCashPatch({
+  Future<chopper.Response<void>> _tombolaUsersUserIdCashPatch({
     @Path('user_id') required String? userId,
     @Body() required CashEdit? body,
     @chopper.Tag()
@@ -6064,7 +6113,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be a member of the group admin to use this endpoint**''',
       summary: 'Edit Cash By Id',
-      operationId: 'patch_tombola_users_{user_id}_cash',
+      operationId: 'edit_cash_by_id_tombola_users__user_id__cash_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6095,7 +6144,7 @@ A negative value can be provided to remove money from the user.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Draw Winner',
-      operationId: 'post_tombola_prizes_{prize_id}_draw',
+      operationId: 'draw_winner_tombola_prizes__prize_id__draw_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6106,7 +6155,7 @@ A negative value can be provided to remove money from the user.
 
   ///Open Raffle
   ///@param raffle_id
-  Future<chopper.Response> tombolaRafflesRaffleIdOpenPatch({
+  Future<chopper.Response<void>> tombolaRafflesRaffleIdOpenPatch({
     required String? raffleId,
   }) {
     return _tombolaRafflesRaffleIdOpenPatch(raffleId: raffleId);
@@ -6115,7 +6164,7 @@ A negative value can be provided to remove money from the user.
   ///Open Raffle
   ///@param raffle_id
   @PATCH(path: '/tombola/raffles/{raffle_id}/open', optionalBody: true)
-  Future<chopper.Response> _tombolaRafflesRaffleIdOpenPatch({
+  Future<chopper.Response<void>> _tombolaRafflesRaffleIdOpenPatch({
     @Path('raffle_id') required String? raffleId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -6123,7 +6172,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Open Raffle',
-      operationId: 'patch_tombola_raffles_{raffle_id}_open',
+      operationId: 'open_raffle_tombola_raffles__raffle_id__open_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6134,7 +6183,7 @@ A negative value can be provided to remove money from the user.
 
   ///Lock Raffle
   ///@param raffle_id
-  Future<chopper.Response> tombolaRafflesRaffleIdLockPatch({
+  Future<chopper.Response<void>> tombolaRafflesRaffleIdLockPatch({
     required String? raffleId,
   }) {
     return _tombolaRafflesRaffleIdLockPatch(raffleId: raffleId);
@@ -6143,7 +6192,7 @@ A negative value can be provided to remove money from the user.
   ///Lock Raffle
   ///@param raffle_id
   @PATCH(path: '/tombola/raffles/{raffle_id}/lock', optionalBody: true)
-  Future<chopper.Response> _tombolaRafflesRaffleIdLockPatch({
+  Future<chopper.Response<void>> _tombolaRafflesRaffleIdLockPatch({
     @Path('raffle_id') required String? raffleId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -6151,7 +6200,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Lock Raffle',
-      operationId: 'patch_tombola_raffles_{raffle_id}_lock',
+      operationId: 'lock_raffle_tombola_raffles__raffle_id__lock_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6181,7 +6230,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Recommendation',
-      operationId: 'get_recommendation_recommendations',
+      operationId: 'get_recommendation_recommendation_recommendations_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6212,7 +6261,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by members of the group BDE**''',
       summary: 'Create Recommendation',
-      operationId: 'post_recommendation_recommendations',
+      operationId: 'create_recommendation_recommendation_recommendations_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6223,7 +6272,8 @@ A negative value can be provided to remove money from the user.
 
   ///Edit Recommendation
   ///@param recommendation_id
-  Future<chopper.Response> recommendationRecommendationsRecommendationIdPatch({
+  Future<chopper.Response<void>>
+  recommendationRecommendationsRecommendationIdPatch({
     required String? recommendationId,
     required RecommendationEdit? body,
   }) {
@@ -6239,7 +6289,8 @@ A negative value can be provided to remove money from the user.
     path: '/recommendation/recommendations/{recommendation_id}',
     optionalBody: true,
   )
-  Future<chopper.Response> _recommendationRecommendationsRecommendationIdPatch({
+  Future<chopper.Response<void>>
+  _recommendationRecommendationsRecommendationIdPatch({
     @Path('recommendation_id') required String? recommendationId,
     @Body() required RecommendationEdit? body,
     @chopper.Tag()
@@ -6248,7 +6299,8 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by members of the group BDE**''',
       summary: 'Edit Recommendation',
-      operationId: 'patch_recommendation_recommendations_{recommendation_id}',
+      operationId:
+          'edit_recommendation_recommendation_recommendations__recommendation_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6259,7 +6311,8 @@ A negative value can be provided to remove money from the user.
 
   ///Delete Recommendation
   ///@param recommendation_id
-  Future<chopper.Response> recommendationRecommendationsRecommendationIdDelete({
+  Future<chopper.Response<void>>
+  recommendationRecommendationsRecommendationIdDelete({
     required String? recommendationId,
   }) {
     return _recommendationRecommendationsRecommendationIdDelete(
@@ -6270,7 +6323,7 @@ A negative value can be provided to remove money from the user.
   ///Delete Recommendation
   ///@param recommendation_id
   @DELETE(path: '/recommendation/recommendations/{recommendation_id}')
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   _recommendationRecommendationsRecommendationIdDelete({
     @Path('recommendation_id') required String? recommendationId,
     @chopper.Tag()
@@ -6279,7 +6332,8 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by members of the group BDE**''',
       summary: 'Delete Recommendation',
-      operationId: 'delete_recommendation_recommendations_{recommendation_id}',
+      operationId:
+          'delete_recommendation_recommendation_recommendations__recommendation_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6290,7 +6344,7 @@ A negative value can be provided to remove money from the user.
 
   ///Read Recommendation Image
   ///@param recommendation_id
-  Future<chopper.Response>
+  Future<chopper.Response<List<int>>>
   recommendationRecommendationsRecommendationIdPictureGet({
     required String? recommendationId,
   }) {
@@ -6302,7 +6356,7 @@ A negative value can be provided to remove money from the user.
   ///Read Recommendation Image
   ///@param recommendation_id
   @GET(path: '/recommendation/recommendations/{recommendation_id}/picture')
-  Future<chopper.Response>
+  Future<chopper.Response<List<int>>>
   _recommendationRecommendationsRecommendationIdPictureGet({
     @Path('recommendation_id') required String? recommendationId,
     @chopper.Tag()
@@ -6312,7 +6366,7 @@ A negative value can be provided to remove money from the user.
 **The user must be authenticated to use this endpoint**''',
       summary: 'Read Recommendation Image',
       operationId:
-          'get_recommendation_recommendations_{recommendation_id}_picture',
+          'read_recommendation_image_recommendation_recommendations__recommendation_id__picture_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6357,7 +6411,7 @@ A negative value can be provided to remove money from the user.
 **This endpoint is only usable by members of the group BDE**''',
       summary: 'Create Recommendation Image',
       operationId:
-          'post_recommendation_recommendations_{recommendation_id}_picture',
+          'create_recommendation_image_recommendation_recommendations__recommendation_id__picture_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6368,20 +6422,22 @@ A negative value can be provided to remove money from the user.
 
   ///Get Paper Pdf
   ///@param paper_id
-  Future<chopper.Response> phPaperIdPdfGet({required String? paperId}) {
+  Future<chopper.Response<List<int>>> phPaperIdPdfGet({
+    required String? paperId,
+  }) {
     return _phPaperIdPdfGet(paperId: paperId);
   }
 
   ///Get Paper Pdf
   ///@param paper_id
   @GET(path: '/ph/{paper_id}/pdf')
-  Future<chopper.Response> _phPaperIdPdfGet({
+  Future<chopper.Response<List<int>>> _phPaperIdPdfGet({
     @Path('paper_id') required String? paperId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Paper Pdf',
-      operationId: 'get_ph_{paper_id}_pdf',
+      operationId: 'get_paper_pdf_ph__paper_id__pdf_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6392,7 +6448,7 @@ A negative value can be provided to remove money from the user.
 
   ///Create Paper Pdf And Cover
   ///@param paper_id
-  Future<chopper.Response> phPaperIdPdfPost({
+  Future<chopper.Response<void>> phPaperIdPdfPost({
     required String? paperId,
     required List<int> pdf,
   }) {
@@ -6403,14 +6459,14 @@ A negative value can be provided to remove money from the user.
   ///@param paper_id
   @POST(path: '/ph/{paper_id}/pdf', optionalBody: true)
   @Multipart()
-  Future<chopper.Response> _phPaperIdPdfPost({
+  Future<chopper.Response<void>> _phPaperIdPdfPost({
     @Path('paper_id') required String? paperId,
     @PartFile('pdf') required List<int> pdf,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Paper Pdf And Cover',
-      operationId: 'post_ph_{paper_id}_pdf',
+      operationId: 'create_paper_pdf_and_cover_ph__paper_id__pdf_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6437,7 +6493,7 @@ A negative value can be provided to remove money from the user.
       description:
           'Return all editions until now, sorted from the latest to the oldest',
       summary: 'Get Papers',
-      operationId: 'get_ph_',
+      operationId: 'get_papers_ph__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6464,7 +6520,7 @@ A negative value can be provided to remove money from the user.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a new paper.',
       summary: 'Create Paper',
-      operationId: 'post_ph_',
+      operationId: 'create_paper_ph__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6490,7 +6546,7 @@ A negative value can be provided to remove money from the user.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all editions, sorted from the latest to the oldest',
       summary: 'Get Papers Admin',
-      operationId: 'get_ph_admin',
+      operationId: 'get_papers_admin_ph_admin_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6514,7 +6570,7 @@ A negative value can be provided to remove money from the user.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Cover',
-      operationId: 'get_ph_{paper_id}_cover',
+      operationId: 'get_cover_ph__paper_id__cover_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6525,7 +6581,7 @@ A negative value can be provided to remove money from the user.
 
   ///Update Paper
   ///@param paper_id
-  Future<chopper.Response> phPaperIdPatch({
+  Future<chopper.Response<void>> phPaperIdPatch({
     required String? paperId,
     required PaperUpdate? body,
   }) {
@@ -6535,14 +6591,14 @@ A negative value can be provided to remove money from the user.
   ///Update Paper
   ///@param paper_id
   @PATCH(path: '/ph/{paper_id}', optionalBody: true)
-  Future<chopper.Response> _phPaperIdPatch({
+  Future<chopper.Response<void>> _phPaperIdPatch({
     @Path('paper_id') required String? paperId,
     @Body() required PaperUpdate? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Update Paper',
-      operationId: 'patch_ph_{paper_id}',
+      operationId: 'update_paper_ph__paper_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6553,20 +6609,20 @@ A negative value can be provided to remove money from the user.
 
   ///Delete Paper
   ///@param paper_id
-  Future<chopper.Response> phPaperIdDelete({required String? paperId}) {
+  Future<chopper.Response<void>> phPaperIdDelete({required String? paperId}) {
     return _phPaperIdDelete(paperId: paperId);
   }
 
   ///Delete Paper
   ///@param paper_id
   @DELETE(path: '/ph/{paper_id}')
-  Future<chopper.Response> _phPaperIdDelete({
+  Future<chopper.Response<void>> _phPaperIdDelete({
     @Path('paper_id') required String? paperId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Paper',
-      operationId: 'delete_ph_{paper_id}',
+      operationId: 'delete_paper_ph__paper_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6591,7 +6647,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Read Loaners',
-      operationId: 'get_loans_loaners_',
+      operationId: 'read_loaners_loans_loaners__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6621,7 +6677,7 @@ Each loaner is associated with a `manager_group`. Users belonging to this group 
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Loaner',
-      operationId: 'post_loans_loaners_',
+      operationId: 'create_loaner_loans_loaners__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6632,7 +6688,7 @@ Each loaner is associated with a `manager_group`. Users belonging to this group 
 
   ///Delete Loaner
   ///@param loaner_id
-  Future<chopper.Response> loansLoanersLoanerIdDelete({
+  Future<chopper.Response<void>> loansLoanersLoanerIdDelete({
     required String? loanerId,
   }) {
     return _loansLoanersLoanerIdDelete(loanerId: loanerId);
@@ -6641,7 +6697,7 @@ Each loaner is associated with a `manager_group`. Users belonging to this group 
   ///Delete Loaner
   ///@param loaner_id
   @DELETE(path: '/loans/loaners/{loaner_id}')
-  Future<chopper.Response> _loansLoanersLoanerIdDelete({
+  Future<chopper.Response<void>> _loansLoanersLoanerIdDelete({
     @Path('loaner_id') required String? loanerId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -6650,7 +6706,7 @@ Each loaner is associated with a `manager_group`. Users belonging to this group 
 
 **This endpoint is only usable by administrators**''',
       summary: 'Delete Loaner',
-      operationId: 'delete_loans_loaners_{loaner_id}',
+      operationId: 'delete_loaner_loans_loaners__loaner_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6661,7 +6717,7 @@ Each loaner is associated with a `manager_group`. Users belonging to this group 
 
   ///Update Loaner
   ///@param loaner_id
-  Future<chopper.Response> loansLoanersLoanerIdPatch({
+  Future<chopper.Response<void>> loansLoanersLoanerIdPatch({
     required String? loanerId,
     required LoanerUpdate? body,
   }) {
@@ -6671,7 +6727,7 @@ Each loaner is associated with a `manager_group`. Users belonging to this group 
   ///Update Loaner
   ///@param loaner_id
   @PATCH(path: '/loans/loaners/{loaner_id}', optionalBody: true)
-  Future<chopper.Response> _loansLoanersLoanerIdPatch({
+  Future<chopper.Response<void>> _loansLoanersLoanerIdPatch({
     @Path('loaner_id') required String? loanerId,
     @Body() required LoanerUpdate? body,
     @chopper.Tag()
@@ -6681,7 +6737,7 @@ Each loaner is associated with a `manager_group`. Users belonging to this group 
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update Loaner',
-      operationId: 'patch_loans_loaners_{loaner_id}',
+      operationId: 'update_loaner_loans_loaners__loaner_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6722,7 +6778,7 @@ The query string `returned` can be used to get only return or non returned loans
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Get Loans By Loaner',
-      operationId: 'get_loans_loaners_{loaner_id}_loans',
+      operationId: 'get_loans_by_loaner_loans_loaners__loaner_id__loans_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6752,7 +6808,7 @@ The query string `returned` can be used to get only return or non returned loans
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Get Items By Loaner',
-      operationId: 'get_loans_loaners_{loaner_id}_items',
+      operationId: 'get_items_by_loaner_loans_loaners__loaner_id__items_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6785,7 +6841,8 @@ The query string `returned` can be used to get only return or non returned loans
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Create Items For Loaner',
-      operationId: 'post_loans_loaners_{loaner_id}_items',
+      operationId:
+          'create_items_for_loaner_loans_loaners__loaner_id__items_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6797,7 +6854,7 @@ The query string `returned` can be used to get only return or non returned loans
   ///Update Items For Loaner
   ///@param loaner_id
   ///@param item_id
-  Future<chopper.Response> loansLoanersLoanerIdItemsItemIdPatch({
+  Future<chopper.Response<void>> loansLoanersLoanerIdItemsItemIdPatch({
     required String? loanerId,
     required String? itemId,
     required ItemUpdate? body,
@@ -6813,7 +6870,7 @@ The query string `returned` can be used to get only return or non returned loans
   ///@param loaner_id
   ///@param item_id
   @PATCH(path: '/loans/loaners/{loaner_id}/items/{item_id}', optionalBody: true)
-  Future<chopper.Response> _loansLoanersLoanerIdItemsItemIdPatch({
+  Future<chopper.Response<void>> _loansLoanersLoanerIdItemsItemIdPatch({
     @Path('loaner_id') required String? loanerId,
     @Path('item_id') required String? itemId,
     @Body() required ItemUpdate? body,
@@ -6823,7 +6880,8 @@ The query string `returned` can be used to get only return or non returned loans
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Update Items For Loaner',
-      operationId: 'patch_loans_loaners_{loaner_id}_items_{item_id}',
+      operationId:
+          'update_items_for_loaner_loans_loaners__loaner_id__items__item_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6835,7 +6893,7 @@ The query string `returned` can be used to get only return or non returned loans
   ///Delete Loaner Item
   ///@param loaner_id
   ///@param item_id
-  Future<chopper.Response> loansLoanersLoanerIdItemsItemIdDelete({
+  Future<chopper.Response<void>> loansLoanersLoanerIdItemsItemIdDelete({
     required String? loanerId,
     required String? itemId,
   }) {
@@ -6849,7 +6907,7 @@ The query string `returned` can be used to get only return or non returned loans
   ///@param loaner_id
   ///@param item_id
   @DELETE(path: '/loans/loaners/{loaner_id}/items/{item_id}')
-  Future<chopper.Response> _loansLoanersLoanerIdItemsItemIdDelete({
+  Future<chopper.Response<void>> _loansLoanersLoanerIdItemsItemIdDelete({
     @Path('loaner_id') required String? loanerId,
     @Path('item_id') required String? itemId,
     @chopper.Tag()
@@ -6859,7 +6917,8 @@ This will remove the item from all loans but won\'t delete any loan.
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Delete Loaner Item',
-      operationId: 'delete_loans_loaners_{loaner_id}_items_{item_id}',
+      operationId:
+          'delete_loaner_item_loans_loaners__loaner_id__items__item_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6889,7 +6948,7 @@ The query string `returned` can be used to get only returned or non returned loa
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Current User Loans',
-      operationId: 'get_loans_users_me',
+      operationId: 'get_current_user_loans_loans_users_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6914,7 +6973,7 @@ The query string `returned` can be used to get only returned or non returned loa
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Current User Loaners',
-      operationId: 'get_loans_users_me_loaners',
+      operationId: 'get_current_user_loaners_loans_users_me_loaners_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6940,7 +6999,7 @@ The query string `returned` can be used to get only returned or non returned loa
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Create Loan',
-      operationId: 'post_loans_',
+      operationId: 'create_loan_loans__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6951,7 +7010,7 @@ The query string `returned` can be used to get only returned or non returned loa
 
   ///Update Loan
   ///@param loan_id
-  Future<chopper.Response> loansLoanIdPatch({
+  Future<chopper.Response<void>> loansLoanIdPatch({
     required String? loanId,
     required LoanUpdate? body,
   }) {
@@ -6961,7 +7020,7 @@ The query string `returned` can be used to get only returned or non returned loa
   ///Update Loan
   ///@param loan_id
   @PATCH(path: '/loans/{loan_id}', optionalBody: true)
-  Future<chopper.Response> _loansLoanIdPatch({
+  Future<chopper.Response<void>> _loansLoanIdPatch({
     @Path('loan_id') required String? loanId,
     @Body() required LoanUpdate? body,
     @chopper.Tag()
@@ -6973,7 +7032,7 @@ the new representation of the loan `Loan` including the new items relationships
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Update Loan',
-      operationId: 'patch_loans_{loan_id}',
+      operationId: 'update_loan_loans__loan_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6984,14 +7043,14 @@ the new representation of the loan `Loan` including the new items relationships
 
   ///Delete Loan
   ///@param loan_id
-  Future<chopper.Response> loansLoanIdDelete({required String? loanId}) {
+  Future<chopper.Response<void>> loansLoanIdDelete({required String? loanId}) {
     return _loansLoanIdDelete(loanId: loanId);
   }
 
   ///Delete Loan
   ///@param loan_id
   @DELETE(path: '/loans/{loan_id}')
-  Future<chopper.Response> _loansLoanIdDelete({
+  Future<chopper.Response<void>> _loansLoanIdDelete({
     @Path('loan_id') required String? loanId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -7000,7 +7059,7 @@ This will remove the loan but won\'t delete any loaner items.
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Delete Loan',
-      operationId: 'delete_loans_{loan_id}',
+      operationId: 'delete_loan_loans__loan_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7011,14 +7070,16 @@ This will remove the loan but won\'t delete any loaner items.
 
   ///Return Loan
   ///@param loan_id
-  Future<chopper.Response> loansLoanIdReturnPost({required String? loanId}) {
+  Future<chopper.Response<void>> loansLoanIdReturnPost({
+    required String? loanId,
+  }) {
     return _loansLoanIdReturnPost(loanId: loanId);
   }
 
   ///Return Loan
   ///@param loan_id
   @POST(path: '/loans/{loan_id}/return', optionalBody: true)
-  Future<chopper.Response> _loansLoanIdReturnPost({
+  Future<chopper.Response<void>> _loansLoanIdReturnPost({
     @Path('loan_id') required String? loanId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -7027,7 +7088,7 @@ This will remove the loan but won\'t delete any loaner items.
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Return Loan',
-      operationId: 'post_loans_{loan_id}_return',
+      operationId: 'return_loan_loans__loan_id__return_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7038,7 +7099,7 @@ This will remove the loan but won\'t delete any loaner items.
 
   ///Extend Loan
   ///@param loan_id
-  Future<chopper.Response> loansLoanIdExtendPost({
+  Future<chopper.Response<void>> loansLoanIdExtendPost({
     required String? loanId,
     required LoanExtend? body,
   }) {
@@ -7048,7 +7109,7 @@ This will remove the loan but won\'t delete any loaner items.
   ///Extend Loan
   ///@param loan_id
   @POST(path: '/loans/{loan_id}/extend', optionalBody: true)
-  Future<chopper.Response> _loansLoanIdExtendPost({
+  Future<chopper.Response<void>> _loansLoanIdExtendPost({
     @Path('loan_id') required String? loanId,
     @Body() required LoanExtend? body,
     @chopper.Tag()
@@ -7058,7 +7119,7 @@ This will remove the loan but won\'t delete any loaner items.
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Extend Loan',
-      operationId: 'post_loans_{loan_id}_extend',
+      operationId: 'extend_loan_loans__loan_id__extend_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7084,7 +7145,7 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return the leaderboard',
       summary: 'Get Flappybird Score',
-      operationId: 'get_flappybird_scores',
+      operationId: 'get_flappybird_score_flappybird_scores_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7113,7 +7174,7 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Flappybird Score',
-      operationId: 'post_flappybird_scores',
+      operationId: 'create_flappybird_score_flappybird_scores_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7141,7 +7202,8 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Current User Flappybird Personal Best',
-      operationId: 'get_flappybird_scores_me',
+      operationId:
+          'get_current_user_flappybird_personal_best_flappybird_scores_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7152,7 +7214,7 @@ This will remove the loan but won\'t delete any loaner items.
 
   ///Remove Flappybird Score
   ///@param targeted_user_id
-  Future<chopper.Response> flappybirdScoresTargetedUserIdDelete({
+  Future<chopper.Response<void>> flappybirdScoresTargetedUserIdDelete({
     required String? targetedUserId,
   }) {
     return _flappybirdScoresTargetedUserIdDelete(
@@ -7163,13 +7225,14 @@ This will remove the loan but won\'t delete any loaner items.
   ///Remove Flappybird Score
   ///@param targeted_user_id
   @DELETE(path: '/flappybird/scores/{targeted_user_id}')
-  Future<chopper.Response> _flappybirdScoresTargetedUserIdDelete({
+  Future<chopper.Response<void>> _flappybirdScoresTargetedUserIdDelete({
     @Path('targeted_user_id') required String? targetedUserId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Remove Flappybird Score',
-      operationId: 'delete_flappybird_scores_{targeted_user_id}',
+      operationId:
+          'remove_flappybird_score_flappybird_scores__targeted_user_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7192,7 +7255,7 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Sports',
-      operationId: 'get_competition_sports',
+      operationId: 'get_sports_competition_sports_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7218,7 +7281,7 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Sport',
-      operationId: 'post_competition_sports',
+      operationId: 'create_sport_competition_sports_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7229,7 +7292,7 @@ This will remove the loan but won\'t delete any loaner items.
 
   ///Edit Sport
   ///@param sport_id
-  Future<chopper.Response> competitionSportsSportIdPatch({
+  Future<chopper.Response<void>> competitionSportsSportIdPatch({
     required String? sportId,
     required SportEdit? body,
   }) {
@@ -7239,14 +7302,14 @@ This will remove the loan but won\'t delete any loaner items.
   ///Edit Sport
   ///@param sport_id
   @PATCH(path: '/competition/sports/{sport_id}', optionalBody: true)
-  Future<chopper.Response> _competitionSportsSportIdPatch({
+  Future<chopper.Response<void>> _competitionSportsSportIdPatch({
     @Path('sport_id') required String? sportId,
     @Body() required SportEdit? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Edit Sport',
-      operationId: 'patch_competition_sports_{sport_id}',
+      operationId: 'edit_sport_competition_sports__sport_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7257,7 +7320,7 @@ This will remove the loan but won\'t delete any loaner items.
 
   ///Delete Sport
   ///@param sport_id
-  Future<chopper.Response> competitionSportsSportIdDelete({
+  Future<chopper.Response<void>> competitionSportsSportIdDelete({
     required String? sportId,
   }) {
     return _competitionSportsSportIdDelete(sportId: sportId);
@@ -7266,13 +7329,13 @@ This will remove the loan but won\'t delete any loaner items.
   ///Delete Sport
   ///@param sport_id
   @DELETE(path: '/competition/sports/{sport_id}')
-  Future<chopper.Response> _competitionSportsSportIdDelete({
+  Future<chopper.Response<void>> _competitionSportsSportIdDelete({
     @Path('sport_id') required String? sportId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Sport',
-      operationId: 'delete_competition_sports_{sport_id}',
+      operationId: 'delete_sport_competition_sports__sport_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7298,7 +7361,7 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Editions',
-      operationId: 'get_competition_editions',
+      operationId: 'get_editions_competition_editions_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7327,7 +7390,7 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Edition',
-      operationId: 'post_competition_editions',
+      operationId: 'create_edition_competition_editions_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7349,7 +7412,7 @@ This will remove the loan but won\'t delete any loaner items.
       description: '''Get the currently active competition edition.
 Returns None if no edition is active.''',
       summary: 'Get Active Edition',
-      operationId: 'get_competition_editions_active',
+      operationId: 'get_active_edition_competition_editions_active_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7360,7 +7423,7 @@ Returns None if no edition is active.''',
 
   ///Activate Edition
   ///@param edition_id
-  Future<chopper.Response> competitionEditionsEditionIdActivatePost({
+  Future<chopper.Response<void>> competitionEditionsEditionIdActivatePost({
     required String? editionId,
   }) {
     return _competitionEditionsEditionIdActivatePost(editionId: editionId);
@@ -7369,14 +7432,15 @@ Returns None if no edition is active.''',
   ///Activate Edition
   ///@param edition_id
   @POST(path: '/competition/editions/{edition_id}/activate', optionalBody: true)
-  Future<chopper.Response> _competitionEditionsEditionIdActivatePost({
+  Future<chopper.Response<void>> _competitionEditionsEditionIdActivatePost({
     @Path('edition_id') required String? editionId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Activate a competition edition.
 If another edition is already active, it will be deactivated.''',
       summary: 'Activate Edition',
-      operationId: 'post_competition_editions_{edition_id}_activate',
+      operationId:
+          'activate_edition_competition_editions__edition_id__activate_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7387,7 +7451,7 @@ If another edition is already active, it will be deactivated.''',
 
   ///Enable Inscription
   ///@param edition_id
-  Future<chopper.Response> competitionEditionsEditionIdInscriptionPost({
+  Future<chopper.Response<void>> competitionEditionsEditionIdInscriptionPost({
     required String? editionId,
     required bool? body,
   }) {
@@ -7403,7 +7467,7 @@ If another edition is already active, it will be deactivated.''',
     path: '/competition/editions/{edition_id}/inscription',
     optionalBody: true,
   )
-  Future<chopper.Response> _competitionEditionsEditionIdInscriptionPost({
+  Future<chopper.Response<void>> _competitionEditionsEditionIdInscriptionPost({
     @Path('edition_id') required String? editionId,
     @Body() required bool? body,
     @chopper.Tag()
@@ -7411,7 +7475,8 @@ If another edition is already active, it will be deactivated.''',
       description: '''Enable inscription for a competition edition.
 The edition must already be active.''',
       summary: 'Enable Inscription',
-      operationId: 'post_competition_editions_{edition_id}_inscription',
+      operationId:
+          'enable_inscription_competition_editions__edition_id__inscription_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7422,7 +7487,7 @@ The edition must already be active.''',
 
   ///Edit Edition
   ///@param edition_id
-  Future<chopper.Response> competitionEditionsEditionIdPatch({
+  Future<chopper.Response<void>> competitionEditionsEditionIdPatch({
     required String? editionId,
     required CompetitionEditionEdit? body,
   }) {
@@ -7432,14 +7497,14 @@ The edition must already be active.''',
   ///Edit Edition
   ///@param edition_id
   @PATCH(path: '/competition/editions/{edition_id}', optionalBody: true)
-  Future<chopper.Response> _competitionEditionsEditionIdPatch({
+  Future<chopper.Response<void>> _competitionEditionsEditionIdPatch({
     @Path('edition_id') required String? editionId,
     @Body() required CompetitionEditionEdit? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Edit Edition',
-      operationId: 'patch_competition_editions_{edition_id}',
+      operationId: 'edit_edition_competition_editions__edition_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7465,7 +7530,7 @@ The edition must already be active.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all competition users for the current edition.',
       summary: 'Get Competition Users',
-      operationId: 'get_competition_users',
+      operationId: 'get_competition_users_competition_users_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7495,7 +7560,7 @@ The edition must already be active.''',
       description: '''Create a competition user for the current edition.
 The user must exist in the core users database.''',
       summary: 'Create Competition User',
-      operationId: 'post_competition_users',
+      operationId: 'create_competition_user_competition_users_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7527,7 +7592,8 @@ The user must exist in the core users database.''',
       description:
           'Get all competition users for the current edition by school.',
       summary: 'Get Competition Users By School',
-      operationId: 'get_competition_users_schools_{school_id}',
+      operationId:
+          'get_competition_users_by_school_competition_users_schools__school_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7554,7 +7620,7 @@ The user must exist in the core users database.''',
       description: '''Get the competition user for the current edition.
 This is the user making the request.''',
       summary: 'Get Current User Competition',
-      operationId: 'get_competition_users_me',
+      operationId: 'get_current_user_competition_competition_users_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7564,7 +7630,7 @@ This is the user making the request.''',
   });
 
   ///Edit Current User Competition
-  Future<chopper.Response> competitionUsersMePatch({
+  Future<chopper.Response<void>> competitionUsersMePatch({
     required CompetitionUserEdit? body,
   }) {
     return _competitionUsersMePatch(body: body);
@@ -7572,7 +7638,7 @@ This is the user making the request.''',
 
   ///Edit Current User Competition
   @PATCH(path: '/competition/users/me', optionalBody: true)
-  Future<chopper.Response> _competitionUsersMePatch({
+  Future<chopper.Response<void>> _competitionUsersMePatch({
     @Body() required CompetitionUserEdit? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -7580,7 +7646,7 @@ This is the user making the request.''',
           '''Edit the current user\'s competition user for the current edition.
 The user must exist in the core users database.''',
       summary: 'Edit Current User Competition',
-      operationId: 'patch_competition_users_me',
+      operationId: 'edit_current_user_competition_competition_users_me_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7612,7 +7678,7 @@ The user must exist in the core users database.''',
       description:
           'Get a competition user by their user ID for the current edition.',
       summary: 'Get Competition User',
-      operationId: 'get_competition_users_{user_id}',
+      operationId: 'get_competition_user_competition_users__user_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7623,7 +7689,7 @@ The user must exist in the core users database.''',
 
   ///Edit Competition User
   ///@param user_id
-  Future<chopper.Response> competitionUsersUserIdPatch({
+  Future<chopper.Response<void>> competitionUsersUserIdPatch({
     required String? userId,
     required CompetitionUserEdit? body,
   }) {
@@ -7633,7 +7699,7 @@ The user must exist in the core users database.''',
   ///Edit Competition User
   ///@param user_id
   @PATCH(path: '/competition/users/{user_id}', optionalBody: true)
-  Future<chopper.Response> _competitionUsersUserIdPatch({
+  Future<chopper.Response<void>> _competitionUsersUserIdPatch({
     @Path('user_id') required String? userId,
     @Body() required CompetitionUserEdit? body,
     @chopper.Tag()
@@ -7641,7 +7707,7 @@ The user must exist in the core users database.''',
       description: '''Edit a competition user for the current edition.
 The user must exist in the core users database.''',
       summary: 'Edit Competition User',
-      operationId: 'patch_competition_users_{user_id}',
+      operationId: 'edit_competition_user_competition_users__user_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7652,7 +7718,7 @@ The user must exist in the core users database.''',
 
   ///Delete Competition User
   ///@param user_id
-  Future<chopper.Response> competitionUsersUserIdDelete({
+  Future<chopper.Response<void>> competitionUsersUserIdDelete({
     required String? userId,
   }) {
     return _competitionUsersUserIdDelete(userId: userId);
@@ -7661,13 +7727,13 @@ The user must exist in the core users database.''',
   ///Delete Competition User
   ///@param user_id
   @DELETE(path: '/competition/users/{user_id}')
-  Future<chopper.Response> _competitionUsersUserIdDelete({
+  Future<chopper.Response<void>> _competitionUsersUserIdDelete({
     @Path('user_id') required String? userId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Competition User',
-      operationId: 'delete_competition_users_{user_id}',
+      operationId: 'delete_competition_user_competition_users__user_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7678,7 +7744,7 @@ The user must exist in the core users database.''',
 
   ///Validate Competition User
   ///@param user_id
-  Future<chopper.Response> competitionUsersUserIdValidatePatch({
+  Future<chopper.Response<void>> competitionUsersUserIdValidatePatch({
     required String? userId,
   }) {
     return _competitionUsersUserIdValidatePatch(userId: userId);
@@ -7687,13 +7753,14 @@ The user must exist in the core users database.''',
   ///Validate Competition User
   ///@param user_id
   @PATCH(path: '/competition/users/{user_id}/validate', optionalBody: true)
-  Future<chopper.Response> _competitionUsersUserIdValidatePatch({
+  Future<chopper.Response<void>> _competitionUsersUserIdValidatePatch({
     @Path('user_id') required String? userId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Validate Competition User',
-      operationId: 'patch_competition_users_{user_id}_validate',
+      operationId:
+          'validate_competition_user_competition_users__user_id__validate_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7704,7 +7771,7 @@ The user must exist in the core users database.''',
 
   ///Invalidate Competition User
   ///@param user_id
-  Future<chopper.Response> competitionUsersUserIdInvalidatePatch({
+  Future<chopper.Response<void>> competitionUsersUserIdInvalidatePatch({
     required String? userId,
   }) {
     return _competitionUsersUserIdInvalidatePatch(userId: userId);
@@ -7713,13 +7780,14 @@ The user must exist in the core users database.''',
   ///Invalidate Competition User
   ///@param user_id
   @PATCH(path: '/competition/users/{user_id}/invalidate', optionalBody: true)
-  Future<chopper.Response> _competitionUsersUserIdInvalidatePatch({
+  Future<chopper.Response<void>> _competitionUsersUserIdInvalidatePatch({
     @Path('user_id') required String? userId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Invalidate Competition User',
-      operationId: 'patch_competition_users_{user_id}_invalidate',
+      operationId:
+          'invalidate_competition_user_competition_users__user_id__invalidate_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7751,7 +7819,7 @@ The user must exist in the core users database.''',
       description:
           'Get all users in a specific competition group for the current edition.',
       summary: 'Get Group Members',
-      operationId: 'get_competition_groups_{group}',
+      operationId: 'get_group_members_competition_groups__group__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7781,7 +7849,7 @@ The user must exist in the core users database.''',
           '''Get all groups the current user is a member of in the current edition.
 This is the user making the request.''',
       summary: 'Get Current User Groups',
-      operationId: 'get_competition_users_me_groups',
+      operationId: 'get_current_user_groups_competition_users_me_groups_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7813,7 +7881,7 @@ This is the user making the request.''',
       description:
           'Get all groups a user is a member of in the current edition.',
       summary: 'Get User Groups',
-      operationId: 'get_competition_users_{user_id}_groups',
+      operationId: 'get_user_groups_competition_users__user_id__groups_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7853,7 +7921,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Add User To Group',
-      operationId: 'post_competition_groups_{group}_users_{user_id}',
+      operationId:
+          'add_user_to_group_competition_groups__group__users__user_id__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7865,7 +7934,7 @@ This is the user making the request.''',
   ///Remove User From Group
   ///@param group
   ///@param user_id
-  Future<chopper.Response> competitionGroupsGroupUsersUserIdDelete({
+  Future<chopper.Response<void>> competitionGroupsGroupUsersUserIdDelete({
     required enums.CompetitionGroupType? group,
     required String? userId,
   }) {
@@ -7879,14 +7948,15 @@ This is the user making the request.''',
   ///@param group
   ///@param user_id
   @DELETE(path: '/competition/groups/{group}/users/{user_id}')
-  Future<chopper.Response> _competitionGroupsGroupUsersUserIdDelete({
+  Future<chopper.Response<void>> _competitionGroupsGroupUsersUserIdDelete({
     @Path('group') required String? group,
     @Path('user_id') required String? userId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Remove User From Group',
-      operationId: 'delete_competition_groups_{group}_users_{user_id}',
+      operationId:
+          'remove_user_from_group_competition_groups__group__users__user_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7912,7 +7982,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Schools',
-      operationId: 'get_competition_schools',
+      operationId: 'get_schools_competition_schools_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7941,7 +8011,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create School Extension',
-      operationId: 'post_competition_schools',
+      operationId: 'create_school_extension_competition_schools_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7972,7 +8042,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get School',
-      operationId: 'get_competition_schools_{school_id}',
+      operationId: 'get_school_competition_schools__school_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7983,7 +8053,7 @@ This is the user making the request.''',
 
   ///Edit School Extension
   ///@param school_id
-  Future<chopper.Response> competitionSchoolsSchoolIdPatch({
+  Future<chopper.Response<void>> competitionSchoolsSchoolIdPatch({
     required String? schoolId,
     required SchoolExtensionEdit? body,
   }) {
@@ -7993,14 +8063,15 @@ This is the user making the request.''',
   ///Edit School Extension
   ///@param school_id
   @PATCH(path: '/competition/schools/{school_id}', optionalBody: true)
-  Future<chopper.Response> _competitionSchoolsSchoolIdPatch({
+  Future<chopper.Response<void>> _competitionSchoolsSchoolIdPatch({
     @Path('school_id') required String? schoolId,
     @Body() required SchoolExtensionEdit? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Edit School Extension',
-      operationId: 'patch_competition_schools_{school_id}',
+      operationId:
+          'edit_school_extension_competition_schools__school_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8011,7 +8082,7 @@ This is the user making the request.''',
 
   ///Delete School Extension
   ///@param school_id
-  Future<chopper.Response> competitionSchoolsSchoolIdDelete({
+  Future<chopper.Response<void>> competitionSchoolsSchoolIdDelete({
     required String? schoolId,
   }) {
     return _competitionSchoolsSchoolIdDelete(schoolId: schoolId);
@@ -8020,13 +8091,14 @@ This is the user making the request.''',
   ///Delete School Extension
   ///@param school_id
   @DELETE(path: '/competition/schools/{school_id}')
-  Future<chopper.Response> _competitionSchoolsSchoolIdDelete({
+  Future<chopper.Response<void>> _competitionSchoolsSchoolIdDelete({
     @Path('school_id') required String? schoolId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete School Extension',
-      operationId: 'delete_competition_schools_{school_id}',
+      operationId:
+          'delete_school_extension_competition_schools__school_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8057,7 +8129,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get School General Quota',
-      operationId: 'get_competition_schools_{school_id}_general-quota',
+      operationId:
+          'get_school_general_quota_competition_schools__school_id__general_quota_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8098,7 +8171,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create School General Quota',
-      operationId: 'post_competition_schools_{school_id}_general-quota',
+      operationId:
+          'create_school_general_quota_competition_schools__school_id__general_quota_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8109,7 +8183,7 @@ This is the user making the request.''',
 
   ///Edit School General Quota
   ///@param school_id
-  Future<chopper.Response> competitionSchoolsSchoolIdGeneralQuotaPatch({
+  Future<chopper.Response<void>> competitionSchoolsSchoolIdGeneralQuotaPatch({
     required String? schoolId,
     required SchoolGeneralQuotaBase? body,
   }) {
@@ -8125,14 +8199,15 @@ This is the user making the request.''',
     path: '/competition/schools/{school_id}/general-quota',
     optionalBody: true,
   )
-  Future<chopper.Response> _competitionSchoolsSchoolIdGeneralQuotaPatch({
+  Future<chopper.Response<void>> _competitionSchoolsSchoolIdGeneralQuotaPatch({
     @Path('school_id') required String? schoolId,
     @Body() required SchoolGeneralQuotaBase? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Edit School General Quota',
-      operationId: 'patch_competition_schools_{school_id}_general-quota',
+      operationId:
+          'edit_school_general_quota_competition_schools__school_id__general_quota_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8163,7 +8238,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Quotas For Sport',
-      operationId: 'get_competition_sports_{sport_id}_quotas',
+      operationId:
+          'get_quotas_for_sport_competition_sports__sport_id__quotas_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8194,7 +8270,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Quotas For School',
-      operationId: 'get_competition_schools_{school_id}_sports-quotas',
+      operationId:
+          'get_quotas_for_school_competition_schools__school_id__sports_quotas_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8206,7 +8283,8 @@ This is the user making the request.''',
   ///Create Sport Quota
   ///@param school_id
   ///@param sport_id
-  Future<chopper.Response> competitionSchoolsSchoolIdSportsSportIdQuotasPost({
+  Future<chopper.Response<void>>
+  competitionSchoolsSchoolIdSportsSportIdQuotasPost({
     required String? schoolId,
     required String? sportId,
     required SportQuotaInfo? body,
@@ -8225,7 +8303,8 @@ This is the user making the request.''',
     path: '/competition/schools/{school_id}/sports/{sport_id}/quotas',
     optionalBody: true,
   )
-  Future<chopper.Response> _competitionSchoolsSchoolIdSportsSportIdQuotasPost({
+  Future<chopper.Response<void>>
+  _competitionSchoolsSchoolIdSportsSportIdQuotasPost({
     @Path('school_id') required String? schoolId,
     @Path('sport_id') required String? sportId,
     @Body() required SportQuotaInfo? body,
@@ -8234,7 +8313,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Create Sport Quota',
       operationId:
-          'post_competition_schools_{school_id}_sports_{sport_id}_quotas',
+          'create_sport_quota_competition_schools__school_id__sports__sport_id__quotas_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8246,7 +8325,8 @@ This is the user making the request.''',
   ///Edit Sport Quota
   ///@param school_id
   ///@param sport_id
-  Future<chopper.Response> competitionSchoolsSchoolIdSportsSportIdQuotasPatch({
+  Future<chopper.Response<void>>
+  competitionSchoolsSchoolIdSportsSportIdQuotasPatch({
     required String? schoolId,
     required String? sportId,
     required SchoolSportQuotaEdit? body,
@@ -8265,7 +8345,8 @@ This is the user making the request.''',
     path: '/competition/schools/{school_id}/sports/{sport_id}/quotas',
     optionalBody: true,
   )
-  Future<chopper.Response> _competitionSchoolsSchoolIdSportsSportIdQuotasPatch({
+  Future<chopper.Response<void>>
+  _competitionSchoolsSchoolIdSportsSportIdQuotasPatch({
     @Path('school_id') required String? schoolId,
     @Path('sport_id') required String? sportId,
     @Body() required SchoolSportQuotaEdit? body,
@@ -8274,7 +8355,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Edit Sport Quota',
       operationId:
-          'patch_competition_schools_{school_id}_sports_{sport_id}_quotas',
+          'edit_sport_quota_competition_schools__school_id__sports__sport_id__quotas_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8286,7 +8367,8 @@ This is the user making the request.''',
   ///Delete Sport Quota
   ///@param school_id
   ///@param sport_id
-  Future<chopper.Response> competitionSchoolsSchoolIdSportsSportIdQuotasDelete({
+  Future<chopper.Response<void>>
+  competitionSchoolsSchoolIdSportsSportIdQuotasDelete({
     required String? schoolId,
     required String? sportId,
   }) {
@@ -8300,7 +8382,7 @@ This is the user making the request.''',
   ///@param school_id
   ///@param sport_id
   @DELETE(path: '/competition/schools/{school_id}/sports/{sport_id}/quotas')
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   _competitionSchoolsSchoolIdSportsSportIdQuotasDelete({
     @Path('school_id') required String? schoolId,
     @Path('sport_id') required String? sportId,
@@ -8309,7 +8391,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Delete Sport Quota',
       operationId:
-          'delete_competition_schools_{school_id}_sports_{sport_id}_quotas',
+          'delete_sport_quota_competition_schools__school_id__sports__sport_id__quotas_delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8340,7 +8422,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Product Quotas For School',
-      operationId: 'get_competition_schools_{school_id}_product-quotas',
+      operationId:
+          'get_product_quotas_for_school_competition_schools__school_id__product_quotas_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8381,7 +8464,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Product Quota',
-      operationId: 'post_competition_schools_{school_id}_product-quotas',
+      operationId:
+          'create_product_quota_competition_schools__school_id__product_quotas_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8412,7 +8496,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Product Quotas For Product',
-      operationId: 'get_competition_products_{product_id}_schools-quotas',
+      operationId:
+          'get_product_quotas_for_product_competition_products__product_id__schools_quotas_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8424,7 +8509,7 @@ This is the user making the request.''',
   ///Edit Product Quota
   ///@param school_id
   ///@param product_id
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   competitionSchoolsSchoolIdProductQuotasProductIdPatch({
     required String? schoolId,
     required String? productId,
@@ -8444,7 +8529,7 @@ This is the user making the request.''',
     path: '/competition/schools/{school_id}/product-quotas/{product_id}',
     optionalBody: true,
   )
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   _competitionSchoolsSchoolIdProductQuotasProductIdPatch({
     @Path('school_id') required String? schoolId,
     @Path('product_id') required String? productId,
@@ -8454,7 +8539,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Edit Product Quota',
       operationId:
-          'patch_competition_schools_{school_id}_product-quotas_{product_id}',
+          'edit_product_quota_competition_schools__school_id__product_quotas__product_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8466,7 +8551,7 @@ This is the user making the request.''',
   ///Delete Product Quota
   ///@param school_id
   ///@param product_id
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   competitionSchoolsSchoolIdProductQuotasProductIdDelete({
     required String? schoolId,
     required String? productId,
@@ -8481,7 +8566,7 @@ This is the user making the request.''',
   ///@param school_id
   ///@param product_id
   @DELETE(path: '/competition/schools/{school_id}/product-quotas/{product_id}')
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   _competitionSchoolsSchoolIdProductQuotasProductIdDelete({
     @Path('school_id') required String? schoolId,
     @Path('product_id') required String? productId,
@@ -8490,7 +8575,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Delete Product Quota',
       operationId:
-          'delete_competition_schools_{school_id}_product-quotas_{product_id}',
+          'delete_product_quota_competition_schools__school_id__product_quotas__product_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8516,7 +8601,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Teams',
-      operationId: 'get_competition_teams',
+      operationId: 'get_teams_competition_teams_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8542,7 +8627,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Team',
-      operationId: 'post_competition_teams',
+      operationId: 'create_team_competition_teams_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8568,7 +8653,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Current User Team As Captain',
-      operationId: 'get_competition_teams_me',
+      operationId: 'get_current_user_team_as_captain_competition_teams_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8599,7 +8684,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Teams For Sport',
-      operationId: 'get_competition_teams_sports_{sport_id}',
+      operationId:
+          'get_teams_for_sport_competition_teams_sports__sport_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8630,7 +8716,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Teams For School',
-      operationId: 'get_competition_teams_schools_{school_id}',
+      operationId:
+          'get_teams_for_school_competition_teams_schools__school_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8671,7 +8758,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Get Sport Teams For School And Sport',
       operationId:
-          'get_competition_teams_sports_{sport_id}_schools_{school_id}',
+          'get_sport_teams_for_school_and_sport_competition_teams_sports__sport_id__schools__school_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8682,7 +8769,7 @@ This is the user making the request.''',
 
   ///Edit Team
   ///@param team_id
-  Future<chopper.Response> competitionTeamsTeamIdPatch({
+  Future<chopper.Response<void>> competitionTeamsTeamIdPatch({
     required String? teamId,
     required TeamEdit? body,
   }) {
@@ -8692,14 +8779,14 @@ This is the user making the request.''',
   ///Edit Team
   ///@param team_id
   @PATCH(path: '/competition/teams/{team_id}', optionalBody: true)
-  Future<chopper.Response> _competitionTeamsTeamIdPatch({
+  Future<chopper.Response<void>> _competitionTeamsTeamIdPatch({
     @Path('team_id') required String? teamId,
     @Body() required TeamEdit? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Edit Team',
-      operationId: 'patch_competition_teams_{team_id}',
+      operationId: 'edit_team_competition_teams__team_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8710,7 +8797,7 @@ This is the user making the request.''',
 
   ///Delete Team
   ///@param team_id
-  Future<chopper.Response> competitionTeamsTeamIdDelete({
+  Future<chopper.Response<void>> competitionTeamsTeamIdDelete({
     required String? teamId,
   }) {
     return _competitionTeamsTeamIdDelete(teamId: teamId);
@@ -8719,13 +8806,13 @@ This is the user making the request.''',
   ///Delete Team
   ///@param team_id
   @DELETE(path: '/competition/teams/{team_id}')
-  Future<chopper.Response> _competitionTeamsTeamIdDelete({
+  Future<chopper.Response<void>> _competitionTeamsTeamIdDelete({
     @Path('team_id') required String? teamId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Team',
-      operationId: 'delete_competition_teams_{team_id}',
+      operationId: 'delete_team_competition_teams__team_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8751,7 +8838,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Current User Participant',
-      operationId: 'get_competition_participants_me',
+      operationId:
+          'get_current_user_participant_competition_participants_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8782,7 +8870,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Participants For Sport',
-      operationId: 'get_competition_participants_sports_{sport_id}',
+      operationId:
+          'get_participants_for_sport_competition_participants_sports__sport_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8813,7 +8902,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Participants For School',
-      operationId: 'get_competition_participants_schools_{school_id}',
+      operationId:
+          'get_participants_for_school_competition_participants_schools__school_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8824,22 +8914,23 @@ This is the user making the request.''',
 
   ///Download Participant Certificate
   ///@param user_id
-  Future<chopper.Response> competitionParticipantsUsersUserIdCertificateGet({
-    required String? userId,
-  }) {
+  Future<chopper.Response<List<int>>>
+  competitionParticipantsUsersUserIdCertificateGet({required String? userId}) {
     return _competitionParticipantsUsersUserIdCertificateGet(userId: userId);
   }
 
   ///Download Participant Certificate
   ///@param user_id
   @GET(path: '/competition/participants/users/{user_id}/certificate')
-  Future<chopper.Response> _competitionParticipantsUsersUserIdCertificateGet({
+  Future<chopper.Response<List<int>>>
+  _competitionParticipantsUsersUserIdCertificateGet({
     @Path('user_id') required String? userId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Download Participant Certificate',
-      operationId: 'get_competition_participants_users_{user_id}_certificate',
+      operationId:
+          'download_participant_certificate_competition_participants_users__user_id__certificate_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8877,7 +8968,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Join Sport',
-      operationId: 'post_competition_sports_{sport_id}_participate',
+      operationId: 'join_sport_competition_sports__sport_id__participate_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8888,7 +8979,8 @@ This is the user making the request.''',
 
   ///Upload Participant Certificate
   ///@param sport_id
-  Future<chopper.Response> competitionParticipantsSportsSportIdCertificatePost({
+  Future<chopper.Response<void>>
+  competitionParticipantsSportsSportIdCertificatePost({
     required String? sportId,
     required List<int> certificate,
   }) {
@@ -8905,7 +8997,7 @@ This is the user making the request.''',
     optionalBody: true,
   )
   @Multipart()
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   _competitionParticipantsSportsSportIdCertificatePost({
     @Path('sport_id') required String? sportId,
     @PartFile('certificate') required List<int> certificate,
@@ -8914,7 +9006,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Upload Participant Certificate',
       operationId:
-          'post_competition_participants_sports_{sport_id}_certificate',
+          'upload_participant_certificate_competition_participants_sports__sport_id__certificate_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8925,7 +9017,7 @@ This is the user making the request.''',
 
   ///Delete Participant Certificate File
   ///@param sport_id
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   competitionParticipantsSportsSportIdCertificateDelete({
     required String? sportId,
   }) {
@@ -8937,7 +9029,7 @@ This is the user making the request.''',
   ///Delete Participant Certificate File
   ///@param sport_id
   @DELETE(path: '/competition/participants/sports/{sport_id}/certificate')
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   _competitionParticipantsSportsSportIdCertificateDelete({
     @Path('sport_id') required String? sportId,
     @chopper.Tag()
@@ -8945,7 +9037,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Delete Participant Certificate File',
       operationId:
-          'delete_competition_participants_sports_{sport_id}_certificate',
+          'delete_participant_certificate_file_competition_participants_sports__sport_id__certificate_delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8958,7 +9050,7 @@ This is the user making the request.''',
   ///@param sport_id
   ///@param user_id
   ///@param is_license_valid
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   competitionParticipantsSportsSportIdUsersUserIdLicensePatch({
     required String? sportId,
     required String? userId,
@@ -8979,7 +9071,7 @@ This is the user making the request.''',
     path: '/competition/participants/sports/{sport_id}/users/{user_id}/license',
     optionalBody: true,
   )
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   _competitionParticipantsSportsSportIdUsersUserIdLicensePatch({
     @Path('sport_id') required String? sportId,
     @Path('user_id') required String? userId,
@@ -8989,7 +9081,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Mark Participant License As Valid',
       operationId:
-          'patch_competition_participants_sports_{sport_id}_users_{user_id}_license',
+          'mark_participant_license_as_valid_competition_participants_sports__sport_id__users__user_id__license_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9000,7 +9092,7 @@ This is the user making the request.''',
 
   ///Withdraw From Sport
   ///@param sport_id
-  Future<chopper.Response> competitionSportsSportIdWithdrawDelete({
+  Future<chopper.Response<void>> competitionSportsSportIdWithdrawDelete({
     required String? sportId,
   }) {
     return _competitionSportsSportIdWithdrawDelete(sportId: sportId);
@@ -9009,13 +9101,14 @@ This is the user making the request.''',
   ///Withdraw From Sport
   ///@param sport_id
   @DELETE(path: '/competition/sports/{sport_id}/withdraw')
-  Future<chopper.Response> _competitionSportsSportIdWithdrawDelete({
+  Future<chopper.Response<void>> _competitionSportsSportIdWithdrawDelete({
     @Path('sport_id') required String? sportId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Withdraw From Sport',
-      operationId: 'delete_competition_sports_{sport_id}_withdraw',
+      operationId:
+          'withdraw_from_sport_competition_sports__sport_id__withdraw_delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9027,7 +9120,8 @@ This is the user making the request.''',
   ///Delete Participant
   ///@param user_id
   ///@param sport_id
-  Future<chopper.Response> competitionParticipantsUserIdSportsSportIdDelete({
+  Future<chopper.Response<void>>
+  competitionParticipantsUserIdSportsSportIdDelete({
     required String? userId,
     required String? sportId,
   }) {
@@ -9041,7 +9135,8 @@ This is the user making the request.''',
   ///@param user_id
   ///@param sport_id
   @DELETE(path: '/competition/participants/{user_id}/sports/{sport_id}')
-  Future<chopper.Response> _competitionParticipantsUserIdSportsSportIdDelete({
+  Future<chopper.Response<void>>
+  _competitionParticipantsUserIdSportsSportIdDelete({
     @Path('user_id') required String? userId,
     @Path('sport_id') required String? sportId,
     @chopper.Tag()
@@ -9049,7 +9144,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Delete Participant',
       operationId:
-          'delete_competition_participants_{user_id}_sports_{sport_id}',
+          'delete_participant_competition_participants__user_id__sports__sport_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9072,7 +9167,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get All Locations',
-      operationId: 'get_competition_locations',
+      operationId: 'get_all_locations_competition_locations_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9098,7 +9193,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Location',
-      operationId: 'post_competition_locations',
+      operationId: 'create_location_competition_locations_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9130,7 +9225,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Location By Id',
-      operationId: 'get_competition_locations_{location_id}',
+      operationId: 'get_location_by_id_competition_locations__location_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9141,7 +9236,7 @@ This is the user making the request.''',
 
   ///Edit Location
   ///@param location_id
-  Future<chopper.Response> competitionLocationsLocationIdPatch({
+  Future<chopper.Response<void>> competitionLocationsLocationIdPatch({
     required String? locationId,
     required LocationEdit? body,
   }) {
@@ -9154,14 +9249,14 @@ This is the user making the request.''',
   ///Edit Location
   ///@param location_id
   @PATCH(path: '/competition/locations/{location_id}', optionalBody: true)
-  Future<chopper.Response> _competitionLocationsLocationIdPatch({
+  Future<chopper.Response<void>> _competitionLocationsLocationIdPatch({
     @Path('location_id') required String? locationId,
     @Body() required LocationEdit? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Edit Location',
-      operationId: 'patch_competition_locations_{location_id}',
+      operationId: 'edit_location_competition_locations__location_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9172,7 +9267,7 @@ This is the user making the request.''',
 
   ///Delete Location
   ///@param location_id
-  Future<chopper.Response> competitionLocationsLocationIdDelete({
+  Future<chopper.Response<void>> competitionLocationsLocationIdDelete({
     required String? locationId,
   }) {
     return _competitionLocationsLocationIdDelete(locationId: locationId);
@@ -9181,13 +9276,13 @@ This is the user making the request.''',
   ///Delete Location
   ///@param location_id
   @DELETE(path: '/competition/locations/{location_id}')
-  Future<chopper.Response> _competitionLocationsLocationIdDelete({
+  Future<chopper.Response<void>> _competitionLocationsLocationIdDelete({
     @Path('location_id') required String? locationId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Location',
-      operationId: 'delete_competition_locations_{location_id}',
+      operationId: 'delete_location_competition_locations__location_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9213,7 +9308,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get All Matches For Edition',
-      operationId: 'get_competition_matches',
+      operationId: 'get_all_matches_for_edition_competition_matches_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9244,7 +9339,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Matches For Sport And Edition',
-      operationId: 'get_competition_matches_sports_{sport_id}',
+      operationId:
+          'get_matches_for_sport_and_edition_competition_matches_sports__sport_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9274,7 +9370,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Match',
-      operationId: 'post_competition_matches_sports_{sport_id}',
+      operationId: 'create_match_competition_matches_sports__sport_id__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9305,7 +9401,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Matches For School Sport And Edition',
-      operationId: 'get_competition_matches_schools_{school_id}',
+      operationId:
+          'get_matches_for_school_sport_and_edition_competition_matches_schools__school_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9316,7 +9413,7 @@ This is the user making the request.''',
 
   ///Edit Match
   ///@param match_id
-  Future<chopper.Response> competitionMatchesMatchIdPatch({
+  Future<chopper.Response<void>> competitionMatchesMatchIdPatch({
     required String? matchId,
     required MatchEdit? body,
   }) {
@@ -9326,14 +9423,14 @@ This is the user making the request.''',
   ///Edit Match
   ///@param match_id
   @PATCH(path: '/competition/matches/{match_id}', optionalBody: true)
-  Future<chopper.Response> _competitionMatchesMatchIdPatch({
+  Future<chopper.Response<void>> _competitionMatchesMatchIdPatch({
     @Path('match_id') required String? matchId,
     @Body() required MatchEdit? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Edit Match',
-      operationId: 'patch_competition_matches_{match_id}',
+      operationId: 'edit_match_competition_matches__match_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9344,7 +9441,7 @@ This is the user making the request.''',
 
   ///Delete Match
   ///@param match_id
-  Future<chopper.Response> competitionMatchesMatchIdDelete({
+  Future<chopper.Response<void>> competitionMatchesMatchIdDelete({
     required String? matchId,
   }) {
     return _competitionMatchesMatchIdDelete(matchId: matchId);
@@ -9353,13 +9450,13 @@ This is the user making the request.''',
   ///Delete Match
   ///@param match_id
   @DELETE(path: '/competition/matches/{match_id}')
-  Future<chopper.Response> _competitionMatchesMatchIdDelete({
+  Future<chopper.Response<void>> _competitionMatchesMatchIdDelete({
     @Path('match_id') required String? matchId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Match',
-      operationId: 'delete_competition_matches_{match_id}',
+      operationId: 'delete_match_competition_matches__match_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9385,7 +9482,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get the global podiums for the current edition.',
       summary: 'Get Global Podiums',
-      operationId: 'get_competition_podiums_global',
+      operationId: 'get_global_podiums_competition_podiums_global_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9417,7 +9514,8 @@ This is the user making the request.''',
       description:
           'Get the podiums for a specific sport in the current edition.',
       summary: 'Get Sport Podiums',
-      operationId: 'get_competition_podiums_sports_{sport_id}',
+      operationId:
+          'get_sport_podiums_competition_podiums_sports__sport_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9453,7 +9551,8 @@ This is the user making the request.''',
       description:
           'Create or update the podium for a specific sport in the current edition.',
       summary: 'Create Sport Podium',
-      operationId: 'post_competition_podiums_sports_{sport_id}',
+      operationId:
+          'create_sport_podium_competition_podiums_sports__sport_id__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9464,7 +9563,7 @@ This is the user making the request.''',
 
   ///Delete Sport Podium
   ///@param sport_id
-  Future<chopper.Response> competitionPodiumsSportsSportIdDelete({
+  Future<chopper.Response<void>> competitionPodiumsSportsSportIdDelete({
     required String? sportId,
   }) {
     return _competitionPodiumsSportsSportIdDelete(sportId: sportId);
@@ -9473,14 +9572,15 @@ This is the user making the request.''',
   ///Delete Sport Podium
   ///@param sport_id
   @DELETE(path: '/competition/podiums/sports/{sport_id}')
-  Future<chopper.Response> _competitionPodiumsSportsSportIdDelete({
+  Future<chopper.Response<void>> _competitionPodiumsSportsSportIdDelete({
     @Path('sport_id') required String? sportId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           'Delete the podium for a specific sport in the current edition.',
       summary: 'Delete Sport Podium',
-      operationId: 'delete_competition_podiums_sports_{sport_id}',
+      operationId:
+          'delete_sport_podium_competition_podiums_sports__sport_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9506,7 +9606,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get the pompoms podiums in the current edition.',
       summary: 'Get Pompom Podiums',
-      operationId: 'get_competition_podiums_pompoms',
+      operationId: 'get_pompom_podiums_competition_podiums_pompoms_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9536,7 +9636,7 @@ This is the user making the request.''',
       description:
           'Create or update the pompoms podium in the current edition.',
       summary: 'Create Pompom Podium',
-      operationId: 'post_competition_podiums_pompoms',
+      operationId: 'create_pompom_podium_competition_podiums_pompoms_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9546,18 +9646,18 @@ This is the user making the request.''',
   });
 
   ///Delete Pompom Podium
-  Future<chopper.Response> competitionPodiumsPompomsDelete() {
+  Future<chopper.Response<void>> competitionPodiumsPompomsDelete() {
     return _competitionPodiumsPompomsDelete();
   }
 
   ///Delete Pompom Podium
   @DELETE(path: '/competition/podiums/pompoms')
-  Future<chopper.Response> _competitionPodiumsPompomsDelete({
+  Future<chopper.Response<void>> _competitionPodiumsPompomsDelete({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete the pompoms podium in the current edition.',
       summary: 'Delete Pompom Podium',
-      operationId: 'delete_competition_podiums_pompoms',
+      operationId: 'delete_pompom_podium_competition_podiums_pompoms_delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9589,7 +9689,8 @@ This is the user making the request.''',
       description:
           'Get the podiums for a specific school in the current edition.',
       summary: 'Get School Podiums',
-      operationId: 'get_competition_podiums_schools_{school_id}',
+      operationId:
+          'get_school_podiums_competition_podiums_schools__school_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9626,7 +9727,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all products.',
       summary: 'Get All Products',
-      operationId: 'get_competition_products',
+      operationId: 'get_all_products_competition_products_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9667,7 +9768,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a product.',
       summary: 'Create Product',
-      operationId: 'post_competition_products',
+      operationId: 'create_product_competition_products_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9678,7 +9779,7 @@ This is the user making the request.''',
 
   ///Update Product
   ///@param product_id
-  Future<chopper.Response> competitionProductsProductIdPatch({
+  Future<chopper.Response<void>> competitionProductsProductIdPatch({
     required String? productId,
     required AppModulesSportCompetitionSchemasSportCompetitionProductEdit? body,
   }) {
@@ -9688,7 +9789,7 @@ This is the user making the request.''',
   ///Update Product
   ///@param product_id
   @PATCH(path: '/competition/products/{product_id}', optionalBody: true)
-  Future<chopper.Response> _competitionProductsProductIdPatch({
+  Future<chopper.Response<void>> _competitionProductsProductIdPatch({
     @Path('product_id') required String? productId,
     @Body()
     required AppModulesSportCompetitionSchemasSportCompetitionProductEdit? body,
@@ -9698,7 +9799,7 @@ This is the user making the request.''',
 
 **User must be a competition admin to use this endpoint**''',
       summary: 'Update Product',
-      operationId: 'patch_competition_products_{product_id}',
+      operationId: 'update_product_competition_products__product_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9709,7 +9810,7 @@ This is the user making the request.''',
 
   ///Delete Product
   ///@param product_id
-  Future<chopper.Response> competitionProductsProductIdDelete({
+  Future<chopper.Response<void>> competitionProductsProductIdDelete({
     required String? productId,
   }) {
     return _competitionProductsProductIdDelete(productId: productId);
@@ -9718,7 +9819,7 @@ This is the user making the request.''',
   ///Delete Product
   ///@param product_id
   @DELETE(path: '/competition/products/{product_id}')
-  Future<chopper.Response> _competitionProductsProductIdDelete({
+  Future<chopper.Response<void>> _competitionProductsProductIdDelete({
     @Path('product_id') required String? productId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -9726,7 +9827,7 @@ This is the user making the request.''',
 
 **User must be a competition admin to use this endpoint**''',
       summary: 'Delete Product',
-      operationId: 'delete_competition_products_{product_id}',
+      operationId: 'delete_product_competition_products__product_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9769,7 +9870,8 @@ This is the user making the request.''',
       description:
           'Get all available product variants of the current edition for this user.',
       summary: 'Get Available Product Variants',
-      operationId: 'get_competition_products_available',
+      operationId:
+          'get_available_product_variants_competition_products_available_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9812,7 +9914,8 @@ This is the user making the request.''',
 
 **User must be a competition admin to use this endpoint**''',
       summary: 'Create Product Variant',
-      operationId: 'post_competition_products_{product_id}_variants',
+      operationId:
+          'create_product_variant_competition_products__product_id__variants_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9823,7 +9926,7 @@ This is the user making the request.''',
 
   ///Update Product Variant
   ///@param variant_id
-  Future<chopper.Response> competitionProductsVariantsVariantIdPatch({
+  Future<chopper.Response<void>> competitionProductsVariantsVariantIdPatch({
     required String? variantId,
     required AppModulesSportCompetitionSchemasSportCompetitionProductVariantEdit?
     body,
@@ -9840,7 +9943,7 @@ This is the user making the request.''',
     path: '/competition/products/variants/{variant_id}',
     optionalBody: true,
   )
-  Future<chopper.Response> _competitionProductsVariantsVariantIdPatch({
+  Future<chopper.Response<void>> _competitionProductsVariantsVariantIdPatch({
     @Path('variant_id') required String? variantId,
     @Body()
     required AppModulesSportCompetitionSchemasSportCompetitionProductVariantEdit?
@@ -9851,7 +9954,8 @@ This is the user making the request.''',
 
 **User must be a competition admin to use this endpoint**''',
       summary: 'Update Product Variant',
-      operationId: 'patch_competition_products_variants_{variant_id}',
+      operationId:
+          'update_product_variant_competition_products_variants__variant_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9862,7 +9966,7 @@ This is the user making the request.''',
 
   ///Delete Product Variant
   ///@param variant_id
-  Future<chopper.Response> competitionProductsVariantsVariantIdDelete({
+  Future<chopper.Response<void>> competitionProductsVariantsVariantIdDelete({
     required String? variantId,
   }) {
     return _competitionProductsVariantsVariantIdDelete(variantId: variantId);
@@ -9871,7 +9975,7 @@ This is the user making the request.''',
   ///Delete Product Variant
   ///@param variant_id
   @DELETE(path: '/competition/products/variants/{variant_id}')
-  Future<chopper.Response> _competitionProductsVariantsVariantIdDelete({
+  Future<chopper.Response<void>> _competitionProductsVariantsVariantIdDelete({
     @Path('variant_id') required String? variantId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -9879,7 +9983,8 @@ This is the user making the request.''',
 
 **User must be a competition admin to use this endpoint**''',
       summary: 'Delete Product Variant',
-      operationId: 'delete_competition_products_variants_{variant_id}',
+      operationId:
+          'delete_product_variant_competition_products_variants__variant_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9907,7 +10012,8 @@ This is the user making the request.''',
 
 **User must be competition admin to use this endpoint**''',
       summary: 'Get Purchases By School Id',
-      operationId: 'get_competition_purchases_schools_{school_id}',
+      operationId:
+          'get_purchases_by_school_id_competition_purchases_schools__school_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9937,7 +10043,8 @@ This is the user making the request.''',
 
 **User must be competition admin to use this endpoint**''',
       summary: 'Get Purchases By User Id',
-      operationId: 'get_competition_purchases_users_{user_id}',
+      operationId:
+          'get_purchases_by_user_id_competition_purchases_users__user_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9972,7 +10079,8 @@ This is the user making the request.''',
 
 **User must be competition admin to use this endpoint**''',
       summary: 'Create User Purchase',
-      operationId: 'post_competition_purchases_users_{user_id}',
+      operationId:
+          'create_user_purchase_competition_purchases_users__user_id__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9995,7 +10103,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get My Purchases',
-      operationId: 'get_competition_purchases_me',
+      operationId: 'get_my_purchases_competition_purchases_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10026,7 +10134,7 @@ This is the user making the request.''',
 
 **User must create a purchase for themself**''',
       summary: 'Create Purchase',
-      operationId: 'post_competition_purchases_me',
+      operationId: 'create_purchase_competition_purchases_me_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10038,7 +10146,7 @@ This is the user making the request.''',
   ///Update User Purchase
   ///@param user_id
   ///@param variant_id
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   competitionPurchasesUsersUserIdVariantsVariantIdPatch({
     required String? userId,
     required String? variantId,
@@ -10058,7 +10166,7 @@ This is the user making the request.''',
     path: '/competition/purchases/users/{user_id}/variants/{variant_id}',
     optionalBody: true,
   )
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   _competitionPurchasesUsersUserIdVariantsVariantIdPatch({
     @Path('user_id') required String? userId,
     @Path('variant_id') required String? variantId,
@@ -10070,7 +10178,7 @@ This is the user making the request.''',
 **User must be competition admin to use this endpoint**''',
       summary: 'Update User Purchase',
       operationId:
-          'patch_competition_purchases_users_{user_id}_variants_{variant_id}',
+          'update_user_purchase_competition_purchases_users__user_id__variants__variant_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10081,7 +10189,7 @@ This is the user making the request.''',
 
   ///Delete Purchase
   ///@param product_variant_id
-  Future<chopper.Response> competitionPurchasesProductVariantIdDelete({
+  Future<chopper.Response<void>> competitionPurchasesProductVariantIdDelete({
     required String? productVariantId,
   }) {
     return _competitionPurchasesProductVariantIdDelete(
@@ -10092,7 +10200,7 @@ This is the user making the request.''',
   ///Delete Purchase
   ///@param product_variant_id
   @DELETE(path: '/competition/purchases/{product_variant_id}')
-  Future<chopper.Response> _competitionPurchasesProductVariantIdDelete({
+  Future<chopper.Response<void>> _competitionPurchasesProductVariantIdDelete({
     @Path('product_variant_id') required String? productVariantId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -10100,7 +10208,8 @@ This is the user making the request.''',
 
 **User must delete their own purchase**''',
       summary: 'Delete Purchase',
-      operationId: 'delete_competition_purchases_{product_variant_id}',
+      operationId:
+          'delete_purchase_competition_purchases__product_variant_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10112,7 +10221,7 @@ This is the user making the request.''',
   ///Delete User Purchase
   ///@param user_id
   ///@param product_variant_id
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   competitionUsersUserIdPurchasesProductVariantIdDelete({
     required String? userId,
     required String? productVariantId,
@@ -10127,7 +10236,7 @@ This is the user making the request.''',
   ///@param user_id
   ///@param product_variant_id
   @DELETE(path: '/competition/users/{user_id}/purchases/{product_variant_id}')
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   _competitionUsersUserIdPurchasesProductVariantIdDelete({
     @Path('user_id') required String? userId,
     @Path('product_variant_id') required String? productVariantId,
@@ -10138,7 +10247,7 @@ This is the user making the request.''',
 **User must be competition admin to use this endpoint**''',
       summary: 'Delete User Purchase',
       operationId:
-          'delete_competition_users_{user_id}_purchases_{product_variant_id}',
+          'delete_user_purchase_competition_users__user_id__purchases__product_variant_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10166,7 +10275,8 @@ This is the user making the request.''',
 
 **User must be competition admin to use this endpoint**''',
       summary: 'Get Users Payments By School Id',
-      operationId: 'get_competition_payments_schools_{school_id}',
+      operationId:
+          'get_users_payments_by_school_id_competition_payments_schools__school_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10208,7 +10318,8 @@ This is the user making the request.''',
 
 **User must get his own payments or be competition admin to use this endpoint**''',
       summary: 'Get Payments By User Id',
-      operationId: 'get_competition_users_{user_id}_payments',
+      operationId:
+          'get_payments_by_user_id_competition_users__user_id__payments_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10255,7 +10366,7 @@ This is the user making the request.''',
 
 **User must be competition admin to use this endpoint**''',
       summary: 'Create Payment',
-      operationId: 'post_competition_users_{user_id}_payments',
+      operationId: 'create_payment_competition_users__user_id__payments_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10267,7 +10378,7 @@ This is the user making the request.''',
   ///Delete Payment
   ///@param user_id
   ///@param payment_id
-  Future<chopper.Response> competitionUsersUserIdPaymentsPaymentIdDelete({
+  Future<chopper.Response<void>> competitionUsersUserIdPaymentsPaymentIdDelete({
     required String? userId,
     required String? paymentId,
   }) {
@@ -10281,7 +10392,8 @@ This is the user making the request.''',
   ///@param user_id
   ///@param payment_id
   @DELETE(path: '/competition/users/{user_id}/payments/{payment_id}')
-  Future<chopper.Response> _competitionUsersUserIdPaymentsPaymentIdDelete({
+  Future<chopper.Response<void>>
+  _competitionUsersUserIdPaymentsPaymentIdDelete({
     @Path('user_id') required String? userId,
     @Path('payment_id') required String? paymentId,
     @chopper.Tag()
@@ -10290,7 +10402,8 @@ This is the user making the request.''',
 
 **User must be competition admin to use this endpoint**''',
       summary: 'Delete Payment',
-      operationId: 'delete_competition_users_{user_id}_payments_{payment_id}',
+      operationId:
+          'delete_payment_competition_users__user_id__payments__payment_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10313,7 +10426,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get payment url',
       summary: 'Get Payment Url',
-      operationId: 'post_competition_pay',
+      operationId: 'get_payment_url_competition_pay_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10341,7 +10454,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all volunteer shifts.',
       summary: 'Get All Volunteer Shifts',
-      operationId: 'get_competition_volunteers_shifts',
+      operationId: 'get_all_volunteer_shifts_competition_volunteers_shifts_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10370,7 +10483,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a volunteer shift.',
       summary: 'Create Volunteer Shift',
-      operationId: 'post_competition_volunteers_shifts',
+      operationId: 'create_volunteer_shift_competition_volunteers_shifts_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10381,7 +10494,7 @@ This is the user making the request.''',
 
   ///Update Volunteer Shift
   ///@param shift_id
-  Future<chopper.Response> competitionVolunteersShiftsShiftIdPatch({
+  Future<chopper.Response<void>> competitionVolunteersShiftsShiftIdPatch({
     required String? shiftId,
     required VolunteerShiftEdit? body,
   }) {
@@ -10394,7 +10507,7 @@ This is the user making the request.''',
   ///Update Volunteer Shift
   ///@param shift_id
   @PATCH(path: '/competition/volunteers/shifts/{shift_id}', optionalBody: true)
-  Future<chopper.Response> _competitionVolunteersShiftsShiftIdPatch({
+  Future<chopper.Response<void>> _competitionVolunteersShiftsShiftIdPatch({
     @Path('shift_id') required String? shiftId,
     @Body() required VolunteerShiftEdit? body,
     @chopper.Tag()
@@ -10403,7 +10516,8 @@ This is the user making the request.''',
 
 **User must be a competition admin to use this endpoint**''',
       summary: 'Update Volunteer Shift',
-      operationId: 'patch_competition_volunteers_shifts_{shift_id}',
+      operationId:
+          'update_volunteer_shift_competition_volunteers_shifts__shift_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10414,7 +10528,7 @@ This is the user making the request.''',
 
   ///Delete Volunteer Shift
   ///@param shift_id
-  Future<chopper.Response> competitionVolunteersShiftsShiftIdDelete({
+  Future<chopper.Response<void>> competitionVolunteersShiftsShiftIdDelete({
     required String? shiftId,
   }) {
     return _competitionVolunteersShiftsShiftIdDelete(shiftId: shiftId);
@@ -10423,7 +10537,7 @@ This is the user making the request.''',
   ///Delete Volunteer Shift
   ///@param shift_id
   @DELETE(path: '/competition/volunteers/shifts/{shift_id}')
-  Future<chopper.Response> _competitionVolunteersShiftsShiftIdDelete({
+  Future<chopper.Response<void>> _competitionVolunteersShiftsShiftIdDelete({
     @Path('shift_id') required String? shiftId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -10431,7 +10545,8 @@ This is the user making the request.''',
 
 **User must be a competition admin to use this endpoint**''',
       summary: 'Delete Volunteer Shift',
-      operationId: 'delete_competition_volunteers_shifts_{shift_id}',
+      operationId:
+          'delete_volunteer_shift_competition_volunteers_shifts__shift_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10459,7 +10574,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get my volunteer registrations.',
       summary: 'Get My Volunteer Registrations',
-      operationId: 'get_competition_volunteers_me',
+      operationId:
+          'get_my_volunteer_registrations_competition_volunteers_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10470,9 +10586,8 @@ This is the user making the request.''',
 
   ///Register To Volunteer Shift
   ///@param shift_id
-  Future<chopper.Response> competitionVolunteersShiftsShiftIdRegisterPost({
-    required String? shiftId,
-  }) {
+  Future<chopper.Response<void>>
+  competitionVolunteersShiftsShiftIdRegisterPost({required String? shiftId}) {
     return _competitionVolunteersShiftsShiftIdRegisterPost(shiftId: shiftId);
   }
 
@@ -10482,13 +10597,15 @@ This is the user making the request.''',
     path: '/competition/volunteers/shifts/{shift_id}/register',
     optionalBody: true,
   )
-  Future<chopper.Response> _competitionVolunteersShiftsShiftIdRegisterPost({
+  Future<chopper.Response<void>>
+  _competitionVolunteersShiftsShiftIdRegisterPost({
     @Path('shift_id') required String? shiftId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Register to a volunteer shift.',
       summary: 'Register To Volunteer Shift',
-      operationId: 'post_competition_volunteers_shifts_{shift_id}_register',
+      operationId:
+          'register_to_volunteer_shift_competition_volunteers_shifts__shift_id__register_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10500,7 +10617,7 @@ This is the user making the request.''',
   ///Export Competition Users Data
   ///@param included_fields
   ///@param exclude_non_validated
-  Future<chopper.Response> competitionDataExportUsersGet({
+  Future<chopper.Response<List<int>>> competitionDataExportUsersGet({
     List<enums.ExcelExportParams>? includedFields,
     bool? excludeNonValidated,
   }) {
@@ -10514,7 +10631,7 @@ This is the user making the request.''',
   ///@param included_fields
   ///@param exclude_non_validated
   @GET(path: '/competition/data-export/users')
-  Future<chopper.Response> _competitionDataExportUsersGet({
+  Future<chopper.Response<List<int>>> _competitionDataExportUsersGet({
     @Query('included_fields') List<Object?>? includedFields,
     @Query('exclude_non_validated') bool? excludeNonValidated,
     @chopper.Tag()
@@ -10522,7 +10639,8 @@ This is the user making the request.''',
       description:
           'Export competition users data for the current edition as a CSV file.',
       summary: 'Export Competition Users Data',
-      operationId: 'get_competition_data-export_users',
+      operationId:
+          'export_competition_users_data_competition_data_export_users_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10535,7 +10653,8 @@ This is the user making the request.''',
   ///@param school_id
   ///@param included_fields
   ///@param exclude_non_validated
-  Future<chopper.Response> competitionDataExportSchoolsSchoolIdUsersGet({
+  Future<chopper.Response<List<int>>>
+  competitionDataExportSchoolsSchoolIdUsersGet({
     required String? schoolId,
     List<enums.ExcelExportParams>? includedFields,
     bool? excludeNonValidated,
@@ -10552,7 +10671,8 @@ This is the user making the request.''',
   ///@param included_fields
   ///@param exclude_non_validated
   @GET(path: '/competition/data-export/schools/{school_id}/users')
-  Future<chopper.Response> _competitionDataExportSchoolsSchoolIdUsersGet({
+  Future<chopper.Response<List<int>>>
+  _competitionDataExportSchoolsSchoolIdUsersGet({
     @Path('school_id') required String? schoolId,
     @Query('included_fields') List<Object?>? includedFields,
     @Query('exclude_non_validated') bool? excludeNonValidated,
@@ -10561,7 +10681,8 @@ This is the user making the request.''',
       description:
           'Export competition users data for the current edition as a CSV file.',
       summary: 'Export School Competition Users Data',
-      operationId: 'get_competition_data-export_schools_{school_id}_users',
+      operationId:
+          'export_school_competition_users_data_competition_data_export_schools__school_id__users_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10571,19 +10692,22 @@ This is the user making the request.''',
   });
 
   ///Export Participants Captains Data
-  Future<chopper.Response> competitionDataExportParticipantsCaptainsGet() {
+  Future<chopper.Response<List<int>>>
+  competitionDataExportParticipantsCaptainsGet() {
     return _competitionDataExportParticipantsCaptainsGet();
   }
 
   ///Export Participants Captains Data
   @GET(path: '/competition/data-export/participants/captains')
-  Future<chopper.Response> _competitionDataExportParticipantsCaptainsGet({
+  Future<chopper.Response<List<int>>>
+  _competitionDataExportParticipantsCaptainsGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           'Export participants captains data for the current edition as an Excel file.',
       summary: 'Export Participants Captains Data',
-      operationId: 'get_competition_data-export_participants_captains',
+      operationId:
+          'export_participants_captains_data_competition_data_export_participants_captains_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10594,23 +10718,24 @@ This is the user making the request.''',
 
   ///Export School Quotas Data
   ///@param school_id
-  Future<chopper.Response> competitionDataExportSchoolsSchoolIdQuotasGet({
-    required String? schoolId,
-  }) {
+  Future<chopper.Response<List<int>>>
+  competitionDataExportSchoolsSchoolIdQuotasGet({required String? schoolId}) {
     return _competitionDataExportSchoolsSchoolIdQuotasGet(schoolId: schoolId);
   }
 
   ///Export School Quotas Data
   ///@param school_id
   @GET(path: '/competition/data-export/schools/{school_id}/quotas')
-  Future<chopper.Response> _competitionDataExportSchoolsSchoolIdQuotasGet({
+  Future<chopper.Response<List<int>>>
+  _competitionDataExportSchoolsSchoolIdQuotasGet({
     @Path('school_id') required String? schoolId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           'Export school quotas data for the current edition as an Excel file.',
       summary: 'Export School Quotas Data',
-      operationId: 'get_competition_data-export_schools_{school_id}_quotas',
+      operationId:
+          'export_school_quotas_data_competition_data_export_schools__school_id__quotas_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10621,23 +10746,24 @@ This is the user making the request.''',
 
   ///Export Sport Quotas Data
   ///@param sport_id
-  Future<chopper.Response> competitionDataExportSportsSportIdQuotasGet({
-    required String? sportId,
-  }) {
+  Future<chopper.Response<List<int>>>
+  competitionDataExportSportsSportIdQuotasGet({required String? sportId}) {
     return _competitionDataExportSportsSportIdQuotasGet(sportId: sportId);
   }
 
   ///Export Sport Quotas Data
   ///@param sport_id
   @GET(path: '/competition/data-export/sports/{sport_id}/quotas')
-  Future<chopper.Response> _competitionDataExportSportsSportIdQuotasGet({
+  Future<chopper.Response<List<int>>>
+  _competitionDataExportSportsSportIdQuotasGet({
     @Path('sport_id') required String? sportId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           'Export sport quotas data for the current edition as an Excel file.',
       summary: 'Export Sport Quotas Data',
-      operationId: 'get_competition_data-export_sports_{sport_id}_quotas',
+      operationId:
+          'export_sport_quotas_data_competition_data_export_sports__sport_id__quotas_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10648,7 +10774,8 @@ This is the user making the request.''',
 
   ///Export Sport Participants Data
   ///@param sport_id
-  Future<chopper.Response> competitionDataExportSportsSportIdParticipantsGet({
+  Future<chopper.Response<List<int>>>
+  competitionDataExportSportsSportIdParticipantsGet({
     required String? sportId,
   }) {
     return _competitionDataExportSportsSportIdParticipantsGet(sportId: sportId);
@@ -10657,14 +10784,16 @@ This is the user making the request.''',
   ///Export Sport Participants Data
   ///@param sport_id
   @GET(path: '/competition/data-export/sports/{sport_id}/participants')
-  Future<chopper.Response> _competitionDataExportSportsSportIdParticipantsGet({
+  Future<chopper.Response<List<int>>>
+  _competitionDataExportSportsSportIdParticipantsGet({
     @Path('sport_id') required String? sportId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           'Export sport quotas data for the current edition as an Excel file.',
       summary: 'Export Sport Participants Data',
-      operationId: 'get_competition_data-export_sports_{sport_id}_participants',
+      operationId:
+          'export_sport_participants_data_competition_data_export_sports__sport_id__participants_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10698,7 +10827,7 @@ This is the user making the request.''',
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Read Adverts',
-      operationId: 'get_advert_adverts',
+      operationId: 'read_adverts_advert_adverts_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10729,7 +10858,7 @@ This is the user making the request.''',
 
 **The user must be a member of the advertiser group to use this endpoint**''',
       summary: 'Create Advert',
-      operationId: 'post_advert_adverts',
+      operationId: 'create_advert_advert_adverts_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10762,7 +10891,7 @@ This is the user making the request.''',
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Read Advert',
-      operationId: 'get_advert_adverts_{advert_id}',
+      operationId: 'read_advert_advert_adverts__advert_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10773,7 +10902,7 @@ This is the user making the request.''',
 
   ///Update Advert
   ///@param advert_id
-  Future<chopper.Response> advertAdvertsAdvertIdPatch({
+  Future<chopper.Response<void>> advertAdvertsAdvertIdPatch({
     required String? advertId,
     required AdvertUpdate? body,
   }) {
@@ -10783,7 +10912,7 @@ This is the user making the request.''',
   ///Update Advert
   ///@param advert_id
   @PATCH(path: '/advert/adverts/{advert_id}', optionalBody: true)
-  Future<chopper.Response> _advertAdvertsAdvertIdPatch({
+  Future<chopper.Response<void>> _advertAdvertsAdvertIdPatch({
     @Path('advert_id') required String? advertId,
     @Body() required AdvertUpdate? body,
     @chopper.Tag()
@@ -10792,7 +10921,7 @@ This is the user making the request.''',
 
 **The user must be a member of the advertiser group_manager to use this endpoint**''',
       summary: 'Update Advert',
-      operationId: 'patch_advert_adverts_{advert_id}',
+      operationId: 'update_advert_advert_adverts__advert_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10803,7 +10932,7 @@ This is the user making the request.''',
 
   ///Delete Advert
   ///@param advert_id
-  Future<chopper.Response> advertAdvertsAdvertIdDelete({
+  Future<chopper.Response<void>> advertAdvertsAdvertIdDelete({
     required String? advertId,
   }) {
     return _advertAdvertsAdvertIdDelete(advertId: advertId);
@@ -10812,7 +10941,7 @@ This is the user making the request.''',
   ///Delete Advert
   ///@param advert_id
   @DELETE(path: '/advert/adverts/{advert_id}')
-  Future<chopper.Response> _advertAdvertsAdvertIdDelete({
+  Future<chopper.Response<void>> _advertAdvertsAdvertIdDelete({
     @Path('advert_id') required String? advertId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -10820,7 +10949,7 @@ This is the user making the request.''',
 
 **The user must be admin or a member of the advertiser group_manager to use this endpoint**''',
       summary: 'Delete Advert',
-      operationId: 'delete_advert_adverts_{advert_id}',
+      operationId: 'delete_advert_advert_adverts__advert_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10831,7 +10960,7 @@ This is the user making the request.''',
 
   ///Read Advert Image
   ///@param advert_id
-  Future<chopper.Response> advertAdvertsAdvertIdPictureGet({
+  Future<chopper.Response<List<int>>> advertAdvertsAdvertIdPictureGet({
     required String? advertId,
   }) {
     return _advertAdvertsAdvertIdPictureGet(advertId: advertId);
@@ -10840,7 +10969,7 @@ This is the user making the request.''',
   ///Read Advert Image
   ///@param advert_id
   @GET(path: '/advert/adverts/{advert_id}/picture')
-  Future<chopper.Response> _advertAdvertsAdvertIdPictureGet({
+  Future<chopper.Response<List<int>>> _advertAdvertsAdvertIdPictureGet({
     @Path('advert_id') required String? advertId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -10848,7 +10977,7 @@ This is the user making the request.''',
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Read Advert Image',
-      operationId: 'get_advert_adverts_{advert_id}_picture',
+      operationId: 'read_advert_image_advert_adverts__advert_id__picture_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10859,7 +10988,7 @@ This is the user making the request.''',
 
   ///Create Advert Image
   ///@param advert_id
-  Future<chopper.Response> advertAdvertsAdvertIdPicturePost({
+  Future<chopper.Response<void>> advertAdvertsAdvertIdPicturePost({
     required String? advertId,
     required List<int> image,
   }) {
@@ -10870,7 +10999,7 @@ This is the user making the request.''',
   ///@param advert_id
   @POST(path: '/advert/adverts/{advert_id}/picture', optionalBody: true)
   @Multipart()
-  Future<chopper.Response> _advertAdvertsAdvertIdPicturePost({
+  Future<chopper.Response<void>> _advertAdvertsAdvertIdPicturePost({
     @Path('advert_id') required String? advertId,
     @PartFile('image') required List<int> image,
     @chopper.Tag()
@@ -10879,7 +11008,8 @@ This is the user making the request.''',
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Create Advert Image',
-      operationId: 'post_advert_adverts_{advert_id}_picture',
+      operationId:
+          'create_advert_image_advert_adverts__advert_id__picture_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10908,7 +11038,7 @@ This is the user making the request.''',
       description:
           'Return all associations from database as a list of AssociationComplete schemas',
       summary: 'Get All Associations',
-      operationId: 'get_phonebook_associations_',
+      operationId: 'get_all_associations_phonebook_associations__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10938,7 +11068,7 @@ This is the user making the request.''',
       description:
           'Create a new Association by giving an AssociationBase scheme',
       summary: 'Create Association',
-      operationId: 'post_phonebook_associations_',
+      operationId: 'create_association_phonebook_associations__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10964,7 +11094,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all available role tags from RoleTags enum.',
       summary: 'Get All Role Tags',
-      operationId: 'get_phonebook_roletags',
+      operationId: 'get_all_role_tags_phonebook_roletags_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10993,7 +11123,7 @@ This is the user making the request.''',
       description:
           'Return all groupements from database as a list of AssociationGroupement schemas',
       summary: 'Get All Groupements',
-      operationId: 'get_phonebook_groupements_',
+      operationId: 'get_all_groupements_phonebook_groupements__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11022,7 +11152,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Groupement',
-      operationId: 'post_phonebook_groupements_',
+      operationId: 'create_groupement_phonebook_groupements__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11033,7 +11163,7 @@ This is the user making the request.''',
 
   ///Update Groupement
   ///@param groupement_id
-  Future<chopper.Response> phonebookGroupementsGroupementIdPatch({
+  Future<chopper.Response<void>> phonebookGroupementsGroupementIdPatch({
     required String? groupementId,
     required AssociationGroupementBase? body,
   }) {
@@ -11046,14 +11176,15 @@ This is the user making the request.''',
   ///Update Groupement
   ///@param groupement_id
   @PATCH(path: '/phonebook/groupements/{groupement_id}', optionalBody: true)
-  Future<chopper.Response> _phonebookGroupementsGroupementIdPatch({
+  Future<chopper.Response<void>> _phonebookGroupementsGroupementIdPatch({
     @Path('groupement_id') required String? groupementId,
     @Body() required AssociationGroupementBase? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update a groupement',
       summary: 'Update Groupement',
-      operationId: 'patch_phonebook_groupements_{groupement_id}',
+      operationId:
+          'update_groupement_phonebook_groupements__groupement_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11064,7 +11195,7 @@ This is the user making the request.''',
 
   ///Delete Groupement
   ///@param groupement_id
-  Future<chopper.Response> phonebookGroupementsGroupementIdDelete({
+  Future<chopper.Response<void>> phonebookGroupementsGroupementIdDelete({
     required String? groupementId,
   }) {
     return _phonebookGroupementsGroupementIdDelete(groupementId: groupementId);
@@ -11073,13 +11204,14 @@ This is the user making the request.''',
   ///Delete Groupement
   ///@param groupement_id
   @DELETE(path: '/phonebook/groupements/{groupement_id}')
-  Future<chopper.Response> _phonebookGroupementsGroupementIdDelete({
+  Future<chopper.Response<void>> _phonebookGroupementsGroupementIdDelete({
     @Path('groupement_id') required String? groupementId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete a groupement',
       summary: 'Delete Groupement',
-      operationId: 'delete_phonebook_groupements_{groupement_id}',
+      operationId:
+          'delete_groupement_phonebook_groupements__groupement_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11090,7 +11222,7 @@ This is the user making the request.''',
 
   ///Update Association
   ///@param association_id
-  Future<chopper.Response> phonebookAssociationsAssociationIdPatch({
+  Future<chopper.Response<void>> phonebookAssociationsAssociationIdPatch({
     required String? associationId,
     required AssociationEdit? body,
   }) {
@@ -11103,14 +11235,15 @@ This is the user making the request.''',
   ///Update Association
   ///@param association_id
   @PATCH(path: '/phonebook/associations/{association_id}', optionalBody: true)
-  Future<chopper.Response> _phonebookAssociationsAssociationIdPatch({
+  Future<chopper.Response<void>> _phonebookAssociationsAssociationIdPatch({
     @Path('association_id') required String? associationId,
     @Body() required AssociationEdit? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update an Association',
       summary: 'Update Association',
-      operationId: 'patch_phonebook_associations_{association_id}',
+      operationId:
+          'update_association_phonebook_associations__association_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11121,7 +11254,7 @@ This is the user making the request.''',
 
   ///Delete Association
   ///@param association_id
-  Future<chopper.Response> phonebookAssociationsAssociationIdDelete({
+  Future<chopper.Response<void>> phonebookAssociationsAssociationIdDelete({
     required String? associationId,
   }) {
     return _phonebookAssociationsAssociationIdDelete(
@@ -11132,7 +11265,7 @@ This is the user making the request.''',
   ///Delete Association
   ///@param association_id
   @DELETE(path: '/phonebook/associations/{association_id}')
-  Future<chopper.Response> _phonebookAssociationsAssociationIdDelete({
+  Future<chopper.Response<void>> _phonebookAssociationsAssociationIdDelete({
     @Path('association_id') required String? associationId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -11140,7 +11273,8 @@ This is the user making the request.''',
 
 [!] Memberships linked to association_id will be deleted too''',
       summary: 'Delete Association',
-      operationId: 'delete_phonebook_associations_{association_id}',
+      operationId:
+          'delete_association_phonebook_associations__association_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11151,7 +11285,7 @@ This is the user making the request.''',
 
   ///Update Association Groups
   ///@param association_id
-  Future<chopper.Response> phonebookAssociationsAssociationIdGroupsPatch({
+  Future<chopper.Response<void>> phonebookAssociationsAssociationIdGroupsPatch({
     required String? associationId,
     required AssociationGroupsEdit? body,
   }) {
@@ -11167,14 +11301,16 @@ This is the user making the request.''',
     path: '/phonebook/associations/{association_id}/groups',
     optionalBody: true,
   )
-  Future<chopper.Response> _phonebookAssociationsAssociationIdGroupsPatch({
+  Future<chopper.Response<void>>
+  _phonebookAssociationsAssociationIdGroupsPatch({
     @Path('association_id') required String? associationId,
     @Body() required AssociationGroupsEdit? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update the groups associated with an Association',
       summary: 'Update Association Groups',
-      operationId: 'patch_phonebook_associations_{association_id}_groups',
+      operationId:
+          'update_association_groups_phonebook_associations__association_id__groups_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11185,7 +11321,8 @@ This is the user making the request.''',
 
   ///Deactivate Association
   ///@param association_id
-  Future<chopper.Response> phonebookAssociationsAssociationIdDeactivatePatch({
+  Future<chopper.Response<void>>
+  phonebookAssociationsAssociationIdDeactivatePatch({
     required String? associationId,
   }) {
     return _phonebookAssociationsAssociationIdDeactivatePatch(
@@ -11199,13 +11336,15 @@ This is the user making the request.''',
     path: '/phonebook/associations/{association_id}/deactivate',
     optionalBody: true,
   )
-  Future<chopper.Response> _phonebookAssociationsAssociationIdDeactivatePatch({
+  Future<chopper.Response<void>>
+  _phonebookAssociationsAssociationIdDeactivatePatch({
     @Path('association_id') required String? associationId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Deactivate an Association',
       summary: 'Deactivate Association',
-      operationId: 'patch_phonebook_associations_{association_id}_deactivate',
+      operationId:
+          'deactivate_association_phonebook_associations__association_id__deactivate_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11240,7 +11379,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return the list of MemberComplete of an Association.',
       summary: 'Get Association Members',
-      operationId: 'get_phonebook_associations_{association_id}_members_',
+      operationId:
+          'get_association_members_phonebook_associations__association_id__members__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11282,7 +11422,7 @@ This is the user making the request.''',
           'Return the list of MemberComplete of an Association with given mandate_year.',
       summary: 'Get Association Members By Mandate Year',
       operationId:
-          'get_phonebook_associations_{association_id}_members_{mandate_year}',
+          'get_association_members_by_mandate_year_phonebook_associations__association_id__members__mandate_year__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11313,7 +11453,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return MemberComplete for given user_id.',
       summary: 'Get Member Details',
-      operationId: 'get_phonebook_member_{user_id}',
+      operationId: 'get_member_details_phonebook_member__user_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11345,7 +11485,7 @@ This is the user making the request.''',
       description: '''Create a new Membership.
 \'role_tags\' are used to indicate if the members has a main role in the association (president, secretary ...) and \'role_name\' is the display name for this membership''',
       summary: 'Create Membership',
-      operationId: 'post_phonebook_associations_memberships',
+      operationId: 'create_membership_phonebook_associations_memberships_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11356,7 +11496,8 @@ This is the user making the request.''',
 
   ///Update Membership
   ///@param membership_id
-  Future<chopper.Response> phonebookAssociationsMembershipsMembershipIdPatch({
+  Future<chopper.Response<void>>
+  phonebookAssociationsMembershipsMembershipIdPatch({
     required String? membershipId,
     required MembershipEdit? body,
   }) {
@@ -11372,14 +11513,16 @@ This is the user making the request.''',
     path: '/phonebook/associations/memberships/{membership_id}',
     optionalBody: true,
   )
-  Future<chopper.Response> _phonebookAssociationsMembershipsMembershipIdPatch({
+  Future<chopper.Response<void>>
+  _phonebookAssociationsMembershipsMembershipIdPatch({
     @Path('membership_id') required String? membershipId,
     @Body() required MembershipEdit? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update a Membership.',
       summary: 'Update Membership',
-      operationId: 'patch_phonebook_associations_memberships_{membership_id}',
+      operationId:
+          'update_membership_phonebook_associations_memberships__membership_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11390,7 +11533,8 @@ This is the user making the request.''',
 
   ///Delete Membership
   ///@param membership_id
-  Future<chopper.Response> phonebookAssociationsMembershipsMembershipIdDelete({
+  Future<chopper.Response<void>>
+  phonebookAssociationsMembershipsMembershipIdDelete({
     required String? membershipId,
   }) {
     return _phonebookAssociationsMembershipsMembershipIdDelete(
@@ -11401,13 +11545,15 @@ This is the user making the request.''',
   ///Delete Membership
   ///@param membership_id
   @DELETE(path: '/phonebook/associations/memberships/{membership_id}')
-  Future<chopper.Response> _phonebookAssociationsMembershipsMembershipIdDelete({
+  Future<chopper.Response<void>>
+  _phonebookAssociationsMembershipsMembershipIdDelete({
     @Path('membership_id') required String? membershipId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete a membership.',
       summary: 'Delete Membership',
-      operationId: 'delete_phonebook_associations_memberships_{membership_id}',
+      operationId:
+          'delete_membership_phonebook_associations_memberships__membership_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11451,7 +11597,8 @@ This is the user making the request.''',
 
 **The user must be a member of the group phonebook_admin or the president of the association to use this endpoint**''',
       summary: 'Create Association Logo',
-      operationId: 'post_phonebook_associations_{association_id}_picture',
+      operationId:
+          'create_association_logo_phonebook_associations__association_id__picture_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11462,7 +11609,8 @@ This is the user making the request.''',
 
   ///Read Association Logo
   ///@param association_id
-  Future<chopper.Response> phonebookAssociationsAssociationIdPictureGet({
+  Future<chopper.Response<List<int>>>
+  phonebookAssociationsAssociationIdPictureGet({
     required String? associationId,
   }) {
     return _phonebookAssociationsAssociationIdPictureGet(
@@ -11473,13 +11621,15 @@ This is the user making the request.''',
   ///Read Association Logo
   ///@param association_id
   @GET(path: '/phonebook/associations/{association_id}/picture')
-  Future<chopper.Response> _phonebookAssociationsAssociationIdPictureGet({
+  Future<chopper.Response<List<int>>>
+  _phonebookAssociationsAssociationIdPictureGet({
     @Path('association_id') required String? associationId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get the logo of an Association.',
       summary: 'Read Association Logo',
-      operationId: 'get_phonebook_associations_{association_id}_picture',
+      operationId:
+          'read_association_logo_phonebook_associations__association_id__picture_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11510,7 +11660,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get a participant by id',
       summary: 'Get Participant By Id',
-      operationId: 'get_raid_participants_{participant_id}',
+      operationId:
+          'get_participant_by_id_raid_participants__participant_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11521,7 +11672,7 @@ This is the user making the request.''',
 
   ///Update Participant
   ///@param participant_id
-  Future<chopper.Response> raidParticipantsParticipantIdPatch({
+  Future<chopper.Response<void>> raidParticipantsParticipantIdPatch({
     required String? participantId,
     required RaidParticipantUpdate? body,
   }) {
@@ -11534,14 +11685,15 @@ This is the user making the request.''',
   ///Update Participant
   ///@param participant_id
   @PATCH(path: '/raid/participants/{participant_id}', optionalBody: true)
-  Future<chopper.Response> _raidParticipantsParticipantIdPatch({
+  Future<chopper.Response<void>> _raidParticipantsParticipantIdPatch({
     @Path('participant_id') required String? participantId,
     @Body() required RaidParticipantUpdate? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update a participant',
       summary: 'Update Participant',
-      operationId: 'patch_raid_participants_{participant_id}',
+      operationId:
+          'update_participant_raid_participants__participant_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11570,7 +11722,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a participant',
       summary: 'Create Participant',
-      operationId: 'post_raid_participants',
+      operationId: 'create_participant_raid_participants_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11596,7 +11748,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all teams',
       summary: 'Get All Teams',
-      operationId: 'get_raid_teams',
+      operationId: 'get_all_teams_raid_teams_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11622,7 +11774,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a team',
       summary: 'Create Team',
-      operationId: 'post_raid_teams',
+      operationId: 'create_team_raid_teams_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11632,18 +11784,18 @@ This is the user making the request.''',
   });
 
   ///Delete All Teams
-  Future<chopper.Response> raidTeamsDelete() {
+  Future<chopper.Response<void>> raidTeamsDelete() {
     return _raidTeamsDelete();
   }
 
   ///Delete All Teams
   @DELETE(path: '/raid/teams')
-  Future<chopper.Response> _raidTeamsDelete({
+  Future<chopper.Response<void>> _raidTeamsDelete({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete all teams',
       summary: 'Delete All Teams',
-      operationId: 'delete_raid_teams',
+      operationId: 'delete_all_teams_raid_teams_delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11671,7 +11823,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get a team by participant id',
       summary: 'Get Team By Participant Id',
-      operationId: 'get_raid_participants_{participant_id}_team',
+      operationId:
+          'get_team_by_participant_id_raid_participants__participant_id__team_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11699,7 +11852,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get a team by id',
       summary: 'Get Team By Id',
-      operationId: 'get_raid_teams_{team_id}',
+      operationId: 'get_team_by_id_raid_teams__team_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11710,7 +11863,7 @@ This is the user making the request.''',
 
   ///Update Team
   ///@param team_id
-  Future<chopper.Response> raidTeamsTeamIdPatch({
+  Future<chopper.Response<void>> raidTeamsTeamIdPatch({
     required String? teamId,
     required RaidTeamUpdate? body,
   }) {
@@ -11720,14 +11873,14 @@ This is the user making the request.''',
   ///Update Team
   ///@param team_id
   @PATCH(path: '/raid/teams/{team_id}', optionalBody: true)
-  Future<chopper.Response> _raidTeamsTeamIdPatch({
+  Future<chopper.Response<void>> _raidTeamsTeamIdPatch({
     @Path('team_id') required String? teamId,
     @Body() required RaidTeamUpdate? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update a team',
       summary: 'Update Team',
-      operationId: 'patch_raid_teams_{team_id}',
+      operationId: 'update_team_raid_teams__team_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11738,20 +11891,22 @@ This is the user making the request.''',
 
   ///Delete Team
   ///@param team_id
-  Future<chopper.Response> raidTeamsTeamIdDelete({required String? teamId}) {
+  Future<chopper.Response<void>> raidTeamsTeamIdDelete({
+    required String? teamId,
+  }) {
     return _raidTeamsTeamIdDelete(teamId: teamId);
   }
 
   ///Delete Team
   ///@param team_id
   @DELETE(path: '/raid/teams/{team_id}')
-  Future<chopper.Response> _raidTeamsTeamIdDelete({
+  Future<chopper.Response<void>> _raidTeamsTeamIdDelete({
     @Path('team_id') required String? teamId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete a team',
       summary: 'Delete Team',
-      operationId: 'delete_raid_teams_{team_id}',
+      operationId: 'delete_team_raid_teams__team_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11788,7 +11943,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Upload a document',
       summary: 'Upload Document',
-      operationId: 'post_raid_document_{document_type}',
+      operationId: 'upload_document_raid_document__document_type__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11799,7 +11954,7 @@ This is the user making the request.''',
 
   ///Read Document
   ///@param document_id
-  Future<chopper.Response> raidDocumentDocumentIdGet({
+  Future<chopper.Response<List<int>>> raidDocumentDocumentIdGet({
     required String? documentId,
   }) {
     return _raidDocumentDocumentIdGet(documentId: documentId);
@@ -11808,13 +11963,13 @@ This is the user making the request.''',
   ///Read Document
   ///@param document_id
   @GET(path: '/raid/document/{document_id}')
-  Future<chopper.Response> _raidDocumentDocumentIdGet({
+  Future<chopper.Response<List<int>>> _raidDocumentDocumentIdGet({
     @Path('document_id') required String? documentId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Read a document',
       summary: 'Read Document',
-      operationId: 'get_raid_document_{document_id}',
+      operationId: 'read_document_raid_document__document_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11826,7 +11981,7 @@ This is the user making the request.''',
   ///Validate Document
   ///@param document_id
   ///@param validation
-  Future<chopper.Response> raidDocumentDocumentIdValidatePost({
+  Future<chopper.Response<void>> raidDocumentDocumentIdValidatePost({
     required String? documentId,
     required enums.DocumentValidation? validation,
   }) {
@@ -11840,14 +11995,15 @@ This is the user making the request.''',
   ///@param document_id
   ///@param validation
   @POST(path: '/raid/document/{document_id}/validate', optionalBody: true)
-  Future<chopper.Response> _raidDocumentDocumentIdValidatePost({
+  Future<chopper.Response<void>> _raidDocumentDocumentIdValidatePost({
     @Path('document_id') required String? documentId,
     @Query('validation') required String? validation,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Validate a document',
       summary: 'Validate Document',
-      operationId: 'post_raid_document_{document_id}_validate',
+      operationId:
+          'validate_document_raid_document__document_id__validate_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11880,7 +12036,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Confirm security file',
       summary: 'Set Security File',
-      operationId: 'post_raid_security_file_',
+      operationId: 'set_security_file_raid_security_file__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11891,7 +12047,7 @@ This is the user making the request.''',
 
   ///Confirm Payment
   ///@param participant_id
-  Future<chopper.Response> raidParticipantParticipantIdPaymentPost({
+  Future<chopper.Response<void>> raidParticipantParticipantIdPaymentPost({
     required String? participantId,
   }) {
     return _raidParticipantParticipantIdPaymentPost(
@@ -11902,13 +12058,14 @@ This is the user making the request.''',
   ///Confirm Payment
   ///@param participant_id
   @POST(path: '/raid/participant/{participant_id}/payment', optionalBody: true)
-  Future<chopper.Response> _raidParticipantParticipantIdPaymentPost({
+  Future<chopper.Response<void>> _raidParticipantParticipantIdPaymentPost({
     @Path('participant_id') required String? participantId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Confirm payment manually',
       summary: 'Confirm Payment',
-      operationId: 'post_raid_participant_{participant_id}_payment',
+      operationId:
+          'confirm_payment_raid_participant__participant_id__payment_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11919,7 +12076,7 @@ This is the user making the request.''',
 
   ///Confirm T Shirt Payment
   ///@param participant_id
-  Future<chopper.Response> raidParticipantParticipantIdTShirtPaymentPost({
+  Future<chopper.Response<void>> raidParticipantParticipantIdTShirtPaymentPost({
     required String? participantId,
   }) {
     return _raidParticipantParticipantIdTShirtPaymentPost(
@@ -11933,13 +12090,15 @@ This is the user making the request.''',
     path: '/raid/participant/{participant_id}/t_shirt_payment',
     optionalBody: true,
   )
-  Future<chopper.Response> _raidParticipantParticipantIdTShirtPaymentPost({
+  Future<chopper.Response<void>>
+  _raidParticipantParticipantIdTShirtPaymentPost({
     @Path('participant_id') required String? participantId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Confirm T shirt payment',
       summary: 'Confirm T Shirt Payment',
-      operationId: 'post_raid_participant_{participant_id}_t_shirt_payment',
+      operationId:
+          'confirm_t_shirt_payment_raid_participant__participant_id__t_shirt_payment_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11950,7 +12109,7 @@ This is the user making the request.''',
 
   ///Validate Attestation On Honour
   ///@param participant_id
-  Future<chopper.Response> raidParticipantParticipantIdHonourPost({
+  Future<chopper.Response<void>> raidParticipantParticipantIdHonourPost({
     required String? participantId,
   }) {
     return _raidParticipantParticipantIdHonourPost(
@@ -11961,13 +12120,14 @@ This is the user making the request.''',
   ///Validate Attestation On Honour
   ///@param participant_id
   @POST(path: '/raid/participant/{participant_id}/honour', optionalBody: true)
-  Future<chopper.Response> _raidParticipantParticipantIdHonourPost({
+  Future<chopper.Response<void>> _raidParticipantParticipantIdHonourPost({
     @Path('participant_id') required String? participantId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Validate attestation on honour',
       summary: 'Validate Attestation On Honour',
-      operationId: 'post_raid_participant_{participant_id}_honour',
+      operationId:
+          'validate_attestation_on_honour_raid_participant__participant_id__honour_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11998,7 +12158,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create an invite token',
       summary: 'Create Invite Token',
-      operationId: 'post_raid_teams_{team_id}_invite',
+      operationId: 'create_invite_token_raid_teams__team_id__invite_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12009,20 +12169,22 @@ This is the user making the request.''',
 
   ///Join Team
   ///@param token
-  Future<chopper.Response> raidTeamsJoinTokenPost({required String? token}) {
+  Future<chopper.Response<void>> raidTeamsJoinTokenPost({
+    required String? token,
+  }) {
     return _raidTeamsJoinTokenPost(token: token);
   }
 
   ///Join Team
   ///@param token
   @POST(path: '/raid/teams/join/{token}', optionalBody: true)
-  Future<chopper.Response> _raidTeamsJoinTokenPost({
+  Future<chopper.Response<void>> _raidTeamsJoinTokenPost({
     @Path('token') required String? token,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Join a team',
       summary: 'Join Team',
-      operationId: 'post_raid_teams_join_{token}',
+      operationId: 'join_team_raid_teams_join__token__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12057,7 +12219,8 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Leave a team',
       summary: 'Kick Team Member',
-      operationId: 'post_raid_teams_{team_id}_kick_{participant_id}',
+      operationId:
+          'kick_team_member_raid_teams__team_id__kick__participant_id__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12089,7 +12252,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Merge two teams',
       summary: 'Merge Teams',
-      operationId: 'post_raid_teams_merge',
+      operationId: 'merge_teams_raid_teams_merge_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12115,7 +12278,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get raid information',
       summary: 'Get Raid Information',
-      operationId: 'get_raid_information',
+      operationId: 'get_raid_information_raid_information_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12125,7 +12288,7 @@ This is the user making the request.''',
   });
 
   ///Update Raid Information
-  Future<chopper.Response> raidInformationPatch({
+  Future<chopper.Response<void>> raidInformationPatch({
     required RaidInformation? body,
   }) {
     return _raidInformationPatch(body: body);
@@ -12133,13 +12296,13 @@ This is the user making the request.''',
 
   ///Update Raid Information
   @PATCH(path: '/raid/information', optionalBody: true)
-  Future<chopper.Response> _raidInformationPatch({
+  Future<chopper.Response<void>> _raidInformationPatch({
     @Body() required RaidInformation? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update raid information',
       summary: 'Update Raid Information',
-      operationId: 'patch_raid_information',
+      operationId: 'update_raid_information_raid_information_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12165,7 +12328,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get drive folders',
       summary: 'Get Drive Folders',
-      operationId: 'get_raid_drive',
+      operationId: 'get_drive_folders_raid_drive_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12175,7 +12338,7 @@ This is the user making the request.''',
   });
 
   ///Update Drive Folders
-  Future<chopper.Response> raidDrivePatch({
+  Future<chopper.Response<void>> raidDrivePatch({
     required RaidDriveFoldersCreation? body,
   }) {
     return _raidDrivePatch(body: body);
@@ -12183,13 +12346,13 @@ This is the user making the request.''',
 
   ///Update Drive Folders
   @PATCH(path: '/raid/drive', optionalBody: true)
-  Future<chopper.Response> _raidDrivePatch({
+  Future<chopper.Response<void>> _raidDrivePatch({
     @Body() required RaidDriveFoldersCreation? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update drive folders',
       summary: 'Update Drive Folders',
-      operationId: 'patch_raid_drive',
+      operationId: 'update_drive_folders_raid_drive_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12212,7 +12375,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get raid price',
       summary: 'Get Raid Price',
-      operationId: 'get_raid_price',
+      operationId: 'get_raid_price_raid_price_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12222,19 +12385,19 @@ This is the user making the request.''',
   });
 
   ///Update Raid Price
-  Future<chopper.Response> raidPricePatch({required RaidPrice? body}) {
+  Future<chopper.Response<void>> raidPricePatch({required RaidPrice? body}) {
     return _raidPricePatch(body: body);
   }
 
   ///Update Raid Price
   @PATCH(path: '/raid/price', optionalBody: true)
-  Future<chopper.Response> _raidPricePatch({
+  Future<chopper.Response<void>> _raidPricePatch({
     @Body() required RaidPrice? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update raid price',
       summary: 'Update Raid Price',
-      operationId: 'patch_raid_price',
+      operationId: 'update_raid_price_raid_price_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12257,7 +12420,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get payment url',
       summary: 'Get Payment Url',
-      operationId: 'get_raid_pay',
+      operationId: 'get_payment_url_raid_pay_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12267,20 +12430,20 @@ This is the user making the request.''',
   });
 
   ///Download Security Files Zip
-  Future<chopper.Response> raidSecurityFilesZipGet() {
+  Future<chopper.Response<List<int>>> raidSecurityFilesZipGet() {
     return _raidSecurityFilesZipGet();
   }
 
   ///Download Security Files Zip
   @GET(path: '/raid/security_files_zip')
-  Future<chopper.Response> _raidSecurityFilesZipGet({
+  Future<chopper.Response<List<int>>> _raidSecurityFilesZipGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           '''Generate and serve a ZIP file containing all security files.
 Only accessible to raid admins.''',
       summary: 'Download Security Files Zip',
-      operationId: 'get_raid_security_files_zip',
+      operationId: 'download_security_files_zip_raid_security_files_zip_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12290,19 +12453,19 @@ Only accessible to raid admins.''',
   });
 
   ///Download Team Files Zip
-  Future<chopper.Response> raidTeamFilesZipGet() {
+  Future<chopper.Response<List<int>>> raidTeamFilesZipGet() {
     return _raidTeamFilesZipGet();
   }
 
   ///Download Team Files Zip
   @GET(path: '/raid/team_files_zip')
-  Future<chopper.Response> _raidTeamFilesZipGet({
+  Future<chopper.Response<List<int>>> _raidTeamFilesZipGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Generate and serve a ZIP file containing all team files.
 Only accessible to raid admins.''',
       summary: 'Download Team Files Zip',
-      operationId: 'get_raid_team_files_zip',
+      operationId: 'download_team_files_zip_raid_team_files_zip_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12328,7 +12491,7 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all events from the database.',
       summary: 'Get Events',
-      operationId: 'get_calendar_events_',
+      operationId: 'get_events_calendar_events__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12357,7 +12520,7 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Add an event to the calendar.',
       summary: 'Add Event',
-      operationId: 'post_calendar_events_',
+      operationId: 'add_event_calendar_events__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12387,7 +12550,7 @@ Only accessible to raid admins.''',
 
 **Usable by every member**''',
       summary: 'Get Confirmed Events',
-      operationId: 'get_calendar_events_confirmed',
+      operationId: 'get_confirmed_events_calendar_events_confirmed_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12422,7 +12585,8 @@ Only accessible to raid admins.''',
 
 **Usable by members of the association**''',
       summary: 'Get Association Events',
-      operationId: 'get_calendar_events_associations_{association_id}',
+      operationId:
+          'get_association_events_calendar_events_associations__association_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12455,7 +12619,7 @@ Only accessible to raid admins.''',
 
 **Non approved events are only accessible for BDE or the event\'s association members**''',
       summary: 'Get Event By Id',
-      operationId: 'get_calendar_events_{event_id}',
+      operationId: 'get_event_by_id_calendar_events__event_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12466,7 +12630,7 @@ Only accessible to raid admins.''',
 
   ///Edit Event
   ///@param event_id
-  Future<chopper.Response> calendarEventsEventIdPatch({
+  Future<chopper.Response<void>> calendarEventsEventIdPatch({
     required String? eventId,
     required EventEdit? body,
   }) {
@@ -12476,7 +12640,7 @@ Only accessible to raid admins.''',
   ///Edit Event
   ///@param event_id
   @PATCH(path: '/calendar/events/{event_id}', optionalBody: true)
-  Future<chopper.Response> _calendarEventsEventIdPatch({
+  Future<chopper.Response<void>> _calendarEventsEventIdPatch({
     @Path('event_id') required String? eventId,
     @Body() required EventEdit? body,
     @chopper.Tag()
@@ -12485,7 +12649,7 @@ Only accessible to raid admins.''',
 
 **Only usable by admins or members of the event\'s association**''',
       summary: 'Edit Event',
-      operationId: 'patch_calendar_events_{event_id}',
+      operationId: 'edit_event_calendar_events__event_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12496,7 +12660,7 @@ Only accessible to raid admins.''',
 
   ///Delete Event
   ///@param event_id
-  Future<chopper.Response> calendarEventsEventIdDelete({
+  Future<chopper.Response<void>> calendarEventsEventIdDelete({
     required Object? eventId,
   }) {
     return _calendarEventsEventIdDelete(eventId: eventId);
@@ -12505,7 +12669,7 @@ Only accessible to raid admins.''',
   ///Delete Event
   ///@param event_id
   @DELETE(path: '/calendar/events/{event_id}')
-  Future<chopper.Response> _calendarEventsEventIdDelete({
+  Future<chopper.Response<void>> _calendarEventsEventIdDelete({
     @Path('event_id') required Object? eventId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -12513,7 +12677,7 @@ Only accessible to raid admins.''',
 
 **Only usable by admins or, if the event is pending, members of the event\'s association**''',
       summary: 'Delete Event',
-      operationId: 'delete_calendar_events_{event_id}',
+      operationId: 'delete_event_calendar_events__event_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12544,7 +12708,8 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Event Ticket Url',
-      operationId: 'get_calendar_events_{event_id}_ticket-url',
+      operationId:
+          'get_event_ticket_url_calendar_events__event_id__ticket_url_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12555,7 +12720,7 @@ Only accessible to raid admins.''',
 
   ///Get Event Image
   ///@param event_id
-  Future<chopper.Response> calendarEventsEventIdImageGet({
+  Future<chopper.Response<List<int>>> calendarEventsEventIdImageGet({
     required String? eventId,
   }) {
     return _calendarEventsEventIdImageGet(eventId: eventId);
@@ -12564,7 +12729,7 @@ Only accessible to raid admins.''',
   ///Get Event Image
   ///@param event_id
   @GET(path: '/calendar/events/{event_id}/image')
-  Future<chopper.Response> _calendarEventsEventIdImageGet({
+  Future<chopper.Response<List<int>>> _calendarEventsEventIdImageGet({
     @Path('event_id') required String? eventId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -12572,7 +12737,7 @@ Only accessible to raid admins.''',
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Event Image',
-      operationId: 'get_calendar_events_{event_id}_image',
+      operationId: 'get_event_image_calendar_events__event_id__image_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12583,7 +12748,7 @@ Only accessible to raid admins.''',
 
   ///Create Event Image
   ///@param event_id
-  Future<chopper.Response> calendarEventsEventIdImagePost({
+  Future<chopper.Response<void>> calendarEventsEventIdImagePost({
     required String? eventId,
     required List<int> image,
   }) {
@@ -12594,7 +12759,7 @@ Only accessible to raid admins.''',
   ///@param event_id
   @POST(path: '/calendar/events/{event_id}/image', optionalBody: true)
   @Multipart()
-  Future<chopper.Response> _calendarEventsEventIdImagePost({
+  Future<chopper.Response<void>> _calendarEventsEventIdImagePost({
     @Path('event_id') required String? eventId,
     @PartFile('image') required List<int> image,
     @chopper.Tag()
@@ -12603,7 +12768,7 @@ Only accessible to raid admins.''',
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Create Event Image',
-      operationId: 'post_calendar_events_{event_id}_image',
+      operationId: 'create_event_image_calendar_events__event_id__image_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12615,7 +12780,7 @@ Only accessible to raid admins.''',
   ///Confirm Event
   ///@param event_id
   ///@param decision
-  Future<chopper.Response> calendarEventsEventIdReplyDecisionPatch({
+  Future<chopper.Response<void>> calendarEventsEventIdReplyDecisionPatch({
     required String? eventId,
     required enums.Decision? decision,
   }) {
@@ -12632,7 +12797,7 @@ Only accessible to raid admins.''',
     path: '/calendar/events/{event_id}/reply/{decision}',
     optionalBody: true,
   )
-  Future<chopper.Response> _calendarEventsEventIdReplyDecisionPatch({
+  Future<chopper.Response<void>> _calendarEventsEventIdReplyDecisionPatch({
     @Path('event_id') required String? eventId,
     @Path('decision') required String? decision,
     @chopper.Tag()
@@ -12641,7 +12806,8 @@ Only accessible to raid admins.''',
 
 **Only usable by admins**''',
       summary: 'Confirm Event',
-      operationId: 'patch_calendar_events_{event_id}_reply_{decision}',
+      operationId:
+          'confirm_event_calendar_events__event_id__reply__decision__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12664,7 +12830,7 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Generate a unique ical url for the user',
       summary: 'Get Ical Url',
-      operationId: 'get_calendar_ical-url',
+      operationId: 'get_ical_url_calendar_ical_url_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12674,20 +12840,20 @@ Only accessible to raid admins.''',
   });
 
   ///Recreate Ical File
-  Future<chopper.Response> calendarIcalCreatePost() {
+  Future<chopper.Response<void>> calendarIcalCreatePost() {
     return _calendarIcalCreatePost();
   }
 
   ///Recreate Ical File
   @POST(path: '/calendar/ical/create', optionalBody: true)
-  Future<chopper.Response> _calendarIcalCreatePost({
+  Future<chopper.Response<void>> _calendarIcalCreatePost({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Create manually the icalendar file
 
 **Only usable by global admins**''',
       summary: 'Recreate Ical File',
-      operationId: 'post_calendar_ical_create',
+      operationId: 'recreate_ical_file_calendar_ical_create_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12698,21 +12864,23 @@ Only accessible to raid admins.''',
 
   ///Get Icalendar File
   ///@param secret
-  Future<chopper.Response> calendarIcalGet({required String? secret}) {
+  Future<chopper.Response<List<int>>> calendarIcalGet({
+    required String? secret,
+  }) {
     return _calendarIcalGet(secret: secret);
   }
 
   ///Get Icalendar File
   ///@param secret
   @GET(path: '/calendar/ical')
-  Future<chopper.Response> _calendarIcalGet({
+  Future<chopper.Response<List<int>>> _calendarIcalGet({
     @Query('secret') required String? secret,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           'Get the icalendar file corresponding to the event in the database.',
       summary: 'Get Icalendar File',
-      operationId: 'get_calendar_ical',
+      operationId: 'get_icalendar_file_calendar_ical_get',
       consumes: [],
       produces: [],
       security: [],
@@ -12735,7 +12903,7 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return published news from the feed',
       summary: 'Get Published News',
-      operationId: 'get_feed_news',
+      operationId: 'get_published_news_feed_news_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12746,20 +12914,22 @@ Only accessible to raid admins.''',
 
   ///Get News Image
   ///@param news_id
-  Future<chopper.Response> feedNewsNewsIdImageGet({required String? newsId}) {
+  Future<chopper.Response<List<int>>> feedNewsNewsIdImageGet({
+    required String? newsId,
+  }) {
     return _feedNewsNewsIdImageGet(newsId: newsId);
   }
 
   ///Get News Image
   ///@param news_id
   @GET(path: '/feed/news/{news_id}/image')
-  Future<chopper.Response> _feedNewsNewsIdImageGet({
+  Future<chopper.Response<List<int>>> _feedNewsNewsIdImageGet({
     @Path('news_id') required String? newsId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return the image of a news',
       summary: 'Get News Image',
-      operationId: 'get_feed_news_{news_id}_image',
+      operationId: 'get_news_image_feed_news__news_id__image_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12784,7 +12954,7 @@ Only accessible to raid admins.''',
 
 **This endpoint is only usable by feed administrators**''',
       summary: 'Get Admin News',
-      operationId: 'get_feed_admin_news',
+      operationId: 'get_admin_news_feed_admin_news_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12795,7 +12965,7 @@ Only accessible to raid admins.''',
 
   ///Approve News
   ///@param news_id
-  Future<chopper.Response> feedAdminNewsNewsIdApprovePost({
+  Future<chopper.Response<void>> feedAdminNewsNewsIdApprovePost({
     required String? newsId,
   }) {
     return _feedAdminNewsNewsIdApprovePost(newsId: newsId);
@@ -12804,7 +12974,7 @@ Only accessible to raid admins.''',
   ///Approve News
   ///@param news_id
   @POST(path: '/feed/admin/news/{news_id}/approve', optionalBody: true)
-  Future<chopper.Response> _feedAdminNewsNewsIdApprovePost({
+  Future<chopper.Response<void>> _feedAdminNewsNewsIdApprovePost({
     @Path('news_id') required String? newsId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -12812,7 +12982,7 @@ Only accessible to raid admins.''',
 
 **This endpoint is only usable by feed administrators**''',
       summary: 'Approve News',
-      operationId: 'post_feed_admin_news_{news_id}_approve',
+      operationId: 'approve_news_feed_admin_news__news_id__approve_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12823,7 +12993,7 @@ Only accessible to raid admins.''',
 
   ///Reject News
   ///@param news_id
-  Future<chopper.Response> feedAdminNewsNewsIdRejectPost({
+  Future<chopper.Response<void>> feedAdminNewsNewsIdRejectPost({
     required String? newsId,
   }) {
     return _feedAdminNewsNewsIdRejectPost(newsId: newsId);
@@ -12832,7 +13002,7 @@ Only accessible to raid admins.''',
   ///Reject News
   ///@param news_id
   @POST(path: '/feed/admin/news/{news_id}/reject', optionalBody: true)
-  Future<chopper.Response> _feedAdminNewsNewsIdRejectPost({
+  Future<chopper.Response<void>> _feedAdminNewsNewsIdRejectPost({
     @Path('news_id') required String? newsId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -12840,7 +13010,7 @@ Only accessible to raid admins.''',
 
 **This endpoint is only usable by feed administrators**''',
       summary: 'Reject News',
-      operationId: 'post_feed_admin_news_{news_id}_reject',
+      operationId: 'reject_news_feed_admin_news__news_id__reject_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12863,7 +13033,7 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all schools from database as a list of dictionaries',
       summary: 'Read Schools',
-      operationId: 'get_schools_',
+      operationId: 'read_schools_schools__get',
       consumes: [],
       produces: [],
       security: [],
@@ -12892,7 +13062,7 @@ Only accessible to raid admins.''',
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create School',
-      operationId: 'post_schools_',
+      operationId: 'create_school_schools__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12922,7 +13092,7 @@ Only accessible to raid admins.''',
 
 **This endpoint is only usable by administrators**''',
       summary: 'Read School',
-      operationId: 'get_schools_{school_id}',
+      operationId: 'read_school_schools__school_id__get',
       consumes: [],
       produces: [],
       security: [],
@@ -12933,7 +13103,7 @@ Only accessible to raid admins.''',
 
   ///Update School
   ///@param school_id
-  Future<chopper.Response> schoolsSchoolIdPatch({
+  Future<chopper.Response<void>> schoolsSchoolIdPatch({
     required String? schoolId,
     required CoreSchoolUpdate? body,
   }) {
@@ -12943,7 +13113,7 @@ Only accessible to raid admins.''',
   ///Update School
   ///@param school_id
   @PATCH(path: '/schools/{school_id}', optionalBody: true)
-  Future<chopper.Response> _schoolsSchoolIdPatch({
+  Future<chopper.Response<void>> _schoolsSchoolIdPatch({
     @Path('school_id') required String? schoolId,
     @Body() required CoreSchoolUpdate? body,
     @chopper.Tag()
@@ -12952,7 +13122,7 @@ Only accessible to raid admins.''',
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update School',
-      operationId: 'patch_schools_{school_id}',
+      operationId: 'update_school_schools__school_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12963,14 +13133,16 @@ Only accessible to raid admins.''',
 
   ///Delete School
   ///@param school_id
-  Future<chopper.Response> schoolsSchoolIdDelete({required String? schoolId}) {
+  Future<chopper.Response<void>> schoolsSchoolIdDelete({
+    required String? schoolId,
+  }) {
     return _schoolsSchoolIdDelete(schoolId: schoolId);
   }
 
   ///Delete School
   ///@param school_id
   @DELETE(path: '/schools/{school_id}')
-  Future<chopper.Response> _schoolsSchoolIdDelete({
+  Future<chopper.Response<void>> _schoolsSchoolIdDelete({
     @Path('school_id') required String? schoolId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -12981,7 +13153,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Delete School',
-      operationId: 'delete_schools_{school_id}',
+      operationId: 'delete_school_schools__school_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13009,7 +13181,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **User must be authenticated**''',
       summary: 'Read Associations',
-      operationId: 'get_associations_',
+      operationId: 'read_associations_associations__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13041,7 +13213,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Association',
-      operationId: 'post_associations_',
+      operationId: 'create_association_associations__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13070,7 +13242,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **User must be authenticated**''',
       summary: 'Read Associations Me',
-      operationId: 'get_associations_me',
+      operationId: 'read_associations_me_associations_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13081,7 +13253,7 @@ This will remove the school from all users but won\'t delete any user.
 
   ///Update Association
   ///@param association_id
-  Future<chopper.Response> associationsAssociationIdPatch({
+  Future<chopper.Response<void>> associationsAssociationIdPatch({
     required String? associationId,
     required AssociationUpdate? body,
   }) {
@@ -13094,7 +13266,7 @@ This will remove the school from all users but won\'t delete any user.
   ///Update Association
   ///@param association_id
   @PATCH(path: '/associations/{association_id}', optionalBody: true)
-  Future<chopper.Response> _associationsAssociationIdPatch({
+  Future<chopper.Response<void>> _associationsAssociationIdPatch({
     @Path('association_id') required String? associationId,
     @Body() required AssociationUpdate? body,
     @chopper.Tag()
@@ -13103,7 +13275,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update Association',
-      operationId: 'patch_associations_{association_id}',
+      operationId: 'update_association_associations__association_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13114,7 +13286,7 @@ This will remove the school from all users but won\'t delete any user.
 
   ///Create Association Logo
   ///@param association_id
-  Future<chopper.Response> associationsAssociationIdLogoPost({
+  Future<chopper.Response<void>> associationsAssociationIdLogoPost({
     required String? associationId,
     required List<int> image,
   }) {
@@ -13128,7 +13300,7 @@ This will remove the school from all users but won\'t delete any user.
   ///@param association_id
   @POST(path: '/associations/{association_id}/logo', optionalBody: true)
   @Multipart()
-  Future<chopper.Response> _associationsAssociationIdLogoPost({
+  Future<chopper.Response<void>> _associationsAssociationIdLogoPost({
     @Path('association_id') required String? associationId,
     @PartFile('image') required List<int> image,
     @chopper.Tag()
@@ -13137,7 +13309,8 @@ This will remove the school from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Association Logo',
-      operationId: 'post_associations_{association_id}_logo',
+      operationId:
+          'create_association_logo_associations__association_id__logo_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13148,7 +13321,7 @@ This will remove the school from all users but won\'t delete any user.
 
   ///Read Association Logo
   ///@param association_id
-  Future<chopper.Response> associationsAssociationIdLogoGet({
+  Future<chopper.Response<List<int>>> associationsAssociationIdLogoGet({
     required String? associationId,
   }) {
     return _associationsAssociationIdLogoGet(associationId: associationId);
@@ -13157,7 +13330,7 @@ This will remove the school from all users but won\'t delete any user.
   ///Read Association Logo
   ///@param association_id
   @GET(path: '/associations/{association_id}/logo')
-  Future<chopper.Response> _associationsAssociationIdLogoGet({
+  Future<chopper.Response<List<int>>> _associationsAssociationIdLogoGet({
     @Path('association_id') required String? associationId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -13165,7 +13338,8 @@ This will remove the school from all users but won\'t delete any user.
 
 **User must be authenticated**''',
       summary: 'Read Association Logo',
-      operationId: 'get_associations_{association_id}_logo',
+      operationId:
+          'read_association_logo_associations__association_id__logo_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13199,7 +13373,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Read Users',
-      operationId: 'get_users',
+      operationId: 'read_users_users_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13222,7 +13396,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Count Users',
-      operationId: 'get_users_count',
+      operationId: 'count_users_users_count_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13279,7 +13453,7 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Search Users',
-      operationId: 'get_users_search',
+      operationId: 'search_users_users_search_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13300,7 +13474,7 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all account types hardcoded in the system',
       summary: 'Get Account Types',
-      operationId: 'get_users_account-types_',
+      operationId: 'get_account_types_users_account_types__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13325,7 +13499,7 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Read Current User',
-      operationId: 'get_users_me',
+      operationId: 'read_current_user_users_me_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13335,13 +13509,13 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
   });
 
   ///Update Current User
-  Future<chopper.Response> usersMePatch({required CoreUserUpdate? body}) {
+  Future<chopper.Response<void>> usersMePatch({required CoreUserUpdate? body}) {
     return _usersMePatch(body: body);
   }
 
   ///Update Current User
   @PATCH(path: '/users/me', optionalBody: true)
-  Future<chopper.Response> _usersMePatch({
+  Future<chopper.Response<void>> _usersMePatch({
     @Body() required CoreUserUpdate? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -13350,7 +13524,7 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Update Current User',
-      operationId: 'patch_users_me',
+      operationId: 'update_current_user_users_me_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13386,7 +13560,7 @@ If the **password** is not provided, it will be required during the activation p
 When creating **student** or **staff** account a valid ECL email is required.
 Only admin users can create other **account types**, contact ÉCLAIR for more information.''',
       summary: 'Create User By User',
-      operationId: 'post_users_create',
+      operationId: 'create_user_by_user_users_create_post',
       consumes: [],
       produces: [],
       security: [],
@@ -13425,7 +13599,7 @@ NOTE: the activation link will only be valid for a limited time. You should prob
 
 **This endpoint is only usable by administrators**''',
       summary: 'Batch Create Users',
-      operationId: 'post_users_batch-creation',
+      operationId: 'batch_create_users_users_batch_creation_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13460,7 +13634,7 @@ The endpoint return a dictionary of unsuccessful user creation: `{email: error m
 
 **This endpoint is only usable by administrators**''',
       summary: 'Batch Invite Users',
-      operationId: 'post_users_batch-invitation',
+      operationId: 'batch_invite_users_users_batch_invitation_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13493,7 +13667,7 @@ The endpoint return a dictionary of unsuccessful user creation: `{email: error m
 
 **password**: user password, required if it was not provided previously''',
       summary: 'Activate User',
-      operationId: 'post_users_activate',
+      operationId: 'activate_user_users_activate_post',
       consumes: [],
       produces: [],
       security: [],
@@ -13503,13 +13677,13 @@ The endpoint return a dictionary of unsuccessful user creation: `{email: error m
   });
 
   ///Init S3 For Users
-  Future<chopper.Response> usersS3InitPost() {
+  Future<chopper.Response<void>> usersS3InitPost() {
     return _usersS3InitPost();
   }
 
   ///Init S3 For Users
   @POST(path: '/users/s3-init', optionalBody: true)
-  Future<chopper.Response> _usersS3InitPost({
+  Future<chopper.Response<void>> _usersS3InitPost({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
@@ -13517,7 +13691,7 @@ The endpoint return a dictionary of unsuccessful user creation: `{email: error m
 It will create a file for each existing user in the S3 bucket.
 It should be used only once, when the S3 bucket is created.''',
       summary: 'Init S3 For Users',
-      operationId: 'post_users_s3-init',
+      operationId: 'init_s3_for_users_users_s3_init_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13549,7 +13723,7 @@ It should be used only once, when the S3 bucket is created.''',
 If the provided **email** corresponds to an existing account, a password reset token will be sent.
 Using this token, the password can be changed with `/users/reset-password` endpoint''',
       summary: 'Recover User',
-      operationId: 'post_users_recover',
+      operationId: 'recover_user_users_recover_post',
       consumes: [],
       produces: [],
       security: [],
@@ -13579,7 +13753,7 @@ Using this token, the password can be changed with `/users/reset-password` endpo
       description:
           'Reset the user password, using a **reset_token** provided by `/users/recover` endpoint.',
       summary: 'Reset Password',
-      operationId: 'post_users_reset-password',
+      operationId: 'reset_password_users_reset_password_post',
       consumes: [],
       produces: [],
       security: [],
@@ -13589,7 +13763,7 @@ Using this token, the password can be changed with `/users/reset-password` endpo
   });
 
   ///Migrate Mail
-  Future<chopper.Response> usersMigrateMailPost({
+  Future<chopper.Response<void>> usersMigrateMailPost({
     required MailMigrationRequest? body,
   }) {
     return _usersMigrateMailPost(body: body);
@@ -13597,14 +13771,14 @@ Using this token, the password can be changed with `/users/reset-password` endpo
 
   ///Migrate Mail
   @POST(path: '/users/migrate-mail', optionalBody: true)
-  Future<chopper.Response> _usersMigrateMailPost({
+  Future<chopper.Response<void>> _usersMigrateMailPost({
     @Body() required MailMigrationRequest? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           'This endpoint will send a confirmation code to the user\'s new email address. He will need to use this code to confirm the change with `/users/confirm-mail-migration` endpoint.',
       summary: 'Migrate Mail',
-      operationId: 'post_users_migrate-mail',
+      operationId: 'migrate_mail_users_migrate_mail_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13631,7 +13805,7 @@ Using this token, the password can be changed with `/users/reset-password` endpo
       description: '''This endpoint will updates the user new email address.
 The user will need to use the confirmation code sent by the `/users/migrate-mail` endpoint.''',
       summary: 'Migrate Mail Confirm',
-      operationId: 'get_users_migrate-mail-confirm',
+      operationId: 'migrate_mail_confirm_users_migrate_mail_confirm_get',
       consumes: [],
       produces: [],
       security: [],
@@ -13662,7 +13836,7 @@ The user will need to use the confirmation code sent by the `/users/migrate-mail
 
 This endpoint will check the **old_password**, see also the `/users/reset-password` endpoint if the user forgot their password.''',
       summary: 'Change Password',
-      operationId: 'post_users_change-password',
+      operationId: 'change_password_users_change_password_post',
       consumes: [],
       produces: [],
       security: [],
@@ -13690,7 +13864,7 @@ This endpoint will check the **old_password**, see also the `/users/reset-passwo
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Read User',
-      operationId: 'get_users_{user_id}',
+      operationId: 'read_user_users__user_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13701,7 +13875,7 @@ This endpoint will check the **old_password**, see also the `/users/reset-passwo
 
   ///Update User
   ///@param user_id
-  Future<chopper.Response> usersUserIdPatch({
+  Future<chopper.Response<void>> usersUserIdPatch({
     required String? userId,
     required CoreUserUpdateAdmin? body,
   }) {
@@ -13711,7 +13885,7 @@ This endpoint will check the **old_password**, see also the `/users/reset-passwo
   ///Update User
   ///@param user_id
   @PATCH(path: '/users/{user_id}', optionalBody: true)
-  Future<chopper.Response> _usersUserIdPatch({
+  Future<chopper.Response<void>> _usersUserIdPatch({
     @Path('user_id') required String? userId,
     @Body() required CoreUserUpdateAdmin? body,
     @chopper.Tag()
@@ -13721,7 +13895,7 @@ This endpoint will check the **old_password**, see also the `/users/reset-passwo
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update User',
-      operationId: 'patch_users_{user_id}',
+      operationId: 'update_user_users__user_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13731,20 +13905,20 @@ This endpoint will check the **old_password**, see also the `/users/reset-passwo
   });
 
   ///Delete User
-  Future<chopper.Response> usersMeAskDeletionPost() {
+  Future<chopper.Response<void>> usersMeAskDeletionPost() {
     return _usersMeAskDeletionPost();
   }
 
   ///Delete User
   @POST(path: '/users/me/ask-deletion', optionalBody: true)
-  Future<chopper.Response> _usersMeAskDeletionPost({
+  Future<chopper.Response<void>> _usersMeAskDeletionPost({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           '''This endpoint will ask administrators to process to the user deletion.
 This manual verification is needed to prevent data from being deleting for other users''',
       summary: 'Delete User',
-      operationId: 'post_users_me_ask-deletion',
+      operationId: 'delete_user_users_me_ask_deletion_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13754,7 +13928,7 @@ This manual verification is needed to prevent data from being deleting for other
   });
 
   ///Merge Users
-  Future<chopper.Response> usersMergePost({
+  Future<chopper.Response<void>> usersMergePost({
     required CoreUserFusionRequest? body,
   }) {
     return _usersMergePost(body: body);
@@ -13762,14 +13936,14 @@ This manual verification is needed to prevent data from being deleting for other
 
   ///Merge Users
   @POST(path: '/users/merge', optionalBody: true)
-  Future<chopper.Response> _usersMergePost({
+  Future<chopper.Response<void>> _usersMergePost({
     @Body() required CoreUserFusionRequest? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           'Fusion two users into one. The first user will be deleted and its data will be transferred to the second user.',
       summary: 'Merge Users',
-      operationId: 'post_users_merge',
+      operationId: 'merge_users_users_merge_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13780,7 +13954,7 @@ This manual verification is needed to prevent data from being deleting for other
 
   ///Update User As Super Admin
   ///@param user_id
-  Future<chopper.Response> usersUserIdSuperAdminPatch({
+  Future<chopper.Response<void>> usersUserIdSuperAdminPatch({
     required String? userId,
   }) {
     return _usersUserIdSuperAdminPatch(userId: userId);
@@ -13789,7 +13963,7 @@ This manual verification is needed to prevent data from being deleting for other
   ///Update User As Super Admin
   ///@param user_id
   @PATCH(path: '/users/{user_id}/super-admin', optionalBody: true)
-  Future<chopper.Response> _usersUserIdSuperAdminPatch({
+  Future<chopper.Response<void>> _usersUserIdSuperAdminPatch({
     @Path('user_id') required String? userId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -13798,7 +13972,8 @@ This manual verification is needed to prevent data from being deleting for other
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update User As Super Admin',
-      operationId: 'patch_users_{user_id}_super-admin',
+      operationId:
+          'update_user_as_super_admin_users__user_id__super_admin_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13808,18 +13983,18 @@ This manual verification is needed to prevent data from being deleting for other
   });
 
   ///Read Own Profile Picture
-  Future<chopper.Response> usersMeProfilePictureGet() {
+  Future<chopper.Response<List<int>>> usersMeProfilePictureGet() {
     return _usersMeProfilePictureGet();
   }
 
   ///Read Own Profile Picture
   @GET(path: '/users/me/profile-picture')
-  Future<chopper.Response> _usersMeProfilePictureGet({
+  Future<chopper.Response<List<int>>> _usersMeProfilePictureGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get the profile picture of the authenticated user.',
       summary: 'Read Own Profile Picture',
-      operationId: 'get_users_me_profile-picture',
+      operationId: 'read_own_profile_picture_users_me_profile_picture_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13851,7 +14026,8 @@ This manual verification is needed to prevent data from being deleting for other
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Create Current User Profile Picture',
-      operationId: 'post_users_me_profile-picture',
+      operationId:
+          'create_current_user_profile_picture_users_me_profile_picture_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13862,7 +14038,7 @@ This manual verification is needed to prevent data from being deleting for other
 
   ///Read User Profile Picture
   ///@param user_id
-  Future<chopper.Response> usersUserIdProfilePictureGet({
+  Future<chopper.Response<List<int>>> usersUserIdProfilePictureGet({
     required String? userId,
   }) {
     return _usersUserIdProfilePictureGet(userId: userId);
@@ -13871,7 +14047,7 @@ This manual verification is needed to prevent data from being deleting for other
   ///Read User Profile Picture
   ///@param user_id
   @GET(path: '/users/{user_id}/profile-picture')
-  Future<chopper.Response> _usersUserIdProfilePictureGet({
+  Future<chopper.Response<List<int>>> _usersUserIdProfilePictureGet({
     @Path('user_id') required String? userId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -13879,7 +14055,8 @@ This manual verification is needed to prevent data from being deleting for other
 
 Unauthenticated users can use this endpoint (needed for some OIDC services)''',
       summary: 'Read User Profile Picture',
-      operationId: 'get_users_{user_id}_profile-picture',
+      operationId:
+          'read_user_profile_picture_users__user_id__profile_picture_get',
       consumes: [],
       produces: [],
       security: [],
@@ -13889,18 +14066,18 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
   });
 
   ///Webhook
-  Future<chopper.Response> checkoutHelloassoWebhookPost() {
+  Future<chopper.Response<void>> checkoutHelloassoWebhookPost() {
     return _checkoutHelloassoWebhookPost();
   }
 
   ///Webhook
   @POST(path: '/checkout/helloasso/webhook', optionalBody: true)
-  Future<chopper.Response> _checkoutHelloassoWebhookPost({
+  Future<chopper.Response<void>> _checkoutHelloassoWebhookPost({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Webhook',
-      operationId: 'post_checkout_helloasso_webhook',
+      operationId: 'webhook_checkout_helloasso_webhook_post',
       consumes: [],
       produces: [],
       security: [],
@@ -13927,7 +14104,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
       description:
           'Return all memberships from database as a list of dictionaries',
       summary: 'Read Associations Memberships',
-      operationId: 'get_memberships_',
+      operationId: 'read_associations_memberships_memberships__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13958,7 +14135,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Association Membership',
-      operationId: 'post_memberships_',
+      operationId: 'create_association_membership_memberships__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14015,7 +14192,8 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
 
 **This endpoint is only usable by ECL members**''',
       summary: 'Read Association Membership',
-      operationId: 'get_memberships_{association_membership_id}_members',
+      operationId:
+          'read_association_membership_memberships__association_membership_id__members_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14026,7 +14204,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
 
   ///Update Association Membership
   ///@param association_membership_id
-  Future<chopper.Response> membershipsAssociationMembershipIdPatch({
+  Future<chopper.Response<void>> membershipsAssociationMembershipIdPatch({
     required String? associationMembershipId,
     required AppCoreMembershipsSchemasMembershipsMembershipBase? body,
   }) {
@@ -14039,7 +14217,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
   ///Update Association Membership
   ///@param association_membership_id
   @PATCH(path: '/memberships/{association_membership_id}', optionalBody: true)
-  Future<chopper.Response> _membershipsAssociationMembershipIdPatch({
+  Future<chopper.Response<void>> _membershipsAssociationMembershipIdPatch({
     @Path('association_membership_id') required String? associationMembershipId,
     @Body() required AppCoreMembershipsSchemasMembershipsMembershipBase? body,
     @chopper.Tag()
@@ -14048,7 +14226,8 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update Association Membership',
-      operationId: 'patch_memberships_{association_membership_id}',
+      operationId:
+          'update_association_membership_memberships__association_membership_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14059,7 +14238,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
 
   ///Delete Association Membership
   ///@param association_membership_id
-  Future<chopper.Response> membershipsAssociationMembershipIdDelete({
+  Future<chopper.Response<void>> membershipsAssociationMembershipIdDelete({
     required String? associationMembershipId,
   }) {
     return _membershipsAssociationMembershipIdDelete(
@@ -14070,7 +14249,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
   ///Delete Association Membership
   ///@param association_membership_id
   @DELETE(path: '/memberships/{association_membership_id}')
-  Future<chopper.Response> _membershipsAssociationMembershipIdDelete({
+  Future<chopper.Response<void>> _membershipsAssociationMembershipIdDelete({
     @Path('association_membership_id') required String? associationMembershipId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -14078,7 +14257,8 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
 
 **This endpoint is only usable by administrators**''',
       summary: 'Delete Association Membership',
-      operationId: 'delete_memberships_{association_membership_id}',
+      operationId:
+          'delete_association_membership_memberships__association_membership_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14109,7 +14289,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all memberships for a user.',
       summary: 'Read User Memberships',
-      operationId: 'get_memberships_users_{user_id}',
+      operationId: 'read_user_memberships_memberships_users__user_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14144,7 +14324,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
 
 **This endpoint is only usable by administrators and membership managers**''',
       summary: 'Create User Membership',
-      operationId: 'post_memberships_users_{user_id}',
+      operationId: 'create_user_membership_memberships_users__user_id__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14188,7 +14368,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
 **This endpoint is only usable by administrators and membership managers**''',
       summary: 'Read User Association Membership History',
       operationId:
-          'get_memberships_users_{user_id}_{association_membership_id}',
+          'read_user_association_membership_history_memberships_users__user_id___association_membership_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14233,7 +14413,8 @@ Return the list of unknown users whose email is not in the database.
 
 **User must be an administrator or a membership manager to use this endpoint.**''',
       summary: 'Add Batch Membership',
-      operationId: 'post_memberships_{association_membership_id}_add-batch_',
+      operationId:
+          'add_batch_membership_memberships__association_membership_id__add_batch__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14244,7 +14425,7 @@ Return the list of unknown users whose email is not in the database.
 
   ///Update User Membership
   ///@param membership_id
-  Future<chopper.Response> membershipsUsersMembershipIdPatch({
+  Future<chopper.Response<void>> membershipsUsersMembershipIdPatch({
     required String? membershipId,
     required UserMembershipEdit? body,
   }) {
@@ -14257,7 +14438,7 @@ Return the list of unknown users whose email is not in the database.
   ///Update User Membership
   ///@param membership_id
   @PATCH(path: '/memberships/users/{membership_id}', optionalBody: true)
-  Future<chopper.Response> _membershipsUsersMembershipIdPatch({
+  Future<chopper.Response<void>> _membershipsUsersMembershipIdPatch({
     @Path('membership_id') required String? membershipId,
     @Body() required UserMembershipEdit? body,
     @chopper.Tag()
@@ -14266,7 +14447,8 @@ Return the list of unknown users whose email is not in the database.
 
 **This endpoint is only usable by administrators and membership managers**''',
       summary: 'Update User Membership',
-      operationId: 'patch_memberships_users_{membership_id}',
+      operationId:
+          'update_user_membership_memberships_users__membership_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14277,7 +14459,7 @@ Return the list of unknown users whose email is not in the database.
 
   ///Delete User Membership
   ///@param membership_id
-  Future<chopper.Response> membershipsUsersMembershipIdDelete({
+  Future<chopper.Response<void>> membershipsUsersMembershipIdDelete({
     required String? membershipId,
   }) {
     return _membershipsUsersMembershipIdDelete(membershipId: membershipId);
@@ -14286,7 +14468,7 @@ Return the list of unknown users whose email is not in the database.
   ///Delete User Membership
   ///@param membership_id
   @DELETE(path: '/memberships/users/{membership_id}')
-  Future<chopper.Response> _membershipsUsersMembershipIdDelete({
+  Future<chopper.Response<void>> _membershipsUsersMembershipIdDelete({
     @Path('membership_id') required String? membershipId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -14294,7 +14476,8 @@ Return the list of unknown users whose email is not in the database.
 
 **This endpoint is only usable by administrators and membership managers**''',
       summary: 'Delete User Membership',
-      operationId: 'delete_memberships_users_{membership_id}',
+      operationId:
+          'delete_user_membership_memberships_users__membership_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14306,7 +14489,8 @@ Return the list of unknown users whose email is not in the database.
   ///Synchronize Membership With Group
   ///@param membership_id
   ///@param group_id
-  Future<chopper.Response> membershipsMembershipIdGroupGroupIdSynchronizePost({
+  Future<chopper.Response<void>>
+  membershipsMembershipIdGroupGroupIdSynchronizePost({
     required String? membershipId,
     required String? groupId,
   }) {
@@ -14323,7 +14507,8 @@ Return the list of unknown users whose email is not in the database.
     path: '/memberships/{membership_id}/group/{group_id}/synchronize',
     optionalBody: true,
   )
-  Future<chopper.Response> _membershipsMembershipIdGroupGroupIdSynchronizePost({
+  Future<chopper.Response<void>>
+  _membershipsMembershipIdGroupGroupIdSynchronizePost({
     @Path('membership_id') required String? membershipId,
     @Path('group_id') required String? groupId,
     @chopper.Tag()
@@ -14333,7 +14518,7 @@ Return the list of unknown users whose email is not in the database.
 **This endpoint is only usable by administrators**''',
       summary: 'Synchronize Membership With Group',
       operationId:
-          'post_memberships_{membership_id}_group_{group_id}_synchronize',
+          'synchronize_membership_with_group_memberships__membership_id__group__group_id__synchronize_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14359,7 +14544,7 @@ Return the list of unknown users whose email is not in the database.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all groups from database as a list of dictionaries',
       summary: 'Read Groups',
-      operationId: 'get_groups_',
+      operationId: 'read_groups_groups__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14390,7 +14575,7 @@ Return the list of unknown users whose email is not in the database.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Group',
-      operationId: 'post_groups_',
+      operationId: 'create_group_groups__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14421,7 +14606,7 @@ Return the list of unknown users whose email is not in the database.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Read Group',
-      operationId: 'get_groups_{group_id}',
+      operationId: 'read_group_groups__group_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14432,7 +14617,7 @@ Return the list of unknown users whose email is not in the database.
 
   ///Update Group
   ///@param group_id
-  Future<chopper.Response> groupsGroupIdPatch({
+  Future<chopper.Response<void>> groupsGroupIdPatch({
     required String? groupId,
     required CoreGroupUpdate? body,
   }) {
@@ -14442,7 +14627,7 @@ Return the list of unknown users whose email is not in the database.
   ///Update Group
   ///@param group_id
   @PATCH(path: '/groups/{group_id}', optionalBody: true)
-  Future<chopper.Response> _groupsGroupIdPatch({
+  Future<chopper.Response<void>> _groupsGroupIdPatch({
     @Path('group_id') required String? groupId,
     @Body() required CoreGroupUpdate? body,
     @chopper.Tag()
@@ -14451,7 +14636,7 @@ Return the list of unknown users whose email is not in the database.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update Group',
-      operationId: 'patch_groups_{group_id}',
+      operationId: 'update_group_groups__group_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14462,14 +14647,16 @@ Return the list of unknown users whose email is not in the database.
 
   ///Delete Group
   ///@param group_id
-  Future<chopper.Response> groupsGroupIdDelete({required String? groupId}) {
+  Future<chopper.Response<void>> groupsGroupIdDelete({
+    required String? groupId,
+  }) {
     return _groupsGroupIdDelete(groupId: groupId);
   }
 
   ///Delete Group
   ///@param group_id
   @DELETE(path: '/groups/{group_id}')
-  Future<chopper.Response> _groupsGroupIdDelete({
+  Future<chopper.Response<void>> _groupsGroupIdDelete({
     @Path('group_id') required String? groupId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -14480,7 +14667,7 @@ This will remove the group from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Delete Group',
-      operationId: 'delete_groups_{group_id}',
+      operationId: 'delete_group_groups__group_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14509,7 +14696,7 @@ This will remove the group from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Membership',
-      operationId: 'post_groups_membership',
+      operationId: 'create_membership_groups_membership_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14519,7 +14706,7 @@ This will remove the group from all users but won\'t delete any user.
   });
 
   ///Delete Membership
-  Future<chopper.Response> groupsMembershipDelete({
+  Future<chopper.Response<void>> groupsMembershipDelete({
     required CoreMembershipDelete? body,
   }) {
     return _groupsMembershipDelete(body: body);
@@ -14527,7 +14714,7 @@ This will remove the group from all users but won\'t delete any user.
 
   ///Delete Membership
   @DELETE(path: '/groups/membership')
-  Future<chopper.Response> _groupsMembershipDelete({
+  Future<chopper.Response<void>> _groupsMembershipDelete({
     @Body() required CoreMembershipDelete? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -14535,7 +14722,7 @@ This will remove the group from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Delete Membership',
-      operationId: 'delete_groups_membership',
+      operationId: 'delete_membership_groups_membership_delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14545,7 +14732,7 @@ This will remove the group from all users but won\'t delete any user.
   });
 
   ///Create Batch Membership
-  Future<chopper.Response> groupsBatchMembershipPost({
+  Future<chopper.Response<void>> groupsBatchMembershipPost({
     required CoreBatchMembership? body,
   }) {
     return _groupsBatchMembershipPost(body: body);
@@ -14553,7 +14740,7 @@ This will remove the group from all users but won\'t delete any user.
 
   ///Create Batch Membership
   @POST(path: '/groups/batch-membership', optionalBody: true)
-  Future<chopper.Response> _groupsBatchMembershipPost({
+  Future<chopper.Response<void>> _groupsBatchMembershipPost({
     @Body() required CoreBatchMembership? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -14562,7 +14749,7 @@ If an user does not exist it will be ignored.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Batch Membership',
-      operationId: 'post_groups_batch-membership',
+      operationId: 'create_batch_membership_groups_batch_membership_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14572,7 +14759,7 @@ If an user does not exist it will be ignored.
   });
 
   ///Delete Batch Membership
-  Future<chopper.Response> groupsBatchMembershipDelete({
+  Future<chopper.Response<void>> groupsBatchMembershipDelete({
     required CoreBatchDeleteMembership? body,
   }) {
     return _groupsBatchMembershipDelete(body: body);
@@ -14580,7 +14767,7 @@ If an user does not exist it will be ignored.
 
   ///Delete Batch Membership
   @DELETE(path: '/groups/batch-membership')
-  Future<chopper.Response> _groupsBatchMembershipDelete({
+  Future<chopper.Response<void>> _groupsBatchMembershipDelete({
     @Body() required CoreBatchDeleteMembership? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -14588,7 +14775,7 @@ If an user does not exist it will be ignored.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Delete Batch Membership',
-      operationId: 'delete_groups_batch-membership',
+      operationId: 'delete_batch_membership_groups_batch_membership_delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14599,7 +14786,7 @@ If an user does not exist it will be ignored.
 
   ///Create Group Logo
   ///@param group_id
-  Future<chopper.Response> groupsGroupIdLogoPost({
+  Future<chopper.Response<void>> groupsGroupIdLogoPost({
     required String? groupId,
     required List<int> image,
   }) {
@@ -14610,7 +14797,7 @@ If an user does not exist it will be ignored.
   ///@param group_id
   @POST(path: '/groups/{group_id}/logo', optionalBody: true)
   @Multipart()
-  Future<chopper.Response> _groupsGroupIdLogoPost({
+  Future<chopper.Response<void>> _groupsGroupIdLogoPost({
     @Path('group_id') required String? groupId,
     @PartFile('image') required List<int> image,
     @chopper.Tag()
@@ -14619,7 +14806,7 @@ If an user does not exist it will be ignored.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Group Logo',
-      operationId: 'post_groups_{group_id}_logo',
+      operationId: 'create_group_logo_groups__group_id__logo_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14630,14 +14817,16 @@ If an user does not exist it will be ignored.
 
   ///Read User Profile Picture
   ///@param group_id
-  Future<chopper.Response> groupsGroupIdLogoGet({required String? groupId}) {
+  Future<chopper.Response<List<int>>> groupsGroupIdLogoGet({
+    required String? groupId,
+  }) {
     return _groupsGroupIdLogoGet(groupId: groupId);
   }
 
   ///Read User Profile Picture
   ///@param group_id
   @GET(path: '/groups/{group_id}/logo')
-  Future<chopper.Response> _groupsGroupIdLogoGet({
+  Future<chopper.Response<List<int>>> _groupsGroupIdLogoGet({
     @Path('group_id') required String? groupId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -14645,7 +14834,7 @@ If an user does not exist it will be ignored.
 
 **User must be authenticated**''',
       summary: 'Read User Profile Picture',
-      operationId: 'get_groups_{group_id}_logo',
+      operationId: 'read_user_profile_picture_groups__group_id__logo_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14672,7 +14861,7 @@ If an user does not exist it will be ignored.
       description:
           'Return information about Hyperion. This endpoint can be used to check if the API is up.',
       summary: 'Read Information',
-      operationId: 'get_information',
+      operationId: 'read_information_information_get',
       consumes: [],
       produces: [],
       security: [],
@@ -14693,7 +14882,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return Hyperion privacy',
       summary: 'Read Privacy',
-      operationId: 'get_privacy',
+      operationId: 'read_privacy_privacy_get',
       consumes: [],
       produces: [],
       security: [],
@@ -14714,7 +14903,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return Hyperion terms and conditions pages',
       summary: 'Read Terms And Conditions',
-      operationId: 'get_terms-and-conditions',
+      operationId: 'read_terms_and_conditions_terms_and_conditions_get',
       consumes: [],
       produces: [],
       security: [],
@@ -14735,7 +14924,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return MyPayment latest ToS',
       summary: 'Read Mypayment Tos',
-      operationId: 'get_mypayment-terms-of-service',
+      operationId: 'read_mypayment_tos_mypayment_terms_of_service_get',
       consumes: [],
       produces: [],
       security: [],
@@ -14756,7 +14945,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return Hyperion support',
       summary: 'Read Support',
-      operationId: 'get_support',
+      operationId: 'read_support_support_get',
       consumes: [],
       produces: [],
       security: [],
@@ -14777,7 +14966,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return Hyperion security.txt file',
       summary: 'Read Security Txt',
-      operationId: 'get_security.txt',
+      operationId: 'read_security_txt_security_txt_get',
       consumes: [],
       produces: [],
       security: [],
@@ -14798,7 +14987,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return Hyperion security.txt file',
       summary: 'Read Wellknown Security Txt',
-      operationId: 'get_.well-known_security.txt',
+      operationId: 'read_wellknown_security_txt__well_known_security_txt_get',
       consumes: [],
       produces: [],
       security: [],
@@ -14819,7 +15008,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return Hyperion robots.txt file',
       summary: 'Read Robots Txt',
-      operationId: 'get_robots.txt',
+      operationId: 'read_robots_txt_robots_txt_get',
       consumes: [],
       produces: [],
       security: [],
@@ -14840,7 +15029,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return Hyperion account deletion information',
       summary: 'Read Account Deletion',
-      operationId: 'get_account-deletion',
+      operationId: 'read_account_deletion_account_deletion_get',
       consumes: [],
       produces: [],
       security: [],
@@ -14866,7 +15055,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return a style file from the assets folder',
       summary: 'Get Variables',
-      operationId: 'get_variables',
+      operationId: 'get_variables_variables_get',
       consumes: [],
       produces: [],
       security: [],
@@ -14876,18 +15065,18 @@ If an user does not exist it will be ignored.
   });
 
   ///Get Favicon
-  Future<chopper.Response> faviconIcoGet() {
+  Future<chopper.Response<List<int>>> faviconIcoGet() {
     return _faviconIcoGet();
   }
 
   ///Get Favicon
   @GET(path: '/favicon.ico')
-  Future<chopper.Response> _faviconIcoGet({
+  Future<chopper.Response<List<int>>> _faviconIcoGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Favicon',
-      operationId: 'get_favicon.ico',
+      operationId: 'get_favicon_favicon_ico_get',
       consumes: [],
       produces: [],
       security: [],
@@ -14924,7 +15113,7 @@ If an user does not exist it will be ignored.
 
 Note: the request body needs to use **form-data** and not json.''',
       summary: 'Login For Access Token',
-      operationId: 'post_auth_simple_token',
+      operationId: 'login_for_access_token_auth_simple_token_post',
       consumes: [],
       produces: [],
       security: [],
@@ -14999,7 +15188,7 @@ See `/auth/authorization-flow/authorize-validation` endpoint for information abo
 
 **This endpoint is a UI endpoint which send and html page response. It will redirect to `/auth/authorization-flow/authorize-validation`**''',
       summary: 'Get Authorize Page',
-      operationId: 'get_auth_authorize',
+      operationId: 'get_authorize_page_auth_authorize_get',
       consumes: [],
       produces: [],
       security: [],
@@ -15036,7 +15225,7 @@ See `/auth/authorization-flow/authorize-validation` endpoint for information abo
 
 **This endpoint is a UI endpoint which send and html page response. It will redirect to `/auth/authorization-flow/authorize-validation`**''',
       summary: 'Post Authorize Page',
-      operationId: 'post_auth_authorize',
+      operationId: 'post_authorize_page_auth_authorize_post',
       consumes: [],
       produces: [],
       security: [],
@@ -15089,7 +15278,8 @@ References:
  * https://www.rfc-editor.org/rfc/rfc6749.html#section-4.1.2
  * https://openid.net/specs/openid-connect-core-1_0.html#AuthRequest''',
       summary: 'Authorize Validation',
-      operationId: 'post_auth_authorization-flow_authorize-validation',
+      operationId:
+          'authorize_validation_auth_authorization_flow_authorize_validation_post',
       consumes: [],
       produces: [],
       security: [],
@@ -15141,7 +15331,7 @@ Parameters must be `application/x-www-form-urlencoded` and include:
 https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.3
 https://openid.net/specs/openid-connect-core-1_0.html#TokenRequestValidation''',
       summary: 'Token',
-      operationId: 'post_auth_token',
+      operationId: 'token_auth_token_post',
       consumes: [],
       produces: [],
       security: [],
@@ -15192,7 +15382,7 @@ Reference:
 https://www.oauth.com/oauth2-servers/token-introspection-endpoint/
 https://datatracker.ietf.org/doc/html/rfc7662''',
       summary: 'Introspect',
-      operationId: 'post_auth_introspect',
+      operationId: 'introspect_auth_introspect_post',
       consumes: [],
       produces: [],
       security: [],
@@ -15225,7 +15415,7 @@ This procedure is not implemented in Hyperion as we can customize the response u
 Reference:
 https://openid.net/specs/openid-connect-core-1_0.html#UserInfo''',
       summary: 'Auth Get Userinfo',
-      operationId: 'get_auth_userinfo',
+      operationId: 'auth_get_userinfo_auth_userinfo_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15246,7 +15436,7 @@ https://openid.net/specs/openid-connect-core-1_0.html#UserInfo''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Jwks Uri',
-      operationId: 'get_oidc_authorization-flow_jwks_uri',
+      operationId: 'jwks_uri_oidc_authorization_flow_jwks_uri_get',
       consumes: [],
       produces: [],
       security: [],
@@ -15267,7 +15457,8 @@ https://openid.net/specs/openid-connect-core-1_0.html#UserInfo''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Oauth Configuration',
-      operationId: 'get_.well-known_oauth-authorization-server',
+      operationId:
+          'oauth_configuration__well_known_oauth_authorization_server_get',
       consumes: [],
       produces: [],
       security: [],
@@ -15288,7 +15479,7 @@ https://openid.net/specs/openid-connect-core-1_0.html#UserInfo''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Oidc Configuration',
-      operationId: 'get_.well-known_openid-configuration',
+      operationId: 'oidc_configuration__well_known_openid_configuration_get',
       consumes: [],
       produces: [],
       security: [],
@@ -15298,7 +15489,7 @@ https://openid.net/specs/openid-connect-core-1_0.html#UserInfo''',
   });
 
   ///Register Firebase Device
-  Future<chopper.Response> notificationDevicesPost({
+  Future<chopper.Response<void>> notificationDevicesPost({
     required BodyRegisterFirebaseDeviceNotificationDevicesPost? body,
   }) {
     return _notificationDevicesPost(body: body);
@@ -15306,7 +15497,7 @@ https://openid.net/specs/openid-connect-core-1_0.html#UserInfo''',
 
   ///Register Firebase Device
   @POST(path: '/notification/devices', optionalBody: true)
-  Future<chopper.Response> _notificationDevicesPost({
+  Future<chopper.Response<void>> _notificationDevicesPost({
     @Body() required BodyRegisterFirebaseDeviceNotificationDevicesPost? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -15316,7 +15507,7 @@ This endpoint should be called once a month to ensure that the token is still va
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Register Firebase Device',
-      operationId: 'post_notification_devices',
+      operationId: 'register_firebase_device_notification_devices_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15350,7 +15541,7 @@ This endpoint is useful to get firebase tokens for debugging purposes.
 
 **Only admins can use this endpoint**''',
       summary: 'Get Devices',
-      operationId: 'get_notification_devices',
+      operationId: 'get_devices_notification_devices_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15361,7 +15552,7 @@ This endpoint is useful to get firebase tokens for debugging purposes.
 
   ///Unregister Firebase Device
   ///@param firebase_token
-  Future<chopper.Response> notificationDevicesFirebaseTokenDelete({
+  Future<chopper.Response<void>> notificationDevicesFirebaseTokenDelete({
     required String? firebaseToken,
   }) {
     return _notificationDevicesFirebaseTokenDelete(
@@ -15372,7 +15563,7 @@ This endpoint is useful to get firebase tokens for debugging purposes.
   ///Unregister Firebase Device
   ///@param firebase_token
   @DELETE(path: '/notification/devices/{firebase_token}')
-  Future<chopper.Response> _notificationDevicesFirebaseTokenDelete({
+  Future<chopper.Response<void>> _notificationDevicesFirebaseTokenDelete({
     @Path('firebase_token') required String? firebaseToken,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -15380,7 +15571,8 @@ This endpoint is useful to get firebase tokens for debugging purposes.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Unregister Firebase Device',
-      operationId: 'delete_notification_devices_{firebase_token}',
+      operationId:
+          'unregister_firebase_device_notification_devices__firebase_token__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15391,7 +15583,7 @@ This endpoint is useful to get firebase tokens for debugging purposes.
 
   ///Subscribe To Topic
   ///@param topic_id
-  Future<chopper.Response> notificationTopicsTopicIdSubscribePost({
+  Future<chopper.Response<void>> notificationTopicsTopicIdSubscribePost({
     required String? topicId,
   }) {
     return _notificationTopicsTopicIdSubscribePost(topicId: topicId);
@@ -15400,7 +15592,7 @@ This endpoint is useful to get firebase tokens for debugging purposes.
   ///Subscribe To Topic
   ///@param topic_id
   @POST(path: '/notification/topics/{topic_id}/subscribe', optionalBody: true)
-  Future<chopper.Response> _notificationTopicsTopicIdSubscribePost({
+  Future<chopper.Response<void>> _notificationTopicsTopicIdSubscribePost({
     @Path('topic_id') required String? topicId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -15410,7 +15602,8 @@ If the topic define restrictions, the user must be in the corresponding group or
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Subscribe To Topic',
-      operationId: 'post_notification_topics_{topic_id}_subscribe',
+      operationId:
+          'subscribe_to_topic_notification_topics__topic_id__subscribe_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15421,7 +15614,7 @@ If the topic define restrictions, the user must be in the corresponding group or
 
   ///Unsubscribe To Topic
   ///@param topic_id
-  Future<chopper.Response> notificationTopicsTopicIdUnsubscribePost({
+  Future<chopper.Response<void>> notificationTopicsTopicIdUnsubscribePost({
     required String? topicId,
   }) {
     return _notificationTopicsTopicIdUnsubscribePost(topicId: topicId);
@@ -15430,7 +15623,7 @@ If the topic define restrictions, the user must be in the corresponding group or
   ///Unsubscribe To Topic
   ///@param topic_id
   @POST(path: '/notification/topics/{topic_id}/unsubscribe', optionalBody: true)
-  Future<chopper.Response> _notificationTopicsTopicIdUnsubscribePost({
+  Future<chopper.Response<void>> _notificationTopicsTopicIdUnsubscribePost({
     @Path('topic_id') required String? topicId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -15438,7 +15631,8 @@ If the topic define restrictions, the user must be in the corresponding group or
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Unsubscribe To Topic',
-      operationId: 'post_notification_topics_{topic_id}_unsubscribe',
+      operationId:
+          'unsubscribe_to_topic_notification_topics__topic_id__unsubscribe_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15463,7 +15657,7 @@ If the topic define restrictions, the user must be in the corresponding group or
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Topics',
-      operationId: 'get_notification_topics',
+      operationId: 'get_topics_notification_topics_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15473,7 +15667,7 @@ If the topic define restrictions, the user must be in the corresponding group or
   });
 
   ///Send Notification
-  Future<chopper.Response> notificationSendPost({
+  Future<chopper.Response<void>> notificationSendPost({
     required GroupNotificationRequest? body,
   }) {
     return _notificationSendPost(body: body);
@@ -15481,7 +15675,7 @@ If the topic define restrictions, the user must be in the corresponding group or
 
   ///Send Notification
   @POST(path: '/notification/send', optionalBody: true)
-  Future<chopper.Response> _notificationSendPost({
+  Future<chopper.Response<void>> _notificationSendPost({
     @Body() required GroupNotificationRequest? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -15489,7 +15683,7 @@ If the topic define restrictions, the user must be in the corresponding group or
 
 **Only admins can use this endpoint**''',
       summary: 'Send Notification',
-      operationId: 'post_notification_send',
+      operationId: 'send_notification_notification_send_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15500,14 +15694,14 @@ If the topic define restrictions, the user must be in the corresponding group or
 
   ///Send Test Notification
   ///@param user_id
-  Future<chopper.Response> notificationTestSendPost({String? userId}) {
+  Future<chopper.Response<void>> notificationTestSendPost({String? userId}) {
     return _notificationTestSendPost(userId: userId);
   }
 
   ///Send Test Notification
   ///@param user_id
   @POST(path: '/notification/test/send', optionalBody: true)
-  Future<chopper.Response> _notificationTestSendPost({
+  Future<chopper.Response<void>> _notificationTestSendPost({
     @Query('user_id') String? userId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -15515,7 +15709,7 @@ If the topic define restrictions, the user must be in the corresponding group or
 
 **Only admins can use this endpoint**''',
       summary: 'Send Test Notification',
-      operationId: 'post_notification_test_send',
+      operationId: 'send_test_notification_notification_test_send_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15526,14 +15720,16 @@ If the topic define restrictions, the user must be in the corresponding group or
 
   ///Send Test Future Notification
   ///@param user_id
-  Future<chopper.Response> notificationTestSendFuturePost({String? userId}) {
+  Future<chopper.Response<void>> notificationTestSendFuturePost({
+    String? userId,
+  }) {
     return _notificationTestSendFuturePost(userId: userId);
   }
 
   ///Send Test Future Notification
   ///@param user_id
   @POST(path: '/notification/test/send/future', optionalBody: true)
-  Future<chopper.Response> _notificationTestSendFuturePost({
+  Future<chopper.Response<void>> _notificationTestSendFuturePost({
     @Query('user_id') String? userId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -15541,7 +15737,8 @@ If the topic define restrictions, the user must be in the corresponding group or
 
 **Only admins can use this endpoint**''',
       summary: 'Send Test Future Notification',
-      operationId: 'post_notification_test_send_future',
+      operationId:
+          'send_test_future_notification_notification_test_send_future_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15551,20 +15748,21 @@ If the topic define restrictions, the user must be in the corresponding group or
   });
 
   ///Send Test Notification Topic
-  Future<chopper.Response> notificationTestSendTopicPost() {
+  Future<chopper.Response<void>> notificationTestSendTopicPost() {
     return _notificationTestSendTopicPost();
   }
 
   ///Send Test Notification Topic
   @POST(path: '/notification/test/send/topic', optionalBody: true)
-  Future<chopper.Response> _notificationTestSendTopicPost({
+  Future<chopper.Response<void>> _notificationTestSendTopicPost({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Send ourself a test notification.
 
 **Only admins can use this endpoint**''',
       summary: 'Send Test Notification Topic',
-      operationId: 'post_notification_test_send_topic',
+      operationId:
+          'send_test_notification_topic_notification_test_send_topic_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15574,20 +15772,21 @@ If the topic define restrictions, the user must be in the corresponding group or
   });
 
   ///Send Test Future Notification Topic
-  Future<chopper.Response> notificationTestSendTopicFuturePost() {
+  Future<chopper.Response<void>> notificationTestSendTopicFuturePost() {
     return _notificationTestSendTopicFuturePost();
   }
 
   ///Send Test Future Notification Topic
   @POST(path: '/notification/test/send/topic/future', optionalBody: true)
-  Future<chopper.Response> _notificationTestSendTopicFuturePost({
+  Future<chopper.Response<void>> _notificationTestSendTopicFuturePost({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Send ourself a test notification.
 
 **Only admins can use this endpoint**''',
       summary: 'Send Test Future Notification Topic',
-      operationId: 'post_notification_test_send_topic_future',
+      operationId:
+          'send_test_future_notification_topic_notification_test_send_topic_future_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15610,7 +15809,7 @@ If the topic define restrictions, the user must be in the corresponding group or
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get the current bank account holder information.',
       summary: 'Get Bank Account Holder',
-      operationId: 'get_mypayment_bank-account-holder',
+      operationId: 'get_bank_account_holder_mypayment_bank_account_holder_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15636,7 +15835,7 @@ If the topic define restrictions, the user must be in the corresponding group or
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Set the bank account holder information.',
       summary: 'Set Bank Account Holder',
-      operationId: 'post_mypayment_bank-account-holder',
+      operationId: 'set_bank_account_holder_mypayment_bank_account_holder_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15659,7 +15858,7 @@ If the topic define restrictions, the user must be in the corresponding group or
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all structures.',
       summary: 'Get Structures',
-      operationId: 'get_mypayment_structures',
+      operationId: 'get_structures_mypayment_structures_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15693,7 +15892,7 @@ A structure contains:
 
 **The user must be an admin to use this endpoint**''',
       summary: 'Create Structure',
-      operationId: 'post_mypayment_structures',
+      operationId: 'create_structure_mypayment_structures_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15704,7 +15903,7 @@ A structure contains:
 
   ///Update Structure
   ///@param structure_id
-  Future<chopper.Response> mypaymentStructuresStructureIdPatch({
+  Future<chopper.Response<void>> mypaymentStructuresStructureIdPatch({
     required String? structureId,
     required StructureUpdate? body,
   }) {
@@ -15717,7 +15916,7 @@ A structure contains:
   ///Update Structure
   ///@param structure_id
   @PATCH(path: '/mypayment/structures/{structure_id}', optionalBody: true)
-  Future<chopper.Response> _mypaymentStructuresStructureIdPatch({
+  Future<chopper.Response<void>> _mypaymentStructuresStructureIdPatch({
     @Path('structure_id') required String? structureId,
     @Body() required StructureUpdate? body,
     @chopper.Tag()
@@ -15726,7 +15925,7 @@ A structure contains:
 
 **The user must be an admin to use this endpoint**''',
       summary: 'Update Structure',
-      operationId: 'patch_mypayment_structures_{structure_id}',
+      operationId: 'update_structure_mypayment_structures__structure_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15737,7 +15936,7 @@ A structure contains:
 
   ///Delete Structure
   ///@param structure_id
-  Future<chopper.Response> mypaymentStructuresStructureIdDelete({
+  Future<chopper.Response<void>> mypaymentStructuresStructureIdDelete({
     required String? structureId,
   }) {
     return _mypaymentStructuresStructureIdDelete(structureId: structureId);
@@ -15746,7 +15945,7 @@ A structure contains:
   ///Delete Structure
   ///@param structure_id
   @DELETE(path: '/mypayment/structures/{structure_id}')
-  Future<chopper.Response> _mypaymentStructuresStructureIdDelete({
+  Future<chopper.Response<void>> _mypaymentStructuresStructureIdDelete({
     @Path('structure_id') required String? structureId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -15755,7 +15954,8 @@ A structure contains:
 
 **The user must be an admin to use this endpoint**''',
       summary: 'Delete Structure',
-      operationId: 'delete_mypayment_structures_{structure_id}',
+      operationId:
+          'delete_structure_mypayment_structures__structure_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15766,7 +15966,7 @@ A structure contains:
 
   ///Init Transfer Structure Manager
   ///@param structure_id
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   mypaymentStructuresStructureIdInitManagerTransferPost({
     required String? structureId,
     required StructureTranfert? body,
@@ -15783,7 +15983,7 @@ A structure contains:
     path: '/mypayment/structures/{structure_id}/init-manager-transfer',
     optionalBody: true,
   )
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   _mypaymentStructuresStructureIdInitManagerTransferPost({
     @Path('structure_id') required String? structureId,
     @Body() required StructureTranfert? body,
@@ -15796,7 +15996,7 @@ The link will only be valid for a limited time.
 **The user must be the manager for this structure**''',
       summary: 'Init Transfer Structure Manager',
       operationId:
-          'post_mypayment_structures_{structure_id}_init-manager-transfer',
+          'init_transfer_structure_manager_mypayment_structures__structure_id__init_manager_transfer_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15824,7 +16024,8 @@ The link will only be valid for a limited time.
 
 The user must have initiated the update of the manager with `init_update_structure_manager`''',
       summary: 'Confirm Structure Manager Transfer',
-      operationId: 'get_mypayment_structures_confirm-manager-transfer',
+      operationId:
+          'confirm_structure_manager_transfer_mypayment_structures_confirm_manager_transfer_get',
       consumes: [],
       produces: [],
       security: [],
@@ -15863,7 +16064,8 @@ Stores name should be unique, as an user need to be able to identify a store by 
 **The user must be the manager for this structure**
 **The user must be a member of the associated CoreAssociation**''',
       summary: 'Create Store',
-      operationId: 'post_mypayment_structures_{structure_id}_stores',
+      operationId:
+          'create_store_mypayment_structures__structure_id__stores_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15905,7 +16107,7 @@ Stores name should be unique, as an user need to be able to identify a store by 
 
 **The user must be authorized to see the store history**''',
       summary: 'Get Store History',
-      operationId: 'get_mypayment_stores_{store_id}_history',
+      operationId: 'get_store_history_mypayment_stores__store_id__history_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15943,7 +16145,8 @@ Stores name should be unique, as an user need to be able to identify a store by 
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Export store payment history as a CSV file.',
       summary: 'Export Store History',
-      operationId: 'get_mypayment_stores_{store_id}_history_data-export',
+      operationId:
+          'export_store_history_mypayment_stores__store_id__history_data_export_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15968,7 +16171,7 @@ Stores name should be unique, as an user need to be able to identify a store by 
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get User Stores',
-      operationId: 'get_mypayment_users_me_stores',
+      operationId: 'get_user_stores_mypayment_users_me_stores_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15979,7 +16182,7 @@ Stores name should be unique, as an user need to be able to identify a store by 
 
   ///Update Store
   ///@param store_id
-  Future<chopper.Response> mypaymentStoresStoreIdPatch({
+  Future<chopper.Response<void>> mypaymentStoresStoreIdPatch({
     required String? storeId,
     required StoreUpdate? body,
   }) {
@@ -15989,7 +16192,7 @@ Stores name should be unique, as an user need to be able to identify a store by 
   ///Update Store
   ///@param store_id
   @PATCH(path: '/mypayment/stores/{store_id}', optionalBody: true)
-  Future<chopper.Response> _mypaymentStoresStoreIdPatch({
+  Future<chopper.Response<void>> _mypaymentStoresStoreIdPatch({
     @Path('store_id') required String? storeId,
     @Body() required StoreUpdate? body,
     @chopper.Tag()
@@ -15998,7 +16201,7 @@ Stores name should be unique, as an user need to be able to identify a store by 
 
 **The user must be the manager for this store\'s structure**''',
       summary: 'Update Store',
-      operationId: 'patch_mypayment_stores_{store_id}',
+      operationId: 'update_store_mypayment_stores__store_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16009,7 +16212,7 @@ Stores name should be unique, as an user need to be able to identify a store by 
 
   ///Delete Store
   ///@param store_id
-  Future<chopper.Response> mypaymentStoresStoreIdDelete({
+  Future<chopper.Response<void>> mypaymentStoresStoreIdDelete({
     required String? storeId,
   }) {
     return _mypaymentStoresStoreIdDelete(storeId: storeId);
@@ -16018,7 +16221,7 @@ Stores name should be unique, as an user need to be able to identify a store by 
   ///Delete Store
   ///@param store_id
   @DELETE(path: '/mypayment/stores/{store_id}')
-  Future<chopper.Response> _mypaymentStoresStoreIdDelete({
+  Future<chopper.Response<void>> _mypaymentStoresStoreIdDelete({
     @Path('store_id') required String? storeId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -16027,7 +16230,7 @@ Stores name should be unique, as an user need to be able to identify a store by 
 
 **The user must be the manager for this store\'s structure**''',
       summary: 'Delete Store',
-      operationId: 'delete_mypayment_stores_{store_id}',
+      operationId: 'delete_store_mypayment_stores__store_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16065,7 +16268,8 @@ This seller will have authorized permissions among:
 
 **The user must have the `can_manage_sellers` permission for this store**''',
       summary: 'Create Store Seller',
-      operationId: 'post_mypayment_stores_{store_id}_sellers',
+      operationId:
+          'create_store_seller_mypayment_stores__store_id__sellers_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16095,7 +16299,7 @@ This seller will have authorized permissions among:
 
 **The user must have the `can_manage_sellers` permission for this store**''',
       summary: 'Get Store Sellers',
-      operationId: 'get_mypayment_stores_{store_id}_sellers',
+      operationId: 'get_store_sellers_mypayment_stores__store_id__sellers_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16107,7 +16311,8 @@ This seller will have authorized permissions among:
   ///Update Store Seller
   ///@param store_id
   ///@param seller_user_id
-  Future<chopper.Response> mypaymentStoresStoreIdSellersSellerUserIdPatch({
+  Future<chopper.Response<void>>
+  mypaymentStoresStoreIdSellersSellerUserIdPatch({
     required String? storeId,
     required String? sellerUserId,
     required SellerUpdate? body,
@@ -16126,7 +16331,8 @@ This seller will have authorized permissions among:
     path: '/mypayment/stores/{store_id}/sellers/{seller_user_id}',
     optionalBody: true,
   )
-  Future<chopper.Response> _mypaymentStoresStoreIdSellersSellerUserIdPatch({
+  Future<chopper.Response<void>>
+  _mypaymentStoresStoreIdSellersSellerUserIdPatch({
     @Path('store_id') required String? storeId,
     @Path('seller_user_id') required String? sellerUserId,
     @Body() required SellerUpdate? body,
@@ -16137,7 +16343,8 @@ The structure manager cannot be updated as a seller.
 
 **The user must have the `can_manage_sellers` permission for this store**''',
       summary: 'Update Store Seller',
-      operationId: 'patch_mypayment_stores_{store_id}_sellers_{seller_user_id}',
+      operationId:
+          'update_store_seller_mypayment_stores__store_id__sellers__seller_user_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16149,7 +16356,8 @@ The structure manager cannot be updated as a seller.
   ///Delete Store Seller
   ///@param store_id
   ///@param seller_user_id
-  Future<chopper.Response> mypaymentStoresStoreIdSellersSellerUserIdDelete({
+  Future<chopper.Response<void>>
+  mypaymentStoresStoreIdSellersSellerUserIdDelete({
     required String? storeId,
     required String? sellerUserId,
   }) {
@@ -16163,7 +16371,8 @@ The structure manager cannot be updated as a seller.
   ///@param store_id
   ///@param seller_user_id
   @DELETE(path: '/mypayment/stores/{store_id}/sellers/{seller_user_id}')
-  Future<chopper.Response> _mypaymentStoresStoreIdSellersSellerUserIdDelete({
+  Future<chopper.Response<void>>
+  _mypaymentStoresStoreIdSellersSellerUserIdDelete({
     @Path('store_id') required String? storeId,
     @Path('seller_user_id') required String? sellerUserId,
     @chopper.Tag()
@@ -16174,7 +16383,7 @@ The structure manager cannot be deleted as a seller.
 **The user must have the `can_manage_sellers` permission for this store**''',
       summary: 'Delete Store Seller',
       operationId:
-          'delete_mypayment_stores_{store_id}_sellers_{seller_user_id}',
+          'delete_store_seller_mypayment_stores__store_id__sellers__seller_user_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16184,13 +16393,13 @@ The structure manager cannot be deleted as a seller.
   });
 
   ///Register User
-  Future<chopper.Response> mypaymentUsersMeRegisterPost() {
+  Future<chopper.Response<void>> mypaymentUsersMeRegisterPost() {
     return _mypaymentUsersMeRegisterPost();
   }
 
   ///Register User
   @POST(path: '/mypayment/users/me/register', optionalBody: true)
-  Future<chopper.Response> _mypaymentUsersMeRegisterPost({
+  Future<chopper.Response<void>> _mypaymentUsersMeRegisterPost({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Sign MyPayment TOS for the given user.
@@ -16199,7 +16408,7 @@ The user will need to accept the latest TOS version to be able to use MyPayment.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Register User',
-      operationId: 'post_mypayment_users_me_register',
+      operationId: 'register_user_mypayment_users_me_register_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16228,7 +16437,7 @@ The user will need to accept the latest TOS version to be able to use MyPayment.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get User Tos',
-      operationId: 'get_mypayment_users_me_tos',
+      operationId: 'get_user_tos_mypayment_users_me_tos_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16238,7 +16447,7 @@ The user will need to accept the latest TOS version to be able to use MyPayment.
   });
 
   ///Sign Tos
-  Future<chopper.Response> mypaymentUsersMeTosPost({
+  Future<chopper.Response<void>> mypaymentUsersMeTosPost({
     required TOSSignature? body,
   }) {
     return _mypaymentUsersMeTosPost(body: body);
@@ -16246,7 +16455,7 @@ The user will need to accept the latest TOS version to be able to use MyPayment.
 
   ///Sign Tos
   @POST(path: '/mypayment/users/me/tos', optionalBody: true)
-  Future<chopper.Response> _mypaymentUsersMeTosPost({
+  Future<chopper.Response<void>> _mypaymentUsersMeTosPost({
     @Body() required TOSSignature? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -16256,7 +16465,7 @@ If the user is already registered in the MyPayment system, this will update the 
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Sign Tos',
-      operationId: 'post_mypayment_users_me_tos',
+      operationId: 'sign_tos_mypayment_users_me_tos_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16286,7 +16495,7 @@ If the user is already registered in the MyPayment system, this will update the 
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get User Devices',
-      operationId: 'get_mypayment_users_me_wallet_devices',
+      operationId: 'get_user_devices_mypayment_users_me_wallet_devices_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16318,7 +16527,7 @@ The user will need to activate it using a token sent by email.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Create User Devices',
-      operationId: 'post_mypayment_users_me_wallet_devices',
+      operationId: 'create_user_devices_mypayment_users_me_wallet_devices_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16355,7 +16564,8 @@ The user will need to activate it using a token sent by email.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get User Device',
-      operationId: 'get_mypayment_users_me_wallet_devices_{wallet_device_id}',
+      operationId:
+          'get_user_device_mypayment_users_me_wallet_devices__wallet_device_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16380,7 +16590,7 @@ The user will need to activate it using a token sent by email.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get User Wallet',
-      operationId: 'get_mypayment_users_me_wallet',
+      operationId: 'get_user_wallet_mypayment_users_me_wallet_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16406,7 +16616,7 @@ The user will need to activate it using a token sent by email.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Activate a wallet device',
       summary: 'Activate User Device',
-      operationId: 'get_mypayment_devices_activate',
+      operationId: 'activate_user_device_mypayment_devices_activate_get',
       consumes: [],
       produces: [],
       security: [],
@@ -16417,7 +16627,7 @@ The user will need to activate it using a token sent by email.
 
   ///Revoke User Devices
   ///@param wallet_device_id
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   mypaymentUsersMeWalletDevicesWalletDeviceIdRevokePost({
     required String? walletDeviceId,
   }) {
@@ -16432,7 +16642,7 @@ The user will need to activate it using a token sent by email.
     path: '/mypayment/users/me/wallet/devices/{wallet_device_id}/revoke',
     optionalBody: true,
   )
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   _mypaymentUsersMeWalletDevicesWalletDeviceIdRevokePost({
     @Path('wallet_device_id') required String? walletDeviceId,
     @chopper.Tag()
@@ -16442,7 +16652,7 @@ The user will need to activate it using a token sent by email.
 **The user must be authenticated to use this endpoint**''',
       summary: 'Revoke User Devices',
       operationId:
-          'post_mypayment_users_me_wallet_devices_{wallet_device_id}_revoke',
+          'revoke_user_devices_mypayment_users_me_wallet_devices__wallet_device_id__revoke_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16479,7 +16689,8 @@ The user will need to activate it using a token sent by email.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get User Wallet History',
-      operationId: 'get_mypayment_users_me_wallet_history',
+      operationId:
+          'get_user_wallet_history_mypayment_users_me_wallet_history_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16506,7 +16717,7 @@ The user will need to activate it using a token sent by email.
       description:
           'Initiate HelloAsso transfer, return a payment url to complete the transaction on HelloAsso website.',
       summary: 'Init Ha Transfer',
-      operationId: 'post_mypayment_transfer_init',
+      operationId: 'init_ha_transfer_mypayment_transfer_init_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16560,7 +16771,7 @@ The user will need to activate it using a token sent by email.
 Redirect the user to the provided redirect `url`. The parameters `checkoutIntentId`, `code`, `orderId` and `error` passed by HelloAsso will be added to the redirect URL.
 The redirect `url` must be trusted by Hyperion in the dotenv.''',
       summary: 'Redirect From Ha Transfer',
-      operationId: 'get_mypayment_transfer_redirect',
+      operationId: 'redirect_from_ha_transfer_mypayment_transfer_redirect_get',
       consumes: [],
       produces: [],
       security: [],
@@ -16602,7 +16813,8 @@ If the store structure has an association membership, the user should be a membe
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Validate Can Scan Qrcode',
-      operationId: 'post_mypayment_stores_{store_id}_scan_check',
+      operationId:
+          'validate_can_scan_qrcode_mypayment_stores__store_id__scan_check_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16658,7 +16870,7 @@ The provided content is checked to ensure:
 **The user must be authenticated to use this endpoint**
 **The user must have the `can_bank` permission for this store**''',
       summary: 'Store Scan Qrcode',
-      operationId: 'post_mypayment_stores_{store_id}_scan',
+      operationId: 'store_scan_qrcode_mypayment_stores__store_id__scan_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16669,7 +16881,7 @@ The provided content is checked to ensure:
 
   ///Refund Transaction
   ///@param transaction_id
-  Future<chopper.Response> mypaymentTransactionsTransactionIdRefundPost({
+  Future<chopper.Response<void>> mypaymentTransactionsTransactionIdRefundPost({
     required String? transactionId,
     required RefundInfo? body,
   }) {
@@ -16685,7 +16897,7 @@ The provided content is checked to ensure:
     path: '/mypayment/transactions/{transaction_id}/refund',
     optionalBody: true,
   )
-  Future<chopper.Response> _mypaymentTransactionsTransactionIdRefundPost({
+  Future<chopper.Response<void>> _mypaymentTransactionsTransactionIdRefundPost({
     @Path('transaction_id') required String? transactionId,
     @Body() required RefundInfo? body,
     @chopper.Tag()
@@ -16699,7 +16911,8 @@ To cancel a transaction made in the last 30 seconds, the endpoint `/mypayment/tr
 
 **The user must either be the credited user or a seller with cancel permissions of the credited store of the transaction**''',
       summary: 'Refund Transaction',
-      operationId: 'post_mypayment_transactions_{transaction_id}_refund',
+      operationId:
+          'refund_transaction_mypayment_transactions__transaction_id__refund_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16710,7 +16923,7 @@ To cancel a transaction made in the last 30 seconds, the endpoint `/mypayment/tr
 
   ///Cancel Transaction
   ///@param transaction_id
-  Future<chopper.Response> mypaymentTransactionsTransactionIdCancelPost({
+  Future<chopper.Response<void>> mypaymentTransactionsTransactionIdCancelPost({
     required String? transactionId,
   }) {
     return _mypaymentTransactionsTransactionIdCancelPost(
@@ -16724,7 +16937,7 @@ To cancel a transaction made in the last 30 seconds, the endpoint `/mypayment/tr
     path: '/mypayment/transactions/{transaction_id}/cancel',
     optionalBody: true,
   )
-  Future<chopper.Response> _mypaymentTransactionsTransactionIdCancelPost({
+  Future<chopper.Response<void>> _mypaymentTransactionsTransactionIdCancelPost({
     @Path('transaction_id') required String? transactionId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -16735,7 +16948,8 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must either be the credited user or the seller of the transaction**''',
       summary: 'Cancel Transaction',
-      operationId: 'post_mypayment_transactions_{transaction_id}_cancel',
+      operationId:
+          'cancel_transaction_mypayment_transactions__transaction_id__cancel_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16763,7 +16977,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get User Requests',
-      operationId: 'get_mypayment_requests',
+      operationId: 'get_user_requests_mypayment_requests_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16774,7 +16988,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
   ///Accept Request
   ///@param request_id
-  Future<chopper.Response> mypaymentRequestsRequestIdAcceptPost({
+  Future<chopper.Response<void>> mypaymentRequestsRequestIdAcceptPost({
     required String? requestId,
     required SignedContent? body,
   }) {
@@ -16787,7 +17001,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
   ///Accept Request
   ///@param request_id
   @POST(path: '/mypayment/requests/{request_id}/accept', optionalBody: true)
-  Future<chopper.Response> _mypaymentRequestsRequestIdAcceptPost({
+  Future<chopper.Response<void>> _mypaymentRequestsRequestIdAcceptPost({
     @Path('request_id') required String? requestId,
     @Body() required SignedContent? body,
     @chopper.Tag()
@@ -16796,7 +17010,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Accept Request',
-      operationId: 'post_mypayment_requests_{request_id}_accept',
+      operationId: 'accept_request_mypayment_requests__request_id__accept_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16807,7 +17021,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
   ///Refuse Request
   ///@param request_id
-  Future<chopper.Response> mypaymentRequestsRequestIdRefusePost({
+  Future<chopper.Response<void>> mypaymentRequestsRequestIdRefusePost({
     required String? requestId,
   }) {
     return _mypaymentRequestsRequestIdRefusePost(requestId: requestId);
@@ -16816,7 +17030,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
   ///Refuse Request
   ///@param request_id
   @POST(path: '/mypayment/requests/{request_id}/refuse', optionalBody: true)
-  Future<chopper.Response> _mypaymentRequestsRequestIdRefusePost({
+  Future<chopper.Response<void>> _mypaymentRequestsRequestIdRefusePost({
     @Path('request_id') required String? requestId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -16824,7 +17038,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Refuse Request',
-      operationId: 'post_mypayment_requests_{request_id}_refuse',
+      operationId: 'refuse_request_mypayment_requests__request_id__refuse_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16876,7 +17090,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Invoices',
-      operationId: 'get_mypayment_invoices',
+      operationId: 'get_invoices_mypayment_invoices_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16930,7 +17144,8 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be the structure manager**''',
       summary: 'Get Structure Invoices',
-      operationId: 'get_mypayment_invoices_structures_{structure_id}',
+      operationId:
+          'get_structure_invoices_mypayment_invoices_structures__structure_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16966,7 +17181,8 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be the bank account holder**''',
       summary: 'Create Structure Invoice',
-      operationId: 'post_mypayment_invoices_structures_{structure_id}',
+      operationId:
+          'create_structure_invoice_mypayment_invoices_structures__structure_id__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16977,7 +17193,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
   ///Download Invoice
   ///@param invoice_id
-  Future<chopper.Response> mypaymentInvoicesInvoiceIdGet({
+  Future<chopper.Response<List<int>>> mypaymentInvoicesInvoiceIdGet({
     required String? invoiceId,
   }) {
     return _mypaymentInvoicesInvoiceIdGet(invoiceId: invoiceId);
@@ -16986,13 +17202,13 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
   ///Download Invoice
   ///@param invoice_id
   @GET(path: '/mypayment/invoices/{invoice_id}')
-  Future<chopper.Response> _mypaymentInvoicesInvoiceIdGet({
+  Future<chopper.Response<List<int>>> _mypaymentInvoicesInvoiceIdGet({
     @Path('invoice_id') required String? invoiceId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Download Invoice',
-      operationId: 'get_mypayment_invoices_{invoice_id}',
+      operationId: 'download_invoice_mypayment_invoices__invoice_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17003,7 +17219,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
   ///Delete Structure Invoice
   ///@param invoice_id
-  Future<chopper.Response> mypaymentInvoicesInvoiceIdDelete({
+  Future<chopper.Response<void>> mypaymentInvoicesInvoiceIdDelete({
     required String? invoiceId,
   }) {
     return _mypaymentInvoicesInvoiceIdDelete(invoiceId: invoiceId);
@@ -17012,7 +17228,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
   ///Delete Structure Invoice
   ///@param invoice_id
   @DELETE(path: '/mypayment/invoices/{invoice_id}')
-  Future<chopper.Response> _mypaymentInvoicesInvoiceIdDelete({
+  Future<chopper.Response<void>> _mypaymentInvoicesInvoiceIdDelete({
     @Path('invoice_id') required String? invoiceId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -17020,7 +17236,8 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be the bank account holder**''',
       summary: 'Delete Structure Invoice',
-      operationId: 'delete_mypayment_invoices_{invoice_id}',
+      operationId:
+          'delete_structure_invoice_mypayment_invoices__invoice_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17032,7 +17249,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
   ///Update Invoice Paid Status
   ///@param invoice_id
   ///@param paid
-  Future<chopper.Response> mypaymentInvoicesInvoiceIdPaidPatch({
+  Future<chopper.Response<void>> mypaymentInvoicesInvoiceIdPaidPatch({
     required String? invoiceId,
     required bool? paid,
   }) {
@@ -17046,7 +17263,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
   ///@param invoice_id
   ///@param paid
   @PATCH(path: '/mypayment/invoices/{invoice_id}/paid', optionalBody: true)
-  Future<chopper.Response> _mypaymentInvoicesInvoiceIdPaidPatch({
+  Future<chopper.Response<void>> _mypaymentInvoicesInvoiceIdPaidPatch({
     @Path('invoice_id') required String? invoiceId,
     @Query('paid') required bool? paid,
     @chopper.Tag()
@@ -17055,7 +17272,8 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be the bank account holder**''',
       summary: 'Update Invoice Paid Status',
-      operationId: 'patch_mypayment_invoices_{invoice_id}_paid',
+      operationId:
+          'update_invoice_paid_status_mypayment_invoices__invoice_id__paid_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17066,7 +17284,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
   ///Aknowledge Invoice As Received
   ///@param invoice_id
-  Future<chopper.Response> mypaymentInvoicesInvoiceIdReceivedPatch({
+  Future<chopper.Response<void>> mypaymentInvoicesInvoiceIdReceivedPatch({
     required String? invoiceId,
   }) {
     return _mypaymentInvoicesInvoiceIdReceivedPatch(invoiceId: invoiceId);
@@ -17075,7 +17293,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
   ///Aknowledge Invoice As Received
   ///@param invoice_id
   @PATCH(path: '/mypayment/invoices/{invoice_id}/received', optionalBody: true)
-  Future<chopper.Response> _mypaymentInvoicesInvoiceIdReceivedPatch({
+  Future<chopper.Response<void>> _mypaymentInvoicesInvoiceIdReceivedPatch({
     @Path('invoice_id') required String? invoiceId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -17083,7 +17301,8 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be the structure manager**''',
       summary: 'Aknowledge Invoice As Received',
-      operationId: 'patch_mypayment_invoices_{invoice_id}_received',
+      operationId:
+          'aknowledge_invoice_as_received_mypayment_invoices__invoice_id__received_patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17133,7 +17352,7 @@ Data includes:
 
 **The header must contain the MYPAYMENT_DATA_VERIFIER_ACCESS_TOKEN defined in the settings in the `x-data-verifier-token` field**''',
       summary: 'Get Data For Integrity Check',
-      operationId: 'get_mypayment_integrity-check',
+      operationId: 'get_data_for_integrity_check_mypayment_integrity_check_get',
       consumes: [],
       produces: [],
       security: [],
@@ -17154,7 +17373,7 @@ Data includes:
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Google Api Callback',
-      operationId: 'get_google-api_oauth2callback',
+      operationId: 'google_api_callback_google_api_oauth2callback_get',
       consumes: [],
       produces: [],
       security: [],
@@ -17182,7 +17401,7 @@ Data includes:
 
 To be considered open, an event should have its opening date in the past and its closing date in the future or not defined. Moreover, we only return enabled events.''',
       summary: 'Get Open Events',
-      operationId: 'get_tickets_events',
+      operationId: 'get_open_events_tickets_events_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17215,7 +17434,7 @@ To be considered open, an event should have its opening date in the past and its
 
 Only enabled sessions and categories are returned''',
       summary: 'Get Event',
-      operationId: 'get_tickets_events_{event_id}',
+      operationId: 'get_event_tickets_events__event_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17248,7 +17467,7 @@ Only enabled sessions and categories are returned''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a checkout for an open event',
       summary: 'Create Checkout',
-      operationId: 'post_tickets_events_{event_id}_checkout',
+      operationId: 'create_checkout_tickets_events__event_id__checkout_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17276,7 +17495,7 @@ Only enabled sessions and categories are returned''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all tickets of the current user',
       summary: 'Get User Tickets',
-      operationId: 'get_tickets_user_me_tickets',
+      operationId: 'get_user_tickets_tickets_user_me_tickets_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17286,7 +17505,7 @@ Only enabled sessions and categories are returned''',
   });
 
   ///Ticket Request Change Over
-  Future<chopper.Response> ticketsUserMeTicketsChangeOverRequestPost({
+  Future<chopper.Response<void>> ticketsUserMeTicketsChangeOverRequestPost({
     required TicketChangeOverInvitation? body,
   }) {
     return _ticketsUserMeTicketsChangeOverRequestPost(body: body);
@@ -17297,7 +17516,7 @@ Only enabled sessions and categories are returned''',
     path: '/tickets/user/me/tickets/change-over/request',
     optionalBody: true,
   )
-  Future<chopper.Response> _ticketsUserMeTicketsChangeOverRequestPost({
+  Future<chopper.Response<void>> _ticketsUserMeTicketsChangeOverRequestPost({
     @Body() required TicketChangeOverInvitation? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -17306,7 +17525,8 @@ Only enabled sessions and categories are returned''',
 
 Using this endpoint will invalidate existing transfer invitations.''',
       summary: 'Ticket Request Change Over',
-      operationId: 'post_tickets_user_me_tickets_change-over_request',
+      operationId:
+          'ticket_request_change_over_tickets_user_me_tickets_change_over_request_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17333,7 +17553,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
       description:
           'Accept a ticket transfer invitation. The user will become the new owner of the ticket.',
       summary: 'Ticket Accept Change Over',
-      operationId: 'get_tickets_user_me_tickets_change-over_accept',
+      operationId:
+          'ticket_accept_change_over_tickets_user_me_tickets_change_over_accept_get',
       consumes: [],
       produces: [],
       security: [],
@@ -17363,7 +17584,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Get Event Admin',
-      operationId: 'get_tickets_admin_events_{event_id}',
+      operationId: 'get_event_admin_tickets_admin_events__event_id__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17374,7 +17595,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
   ///Update Event
   ///@param event_id
-  Future<chopper.Response> ticketsAdminEventsEventIdPatch({
+  Future<chopper.Response<void>> ticketsAdminEventsEventIdPatch({
     required String? eventId,
     required EventUpdate? body,
   }) {
@@ -17384,14 +17605,14 @@ Using this endpoint will invalidate existing transfer invitations.''',
   ///Update Event
   ///@param event_id
   @PATCH(path: '/tickets/admin/events/{event_id}', optionalBody: true)
-  Future<chopper.Response> _ticketsAdminEventsEventIdPatch({
+  Future<chopper.Response<void>> _ticketsAdminEventsEventIdPatch({
     @Path('event_id') required String? eventId,
     @Body() required EventUpdate? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Edit one event for admin',
       summary: 'Update Event',
-      operationId: 'patch_tickets_admin_events_{event_id}',
+      operationId: 'update_event_tickets_admin_events__event_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17402,7 +17623,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
   ///Delete Event
   ///@param event_id
-  Future<chopper.Response> ticketsAdminEventsEventIdDelete({
+  Future<chopper.Response<void>> ticketsAdminEventsEventIdDelete({
     required String? eventId,
   }) {
     return _ticketsAdminEventsEventIdDelete(eventId: eventId);
@@ -17411,13 +17632,13 @@ Using this endpoint will invalidate existing transfer invitations.''',
   ///Delete Event
   ///@param event_id
   @DELETE(path: '/tickets/admin/events/{event_id}')
-  Future<chopper.Response> _ticketsAdminEventsEventIdDelete({
+  Future<chopper.Response<void>> _ticketsAdminEventsEventIdDelete({
     @Path('event_id') required String? eventId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete one event for admin',
       summary: 'Delete Event',
-      operationId: 'delete_tickets_admin_events_{event_id}',
+      operationId: 'delete_event_tickets_admin_events__event_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17445,7 +17666,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Create Event',
-      operationId: 'post_tickets_admin_events',
+      operationId: 'create_event_tickets_admin_events_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17482,7 +17703,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Create Session',
-      operationId: 'post_tickets_admin_events_{event_id}_sessions',
+      operationId:
+          'create_session_tickets_admin_events__event_id__sessions_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17494,7 +17716,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
   ///Update Session
   ///@param event_id
   ///@param session_id
-  Future<chopper.Response> ticketsAdminEventsEventIdSessionsSessionIdPatch({
+  Future<chopper.Response<void>>
+  ticketsAdminEventsEventIdSessionsSessionIdPatch({
     required String? eventId,
     required String? sessionId,
     required SessionUpdate? body,
@@ -17513,7 +17736,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
     path: '/tickets/admin/events/{event_id}/sessions/{session_id}',
     optionalBody: true,
   )
-  Future<chopper.Response> _ticketsAdminEventsEventIdSessionsSessionIdPatch({
+  Future<chopper.Response<void>>
+  _ticketsAdminEventsEventIdSessionsSessionIdPatch({
     @Path('event_id') required String? eventId,
     @Path('session_id') required String? sessionId,
     @Body() required SessionUpdate? body,
@@ -17522,7 +17746,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       description: 'Edit one event for admin',
       summary: 'Update Session',
       operationId:
-          'patch_tickets_admin_events_{event_id}_sessions_{session_id}',
+          'update_session_tickets_admin_events__event_id__sessions__session_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17534,7 +17758,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
   ///Delete Session
   ///@param event_id
   ///@param session_id
-  Future<chopper.Response> ticketsAdminEventsEventIdSessionsSessionIdDelete({
+  Future<chopper.Response<void>>
+  ticketsAdminEventsEventIdSessionsSessionIdDelete({
     required String? eventId,
     required String? sessionId,
   }) {
@@ -17548,7 +17773,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
   ///@param event_id
   ///@param session_id
   @DELETE(path: '/tickets/admin/events/{event_id}/sessions/{session_id}')
-  Future<chopper.Response> _ticketsAdminEventsEventIdSessionsSessionIdDelete({
+  Future<chopper.Response<void>>
+  _ticketsAdminEventsEventIdSessionsSessionIdDelete({
     @Path('event_id') required String? eventId,
     @Path('session_id') required String? sessionId,
     @chopper.Tag()
@@ -17556,7 +17782,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       description: 'Delete one session for admin',
       summary: 'Delete Session',
       operationId:
-          'delete_tickets_admin_events_{event_id}_sessions_{session_id}',
+          'delete_session_tickets_admin_events__event_id__sessions__session_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17596,7 +17822,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Create Category',
-      operationId: 'post_tickets_admin_events_{event_id}_categories',
+      operationId:
+          'create_category_tickets_admin_events__event_id__categories_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17608,7 +17835,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
   ///Update Category
   ///@param event_id
   ///@param category_id
-  Future<chopper.Response> ticketsAdminEventsEventIdCategoriesCategoryIdPatch({
+  Future<chopper.Response<void>>
+  ticketsAdminEventsEventIdCategoriesCategoryIdPatch({
     required String? eventId,
     required String? categoryId,
     required CategoryUpdate? body,
@@ -17627,7 +17855,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
     path: '/tickets/admin/events/{event_id}/categories/{category_id}',
     optionalBody: true,
   )
-  Future<chopper.Response> _ticketsAdminEventsEventIdCategoriesCategoryIdPatch({
+  Future<chopper.Response<void>>
+  _ticketsAdminEventsEventIdCategoriesCategoryIdPatch({
     @Path('event_id') required String? eventId,
     @Path('category_id') required String? categoryId,
     @Body() required CategoryUpdate? body,
@@ -17636,7 +17865,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       description: 'Edit one event for admin',
       summary: 'Update Category',
       operationId:
-          'patch_tickets_admin_events_{event_id}_categories_{category_id}',
+          'update_category_tickets_admin_events__event_id__categories__category_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17648,7 +17877,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
   ///Delete Category
   ///@param event_id
   ///@param category_id
-  Future<chopper.Response> ticketsAdminEventsEventIdCategoriesCategoryIdDelete({
+  Future<chopper.Response<void>>
+  ticketsAdminEventsEventIdCategoriesCategoryIdDelete({
     required String? eventId,
     required String? categoryId,
   }) {
@@ -17662,7 +17892,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
   ///@param event_id
   ///@param category_id
   @DELETE(path: '/tickets/admin/events/{event_id}/categories/{category_id}')
-  Future<chopper.Response>
+  Future<chopper.Response<void>>
   _ticketsAdminEventsEventIdCategoriesCategoryIdDelete({
     @Path('event_id') required String? eventId,
     @Path('category_id') required String? categoryId,
@@ -17671,7 +17901,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       description: 'Delete one category for admin',
       summary: 'Delete Category',
       operationId:
-          'delete_tickets_admin_events_{event_id}_categories_{category_id}',
+          'delete_category_tickets_admin_events__event_id__categories__category_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17706,7 +17936,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Create Question',
-      operationId: 'post_tickets_admin_events_{event_id}_questions',
+      operationId:
+          'create_question_tickets_admin_events__event_id__questions_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17718,7 +17949,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
   ///Update Question
   ///@param event_id
   ///@param question_id
-  Future<chopper.Response> ticketsAdminEventsEventIdQuestionsQuestionIdPatch({
+  Future<chopper.Response<void>>
+  ticketsAdminEventsEventIdQuestionsQuestionIdPatch({
     required String? eventId,
     required String? questionId,
     required QuestionUpdate? body,
@@ -17737,7 +17969,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
     path: '/tickets/admin/events/{event_id}/questions/{question_id}',
     optionalBody: true,
   )
-  Future<chopper.Response> _ticketsAdminEventsEventIdQuestionsQuestionIdPatch({
+  Future<chopper.Response<void>>
+  _ticketsAdminEventsEventIdQuestionsQuestionIdPatch({
     @Path('event_id') required String? eventId,
     @Path('question_id') required String? questionId,
     @Body() required QuestionUpdate? body,
@@ -17746,7 +17979,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       description: 'Edit one event for admin',
       summary: 'Update Question',
       operationId:
-          'patch_tickets_admin_events_{event_id}_questions_{question_id}',
+          'update_question_tickets_admin_events__event_id__questions__question_id__patch',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17758,7 +17991,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
   ///Delete Question
   ///@param event_id
   ///@param question_id
-  Future<chopper.Response> ticketsAdminEventsEventIdQuestionsQuestionIdDelete({
+  Future<chopper.Response<void>>
+  ticketsAdminEventsEventIdQuestionsQuestionIdDelete({
     required String? eventId,
     required String? questionId,
   }) {
@@ -17772,7 +18006,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
   ///@param event_id
   ///@param question_id
   @DELETE(path: '/tickets/admin/events/{event_id}/questions/{question_id}')
-  Future<chopper.Response> _ticketsAdminEventsEventIdQuestionsQuestionIdDelete({
+  Future<chopper.Response<void>>
+  _ticketsAdminEventsEventIdQuestionsQuestionIdDelete({
     @Path('event_id') required String? eventId,
     @Path('question_id') required String? questionId,
     @chopper.Tag()
@@ -17780,7 +18015,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       description: 'Delete one question for admin',
       summary: 'Delete Question',
       operationId:
-          'delete_tickets_admin_events_{event_id}_questions_{question_id}',
+          'delete_question_tickets_admin_events__event_id__questions__question_id__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17813,7 +18048,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Get Event Tickets',
-      operationId: 'get_tickets_admin_events_{event_id}_tickets',
+      operationId:
+          'get_event_tickets_tickets_admin_events__event_id__tickets_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17824,7 +18060,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
   ///Get Event Tickets Csv
   ///@param event_id
-  Future<chopper.Response> ticketsAdminEventsEventIdTicketsCsvGet({
+  Future<chopper.Response<List<int>>> ticketsAdminEventsEventIdTicketsCsvGet({
     required String? eventId,
   }) {
     return _ticketsAdminEventsEventIdTicketsCsvGet(eventId: eventId);
@@ -17833,7 +18069,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
   ///Get Event Tickets Csv
   ///@param event_id
   @GET(path: '/tickets/admin/events/{event_id}/tickets/csv')
-  Future<chopper.Response> _ticketsAdminEventsEventIdTicketsCsvGet({
+  Future<chopper.Response<List<int>>> _ticketsAdminEventsEventIdTicketsCsvGet({
     @Path('event_id') required String? eventId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -17841,7 +18077,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Get Event Tickets Csv',
-      operationId: 'get_tickets_admin_events_{event_id}_tickets_csv',
+      operationId:
+          'get_event_tickets_csv_tickets_admin_events__event_id__tickets_csv_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17874,7 +18111,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Check Ticket',
-      operationId: 'post_tickets_admin_tickets_{ticket_id}_check',
+      operationId: 'check_ticket_tickets_admin_tickets__ticket_id__check_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17885,7 +18122,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
   ///Scan Ticket
   ///@param ticket_id
-  Future<chopper.Response> ticketsAdminTicketsTicketIdScanPost({
+  Future<chopper.Response<void>> ticketsAdminTicketsTicketIdScanPost({
     required String? ticketId,
   }) {
     return _ticketsAdminTicketsTicketIdScanPost(ticketId: ticketId);
@@ -17894,7 +18131,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
   ///Scan Ticket
   ///@param ticket_id
   @POST(path: '/tickets/admin/tickets/{ticket_id}/scan', optionalBody: true)
-  Future<chopper.Response> _ticketsAdminTicketsTicketIdScanPost({
+  Future<chopper.Response<void>> _ticketsAdminTicketsTicketIdScanPost({
     @Path('ticket_id') required String? ticketId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -17902,7 +18139,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Scan Ticket',
-      operationId: 'post_tickets_admin_tickets_{ticket_id}_scan',
+      operationId: 'scan_ticket_tickets_admin_tickets__ticket_id__scan_post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17933,7 +18170,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Events By Store',
-      operationId: 'get_tickets_admin_store_{store_id}_events',
+      operationId:
+          'get_events_by_store_tickets_admin_store__store_id__events_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17970,7 +18208,8 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Get Events By Association',
-      operationId: 'get_tickets_admin_association_{association_id}_events',
+      operationId:
+          'get_events_by_association_tickets_admin_association__association_id__events_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -17991,7 +18230,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all permissions from database',
       summary: 'Read Permissions List',
-      operationId: 'get_permissions_list',
+      operationId: 'read_permissions_list_permissions_list_get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -18017,7 +18256,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all permissions from database',
       summary: 'Read Permissions',
-      operationId: 'get_permissions_',
+      operationId: 'read_permissions_permissions__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -18027,19 +18266,19 @@ Using this endpoint will invalidate existing transfer invitations.''',
   });
 
   ///Create Permission
-  Future<chopper.Response> permissionsPost({required Object? body}) {
+  Future<chopper.Response<void>> permissionsPost({required Object? body}) {
     return _permissionsPost(body: body);
   }
 
   ///Create Permission
   @POST(path: '/permissions/', optionalBody: true)
-  Future<chopper.Response> _permissionsPost({
+  Future<chopper.Response<void>> _permissionsPost({
     @Body() required Object? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a new permission in database',
       summary: 'Create Permission',
-      operationId: 'post_permissions_',
+      operationId: 'create_permission_permissions__post',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -18049,19 +18288,19 @@ Using this endpoint will invalidate existing transfer invitations.''',
   });
 
   ///Delete Permission
-  Future<chopper.Response> permissionsDelete({required Object? body}) {
+  Future<chopper.Response<void>> permissionsDelete({required Object? body}) {
     return _permissionsDelete(body: body);
   }
 
   ///Delete Permission
   @DELETE(path: '/permissions/')
-  Future<chopper.Response> _permissionsDelete({
+  Future<chopper.Response<void>> _permissionsDelete({
     @Body() required Object? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete a permission from database by name',
       summary: 'Delete Permission',
-      operationId: 'delete_permissions_',
+      operationId: 'delete_permission_permissions__delete',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -18092,7 +18331,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return permission with name from database',
       summary: 'Read Permission',
-      operationId: 'get_permissions_{permission_name}',
+      operationId: 'read_permission_permissions__permission_name__get',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -18159,6 +18398,13 @@ class $JsonSerializableConverter extends chopper.JsonConverter {
 
     if (ResultType == String) {
       return response.copyWith();
+    }
+
+    if (ResultType == (List<int>)) {
+      // Binary/file downloads: return the raw bytes instead of JSON-decoding.
+      return response.copyWith<ResultType>(
+        body: response.bodyBytes as ResultType,
+      );
     }
 
     if (ResultType == DateTime) {

@@ -20,8 +20,10 @@ Future<void> main(List<String> args) async {
     ...args,
   ]);
   await _run('dart', ['run', 'tool/gen_empty_models.dart']);
-  // Re-format the models file: gen_empty_models injects raw source lines.
+  // Re-format the generated files: the post-processing steps inject raw lines
+  // that can push lines past the 80-char formatter width.
   await _run('dart', ['format', 'lib/generated/openapi.models.swagger.dart']);
+  await _run('dart', ['format', 'lib/generated/openapi.models.swagger.g.dart']);
 }
 
 Future<void> _run(String exe, List<String> args) async {
