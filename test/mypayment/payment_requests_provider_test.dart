@@ -9,7 +9,10 @@ import 'package:titan/tools/repository/repository.dart';
 
 class MockPaymentRequestsRepository extends Mock implements Openapi {}
 
-Request$ request({String id = '1', RequestStatus status = RequestStatus.proposed}) {
+Request$ request({
+  String id = '1',
+  RequestStatus status = RequestStatus.proposed,
+}) {
   return Request$(
     id: id,
     walletId: 'wallet-1',
@@ -35,15 +38,10 @@ void main() {
     setUp(() {
       mockRepository = MockPaymentRequestsRepository();
       when(() => mockRepository.mypaymentRequestsGet()).thenAnswer(
-        (_) async => chopper.Response(
-          http.Response('[]', 200),
-          <Request$>[],
-        ),
+        (_) async => chopper.Response(http.Response('[]', 200), <Request$>[]),
       );
       container = ProviderContainer(
-        overrides: [
-          repositoryProvider.overrideWithValue(mockRepository),
-        ],
+        overrides: [repositoryProvider.overrideWithValue(mockRepository)],
       );
       notifier = container.read(paymentRequestsProvider.notifier);
     });
@@ -68,43 +66,46 @@ void main() {
     });
 
     test('getRequests should handle error', () async {
-      when(() => mockRepository.mypaymentRequestsGet())
-          .thenThrow(Exception('Error'));
+      when(
+        () => mockRepository.mypaymentRequestsGet(),
+      ).thenThrow(Exception('Error'));
       final result = await notifier.getRequests();
       expect(result, isA<AsyncError>());
     });
 
-    test('acceptRequest should update the request status to accepted',
-        () async {
-      final proposed = request(status: RequestStatus.proposed);
-      final validation = SignedContent(
-        id: proposed.id,
-        tot: proposed.total,
-        iat: DateTime.now(),
-        key: 'key-1',
-        store: true,
-        signature: 'sig',
-      );
-      notifier.state = AsyncValue.data([proposed]);
-      when(
-        () => mockRepository.mypaymentRequestsRequestIdAcceptPost(
-          requestId: any(named: 'requestId'),
-          body: any(named: 'body'),
-        ),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('', 200), null),
-      );
-      final result = await notifier.acceptRequest(proposed, validation);
-      expect(result, true);
-      expect(
-        notifier.state,
-        isA<AsyncData<List<Request$>>>().having(
-          (data) => data.value.single.status,
-          'status',
-          RequestStatus.accepted,
-        ),
-      );
-    });
+    test(
+      'acceptRequest should update the request status to accepted',
+      () async {
+        final proposed = request(status: RequestStatus.proposed);
+        final validation = SignedContent(
+          id: proposed.id,
+          tot: proposed.total,
+          iat: DateTime.now(),
+          key: 'key-1',
+          store: true,
+          signature: 'sig',
+        );
+        notifier.state = AsyncValue.data([proposed]);
+        when(
+          () => mockRepository.mypaymentRequestsRequestIdAcceptPost(
+            requestId: any(named: 'requestId'),
+            body: any(named: 'body'),
+          ),
+        ).thenAnswer(
+          (_) async => chopper.Response(http.Response('', 200), null),
+        );
+        final result = await notifier.acceptRequest(proposed, validation);
+        expect(result, true);
+        expect(
+          notifier.state,
+          isA<AsyncData<List<Request$>>>().having(
+            (data) => data.value.single.status,
+            'status',
+            RequestStatus.accepted,
+          ),
+        );
+      },
+    );
 
     test('acceptRequest should handle error', () async {
       final proposed = request(status: RequestStatus.proposed);
@@ -134,9 +135,7 @@ void main() {
         () => mockRepository.mypaymentRequestsRequestIdRefusePost(
           requestId: any(named: 'requestId'),
         ),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('', 200), null),
-      );
+      ).thenAnswer((_) async => chopper.Response(http.Response('', 200), null));
       final result = await notifier.refuseRequest(proposed);
       expect(result, true);
       expect(
