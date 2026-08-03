@@ -12,6 +12,13 @@ targets:
           input_urls:
             - url: "https://hyperion.myemapp.dev.proximapp.fr/openapi.json"
           separate_models: true
+          import_paths:
+            - 'package:titan/tools/date_time_json.dart'
+          scalars:
+            date-time:
+              type: DateTime
+              deserialize: DateTime.parse
+              serialize: dateTimeToJson
           default_values_map:
             - type_name: int
               default_value: '0'
