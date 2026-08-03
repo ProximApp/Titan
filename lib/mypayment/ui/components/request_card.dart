@@ -145,8 +145,7 @@ class RequestCard extends ConsumerWidget {
                 color: const Color(0xff204550),
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                decoration:
-                    request.status == RequestStatus.refused || expired
+                decoration: request.status == RequestStatus.refused || expired
                     ? TextDecoration.lineThrough
                     : TextDecoration.none,
                 decorationColor: const Color(0xff204550).withValues(alpha: 0.8),

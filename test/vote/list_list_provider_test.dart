@@ -55,7 +55,7 @@ void main() {
 
       expect(
         result.maybeWhen(error: (error, _) => error, orElse: () => null),
-        null,
+        isA<Exception>(),
       );
     });
 

@@ -107,7 +107,8 @@ class RequestHistoryPage extends HookConsumerWidget {
                   for (var request in groupedByDay[day]!)
                     RequestCard(
                       request: request,
-                      onTap: request.status == RequestStatus.proposed &&
+                      onTap:
+                          request.status == RequestStatus.proposed &&
                               !isRequestExpired(request)
                           ? () async {
                               await showRequestModal(
