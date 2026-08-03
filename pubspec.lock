@@ -1623,7 +1623,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "6b24938c6e41b6f9ffe6df352b049ebc39ceaf86"
+      resolved-ref: df03d0c628e138d3b7c2c1b26135c0c643671819
       url: "https://github.com/maximeroucher/swagger-dart-code-generator.git"
     source: git
     version: "4.1.1"
