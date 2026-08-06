@@ -17,13 +17,6 @@ class AppAuthenticator implements Authenticator {
     Response response, [
     Request? originalRequest,
   ]) async {
-    debugPrint(
-      '[AppAuthenticator] response.statusCode: ${response.statusCode}',
-    );
-    debugPrint(
-      '[AppAuthenticator] request Retry-Count: ${request.headers['Retry-Count'] ?? 0}',
-    );
-
     // 401
     if (response.statusCode == HttpStatus.unauthorized) {
       // Trying to update token only 1 time
