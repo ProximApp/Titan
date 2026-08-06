@@ -21,6 +21,18 @@ class IntervalSelector extends ConsumerWidget {
       selectedIntervalProvider.notifier,
     );
 
+    Future<void> _updateHistory(
+      String storeId,
+      DateTime startDate,
+      DateTime endDate,
+    ) async {
+      await selectedHistoryNotifier.getHistory(
+        storeId,
+        startDate.toUtc(),
+        endDate.toUtc(),
+      );
+    }
+
     Future<DateTime?> getDate(DateTime initialDate) async {
       return await showDatePicker(
         context: context,
@@ -97,7 +109,7 @@ class IntervalSelector extends ConsumerWidget {
                   final date = await getDate(selectedInterval.start);
                   if (date != null) {
                     selectedIntervalNotifier.updateStart(date);
-                    await selectedHistoryNotifier.getHistory(
+                    await _updateHistory(
                       selectedStore.id,
                       date,
                       selectedInterval.end,
@@ -138,7 +150,7 @@ class IntervalSelector extends ConsumerWidget {
                       time.minute,
                     );
                     selectedIntervalNotifier.updateStart(date);
-                    await selectedHistoryNotifier.getHistory(
+                    await _updateHistory(
                       selectedStore.id,
                       date,
                       selectedInterval.end,
@@ -182,7 +194,7 @@ class IntervalSelector extends ConsumerWidget {
                   final date = await getDate(selectedInterval.end);
                   if (date != null) {
                     selectedIntervalNotifier.updateEnd(date);
-                    await selectedHistoryNotifier.getHistory(
+                    await _updateHistory(
                       selectedStore.id,
                       selectedInterval.start,
                       date,
@@ -223,7 +235,7 @@ class IntervalSelector extends ConsumerWidget {
                       time.minute,
                     );
                     selectedIntervalNotifier.updateEnd(date);
-                    await selectedHistoryNotifier.getHistory(
+                    await _updateHistory(
                       selectedStore.id,
                       selectedInterval.start,
                       date,

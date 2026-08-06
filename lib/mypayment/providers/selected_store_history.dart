@@ -4,6 +4,7 @@ import 'package:titan/mypayment/providers/selected_interval_provider.dart';
 import 'package:titan/mypayment/providers/selected_store_provider.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
+import 'package:titan/tools/date_time_json.dart';
 
 class SellerHistoryNotifier extends ListNotifierAPI<History> {
   Openapi get storesRepository => ref.watch(repositoryProvider);
@@ -32,8 +33,8 @@ class SellerHistoryNotifier extends ListNotifierAPI<History> {
     return await loadList(
       () => storesRepository.mypaymentStoresStoreIdHistoryGet(
         storeId: storeId,
-        startDate: startDate.toIso8601String().split('T').first,
-        endDate: endDate.toIso8601String().split('T').first,
+        startDate: dateTimeToJson(startDate.toUtc())!.split('T').first,
+        endDate: dateTimeToJson(endDate.toUtc())!.split('T').first,
       ),
     );
   }
