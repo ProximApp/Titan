@@ -1,0 +1,15 @@
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/images/logo_dev.png
+  branding: assets/images/proximapp.png
+  color_dark: "#424242"
+  image_dark: assets/images/logo_dev.png
+  branding_dark: assets/images/proximapp.png
+
+  android_12:
+    image: assets/images/logo_dev.png
+    icon_background_color: "#ffffff"
+    image_dark: assets/images/logo_dev.png
+    icon_background_color_dark: "#424242"
+
+  web: false
