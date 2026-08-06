@@ -42,9 +42,7 @@ class TicketResultsPage extends HookConsumerWidget {
       // download gives the user time to leave the page.
       final shareOrigin = shareOriginOf(buttonContext);
 
-      final bytes = await csvDownloadNotifier.downloadCsv(
-        selectedId,
-      );
+      final bytes = await csvDownloadNotifier.downloadCsv(selectedId);
       if (bytes == null) {
         displayToastWithContext(TypeMsg.error, l10n.ticketsCsvDownloadError);
         return;
@@ -174,4 +172,3 @@ class TicketResultsPage extends HookConsumerWidget {
     );
   }
 }
-
