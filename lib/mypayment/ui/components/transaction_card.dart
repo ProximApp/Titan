@@ -24,7 +24,7 @@ class TransactionCard extends ConsumerWidget {
     final locale = ref.watch(localeProvider);
     final formatter = NumberFormat.currency(
       locale: locale.toString(),
-      symbol: "€",
+      symbol: "ʍ",
     );
     final isDebited = transaction.direction == HistoryDirection.debited;
     final HeroIcons icon;

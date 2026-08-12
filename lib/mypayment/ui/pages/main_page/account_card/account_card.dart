@@ -49,7 +49,7 @@ class AccountCard extends HookConsumerWidget {
     ];
     final formatter = NumberFormat.currency(
       locale: locale.toString(),
-      symbol: "€",
+      symbol: "ʍ",
     );
     final localizeWithContext = AppLocalizations.of(context)!;
 

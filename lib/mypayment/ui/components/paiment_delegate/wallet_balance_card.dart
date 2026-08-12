@@ -15,7 +15,7 @@ class WalletBalanceCard extends ConsumerWidget {
     final wallet = ref.watch(myWalletProvider);
     final priceFormatter = NumberFormat.currency(
       locale: 'fr_FR',
-      symbol: '€',
+      symbol: 'ʍ',
       decimalDigits: 2,
     );
 

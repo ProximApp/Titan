@@ -26,7 +26,7 @@ class SumUpChart extends HookConsumerWidget {
     );
     final formatter = NumberFormat.currency(
       locale: locale.toString(),
-      symbol: "€",
+      symbol: "ʍ",
     );
     final Map<String, List<History>> transactionPerStore = {};
     final Map<String, List<History>> creditedTransactionPerStore = {};
