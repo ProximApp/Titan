@@ -21,7 +21,7 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final priceFormatter = NumberFormat.currency(
       locale: 'fr_FR',
-      symbol: '€',
+      symbol: 'ʍ',
       decimalDigits: 2,
     );
 

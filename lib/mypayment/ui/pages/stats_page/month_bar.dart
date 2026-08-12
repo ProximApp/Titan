@@ -14,7 +14,7 @@ class MonthBar extends HookConsumerWidget {
     final locale = ref.watch(localeProvider);
     final formatter = NumberFormat.currency(
       locale: locale.toString(),
-      symbol: "€",
+      symbol: "ʍ",
     );
     final history = ref.watch(myHistoryProvider);
     int total = 0;

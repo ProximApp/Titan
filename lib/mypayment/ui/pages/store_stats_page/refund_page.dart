@@ -26,7 +26,7 @@ class ReFundPage extends ConsumerWidget {
     final transactionNotifier = ref.watch(transactionProvider.notifier);
     final formatter = NumberFormat.currency(
       locale: locale.toString(),
-      symbol: "€",
+      symbol: "ʍ",
     );
 
     final isValid =
@@ -87,7 +87,7 @@ class ReFundPage extends ConsumerWidget {
                     }),
                     if (refundAmount.isNotEmpty)
                       Text(
-                        ' €',
+                        ' ʍ',
                         style: TextStyle(
                           color: isValid
                               ? Colors.white

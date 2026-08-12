@@ -30,7 +30,7 @@ class FundPage extends ConsumerWidget {
     );
     final formatter = NumberFormat.currency(
       locale: locale.toString(),
-      symbol: "€",
+      symbol: "ʍ",
     );
 
     final amountToAdd = double.tryParse(fundAmount.replaceAll(",", ".")) ?? 0;
@@ -88,7 +88,7 @@ class FundPage extends ConsumerWidget {
                     }),
                     if (fundAmount.isNotEmpty)
                       Text(
-                        ' €',
+                        ' ʍ',
                         style: TextStyle(
                           color: isValid
                               ? Colors.white
