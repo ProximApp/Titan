@@ -61,12 +61,12 @@ jobs:
 
       - name: Configure web files
         run: |
+          APP_NAME=$(cat config.json | jq -r '.APP_NAME')
+          SCHOOL_NAME=$(cat config.json | jq -r '.SCHOOL_NAME')
           sed -i 's|{{ APP_NAME }}|'"$APP_NAME"'|g' web/index.html
           sed -i 's|{{ SCHOOL_NAME }}|'"$SCHOOL_NAME"'|g' web/index.html
           sed -i 's|{{ ENTITY_NAME }}|'"$ENTITY_NAME"'|g' web/index.html
         env:
-          APP_NAME: ${{ vars.APP_NAME }}
-          SCHOOL_NAME: ${{ vars.SCHOOL_NAME }}
           ENTITY_NAME: ${{ vars.ENTITY_NAME }}
 
       - name: Move assets
@@ -75,16 +75,12 @@ jobs:
           cp -r -f $BACK_ASSET_PATH assets/web/back.webp
           cp -r -f $LOGO_ASSET_PATH assets/images/logo_prod.png
           cp -r -f $ICON_ASSET_PATH assets/images/icon_prod.png
-          cp -r -f $ICON_ANDROID_PATH/* android/app/src/prod/
-          cp -r -f $ICON_IOS_PATH/* ios/Runner/Assets.xcassets/AppIcon-Prod.appiconset/
           cp -r -f $ICON_WEB_PATH/* web/Prod/
         env:
           LOGIN_ASSET_PATH: ${{ vars.LOGIN_ASSET_PATH }}
           BACK_ASSET_PATH: ${{ vars.BACK_ASSET_PATH }}
           LOGO_ASSET_PATH: ${{ vars.LOGO_ASSET_PATH }}
           ICON_ASSET_PATH: ${{ vars.ICON_ASSET_PATH }}
-          ICON_ANDROID_PATH: ${{ vars.ICON_ANDROID_PATH }}
-          ICON_IOS_PATH: ${{ vars.ICON_IOS_PATH }}
           ICON_WEB_PATH: ${{ vars.ICON_WEB_PATH }}
 
       - name: Configure Alpha env
@@ -123,15 +119,9 @@ jobs:
           sed -i "s/{{APP_NAME}}/$APP_NAME/g" web/manifest.json
           sed -i "s/{{SCHOOL_NAME}}/$SCHOOL_NAME/g" web/manifest.json
 
-      - name: Build Alpha 🔧
-        if: needs.extract-version.outputs.isAlpha == 'true'
+      - name: Build 🔧
         run: |
-          flutter build web --release --dart-define-from-file=config.json --flavor=prod
-
-      - name: Build Prod 🔧
-        if: needs.extract-version.outputs.isAlpha == 'false'
-        run: |
-          flutter build web --release --dart-define-from-file=config.json --flavor=alpha
+          flutter build web --release --dart-define-from-file=config.json
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
