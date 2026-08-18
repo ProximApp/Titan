@@ -33,7 +33,7 @@ class OnGoingLoan extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale = Localizations.localeOf(context);
+    final locale = Localizations.localeOf(context).toString();
     final loaner = ref.watch(loanerProvider);
     final loanListNotifier = ref.watch(loanerLoanListProvider.notifier);
     final loanList = ref.watch(loanerLoanListProvider);

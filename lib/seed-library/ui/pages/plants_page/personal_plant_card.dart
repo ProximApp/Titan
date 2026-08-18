@@ -19,7 +19,7 @@ class PersonalPlantCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale = Localizations.localeOf(context);
+    final locale = Localizations.localeOf(context).toString();
     final species = ref.watch(syncSpeciesListProvider);
     final plantSpecies = species.firstWhere(
       (element) => element.id == plant.speciesId,

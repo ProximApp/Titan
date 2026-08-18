@@ -29,7 +29,7 @@ class AddEditDeliveryPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale = Localizations.localeOf(context);
+    final locale = Localizations.localeOf(context).toString();
     final formKey = GlobalKey<FormState>();
     final delivery = ref.watch(deliveryProvider);
     final isEdit = delivery.id != Delivery.empty().id;

@@ -17,7 +17,7 @@ class SearchFilters extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale = Localizations.localeOf(context);
+    final locale = Localizations.localeOf(context).toString();
     final associationMembershipMemberListNotifier = ref.watch(
       associationMembershipMembersProvider.notifier,
     );

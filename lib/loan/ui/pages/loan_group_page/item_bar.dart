@@ -21,7 +21,7 @@ class ItemBar extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale = Localizations.localeOf(context);
+    final locale = Localizations.localeOf(context).toString();
     final loaner = ref.watch(loanerProvider);
     final loanersItems = ref.watch(loanersItemsProvider);
     final selectedItems = ref.watch(editSelectedListProvider);

@@ -34,7 +34,7 @@ class EventUi extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale = Localizations.localeOf(context);
+    final locale = Localizations.localeOf(context).toString();
     final now = DateTime.now();
     final eventListNotifier = ref.watch(eventEventListProvider.notifier);
     final eventNotifier = ref.watch(eventProvider.notifier);

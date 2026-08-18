@@ -30,7 +30,7 @@ class LoanCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = Localizations.localeOf(context);
+    final locale = Localizations.localeOf(context).toString();
     final shouldReturn =
         DateTime.now().compareTo(loan.end) > 0 && !loan.returned;
     return GestureDetector(

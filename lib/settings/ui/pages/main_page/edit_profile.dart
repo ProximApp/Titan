@@ -19,7 +19,7 @@ class EditProfile extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale = Localizations.localeOf(context);
+    final locale = Localizations.localeOf(context).toString();
     final me = ref.watch(userProvider);
     final profilePictureNotifier = ref.watch(profilePictureProvider.notifier);
     final profilePicture = ref.watch(profilePictureProvider);

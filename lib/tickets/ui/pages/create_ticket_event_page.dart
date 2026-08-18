@@ -51,7 +51,7 @@ class CreateTicketEventPage extends HookConsumerWidget {
     final scrollController = useScrollController();
     final sessionsFormNotifier = ref.read(sessionsFormProvider.notifier);
 
-    final locale = Localizations.localeOf(context);
+    final locale = Localizations.localeOf(context).toString();
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),

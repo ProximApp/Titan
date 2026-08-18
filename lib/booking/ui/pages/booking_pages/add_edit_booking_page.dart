@@ -41,7 +41,7 @@ class AddEditBookingPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale = Localizations.localeOf(context);
+    final locale = Localizations.localeOf(context).toString();
     final now = DateTime.now();
     final user = ref.watch(userProvider);
     final key = GlobalKey<FormState>();

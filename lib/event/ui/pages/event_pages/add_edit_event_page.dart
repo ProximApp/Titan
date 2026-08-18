@@ -34,7 +34,7 @@ class AddEditEventPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale = Localizations.localeOf(context);
+    final locale = Localizations.localeOf(context).toString();
     final now = DateTime.now();
     final user = ref.watch(userProvider);
     final event = ref.watch(eventProvider);

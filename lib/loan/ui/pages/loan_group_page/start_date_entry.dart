@@ -15,7 +15,7 @@ class StartDateEntry extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale = Localizations.localeOf(context);
+    final locale = Localizations.localeOf(context).toString();
     final items = ref.watch(itemListProvider);
     final selectedItems = ref.watch(editSelectedListProvider);
     final endNotifier = ref.watch(endProvider.notifier);

@@ -27,7 +27,7 @@ class TicketCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale = Localizations.localeOf(context);
+    final locale = Localizations.localeOf(context).toString();
     final seller = ref.watch(sellerProvider);
     final ticketIdNotifier = ref.read(ticketIdProvider.notifier);
     final productIdNotifier = ref.read(productIdProvider.notifier);

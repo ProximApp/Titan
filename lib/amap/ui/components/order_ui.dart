@@ -31,7 +31,7 @@ class OrderUI extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale = Localizations.localeOf(context);
+    final locale = Localizations.localeOf(context).toString();
     final orderListNotifier = ref.watch(userOrderListProvider.notifier);
     final orderNotifier = ref.watch(orderProvider.notifier);
     final balanceNotifier = ref.watch(userAmountProvider.notifier);
