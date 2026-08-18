@@ -1,16 +1,15 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final localeProvider = StateNotifierProvider<LocaleNotifier, Locale?>(
+final localeProvider = StateNotifierProvider<LocaleNotifier, Locale>(
   (ref) => LocaleNotifier(),
 );
 
-class LocaleNotifier extends StateNotifier<Locale?> {
+class LocaleNotifier extends StateNotifier<Locale> {
   static const _localeKey = 'locale';
-
-  LocaleNotifier() : super(null) {
+  // Default to French; on first build we avoid null so formatters never see "null"
+  LocaleNotifier() : super(const Locale('fr', 'FR')) {
     _loadLocale();
   }
 
@@ -19,9 +18,8 @@ class LocaleNotifier extends StateNotifier<Locale?> {
     final localeCode = prefs.getString(_localeKey);
     if (localeCode != null) {
       state = Locale(localeCode);
-    } else {
-      state = Locale(Platform.localeName);
     }
+    // If no stored preference, keep the default 'fr_FR' (don't use Platform.localeName on web)
   }
 
   Future<void> setLocale(Locale locale) async {

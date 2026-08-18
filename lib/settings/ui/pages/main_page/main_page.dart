@@ -162,7 +162,7 @@ class SettingsMainPage extends HookConsumerWidget {
                                   .setLocale(const Locale('fr'));
                             },
                             trailing:
-                                ref.watch(localeProvider)?.languageCode == 'fr'
+                                ref.watch(localeProvider).languageCode == 'fr'
                                 ? const HeroIcon(
                                     HeroIcons.check,
                                     color: ColorConstants.tertiary,
@@ -179,7 +179,7 @@ class SettingsMainPage extends HookConsumerWidget {
                                   .setLocale(const Locale('en'));
                             },
                             trailing:
-                                ref.watch(localeProvider)?.languageCode == 'en'
+                                ref.watch(localeProvider).languageCode == 'en'
                                 ? const HeroIcon(
                                     HeroIcons.check,
                                     color: ColorConstants.tertiary,
