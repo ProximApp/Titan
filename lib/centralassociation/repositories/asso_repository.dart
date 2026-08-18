@@ -5,10 +5,8 @@ import 'package:titan/centralassociation/class/asso.dart';
 
 class AssoRepository {
   static const String host = "https://assos.myecl.fr/assos_links.json";
-  final Map<String, String> headers = {
-    "Content-Type": "application/json; charset=UTF-8",
-    "Accept": "application/json",
-  };
+  // No Content-Type on GET (no body) — avoids CORS preflight OPTIONS
+  final Map<String, String> headers = {"Accept": "application/json"};
 
   static final Logger logger = Logger();
   void initLogger() {
