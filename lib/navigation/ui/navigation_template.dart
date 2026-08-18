@@ -37,7 +37,7 @@ class NavigationTemplate extends HookConsumerWidget {
     final shouldSetup = ref.watch(shouldSetupProvider);
     final shouldSetupNotifier = ref.read(shouldSetupProvider.notifier);
     final animation = ref.watch(navbarAnimationProvider);
-    final pathForwarding = ref.read(pathForwardingProvider);
+    final pathForwarding = ref.watch(pathForwardingProvider);
     final pathForwardingNotifier = ref.read(pathForwardingProvider.notifier);
 
     Future(() {
