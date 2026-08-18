@@ -67,7 +67,7 @@ class _EditTicketEventContent extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
-    final locale = Localizations.localeOf(context);
+    final locale = Localizations.localeOf(context).toString();
     final dateFormatter = DateFormat('dd/MM/yyyy HH:mm', locale.toString());
     final editNotifier = ref.watch(ticketEventEditProvider.notifier);
     final scrollController = useScrollController();
@@ -304,7 +304,7 @@ class _GeneralInfoEditModal extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
-    final locale = Localizations.localeOf(context);
+    final locale = Localizations.localeOf(context).toString();
     final dateFormatter = DateFormat('dd/MM/yyyy HH:mm', locale.toString());
     final editNotifier = ref.read(ticketEventEditProvider.notifier);
 

@@ -66,9 +66,13 @@ class FeedMainPage extends HookConsumerWidget {
                 (item.end != null && item.end!.isAfter(now)),
           );
 
-          if (upcomingIndex != -1 && scrollController.hasClients) {
+          final targetIndex = upcomingIndex != -1
+              ? upcomingIndex
+              : newsList.length - 1;
+
+          if (scrollController.hasClients) {
             double scrollPosition = 0.0;
-            for (int i = 0; i < upcomingIndex; i++) {
+            for (int i = 0; i < targetIndex; i++) {
               final currentItem = newsList[i];
 
               final itemHeight =

@@ -19,7 +19,7 @@ class TimelineItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale = Localizations.localeOf(context);
+    final locale = Localizations.localeOf(context).toString();
     final localizeWithContext = AppLocalizations.of(context)!;
 
     return LayoutBuilder(

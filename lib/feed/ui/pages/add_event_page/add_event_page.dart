@@ -39,7 +39,7 @@ class AddEditEventPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale = Localizations.localeOf(context);
+    final locale = Localizations.localeOf(context).toString();
     final key = GlobalKey<FormState>();
     // final recurrentController = useState(false);
     // final recurrenceEndDateController = useTextEditingController();

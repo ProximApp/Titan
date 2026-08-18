@@ -24,7 +24,7 @@ class CalendarDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = Localizations.localeOf(context);
+    final locale = Localizations.localeOf(context).toString();
     final isNotEnded = booking.recurrenceRule.isNotEmpty
         ? SfCalendar.parseRRule(
             booking.recurrenceRule,
