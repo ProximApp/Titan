@@ -15,12 +15,16 @@ import 'package:titan/tickets/providers/ticket_event_list_provider.dart';
 import 'package:titan/tickets/providers/ticket_event_provider.dart';
 import 'package:titan/tickets/ui/components/edit_ticket_event_helpers.dart';
 import 'package:titan/tickets/ui/components/read_only_banner.dart';
+import 'package:titan/tickets/ui/components/stats_card.dart';
+import 'package:titan/tickets/ui/components/switch_row.dart';
 import 'package:titan/tickets/ui/components/ticket_event_status_chip.dart';
 import 'package:titan/tickets/ui/tickets_module.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:titan/tools/ui/widgets/date_entry.dart';
-import 'package:titan/tools/ui/widgets/text_entry.dart';
+import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
+import 'package:titan/tools/ui/styleguide/button.dart';
+import 'package:titan/tools/ui/styleguide/date_entry.dart';
+import 'package:titan/tools/ui/styleguide/text_entry.dart';
 
 // Prices are stored in cents by the backend and shown in euros everywhere in
 // the module.
@@ -104,6 +108,10 @@ class _EditTicketEventForm extends HookConsumerWidget {
           ? dateFormatter.format(ticketEvent.closeDatetime!)
           : '',
     );
+    // The date rows show their value as a subtitle, so they have to rebuild
+    // when the picker writes back into the controller.
+    final startDate = useValueListenable(startDateController).text;
+    final endDate = useValueListenable(endDateController).text;
 
     // Field edits are staged here and written back by the save button, unlike
     // adding and removing an item which the backend has to arbitrate straight
@@ -240,6 +248,28 @@ class _EditTicketEventForm extends HookConsumerWidget {
       Navigator.of(context).pop();
     }
 
+    Future<void> cancelEvent() async {
+      if (!await showCancelConfirm(context, ref)) return;
+      if (!context.mounted) return;
+
+      final success = await ticketEventNotifier.cancelEvent(ticketEvent.id);
+      if (!context.mounted) return;
+      if (!success) {
+        // The endpoint is still missing, so the only failure the user can hit
+        // today is that one. See TicketEventNotifier.cancelEvent.
+        showEditError(
+          context,
+          l10n,
+          reason: l10n.ticketsCancelEventUnavailable,
+        );
+        return;
+      }
+
+      await ref.read(ticketEventListProvider.notifier).loadShotgunList();
+      if (!context.mounted) return;
+      displayToast(context, TypeMsg.msg, l10n.ticketsCancelEventSuccess);
+    }
+
     Future<void> deleteEvent() async {
       if (!await showDeleteConfirm(context, ref)) return;
       if (!context.mounted) return;
@@ -279,26 +309,42 @@ class _EditTicketEventForm extends HookConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 16),
-              Text(
-                l10n.ticketsEditTitle,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: ColorConstants.title,
-                ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          l10n.ticketsEditTitle,
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: ColorConstants.title,
+                          ),
+                        ),
+                        Text(
+                          ticketEvent.name,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: ColorConstants.onTertiary,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  TicketEventStatusChip(status: ticketEvent.status),
+                ],
               ),
-              const SizedBox(height: 12),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: TicketEventStatusChip(status: ticketEvent.status),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                '${l10n.ticketsGlobalStats}: ${ticketEvent.ticketsSold} ${l10n.ticketsTicketsSold.toLowerCase()}, ${ticketEvent.ticketsInCheckout} ${l10n.ticketsTicketsInCheckout.toLowerCase()}',
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: ColorConstants.onTertiary,
-                ),
+              const SizedBox(height: 16),
+              // Same card as the results page, so both screens report the sales
+              // the same way.
+              StatsCard(
+                ticketsSold: ticketEvent.ticketsSold,
+                ticketsInCheckout: ticketEvent.ticketsInCheckout,
+                quota: ticketEvent.quota,
               ),
               const SizedBox(height: 24),
               TextEntry(
@@ -312,30 +358,30 @@ class _EditTicketEventForm extends HookConsumerWidget {
                 maxLines: 1,
                 label: l10n.ticketsPlacesLabel,
                 controller: placesController,
+                keyboardType: TextInputType.number,
                 onChanged: (_) {},
               ),
               const SizedBox(height: 24),
               DateEntry(
-                label: l10n.ticketsStartDateLabel,
-                controller: startDateController,
+                title: l10n.ticketsStartDateLabel,
+                subtitle: startDate.isEmpty
+                    ? l10n.ticketsDateNotSet
+                    : startDate,
                 onTap: () => getFullDate(context, startDateController),
               ),
               DateEntry(
-                label: l10n.ticketsEndDateLabel,
-                controller: endDateController,
+                title: l10n.ticketsEndDateLabel,
+                subtitle: endDate.isEmpty ? l10n.ticketsDateNotSet : endDate,
                 onTap: () => getFullDate(context, endDateController),
               ),
-              SwitchListTile(
+              const SizedBox(height: 8),
+              SwitchRow(
+                title: disabled.value
+                    ? l10n.ticketsEventDeactivated
+                    : l10n.ticketsEventActivated,
+                subtitle: l10n.ticketsCloseEventHint,
                 value: !disabled.value,
                 onChanged: (value) => disabled.value = !value,
-                title: Text(
-                  disabled.value
-                      ? l10n.ticketsEventDeactivated
-                      : l10n.ticketsEventActivated,
-                ),
-                subtitle: Text(l10n.ticketsCloseEventHint),
-                contentPadding: EdgeInsets.zero,
-                activeThumbColor: ColorConstants.main,
               ),
               const SizedBox(height: 16),
               _EditCategoriesSection(
@@ -359,34 +405,20 @@ class _EditTicketEventForm extends HookConsumerWidget {
                 locked: !canDeleteEvent,
                 onChanged: (value) => questions.value = value,
               ),
-              const SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton(
-                  onPressed: save,
-                  style: FilledButton.styleFrom(
-                    backgroundColor: ColorConstants.main,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  child: Text(l10n.ticketsSaveChanges),
-                ),
-              ),
               const SizedBox(height: 24),
+              Button(text: l10n.ticketsSaveChanges, onPressed: save),
+              const SizedBox(height: 24),
+              Button.danger(
+                text: l10n.ticketsCancelEvent,
+                onPressed: cancelEvent,
+              ),
+              const SizedBox(height: 12),
               if (!canDeleteEvent)
                 ReadOnlyBanner(message: l10n.ticketsCannotDeleteDueSales),
-              const SizedBox(height: 8),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: canDeleteEvent ? deleteEvent : null,
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: ColorConstants.error,
-                    side: const BorderSide(color: ColorConstants.error),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  child: Text(l10n.ticketsDeleteEvent),
-                ),
+              Button.danger(
+                text: l10n.ticketsDeleteEvent,
+                disabled: !canDeleteEvent,
+                onPressed: deleteEvent,
               ),
               const SizedBox(height: 80),
             ],
@@ -417,13 +449,23 @@ class _EditCategoriesSection extends ConsumerWidget {
     final ticketEventNotifier = ref.watch(ticketEventProvider.notifier);
 
     Future<void> addCategory() async {
-      final result = await showDialog<_CategoryFormResult>(
+      // The shared modal helper drops whatever the sheet pops with, so the form
+      // hands its result back through a callback instead.
+      _CategoryFormResult? result;
+      await showCustomBottomModal(
         context: context,
-        builder: (_) => _AddCategoryDialog(tariffIndex: categories.length + 1),
+        ref: ref,
+        modal: _AddCategoryModal(
+          tariffIndex: categories.length + 1,
+          onSubmit: (value) => result = value,
+        ),
       );
-      if (result == null || result.name.isEmpty || !context.mounted) return;
+      final submitted = result;
+      if (submitted == null || submitted.name.isEmpty || !context.mounted) {
+        return;
+      }
 
-      final priceInEuros = int.tryParse(result.priceText) ?? 0;
+      final priceInEuros = int.tryParse(submitted.priceText) ?? 0;
       if (priceInEuros < 0) {
         displayToast(context, TypeMsg.error, l10n.ticketsMinPriceError);
         return;
@@ -432,9 +474,9 @@ class _EditCategoriesSection extends ConsumerWidget {
       final created = await ticketEventNotifier.createCategory(
         event,
         CategoryCreate(
-          name: result.name,
+          name: submitted.name,
           price: priceInEuros * _centsPerEuro,
-          quota: int.tryParse(result.quotaText),
+          quota: int.tryParse(submitted.quotaText),
           requiredMembership: null,
         ),
       );
@@ -477,14 +519,11 @@ class _EditCategoriesSection extends ConsumerWidget {
               ]),
               onDelete: () => deleteCategory(category),
             ),
-          OutlinedButton.icon(
+          TextButton.icon(
             onPressed: addCategory,
-            icon: const HeroIcon(HeroIcons.plus, size: 20),
+            icon: const HeroIcon(HeroIcons.plus, size: 18),
             label: Text(l10n.ticketsAddCategory),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: ColorConstants.main,
-              side: const BorderSide(color: ColorConstants.main),
-            ),
+            style: TextButton.styleFrom(foregroundColor: ColorConstants.main),
           ),
         ],
       ),
@@ -578,17 +617,13 @@ class _CategoryRow extends HookWidget {
               ),
             ),
           ),
-          SwitchListTile(
+          SwitchRow(
+            title: category.disabled
+                ? l10n.ticketsCategoryDeactivated
+                : l10n.ticketsCategoryActivated,
             value: !category.disabled,
             onChanged: (value) =>
                 onChanged(category.copyWith(disabled: !value)),
-            title: Text(
-              category.disabled
-                  ? l10n.ticketsCategoryDeactivated
-                  : l10n.ticketsCategoryActivated,
-            ),
-            contentPadding: EdgeInsets.zero,
-            activeThumbColor: ColorConstants.main,
           ),
           Text(
             '${category.ticketsSold} ${l10n.ticketsTicketsSold.toLowerCase()}, ${category.ticketsInCheckout} ${l10n.ticketsTicketsInCheckout.toLowerCase()}',
@@ -615,10 +650,11 @@ class _CategoryFormResult {
   final String quotaText;
 }
 
-class _AddCategoryDialog extends HookWidget {
-  const _AddCategoryDialog({required this.tariffIndex});
+class _AddCategoryModal extends HookWidget {
+  const _AddCategoryModal({required this.tariffIndex, required this.onSubmit});
 
   final int tariffIndex;
+  final ValueChanged<_CategoryFormResult> onSubmit;
 
   @override
   Widget build(BuildContext context) {
@@ -627,52 +663,47 @@ class _AddCategoryDialog extends HookWidget {
     final priceController = useTextEditingController(text: '0');
     final quotaController = useTextEditingController();
 
-    return AlertDialog(
-      title: Text(l10n.ticketsAddCategory),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextEntry(
-              label: l10n.ticketsTariffLabel(tariffIndex),
-              controller: nameController,
-              onChanged: (_) {},
-            ),
-            const SizedBox(height: 8),
-            TextEntry(
-              label: l10n.ticketsPriceLabel,
-              controller: priceController,
-              keyboardType: TextInputType.number,
-              onChanged: (_) {},
-            ),
-            const SizedBox(height: 8),
-            TextEntry(
-              label: l10n.ticketsQuotaLabel,
-              controller: quotaController,
-              keyboardType: TextInputType.number,
-              canBeEmpty: true,
-              onChanged: (_) {},
-            ),
-          ],
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(l10n.globalCancel),
-        ),
-        FilledButton(
-          onPressed: () => Navigator.pop(
-            context,
-            _CategoryFormResult(
-              name: nameController.text.trim(),
-              priceText: priceController.text,
-              quotaText: quotaController.text,
-            ),
+    return BottomModalTemplate(
+      title: l10n.ticketsAddCategory,
+      child: Column(
+        children: [
+          TextEntry(
+            maxLines: 1,
+            label: l10n.ticketsTariffLabel(tariffIndex),
+            controller: nameController,
+            onChanged: (_) {},
           ),
-          child: Text(l10n.ticketsAddCategory),
-        ),
-      ],
+          const SizedBox(height: 8),
+          TextEntry(
+            label: l10n.ticketsPriceLabel,
+            controller: priceController,
+            keyboardType: TextInputType.number,
+            onChanged: (_) {},
+          ),
+          const SizedBox(height: 8),
+          TextEntry(
+            label: l10n.ticketsQuotaLabel,
+            controller: quotaController,
+            keyboardType: TextInputType.number,
+            canBeEmpty: true,
+            onChanged: (_) {},
+          ),
+          const SizedBox(height: 24),
+          Button(
+            text: l10n.ticketsAddCategory,
+            onPressed: () {
+              Navigator.of(context).pop();
+              onSubmit(
+                _CategoryFormResult(
+                  name: nameController.text.trim(),
+                  priceText: priceController.text,
+                  quotaText: quotaController.text,
+                ),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }
@@ -698,17 +729,23 @@ class _EditSessionsSection extends ConsumerWidget {
     final ticketEventNotifier = ref.watch(ticketEventProvider.notifier);
 
     Future<void> addSession() async {
-      final result = await showDialog<_SessionFormResult>(
+      _SessionFormResult? result;
+      await showCustomBottomModal(
         context: context,
-        builder: (_) => _AddSessionDialog(sessionIndex: sessions.length + 1),
+        ref: ref,
+        modal: _AddSessionModal(
+          sessionIndex: sessions.length + 1,
+          onSubmit: (value) => result = value,
+        ),
       );
-      if (result == null || !context.mounted) return;
-      if (result.name.isEmpty || result.dateText.isEmpty) return;
+      final submitted = result;
+      if (submitted == null || !context.mounted) return;
+      if (submitted.name.isEmpty || submitted.dateText.isEmpty) return;
 
       final DateTime startDatetime;
       try {
         startDatetime = DateTime.parse(
-          processDateBackWithHourMaybe(result.dateText, locale.toString()),
+          processDateBackWithHourMaybe(submitted.dateText, locale.toString()),
         );
       } catch (e) {
         displayToast(context, TypeMsg.error, "${l10n.othersError}: $e");
@@ -718,9 +755,9 @@ class _EditSessionsSection extends ConsumerWidget {
       final created = await ticketEventNotifier.createSession(
         event,
         SessionCreate(
-          name: result.name,
+          name: submitted.name,
           startDatetime: startDatetime,
-          quota: int.tryParse(result.quotaText),
+          quota: int.tryParse(submitted.quotaText),
         ),
       );
       if (!context.mounted) return;
@@ -762,14 +799,11 @@ class _EditSessionsSection extends ConsumerWidget {
               ]),
               onDelete: () => deleteSession(session),
             ),
-          OutlinedButton.icon(
+          TextButton.icon(
             onPressed: addSession,
-            icon: const HeroIcon(HeroIcons.plus, size: 20),
+            icon: const HeroIcon(HeroIcons.plus, size: 18),
             label: Text(l10n.ticketsAddSession),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: ColorConstants.main,
-              side: const BorderSide(color: ColorConstants.main),
-            ),
+            style: TextButton.styleFrom(foregroundColor: ColorConstants.main),
           ),
         ],
       ),
@@ -806,6 +840,7 @@ class _SessionRow extends HookWidget {
     final quotaController = useTextEditingController(
       text: session.quota?.toString() ?? '',
     );
+    final date = useValueListenable(dateController).text;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
@@ -838,62 +873,47 @@ class _SessionRow extends HookWidget {
             ],
           ),
           const SizedBox(height: 8),
-          Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: DateEntry(
-                  label: l10n.ticketsDateLabel,
-                  controller: dateController,
-                  enabled: !locked,
-                  // DateEntry taps still fire when the inner field is
-                  // disabled, so the picker has to be held back explicitly.
-                  onTap: locked
-                      ? () {}
-                      : () async {
-                          await getFullDate(context, dateController);
-                          if (dateController.text.isEmpty) return;
-                          onChanged(
-                            session.copyWith(
-                              startDatetime: DateTime.parse(
-                                processDateBackWithHourMaybe(
-                                  dateController.text,
-                                  locale.toString(),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                flex: 1,
-                child: TextEntry(
-                  label: l10n.ticketsQuotaLabel,
-                  controller: quotaController,
-                  keyboardType: TextInputType.number,
-                  canBeEmpty: true,
-                  enabled: !locked,
-                  onChanged: (value) => onChanged(
-                    session.copyWith(
-                      quota: value.isEmpty ? null : int.tryParse(value),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+          // A null onTap is what makes the row read-only: the picker is not
+          // reachable, so no locked session can be rescheduled.
+          DateEntry(
+            title: l10n.ticketsDateLabel,
+            subtitle: date.isEmpty ? l10n.ticketsDateNotSet : date,
+            onTap: locked
+                ? null
+                : () async {
+                    await getFullDate(context, dateController);
+                    if (dateController.text.isEmpty) return;
+                    onChanged(
+                      session.copyWith(
+                        startDatetime: DateTime.parse(
+                          processDateBackWithHourMaybe(
+                            dateController.text,
+                            locale.toString(),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
           ),
-          SwitchListTile(
+          const SizedBox(height: 8),
+          TextEntry(
+            label: l10n.ticketsQuotaLabel,
+            controller: quotaController,
+            keyboardType: TextInputType.number,
+            canBeEmpty: true,
+            enabled: !locked,
+            onChanged: (value) => onChanged(
+              session.copyWith(
+                quota: value.isEmpty ? null : int.tryParse(value),
+              ),
+            ),
+          ),
+          SwitchRow(
+            title: session.disabled
+                ? l10n.ticketsSessionDeactivated
+                : l10n.ticketsSessionActivated,
             value: !session.disabled,
             onChanged: (value) => onChanged(session.copyWith(disabled: !value)),
-            title: Text(
-              session.disabled
-                  ? l10n.ticketsSessionDeactivated
-                  : l10n.ticketsSessionActivated,
-            ),
-            contentPadding: EdgeInsets.zero,
-            activeThumbColor: ColorConstants.main,
           ),
           Text(
             '${session.ticketsSold} ${l10n.ticketsTicketsSold.toLowerCase()}, ${session.ticketsInCheckout} ${l10n.ticketsTicketsInCheckout.toLowerCase()}',
@@ -920,10 +940,11 @@ class _SessionFormResult {
   final String quotaText;
 }
 
-class _AddSessionDialog extends HookWidget {
-  const _AddSessionDialog({required this.sessionIndex});
+class _AddSessionModal extends HookWidget {
+  const _AddSessionModal({required this.sessionIndex, required this.onSubmit});
 
   final int sessionIndex;
+  final ValueChanged<_SessionFormResult> onSubmit;
 
   @override
   Widget build(BuildContext context) {
@@ -931,52 +952,48 @@ class _AddSessionDialog extends HookWidget {
     final nameController = useTextEditingController();
     final dateController = useTextEditingController();
     final quotaController = useTextEditingController();
+    final date = useValueListenable(dateController).text;
 
-    return AlertDialog(
-      title: Text(l10n.ticketsAddSession),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextEntry(
-              label: l10n.ticketsSessionLabelNumbered(sessionIndex),
-              controller: nameController,
-              onChanged: (_) {},
-            ),
-            const SizedBox(height: 8),
-            DateEntry(
-              label: l10n.ticketsDateLabel,
-              controller: dateController,
-              onTap: () => getFullDate(context, dateController),
-            ),
-            const SizedBox(height: 8),
-            TextEntry(
-              label: l10n.ticketsQuotaLabel,
-              controller: quotaController,
-              keyboardType: TextInputType.number,
-              canBeEmpty: true,
-              onChanged: (_) {},
-            ),
-          ],
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(l10n.globalCancel),
-        ),
-        FilledButton(
-          onPressed: () => Navigator.pop(
-            context,
-            _SessionFormResult(
-              name: nameController.text.trim(),
-              dateText: dateController.text,
-              quotaText: quotaController.text,
-            ),
+    return BottomModalTemplate(
+      title: l10n.ticketsAddSession,
+      child: Column(
+        children: [
+          TextEntry(
+            maxLines: 1,
+            label: l10n.ticketsSessionLabelNumbered(sessionIndex),
+            controller: nameController,
+            onChanged: (_) {},
           ),
-          child: Text(l10n.ticketsAddSession),
-        ),
-      ],
+          const SizedBox(height: 8),
+          DateEntry(
+            title: l10n.ticketsDateLabel,
+            subtitle: date.isEmpty ? l10n.ticketsDateNotSet : date,
+            onTap: () => getFullDate(context, dateController),
+          ),
+          const SizedBox(height: 8),
+          TextEntry(
+            label: l10n.ticketsQuotaLabel,
+            controller: quotaController,
+            keyboardType: TextInputType.number,
+            canBeEmpty: true,
+            onChanged: (_) {},
+          ),
+          const SizedBox(height: 24),
+          Button(
+            text: l10n.ticketsAddSession,
+            onPressed: () {
+              Navigator.of(context).pop();
+              onSubmit(
+                _SessionFormResult(
+                  name: nameController.text.trim(),
+                  dateText: dateController.text,
+                  quotaText: quotaController.text,
+                ),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }
@@ -1005,20 +1022,28 @@ class _EditQuestionsSection extends ConsumerWidget {
     final ticketEventNotifier = ref.watch(ticketEventProvider.notifier);
 
     Future<void> addQuestion() async {
-      final result = await showDialog<_QuestionFormResult>(
+      _QuestionFormResult? result;
+      await showCustomBottomModal(
         context: context,
-        builder: (_) => _AddQuestionDialog(questionIndex: questions.length + 1),
+        ref: ref,
+        modal: _AddQuestionModal(
+          questionIndex: questions.length + 1,
+          onSubmit: (value) => result = value,
+        ),
       );
-      if (result == null || result.text.isEmpty || !context.mounted) return;
+      final submitted = result;
+      if (submitted == null || submitted.text.isEmpty || !context.mounted) {
+        return;
+      }
 
-      final priceInEuros = int.tryParse(result.priceText);
+      final priceInEuros = int.tryParse(submitted.priceText);
       final created = await ticketEventNotifier.createQuestion(
         event,
         QuestionCreate(
-          question: result.text,
-          answerType: result.answerType,
+          question: submitted.text,
+          answerType: submitted.answerType,
           price: priceInEuros == null ? null : priceInEuros * _centsPerEuro,
-          required: result.required,
+          required: submitted.required,
         ),
       );
       if (!context.mounted) return;
@@ -1070,14 +1095,11 @@ class _EditQuestionsSection extends ConsumerWidget {
               onDelete: () => deleteQuestion(question),
             ),
           if (!locked)
-            OutlinedButton.icon(
+            TextButton.icon(
               onPressed: addQuestion,
-              icon: const HeroIcon(HeroIcons.plus, size: 20),
+              icon: const HeroIcon(HeroIcons.plus, size: 18),
               label: Text(l10n.ticketsAddQuestion),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: ColorConstants.main,
-                side: const BorderSide(color: ColorConstants.main),
-              ),
+              style: TextButton.styleFrom(foregroundColor: ColorConstants.main),
             ),
         ],
       ),
@@ -1200,32 +1222,21 @@ class _QuestionRow extends HookWidget {
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  Checkbox(
-                    value: question.required,
-                    onChanged: locked
-                        ? null
-                        : (value) => onChanged(
-                            question.copyWith(required: value ?? false),
-                          ),
-                    activeColor: ColorConstants.main,
-                  ),
-                  Text(l10n.ticketsQuestionRequiredLabel),
-                ],
+              SwitchRow(
+                title: l10n.ticketsQuestionRequiredLabel,
+                value: question.required,
+                onChanged: locked
+                    ? null
+                    : (value) => onChanged(question.copyWith(required: value)),
               ),
-              SwitchListTile(
+              SwitchRow(
+                title: question.disabled
+                    ? l10n.ticketsQuestionDeactivated
+                    : l10n.ticketsQuestionActivated,
                 value: !question.disabled,
                 onChanged: locked
                     ? null
                     : (value) => onChanged(question.copyWith(disabled: !value)),
-                title: Text(
-                  question.disabled
-                      ? l10n.ticketsQuestionDeactivated
-                      : l10n.ticketsQuestionActivated,
-                ),
-                contentPadding: EdgeInsets.zero,
-                activeThumbColor: ColorConstants.main,
               ),
             ],
           ),
@@ -1264,10 +1275,14 @@ class _QuestionFormResult {
   final String priceText;
 }
 
-class _AddQuestionDialog extends HookWidget {
-  const _AddQuestionDialog({required this.questionIndex});
+class _AddQuestionModal extends HookWidget {
+  const _AddQuestionModal({
+    required this.questionIndex,
+    required this.onSubmit,
+  });
 
   final int questionIndex;
+  final ValueChanged<_QuestionFormResult> onSubmit;
 
   @override
   Widget build(BuildContext context) {
@@ -1277,66 +1292,60 @@ class _AddQuestionDialog extends HookWidget {
     final answerType = useState(AnswerType.text);
     final required = useState(false);
 
-    return AlertDialog(
-      title: Text(l10n.ticketsAddQuestion),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextEntry(
-              label: l10n.ticketsQuestionLabel(questionIndex),
-              controller: textController,
-              onChanged: (_) {},
-            ),
-            const SizedBox(height: 8),
-            DropdownButtonFormField<AnswerType>(
-              initialValue: answerType.value,
-              decoration: InputDecoration(
-                labelText: l10n.ticketsQuestionTypeLabel,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              items: _answerTypeItems(l10n),
-              onChanged: (value) {
-                if (value != null) answerType.value = value;
-              },
-            ),
-            const SizedBox(height: 8),
-            TextEntry(
-              label: l10n.ticketsPriceLabel,
-              controller: priceController,
-              keyboardType: TextInputType.number,
-              canBeEmpty: true,
-              onChanged: (_) {},
-            ),
-            CheckboxListTile(
-              value: required.value,
-              onChanged: (value) => required.value = value ?? false,
-              title: Text(l10n.ticketsQuestionRequiredLabel),
-              contentPadding: EdgeInsets.zero,
-            ),
-          ],
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(l10n.globalCancel),
-        ),
-        FilledButton(
-          onPressed: () => Navigator.pop(
-            context,
-            _QuestionFormResult(
-              text: textController.text.trim(),
-              answerType: answerType.value,
-              required: required.value,
-              priceText: priceController.text,
-            ),
+    return BottomModalTemplate(
+      title: l10n.ticketsAddQuestion,
+      child: Column(
+        children: [
+          TextEntry(
+            maxLines: 1,
+            label: l10n.ticketsQuestionLabel(questionIndex),
+            controller: textController,
+            onChanged: (_) {},
           ),
-          child: Text(l10n.ticketsAddQuestion),
-        ),
-      ],
+          const SizedBox(height: 8),
+          DropdownButtonFormField<AnswerType>(
+            initialValue: answerType.value,
+            decoration: InputDecoration(
+              labelText: l10n.ticketsQuestionTypeLabel,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            items: _answerTypeItems(l10n),
+            onChanged: (value) {
+              if (value != null) answerType.value = value;
+            },
+          ),
+          const SizedBox(height: 8),
+          TextEntry(
+            label: l10n.ticketsPriceLabel,
+            controller: priceController,
+            keyboardType: TextInputType.number,
+            canBeEmpty: true,
+            onChanged: (_) {},
+          ),
+          SwitchRow(
+            title: l10n.ticketsQuestionRequiredLabel,
+            value: required.value,
+            onChanged: (value) => required.value = value,
+          ),
+          const SizedBox(height: 24),
+          Button(
+            text: l10n.ticketsAddQuestion,
+            onPressed: () {
+              Navigator.of(context).pop();
+              onSubmit(
+                _QuestionFormResult(
+                  text: textController.text.trim(),
+                  answerType: answerType.value,
+                  required: required.value,
+                  priceText: priceController.text,
+                ),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }

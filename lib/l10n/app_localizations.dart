@@ -9727,6 +9727,42 @@ abstract class AppLocalizations {
   /// **'Statistiques'**
   String get ticketsStatistics;
 
+  /// No description provided for @ticketsCancelEvent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annuler l\'évènement'**
+  String get ticketsCancelEvent;
+
+  /// No description provided for @ticketsCancelEventConfirm.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annuler cet évènement ?'**
+  String get ticketsCancelEventConfirm;
+
+  /// No description provided for @ticketsCancelEventDescription.
+  ///
+  /// In fr, this message translates to:
+  /// **'Les participants seront prévenus et leurs billets remboursés.'**
+  String get ticketsCancelEventDescription;
+
+  /// No description provided for @ticketsCancelEventSuccess.
+  ///
+  /// In fr, this message translates to:
+  /// **'Évènement annulé'**
+  String get ticketsCancelEventSuccess;
+
+  /// No description provided for @ticketsCancelEventUnavailable.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'annulation n\'est pas encore disponible'**
+  String get ticketsCancelEventUnavailable;
+
+  /// No description provided for @ticketsDateNotSet.
+  ///
+  /// In fr, this message translates to:
+  /// **'Non définie'**
+  String get ticketsDateNotSet;
+
   /// Placeholder pour le temps restant avant le shotgun
   ///
   /// In fr, this message translates to:

@@ -1859,6 +1859,12 @@
   "ticketsSoldOut": "Sold out",
   "ticketsEventSoldOut": "This event is sold out",
   "ticketsStatistics": "Statistics",
+  "ticketsCancelEvent": "Cancel event",
+  "ticketsCancelEventConfirm": "Cancel this event?",
+  "ticketsCancelEventDescription": "Attendees will be notified and their tickets refunded.",
+  "ticketsCancelEventSuccess": "Event cancelled",
+  "ticketsCancelEventUnavailable": "Cancellation is not available yet",
+  "ticketsDateNotSet": "Not set",
   "feedShotgunIn": "Shotgun in {time}",
   "@feedShotgunIn": {
     "description": "Shotgun in time",

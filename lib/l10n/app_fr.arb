@@ -1867,6 +1867,12 @@
   "ticketsSoldOut": "Complet",
   "ticketsEventSoldOut": "Cet évènement est complet",
   "ticketsStatistics": "Statistiques",
+  "ticketsCancelEvent": "Annuler l'évènement",
+  "ticketsCancelEventConfirm": "Annuler cet évènement ?",
+  "ticketsCancelEventDescription": "Les participants seront prévenus et leurs billets remboursés.",
+  "ticketsCancelEventSuccess": "Évènement annulé",
+  "ticketsCancelEventUnavailable": "L'annulation n'est pas encore disponible",
+  "ticketsDateNotSet": "Non définie",
   "feedShotgunIn": "Shotgun {time}",
   "@feedShotgunIn": {
     "description": "Placeholder pour le temps restant avant le shotgun",
