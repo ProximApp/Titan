@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
-import 'package:titan/user/repositories/profile_picture_repository.dart';
+import 'package:titan/tools/repository/file_response.dart';
+import 'package:titan/tools/repository/repository.dart';
 
 final profilePictureProvider =
-    StateNotifierProvider<ProfilePictureNotifier, AsyncValue<Image>>((ref) {
-      final token = ref.watch(tokenProvider);
-      ProfilePictureNotifier notifier = ProfilePictureNotifier(token: token);
-      return notifier;
-    });
+    NotifierProvider<ProfilePictureNotifier, AsyncValue<Image>>(
+      ProfilePictureNotifier.new,
+    );
 
 class ProfilePictureNotifier extends SingleNotifier<Image> {
-  final ProfilePictureRepository profilePictureRepository =
-      ProfilePictureRepository();
-  ProfilePictureNotifier({required String token})
-    : super(const AsyncLoading()) {
-    profilePictureRepository.setToken(token);
+  Openapi get repository => ref.watch(repositoryProvider);
+
+  @override
+  AsyncValue<Image> build() {
+    return const AsyncLoading();
   }
 
   Future<Image> getProfilePicture(String profileId) async {
-    return Image.memory(
-      await profilePictureRepository.getProfilePicture(profileId),
+    final response = await repository.usersUserIdProfilePictureGet(
+      userId: profileId,
     );
+    final bytes = response.fileBytes;
+    return bytes.isEmpty ? Image.asset(getTitanLogo()) : Image.memory(bytes);
   }
 }

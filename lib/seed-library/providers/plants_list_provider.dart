@@ -1,36 +1,33 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/seed-library/class/plant_creation.dart';
-import 'package:titan/seed-library/class/plant_simple.dart';
-import 'package:titan/seed-library/repositories/plants_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
-import 'package:titan/tools/token_expire_wrapper.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class PlantListNotifier extends ListNotifier<PlantSimple> {
-  final PlantsRepository plantsRepository;
-  PlantListNotifier({required this.plantsRepository})
-    : super(const AsyncValue.loading());
+class PlantListNotifier extends ListNotifierAPI<PlantSimple> {
+  Openapi get plantsRepository => ref.watch(repositoryProvider);
 
-  Future<AsyncValue<List<PlantSimple>>> loadPlants() async {
-    return await loadList(plantsRepository.getPlantSimplelist);
+  @override
+  AsyncValue<List<PlantSimple>> build() {
+    loadPlants();
+    return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<List<PlantSimple>>> loadMyPlants() async {
-    return await loadList(plantsRepository.getMyPlantSimple);
+  Future<AsyncValue<List<PlantSimple>>> loadPlants() async {
+    return await loadList(plantsRepository.seedLibraryPlantsWaitingGet);
   }
 
   Future<bool> createPlant(PlantCreation plant) async {
     return await add(
-      (plantSimple) => plantsRepository.createPlants(plant),
-      PlantSimple.empty(),
+      () => plantsRepository.seedLibraryPlantsPost(body: plant),
+      plant,
     );
   }
 
   Future<bool> deletePlant(PlantSimple plant) async {
     return await delete(
-      plantsRepository.deletePlants,
-      (plants, plant) => plants..removeWhere((i) => i.id == plant.id),
+      () => plantsRepository.seedLibraryPlantsPlantIdDelete(plantId: plant.id),
+      (plant) => plant.id,
       plant.id,
-      plant,
     );
   }
 
@@ -59,39 +56,11 @@ class PlantListNotifier extends ListNotifier<PlantSimple> {
 }
 
 final plantListProvider =
-    StateNotifierProvider<PlantListNotifier, AsyncValue<List<PlantSimple>>>((
-      ref,
-    ) {
-      final plantRepository = ref.watch(plantsRepositoryProvider);
-      PlantListNotifier provider = PlantListNotifier(
-        plantsRepository: plantRepository,
-      );
-      tokenExpireWrapperAuth(ref, () async {
-        await provider.loadPlants();
-      });
-      return provider;
-    });
+    NotifierProvider<PlantListNotifier, AsyncValue<List<PlantSimple>>>(
+      PlantListNotifier.new,
+    );
 
 final syncPlantListProvider = Provider<List<PlantSimple>>((ref) {
   final plantList = ref.watch(plantListProvider);
-  return plantList.maybeWhen(orElse: () => [], data: (plants) => plants);
-});
-
-final myPlantListProvider =
-    StateNotifierProvider<PlantListNotifier, AsyncValue<List<PlantSimple>>>((
-      ref,
-    ) {
-      final plantRepository = ref.watch(plantsRepositoryProvider);
-      PlantListNotifier provider = PlantListNotifier(
-        plantsRepository: plantRepository,
-      );
-      tokenExpireWrapperAuth(ref, () async {
-        await provider.loadMyPlants();
-      });
-      return provider;
-    });
-
-final syncMyPlantListProvider = Provider<List<PlantSimple>>((ref) {
-  final plantList = ref.watch(myPlantListProvider);
   return plantList.maybeWhen(orElse: () => [], data: (plants) => plants);
 });

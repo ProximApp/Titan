@@ -6,7 +6,10 @@ import 'package:titan/tools/providers/single_notifier.dart';
 class MockData {}
 
 class MockSingleNotifier extends SingleNotifier<MockData> {
-  MockSingleNotifier() : super(const AsyncLoading());
+  @override
+  AsyncValue<MockData> build() {
+    return const AsyncLoading();
+  }
 
   Future<AsyncValue<MockData>> testLoadList(
     Future<MockData> Function() f,
@@ -37,15 +40,27 @@ class MockSingleNotifier extends SingleNotifier<MockData> {
   }
 }
 
+final mockSingleNotifierProvider =
+    NotifierProvider<MockSingleNotifier, AsyncValue<MockData>>(
+      MockSingleNotifier.new,
+    );
+
+/// riverpod 3 requires a Notifier to be attached to a container before use.
+MockSingleNotifier makeNotifier() {
+  final container = ProviderContainer();
+  addTearDown(container.dispose);
+  return container.read(mockSingleNotifierProvider.notifier);
+}
+
 void main() {
   group('Testing SingleNotifier : loadList', () {
     test('Should initiate to AsyncLoading', () {
-      final notifier = MockSingleNotifier();
+      final notifier = makeNotifier();
       expect(notifier.state, isA<AsyncLoading>());
     });
 
     test('Should state be AsyncData when loading data', () async {
-      final notifier = MockSingleNotifier();
+      final notifier = makeNotifier();
       final data = MockData();
       await notifier.testLoadList(() => Future.value(data));
       expect(notifier.state, AsyncValue.data(data));
@@ -54,7 +69,7 @@ void main() {
     test(
       'Should rethrow AppException for loadList when function throw AppException.tokenExpire',
       () async {
-        final notifier = MockSingleNotifier();
+        final notifier = makeNotifier();
         final error = AppException(ErrorType.tokenExpire, 'test');
         try {
           await notifier.testLoadList(() => Future.error(error));
@@ -69,7 +84,7 @@ void main() {
     test(
       'Should return AppException.notFound for loadList when function throw AppException.notFound',
       () async {
-        final notifier = MockSingleNotifier();
+        final notifier = makeNotifier();
         final error = AppException(ErrorType.notFound, 'test');
         final result = await notifier.testLoadList(() => Future.error(error));
         expect(notifier.state, isA<AsyncError<MockData>>());
@@ -80,7 +95,7 @@ void main() {
     test(
       'Should return Exception for loadList when function throw other Exception',
       () async {
-        final notifier = MockSingleNotifier();
+        final notifier = makeNotifier();
         final error = Exception('test');
         final result = await notifier.testLoadList(() => throw error);
         expect(notifier.state, isA<AsyncError<MockData>>());
@@ -91,7 +106,7 @@ void main() {
 
   group('Testing SingleNotifier : add', () {
     test('Should returns true and updates state on success', () async {
-      final notifier = MockSingleNotifier();
+      final notifier = makeNotifier();
       final data = MockData();
       notifier.state = AsyncValue.data(data);
       final newData = MockData();
@@ -114,7 +129,7 @@ void main() {
     test(
       'Should throw AppException.tokenExpire and restores state on previous data when add fails with AppException.tokenExpire',
       () async {
-        final notifier = MockSingleNotifier();
+        final notifier = makeNotifier();
         final data = MockData();
         notifier.state = AsyncValue.data(data);
         final newData = MockData();
@@ -140,7 +155,7 @@ void main() {
     test(
       'Should return false and restores state on previous data when add fails with AppException.notFound',
       () async {
-        final notifier = MockSingleNotifier();
+        final notifier = makeNotifier();
         final data = MockData();
         notifier.state = AsyncValue.data(data);
         final newData = MockData();
@@ -162,7 +177,7 @@ void main() {
     test(
       'Should return false sets state on error when start state is AsyncLoading',
       () async {
-        final notifier = MockSingleNotifier();
+        final notifier = makeNotifier();
         final newData = MockData();
         final result = await notifier.testAdd((t) => Future.value(t), newData);
         expect(result, isFalse);
@@ -174,7 +189,7 @@ void main() {
     test(
       'Should return false sets state on error when start state is AsyncError',
       () async {
-        final notifier = MockSingleNotifier();
+        final notifier = makeNotifier();
         notifier.state = AsyncValue.error("test", StackTrace.current);
         final newData = MockData();
         final error = AppException(ErrorType.notFound, 'test');
@@ -188,7 +203,7 @@ void main() {
 
   group('Testing SingleNotifier : update', () {
     test('Should returns true and updates state on success', () async {
-      final notifier = MockSingleNotifier();
+      final notifier = makeNotifier();
       final data = MockData();
       notifier.state = AsyncValue.data(data);
       final newData = MockData();
@@ -211,7 +226,7 @@ void main() {
     test(
       'Should return false and restores state on previous data when update function return false',
       () async {
-        final notifier = MockSingleNotifier();
+        final notifier = makeNotifier();
         final data = MockData();
         notifier.state = AsyncValue.data(data);
         final newData = MockData();
@@ -235,7 +250,7 @@ void main() {
     test(
       'Should throw AppException.tokenExpire and restores state on previous data when add fails with AppException.tokenExpire',
       () async {
-        final notifier = MockSingleNotifier();
+        final notifier = makeNotifier();
         final data = MockData();
         notifier.state = AsyncValue.data(data);
         final newData = MockData();
@@ -270,7 +285,7 @@ void main() {
     test(
       'Should return false and restores state on previous data when add fails with AppException.notFound',
       () async {
-        final notifier = MockSingleNotifier();
+        final notifier = makeNotifier();
         final data = MockData();
         notifier.state = AsyncValue.data(data);
         final newData = MockData();
@@ -301,7 +316,7 @@ void main() {
     test(
       'Should return false sets state on error when start state is AsyncLoading',
       () async {
-        final notifier = MockSingleNotifier();
+        final notifier = makeNotifier();
         final newData = MockData();
         final result = await notifier.testUpdate(
           (t) => Future.value(true),
@@ -316,7 +331,7 @@ void main() {
     test(
       'Should return false sets state on error when start state is AsyncError',
       () async {
-        final notifier = MockSingleNotifier();
+        final notifier = makeNotifier();
         notifier.state = AsyncValue.error("test", StackTrace.current);
         final newData = MockData();
         final result = await notifier.testUpdate(
@@ -332,7 +347,7 @@ void main() {
     test(
       'Should return false sets state on error when start state is AsyncError(AppException.notFound)',
       () async {
-        final notifier = MockSingleNotifier();
+        final notifier = makeNotifier();
         final error = AppException(ErrorType.notFound, 'test');
         notifier.state = AsyncValue.error(error, StackTrace.current);
         final newData = MockData();
@@ -349,7 +364,7 @@ void main() {
     test(
       'Should return false sets state on error when start state is AsyncError(AppException.tokenExpire)',
       () async {
-        final notifier = MockSingleNotifier();
+        final notifier = makeNotifier();
         final error = AppException(ErrorType.tokenExpire, 'test');
         notifier.state = AsyncValue.error(error, StackTrace.current);
         final newData = MockData();
@@ -367,7 +382,7 @@ void main() {
 
   group('Testing SingleNotifier : delete', () {
     test('Should returns true and updates state on success', () async {
-      final notifier = MockSingleNotifier();
+      final notifier = makeNotifier();
       final data = MockData();
       notifier.state = AsyncValue.data(data);
       final result = await notifier.testDelete(
@@ -382,7 +397,7 @@ void main() {
     test(
       'Should return false and restores state on previous data when update function return false',
       () async {
-        final notifier = MockSingleNotifier();
+        final notifier = makeNotifier();
         final data = MockData();
         notifier.state = AsyncValue.data(data);
         final result = await notifier.testDelete(
@@ -406,7 +421,7 @@ void main() {
     test(
       'Should throw AppException.tokenExpire and restores state on previous data when add fails with AppException.tokenExpire',
       () async {
-        final notifier = MockSingleNotifier();
+        final notifier = makeNotifier();
         final data = MockData();
         notifier.state = AsyncValue.data(data);
         final error = AppException(ErrorType.tokenExpire, 'test');
@@ -431,7 +446,7 @@ void main() {
     test(
       'Should return false and restores state on previous data when add fails with AppException.notFound',
       () async {
-        final notifier = MockSingleNotifier();
+        final notifier = makeNotifier();
         final data = MockData();
         notifier.state = AsyncValue.data(data);
         final error = AppException(ErrorType.notFound, 'test');
@@ -456,7 +471,7 @@ void main() {
     test(
       'Should return false sets state on error when start state is AsyncLoading',
       () async {
-        final notifier = MockSingleNotifier();
+        final notifier = makeNotifier();
         final data = MockData();
         final result = await notifier.testDelete(
           (id) => Future.value(true),
@@ -472,7 +487,7 @@ void main() {
     test(
       'Should return false sets state on error when start state is AsyncError',
       () async {
-        final notifier = MockSingleNotifier();
+        final notifier = makeNotifier();
         notifier.state = AsyncValue.error("test", StackTrace.current);
         final data = MockData();
         final result = await notifier.testDelete(
@@ -489,7 +504,7 @@ void main() {
     test(
       'Should return false sets state on error when start state is AsyncError(AppException.notFound)',
       () async {
-        final notifier = MockSingleNotifier();
+        final notifier = makeNotifier();
         final error = AppException(ErrorType.notFound, 'test');
         notifier.state = AsyncValue.error(error, StackTrace.current);
         final data = MockData();
@@ -507,7 +522,7 @@ void main() {
     test(
       'Should return false sets state on error when start state is AsyncError(AppException.tokenExpire)',
       () async {
-        final notifier = MockSingleNotifier();
+        final notifier = makeNotifier();
         final error = AppException(ErrorType.tokenExpire, 'test');
         notifier.state = AsyncValue.error(error, StackTrace.current);
         final data = MockData();

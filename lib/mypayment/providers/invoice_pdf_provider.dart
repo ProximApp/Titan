@@ -1,15 +1,22 @@
 import 'dart:typed_data';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/mypayment/repositories/invoice_pdf_repository.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class InvoicePdfNotifier extends FamilyAsyncNotifier<Uint8List, String> {
+class InvoicePdfNotifier extends AsyncNotifier<Uint8List> {
+  InvoicePdfNotifier(this.invoiceId);
+
+  final String invoiceId;
+
+  Openapi get repository => ref.watch(repositoryProvider);
+
   @override
-  Future<Uint8List> build(String arg) async {
-    final InvoicePdfRepository invoicePdfRepository = ref.watch(
-      invoicePdfRepositoryProvider,
+  Future<Uint8List> build() async {
+    final response = await repository.mypaymentInvoicesInvoiceIdGet(
+      invoiceId: invoiceId,
     );
-    return await invoicePdfRepository.getInvoicePdf(arg);
+    return response.bodyBytes;
   }
 }
 

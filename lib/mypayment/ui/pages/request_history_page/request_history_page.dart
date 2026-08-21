@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
-import 'package:titan/mypayment/class/payment_request.dart';
 import 'package:titan/mypayment/providers/request_history_provider.dart';
+import 'package:titan/mypayment/tools/functions.dart';
 import 'package:titan/mypayment/ui/components/request_card.dart';
 import 'package:titan/mypayment/ui/components/request_detail_modal.dart';
 import 'package:titan/mypayment/ui/components/show_request_modal.dart';
@@ -31,7 +33,7 @@ class RequestHistoryPage extends HookConsumerWidget {
         final now = DateTime.now();
         for (final request in requests) {
           if (request.status != RequestStatus.proposed) continue;
-          final remaining = request.endDate.difference(now);
+          final remaining = request.expirationDate.difference(now);
           if (remaining.isNegative) continue;
           timers.add(
             Timer(remaining, () => requestHistoryNotifier.getRequestHistory()),
@@ -68,10 +70,10 @@ class RequestHistoryPage extends HookConsumerWidget {
                 ),
               );
             }
-            final sortedRequests = List<PaymentRequest>.from(requests)
+            final sortedRequests = List<Request$>.from(requests)
               ..sort((a, b) => b.creation.compareTo(a.creation));
 
-            final Map<String, List<PaymentRequest>> groupedByDay = {};
+            final Map<String, List<Request$>> groupedByDay = {};
             final Map<String, DateTime> stringDate = {};
             for (var request in sortedRequests) {
               final day = timeago.format(request.creation, locale: 'fr_short');
@@ -105,7 +107,9 @@ class RequestHistoryPage extends HookConsumerWidget {
                   for (var request in groupedByDay[day]!)
                     RequestCard(
                       request: request,
-                      onTap: request.status == RequestStatus.proposed
+                      onTap:
+                          request.status == RequestStatus.proposed &&
+                              !isRequestExpired(request)
                           ? () async {
                               await showRequestModal(
                                 context: context,

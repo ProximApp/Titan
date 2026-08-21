@@ -84,6 +84,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedUseExistingTicketing => 'Use an existing ticketing';
 
   @override
+  String get feedSelectTicketing => 'Select a ticketing';
+
+  @override
+  String get feedPleaseSelectTicketing => 'Please select an existing ticketing';
+
+  @override
   String get feedNotification => 'Send a notification';
 
   @override
@@ -2376,7 +2382,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get othersImageError => 'Error adding the image';
 
   @override
-  String get othersImageSizeTooBig => 'Image size must not exceed 4 MB';
+  String get othersImageSizeTooBig =>
+      'This image could not be compressed enough to be uploaded';
 
   @override
   String get othersInvalidNumber => 'Please enter a number';
@@ -4213,6 +4220,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsEditAccount => 'Edit account';
 
   @override
+  String get settingsEditPassword => 'Edit password';
+
+  @override
   String get settingsEditedAccount => 'Account edited';
 
   @override
@@ -4708,7 +4718,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ticketsEditTitle => 'Edit ticketing';
 
   @override
-  String get ticketsEdit => 'Modifier';
+  String get ticketsEditSession => 'Edit session';
+
+  @override
+  String get ticketsEditCategory => 'Edit category';
 
   @override
   String get ticketsTariffs => 'Categories';
@@ -4887,7 +4900,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ticketsEventDeactivated => 'Event deactivated';
 
   @override
-  String get ticketsDelete => 'Supprimer';
+  String get ticketsDeleteSession => 'Delete session';
+
+  @override
+  String get ticketsDeleteCategory => 'Delete category';
 
   @override
   String get ticketsDeleteEvent => 'Delete ticketing';
@@ -4998,4 +5014,45 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ticketsStatistics => 'Statistics';
+
+  @override
+  String feedShotgunIn(String time) {
+    return 'Shotgun in $time';
+  }
+
+  @override
+  String get adminModifyModuleVisibility => 'Module visibility';
+
+  @override
+  String get paiementCancel => 'Cancel';
+
+  @override
+  String get paiementCancelled => 'Cancelled';
+
+  @override
+  String get paiementCancelledTransaction => 'Payment cancelled';
+
+  @override
+  String get paiementCancelTransaction => 'Cancel transaction';
+
+  @override
+  String get paiementCancelTransactions => 'Cancel transactions';
+
+  @override
+  String get settingsPasswordStrength => 'Password strength';
+
+  @override
+  String get settingsPasswordStrengthVeryWeak => 'Very weak';
+
+  @override
+  String get settingsPasswordStrengthWeak => 'Weak';
+
+  @override
+  String get settingsPasswordStrengthMedium => 'Medium';
+
+  @override
+  String get settingsPasswordStrengthStrong => 'Strong';
+
+  @override
+  String get settingsPasswordStrengthVeryStrong => 'Very strong';
 }

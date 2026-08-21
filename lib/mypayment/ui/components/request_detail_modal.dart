@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:intl/intl.dart';
+import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
-import 'package:titan/mypayment/class/payment_request.dart';
+import 'package:titan/mypayment/tools/functions.dart';
 import 'package:titan/mypayment/ui/components/paiment_delegate/product_card.dart';
 import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 import 'package:titan/tools/ui/styleguide/button.dart';
 
 class RequestDetailModal extends StatelessWidget {
-  final PaymentRequest request;
+  final Request$ request;
   const RequestDetailModal({super.key, required this.request});
 
   @override
   Widget build(BuildContext context) {
     final localizeWithContext = AppLocalizations.of(context)!;
     final dateFormatter = DateFormat.yMMMMEEEEd().add_Hm();
+    final expired = isRequestExpired(request);
 
     final String statusLabel;
     final Color statusColor;
@@ -29,14 +32,17 @@ class RequestDetailModal extends StatelessWidget {
         statusLabel = localizeWithContext.paiementRequestStatusRefused;
         statusColor = const Color.fromARGB(255, 204, 70, 25);
         statusIcon = HeroIcons.xCircle;
-      case RequestStatus.expired:
-        statusLabel = localizeWithContext.paiementRequestStatusExpired;
-        statusColor = const Color.fromARGB(255, 128, 128, 128);
-        statusIcon = HeroIcons.clock;
       case RequestStatus.proposed:
-        statusLabel = localizeWithContext.paiementRequestStatusPending;
-        statusColor = const Color.fromARGB(255, 255, 165, 0);
-        statusIcon = HeroIcons.clock;
+      case RequestStatus.swaggerGeneratedUnknown:
+        if (expired) {
+          statusLabel = localizeWithContext.paiementRequestStatusExpired;
+          statusColor = const Color.fromARGB(255, 128, 128, 128);
+          statusIcon = HeroIcons.clock;
+        } else {
+          statusLabel = localizeWithContext.paiementRequestStatusPending;
+          statusColor = const Color.fromARGB(255, 255, 165, 0);
+          statusIcon = HeroIcons.clock;
+        }
     }
 
     return BottomModalTemplate(

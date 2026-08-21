@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:load_switch/load_switch.dart';
-import 'package:titan/settings/class/notification_topic.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/settings/providers/notification_topic_provider.dart';
 
 class LoadSwitchTopic extends ConsumerWidget {
   const LoadSwitchTopic({super.key, required this.notificationTopic});
-  final NotificationTopic notificationTopic;
+  final TopicUser notificationTopic;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notificationTopicListNotifier = ref.watch(
       notificationTopicListProvider.notifier,
     );
-    return LoadSwitch(
+    return LoadSwitch.managed(
       value: notificationTopic.isUserSubscribed,
-      future: () async {
+      onToggle: () async {
         await notificationTopicListNotifier.toggleSubscription(
-          notificationTopic,
+          TopicUser(
+            id: notificationTopic.id,
+            name: notificationTopic.name,
+            moduleRoot: notificationTopic.moduleRoot,
+            topicIdentifier: notificationTopic.topicIdentifier,
+            isUserSubscribed: notificationTopic.isUserSubscribed,
+          ),
         );
         return !notificationTopic.isUserSubscribed;
       },
@@ -25,7 +31,7 @@ class LoadSwitchTopic extends ConsumerWidget {
       width: 60,
       curveIn: Curves.easeInBack,
       curveOut: Curves.easeOutBack,
-      animationDuration: const Duration(milliseconds: 500),
+      switchAnimationDuration: const Duration(milliseconds: 500),
       switchDecoration: (value, _) => BoxDecoration(
         color: value ? Colors.red.withValues(alpha: 0.3) : Colors.grey.shade200,
         borderRadius: BorderRadius.circular(30),
@@ -58,7 +64,7 @@ class LoadSwitchTopic extends ConsumerWidget {
           ),
         ],
       ),
-      onChange: (v) {},
+      onChanged: (v) {},
       onTap: (v) {},
     );
   }

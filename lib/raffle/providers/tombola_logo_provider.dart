@@ -2,30 +2,39 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/auth/providers/openid_provider.dart';
+import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/raffle/providers/tombola_logos_provider.dart';
+import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
-import 'package:titan/raffle/repositories/tombola_logo_repository.dart';
+import 'package:titan/tools/repository/file_response.dart';
+import 'package:titan/tools/repository/repository.dart';
 
 class TombolaLogoProvider extends SingleNotifier<Image> {
-  final repository = TombolaLogoRepository();
-  final TombolaLogosNotifier tombolaLogosNotifier;
-  TombolaLogoProvider({
-    required String token,
-    required this.tombolaLogosNotifier,
-  }) : super(const AsyncValue.loading()) {
-    repository.setToken(token);
+  Openapi get repository => ref.watch(repositoryProvider);
+  late final TombolaLogosNotifier tombolaLogosNotifier;
+
+  @override
+  AsyncValue<Image> build() {
+    tombolaLogosNotifier = ref.watch(tombolaLogosProvider.notifier);
+    return const AsyncValue.loading();
   }
 
   Future<Image> getLogo(String id) async {
-    Image logo = await repository.getTombolaLogo(id);
+    final response = await repository.tombolaRafflesRaffleIdLogoGet(
+      raffleId: id,
+    );
+    final bytes = response.fileBytes;
+    final logo = bytes.isEmpty
+        ? Image.asset(getTitanLogo())
+        : Image.memory(bytes);
     tombolaLogosNotifier.setTData(id, AsyncData([logo]));
     state = AsyncValue.data(logo);
     return logo;
   }
 
   Future<Image> updateLogo(String id, Uint8List bytes) async {
-    Image logo = await repository.addTombolaLogo(bytes, id);
+    await repository.tombolaRafflesRaffleIdLogoPost(raffleId: id, image: bytes);
+    final logo = Image.memory(bytes);
     tombolaLogosNotifier.setTData(id, AsyncData([logo]));
     state = AsyncValue.data(logo);
     return logo;
@@ -33,11 +42,6 @@ class TombolaLogoProvider extends SingleNotifier<Image> {
 }
 
 final tombolaLogoProvider =
-    StateNotifierProvider<TombolaLogoProvider, AsyncValue<Image>>((ref) {
-      final token = ref.watch(tokenProvider);
-      final tombolaLogosNotifier = ref.watch(tombolaLogosProvider.notifier);
-      return TombolaLogoProvider(
-        token: token,
-        tombolaLogosNotifier: tombolaLogosNotifier,
-      );
-    });
+    NotifierProvider<TombolaLogoProvider, AsyncValue<Image>>(
+      TombolaLogoProvider.new,
+    );

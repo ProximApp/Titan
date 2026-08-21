@@ -1,8 +1,9 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/tools/exception.dart';
 
-abstract class SingleNotifier<T> extends StateNotifier<AsyncValue<T>> {
-  SingleNotifier(AsyncValue state) : super(const AsyncLoading());
+abstract class SingleNotifier<T> extends Notifier<AsyncValue<T>> {
+  @override
+  AsyncValue<T> build() => const AsyncLoading();
 
   Future<AsyncValue<T>> load(Future<T> Function() f) async {
     try {

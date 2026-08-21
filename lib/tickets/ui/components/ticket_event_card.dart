@@ -3,10 +3,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
-import 'package:titan/tickets/class/ticket_event.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tickets/adapters/ticket_event.dart';
 import 'package:titan/tickets/providers/can_manage_ticket_events_provider.dart';
 import 'package:titan/tickets/providers/selected_ticket_event_provider.dart';
-import 'package:titan/tickets/repositories/tickets_repository.dart';
 import 'package:titan/tickets/router.dart';
 import 'package:titan/tickets/ui/components/ticket_event_status_chip.dart';
 import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
@@ -14,7 +14,7 @@ import 'package:titan/tools/ui/styleguide/button.dart';
 import 'package:titan/tools/ui/styleguide/list_item_template.dart';
 
 class TicketEventCard extends ConsumerWidget {
-  final TicketEvent ticketEvent;
+  final EventSimple ticketEvent;
   const TicketEventCard({super.key, required this.ticketEvent});
 
   @override
@@ -43,8 +43,8 @@ class TicketEventCard extends ConsumerWidget {
                 text: l10n.ticketsViewResults,
                 onPressed: () {
                   ref
-                      .read(selectedTicketEventProvider.notifier)
-                      .setEvent(ticketEvent);
+                      .read(selectedTicketEventIdProvider.notifier)
+                      .setId(ticketEvent.id);
                   QR.to(TicketsRouter.root + TicketsRouter.results);
                   Navigator.of(context).pop();
                 },
@@ -53,41 +53,12 @@ class TicketEventCard extends ConsumerWidget {
                 const SizedBox(height: 10),
                 Button(
                   text: l10n.ticketsEditTitle,
-                  onPressed: () async {
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (context) =>
-                          const Center(child: CircularProgressIndicator()),
-                    );
-
-                    try {
-                      final repository = ref.read(ticketsRepositoryProvider);
-                      final detailedEvent = await repository.getTicketEventById(
-                        ticketEvent.id,
-                      );
-
-                      if (context.mounted) {
-                        Navigator.of(context).pop();
-                        ref
-                            .read(selectedTicketEventProvider.notifier)
-                            .setEvent(detailedEvent);
-                        QR.to(TicketsRouter.root + TicketsRouter.edit);
-                        Navigator.of(context).pop();
-                      }
-                    } catch (e) {
-                      if (context.mounted) {
-                        Navigator.of(context).pop();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              '${l10n.othersError}: ${e.toString()}',
-                            ),
-                            backgroundColor: Colors.red,
-                          ),
-                        );
-                      }
-                    }
+                  onPressed: () {
+                    ref
+                        .read(selectedTicketEventIdProvider.notifier)
+                        .setId(ticketEvent.id);
+                    QR.to(TicketsRouter.root + TicketsRouter.edit);
+                    Navigator.of(context).pop();
                   },
                 ),
               ],

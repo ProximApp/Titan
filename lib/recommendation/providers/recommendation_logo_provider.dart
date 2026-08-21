@@ -2,29 +2,39 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/recommendation/repositories/recommendation_logo_repository.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/tools/repository/file_response.dart';
+import 'package:titan/tools/repository/repository.dart';
 
 class RecommendationLogoNotifier extends SingleNotifier<Image> {
-  final RecommendationLogoRepository recommendationLogoRepository;
-  RecommendationLogoNotifier({required this.recommendationLogoRepository})
-    : super(const AsyncValue.loading());
+  Openapi get repository => ref.watch(repositoryProvider);
+
+  @override
+  AsyncValue<Image> build() {
+    return const AsyncValue.loading();
+  }
 
   Future<Image> getRecommendationLogo(String id) async {
-    return await recommendationLogoRepository.getRecommendationLogo(id);
+    final response = await repository
+        .recommendationRecommendationsRecommendationIdPictureGet(
+          recommendationId: id,
+        );
+    final bytes = response.fileBytes;
+    return bytes.isEmpty ? Image.asset(getTitanLogo()) : Image.memory(bytes);
   }
 
   Future<Image> updateRecommendationLogo(String id, Uint8List bytes) async {
-    return await recommendationLogoRepository.addRecommendationLogo(bytes, id);
+    await repository.recommendationRecommendationsRecommendationIdPicturePost(
+      recommendationId: id,
+      image: bytes,
+    );
+    return Image.memory(bytes);
   }
 }
 
 final recommendationLogoProvider =
-    StateNotifierProvider<RecommendationLogoNotifier, AsyncValue<Image>>((ref) {
-      final recommendationLogoRepository = ref.watch(
-        recommendationLogoRepositoryProvider,
-      );
-      return RecommendationLogoNotifier(
-        recommendationLogoRepository: recommendationLogoRepository,
-      );
-    });
+    NotifierProvider<RecommendationLogoNotifier, AsyncValue<Image>>(
+      RecommendationLogoNotifier.new,
+    );

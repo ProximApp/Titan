@@ -2,23 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:titan/admin/providers/associations_logo_map_provider.dart';
-import 'package:titan/admin/repositories/association_logo_repository.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/image_compression.dart';
 import 'package:titan/tools/providers/single_notifier.dart';
+import 'package:titan/tools/repository/file_response.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class AssociationLogoProvider extends SingleNotifier<Image> {
-  final AssociationLogoRepository associationLogoRepository;
-  final AssociationLogoMapNotifier associationLogoMapNotifier;
+class AssociationLogoNotifier extends SingleNotifier<Image> {
   final ImagePicker _picker = ImagePicker();
 
-  AssociationLogoProvider({
-    required this.associationLogoRepository,
-    required this.associationLogoMapNotifier,
-  }) : super(const AsyncLoading());
+  Openapi get repository => ref.watch(repositoryProvider);
+
+  AssociationLogoMapNotifier get associationLogoMapNotifier =>
+      ref.watch(associationLogoMapProvider.notifier);
+
+  @override
+  AsyncValue<Image> build() {
+    return const AsyncLoading();
+  }
 
   Future<Image> getAssociationLogo(String associationId) async {
-    final image = await associationLogoRepository.getAssociationLogo(
-      associationId,
+    final response = await repository.associationsAssociationIdLogoGet(
+      associationId: associationId,
     );
+    final bytes = response.fileBytes;
+    final image = bytes.isEmpty
+        ? Image.asset("assets/images/vache.png", fit: BoxFit.cover)
+        : Image.memory(bytes);
     associationLogoMapNotifier.setTData(associationId, AsyncData([image]));
     state = AsyncData(image);
     return image;
@@ -33,10 +43,16 @@ class AssociationLogoProvider extends SingleNotifier<Image> {
     );
     if (image != null) {
       try {
-        final i = await associationLogoRepository.addAssociationLogo(
-          await image.readAsBytes(),
-          associationId,
+        final bytes = await compressImageForUpload(await image.readAsBytes());
+        if (bytes == null) {
+          state = previousState;
+          return false;
+        }
+        await repository.associationsAssociationIdLogoPost(
+          associationId: associationId,
+          image: bytes,
         );
+        final i = Image.memory(bytes);
         state = AsyncValue.data(i);
         associationLogoMapNotifier.setTData(associationId, AsyncData([i]));
         return true;
@@ -51,13 +67,6 @@ class AssociationLogoProvider extends SingleNotifier<Image> {
 }
 
 final associationLogoProvider =
-    StateNotifierProvider<AssociationLogoProvider, AsyncValue<Image>>((ref) {
-      final associationLogo = ref.watch(associationLogoRepository);
-      final sessionPosterMapNotifier = ref.watch(
-        associationLogoMapProvider.notifier,
-      );
-      return AssociationLogoProvider(
-        associationLogoRepository: associationLogo,
-        associationLogoMapNotifier: sessionPosterMapNotifier,
-      );
-    });
+    NotifierProvider<AssociationLogoNotifier, AsyncValue<Image>>(
+      AssociationLogoNotifier.new,
+    );

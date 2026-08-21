@@ -1,19 +1,15 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/tickets/class/ticket_event.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SelectedTicketEventNotifier extends StateNotifier<TicketEvent?> {
-  SelectedTicketEventNotifier() : super(null);
+class SelectedTicketEventIdNotifier extends Notifier<String?> {
+  @override
+  String? build() => null;
 
-  void setEvent(TicketEvent event) {
-    state = event;
-  }
-
-  void clear() {
-    state = null;
+  void setId(String? id) {
+    state = id;
   }
 }
 
-final selectedTicketEventProvider =
-    StateNotifierProvider<SelectedTicketEventNotifier, TicketEvent?>((ref) {
-      return SelectedTicketEventNotifier();
-    });
+final selectedTicketEventIdProvider =
+    NotifierProvider<SelectedTicketEventIdNotifier, String?>(
+      SelectedTicketEventIdNotifier.new,
+    );

@@ -248,6 +248,18 @@ abstract class AppLocalizations {
   /// **'Utiliser une billetterie existante'**
   String get feedUseExistingTicketing;
 
+  /// No description provided for @feedSelectTicketing.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sélectionner une billetterie'**
+  String get feedSelectTicketing;
+
+  /// No description provided for @feedPleaseSelectTicketing.
+  ///
+  /// In fr, this message translates to:
+  /// **'Veuillez sélectionner une billetterie existante'**
+  String get feedPleaseSelectTicketing;
+
   /// No description provided for @feedNotification.
   ///
   /// In fr, this message translates to:
@@ -4697,7 +4709,7 @@ abstract class AppLocalizations {
   /// No description provided for @othersImageSizeTooBig.
   ///
   /// In fr, this message translates to:
-  /// **'La taille de l\'image ne doit pas dépasser 4 Mio'**
+  /// **'Cette image n\'a pas pu être compressée assez pour être envoyée'**
   String get othersImageSizeTooBig;
 
   /// No description provided for @othersInvalidNumber.
@@ -8186,6 +8198,12 @@ abstract class AppLocalizations {
   /// **'Modifier mon profil'**
   String get settingsEditAccount;
 
+  /// No description provided for @settingsEditPassword.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier le mot de passe'**
+  String get settingsEditPassword;
+
   /// No description provided for @settingsEditedAccount.
   ///
   /// In fr, this message translates to:
@@ -9140,11 +9158,17 @@ abstract class AppLocalizations {
   /// **'Modifier la billetterie'**
   String get ticketsEditTitle;
 
-  /// No description provided for @ticketsEdit.
+  /// No description provided for @ticketsEditSession.
   ///
   /// In fr, this message translates to:
-  /// **'Modifier'**
-  String get ticketsEdit;
+  /// **'Modifier la séance'**
+  String get ticketsEditSession;
+
+  /// No description provided for @ticketsEditCategory.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier la catégorie'**
+  String get ticketsEditCategory;
 
   /// No description provided for @ticketsTariffs.
   ///
@@ -9437,7 +9461,7 @@ abstract class AppLocalizations {
   /// No description provided for @ticketsTicketsInCheckout.
   ///
   /// In fr, this message translates to:
-  /// **'En cours d\'achat'**
+  /// **'En cours de réservation'**
   String get ticketsTicketsInCheckout;
 
   /// No description provided for @ticketsReadOnlyDueSales.
@@ -9476,11 +9500,17 @@ abstract class AppLocalizations {
   /// **'Événement désactivé'**
   String get ticketsEventDeactivated;
 
-  /// No description provided for @ticketsDelete.
+  /// No description provided for @ticketsDeleteSession.
   ///
   /// In fr, this message translates to:
-  /// **'Supprimer'**
-  String get ticketsDelete;
+  /// **'Supprimer la séance'**
+  String get ticketsDeleteSession;
+
+  /// No description provided for @ticketsDeleteCategory.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer la catégorie'**
+  String get ticketsDeleteCategory;
 
   /// No description provided for @ticketsDeleteEvent.
   ///
@@ -9697,6 +9727,84 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Statistiques'**
   String get ticketsStatistics;
+
+  /// Placeholder pour le temps restant avant le shotgun
+  ///
+  /// In fr, this message translates to:
+  /// **'Shotgun {time}'**
+  String feedShotgunIn(String time);
+
+  /// No description provided for @adminModifyModuleVisibility.
+  ///
+  /// In fr, this message translates to:
+  /// **'Visibilité des modules'**
+  String get adminModifyModuleVisibility;
+
+  /// No description provided for @paiementCancel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annuler'**
+  String get paiementCancel;
+
+  /// No description provided for @paiementCancelled.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annulé'**
+  String get paiementCancelled;
+
+  /// No description provided for @paiementCancelledTransaction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Paiement annulé'**
+  String get paiementCancelledTransaction;
+
+  /// No description provided for @paiementCancelTransaction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annuler la transaction'**
+  String get paiementCancelTransaction;
+
+  /// No description provided for @paiementCancelTransactions.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annuler les transactions'**
+  String get paiementCancelTransactions;
+
+  /// No description provided for @settingsPasswordStrength.
+  ///
+  /// In fr, this message translates to:
+  /// **'Force du mot de passe'**
+  String get settingsPasswordStrength;
+
+  /// No description provided for @settingsPasswordStrengthVeryWeak.
+  ///
+  /// In fr, this message translates to:
+  /// **'Très faible'**
+  String get settingsPasswordStrengthVeryWeak;
+
+  /// No description provided for @settingsPasswordStrengthWeak.
+  ///
+  /// In fr, this message translates to:
+  /// **'Faible'**
+  String get settingsPasswordStrengthWeak;
+
+  /// No description provided for @settingsPasswordStrengthMedium.
+  ///
+  /// In fr, this message translates to:
+  /// **'Moyen'**
+  String get settingsPasswordStrengthMedium;
+
+  /// No description provided for @settingsPasswordStrengthStrong.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fort'**
+  String get settingsPasswordStrengthStrong;
+
+  /// No description provided for @settingsPasswordStrengthVeryStrong.
+  ///
+  /// In fr, this message translates to:
+  /// **'Très fort'**
+  String get settingsPasswordStrengthVeryStrong;
 }
 
 class _AppLocalizationsDelegate

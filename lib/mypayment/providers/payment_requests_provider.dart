@@ -1,46 +1,44 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/mypayment/class/payment_request.dart';
-import 'package:titan/mypayment/class/signed_content.dart';
-import 'package:titan/mypayment/repositories/requests_repository.dart';
-import 'package:titan/tools/providers/list_notifier.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/providers/list_notifier_api.dart';
+import 'package:titan/tools/repository/repository.dart';
 
-class PaymentRequestsNotifier extends ListNotifier<PaymentRequest> {
-  final RequestsRepository requestsRepository;
-  PaymentRequestsNotifier({required this.requestsRepository})
-    : super(const AsyncValue.loading());
+class PaymentRequestsNotifier extends ListNotifierAPI<Request$> {
+  Openapi get requestsRepository => ref.watch(repositoryProvider);
 
-  Future<AsyncValue<List<PaymentRequest>>> getRequests() async {
-    return await loadList(requestsRepository.getRequests);
+  @override
+  AsyncValue<List<Request$>> build() {
+    getRequests();
+    return const AsyncValue.loading();
   }
 
-  Future<bool> acceptRequest(
-    PaymentRequest request,
-    SignedContent validation,
-  ) async {
+  Future<AsyncValue<List<Request$>>> getRequests() async {
+    return await loadList(() => requestsRepository.mypaymentRequestsGet());
+  }
+
+  Future<bool> acceptRequest(Request$ request, SignedContent validation) async {
     return await update(
-      (_) => requestsRepository.acceptRequest(request.id, validation),
-      (requests, request) =>
-          requests..[requests.indexWhere((r) => r.id == request.id)] = request,
+      () => requestsRepository.mypaymentRequestsRequestIdAcceptPost(
+        requestId: request.id,
+        body: validation,
+      ),
+      (r) => r.id,
       request.copyWith(status: RequestStatus.accepted),
     );
   }
 
-  Future<bool> refuseRequest(PaymentRequest request) async {
+  Future<bool> refuseRequest(Request$ request) async {
     return await update(
-      (_) => requestsRepository.refuseRequest(request.id),
-      (requests, request) =>
-          requests..[requests.indexWhere((r) => r.id == request.id)] = request,
+      () => requestsRepository.mypaymentRequestsRequestIdRefusePost(
+        requestId: request.id,
+      ),
+      (r) => r.id,
       request.copyWith(status: RequestStatus.refused),
     );
   }
 }
 
 final paymentRequestsProvider =
-    StateNotifierProvider<
-      PaymentRequestsNotifier,
-      AsyncValue<List<PaymentRequest>>
-    >((ref) {
-      final requestsRepository = ref.watch(requestsRepositoryProvider);
-      return PaymentRequestsNotifier(requestsRepository: requestsRepository)
-        ..getRequests();
-    });
+    NotifierProvider<PaymentRequestsNotifier, AsyncValue<List<Request$>>>(
+      PaymentRequestsNotifier.new,
+    );

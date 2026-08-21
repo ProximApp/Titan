@@ -5,7 +5,9 @@ import 'package:titan/auth/providers/is_connected_provider.dart';
 void main() {
   group('IsConnectedProvider', () {
     test('IsConnectedProvider initial state is false', () {
-      final provider = IsConnectedProvider();
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+      final provider = container.read(isConnectedProvider.notifier);
       expect(provider.state, false);
     });
 
