@@ -24,6 +24,12 @@ platform :ios do
       json_path: "./../config/config-#{flavor}.json"
     )
 
+    sh <<~SH
+      set -o pipefail
+      echo "Running: ./../../tool/check_config.sh ./../../config/config-#{flavor}.json"
+      ./../../tool/check_config.sh ./../../config/config-#{flavor}.json
+    SH
+
     app_id_prefix = config_json[:APP_ID_PREFIX] # fr.myecl
     app_name = config_json[:APP_NAME] # MyECL
 
