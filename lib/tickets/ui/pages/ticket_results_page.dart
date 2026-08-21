@@ -1,5 +1,4 @@
 import 'package:file_saver/file_saver.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,6 +10,7 @@ import 'package:titan/tickets/providers/ticket_event_provider.dart';
 import 'package:titan/tickets/ui/components/stats_card.dart';
 import 'package:titan/tickets/ui/tickets_module.dart';
 import 'package:titan/tools/constants.dart';
+import 'package:titan/tools/file_download.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/refresher.dart';
@@ -35,32 +35,30 @@ class TicketResultsPage extends HookConsumerWidget {
       displayToast(context, type, msg);
     }
 
-    Future<void> downloadCsv() async {
+    Future<void> downloadCsv(BuildContext buttonContext) async {
       if (selectedId == null) return;
+
+      // Read while the button is certain to still be laid out, before the
+      // download gives the user time to leave the page.
+      final shareOrigin = shareOriginOf(buttonContext);
 
       final bytes = await csvDownloadNotifier.downloadCsv(selectedId);
       if (bytes == null) {
-        displayToastWithContext(TypeMsg.error, 'Erreur lors du téléchargement');
+        displayToastWithContext(TypeMsg.error, l10n.ticketsCsvDownloadError);
         return;
       }
 
       final eventName = selectedEvent?.name ?? 'event';
-      final path = kIsWeb
-          ? await FileSaver.instance.saveFile(
-              name: '${eventName}_tickets',
-              bytes: bytes,
-              fileExtension: "csv",
-              mimeType: MimeType.csv,
-            )
-          : await FileSaver.instance.saveAs(
-              name: '${eventName}_tickets',
-              bytes: bytes,
-              fileExtension: "csv",
-              mimeType: MimeType.csv,
-            );
+      final downloaded = await downloadFile(
+        name: '${eventName}_tickets',
+        bytes: bytes,
+        fileExtension: "csv",
+        mimeType: MimeType.csv,
+        shareOrigin: shareOrigin,
+      );
 
-      if (path != null) {
-        displayToastWithContext(TypeMsg.msg, 'CSV téléchargé avec succès');
+      if (downloaded) {
+        displayToastWithContext(TypeMsg.msg, l10n.ticketsCsvDownloadSuccess);
       }
     }
 
@@ -115,13 +113,17 @@ class TicketResultsPage extends HookConsumerWidget {
           ],
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Button(
-              text: 'Télécharger CSV',
-              disabled: csvDownload.isLoading,
-              onPressed: () {
-                // ignore: avoid-ignoring-return-values
-                downloadCsv();
-              },
+            // The share sheet is a popover on iPad, so it has to be anchored to
+            // the button rather than to the whole page.
+            child: Builder(
+              builder: (buttonContext) => Button(
+                text: l10n.ticketsDownloadCsv,
+                disabled: csvDownload.isLoading,
+                onPressed: () {
+                  // ignore: avoid-ignoring-return-values
+                  downloadCsv(buttonContext);
+                },
+              ),
             ),
           ),
           const SizedBox(height: 16),

@@ -8,6 +8,7 @@ import 'package:titan/ph/providers/ph_cover_provider.dart';
 import 'package:titan/ph/providers/ph_provider.dart';
 import 'package:titan/ph/providers/ph_pdf_provider.dart';
 import 'package:titan/ph/router.dart';
+import 'package:titan/tools/file_download.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/layouts/card_button.dart';
@@ -52,48 +53,49 @@ class PhCard extends HookConsumerWidget {
             Positioned(
               bottom: 5,
               right: 5,
-              child: GestureDetector(
-                onTap: () async {
-                  final successDownloadingMsg = AppLocalizations.of(
-                    context,
-                  )!.phSuccesDowloading;
-                  late final Uint8List pdfBytes;
+              // The share sheet is a popover on iPad, so it has to be anchored
+              // to the download button rather than to the whole card.
+              child: Builder(
+                builder: (buttonContext) => GestureDetector(
+                  onTap: () async {
+                    final successDownloadingMsg = AppLocalizations.of(
+                      context,
+                    )!.phSuccesDowloading;
+                    final shareOrigin = shareOriginOf(buttonContext);
+                    late final Uint8List pdfBytes;
 
-                  try {
-                    pdfBytes = await phPdf;
-                  } catch (e) {
-                    displayPhToastWithContext(TypeMsg.error, e.toString());
-                    return;
-                  }
+                    try {
+                      pdfBytes = await phPdf;
+                    } catch (e) {
+                      displayPhToastWithContext(TypeMsg.error, e.toString());
+                      return;
+                    }
 
-                  final path = kIsWeb
-                      ? await FileSaver.instance.saveFile(
-                          name: ph.name,
-                          bytes: pdfBytes,
-                          fileExtension: "pdf",
-                          mimeType: MimeType.pdf,
-                        )
-                      : await FileSaver.instance.saveAs(
-                          name: ph.name,
-                          bytes: pdfBytes,
-                          fileExtension: "pdf",
-                          mimeType: MimeType.pdf,
-                        );
-
-                  if (path != null) {
-                    displayPhToastWithContext(
-                      TypeMsg.msg,
-                      successDownloadingMsg,
+                    final downloaded = await downloadFile(
+                      name: ph.name,
+                      bytes: pdfBytes,
+                      fileExtension: "pdf",
+                      mimeType: MimeType.pdf,
+                      shareOrigin: shareOrigin,
                     );
-                  }
-                },
-                child: CardButton(
-                  borderRadius: const BorderRadius.all(Radius.circular(10000)),
-                  size: 60,
-                  color: Colors.grey.shade300.withValues(alpha: 0.9),
-                  child: const HeroIcon(
-                    HeroIcons.arrowDownTray,
-                    color: Colors.black,
+
+                    if (downloaded) {
+                      displayPhToastWithContext(
+                        TypeMsg.msg,
+                        successDownloadingMsg,
+                      );
+                    }
+                  },
+                  child: CardButton(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(10000),
+                    ),
+                    size: 60,
+                    color: Colors.grey.shade300.withValues(alpha: 0.9),
+                    child: const HeroIcon(
+                      HeroIcons.arrowDownTray,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ),
