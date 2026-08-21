@@ -8,6 +8,7 @@ import 'package:titan/ph/router.dart';
 
 import 'package:titan/ph/ui/button.dart';
 import 'package:titan/ph/ui/pages/ph.dart';
+import 'package:titan/tools/pdfjs/pdf_js.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/widgets/admin_button.dart';
 import 'package:pdfx/pdfx.dart';
@@ -65,7 +66,11 @@ class PhMainPage extends HookConsumerWidget {
                     child: PdfView(
                       pageSnapping: !kIsWeb,
                       controller: PdfController(
-                        document: PdfDocument.openData(value),
+                        // On the web the pdf.js runtime is only fetched now, so
+                        // the document can only be opened once it has landed.
+                        document: ensurePdfJs().then(
+                          (_) => PdfDocument.openData(value),
+                        ),
                       ),
                       scrollDirection: kIsWeb ? Axis.vertical : Axis.horizontal,
                     ),

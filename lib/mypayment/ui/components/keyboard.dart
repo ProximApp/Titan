@@ -1,7 +1,7 @@
 // From https://github.com/huextrat/numeric_keyboard/blob/master/lib/numeric_keyboard.dart
 
 import 'package:flutter/material.dart';
-import 'package:heroicons/heroicons.dart';
+import 'package:titan/tools/ui/heroicons.dart';
 
 class NumericKeyboard extends StatelessWidget {
   /// Color of the text [default = Colors.black]

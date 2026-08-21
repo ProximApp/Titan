@@ -1,0 +1,19 @@
+# Which Heroicons to compile into the app, for `dart run tool/gen_heroicons.dart`.
+#
+# The icons themselves are discovered automatically by scanning `lib/` for
+# `HeroIcons.<name>`, so this file only has to answer the one question the
+# scanner cannot: which icons are ever drawn in a style other than the default
+# outline. That is a runtime decision — `all_module_page.dart` picks solid or
+# outline from a ternary — so it has to be declared by hand.
+#
+# Getting it wrong is caught in debug by an assertion in `HeroIcon.build`, which
+# names both the icon and the style to add here.
+
+# Path to a checkout or pub-cache copy of the `heroicons` package, whose
+# `assets/<style>/<name>.svg` tree is the source of the icon geometry. Override
+# on the command line with `--source`.
+source: ~/.pub-cache/hosted/pub.dev/heroicons-0.11.0/assets
+
+# Icons needing a solid variant in addition to the outline one.
+solid:
+  - bookmark

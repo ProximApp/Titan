@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/plausible/plausible.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:toastification/toastification.dart';
 import 'package:yaml/yaml.dart';
 
@@ -206,13 +205,6 @@ String processDateBackWithHourMaybe(String d, String locale) {
   } catch (e) {
     return DateFormat.yMd(locale).parse(d).toIso8601String();
   }
-}
-
-List<DateTime> getDateInRecurrence(String recurrenceRule, DateTime start) {
-  if (recurrenceRule.isEmpty) {
-    return [];
-  }
-  return SfCalendar.getRecurrenceDateTimeCollection(recurrenceRule, start);
 }
 
 DateTime normalizedDate(DateTime date) {
@@ -518,7 +510,13 @@ String getAppFlavor() {
     return appFlavor!.toLowerCase();
   }
 
-  const flavor = String.fromEnvironment("FLAVOR");
+  // `flutter build web` rejects `--flavor`, so `appFlavor` is always null on
+  // the web and the flavor has to come from the config file, which spells the
+  // key in lower case. `FLAVOR` stays supported for `--dart-define=FLAVOR=…`.
+  const flavor = String.fromEnvironment(
+    "FLAVOR",
+    defaultValue: String.fromEnvironment("flavor"),
+  );
 
   if (flavor.isEmpty) {
     throw StateError("App flavor not set");
@@ -611,5 +609,5 @@ String getAppName() {
 }
 
 String getTitanLogo() {
-  return "assets/images/logo_${getAppFlavor()}.png";
+  return "assets/images/logo_${getAppFlavor()}.webp";
 }

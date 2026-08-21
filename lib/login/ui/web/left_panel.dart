@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:heroicons/heroicons.dart';
+import 'package:titan/tools/ui/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/feed/router.dart';
@@ -120,7 +120,10 @@ class LeftPanel extends HookConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Spacer(),
-              Expanded(flex: 5, child: Image.asset('assets/images/login.webp')),
+              Expanded(
+                flex: 5,
+                child: Image.asset('assets/${getBaseSchoolName()}/login.webp'),
+              ),
               const SizedBox(height: 70),
               WaitingButton(
                 onTap: () async {

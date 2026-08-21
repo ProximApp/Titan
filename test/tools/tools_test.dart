@@ -2,6 +2,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:titan/tools/exception.dart';
 import 'package:titan/tools/functions.dart';
+import 'package:titan/tools/recurrence.dart';
 
 void main() {
   group('Testing AppException class', () {

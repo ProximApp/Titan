@@ -190,7 +190,7 @@ class RightPanel extends HookConsumerWidget {
               ),
               const Spacer(),
               Image.asset(
-                'assets/images/proximapp.png',
+                'assets/images/proximapp.webp',
                 width: 120,
                 height: 120,
               ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:flutter/widgets.dart';
-import 'package:heroicons/heroicons.dart';
+import 'package:titan/tools/ui/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/centralisation/tools/functions.dart';
 import 'package:titan/seed-library/providers/difficulty_filter_provider.dart';

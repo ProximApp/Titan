@@ -63,7 +63,7 @@ class RaffleWidget extends HookConsumerWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Image.asset("assets/images/soli.png"),
+                      Image.asset("assets/images/soli.webp"),
                       Expanded(
                         child: Container(
                           margin: const EdgeInsets.only(left: 10),

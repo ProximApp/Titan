@@ -11,7 +11,7 @@ import 'package:titan/generated/openapi.models.swagger.dart' as models;
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/cache/cache_manager.dart';
 import 'package:titan/tools/functions.dart';
-import 'package:universal_html/html.dart' as html;
+import 'package:titan/tools/web-window-callback/web_window_with_callback.dart';
 
 class AuthRepository {
   final Openapi openIdRepository;
@@ -44,8 +44,6 @@ class AuthRepository {
   }
 
   Future<models.TokenResponse> getTokenFromRequest() async {
-    html.WindowBase? popupWin;
-
     final codeVerifier = generateRandomString(128);
     models.TokenResponse tokenResponse = models.TokenResponse.empty();
 
@@ -53,31 +51,9 @@ class AuthRepository {
         "${getTitanHost()}auth/authorize?client_id=$clientId&response_type=code&scope=${scopes.join(" ")}&redirect_uri=$redirectURL&code_challenge=${hash(codeVerifier)}&code_challenge_method=S256";
 
     if (kIsWeb) {
-      popupWin = html.window.open(
-        authUrl,
-        "Hyperion",
-        "width=800, height=900, scrollbars=yes",
-      );
-
-      final completer = Completer();
-      void checkWindowClosed() {
-        if (popupWin != null && popupWin!.closed == true) {
-          completer.complete();
-        } else {
-          Future.delayed(const Duration(milliseconds: 100), checkWindowClosed);
-        }
-      }
-
-      checkWindowClosed();
-      completer.future.then((_) {});
-
       Future<models.TokenResponse> login(String data) async {
         final receivedUri = Uri.parse(data);
         final token = receivedUri.queryParameters["code"];
-        if (popupWin != null) {
-          popupWin!.close();
-          popupWin = null;
-        }
         try {
           if (token != null && token.isNotEmpty) {
             final response = await openIdRepository.authTokenPost(
@@ -106,11 +82,39 @@ class AuthRepository {
         }
       }
 
-      final event = await html.window.onMessage.first;
-      if (event.data.toString().contains('code=')) {
-        tokenResponse = await login(event.data);
-      }
-      return tokenResponse;
+      final completer = Completer<models.TokenResponse>();
+      // The popup posts the code back to us, so the exchange only starts once
+      // it answers. Set as soon as a code arrives — before awaiting the token
+      // exchange — because closing the popup is what the shim does next, and
+      // that must not be mistaken for the user giving up.
+      var receivedCode = false;
+
+      webWindowWithCallback(
+        authUrl,
+        "Hyperion",
+        completerFutureCallback: () {
+          if (!receivedCode && !completer.isCompleted) {
+            completer.complete(tokenResponse);
+          }
+        },
+        popupBlockedCallback: () {
+          if (!completer.isCompleted) {
+            completer.completeError(Exception('Popup blocked'));
+          }
+        },
+        loginCallback: (String data) async {
+          receivedCode = true;
+          try {
+            completer.complete(await login(data));
+          } catch (e, stackTrace) {
+            if (!completer.isCompleted) {
+              completer.completeError(e, stackTrace);
+            }
+          }
+        },
+      );
+
+      return completer.future;
     } else {
       AuthorizationTokenResponse resp = await appAuth.authorizeAndExchangeCode(
         AuthorizationTokenRequest(

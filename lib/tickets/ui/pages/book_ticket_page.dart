@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:heroicons/heroicons.dart';
+import 'package:titan/tools/ui/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:titan/l10n/app_localizations.dart';
@@ -26,7 +26,7 @@ import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/providers/path_forwarding_provider.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:qlevar_router/qlevar_router.dart';
-import 'package:universal_html/html.dart' as html;
+import 'package:titan/tools/web-window-callback/web_window_with_callback.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BookTicketPage extends HookConsumerWidget {
@@ -206,52 +206,33 @@ class _TicketEventContent extends HookConsumerWidget {
     }
 
     void helloAssoCallback(String paymentUrl) async {
-      html.WindowBase? popupWin =
-          html.window.open(
-                paymentUrl,
-                "HelloAsso",
-                "width=800, height=900, scrollbars=yes",
-              )
-              as html.WindowBase?;
-
-      if (popupWin == null) {
-        displayToast(context, TypeMsg.error, l10n.paiementPleaseAcceptPopup);
-        return;
-      }
-
-      final completer = Completer();
-      final win = popupWin; // capture non-null value
-      void checkWindowClosed() {
-        if (win.closed == true) {
-          completer.complete();
-        } else {
-          Future.delayed(const Duration(milliseconds: 100), checkWindowClosed);
-        }
-      }
-
-      checkWindowClosed();
-      completer.future.then((_) {
-        // Clear checkout and redirect to /tickets when popup is closed
-        ref.read(checkoutProvider.notifier).reset();
-        QR.to('/tickets');
-      });
-
-      void handlePaymentResult(String data) async {
-        final receivedUri = Uri.parse(data);
-        final code = receivedUri.queryParameters["code"];
-        if (code == "succeeded") {
-          displayToast(context, TypeMsg.msg, l10n.ticketsBookSuccess);
-        } else {
-          displayToast(context, TypeMsg.error, l10n.paiementRefusedTransaction);
-        }
-        popupWin.close();
-      }
-
-      html.window.onMessage.listen((event) {
-        if (event.data.toString().contains('code=')) {
-          handlePaymentResult(event.data);
-        }
-      });
+      webWindowWithCallback(
+        paymentUrl,
+        "HelloAsso",
+        completerFutureCallback: () {
+          // Clear checkout and redirect to /tickets when popup is closed
+          ref.read(checkoutProvider.notifier).reset();
+          QR.to('/tickets');
+        },
+        popupBlockedCallback: () => displayToast(
+          context,
+          TypeMsg.error,
+          l10n.paiementPleaseAcceptPopup,
+        ),
+        loginCallback: (String data) async {
+          final receivedUri = Uri.parse(data);
+          final code = receivedUri.queryParameters["code"];
+          if (code == "succeeded") {
+            displayToast(context, TypeMsg.msg, l10n.ticketsBookSuccess);
+          } else {
+            displayToast(
+              context,
+              TypeMsg.error,
+              l10n.paiementRefusedTransaction,
+            );
+          }
+        },
+      );
     }
 
     // Handle success/error states
@@ -787,7 +768,7 @@ class _TicketEventContent extends HookConsumerWidget {
                                       SizedBox(
                                         height: 28,
                                         child: Image.asset(
-                                          'assets/images/logo_prod.png',
+                                          'assets/images/logo_prod.webp',
                                           fit: BoxFit.contain,
                                           color: isDisabled
                                               ? ColorConstants.tertiary

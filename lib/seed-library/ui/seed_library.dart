@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:heroicons/heroicons.dart';
+import 'package:titan/tools/ui/heroicons.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/seed-library/router.dart';
 import 'package:titan/tools/constants.dart';

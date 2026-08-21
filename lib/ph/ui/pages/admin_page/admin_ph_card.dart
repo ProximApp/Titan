@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:heroicons/heroicons.dart';
+import 'package:titan/tools/ui/heroicons.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/ph/tools/functions.dart';
 import 'package:titan/tools/ui/layouts/card_button.dart';

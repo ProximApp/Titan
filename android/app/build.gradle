@@ -31,6 +31,9 @@ def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
+// A key.properties that exists but names no store is as good as none: it is what
+// a half-finished local setup leaves behind.
+def hasReleaseKeystore = keystoreProperties['storeFile'] as boolean
 
 // Extract variables from Dart defines
 // Based on https://medium.com/@mahdi.yami3235/mastering-native-configurations-in-flutter-the-power-of-dart-define-10f2b89922dc
@@ -76,7 +79,14 @@ preBuild.dependsOn(generateMainActivityTask)
 android {
     ndkVersion "29.0.14206865"
     namespace "${appIdPrefix}.titan"
-    compileSdk flutter.compileSdkVersion
+    // Pinned ahead of `flutter.compileSdkVersion` (36) because
+    // permission_handler_android is compiled against 37, and Gradle warns on
+    // every build that depending on a library built against a newer SDK than
+    // you compile with is unsupported. Android SDKs are backward compatible, so
+    // the only thing this changes is which `android.jar` the app is checked
+    // against; `targetSdk` — what the OS uses to decide which behaviours to
+    // apply — still comes from Flutter.
+    compileSdk 37
 
     compileOptions {
         coreLibraryDesugaringEnabled true
@@ -103,15 +113,25 @@ android {
 
     signingConfigs {
         release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-            storePassword keystoreProperties['storePassword']
+            if (hasReleaseKeystore) {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+            }
         }
     }
     buildTypes {
         release {
-           signingConfig signingConfigs.release
+            // Without a keystore the release config has no `storeFile`, and the
+            // packaging task fails with "SigningConfig release is missing
+            // required property storeFile" — which used to make it impossible to
+            // build a release APK locally at all, even just to check size or to
+            // profile. Falling back to the debug key keeps that buildable; the
+            // artefact is not installable over a store build and not shippable,
+            // which is the point. CI writes android/key.properties from secrets
+            // before building, so releases that matter are still properly signed.
+            signingConfig hasReleaseKeystore ? signingConfigs.release : signingConfigs.debug
         }
     }
 

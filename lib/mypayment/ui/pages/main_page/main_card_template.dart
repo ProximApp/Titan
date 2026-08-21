@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:heroicons/heroicons.dart';
+import 'package:titan/tools/ui/heroicons.dart';
 import 'package:titan/mypayment/ui/pages/main_page/main_card_button.dart';
 
 class MainCardTemplate extends StatelessWidget {

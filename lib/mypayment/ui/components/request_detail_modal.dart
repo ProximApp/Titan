@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:heroicons/heroicons.dart';
 import 'package:intl/intl.dart';
 import 'package:titan/generated/openapi.enums.swagger.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/mypayment/tools/functions.dart';
 import 'package:titan/mypayment/ui/components/paiment_delegate/product_card.dart';
+import 'package:titan/tools/ui/heroicons.dart';
 import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 import 'package:titan/tools/ui/styleguide/button.dart';
 
@@ -31,7 +31,7 @@ class RequestDetailModal extends StatelessWidget {
       case RequestStatus.refused:
         statusLabel = localizeWithContext.paiementRequestStatusRefused;
         statusColor = const Color.fromARGB(255, 204, 70, 25);
-        statusIcon = HeroIcons.xCircle;
+        statusIcon = HeroIcons.xMark;
       case RequestStatus.proposed:
       case RequestStatus.swaggerGeneratedUnknown:
         if (expired) {

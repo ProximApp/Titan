@@ -1,13 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:heroicons/heroicons.dart';
 import 'package:intl/intl.dart';
 import 'package:titan/generated/openapi.enums.swagger.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/mypayment/tools/functions.dart';
 import 'package:titan/tools/providers/locale_notifier.dart';
+import 'package:titan/tools/ui/heroicons.dart';
 
 class RequestCard extends ConsumerWidget {
   final Request$ request;
@@ -37,7 +37,7 @@ class RequestCard extends ConsumerWidget {
         ];
         statusLabel = null;
       case RequestStatus.refused:
-        icon = HeroIcons.xCircle;
+        icon = HeroIcons.xMark;
         colors = [
           const Color.fromARGB(255, 204, 70, 25),
           const Color.fromARGB(255, 163, 56, 20),

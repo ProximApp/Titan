@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:titan/login/ui/web/left_panel.dart';
 import 'package:titan/login/ui/web/right_panel.dart';
+import 'package:titan/tools/functions.dart';
 
 class WebSignIn extends StatelessWidget {
   const WebSignIn({super.key});
@@ -12,9 +13,9 @@ class WebSignIn extends StatelessWidget {
         child: Stack(
           children: [
             Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/web/back.webp'),
+                  image: AssetImage('assets/${getBaseSchoolName()}/back.webp'),
                   fit: BoxFit.cover,
                 ),
               ),
