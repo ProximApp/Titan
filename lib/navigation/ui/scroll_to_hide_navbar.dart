@@ -46,13 +46,21 @@ class _ScrollToHideNavbarState extends ConsumerState<ScrollToHideNavbar> {
       return;
     }
 
-    if (currentOffset >= maxScrollExtent) {
+    final double scrollDelta = currentOffset - _previousOffset;
+
+    // Ignore programmatic jumps (jumpTo / restored scroll position) and
+    // sub-pixel jitter: only react to real user scrolling, otherwise the
+    // navbar can disappear without the user scrolling.
+    if (scrollDelta.abs() > 500 ||
+        (!position.isScrollingNotifier.value && scrollDelta.abs() > 1.0)) {
       _previousOffset = currentOffset;
       return;
     }
 
-    final double scrollDelta = currentOffset - _previousOffset;
-
+    if (currentOffset >= maxScrollExtent) {
+      _previousOffset = currentOffset;
+      return;
+    }
     if (scrollDelta > 0) {
       navbarVisibilityNotifier.hide();
     } else if (scrollDelta < 0) {
