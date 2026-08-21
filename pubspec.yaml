@@ -120,6 +120,8 @@ flutter:
     - assets/web/Pret.webp
     - assets/web/Tombola.webp
     - assets/web/Vote.webp
+    - assets/emlyon/login.webp
+    - assets/emlyon/back.webp
     # `assets/my_document.pdf` (200 KB) and `assets/images/logo_flappybird.svg`
     # used to be declared here but are referenced from nowhere in lib/, so they
     # were only ever dead weight in the image and two more asset-manifest

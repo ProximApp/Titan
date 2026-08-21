@@ -120,7 +120,10 @@ class LeftPanel extends HookConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Spacer(),
-              Expanded(flex: 5, child: Image.asset('assets/images/login.webp')),
+              Expanded(
+                flex: 5,
+                child: Image.asset('assets/${getBaseSchoolName()}/login.webp'),
+              ),
               const SizedBox(height: 70),
               WaitingButton(
                 onTap: () async {
