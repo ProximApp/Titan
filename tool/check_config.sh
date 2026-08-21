@@ -19,7 +19,7 @@ jq empty "$file" 2>/dev/null || { echo "::error::$file is not valid JSON"; exit 
 fail=0
 note() { echo "::error::$file: $1"; fail=1; }
 
-for key in flavor APP_NAME SCHOOL_NAME APP_ID_PREFIX BACKEND_HOST TITAN_URL; do
+for key in FLAVOR APP_NAME SCHOOL_NAME APP_ID_PREFIX BACKEND_HOST TITAN_URL; do
   value=$(jq -r --arg k "$key" '.[$k] // empty' "$file")
   [ -n "$value" ] || note "missing or empty \"$key\""
 done
@@ -37,7 +37,7 @@ done
 # `flutter build web` rejects --flavor, so this key is the only thing telling a
 # web build which flavor it is; getAppFlavor() lower-cases it but the icon and
 # Plausible lookups compare against these three exactly.
-flavor=$(jq -r '.flavor // empty' "$file")
+flavor=$(jq -r '.FLAVOR // empty' "$file")
 case "$flavor" in
   ""|prod|alpha|dev) ;;
   *) note "\"flavor\" is \"$flavor\", expected one of prod, alpha, dev" ;;

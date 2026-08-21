@@ -1,5 +1,5 @@
 {
-  "flavor": "<dev | alpha | prod>",
+  "FLAVOR": "<dev | alpha | prod>",
   "TITAN_URL": "http://localhost:3000/",
   "BACKEND_HOST": "<backend_host>/",
   "SCHOOL_NAME": "<school_name>",

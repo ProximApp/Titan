@@ -18,8 +18,8 @@ cd "$(dirname "$0")/.."
 
 if [ "${1:-}" = "--from" ]; then
   [ -f "${2:-}" ] || { echo "no such config file: ${2:-}" >&2; exit 1; }
-  flavor=$(jq -r '.flavor // empty' "$2")
-  [ -n "$flavor" ] || { echo "no lowercase \"flavor\" key in $2" >&2; exit 1; }
+  flavor=$(jq -r '.FLAVOR // empty' "$2")
+  [ -n "$flavor" ] || { echo "no \"FLAVOR\" key in $2" >&2; exit 1; }
 else
   flavor="${1:-}"
   [ -n "$flavor" ] || { echo "usage: $0 <flavor> | --from <config.json>" >&2; exit 1; }
