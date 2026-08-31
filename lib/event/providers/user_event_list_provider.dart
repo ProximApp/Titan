@@ -39,6 +39,8 @@ class EventEventListProvider extends ListNotifierAPI<EventCompleteTicketUrl> {
           location: event.location,
           description: event.description,
           recurrenceRule: event.recurrenceRule,
+          ticketUrl: event.ticketUrl,
+          ticketEventId: event.ticketEventId,
         ),
       ),
       (event) => event.id,
