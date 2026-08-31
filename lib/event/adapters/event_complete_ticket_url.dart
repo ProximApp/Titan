@@ -12,6 +12,8 @@ extension $EventCompleteTicketUrl on EventCompleteTicketUrl {
       recurrenceRule: recurrenceRule,
       notification: notification,
       associationId: associationId,
+      ticketUrl: ticketUrl,
+      ticketEventId: ticketEventId,
     );
   }
 }

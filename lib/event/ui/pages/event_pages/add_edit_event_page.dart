@@ -540,6 +540,12 @@ class AddEditEventPage extends HookConsumerWidget {
                                       notification: true,
                                       associationId: organizer.text,
                                       association: Association.empty(),
+                                      ticketUrl: isEdit
+                                          ? event.ticketUrl
+                                          : null,
+                                      ticketEventId: isEdit
+                                          ? event.ticketEventId
+                                          : null,
                                     );
                                 final value = isEdit
                                     ? await eventListNotifier.updateEvent(
