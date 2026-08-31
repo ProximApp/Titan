@@ -34,6 +34,9 @@ mkdir -p web/icons
 cp -f "$dir/favicon.png" web/favicon.png
 cp -f "$dir"/icons/* web/icons/
 
+# We want to use the release index.html before compiling a release version
+cp web/index.release.html web/index.html
+
 # Every icon the manifest promises has to be on disk, or the app is silently not
 # installable. Cheaper to fail here than to find out from a user.
 missing=0
