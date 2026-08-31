@@ -33,8 +33,8 @@ class SellerHistoryNotifier extends ListNotifierAPI<History> {
     return await loadList(
       () => storesRepository.mypaymentStoresStoreIdHistoryGet(
         storeId: storeId,
-        startDate: dateTimeToJson(startDate.toUtc())!.split('T').first,
-        endDate: dateTimeToJson(endDate.toUtc())!.split('T').first,
+        startDate: dateTimeToJson(startDate.toUtc())!,
+        endDate: dateTimeToJson(endDate.toUtc())!,
       ),
     );
   }
