@@ -18,7 +18,24 @@ class ModuleListNotifier extends ListNotifierAPI<String> {
   }
 
   Future<AsyncValue<List<String>>> loadMyModuleRoots() async {
-    state = const AsyncValue.data(<String>[]);
+    final response = await repository.permissionsListGet();
+    if (!response.isSuccessful || response.body == null) {
+      state = const AsyncValue.data(<String>[]);
+      return state;
+    }
+
+    final allPermissions = response.body!;
+
+    final moduleRoots = <String>{};
+    for (final permission in allPermissions) {
+      if (permission.contains('.access')) {
+        final moduleRoot = permission.split('.').first;
+        moduleRoots.add(moduleRoot);
+      }
+    }
+
+    final moduleRootsList = moduleRoots.toList()..sort();
+    state = AsyncValue.data(moduleRootsList);
     return state;
   }
 }
