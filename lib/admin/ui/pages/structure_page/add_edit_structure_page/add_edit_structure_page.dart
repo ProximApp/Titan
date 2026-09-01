@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/admin/admin.dart';
+import 'package:titan/admin/extensions/membership_simple.dart';
 import 'package:titan/admin/ui/pages/structure_page/add_edit_structure_page/user_search_modal.dart';
 import 'package:titan/admin/providers/association_membership_list_provider.dart';
 import 'package:titan/admin/providers/structure_manager_provider.dart';
@@ -197,7 +198,11 @@ class AddEditStructurePage extends HookConsumerWidget {
                             currentMembership.value = associationMembership;
                           },
                           child: Text(
-                            associationMembership.name.toUpperCase(),
+                            associationMembership
+                                .displayName(
+                                  localizeWithContext.adminNoMembership,
+                                )
+                                .toUpperCase(),
                             style: TextStyle(
                               color: selected ? Colors.white : Colors.black,
                               fontWeight: FontWeight.bold,

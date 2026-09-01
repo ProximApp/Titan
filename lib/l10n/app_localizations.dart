@@ -1147,6 +1147,12 @@ abstract class AppLocalizations {
   /// **'Aucun membre'**
   String get adminNoMember;
 
+  /// No description provided for @adminNoMembership.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pas d\'adhésion'**
+  String get adminNoMembership;
+
   /// No description provided for @adminNoMoreLoaner.
   ///
   /// In fr, this message translates to:

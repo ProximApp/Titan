@@ -9,6 +9,7 @@ class AssociationMembershipListNotifier
 
   @override
   AsyncValue<List<MembershipSimple>> build() {
+    loadAssociationMemberships();
     return const AsyncValue.loading();
   }
 

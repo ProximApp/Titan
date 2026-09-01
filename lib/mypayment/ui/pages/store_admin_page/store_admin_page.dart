@@ -35,7 +35,7 @@ class StoreAdminPage extends HookConsumerWidget {
       child: Refresher(
         controller: ScrollController(),
         onRefresh: () async {
-          await storeSellersNotifier.getStoreSellerList(store.id);
+          await storeSellersNotifier.getStoreSellerList();
         },
         child: Column(
           children: [

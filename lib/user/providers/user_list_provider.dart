@@ -8,8 +8,7 @@ class UserListNotifier extends ListNotifierAPI<CoreUserSimple> {
 
   @override
   AsyncValue<List<CoreUserSimple>> build() {
-    clear();
-    return const AsyncValue.loading();
+    return const AsyncValue.data([]);
   }
 
   Future<AsyncValue<List<CoreUserSimple>>> filterUsers(

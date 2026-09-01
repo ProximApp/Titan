@@ -569,6 +569,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adminNoMember => 'No member';
 
   @override
+  String get adminNoMembership => 'No membership';
+
+  @override
   String get adminNoMoreLoaner => 'No lender available';
 
   @override
