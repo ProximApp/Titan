@@ -4,14 +4,19 @@ import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
 
 class StoreSellerListNotifier extends ListNotifierAPI<Seller> {
+  StoreSellerListNotifier(this.storeId);
+
+  final String storeId;
+
   Openapi get sellerStoreRepository => ref.watch(repositoryProvider);
 
   @override
   AsyncValue<List<Seller>> build() {
+    getStoreSellerList();
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<List<Seller>>> getStoreSellerList(String storeId) async {
+  Future<AsyncValue<List<Seller>>> getStoreSellerList() async {
     return await loadList(
       () => sellerStoreRepository.mypaymentStoresStoreIdSellersGet(
         storeId: storeId,
@@ -71,4 +76,4 @@ final sellerStoreProvider =
       StoreSellerListNotifier,
       AsyncValue<List<Seller>>,
       String
-    >((storeId) => StoreSellerListNotifier());
+    >(StoreSellerListNotifier.new);

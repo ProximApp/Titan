@@ -577,6 +577,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get adminNoMember => 'Aucun membre';
 
   @override
+  String get adminNoMembership => 'Pas d\'adhésion';
+
+  @override
   String get adminNoMoreLoaner => 'Aucun prêteur n\'est disponible';
 
   @override
