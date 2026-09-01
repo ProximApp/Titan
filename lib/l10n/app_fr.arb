@@ -57,7 +57,7 @@
   "feedRefresh": "Actualiser",
   "feedPleaseProvideASGExternalLink": "Veuillez entrer un lien externe pour le SG",
   "feedPleaseProvideASGDate": "Veuillez entrer une date de SG",
-  "feedTicketsIn": "Billets disponibles dans {time}",
+  "feedTicketsIn": "Ouverture {time}",
   "@feedTicketsIn": {
     "description": "Placeholder pour le temps restant avant le tickets",
     "placeholders": {

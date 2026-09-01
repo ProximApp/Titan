@@ -57,7 +57,7 @@
   "feedRefresh": "Refresh",
   "feedPleaseProvideASGExternalLink": "Please provide a SG external link",
   "feedPleaseProvideASGDate": "Please provide a SG date",
-  "feedTicketsIn": "Ticketing in {time}",
+  "feedTicketsIn": "Opens {time}",
   "@feedTicketsIn": {
     "description": "Ticketing in time",
     "placeholders": {
