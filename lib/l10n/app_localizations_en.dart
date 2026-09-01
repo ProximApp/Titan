@@ -160,7 +160,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String feedTicketsIn(String time) {
-    return 'Ticketing in $time';
+    return 'Opens $time';
   }
 
   @override

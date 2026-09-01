@@ -394,7 +394,7 @@ abstract class AppLocalizations {
   /// Placeholder pour le temps restant avant le tickets
   ///
   /// In fr, this message translates to:
-  /// **'Billets disponibles dans {time}'**
+  /// **'Ouverture {time}'**
   String feedTicketsIn(String time);
 
   /// Temps restant avant le vote

@@ -163,7 +163,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String feedTicketsIn(String time) {
-    return 'Billets disponibles dans $time';
+    return 'Ouverture $time';
   }
 
   @override
