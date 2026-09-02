@@ -1,5 +1,8 @@
+import 'package:chopper/chopper.dart' show Response;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/super_admin/adapters/core_account_type_permission.dart';
+import 'package:titan/super_admin/adapters/core_group_permission.dart';
 import 'package:titan/super_admin/providers/permission_name_list_provider.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
@@ -15,6 +18,52 @@ class PermissionsNotifier extends ListNotifierAPI<CorePermission> {
 
   Future<AsyncValue<List<CorePermission>>> loadPermissions() async {
     return await loadList(repository.permissionsGet);
+  }
+
+  Future<bool> addGroupPermission(CoreGroupPermission permission) async {
+    return await add(
+      () => repository
+          .permissionsPost(body: permission)
+          // TODO: REMOVE WHEN BACK FIXES
+          .then(
+            (response) =>
+                Response(response.base, permission.toCorePermission()),
+          ),
+      permission,
+    );
+  }
+
+  Future<bool> deleteGroupPermission(CoreGroupPermission permission) async {
+    return await delete(
+      () => repository.permissionsDelete(body: permission),
+      (permission) => permission.permissionName,
+      permission.permissionName,
+    );
+  }
+
+  Future<bool> addAccountTypePermission(
+    CoreAccountTypePermission permission,
+  ) async {
+    return await add(
+      () => repository
+          .permissionsPost(body: permission)
+          // TODO: REMOVE WHEN BACK FIXES
+          .then(
+            (response) =>
+                Response(response.base, permission.toCorePermission()),
+          ),
+      permission,
+    );
+  }
+
+  Future<bool> deleteAccountTypePermission(
+    CoreAccountTypePermission permission,
+  ) async {
+    return await delete(
+      () => repository.permissionsDelete(body: permission),
+      (permission) => permission.permissionName,
+      permission.permissionName,
+    );
   }
 }
 
