@@ -92,9 +92,12 @@ class ManageAssociationEventPage extends HookConsumerWidget {
                     controller: ScrollController(),
                     child: SingleChildScrollView(
                       child: Column(
-                        children: eventList
-                            .map((event) => AssociationEventCard(event: event))
-                            .toList(),
+                        children: [
+                          ...eventList.map(
+                            (event) => AssociationEventCard(event: event),
+                          ),
+                          const SizedBox(height: 80),
+                        ],
                       ),
                     ),
                   );
