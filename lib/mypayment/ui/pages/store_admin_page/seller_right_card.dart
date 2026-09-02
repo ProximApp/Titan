@@ -8,6 +8,7 @@ import 'package:titan/mypayment/providers/store_sellers_list_provider.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/layouts/add_edit_button_layout.dart';
 import 'package:titan/tools/ui/layouts/card_button.dart';
+import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 
 class SellerRightCard extends ConsumerWidget {
@@ -43,6 +44,7 @@ class SellerRightCard extends ConsumerWidget {
               HeroIcons.wallet,
               HeroIcons.xMark,
               HeroIcons.userGroup,
+              HeroIcons.ticket,
             ]
             .map(
               (e) => CardButton(
@@ -71,6 +73,7 @@ class SellerRightCard extends ConsumerWidget {
       AppLocalizations.of(context)!.paiementSeeHistory,
       AppLocalizations.of(context)!.paiementCancelTransactions,
       AppLocalizations.of(context)!.paiementManageSellers,
+      AppLocalizations.of(context)!.paiementManageEvents,
       AppLocalizations.of(context)!.paiementStructureAdmin,
     ];
 
@@ -79,6 +82,7 @@ class SellerRightCard extends ConsumerWidget {
       storeSeller.canSeeHistory,
       storeSeller.canCancel,
       storeSeller.canManageSellers,
+      storeSeller.canManageEvents,
     ];
 
     for (var i = 0; i < sellerRights.length; i++) {
@@ -89,8 +93,8 @@ class SellerRightCard extends ConsumerWidget {
     }
 
     if (isStructureAdmin) {
-      rightsLabel.add(labels[4]);
-      rightsIcons.add(icons[4]);
+      rightsLabel.add(labels[5]);
+      rightsIcons.add(icons[5]);
     }
 
     return Padding(
@@ -98,15 +102,15 @@ class SellerRightCard extends ConsumerWidget {
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {
-          showModalBottomSheet(
+          final modalHeight =
+              ((!amIAdmin || isStructureAdmin) ? 80.0 : 100.0) +
+              45 * icons.length;
+          showCustomBottomModal(
             context: context,
-            backgroundColor: Colors.transparent,
-            scrollControlDisabledMaxHeightRatio:
-                (((!amIAdmin || isStructureAdmin) ? 80 : 100) +
-                    45 * icons.length) /
-                MediaQuery.of(context).size.height,
-            builder: (context) {
-              return ClipRRect(
+            ref: ref,
+            modal: SizedBox(
+              height: modalHeight,
+              child: ClipRRect(
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(40),
                   topRight: Radius.circular(40),
@@ -130,7 +134,7 @@ class SellerRightCard extends ConsumerWidget {
                       ),
                       const SizedBox(height: 10),
                       for (var i = 0; i < icons.length; i++)
-                        if (i < 4 || isStructureAdmin)
+                        if (i < 5 || isStructureAdmin)
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5),
                             child: Row(
@@ -145,7 +149,9 @@ class SellerRightCard extends ConsumerWidget {
                                   ),
                                 ),
                                 const Spacer(),
-                                if (me.canManageSellers && !isStructureAdmin)
+                                if (me.canManageSellers &&
+                                    !isStructureAdmin &&
+                                    i < sellerRights.length)
                                   Checkbox(
                                     value: sellerRights[i],
                                     activeColor: const Color(0xff204550),
@@ -177,6 +183,9 @@ class SellerRightCard extends ConsumerWidget {
                                               canManageSellers: i == 3
                                                   ? !sellerRights[3]
                                                   : sellerRights[3],
+                                              canManageEvents: i == 4
+                                                  ? !sellerRights[4]
+                                                  : sellerRights[4],
                                             ),
                                           );
                                       if (value) {
@@ -273,8 +282,8 @@ class SellerRightCard extends ConsumerWidget {
                     ],
                   ),
                 ),
-              );
-            },
+              ),
+            ),
           );
         },
         child: Row(

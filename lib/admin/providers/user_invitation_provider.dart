@@ -19,6 +19,7 @@ class UserInvitationNotifier extends SingleNotifierAPI<BatchResult> {
   }
 }
 
-final userInvitationProvider = NotifierProvider<UserInvitationNotifier, void>(
-  () => UserInvitationNotifier(),
-);
+final userInvitationProvider =
+    NotifierProvider<UserInvitationNotifier, AsyncValue<BatchResult>>(
+      UserInvitationNotifier.new,
+    );

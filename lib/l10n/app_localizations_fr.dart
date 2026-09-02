@@ -84,6 +84,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get feedUseExistingTicketing => 'Utiliser une billetterie existante';
 
   @override
+  String get feedUseExistingTicketingRequiresManageEventsPermission =>
+      'Le droit « Gérer les billeteries » dans MyEmpay est requis pour utiliser cette option.';
+
+  @override
   String get feedSelectTicketing => 'Sélectionner une billetterie';
 
   @override
@@ -4895,7 +4899,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get ticketsSessionSoldOut => 'Cette session est complète';
 
   @override
-  String get ticketsOfferTicket => 'Offrir ce billet';
+  String get ticketsOfferTicket => 'Transférer ce billet';
 
   @override
   String get ticketsOfferDescription =>

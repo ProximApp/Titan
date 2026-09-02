@@ -247,6 +247,12 @@ abstract class AppLocalizations {
   /// **'Utiliser une billetterie existante'**
   String get feedUseExistingTicketing;
 
+  /// No description provided for @feedUseExistingTicketingRequiresManageEventsPermission.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le droit « Gérer les billeteries » dans MyEmpay est requis pour utiliser cette option.'**
+  String get feedUseExistingTicketingRequiresManageEventsPermission;
+
   /// No description provided for @feedSelectTicketing.
   ///
   /// In fr, this message translates to:
@@ -9364,7 +9370,7 @@ abstract class AppLocalizations {
   /// No description provided for @ticketsOfferTicket.
   ///
   /// In fr, this message translates to:
-  /// **'Offrir ce billet'**
+  /// **'Transférer ce billet'**
   String get ticketsOfferTicket;
 
   /// No description provided for @ticketsOfferDescription.

@@ -84,6 +84,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedUseExistingTicketing => 'Use an existing ticketing';
 
   @override
+  String get feedUseExistingTicketingRequiresManageEventsPermission =>
+      'The \"Manage ticket events\" permission in MyEmpay is required to use this option.';
+
+  @override
   String get feedSelectTicketing => 'Select a ticketing';
 
   @override
@@ -4824,7 +4828,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ticketsSessionSoldOut => 'This session is sold out';
 
   @override
-  String get ticketsOfferTicket => 'Offer this ticket';
+  String get ticketsOfferTicket => 'Transfer this ticket';
 
   @override
   String get ticketsOfferDescription =>

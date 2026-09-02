@@ -23,9 +23,9 @@ class FeedTemplate extends ConsumerWidget {
               onBack: () {
                 if (QR.currentPath ==
                     FeedRouter.root + FeedRouter.eventHandling) {
-                  final newsListNotifier = ref.watch(newsListProvider.notifier);
-                  newsListNotifier.loadNewsList();
+                  ref.read(newsListProvider.notifier).loadNewsList();
                 }
+                QR.back();
               },
             ),
             Expanded(child: child),
