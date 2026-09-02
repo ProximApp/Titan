@@ -32,7 +32,9 @@ class UserTicketCard extends ConsumerWidget {
                 width: 60,
                 height: 60,
                 decoration: BoxDecoration(
-                  color: _getStatusColor(ticket.scanned).withValues(alpha: 0.15),
+                  color: _getStatusColor(
+                    ticket.scanned,
+                  ).withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Center(
@@ -87,7 +89,9 @@ class UserTicketCard extends ConsumerWidget {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          dateOnlyFormatter.format(ticket.session.startDatetime),
+                          dateOnlyFormatter.format(
+                            ticket.session.startDatetime,
+                          ),
                           style: TextStyle(
                             fontSize: 12,
                             color: ColorConstants.onTertiary,
@@ -101,7 +105,9 @@ class UserTicketCard extends ConsumerWidget {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          timeOnlyFormatter.format(ticket.session.startDatetime),
+                          timeOnlyFormatter.format(
+                            ticket.session.startDatetime,
+                          ),
                           style: TextStyle(
                             fontSize: 12,
                             color: ColorConstants.onTertiary,
@@ -261,11 +267,7 @@ class _TransferTicketButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            HeroIcon(
-              HeroIcons.gift,
-              size: 18,
-              color: foregroundColor,
-            ),
+            HeroIcon(HeroIcons.gift, size: 18, color: foregroundColor),
             const SizedBox(width: 8),
             Text(
               label,
