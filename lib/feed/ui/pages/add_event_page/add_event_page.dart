@@ -25,6 +25,7 @@ import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/navigation/ui/scroll_to_hide_navbar.dart';
 import 'package:titan/tickets/providers/association_tickets_provider.dart';
+import 'package:titan/tickets/providers/can_manage_ticket_events_provider.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
@@ -100,16 +101,26 @@ class AddEditEventPage extends HookConsumerWidget {
     final associationTicketEvents =
         ref.watch(associationTicketEventListProvider).asData?.value ??
         const <EventSimple>[];
-    // When editing, the association is fixed and its selector is not rendered.
     final associationId = syncEvent.id != ""
         ? syncEvent.associationId
         : selectedAssociation.value?.id;
+    final canManageTicketEventsForAssociation = ref.watch(
+      canManageTicketEventsForAssociationProvider(associationId),
+    );
     useEffect(() {
       if (useExistingTicketEvent.value) {
         associationTicketEventsNotifier.loadTicketEvents(associationId);
       }
       return null;
     }, [useExistingTicketEvent.value, associationId]);
+    useEffect(() {
+      if (!canManageTicketEventsForAssociation &&
+          syncEvent.ticketEventId == null) {
+        useExistingTicketEvent.value = false;
+        selectedTicketEventId.value = null;
+      }
+      return null;
+    }, [canManageTicketEventsForAssociation, associationId]);
     final startDateController = useTextEditingController(
       text: syncEvent.id != ""
           ? (allDay.value
@@ -357,11 +368,27 @@ class AddEditEventPage extends HookConsumerWidget {
                       SwitchListTile(
                         title: Text(
                           localizeWithContext.feedUseExistingTicketing,
-                          style: const TextStyle(fontSize: 16),
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: canManageTicketEventsForAssociation
+                                ? null
+                                : Colors.grey,
+                          ),
                         ),
+                        subtitle: !canManageTicketEventsForAssociation
+                            ? Text(
+                                localizeWithContext
+                                    .feedUseExistingTicketingRequiresManageEventsPermission,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey.shade600,
+                                ),
+                              )
+                            : null,
                         value: useExistingTicketEvent.value,
-                        onChanged: (value) =>
-                            useExistingTicketEvent.value = value,
+                        onChanged: canManageTicketEventsForAssociation
+                            ? (value) => useExistingTicketEvent.value = value
+                            : null,
                         activeThumbColor: ColorConstants.tertiary,
                         contentPadding: EdgeInsets.zero,
                       ),
@@ -382,8 +409,9 @@ class AddEditEventPage extends HookConsumerWidget {
                                   child: Text(ticketEvent.name),
                                 ),
                             ],
-                            onChanged: (value) =>
-                                selectedTicketEventId.value = value,
+                            onChanged: canManageTicketEventsForAssociation
+                                ? (value) => selectedTicketEventId.value = value
+                                : null,
                           ),
                         ),
                     ],

@@ -25,6 +25,7 @@
   "feedSGExternalLink": "Lien externe du SG",
   "feedCreateEvent": "Créer l'événement",
   "feedUseExistingTicketing": "Utiliser une billetterie existante",
+  "feedUseExistingTicketingRequiresManageEventsPermission": "Le droit « Gérer les billeteries » dans MyEmpay est requis pour utiliser cette option.",
   "feedSelectTicketing": "Sélectionner une billetterie",
   "feedPleaseSelectTicketing": "Veuillez sélectionner une billetterie existante",
   "feedNotification": "Envoyer une notification",

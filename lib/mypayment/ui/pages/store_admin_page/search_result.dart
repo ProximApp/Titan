@@ -78,6 +78,12 @@ class SearchResult extends HookConsumerWidget {
                       )!.paiementCanManageSellers,
                       index: 3,
                     ),
+                    RightCheckBox(
+                      title: AppLocalizations.of(
+                        context,
+                      )!.paiementCanManageEvents,
+                      index: 4,
+                    ),
                   ],
                 ),
                 onYes: () async {
@@ -91,7 +97,7 @@ class SearchResult extends HookConsumerWidget {
                     canSeeHistory: sellerRightsList[1],
                     canCancel: sellerRightsList[2],
                     canManageSellers: sellerRightsList[3],
-                    canManageEvents: false,
+                    canManageEvents: sellerRightsList[4],
                   );
                   final addedSellerMsg = AppLocalizations.of(
                     context,

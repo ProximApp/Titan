@@ -25,6 +25,7 @@
   "feedSGExternalLink": "SG External link",
   "feedCreateEvent": "Create an event",
   "feedUseExistingTicketing": "Use an existing ticketing",
+  "feedUseExistingTicketingRequiresManageEventsPermission": "The \"Manage ticket events\" permission in MyEmpay is required to use this option.",
   "feedSelectTicketing": "Select a ticketing",
   "feedPleaseSelectTicketing": "Please select an existing ticketing",
   "feedNotification": "Send a notification",

@@ -84,6 +84,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedUseExistingTicketing => 'Use an existing ticketing';
 
   @override
+  String get feedUseExistingTicketingRequiresManageEventsPermission =>
+      'The \"Manage ticket events\" permission in MyEmpay is required to use this option.';
+
+  @override
   String get feedSelectTicketing => 'Select a ticketing';
 
   @override
