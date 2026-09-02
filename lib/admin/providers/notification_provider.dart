@@ -17,6 +17,7 @@ class NotificationNotifier extends SingleNotifierAPI<bool> {
   }
 }
 
-final notificationProvider = NotifierProvider<NotificationNotifier, void>(
-  () => NotificationNotifier(),
-);
+final notificationProvider =
+    NotifierProvider<NotificationNotifier, AsyncValue<bool>>(
+      NotificationNotifier.new,
+    );
