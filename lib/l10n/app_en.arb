@@ -1792,7 +1792,7 @@
   "ticketsViewResults": "View results",
   "ticketsMinPriceError": "Price must be 0€ or greater than 1€",
   "ticketsSessionSoldOut": "This session is sold out",
-  "ticketsOfferTicket": "Offer this ticket",
+  "ticketsOfferTicket": "Transfer this ticket",
   "ticketsOfferDescription": "The recipient will receive an email to accept the transfer. Any pending invitation will be replaced.",
   "ticketsOfferSuccess": "Transfer invitation sent",
   "ticketsOfferError": "Failed to send transfer invitation",

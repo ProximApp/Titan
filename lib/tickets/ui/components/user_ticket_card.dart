@@ -3,6 +3,7 @@ import 'package:titan/tools/ui/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tickets/adapters/user_ticket.dart';
 import 'package:titan/tickets/ui/components/offer_ticket_modal.dart';
 import 'package:titan/tickets/ui/components/ticket_card_layout.dart';
@@ -15,130 +16,170 @@ class UserTicketCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final dateOnlyFormatter = DateFormat('dd/MM/yyyy');
     final timeOnlyFormatter = DateFormat('HH:mm');
+    final isTransferable = ticket.isTransferable;
 
-    final card = TicketCardLayout(
-      child: Row(
+    return TicketCardLayout(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Icône/Event indicator
-          Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-              color: _getStatusColor(ticket.scanned).withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Center(
-              child: HeroIcon(
-                _getStatusIcon(ticket.scanned),
-                size: 32,
-                color: _getStatusColor(ticket.scanned),
+          Row(
+            children: [
+              // Icône/Event indicator
+              Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: _getStatusColor(ticket.scanned).withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Center(
+                  child: HeroIcon(
+                    _getStatusIcon(ticket.scanned),
+                    size: 32,
+                    color: _getStatusColor(ticket.scanned),
+                  ),
+                ),
               ),
-            ),
-          ),
-          const SizedBox(width: 16),
-          // Content
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  ticket.event.name,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  ticket.category.name,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: ColorConstants.tertiary,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  ticket.session.name,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ColorConstants.onTertiary,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                // Date and time
-                Row(
+              const SizedBox(width: 16),
+              // Content
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    HeroIcon(
-                      HeroIcons.calendar,
-                      size: 14,
-                      color: ColorConstants.onTertiary,
-                    ),
-                    const SizedBox(width: 4),
                     Text(
-                      dateOnlyFormatter.format(ticket.session.startDatetime),
+                      ticket.event.name,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      ticket.category.name,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: ColorConstants.tertiary,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      ticket.session.name,
                       style: TextStyle(
                         fontSize: 12,
                         color: ColorConstants.onTertiary,
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    HeroIcon(
-                      HeroIcons.clock,
-                      size: 14,
-                      color: ColorConstants.onTertiary,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      timeOnlyFormatter.format(ticket.session.startDatetime),
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: ColorConstants.onTertiary,
-                      ),
+                    const SizedBox(height: 8),
+                    // Date and time
+                    Row(
+                      children: [
+                        HeroIcon(
+                          HeroIcons.calendar,
+                          size: 14,
+                          color: ColorConstants.onTertiary,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          dateOnlyFormatter.format(ticket.session.startDatetime),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: ColorConstants.onTertiary,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        HeroIcon(
+                          HeroIcons.clock,
+                          size: 14,
+                          color: ColorConstants.onTertiary,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          timeOnlyFormatter.format(ticket.session.startDatetime),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: ColorConstants.onTertiary,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-          // Price and status
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                '${ticket.priceInEuros}€',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: ColorConstants.gradient1,
-                ),
               ),
-              const SizedBox(height: 8),
-              _buildStatusBadge(context, ticket.scanned),
+              // Price and status
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    '${ticket.priceInEuros}€',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: ColorConstants.gradient1,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  _buildStatusBadge(context, ticket.scanned),
+                ],
+              ),
             ],
           ),
+          const SizedBox(height: 12),
+          _TransferTicketButton(
+            isTransferable: isTransferable,
+            label: l10n.ticketsOfferTicket,
+            onTap: isTransferable
+                ? () => showCustomBottomModal(
+                    context: context,
+                    ref: ref,
+                    modal: OfferTicketModal(ticket: ticket),
+                  )
+                : null,
+          ),
+          if (!isTransferable) ...[
+            const SizedBox(height: 8),
+            Text(
+              _transferBlockMessage(
+                l10n,
+                ticket,
+                dateOnlyFormatter,
+                timeOnlyFormatter,
+              ),
+              style: TextStyle(
+                fontSize: 12,
+                color: ColorConstants.onTertiary,
+                height: 1.3,
+              ),
+            ),
+          ],
         ],
       ),
     );
+  }
 
-    if (!ticket.isTransferable) {
-      return card;
+  String _transferBlockMessage(
+    AppLocalizations l10n,
+    AppCoreTicketsSchemasTicketsTicketComplete ticket,
+    DateFormat dateFormatter,
+    DateFormat timeFormatter,
+  ) {
+    switch (ticket.transferBlockReason) {
+      case TicketTransferBlockReason.alreadyUsed:
+        return l10n.ticketsOfferAlreadyUsed;
+      case TicketTransferBlockReason.sessionPast:
+        return l10n.ticketsOfferSessionPast(
+          dateFormatter.format(ticket.session.startDatetime),
+          timeFormatter.format(ticket.session.startDatetime),
+        );
+      case TicketTransferBlockReason.transferable:
+        return l10n.ticketsOfferNotTransferable;
     }
-
-    return GestureDetector(
-      onTap: () => showCustomBottomModal(
-        context: context,
-        ref: ref,
-        modal: OfferTicketModal(ticket: ticket),
-      ),
-      behavior: HitTestBehavior.opaque,
-      child: card,
-    );
   }
 
   Widget _buildStatusBadge(BuildContext context, bool scanned) {
@@ -181,5 +222,62 @@ class UserTicketCard extends ConsumerWidget {
       return HeroIcons.checkCircle;
     }
     return HeroIcons.ticket;
+  }
+}
+
+class _TransferTicketButton extends StatelessWidget {
+  final bool isTransferable;
+  final String label;
+  final VoidCallback? onTap;
+
+  const _TransferTicketButton({
+    required this.isTransferable,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final backgroundColor = isTransferable
+        ? ColorConstants.tertiary
+        : Colors.grey.shade300;
+    final borderColor = isTransferable
+        ? ColorConstants.onTertiary
+        : Colors.grey.shade400;
+    final foregroundColor = isTransferable
+        ? ColorConstants.background
+        : Colors.grey.shade600;
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: borderColor),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            HeroIcon(
+              HeroIcons.gift,
+              size: 18,
+              color: foregroundColor,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: TextStyle(
+                color: foregroundColor,
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

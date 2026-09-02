@@ -9364,7 +9364,7 @@ abstract class AppLocalizations {
   /// No description provided for @ticketsOfferTicket.
   ///
   /// In fr, this message translates to:
-  /// **'Offrir ce billet'**
+  /// **'Transférer ce billet'**
   String get ticketsOfferTicket;
 
   /// No description provided for @ticketsOfferDescription.

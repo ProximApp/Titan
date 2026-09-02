@@ -1800,7 +1800,7 @@
   "ticketsViewResults": "Voir les résultats",
   "ticketsMinPriceError": "Le prix doit être 0€ ou supérieur à 1€",
   "ticketsSessionSoldOut": "Cette session est complète",
-  "ticketsOfferTicket": "Offrir ce billet",
+  "ticketsOfferTicket": "Transférer ce billet",
   "ticketsOfferDescription": "La personne recevra un email pour accepter le transfert. Toute invitation en cours sera remplacée.",
   "ticketsOfferSuccess": "Invitation de transfert envoyée",
   "ticketsOfferError": "Erreur lors de l'envoi de l'invitation",
