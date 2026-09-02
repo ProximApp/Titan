@@ -24,7 +24,7 @@ final class _$Openapi extends Openapi {
       description:
           'Return all species from database as a list of SpeciesComplete schemas',
       summary: 'Get All Species',
-      operationId: 'get_all_species_seed_library_species__get',
+      operationId: 'get_seed_library_species_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -49,7 +49,7 @@ final class _$Openapi extends Openapi {
       description: '''Create a new Species by giving an SpeciesBase scheme
 **This endpoint is only usable by seed_library **''',
       summary: 'Create Species',
-      operationId: 'create_species_seed_library_species__post',
+      operationId: 'post_seed_library_species_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -75,7 +75,7 @@ final class _$Openapi extends Openapi {
       description:
           'Return all available types of species from SpeciesType enum.',
       summary: 'Get All Species Types',
-      operationId: 'get_all_species_types_seed_library_species_types_get',
+      operationId: 'get_seed_library_species_types',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -101,7 +101,7 @@ final class _$Openapi extends Openapi {
       description: '''Update a Species
 **This endpoint is only usable by seed_library**''',
       summary: 'Update Species',
-      operationId: 'update_species_seed_library_species__species_id__patch',
+      operationId: 'patch_seed_library_species_{species_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -128,7 +128,7 @@ final class _$Openapi extends Openapi {
       description: '''Delete a Species
 **This endpoint is only usable by seed_library**''',
       summary: 'Delete Species',
-      operationId: 'delete_species_seed_library_species__species_id__delete',
+      operationId: 'delete_seed_library_species_{species_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -152,7 +152,7 @@ final class _$Openapi extends Openapi {
       description:
           'Return all plants where state=waiting from database as a list of PlantsComplete schemas',
       summary: 'Get Waiting Plants',
-      operationId: 'get_waiting_plants_seed_library_plants_waiting_get',
+      operationId: 'get_seed_library_plants_waiting',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -176,7 +176,7 @@ final class _$Openapi extends Openapi {
       description:
           'Return all plants where user ={user_id} from database as a list of PlantsComplete schemas',
       summary: 'Get My Plants',
-      operationId: 'get_my_plants_seed_library_plants_users_me_get',
+      operationId: 'get_seed_library_plants_users_me',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -201,8 +201,7 @@ final class _$Openapi extends Openapi {
       description:
           'Return all plants where borrower_id = {user_id} from database as a list of PlantsComplete schemas',
       summary: 'Get Plants By User Id',
-      operationId:
-          'get_plants_by_user_id_seed_library_plants_users__user_id__get',
+      operationId: 'get_seed_library_plants_users_{user_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -227,7 +226,7 @@ final class _$Openapi extends Openapi {
       description:
           'Return the plants where plant ={plant_id} from database as a PlantsComplete schemas',
       summary: 'Get Plant By Id',
-      operationId: 'get_plant_by_id_seed_library_plants__plant_id__get',
+      operationId: 'get_seed_library_plants_{plant_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -253,7 +252,7 @@ final class _$Openapi extends Openapi {
       description: '''Update a Plant
 **This endpoint is only usable by the owner of the plant**''',
       summary: 'Update Plant',
-      operationId: 'update_plant_seed_library_plants__plant_id__patch',
+      operationId: 'patch_seed_library_plants_{plant_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -280,7 +279,7 @@ final class _$Openapi extends Openapi {
       description: '''Delete a Plant
 **This endpoint is only usable by seed_library**''',
       summary: 'Delete Plant',
-      operationId: 'delete_plant_seed_library_plants__plant_id__delete',
+      operationId: 'delete_seed_library_plants_{plant_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -305,7 +304,7 @@ final class _$Openapi extends Openapi {
       description: '''Create a new Plant by giving an PlantCreation scheme
 **This endpoint is only usable if the plant has an ancestor_id or by seed_library **''',
       summary: 'Create Plant',
-      operationId: 'create_plant_seed_library_plants__post',
+      operationId: 'post_seed_library_plants_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -333,8 +332,7 @@ final class _$Openapi extends Openapi {
       description: '''Update a Plant
 **This endpoint is only usable by seed_library**''',
       summary: 'Update Plant Admin',
-      operationId:
-          'update_plant_admin_seed_library_plants__plant_id__admin_patch',
+      operationId: 'patch_seed_library_plants_{plant_id}_admin',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -361,7 +359,7 @@ final class _$Openapi extends Openapi {
       description:
           'Plant borrowed by the user (modify borrowing date, borrower and state)',
       summary: 'Borrow Plant',
-      operationId: 'borrow_plant_seed_library_plants__plant_id__borrow_patch',
+      operationId: 'patch_seed_library_plants_{plant_id}_borrow',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -384,7 +382,7 @@ final class _$Openapi extends Openapi {
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Seed Library Information',
-      operationId: 'get_seed_library_information_seed_library_information_get',
+      operationId: 'get_seed_library_information',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -410,8 +408,7 @@ final class _$Openapi extends Openapi {
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Update Seed Library Information',
-      operationId:
-          'update_seed_library_information_seed_library_information_patch',
+      operationId: 'patch_seed_library_information',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -439,7 +436,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Get Products',
-      operationId: 'get_products_amap_products_get',
+      operationId: 'get_amap_products',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -468,7 +465,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Create Product',
-      operationId: 'create_product_amap_products_post',
+      operationId: 'post_amap_products',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -498,7 +495,7 @@ final class _$Openapi extends Openapi {
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get a specific product',
       summary: 'Get Product By Id',
-      operationId: 'get_product_by_id_amap_products__product_id__get',
+      operationId: 'get_amap_products_{product_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -528,7 +525,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Edit Product',
-      operationId: 'edit_product_amap_products__product_id__patch',
+      operationId: 'patch_amap_products_{product_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -557,7 +554,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Delete Product',
-      operationId: 'delete_product_amap_products__product_id__delete',
+      operationId: 'delete_amap_products_{product_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -580,7 +577,7 @@ final class _$Openapi extends Openapi {
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all deliveries.',
       summary: 'Get Deliveries',
-      operationId: 'get_deliveries_amap_deliveries_get',
+      operationId: 'get_amap_deliveries',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -606,7 +603,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Create Delivery',
-      operationId: 'create_delivery_amap_deliveries_post',
+      operationId: 'post_amap_deliveries',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -634,7 +631,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Delete Delivery',
-      operationId: 'delete_delivery_amap_deliveries__delivery_id__delete',
+      operationId: 'delete_amap_deliveries_{delivery_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -661,7 +658,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Edit Delivery',
-      operationId: 'edit_delivery_amap_deliveries__delivery_id__patch',
+      operationId: 'patch_amap_deliveries_{delivery_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -691,8 +688,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Add Product To Delivery',
-      operationId:
-          'add_product_to_delivery_amap_deliveries__delivery_id__products_post',
+      operationId: 'post_amap_deliveries_{delivery_id}_products',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -722,8 +718,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Remove Product From Delivery',
-      operationId:
-          'remove_product_from_delivery_amap_deliveries__delivery_id__products_delete',
+      operationId: 'delete_amap_deliveries_{delivery_id}_products',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -751,8 +746,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Get Orders From Delivery',
-      operationId:
-          'get_orders_from_delivery_amap_deliveries__delivery_id__orders_get',
+      operationId: 'get_amap_deliveries_{delivery_id}_orders',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -778,7 +772,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Get Order By Id',
-      operationId: 'get_order_by_id_amap_orders__order_id__get',
+      operationId: 'get_amap_orders_{order_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -805,7 +799,7 @@ final class _$Openapi extends Openapi {
 
 **A member of the group AMAP can edit orders of other users**''',
       summary: 'Edit Order From Delivery',
-      operationId: 'edit_order_from_delivery_amap_orders__order_id__patch',
+      operationId: 'patch_amap_orders_{order_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -833,7 +827,7 @@ final class _$Openapi extends Openapi {
 
 **A member of the group AMAP can delete orders of other users**''',
       summary: 'Remove Order',
-      operationId: 'remove_order_amap_orders__order_id__delete',
+      operationId: 'delete_amap_orders_{order_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -859,7 +853,7 @@ final class _$Openapi extends Openapi {
 
 **A member of the group AMAP can create an order for every user**''',
       summary: 'Add Order To Delievery',
-      operationId: 'add_order_to_delievery_amap_orders_post',
+      operationId: 'post_amap_orders',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -885,8 +879,7 @@ final class _$Openapi extends Openapi {
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Open Ordering Of Delivery',
-      operationId:
-          'open_ordering_of_delivery_amap_deliveries__delivery_id__openordering_post',
+      operationId: 'post_amap_deliveries_{delivery_id}_openordering',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -910,7 +903,7 @@ final class _$Openapi extends Openapi {
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Lock Delivery',
-      operationId: 'lock_delivery_amap_deliveries__delivery_id__lock_post',
+      operationId: 'post_amap_deliveries_{delivery_id}_lock',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -934,8 +927,7 @@ final class _$Openapi extends Openapi {
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Mark Delivery As Delivered',
-      operationId:
-          'mark_delivery_as_delivered_amap_deliveries__delivery_id__delivered_post',
+      operationId: 'post_amap_deliveries_{delivery_id}_delivered',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -959,8 +951,7 @@ final class _$Openapi extends Openapi {
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Archive Of Delivery',
-      operationId:
-          'archive_of_delivery_amap_deliveries__delivery_id__archive_post',
+      operationId: 'post_amap_deliveries_{delivery_id}_archive',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -986,7 +977,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Get Users Cash',
-      operationId: 'get_users_cash_amap_users_cash_get',
+      operationId: 'get_amap_users_cash',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1016,7 +1007,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of the group AMAP to use this endpoint or can only access the endpoint for its own user_id**''',
       summary: 'Get Cash By Id',
-      operationId: 'get_cash_by_id_amap_users__user_id__cash_get',
+      operationId: 'get_amap_users_{user_id}_cash',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1047,7 +1038,7 @@ final class _$Openapi extends Openapi {
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Create Cash Of User',
-      operationId: 'create_cash_of_user_amap_users__user_id__cash_post',
+      operationId: 'post_amap_users_{user_id}_cash',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1081,7 +1072,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Edit Cash By Id',
-      operationId: 'edit_cash_by_id_amap_users__user_id__cash_patch',
+      operationId: 'patch_amap_users_{user_id}_cash',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1109,7 +1100,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be a member of the group AMAP to use this endpoint or can only access the endpoint for its own user_id**''',
       summary: 'Get Orders Of User',
-      operationId: 'get_orders_of_user_amap_users__user_id__orders_get',
+      operationId: 'get_amap_users_{user_id}_orders',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1132,7 +1123,7 @@ A negative value can be provided to remove money from the user.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all information',
       summary: 'Get Information',
-      operationId: 'get_information_amap_information_get',
+      operationId: 'get_amap_information',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1158,7 +1149,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Edit Information',
-      operationId: 'edit_information_amap_information_patch',
+      operationId: 'patch_amap_information',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1185,7 +1176,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Get Managers',
-      operationId: 'get_managers_booking_managers_get',
+      operationId: 'get_booking_managers',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1211,7 +1202,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Manager',
-      operationId: 'create_manager_booking_managers_post',
+      operationId: 'post_booking_managers',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1241,7 +1232,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update Manager',
-      operationId: 'update_manager_booking_managers__manager_id__patch',
+      operationId: 'patch_booking_managers_{manager_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1270,7 +1261,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Delete Manager',
-      operationId: 'delete_manager_booking_managers__manager_id__delete',
+      operationId: 'delete_booking_managers_{manager_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1295,7 +1286,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Current User Managers',
-      operationId: 'get_current_user_managers_booking_managers_users_me_get',
+      operationId: 'get_booking_managers_users_me',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1321,8 +1312,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Bookings For Manager',
-      operationId:
-          'get_bookings_for_manager_booking_bookings_users_me_manage_get',
+      operationId: 'get_booking_bookings_users_me_manage',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1349,8 +1339,7 @@ A negative value can be provided to remove money from the user.
       description: '''Return all confirmed bookings a user can manage.
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Confirmed Bookings For Manager',
-      operationId:
-          'get_confirmed_bookings_for_manager_booking_bookings_confirmed_users_me_manage_get',
+      operationId: 'get_booking_bookings_confirmed_users_me_manage',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1378,7 +1367,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Confirmed Bookings',
-      operationId: 'get_confirmed_bookings_booking_bookings_confirmed_get',
+      operationId: 'get_booking_bookings_confirmed',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1406,7 +1395,7 @@ A negative value can be provided to remove money from the user.
 
 **Only usable by the user**''',
       summary: 'Get Applicant Bookings',
-      operationId: 'get_applicant_bookings_booking_bookings_users_me_get',
+      operationId: 'get_booking_bookings_users_me',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1432,7 +1421,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Create Booking',
-      operationId: 'create_booking_booking_bookings_post',
+      operationId: 'post_booking_bookings',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1461,7 +1450,7 @@ A negative value can be provided to remove money from the user.
 
 **Only usable by a user in the manager group of the booking or applicant before decision**''',
       summary: 'Edit Booking',
-      operationId: 'edit_booking_booking_bookings__booking_id__patch',
+      operationId: 'patch_booking_bookings_{booking_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1489,7 +1478,7 @@ A negative value can be provided to remove money from the user.
 
 **Only usable by the applicant before decision**''',
       summary: 'Delete Booking',
-      operationId: 'delete_booking_booking_bookings__booking_id__delete',
+      operationId: 'delete_booking_bookings_{booking_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1516,8 +1505,7 @@ A negative value can be provided to remove money from the user.
 
 **Only usable by a user in the manager group of the booking**''',
       summary: 'Confirm Booking',
-      operationId:
-          'confirm_booking_booking_bookings__booking_id__reply__decision__patch',
+      operationId: 'patch_booking_bookings_{booking_id}_reply_{decision}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1544,7 +1532,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Rooms',
-      operationId: 'get_rooms_booking_rooms_get',
+      operationId: 'get_booking_rooms',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1570,7 +1558,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by admins**''',
       summary: 'Create Room',
-      operationId: 'create_room_booking_rooms_post',
+      operationId: 'post_booking_rooms',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1599,7 +1587,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by admins**''',
       summary: 'Edit Room',
-      operationId: 'edit_room_booking_rooms__room_id__patch',
+      operationId: 'patch_booking_rooms_{room_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1628,7 +1616,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by admins**''',
       summary: 'Delete Room',
-      operationId: 'delete_room_booking_rooms__room_id__delete',
+      operationId: 'delete_booking_rooms_{room_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1654,7 +1642,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be a member of a group authorized to vote or to manage the campaign to use this endpoint**''',
       summary: 'Get Sections',
-      operationId: 'get_sections_campaign_sections_get',
+      operationId: 'get_campaign_sections',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1682,7 +1670,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Add Section',
-      operationId: 'add_section_campaign_sections_post',
+      operationId: 'post_campaign_sections',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1712,7 +1700,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Delete Section',
-      operationId: 'delete_section_campaign_sections__section_id__delete',
+      operationId: 'delete_campaign_sections_{section_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1737,7 +1725,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to vote or to manage the campaign to use this endpoint**''',
       summary: 'Get Lists',
-      operationId: 'get_lists_campaign_lists_get',
+      operationId: 'get_campaign_lists',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1765,7 +1753,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Add List',
-      operationId: 'add_list_campaign_lists_post',
+      operationId: 'post_campaign_lists',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1795,7 +1783,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Delete List',
-      operationId: 'delete_list_campaign_lists__list_id__delete',
+      operationId: 'delete_campaign_lists_{list_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1824,7 +1812,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Update List',
-      operationId: 'update_list_campaign_lists__list_id__patch',
+      operationId: 'patch_campaign_lists_{list_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1854,7 +1842,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Delete Lists By Type',
-      operationId: 'delete_lists_by_type_campaign_lists__delete',
+      operationId: 'delete_campaign_lists_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1883,7 +1871,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Get Voters',
-      operationId: 'get_voters_campaign_voters_get',
+      operationId: 'get_campaign_voters',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1908,7 +1896,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Delete Voters',
-      operationId: 'delete_voters_campaign_voters_delete',
+      operationId: 'delete_campaign_voters',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1934,7 +1922,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Add Voter',
-      operationId: 'add_voter_campaign_voters__group_id__post',
+      operationId: 'post_campaign_voters_{group_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1960,7 +1948,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Delete Voter',
-      operationId: 'delete_voter_campaign_voters__group_id__delete',
+      operationId: 'delete_campaign_voters_{group_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -1989,7 +1977,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Open Vote',
-      operationId: 'open_vote_campaign_status_open_post',
+      operationId: 'post_campaign_status_open',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2017,7 +2005,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Close Vote',
-      operationId: 'close_vote_campaign_status_close_post',
+      operationId: 'post_campaign_status_close',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2045,7 +2033,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Count Voting',
-      operationId: 'count_voting_campaign_status_counting_post',
+      operationId: 'post_campaign_status_counting',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2073,7 +2061,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Publish Vote',
-      operationId: 'publish_vote_campaign_status_published_post',
+      operationId: 'post_campaign_status_published',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2101,7 +2089,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to manage the campaign to use this endpoint**''',
       summary: 'Reset Vote',
-      operationId: 'reset_vote_campaign_status_reset_post',
+      operationId: 'post_campaign_status_reset',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2127,7 +2115,7 @@ This endpoint can only be used in \'waiting\' status.
 
 **The user must be a member of a group authorized to vote to use this endpoint**''',
       summary: 'Get Sections Already Voted',
-      operationId: 'get_sections_already_voted_campaign_votes_get',
+      operationId: 'get_campaign_votes',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2155,7 +2143,7 @@ An user can only vote for one list per section.
 
 **The user must be a member of a group authorized to vote to use this endpoint**''',
       summary: 'Vote',
-      operationId: 'vote_campaign_votes_post',
+      operationId: 'post_campaign_votes',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2183,7 +2171,7 @@ An user can only vote for one list per section.
 
 **The user must be a member of a group authorized to vote or to manage the campaign to use this endpoint**''',
       summary: 'Get Results',
-      operationId: 'get_results_campaign_results_get',
+      operationId: 'get_campaign_results',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2211,7 +2199,7 @@ An user can only vote for one list per section.
 
 **The user must be a member of a group authorized to vote or to manage the campaign to use this endpoint**''',
       summary: 'Get Status Vote',
-      operationId: 'get_status_vote_campaign_status_get',
+      operationId: 'get_campaign_status',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2237,7 +2225,7 @@ An user can only vote for one list per section.
 
 **The user must be authorized to vote to use this endpoint**''',
       summary: 'Get Stats For Section',
-      operationId: 'get_stats_for_section_campaign_stats__section_id__get',
+      operationId: 'get_campaign_stats_{section_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2265,7 +2253,7 @@ An user can only vote for one list per section.
 
 **The user must be authorized to manage the campaign to use this endpoint**''',
       summary: 'Create Campaigns Logo',
-      operationId: 'create_campaigns_logo_campaign_lists__list_id__logo_post',
+      operationId: 'post_campaign_lists_{list_id}_logo',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2298,7 +2286,7 @@ An user can only vote for one list per section.
       description: '''Get the logo of a campaign list.
 **The user must be a member of a group authorized to vote or to manage the campaign to use this endpoint**''',
       summary: 'Read Campaigns Logo',
-      operationId: 'read_campaigns_logo_campaign_lists__list_id__logo_get',
+      operationId: 'get_campaign_lists_{list_id}_logo',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2323,7 +2311,7 @@ An user can only vote for one list per section.
 
 **User must be part of a seller group to use this endpoint**''',
       summary: 'Get Cdr Users',
-      operationId: 'get_cdr_users_cdr_users__get',
+      operationId: 'get_cdr_users_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2348,7 +2336,7 @@ An user can only vote for one list per section.
 
 **User must be part of a seller group to use this endpoint**''',
       summary: 'Get Cdr Users Pending Validation',
-      operationId: 'get_cdr_users_pending_validation_cdr_users_pending__get',
+      operationId: 'get_cdr_users_pending_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2374,7 +2362,7 @@ An user can only vote for one list per section.
 
 **User must be part of a seller group or trying to get itself to use this endpoint**''',
       summary: 'Get Cdr User',
-      operationId: 'get_cdr_user_cdr_users__user_id___get',
+      operationId: 'get_cdr_users_{user_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2403,7 +2391,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of a seller group to use this endpoint**''',
       summary: 'Update Cdr User',
-      operationId: 'update_cdr_user_cdr_users__user_id___patch',
+      operationId: 'patch_cdr_users_{user_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2430,7 +2418,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Get Sellers',
-      operationId: 'get_sellers_cdr_sellers__get',
+      operationId: 'get_cdr_sellers_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2456,7 +2444,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Create Seller',
-      operationId: 'create_seller_cdr_sellers__post',
+      operationId: 'post_cdr_sellers_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2484,7 +2472,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be authenticated to use this endpoint**''',
       summary: 'Get Sellers By User Id',
-      operationId: 'get_sellers_by_user_id_cdr_users_me_sellers__get',
+      operationId: 'get_cdr_users_me_sellers_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2509,7 +2497,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be authenticated to use this endpoint**''',
       summary: 'Get Online Sellers',
-      operationId: 'get_online_sellers_cdr_online_sellers__get',
+      operationId: 'get_cdr_online_sellers_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2535,7 +2523,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Send Seller Results',
-      operationId: 'send_seller_results_cdr_sellers__seller_id__results__get',
+      operationId: 'get_cdr_sellers_{seller_id}_results_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2561,7 +2549,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be authenticated to use this endpoint**''',
       summary: 'Get All Available Online Products',
-      operationId: 'get_all_available_online_products_cdr_online_products__get',
+      operationId: 'get_cdr_online_products_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2590,7 +2578,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of a seller group to use this endpoint**''',
       summary: 'Get All Products',
-      operationId: 'get_all_products_cdr_products__get',
+      operationId: 'get_cdr_products_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2620,7 +2608,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Update Seller',
-      operationId: 'update_seller_cdr_sellers__seller_id___patch',
+      operationId: 'patch_cdr_sellers_{seller_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2648,7 +2636,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Delete Seller',
-      operationId: 'delete_seller_cdr_sellers__seller_id___delete',
+      operationId: 'delete_cdr_sellers_{seller_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2675,8 +2663,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Get Products By Seller Id',
-      operationId:
-          'get_products_by_seller_id_cdr_sellers__seller_id__products__get',
+      operationId: 'get_cdr_sellers_{seller_id}_products_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2707,7 +2694,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Create Product',
-      operationId: 'create_product_cdr_sellers__seller_id__products__post',
+      operationId: 'post_cdr_sellers_{seller_id}_products_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2739,8 +2726,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be authenticated to use this endpoint**''',
       summary: 'Get Available Online Products',
-      operationId:
-          'get_available_online_products_cdr_online_sellers__seller_id__products__get',
+      operationId: 'get_cdr_online_sellers_{seller_id}_products_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2771,8 +2757,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Update Product',
-      operationId:
-          'update_product_cdr_sellers__seller_id__products__product_id___patch',
+      operationId: 'patch_cdr_sellers_{seller_id}_products_{product_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2803,8 +2788,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Delete Product',
-      operationId:
-          'delete_product_cdr_sellers__seller_id__products__product_id___delete',
+      operationId: 'delete_cdr_sellers_{seller_id}_products_{product_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2836,7 +2820,7 @@ An email will be send to the user, to confirm its new address.
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Create Product Variant',
       operationId:
-          'create_product_variant_cdr_sellers__seller_id__products__product_id__variants__post',
+          'post_cdr_sellers_{seller_id}_products_{product_id}_variants_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2874,7 +2858,7 @@ An email will be send to the user, to confirm its new address.
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Update Product Variant',
       operationId:
-          'update_product_variant_cdr_sellers__seller_id__products__product_id__variants__variant_id___patch',
+          'patch_cdr_sellers_{seller_id}_products_{product_id}_variants_{variant_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2908,7 +2892,7 @@ An email will be send to the user, to confirm its new address.
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Delete Product Variant',
       operationId:
-          'delete_product_variant_cdr_sellers__seller_id__products__product_id__variants__variant_id___delete',
+          'delete_cdr_sellers_{seller_id}_products_{product_id}_variants_{variant_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2936,8 +2920,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Get Seller Documents',
-      operationId:
-          'get_seller_documents_cdr_sellers__seller_id__documents__get',
+      operationId: 'get_cdr_sellers_{seller_id}_documents_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2964,7 +2947,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Create Document',
-      operationId: 'create_document_cdr_sellers__seller_id__documents__post',
+      operationId: 'post_cdr_sellers_{seller_id}_documents_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -2991,7 +2974,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of a seller\'s group to use this endpoint**''',
       summary: 'Get All Sellers Documents',
-      operationId: 'get_all_sellers_documents_cdr_documents__get',
+      operationId: 'get_cdr_documents_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3018,8 +3001,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Delete Document',
-      operationId:
-          'delete_document_cdr_sellers__seller_id__documents__document_id___delete',
+      operationId: 'delete_cdr_sellers_{seller_id}_documents_{document_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3047,8 +3029,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must get his own purchases or be CDR Admin to use this endpoint**''',
       summary: 'Get Purchases By User Id',
-      operationId:
-          'get_purchases_by_user_id_cdr_users__user_id__purchases__get',
+      operationId: 'get_cdr_users_{user_id}_purchases_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3071,7 +3052,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get My Purchases',
-      operationId: 'get_my_purchases_cdr_me_purchases__get',
+      operationId: 'get_cdr_me_purchases_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3094,7 +3075,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get All My Purchases',
-      operationId: 'get_all_my_purchases_cdr_me_purchases_all_get',
+      operationId: 'get_cdr_me_purchases_all',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3122,8 +3103,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must get his own purchases or be part of the seller\'s group to use this endpoint**''',
       summary: 'Get Purchases By User Id By Seller Id',
-      operationId:
-          'get_purchases_by_user_id_by_seller_id_cdr_sellers__seller_id__users__user_id__purchases__get',
+      operationId: 'get_cdr_sellers_{seller_id}_users_{user_id}_purchases_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3154,8 +3134,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must create a purchase for themself and for an online available product or be part of the seller\'s group to use this endpoint**''',
       summary: 'Create Purchase',
-      operationId:
-          'create_purchase_cdr_users__user_id__purchases__product_variant_id___post',
+      operationId: 'post_cdr_users_{user_id}_purchases_{product_variant_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3189,8 +3168,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must create a purchase for themself and for an online available product or be part of the seller\'s group to use this endpoint**''',
       summary: 'Delete Purchase',
-      operationId:
-          'delete_purchase_cdr_users__user_id__purchases__product_variant_id___delete',
+      operationId: 'delete_cdr_users_{user_id}_purchases_{product_variant_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3218,7 +3196,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Create Purchase Batch',
-      operationId: 'create_purchase_batch_cdr_batch_purchases__post',
+      operationId: 'post_cdr_batch-purchases_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3250,7 +3228,7 @@ An email will be send to the user, to confirm its new address.
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Mark Purchase As Validated',
       operationId:
-          'mark_purchase_as_validated_cdr_users__user_id__purchases__product_variant_id__validated__patch',
+          'patch_cdr_users_{user_id}_purchases_{product_variant_id}_validated_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3280,7 +3258,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Validate Purchase Batch',
-      operationId: 'validate_purchase_batch_cdr_batch_validation__post',
+      operationId: 'post_cdr_batch-validation_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3308,8 +3286,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must get his own signatures or be CDR Admin to use this endpoint**''',
       summary: 'Get Signatures By User Id',
-      operationId:
-          'get_signatures_by_user_id_cdr_users__user_id__signatures__get',
+      operationId: 'get_cdr_users_{user_id}_signatures_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3337,8 +3314,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must get his own signatures or be part of the seller\'s group to use this endpoint**''',
       summary: 'Get Signatures By User Id By Seller Id',
-      operationId:
-          'get_signatures_by_user_id_by_seller_id_cdr_sellers__seller_id__users__user_id__signatures__get',
+      operationId: 'get_cdr_sellers_{seller_id}_users_{user_id}_signatures_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3368,8 +3344,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must sign numerically or be part of the seller\'s group to use this endpoint**''',
       summary: 'Create Signature',
-      operationId:
-          'create_signature_cdr_users__user_id__signatures__document_id___post',
+      operationId: 'post_cdr_users_{user_id}_signatures_{document_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3400,8 +3375,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Delete Signature',
-      operationId:
-          'delete_signature_cdr_users__user_id__signatures__document_id___delete',
+      operationId: 'delete_cdr_users_{user_id}_signatures_{document_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3428,7 +3402,7 @@ An email will be send to the user, to confirm its new address.
 
 **User be authenticated to use this endpoint**''',
       summary: 'Get Curriculums',
-      operationId: 'get_curriculums_cdr_curriculums__get',
+      operationId: 'get_cdr_curriculums_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3454,7 +3428,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Create Curriculum',
-      operationId: 'create_curriculum_cdr_curriculums__post',
+      operationId: 'post_cdr_curriculums_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3482,7 +3456,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Delete Curriculum',
-      operationId: 'delete_curriculum_cdr_curriculums__curriculum_id___delete',
+      operationId: 'delete_cdr_curriculums_{curriculum_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3509,8 +3483,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must add a curriculum to themself or be CDR Admin to use this endpoint**''',
       summary: 'Create Curriculum Membership',
-      operationId:
-          'create_curriculum_membership_cdr_users__user_id__curriculums__curriculum_id___post',
+      operationId: 'post_cdr_users_{user_id}_curriculums_{curriculum_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3539,8 +3512,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must add a curriculum to themself or be CDR Admin to use this endpoint**''',
       summary: 'Update Curriculum Membership',
-      operationId:
-          'update_curriculum_membership_cdr_users__user_id__curriculums__curriculum_id___patch',
+      operationId: 'patch_cdr_users_{user_id}_curriculums_{curriculum_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3569,8 +3541,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must add a curriculum to themself or be CDR Admin to use this endpoint**''',
       summary: 'Delete Curriculum Membership',
-      operationId:
-          'delete_curriculum_membership_cdr_users__user_id__curriculums__curriculum_id___delete',
+      operationId: 'delete_cdr_users_{user_id}_curriculums_{curriculum_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3599,7 +3570,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must get his own payments or be CDR Admin to use this endpoint**''',
       summary: 'Get Payments By User Id',
-      operationId: 'get_payments_by_user_id_cdr_users__user_id__payments__get',
+      operationId: 'get_cdr_users_{user_id}_payments_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3630,7 +3601,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Create Payment',
-      operationId: 'create_payment_cdr_users__user_id__payments__post',
+      operationId: 'post_cdr_users_{user_id}_payments_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3662,8 +3633,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be CDR Admin to use this endpoint**''',
       summary: 'Delete Payment',
-      operationId:
-          'delete_payment_cdr_users__user_id__payments__payment_id___delete',
+      operationId: 'delete_cdr_users_{user_id}_payments_{payment_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3686,7 +3656,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get payment url',
       summary: 'Get Payment Url',
-      operationId: 'get_payment_url_cdr_pay__post',
+      operationId: 'post_cdr_pay_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3709,7 +3679,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Cdr Year',
-      operationId: 'get_cdr_year_cdr_year__get',
+      operationId: 'get_cdr_year_',
       consumes: [],
       produces: [],
       security: [],
@@ -3733,7 +3703,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Update Cdr Year',
-      operationId: 'update_cdr_year_cdr_year__patch',
+      operationId: 'patch_cdr_year_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3758,7 +3728,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Status',
-      operationId: 'get_status_cdr_status__get',
+      operationId: 'get_cdr_status_',
       consumes: [],
       produces: [],
       security: [],
@@ -3782,7 +3752,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Update Status',
-      operationId: 'update_status_cdr_status__patch',
+      operationId: 'patch_cdr_status_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3807,7 +3777,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get My Tickets',
-      operationId: 'get_my_tickets_cdr_users_me_tickets__get',
+      operationId: 'get_cdr_users_me_tickets_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3835,7 +3805,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Tickets Of User',
-      operationId: 'get_tickets_of_user_cdr_users__user_id__tickets__get',
+      operationId: 'get_cdr_users_{user_id}_tickets_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3862,8 +3832,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Ticket Secret',
-      operationId:
-          'get_ticket_secret_cdr_users_me_tickets__ticket_id__secret__get',
+      operationId: 'get_cdr_users_me_tickets_{ticket_id}_secret_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3892,7 +3861,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Get Ticket By Secret',
       operationId:
-          'get_ticket_by_secret_cdr_sellers__seller_id__products__product_id__tickets__generator_id___secret___get',
+          'get_cdr_sellers_{seller_id}_products_{product_id}_tickets_{generator_id}_{secret}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3927,7 +3896,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Scan Ticket',
       operationId:
-          'scan_ticket_cdr_sellers__seller_id__products__product_id__tickets__generator_id___secret___patch',
+          'patch_cdr_sellers_{seller_id}_products_{product_id}_tickets_{generator_id}_{secret}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3960,7 +3929,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Get Users By Tag',
       operationId:
-          'get_users_by_tag_cdr_sellers__seller_id__products__product_id__tickets__generator_id__lists__tag___get',
+          'get_cdr_sellers_{seller_id}_products_{product_id}_tickets_{generator_id}_lists_{tag}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3990,7 +3959,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Get Tags Of Ticket',
       operationId:
-          'get_tags_of_ticket_cdr_sellers__seller_id__products__product_id__tags__generator_id___get',
+          'get_cdr_sellers_{seller_id}_products_{product_id}_tags_{generator_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4020,7 +3989,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Generate Ticket For Product',
       operationId:
-          'generate_ticket_for_product_cdr_sellers__seller_id__products__product_id__tickets__post',
+          'post_cdr_sellers_{seller_id}_products_{product_id}_tickets_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4055,7 +4024,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Delete Ticket Generator For Product',
       operationId:
-          'delete_ticket_generator_for_product_cdr_sellers__seller_id__products__product_id__tickets__ticket_generator_id__delete',
+          'delete_cdr_sellers_{seller_id}_products_{product_id}_tickets_{ticket_generator_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4083,8 +4052,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Custom Data Fields',
-      operationId:
-          'get_custom_data_fields_cdr_sellers__seller_id__products__product_id__data__get',
+      operationId: 'get_cdr_sellers_{seller_id}_products_{product_id}_data_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4115,8 +4083,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Custom Data Field',
-      operationId:
-          'create_custom_data_field_cdr_sellers__seller_id__products__product_id__data__post',
+      operationId: 'post_cdr_sellers_{seller_id}_products_{product_id}_data_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4150,7 +4117,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Update Custom Data Field',
       operationId:
-          'update_custom_data_field_cdr_sellers__seller_id__products__product_id__data__field_id___patch',
+          'patch_cdr_sellers_{seller_id}_products_{product_id}_data_{field_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4181,7 +4148,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Delete Customdata Field',
       operationId:
-          'delete_customdata_field_cdr_sellers__seller_id__products__product_id__data__field_id___delete',
+          'delete_cdr_sellers_{seller_id}_products_{product_id}_data_{field_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4212,7 +4179,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Get Customdata',
       operationId:
-          'get_customdata_cdr_sellers__seller_id__products__product_id__users__user_id__data__field_id___get',
+          'get_cdr_sellers_{seller_id}_products_{product_id}_users_{user_id}_data_{field_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4244,7 +4211,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Create Custom Data',
       operationId:
-          'create_custom_data_cdr_sellers__seller_id__products__product_id__users__user_id__data__field_id___post',
+          'post_cdr_sellers_{seller_id}_products_{product_id}_users_{user_id}_data_{field_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4278,7 +4245,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Update Custom Data',
       operationId:
-          'update_custom_data_cdr_sellers__seller_id__products__product_id__users__user_id__data__field_id___patch',
+          'patch_cdr_sellers_{seller_id}_products_{product_id}_users_{user_id}_data_{field_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4311,7 +4278,7 @@ An email will be send to the user, to confirm its new address.
       description: '',
       summary: 'Delete Customdata',
       operationId:
-          'delete_customdata_cdr_sellers__seller_id__products__product_id__users__user_id__data__field_id___delete',
+          'delete_cdr_sellers_{seller_id}_products_{product_id}_users_{user_id}_data_{field_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4340,7 +4307,7 @@ using an API key and returns a TheMovieDB object
 * https://developer.themoviedb.org/reference/movie-details
 * https://developer.themoviedb.org/docs/errors''',
       summary: 'Get Movie',
-      operationId: 'get_movie_cinema_themoviedb__themoviedb_id__get',
+      operationId: 'get_cinema_themoviedb_{themoviedb_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4363,7 +4330,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Sessions',
-      operationId: 'get_sessions_cinema_sessions_get',
+      operationId: 'get_cinema_sessions',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4389,7 +4356,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Session',
-      operationId: 'create_session_cinema_sessions_post',
+      operationId: 'post_cinema_sessions',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4416,7 +4383,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Update Session',
-      operationId: 'update_session_cinema_sessions__session_id__patch',
+      operationId: 'patch_cinema_sessions_{session_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4442,7 +4409,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Session',
-      operationId: 'delete_session_cinema_sessions__session_id__delete',
+      operationId: 'delete_cinema_sessions_{session_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4468,8 +4435,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Campaigns Logo',
-      operationId:
-          'create_campaigns_logo_cinema_sessions__session_id__poster_post',
+      operationId: 'post_cinema_sessions_{session_id}_poster',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4501,8 +4467,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Read Session Poster',
-      operationId:
-          'read_session_poster_cinema_sessions__session_id__poster_get',
+      operationId: 'get_cinema_sessions_{session_id}_poster',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4525,7 +4490,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all raffles',
       summary: 'Get Raffle',
-      operationId: 'get_raffle_tombola_raffles_get',
+      operationId: 'get_tombola_raffles',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4551,7 +4516,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the group admin to use this endpoint**''',
       summary: 'Create Raffle',
-      operationId: 'create_raffle_tombola_raffles_post',
+      operationId: 'post_tombola_raffles',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4580,7 +4545,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Edit Raffle',
-      operationId: 'edit_raffle_tombola_raffles__raffle_id__patch',
+      operationId: 'patch_tombola_raffles_{raffle_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4608,7 +4573,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Delete Raffle',
-      operationId: 'delete_raffle_tombola_raffles__raffle_id__delete',
+      operationId: 'delete_tombola_raffles_{raffle_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4632,8 +4597,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all raffles from a group',
       summary: 'Get Raffles By Group Id',
-      operationId:
-          'get_raffles_by_group_id_tombola_group__group_id__raffles_get',
+      operationId: 'get_tombola_group_{group_id}_raffles',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4658,7 +4622,7 @@ using an API key and returns a TheMovieDB object
       description:
           'Return the number of ticket sold and the total amount recollected for a raffle',
       summary: 'Get Raffle Stats',
-      operationId: 'get_raffle_stats_tombola_raffles__raffle_id__stats_get',
+      operationId: 'get_tombola_raffles_{raffle_id}_stats',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4686,8 +4650,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Create Current Raffle Logo',
-      operationId:
-          'create_current_raffle_logo_tombola_raffles__raffle_id__logo_post',
+      operationId: 'post_tombola_raffles_{raffle_id}_logo',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4719,7 +4682,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get the logo of a specific raffle.',
       summary: 'Read Raffle Logo',
-      operationId: 'read_raffle_logo_tombola_raffles__raffle_id__logo_get',
+      operationId: 'get_tombola_raffles_{raffle_id}_logo',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4742,7 +4705,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all tickets',
       summary: 'Get Pack Tickets',
-      operationId: 'get_pack_tickets_tombola_pack_tickets_get',
+      operationId: 'get_tombola_pack_tickets',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4768,7 +4731,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Create Packticket',
-      operationId: 'create_packticket_tombola_pack_tickets_post',
+      operationId: 'post_tombola_pack_tickets',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4797,7 +4760,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Edit Packticket',
-      operationId: 'edit_packticket_tombola_pack_tickets__packticket_id__patch',
+      operationId: 'patch_tombola_pack_tickets_{packticket_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4825,8 +4788,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Delete Packticket',
-      operationId:
-          'delete_packticket_tombola_pack_tickets__packticket_id__delete',
+      operationId: 'delete_tombola_pack_tickets_{packticket_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4851,8 +4813,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all pack_tickets associated to a raffle',
       summary: 'Get Pack Tickets By Raffle Id',
-      operationId:
-          'get_pack_tickets_by_raffle_id_tombola_raffles__raffle_id__pack_tickets_get',
+      operationId: 'get_tombola_raffles_{raffle_id}_pack_tickets',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4877,7 +4838,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the group admin to use this endpoint**''',
       summary: 'Get Tickets',
-      operationId: 'get_tickets_tombola_tickets_get',
+      operationId: 'get_tombola_tickets',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4902,7 +4863,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Buy a ticket',
       summary: 'Buy Ticket',
-      operationId: 'buy_ticket_tombola_tickets_buy__pack_id__post',
+      operationId: 'post_tombola_tickets_buy_{pack_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4932,7 +4893,7 @@ using an API key and returns a TheMovieDB object
 
 **Only admin users can get tickets of another user**''',
       summary: 'Get Tickets By Userid',
-      operationId: 'get_tickets_by_userid_tombola_users__user_id__tickets_get',
+      operationId: 'get_tombola_users_{user_id}_tickets',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4962,8 +4923,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint''',
       summary: 'Get Tickets By Raffleid',
-      operationId:
-          'get_tickets_by_raffleid_tombola_raffles__raffle_id__tickets_get',
+      operationId: 'get_tombola_raffles_{raffle_id}_tickets',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4989,7 +4949,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all prizes',
       summary: 'Get Prizes',
-      operationId: 'get_prizes_tombola_prizes_get',
+      operationId: 'get_tombola_prizes',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5015,7 +4975,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint''',
       summary: 'Create Prize',
-      operationId: 'create_prize_tombola_prizes_post',
+      operationId: 'post_tombola_prizes',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5044,7 +5004,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the group raffle\'s to use this endpoint''',
       summary: 'Edit Prize',
-      operationId: 'edit_prize_tombola_prizes__prize_id__patch',
+      operationId: 'patch_tombola_prizes_{prize_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5072,7 +5032,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the group raffle\'s to use this endpoint''',
       summary: 'Delete Prize',
-      operationId: 'delete_prize_tombola_prizes__prize_id__delete',
+      operationId: 'delete_tombola_prizes_{prize_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5096,8 +5056,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get prizes from a specific raffle.',
       summary: 'Get Prizes By Raffleid',
-      operationId:
-          'get_prizes_by_raffleid_tombola_raffles__raffle_id__prizes_get',
+      operationId: 'get_tombola_raffles_{raffle_id}_prizes',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5125,8 +5084,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Create Prize Picture',
-      operationId:
-          'create_prize_picture_tombola_prizes__prize_id__picture_post',
+      operationId: 'post_tombola_prizes_{prize_id}_picture',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5158,7 +5116,7 @@ using an API key and returns a TheMovieDB object
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get the logo of a specific prize.',
       summary: 'Read Prize Logo',
-      operationId: 'read_prize_logo_tombola_prizes__prize_id__picture_get',
+      operationId: 'get_tombola_prizes_{prize_id}_picture',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5184,7 +5142,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the group admin to use this endpoint''',
       summary: 'Get Users Cash',
-      operationId: 'get_users_cash_tombola_users_cash_get',
+      operationId: 'get_tombola_users_cash',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5214,7 +5172,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the group admin to use this endpoint or can only access the endpoint for its own user_id**''',
       summary: 'Get Cash By Id',
-      operationId: 'get_cash_by_id_tombola_users__user_id__cash_get',
+      operationId: 'get_tombola_users_{user_id}_cash',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5245,7 +5203,7 @@ using an API key and returns a TheMovieDB object
 
 **The user must be a member of the group admin to use this endpoint**''',
       summary: 'Create Cash Of User',
-      operationId: 'create_cash_of_user_tombola_users__user_id__cash_post',
+      operationId: 'post_tombola_users_{user_id}_cash',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5279,7 +5237,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be a member of the group admin to use this endpoint**''',
       summary: 'Edit Cash By Id',
-      operationId: 'edit_cash_by_id_tombola_users__user_id__cash_patch',
+      operationId: 'patch_tombola_users_{user_id}_cash',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5306,7 +5264,7 @@ A negative value can be provided to remove money from the user.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Draw Winner',
-      operationId: 'draw_winner_tombola_prizes__prize_id__draw_post',
+      operationId: 'post_tombola_prizes_{prize_id}_draw',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5335,7 +5293,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Open Raffle',
-      operationId: 'open_raffle_tombola_raffles__raffle_id__open_patch',
+      operationId: 'patch_tombola_raffles_{raffle_id}_open',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5361,7 +5319,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be a member of the raffle\'s group to use this endpoint**''',
       summary: 'Lock Raffle',
-      operationId: 'lock_raffle_tombola_raffles__raffle_id__lock_patch',
+      operationId: 'patch_tombola_raffles_{raffle_id}_lock',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5386,7 +5344,7 @@ A negative value can be provided to remove money from the user.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Recommendation',
-      operationId: 'get_recommendation_recommendation_recommendations_get',
+      operationId: 'get_recommendation_recommendations',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5412,7 +5370,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by members of the group BDE**''',
       summary: 'Create Recommendation',
-      operationId: 'create_recommendation_recommendation_recommendations_post',
+      operationId: 'post_recommendation_recommendations',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5441,8 +5399,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by members of the group BDE**''',
       summary: 'Edit Recommendation',
-      operationId:
-          'edit_recommendation_recommendation_recommendations__recommendation_id__patch',
+      operationId: 'patch_recommendation_recommendations_{recommendation_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5472,8 +5429,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by members of the group BDE**''',
       summary: 'Delete Recommendation',
-      operationId:
-          'delete_recommendation_recommendation_recommendations__recommendation_id__delete',
+      operationId: 'delete_recommendation_recommendations_{recommendation_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5503,7 +5459,7 @@ A negative value can be provided to remove money from the user.
 **The user must be authenticated to use this endpoint**''',
       summary: 'Read Recommendation Image',
       operationId:
-          'read_recommendation_image_recommendation_recommendations__recommendation_id__picture_get',
+          'get_recommendation_recommendations_{recommendation_id}_picture',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5534,7 +5490,7 @@ A negative value can be provided to remove money from the user.
 **This endpoint is only usable by members of the group BDE**''',
       summary: 'Create Recommendation Image',
       operationId:
-          'create_recommendation_image_recommendation_recommendations__recommendation_id__picture_post',
+          'post_recommendation_recommendations_{recommendation_id}_picture',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5568,7 +5524,7 @@ A negative value can be provided to remove money from the user.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Paper Pdf',
-      operationId: 'get_paper_pdf_ph__paper_id__pdf_get',
+      operationId: 'get_ph_{paper_id}_pdf',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5593,7 +5549,7 @@ A negative value can be provided to remove money from the user.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Paper Pdf And Cover',
-      operationId: 'create_paper_pdf_and_cover_ph__paper_id__pdf_post',
+      operationId: 'post_ph_{paper_id}_pdf',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5622,7 +5578,7 @@ A negative value can be provided to remove money from the user.
       description:
           'Return all editions until now, sorted from the latest to the oldest',
       summary: 'Get Papers',
-      operationId: 'get_papers_ph__get',
+      operationId: 'get_ph_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5646,7 +5602,7 @@ A negative value can be provided to remove money from the user.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a new paper.',
       summary: 'Create Paper',
-      operationId: 'create_paper_ph__post',
+      operationId: 'post_ph_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5671,7 +5627,7 @@ A negative value can be provided to remove money from the user.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all editions, sorted from the latest to the oldest',
       summary: 'Get Papers Admin',
-      operationId: 'get_papers_admin_ph_admin_get',
+      operationId: 'get_ph_admin',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5695,7 +5651,7 @@ A negative value can be provided to remove money from the user.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Cover',
-      operationId: 'get_cover_ph__paper_id__cover_get',
+      operationId: 'get_ph_{paper_id}_cover',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5720,7 +5676,7 @@ A negative value can be provided to remove money from the user.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Update Paper',
-      operationId: 'update_paper_ph__paper_id__patch',
+      operationId: 'patch_ph_{paper_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5746,7 +5702,7 @@ A negative value can be provided to remove money from the user.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Paper',
-      operationId: 'delete_paper_ph__paper_id__delete',
+      operationId: 'delete_ph_{paper_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5771,7 +5727,7 @@ A negative value can be provided to remove money from the user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Read Loaners',
-      operationId: 'read_loaners_loans_loaners__get',
+      operationId: 'get_loans_loaners_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5799,7 +5755,7 @@ Each loaner is associated with a `manager_group`. Users belonging to this group 
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Loaner',
-      operationId: 'create_loaner_loans_loaners__post',
+      operationId: 'post_loans_loaners_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5828,7 +5784,7 @@ Each loaner is associated with a `manager_group`. Users belonging to this group 
 
 **This endpoint is only usable by administrators**''',
       summary: 'Delete Loaner',
-      operationId: 'delete_loaner_loans_loaners__loaner_id__delete',
+      operationId: 'delete_loans_loaners_{loaner_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5856,7 +5812,7 @@ Each loaner is associated with a `manager_group`. Users belonging to this group 
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update Loaner',
-      operationId: 'update_loaner_loans_loaners__loaner_id__patch',
+      operationId: 'patch_loans_loaners_{loaner_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5889,7 +5845,7 @@ The query string `returned` can be used to get only return or non returned loans
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Get Loans By Loaner',
-      operationId: 'get_loans_by_loaner_loans_loaners__loaner_id__loans_get',
+      operationId: 'get_loans_loaners_{loaner_id}_loans',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5919,7 +5875,7 @@ The query string `returned` can be used to get only return or non returned loans
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Get Items By Loaner',
-      operationId: 'get_items_by_loaner_loans_loaners__loaner_id__items_get',
+      operationId: 'get_loans_loaners_{loaner_id}_items',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5947,8 +5903,7 @@ The query string `returned` can be used to get only return or non returned loans
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Create Items For Loaner',
-      operationId:
-          'create_items_for_loaner_loans_loaners__loaner_id__items_post',
+      operationId: 'post_loans_loaners_{loaner_id}_items',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5978,8 +5933,7 @@ The query string `returned` can be used to get only return or non returned loans
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Update Items For Loaner',
-      operationId:
-          'update_items_for_loaner_loans_loaners__loaner_id__items__item_id__patch',
+      operationId: 'patch_loans_loaners_{loaner_id}_items_{item_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6009,8 +5963,7 @@ This will remove the item from all loans but won\'t delete any loan.
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Delete Loaner Item',
-      operationId:
-          'delete_loaner_item_loans_loaners__loaner_id__items__item_id__delete',
+      operationId: 'delete_loans_loaners_{loaner_id}_items_{item_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6038,7 +5991,7 @@ The query string `returned` can be used to get only returned or non returned loa
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Current User Loans',
-      operationId: 'get_current_user_loans_loans_users_me_get',
+      operationId: 'get_loans_users_me',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6067,7 +6020,7 @@ The query string `returned` can be used to get only returned or non returned loa
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Current User Loaners',
-      operationId: 'get_current_user_loaners_loans_users_me_loaners_get',
+      operationId: 'get_loans_users_me_loaners',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6093,7 +6046,7 @@ The query string `returned` can be used to get only returned or non returned loa
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Create Loan',
-      operationId: 'create_loan_loans__post',
+      operationId: 'post_loans_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6125,7 +6078,7 @@ the new representation of the loan `Loan` including the new items relationships
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Update Loan',
-      operationId: 'update_loan_loans__loan_id__patch',
+      operationId: 'patch_loans_{loan_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6154,7 +6107,7 @@ This will remove the loan but won\'t delete any loaner items.
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Delete Loan',
-      operationId: 'delete_loan_loans__loan_id__delete',
+      operationId: 'delete_loans_{loan_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6181,7 +6134,7 @@ This will remove the loan but won\'t delete any loaner items.
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Return Loan',
-      operationId: 'return_loan_loans__loan_id__return_post',
+      operationId: 'post_loans_{loan_id}_return',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6209,7 +6162,7 @@ This will remove the loan but won\'t delete any loaner items.
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Extend Loan',
-      operationId: 'extend_loan_loans__loan_id__extend_post',
+      operationId: 'post_loans_{loan_id}_extend',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6234,7 +6187,7 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return the leaderboard',
       summary: 'Get Flappybird Score',
-      operationId: 'get_flappybird_score_flappybird_scores_get',
+      operationId: 'get_flappybird_scores',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6260,7 +6213,7 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Flappybird Score',
-      operationId: 'create_flappybird_score_flappybird_scores_post',
+      operationId: 'post_flappybird_scores',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6285,8 +6238,7 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Current User Flappybird Personal Best',
-      operationId:
-          'get_current_user_flappybird_personal_best_flappybird_scores_me_get',
+      operationId: 'get_flappybird_scores_me',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6313,8 +6265,7 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Remove Flappybird Score',
-      operationId:
-          'remove_flappybird_score_flappybird_scores__targeted_user_id__delete',
+      operationId: 'delete_flappybird_scores_{targeted_user_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6337,7 +6288,7 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Sports',
-      operationId: 'get_sports_competition_sports_get',
+      operationId: 'get_competition_sports',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6361,7 +6312,7 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Sport',
-      operationId: 'create_sport_competition_sports_post',
+      operationId: 'post_competition_sports',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6388,7 +6339,7 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Edit Sport',
-      operationId: 'edit_sport_competition_sports__sport_id__patch',
+      operationId: 'patch_competition_sports_{sport_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6414,7 +6365,7 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Sport',
-      operationId: 'delete_sport_competition_sports__sport_id__delete',
+      operationId: 'delete_competition_sports_{sport_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6437,7 +6388,7 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Editions',
-      operationId: 'get_editions_competition_editions_get',
+      operationId: 'get_competition_editions',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6461,7 +6412,7 @@ This will remove the loan but won\'t delete any loaner items.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Edition',
-      operationId: 'create_edition_competition_editions_post',
+      operationId: 'post_competition_editions',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6487,7 +6438,7 @@ This will remove the loan but won\'t delete any loaner items.
       description: '''Get the currently active competition edition.
 Returns None if no edition is active.''',
       summary: 'Get Active Edition',
-      operationId: 'get_active_edition_competition_editions_active_get',
+      operationId: 'get_competition_editions_active',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6512,8 +6463,7 @@ Returns None if no edition is active.''',
       description: '''Activate a competition edition.
 If another edition is already active, it will be deactivated.''',
       summary: 'Activate Edition',
-      operationId:
-          'activate_edition_competition_editions__edition_id__activate_post',
+      operationId: 'post_competition_editions_{edition_id}_activate',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6539,8 +6489,7 @@ If another edition is already active, it will be deactivated.''',
       description: '''Enable inscription for a competition edition.
 The edition must already be active.''',
       summary: 'Enable Inscription',
-      operationId:
-          'enable_inscription_competition_editions__edition_id__inscription_post',
+      operationId: 'post_competition_editions_{edition_id}_inscription',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6569,7 +6518,7 @@ The edition must already be active.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Edit Edition',
-      operationId: 'edit_edition_competition_editions__edition_id__patch',
+      operationId: 'patch_competition_editions_{edition_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6594,7 +6543,7 @@ The edition must already be active.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all competition users for the current edition.',
       summary: 'Get Competition Users',
-      operationId: 'get_competition_users_competition_users_get',
+      operationId: 'get_competition_users',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6619,7 +6568,7 @@ The edition must already be active.''',
       description: '''Create a competition user for the current edition.
 The user must exist in the core users database.''',
       summary: 'Create Competition User',
-      operationId: 'create_competition_user_competition_users_post',
+      operationId: 'post_competition_users',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6646,8 +6595,7 @@ The user must exist in the core users database.''',
       description:
           'Get all competition users for the current edition by school.',
       summary: 'Get Competition Users By School',
-      operationId:
-          'get_competition_users_by_school_competition_users_schools__school_id__get',
+      operationId: 'get_competition_users_schools_{school_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6671,7 +6619,7 @@ The user must exist in the core users database.''',
       description: '''Get the competition user for the current edition.
 This is the user making the request.''',
       summary: 'Get Current User Competition',
-      operationId: 'get_current_user_competition_competition_users_me_get',
+      operationId: 'get_competition_users_me',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6697,7 +6645,7 @@ This is the user making the request.''',
           '''Edit the current user\'s competition user for the current edition.
 The user must exist in the core users database.''',
       summary: 'Edit Current User Competition',
-      operationId: 'edit_current_user_competition_competition_users_me_patch',
+      operationId: 'patch_competition_users_me',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6724,7 +6672,7 @@ The user must exist in the core users database.''',
       description:
           'Get a competition user by their user ID for the current edition.',
       summary: 'Get Competition User',
-      operationId: 'get_competition_user_competition_users__user_id__get',
+      operationId: 'get_competition_users_{user_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6750,7 +6698,7 @@ The user must exist in the core users database.''',
       description: '''Edit a competition user for the current edition.
 The user must exist in the core users database.''',
       summary: 'Edit Competition User',
-      operationId: 'edit_competition_user_competition_users__user_id__patch',
+      operationId: 'patch_competition_users_{user_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6776,7 +6724,7 @@ The user must exist in the core users database.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Competition User',
-      operationId: 'delete_competition_user_competition_users__user_id__delete',
+      operationId: 'delete_competition_users_{user_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6800,8 +6748,7 @@ The user must exist in the core users database.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Validate Competition User',
-      operationId:
-          'validate_competition_user_competition_users__user_id__validate_patch',
+      operationId: 'patch_competition_users_{user_id}_validate',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6825,8 +6772,7 @@ The user must exist in the core users database.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Invalidate Competition User',
-      operationId:
-          'invalidate_competition_user_competition_users__user_id__invalidate_patch',
+      operationId: 'patch_competition_users_{user_id}_invalidate',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6852,7 +6798,7 @@ The user must exist in the core users database.''',
       description:
           'Get all users in a specific competition group for the current edition.',
       summary: 'Get Group Members',
-      operationId: 'get_group_members_competition_groups__group__get',
+      operationId: 'get_competition_groups_{group}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6880,7 +6826,7 @@ The user must exist in the core users database.''',
           '''Get all groups the current user is a member of in the current edition.
 This is the user making the request.''',
       summary: 'Get Current User Groups',
-      operationId: 'get_current_user_groups_competition_users_me_groups_get',
+      operationId: 'get_competition_users_me_groups',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6907,7 +6853,7 @@ This is the user making the request.''',
       description:
           'Get all groups a user is a member of in the current edition.',
       summary: 'Get User Groups',
-      operationId: 'get_user_groups_competition_users__user_id__groups_get',
+      operationId: 'get_competition_users_{user_id}_groups',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6934,8 +6880,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Add User To Group',
-      operationId:
-          'add_user_to_group_competition_groups__group__users__user_id__post',
+      operationId: 'post_competition_groups_{group}_users_{user_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6960,8 +6905,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Remove User From Group',
-      operationId:
-          'remove_user_from_group_competition_groups__group__users__user_id__delete',
+      operationId: 'delete_competition_groups_{group}_users_{user_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -6984,7 +6928,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Schools',
-      operationId: 'get_schools_competition_schools_get',
+      operationId: 'get_competition_schools',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7008,7 +6952,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create School Extension',
-      operationId: 'create_school_extension_competition_schools_post',
+      operationId: 'post_competition_schools',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7034,7 +6978,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get School',
-      operationId: 'get_school_competition_schools__school_id__get',
+      operationId: 'get_competition_schools_{school_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7059,8 +7003,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Edit School Extension',
-      operationId:
-          'edit_school_extension_competition_schools__school_id__patch',
+      operationId: 'patch_competition_schools_{school_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7086,8 +7029,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete School Extension',
-      operationId:
-          'delete_school_extension_competition_schools__school_id__delete',
+      operationId: 'delete_competition_schools_{school_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7112,8 +7054,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get School General Quota',
-      operationId:
-          'get_school_general_quota_competition_schools__school_id__general_quota_get',
+      operationId: 'get_competition_schools_{school_id}_general-quota',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7141,8 +7082,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create School General Quota',
-      operationId:
-          'create_school_general_quota_competition_schools__school_id__general_quota_post',
+      operationId: 'post_competition_schools_{school_id}_general-quota',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7171,8 +7111,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Edit School General Quota',
-      operationId:
-          'edit_school_general_quota_competition_schools__school_id__general_quota_patch',
+      operationId: 'patch_competition_schools_{school_id}_general-quota',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7200,8 +7139,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Quotas For Sport',
-      operationId:
-          'get_quotas_for_sport_competition_sports__sport_id__quotas_get',
+      operationId: 'get_competition_sports_{sport_id}_quotas',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7226,8 +7164,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Quotas For School',
-      operationId:
-          'get_quotas_for_school_competition_schools__school_id__sports_quotas_get',
+      operationId: 'get_competition_schools_{school_id}_sports-quotas',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7256,7 +7193,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Create Sport Quota',
       operationId:
-          'create_sport_quota_competition_schools__school_id__sports__sport_id__quotas_post',
+          'post_competition_schools_{school_id}_sports_{sport_id}_quotas',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7287,7 +7224,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Edit Sport Quota',
       operationId:
-          'edit_sport_quota_competition_schools__school_id__sports__sport_id__quotas_patch',
+          'patch_competition_schools_{school_id}_sports_{sport_id}_quotas',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7317,7 +7254,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Delete Sport Quota',
       operationId:
-          'delete_sport_quota_competition_schools__school_id__sports__sport_id__quotas_delete',
+          'delete_competition_schools_{school_id}_sports_{sport_id}_quotas',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7344,8 +7281,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Product Quotas For School',
-      operationId:
-          'get_product_quotas_for_school_competition_schools__school_id__product_quotas_get',
+      operationId: 'get_competition_schools_{school_id}_product-quotas',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7373,8 +7309,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Product Quota',
-      operationId:
-          'create_product_quota_competition_schools__school_id__product_quotas_post',
+      operationId: 'post_competition_schools_{school_id}_product-quotas',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7403,8 +7338,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Product Quotas For Product',
-      operationId:
-          'get_product_quotas_for_product_competition_products__product_id__schools_quotas_get',
+      operationId: 'get_competition_products_{product_id}_schools-quotas',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7434,7 +7368,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Edit Product Quota',
       operationId:
-          'edit_product_quota_competition_schools__school_id__product_quotas__product_id__patch',
+          'patch_competition_schools_{school_id}_product-quotas_{product_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7465,7 +7399,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Delete Product Quota',
       operationId:
-          'delete_product_quota_competition_schools__school_id__product_quotas__product_id__delete',
+          'delete_competition_schools_{school_id}_product-quotas_{product_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7490,7 +7424,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Teams',
-      operationId: 'get_teams_competition_teams_get',
+      operationId: 'get_competition_teams',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7514,7 +7448,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Team',
-      operationId: 'create_team_competition_teams_post',
+      operationId: 'post_competition_teams',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7539,7 +7473,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Current User Team As Captain',
-      operationId: 'get_current_user_team_as_captain_competition_teams_me_get',
+      operationId: 'get_competition_teams_me',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7563,8 +7497,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Teams For Sport',
-      operationId:
-          'get_teams_for_sport_competition_teams_sports__sport_id__get',
+      operationId: 'get_competition_teams_sports_{sport_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7588,8 +7521,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Teams For School',
-      operationId:
-          'get_teams_for_school_competition_teams_schools__school_id__get',
+      operationId: 'get_competition_teams_schools_{school_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7616,7 +7548,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Get Sport Teams For School And Sport',
       operationId:
-          'get_sport_teams_for_school_and_sport_competition_teams_sports__sport_id__schools__school_id__get',
+          'get_competition_teams_sports_{sport_id}_schools_{school_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7643,7 +7575,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Edit Team',
-      operationId: 'edit_team_competition_teams__team_id__patch',
+      operationId: 'patch_competition_teams_{team_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7669,7 +7601,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Team',
-      operationId: 'delete_team_competition_teams__team_id__delete',
+      operationId: 'delete_competition_teams_{team_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7692,8 +7624,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Current User Participant',
-      operationId:
-          'get_current_user_participant_competition_participants_me_get',
+      operationId: 'get_competition_participants_me',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7718,8 +7649,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Participants For Sport',
-      operationId:
-          'get_participants_for_sport_competition_participants_sports__sport_id__get',
+      operationId: 'get_competition_participants_sports_{sport_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7746,8 +7676,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Participants For School',
-      operationId:
-          'get_participants_for_school_competition_participants_schools__school_id__get',
+      operationId: 'get_competition_participants_schools_{school_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7774,8 +7703,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Download Participant Certificate',
-      operationId:
-          'download_participant_certificate_competition_participants_users__user_id__certificate_get',
+      operationId: 'get_competition_participants_users_{user_id}_certificate',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7802,7 +7730,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Join Sport',
-      operationId: 'join_sport_competition_sports__sport_id__participate_post',
+      operationId: 'post_competition_sports_{sport_id}_participate',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7830,7 +7758,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Upload Participant Certificate',
       operationId:
-          'upload_participant_certificate_competition_participants_sports__sport_id__certificate_post',
+          'post_competition_participants_sports_{sport_id}_certificate',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7863,7 +7791,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Delete Participant Certificate File',
       operationId:
-          'delete_participant_certificate_file_competition_participants_sports__sport_id__certificate_delete',
+          'delete_competition_participants_sports_{sport_id}_certificate',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7893,7 +7821,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Mark Participant License As Valid',
       operationId:
-          'mark_participant_license_as_valid_competition_participants_sports__sport_id__users__user_id__license_patch',
+          'patch_competition_participants_sports_{sport_id}_users_{user_id}_license',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7923,8 +7851,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Withdraw From Sport',
-      operationId:
-          'withdraw_from_sport_competition_sports__sport_id__withdraw_delete',
+      operationId: 'delete_competition_sports_{sport_id}_withdraw',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7950,7 +7877,7 @@ This is the user making the request.''',
       description: '',
       summary: 'Delete Participant',
       operationId:
-          'delete_participant_competition_participants__user_id__sports__sport_id__delete',
+          'delete_competition_participants_{user_id}_sports_{sport_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7975,7 +7902,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get All Locations',
-      operationId: 'get_all_locations_competition_locations_get',
+      operationId: 'get_competition_locations',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -7999,7 +7926,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Location',
-      operationId: 'create_location_competition_locations_post',
+      operationId: 'post_competition_locations',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8025,7 +7952,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Location By Id',
-      operationId: 'get_location_by_id_competition_locations__location_id__get',
+      operationId: 'get_competition_locations_{location_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8050,7 +7977,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Edit Location',
-      operationId: 'edit_location_competition_locations__location_id__patch',
+      operationId: 'patch_competition_locations_{location_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8076,7 +8003,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Location',
-      operationId: 'delete_location_competition_locations__location_id__delete',
+      operationId: 'delete_competition_locations_{location_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8099,7 +8026,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get All Matches For Edition',
-      operationId: 'get_all_matches_for_edition_competition_matches_get',
+      operationId: 'get_competition_matches',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8123,8 +8050,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Matches For Sport And Edition',
-      operationId:
-          'get_matches_for_sport_and_edition_competition_matches_sports__sport_id__get',
+      operationId: 'get_competition_matches_sports_{sport_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8149,7 +8075,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Match',
-      operationId: 'create_match_competition_matches_sports__sport_id__post',
+      operationId: 'post_competition_matches_sports_{sport_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8175,8 +8101,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Matches For School Sport And Edition',
-      operationId:
-          'get_matches_for_school_sport_and_edition_competition_matches_schools__school_id__get',
+      operationId: 'get_competition_matches_schools_{school_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8201,7 +8126,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Edit Match',
-      operationId: 'edit_match_competition_matches__match_id__patch',
+      operationId: 'patch_competition_matches_{match_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8227,7 +8152,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Match',
-      operationId: 'delete_match_competition_matches__match_id__delete',
+      operationId: 'delete_competition_matches_{match_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8250,7 +8175,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get the global podiums for the current edition.',
       summary: 'Get Global Podiums',
-      operationId: 'get_global_podiums_competition_podiums_global_get',
+      operationId: 'get_competition_podiums_global',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8276,8 +8201,7 @@ This is the user making the request.''',
       description:
           'Get the podiums for a specific sport in the current edition.',
       summary: 'Get Sport Podiums',
-      operationId:
-          'get_sport_podiums_competition_podiums_sports__sport_id__get',
+      operationId: 'get_competition_podiums_sports_{sport_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8305,8 +8229,7 @@ This is the user making the request.''',
       description:
           'Create or update the podium for a specific sport in the current edition.',
       summary: 'Create Sport Podium',
-      operationId:
-          'create_sport_podium_competition_podiums_sports__sport_id__post',
+      operationId: 'post_competition_podiums_sports_{sport_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8333,8 +8256,7 @@ This is the user making the request.''',
       description:
           'Delete the podium for a specific sport in the current edition.',
       summary: 'Delete Sport Podium',
-      operationId:
-          'delete_sport_podium_competition_podiums_sports__sport_id__delete',
+      operationId: 'delete_competition_podiums_sports_{sport_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8357,7 +8279,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get the pompoms podiums in the current edition.',
       summary: 'Get Pompom Podiums',
-      operationId: 'get_pompom_podiums_competition_podiums_pompoms_get',
+      operationId: 'get_competition_podiums_pompoms',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8382,7 +8304,7 @@ This is the user making the request.''',
       description:
           'Create or update the pompoms podium in the current edition.',
       summary: 'Create Pompom Podium',
-      operationId: 'create_pompom_podium_competition_podiums_pompoms_post',
+      operationId: 'post_competition_podiums_pompoms',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8407,7 +8329,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete the pompoms podium in the current edition.',
       summary: 'Delete Pompom Podium',
-      operationId: 'delete_pompom_podium_competition_podiums_pompoms_delete',
+      operationId: 'delete_competition_podiums_pompoms',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8433,8 +8355,7 @@ This is the user making the request.''',
       description:
           'Get the podiums for a specific school in the current edition.',
       summary: 'Get School Podiums',
-      operationId:
-          'get_school_podiums_competition_podiums_schools__school_id__get',
+      operationId: 'get_competition_podiums_schools_{school_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8464,7 +8385,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all products.',
       summary: 'Get All Products',
-      operationId: 'get_all_products_competition_products_get',
+      operationId: 'get_competition_products',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8494,7 +8415,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a product.',
       summary: 'Create Product',
-      operationId: 'create_product_competition_products_post',
+      operationId: 'post_competition_products',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8526,7 +8447,7 @@ This is the user making the request.''',
 
 **User must be a competition admin to use this endpoint**''',
       summary: 'Update Product',
-      operationId: 'update_product_competition_products__product_id__patch',
+      operationId: 'patch_competition_products_{product_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8554,7 +8475,7 @@ This is the user making the request.''',
 
 **User must be a competition admin to use this endpoint**''',
       summary: 'Delete Product',
-      operationId: 'delete_product_competition_products__product_id__delete',
+      operationId: 'delete_competition_products_{product_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8585,8 +8506,7 @@ This is the user making the request.''',
       description:
           'Get all available product variants of the current edition for this user.',
       summary: 'Get Available Product Variants',
-      operationId:
-          'get_available_product_variants_competition_products_available_get',
+      operationId: 'get_competition_products_available',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8619,8 +8539,7 @@ This is the user making the request.''',
 
 **User must be a competition admin to use this endpoint**''',
       summary: 'Create Product Variant',
-      operationId:
-          'create_product_variant_competition_products__product_id__variants_post',
+      operationId: 'post_competition_products_{product_id}_variants',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8650,8 +8569,7 @@ This is the user making the request.''',
 
 **User must be a competition admin to use this endpoint**''',
       summary: 'Update Product Variant',
-      operationId:
-          'update_product_variant_competition_products_variants__variant_id__patch',
+      operationId: 'patch_competition_products_variants_{variant_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8679,8 +8597,7 @@ This is the user making the request.''',
 
 **User must be a competition admin to use this endpoint**''',
       summary: 'Delete Product Variant',
-      operationId:
-          'delete_product_variant_competition_products_variants__variant_id__delete',
+      operationId: 'delete_competition_products_variants_{variant_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8706,8 +8623,7 @@ This is the user making the request.''',
 
 **User must be competition admin to use this endpoint**''',
       summary: 'Get Purchases By School Id',
-      operationId:
-          'get_purchases_by_school_id_competition_purchases_schools__school_id__get',
+      operationId: 'get_competition_purchases_schools_{school_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8733,8 +8649,7 @@ This is the user making the request.''',
 
 **User must be competition admin to use this endpoint**''',
       summary: 'Get Purchases By User Id',
-      operationId:
-          'get_purchases_by_user_id_competition_purchases_users__user_id__get',
+      operationId: 'get_competition_purchases_users_{user_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8762,8 +8677,7 @@ This is the user making the request.''',
 
 **User must be competition admin to use this endpoint**''',
       summary: 'Create User Purchase',
-      operationId:
-          'create_user_purchase_competition_purchases_users__user_id__post',
+      operationId: 'post_competition_purchases_users_{user_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8788,7 +8702,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get My Purchases',
-      operationId: 'get_my_purchases_competition_purchases_me_get',
+      operationId: 'get_competition_purchases_me',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8815,7 +8729,7 @@ This is the user making the request.''',
 
 **User must create a purchase for themself**''',
       summary: 'Create Purchase',
-      operationId: 'create_purchase_competition_purchases_me_post',
+      operationId: 'post_competition_purchases_me',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8847,7 +8761,7 @@ This is the user making the request.''',
 **User must be competition admin to use this endpoint**''',
       summary: 'Update User Purchase',
       operationId:
-          'update_user_purchase_competition_purchases_users__user_id__variants__variant_id__patch',
+          'patch_competition_purchases_users_{user_id}_variants_{variant_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8877,8 +8791,7 @@ This is the user making the request.''',
 
 **User must delete their own purchase**''',
       summary: 'Delete Purchase',
-      operationId:
-          'delete_purchase_competition_purchases__product_variant_id__delete',
+      operationId: 'delete_competition_purchases_{product_variant_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8907,7 +8820,7 @@ This is the user making the request.''',
 **User must be competition admin to use this endpoint**''',
       summary: 'Delete User Purchase',
       operationId:
-          'delete_user_purchase_competition_users__user_id__purchases__product_variant_id__delete',
+          'delete_competition_users_{user_id}_purchases_{product_variant_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8935,8 +8848,7 @@ This is the user making the request.''',
 
 **User must be competition admin to use this endpoint**''',
       summary: 'Get Users Payments By School Id',
-      operationId:
-          'get_users_payments_by_school_id_competition_payments_schools__school_id__get',
+      operationId: 'get_competition_payments_schools_{school_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -8967,8 +8879,7 @@ This is the user making the request.''',
 
 **User must get his own payments or be competition admin to use this endpoint**''',
       summary: 'Get Payments By User Id',
-      operationId:
-          'get_payments_by_user_id_competition_users__user_id__payments_get',
+      operationId: 'get_competition_users_{user_id}_payments',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9001,7 +8912,7 @@ This is the user making the request.''',
 
 **User must be competition admin to use this endpoint**''',
       summary: 'Create Payment',
-      operationId: 'create_payment_competition_users__user_id__payments_post',
+      operationId: 'post_competition_users_{user_id}_payments',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9033,8 +8944,7 @@ This is the user making the request.''',
 
 **User must be competition admin to use this endpoint**''',
       summary: 'Delete Payment',
-      operationId:
-          'delete_payment_competition_users__user_id__payments__payment_id__delete',
+      operationId: 'delete_competition_users_{user_id}_payments_{payment_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9059,7 +8969,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get payment url',
       summary: 'Get Payment Url',
-      operationId: 'get_payment_url_competition_pay_post',
+      operationId: 'post_competition_pay',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9083,7 +8993,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all volunteer shifts.',
       summary: 'Get All Volunteer Shifts',
-      operationId: 'get_all_volunteer_shifts_competition_volunteers_shifts_get',
+      operationId: 'get_competition_volunteers_shifts',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9109,7 +9019,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a volunteer shift.',
       summary: 'Create Volunteer Shift',
-      operationId: 'create_volunteer_shift_competition_volunteers_shifts_post',
+      operationId: 'post_competition_volunteers_shifts',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9138,8 +9048,7 @@ This is the user making the request.''',
 
 **User must be a competition admin to use this endpoint**''',
       summary: 'Update Volunteer Shift',
-      operationId:
-          'update_volunteer_shift_competition_volunteers_shifts__shift_id__patch',
+      operationId: 'patch_competition_volunteers_shifts_{shift_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9167,8 +9076,7 @@ This is the user making the request.''',
 
 **User must be a competition admin to use this endpoint**''',
       summary: 'Delete Volunteer Shift',
-      operationId:
-          'delete_volunteer_shift_competition_volunteers_shifts__shift_id__delete',
+      operationId: 'delete_competition_volunteers_shifts_{shift_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9192,8 +9100,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get my volunteer registrations.',
       summary: 'Get My Volunteer Registrations',
-      operationId:
-          'get_my_volunteer_registrations_competition_volunteers_me_get',
+      operationId: 'get_competition_volunteers_me',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9220,8 +9127,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Register to a volunteer shift.',
       summary: 'Register To Volunteer Shift',
-      operationId:
-          'register_to_volunteer_shift_competition_volunteers_shifts__shift_id__register_post',
+      operationId: 'post_competition_volunteers_shifts_{shift_id}_register',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9249,8 +9155,7 @@ This is the user making the request.''',
       description:
           'Export competition users data for the current edition as a CSV file.',
       summary: 'Export Competition Users Data',
-      operationId:
-          'export_competition_users_data_competition_data_export_users_get',
+      operationId: 'get_competition_data-export_users',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9282,8 +9187,7 @@ This is the user making the request.''',
       description:
           'Export competition users data for the current edition as a CSV file.',
       summary: 'Export School Competition Users Data',
-      operationId:
-          'export_school_competition_users_data_competition_data_export_schools__school_id__users_get',
+      operationId: 'get_competition_data-export_schools_{school_id}_users',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9314,8 +9218,7 @@ This is the user making the request.''',
       description:
           'Export participants captains data for the current edition as an Excel file.',
       summary: 'Export Participants Captains Data',
-      operationId:
-          'export_participants_captains_data_competition_data_export_participants_captains_get',
+      operationId: 'get_competition_data-export_participants_captains',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9342,8 +9245,7 @@ This is the user making the request.''',
       description:
           'Export school quotas data for the current edition as an Excel file.',
       summary: 'Export School Quotas Data',
-      operationId:
-          'export_school_quotas_data_competition_data_export_schools__school_id__quotas_get',
+      operationId: 'get_competition_data-export_schools_{school_id}_quotas',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9370,8 +9272,7 @@ This is the user making the request.''',
       description:
           'Export sport quotas data for the current edition as an Excel file.',
       summary: 'Export Sport Quotas Data',
-      operationId:
-          'export_sport_quotas_data_competition_data_export_sports__sport_id__quotas_get',
+      operationId: 'get_competition_data-export_sports_{sport_id}_quotas',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9399,8 +9300,7 @@ This is the user making the request.''',
       description:
           'Export sport quotas data for the current edition as an Excel file.',
       summary: 'Export Sport Participants Data',
-      operationId:
-          'export_sport_participants_data_competition_data_export_sports__sport_id__participants_get',
+      operationId: 'get_competition_data-export_sports_{sport_id}_participants',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9429,7 +9329,7 @@ This is the user making the request.''',
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Read Adverts',
-      operationId: 'read_adverts_advert_adverts_get',
+      operationId: 'get_advert_adverts',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9459,7 +9359,7 @@ This is the user making the request.''',
 
 **The user must be a member of the advertiser group to use this endpoint**''',
       summary: 'Create Advert',
-      operationId: 'create_advert_advert_adverts_post',
+      operationId: 'post_advert_adverts',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9487,7 +9387,7 @@ This is the user making the request.''',
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Read Advert',
-      operationId: 'read_advert_advert_adverts__advert_id__get',
+      operationId: 'get_advert_adverts_{advert_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9514,7 +9414,7 @@ This is the user making the request.''',
 
 **The user must be a member of the advertiser group_manager to use this endpoint**''',
       summary: 'Update Advert',
-      operationId: 'update_advert_advert_adverts__advert_id__patch',
+      operationId: 'patch_advert_adverts_{advert_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9542,7 +9442,7 @@ This is the user making the request.''',
 
 **The user must be admin or a member of the advertiser group_manager to use this endpoint**''',
       summary: 'Delete Advert',
-      operationId: 'delete_advert_advert_adverts__advert_id__delete',
+      operationId: 'delete_advert_adverts_{advert_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9568,7 +9468,7 @@ This is the user making the request.''',
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Read Advert Image',
-      operationId: 'read_advert_image_advert_adverts__advert_id__picture_get',
+      operationId: 'get_advert_adverts_{advert_id}_picture',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9595,8 +9495,7 @@ This is the user making the request.''',
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Create Advert Image',
-      operationId:
-          'create_advert_image_advert_adverts__advert_id__picture_post',
+      operationId: 'post_advert_adverts_{advert_id}_picture',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9625,7 +9524,7 @@ This is the user making the request.''',
       description:
           'Return all associations from database as a list of AssociationComplete schemas',
       summary: 'Get All Associations',
-      operationId: 'get_all_associations_phonebook_associations__get',
+      operationId: 'get_phonebook_associations_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9652,7 +9551,7 @@ This is the user making the request.''',
       description:
           'Create a new Association by giving an AssociationBase scheme',
       summary: 'Create Association',
-      operationId: 'create_association_phonebook_associations__post',
+      operationId: 'post_phonebook_associations_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9677,7 +9576,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all available role tags from RoleTags enum.',
       summary: 'Get All Role Tags',
-      operationId: 'get_all_role_tags_phonebook_roletags_get',
+      operationId: 'get_phonebook_roletags',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9701,7 +9600,7 @@ This is the user making the request.''',
       description:
           'Return all groupements from database as a list of AssociationGroupement schemas',
       summary: 'Get All Groupements',
-      operationId: 'get_all_groupements_phonebook_groupements__get',
+      operationId: 'get_phonebook_groupements_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9727,7 +9626,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Groupement',
-      operationId: 'create_groupement_phonebook_groupements__post',
+      operationId: 'post_phonebook_groupements_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9754,8 +9653,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update a groupement',
       summary: 'Update Groupement',
-      operationId:
-          'update_groupement_phonebook_groupements__groupement_id__patch',
+      operationId: 'patch_phonebook_groupements_{groupement_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9781,8 +9679,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete a groupement',
       summary: 'Delete Groupement',
-      operationId:
-          'delete_groupement_phonebook_groupements__groupement_id__delete',
+      operationId: 'delete_phonebook_groupements_{groupement_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9807,8 +9704,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update an Association',
       summary: 'Update Association',
-      operationId:
-          'update_association_phonebook_associations__association_id__patch',
+      operationId: 'patch_phonebook_associations_{association_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9836,8 +9732,7 @@ This is the user making the request.''',
 
 [!] Memberships linked to association_id will be deleted too''',
       summary: 'Delete Association',
-      operationId:
-          'delete_association_phonebook_associations__association_id__delete',
+      operationId: 'delete_phonebook_associations_{association_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9862,8 +9757,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update the groups associated with an Association',
       summary: 'Update Association Groups',
-      operationId:
-          'update_association_groups_phonebook_associations__association_id__groups_patch',
+      operationId: 'patch_phonebook_associations_{association_id}_groups',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9891,8 +9785,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Deactivate an Association',
       summary: 'Deactivate Association',
-      operationId:
-          'deactivate_association_phonebook_associations__association_id__deactivate_patch',
+      operationId: 'patch_phonebook_associations_{association_id}_deactivate',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9919,8 +9812,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return the list of MemberComplete of an Association.',
       summary: 'Get Association Members',
-      operationId:
-          'get_association_members_phonebook_associations__association_id__members__get',
+      operationId: 'get_phonebook_associations_{association_id}_members_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9950,7 +9842,7 @@ This is the user making the request.''',
           'Return the list of MemberComplete of an Association with given mandate_year.',
       summary: 'Get Association Members By Mandate Year',
       operationId:
-          'get_association_members_by_mandate_year_phonebook_associations__association_id__members__mandate_year__get',
+          'get_phonebook_associations_{association_id}_members_{mandate_year}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9976,7 +9868,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return MemberComplete for given user_id.',
       summary: 'Get Member Details',
-      operationId: 'get_member_details_phonebook_member__user_id__get',
+      operationId: 'get_phonebook_member_{user_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10001,7 +9893,7 @@ This is the user making the request.''',
       description: '''Create a new Membership.
 \'role_tags\' are used to indicate if the members has a main role in the association (president, secretary ...) and \'role_name\' is the display name for this membership''',
       summary: 'Create Membership',
-      operationId: 'create_membership_phonebook_associations_memberships_post',
+      operationId: 'post_phonebook_associations_memberships',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10028,8 +9920,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update a Membership.',
       summary: 'Update Membership',
-      operationId:
-          'update_membership_phonebook_associations_memberships__membership_id__patch',
+      operationId: 'patch_phonebook_associations_memberships_{membership_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10057,8 +9948,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete a membership.',
       summary: 'Delete Membership',
-      operationId:
-          'delete_membership_phonebook_associations_memberships__membership_id__delete',
+      operationId: 'delete_phonebook_associations_memberships_{membership_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10088,8 +9978,7 @@ This is the user making the request.''',
 
 **The user must be a member of the group phonebook_admin or the president of the association to use this endpoint**''',
       summary: 'Create Association Logo',
-      operationId:
-          'create_association_logo_phonebook_associations__association_id__picture_post',
+      operationId: 'post_phonebook_associations_{association_id}_picture',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10123,8 +10012,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get the logo of an Association.',
       summary: 'Read Association Logo',
-      operationId:
-          'read_association_logo_phonebook_associations__association_id__picture_get',
+      operationId: 'get_phonebook_associations_{association_id}_picture',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10150,8 +10038,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get a participant by id',
       summary: 'Get Participant By Id',
-      operationId:
-          'get_participant_by_id_raid_participants__participant_id__get',
+      operationId: 'get_raid_participants_{participant_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10176,8 +10063,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update a participant',
       summary: 'Update Participant',
-      operationId:
-          'update_participant_raid_participants__participant_id__patch',
+      operationId: 'patch_raid_participants_{participant_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10203,7 +10089,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a participant',
       summary: 'Create Participant',
-      operationId: 'create_participant_raid_participants_post',
+      operationId: 'post_raid_participants',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10228,7 +10114,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all teams',
       summary: 'Get All Teams',
-      operationId: 'get_all_teams_raid_teams_get',
+      operationId: 'get_raid_teams',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10252,7 +10138,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a team',
       summary: 'Create Team',
-      operationId: 'create_team_raid_teams_post',
+      operationId: 'post_raid_teams',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10277,7 +10163,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete all teams',
       summary: 'Delete All Teams',
-      operationId: 'delete_all_teams_raid_teams_delete',
+      operationId: 'delete_raid_teams',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10301,8 +10187,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get a team by participant id',
       summary: 'Get Team By Participant Id',
-      operationId:
-          'get_team_by_participant_id_raid_participants__participant_id__team_get',
+      operationId: 'get_raid_participants_{participant_id}_team',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10326,7 +10211,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get a team by id',
       summary: 'Get Team By Id',
-      operationId: 'get_team_by_id_raid_teams__team_id__get',
+      operationId: 'get_raid_teams_{team_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10351,7 +10236,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update a team',
       summary: 'Update Team',
-      operationId: 'update_team_raid_teams__team_id__patch',
+      operationId: 'patch_raid_teams_{team_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10377,7 +10262,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete a team',
       summary: 'Delete Team',
-      operationId: 'delete_team_raid_teams__team_id__delete',
+      operationId: 'delete_raid_teams_{team_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10402,7 +10287,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Upload a document',
       summary: 'Upload Document',
-      operationId: 'upload_document_raid_document__document_type__post',
+      operationId: 'post_raid_document_{document_type}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10431,7 +10316,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Read a document',
       summary: 'Read Document',
-      operationId: 'read_document_raid_document__document_id__get',
+      operationId: 'get_raid_document_{document_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10456,8 +10341,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Validate a document',
       summary: 'Validate Document',
-      operationId:
-          'validate_document_raid_document__document_id__validate_post',
+      operationId: 'post_raid_document_{document_id}_validate',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10486,7 +10370,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Confirm security file',
       summary: 'Set Security File',
-      operationId: 'set_security_file_raid_security_file__post',
+      operationId: 'post_raid_security_file_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10516,8 +10400,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Confirm payment manually',
       summary: 'Confirm Payment',
-      operationId:
-          'confirm_payment_raid_participant__participant_id__payment_post',
+      operationId: 'post_raid_participant_{participant_id}_payment',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10541,8 +10424,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Confirm T shirt payment',
       summary: 'Confirm T Shirt Payment',
-      operationId:
-          'confirm_t_shirt_payment_raid_participant__participant_id__t_shirt_payment_post',
+      operationId: 'post_raid_participant_{participant_id}_t_shirt_payment',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10568,8 +10450,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Validate attestation on honour',
       summary: 'Validate Attestation On Honour',
-      operationId:
-          'validate_attestation_on_honour_raid_participant__participant_id__honour_post',
+      operationId: 'post_raid_participant_{participant_id}_honour',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10593,7 +10474,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create an invite token',
       summary: 'Create Invite Token',
-      operationId: 'create_invite_token_raid_teams__team_id__invite_post',
+      operationId: 'post_raid_teams_{team_id}_invite',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10617,7 +10498,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Join a team',
       summary: 'Join Team',
-      operationId: 'join_team_raid_teams_join__token__post',
+      operationId: 'post_raid_teams_join_{token}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10642,8 +10523,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Leave a team',
       summary: 'Kick Team Member',
-      operationId:
-          'kick_team_member_raid_teams__team_id__kick__participant_id__post',
+      operationId: 'post_raid_teams_{team_id}_kick_{participant_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10668,7 +10548,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Merge two teams',
       summary: 'Merge Teams',
-      operationId: 'merge_teams_raid_teams_merge_post',
+      operationId: 'post_raid_teams_merge',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10696,7 +10576,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get raid information',
       summary: 'Get Raid Information',
-      operationId: 'get_raid_information_raid_information_get',
+      operationId: 'get_raid_information',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10720,7 +10600,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update raid information',
       summary: 'Update Raid Information',
-      operationId: 'update_raid_information_raid_information_patch',
+      operationId: 'patch_raid_information',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10745,7 +10625,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get drive folders',
       summary: 'Get Drive Folders',
-      operationId: 'get_drive_folders_raid_drive_get',
+      operationId: 'get_raid_drive',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10771,7 +10651,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update drive folders',
       summary: 'Update Drive Folders',
-      operationId: 'update_drive_folders_raid_drive_patch',
+      operationId: 'patch_raid_drive',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10796,7 +10676,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get raid price',
       summary: 'Get Raid Price',
-      operationId: 'get_raid_price_raid_price_get',
+      operationId: 'get_raid_price',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10820,7 +10700,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Update raid price',
       summary: 'Update Raid Price',
-      operationId: 'update_raid_price_raid_price_patch',
+      operationId: 'patch_raid_price',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10845,7 +10725,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get payment url',
       summary: 'Get Payment Url',
-      operationId: 'get_payment_url_raid_pay_get',
+      operationId: 'get_raid_pay',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10870,7 +10750,7 @@ This is the user making the request.''',
           '''Generate and serve a ZIP file containing all security files.
 Only accessible to raid admins.''',
       summary: 'Download Security Files Zip',
-      operationId: 'download_security_files_zip_raid_security_files_zip_get',
+      operationId: 'get_raid_security_files_zip',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10894,7 +10774,7 @@ Only accessible to raid admins.''',
       description: '''Generate and serve a ZIP file containing all team files.
 Only accessible to raid admins.''',
       summary: 'Download Team Files Zip',
-      operationId: 'download_team_files_zip_raid_team_files_zip_get',
+      operationId: 'get_raid_team_files_zip',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10917,7 +10797,7 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all events from the database.',
       summary: 'Get Events',
-      operationId: 'get_events_calendar_events__get',
+      operationId: 'get_calendar_events_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10943,7 +10823,7 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Add an event to the calendar.',
       summary: 'Add Event',
-      operationId: 'add_event_calendar_events__post',
+      operationId: 'post_calendar_events_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -10972,7 +10852,7 @@ Only accessible to raid admins.''',
 
 **Usable by every member**''',
       summary: 'Get Confirmed Events',
-      operationId: 'get_confirmed_events_calendar_events_confirmed_get',
+      operationId: 'get_calendar_events_confirmed',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11001,8 +10881,7 @@ Only accessible to raid admins.''',
 
 **Usable by members of the association**''',
       summary: 'Get Association Events',
-      operationId:
-          'get_association_events_calendar_events_associations__association_id__get',
+      operationId: 'get_calendar_events_associations_{association_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11032,7 +10911,7 @@ Only accessible to raid admins.''',
 
 **Non approved events are only accessible for BDE or the event\'s association members**''',
       summary: 'Get Event By Id',
-      operationId: 'get_event_by_id_calendar_events__event_id__get',
+      operationId: 'get_calendar_events_{event_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11061,7 +10940,7 @@ Only accessible to raid admins.''',
 
 **Only usable by admins or members of the event\'s association**''',
       summary: 'Edit Event',
-      operationId: 'edit_event_calendar_events__event_id__patch',
+      operationId: 'patch_calendar_events_{event_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11089,7 +10968,7 @@ Only accessible to raid admins.''',
 
 **Only usable by admins or, if the event is pending, members of the event\'s association**''',
       summary: 'Delete Event',
-      operationId: 'delete_event_calendar_events__event_id__delete',
+      operationId: 'delete_calendar_events_{event_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11113,8 +10992,7 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Event Ticket Url',
-      operationId:
-          'get_event_ticket_url_calendar_events__event_id__ticket_url_get',
+      operationId: 'get_calendar_events_{event_id}_ticket-url',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11140,7 +11018,7 @@ Only accessible to raid admins.''',
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Event Image',
-      operationId: 'get_event_image_calendar_events__event_id__image_get',
+      operationId: 'get_calendar_events_{event_id}_image',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11167,7 +11045,7 @@ Only accessible to raid admins.''',
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Create Event Image',
-      operationId: 'create_event_image_calendar_events__event_id__image_post',
+      operationId: 'post_calendar_events_{event_id}_image',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11199,8 +11077,7 @@ Only accessible to raid admins.''',
 
 **Only usable by admins**''',
       summary: 'Confirm Event',
-      operationId:
-          'confirm_event_calendar_events__event_id__reply__decision__patch',
+      operationId: 'patch_calendar_events_{event_id}_reply_{decision}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11223,7 +11100,7 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Generate a unique ical url for the user',
       summary: 'Get Ical Url',
-      operationId: 'get_ical_url_calendar_ical_url_get',
+      operationId: 'get_calendar_ical-url',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11248,7 +11125,7 @@ Only accessible to raid admins.''',
 
 **Only usable by global admins**''',
       summary: 'Recreate Ical File',
-      operationId: 'recreate_ical_file_calendar_ical_create_post',
+      operationId: 'post_calendar_ical_create',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11273,7 +11150,7 @@ Only accessible to raid admins.''',
       description:
           'Get the icalendar file corresponding to the event in the database.',
       summary: 'Get Icalendar File',
-      operationId: 'get_icalendar_file_calendar_ical_get',
+      operationId: 'get_calendar_ical',
       consumes: [],
       produces: [],
       security: [],
@@ -11298,7 +11175,7 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return published news from the feed',
       summary: 'Get Published News',
-      operationId: 'get_published_news_feed_news_get',
+      operationId: 'get_feed_news',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11322,7 +11199,7 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return the image of a news',
       summary: 'Get News Image',
-      operationId: 'get_news_image_feed_news__news_id__image_get',
+      operationId: 'get_feed_news_{news_id}_image',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11347,7 +11224,7 @@ Only accessible to raid admins.''',
 
 **This endpoint is only usable by feed administrators**''',
       summary: 'Get Admin News',
-      operationId: 'get_admin_news_feed_admin_news_get',
+      operationId: 'get_feed_admin_news',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11373,7 +11250,7 @@ Only accessible to raid admins.''',
 
 **This endpoint is only usable by feed administrators**''',
       summary: 'Approve News',
-      operationId: 'approve_news_feed_admin_news__news_id__approve_post',
+      operationId: 'post_feed_admin_news_{news_id}_approve',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11399,7 +11276,7 @@ Only accessible to raid admins.''',
 
 **This endpoint is only usable by feed administrators**''',
       summary: 'Reject News',
-      operationId: 'reject_news_feed_admin_news__news_id__reject_post',
+      operationId: 'post_feed_admin_news_{news_id}_reject',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11422,7 +11299,7 @@ Only accessible to raid admins.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all schools from database as a list of dictionaries',
       summary: 'Read Schools',
-      operationId: 'read_schools_schools__get',
+      operationId: 'get_schools_',
       consumes: [],
       produces: [],
       security: [],
@@ -11449,7 +11326,7 @@ Only accessible to raid admins.''',
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create School',
-      operationId: 'create_school_schools__post',
+      operationId: 'post_schools_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11477,7 +11354,7 @@ Only accessible to raid admins.''',
 
 **This endpoint is only usable by administrators**''',
       summary: 'Read School',
-      operationId: 'read_school_schools__school_id__get',
+      operationId: 'get_schools_{school_id}',
       consumes: [],
       produces: [],
       security: [],
@@ -11504,7 +11381,7 @@ Only accessible to raid admins.''',
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update School',
-      operationId: 'update_school_schools__school_id__patch',
+      operationId: 'patch_schools_{school_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11535,7 +11412,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Delete School',
-      operationId: 'delete_school_schools__school_id__delete',
+      operationId: 'delete_schools_{school_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11560,7 +11437,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **User must be authenticated**''',
       summary: 'Read Associations',
-      operationId: 'read_associations_associations__get',
+      operationId: 'get_associations_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11586,7 +11463,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Association',
-      operationId: 'create_association_associations__post',
+      operationId: 'post_associations_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11614,7 +11491,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **User must be authenticated**''',
       summary: 'Read Associations Me',
-      operationId: 'read_associations_me_associations_me_get',
+      operationId: 'get_associations_me',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11641,7 +11518,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update Association',
-      operationId: 'update_association_associations__association_id__patch',
+      operationId: 'patch_associations_{association_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11670,8 +11547,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Association Logo',
-      operationId:
-          'create_association_logo_associations__association_id__logo_post',
+      operationId: 'post_associations_{association_id}_logo',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11702,8 +11578,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **User must be authenticated**''',
       summary: 'Read Association Logo',
-      operationId:
-          'read_association_logo_associations__association_id__logo_get',
+      operationId: 'get_associations_{association_id}_logo',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11730,7 +11605,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Read Users',
-      operationId: 'read_users_users_get',
+      operationId: 'get_users',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11759,7 +11634,7 @@ This will remove the school from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Count Users',
-      operationId: 'count_users_users_count_get',
+      operationId: 'get_users_count',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11791,7 +11666,7 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Search Users',
-      operationId: 'search_users_users_search_get',
+      operationId: 'get_users_search',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11818,11 +11693,11 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
   }
 
   @override
-  Future<Response<List<AccountType>>> _usersAccountTypesGet({
+  Future<Response<List<String>>> _usersAccountTypesGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all account types hardcoded in the system',
       summary: 'Get Account Types',
-      operationId: 'get_account_types_users_account_types__get',
+      operationId: 'get_users_account-types_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11837,7 +11712,7 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<List<AccountType>, AccountType>($request);
+    return client.send<List<String>, String>($request);
   }
 
   @override
@@ -11847,7 +11722,7 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Read Current User',
-      operationId: 'read_current_user_users_me_get',
+      operationId: 'get_users_me',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11874,7 +11749,7 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Update Current User',
-      operationId: 'update_current_user_users_me_patch',
+      operationId: 'patch_users_me',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11907,7 +11782,7 @@ If the **password** is not provided, it will be required during the activation p
 When creating **student** or **staff** account a valid ECL email is required.
 Only admin users can create other **account types**, contact ÉCLAIR for more information.''',
       summary: 'Create User By User',
-      operationId: 'create_user_by_user_users_create_post',
+      operationId: 'post_users_create',
       consumes: [],
       produces: [],
       security: [],
@@ -11946,7 +11821,7 @@ NOTE: the activation link will only be valid for a limited time. You should prob
 
 **This endpoint is only usable by administrators**''',
       summary: 'Batch Create Users',
-      operationId: 'batch_create_users_users_batch_creation_post',
+      operationId: 'post_users_batch-creation',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -11978,7 +11853,7 @@ The endpoint return a dictionary of unsuccessful user creation: `{email: error m
 
 **This endpoint is only usable by administrators**''',
       summary: 'Batch Invite Users',
-      operationId: 'batch_invite_users_users_batch_invitation_post',
+      operationId: 'post_users_batch-invitation',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12008,7 +11883,7 @@ The endpoint return a dictionary of unsuccessful user creation: `{email: error m
 
 **password**: user password, required if it was not provided previously''',
       summary: 'Activate User',
-      operationId: 'activate_user_users_activate_post',
+      operationId: 'post_users_activate',
       consumes: [],
       produces: [],
       security: [],
@@ -12039,7 +11914,7 @@ The endpoint return a dictionary of unsuccessful user creation: `{email: error m
 It will create a file for each existing user in the S3 bucket.
 It should be used only once, when the S3 bucket is created.''',
       summary: 'Init S3 For Users',
-      operationId: 'init_s3_for_users_users_s3_init_post',
+      operationId: 'post_users_s3-init',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12059,14 +11934,14 @@ It should be used only once, when the S3 bucket is created.''',
 
   @override
   Future<Response<AppTypesStandardResponsesResult>> _usersRecoverPost({
-    required BodyRecoverUserUsersRecoverPost? body,
+    required BodyPostUsersRecover? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Allow a user to start a password reset process.
 
 If the provided **email** corresponds to an existing account, a password reset token will be sent.
 Using this token, the password can be changed with `/users/reset-password` endpoint''',
       summary: 'Recover User',
-      operationId: 'recover_user_users_recover_post',
+      operationId: 'post_users_recover',
       consumes: [],
       produces: [],
       security: [],
@@ -12096,7 +11971,7 @@ Using this token, the password can be changed with `/users/reset-password` endpo
       description:
           'Reset the user password, using a **reset_token** provided by `/users/recover` endpoint.',
       summary: 'Reset Password',
-      operationId: 'reset_password_users_reset_password_post',
+      operationId: 'post_users_reset-password',
       consumes: [],
       produces: [],
       security: [],
@@ -12126,7 +12001,7 @@ Using this token, the password can be changed with `/users/reset-password` endpo
       description:
           'This endpoint will send a confirmation code to the user\'s new email address. He will need to use this code to confirm the change with `/users/confirm-mail-migration` endpoint.',
       summary: 'Migrate Mail',
-      operationId: 'migrate_mail_users_migrate_mail_post',
+      operationId: 'post_users_migrate-mail',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12153,7 +12028,7 @@ Using this token, the password can be changed with `/users/reset-password` endpo
       description: '''This endpoint will updates the user new email address.
 The user will need to use the confirmation code sent by the `/users/migrate-mail` endpoint.''',
       summary: 'Migrate Mail Confirm',
-      operationId: 'migrate_mail_confirm_users_migrate_mail_confirm_get',
+      operationId: 'get_users_migrate-mail-confirm',
       consumes: [],
       produces: [],
       security: [],
@@ -12181,7 +12056,7 @@ The user will need to use the confirmation code sent by the `/users/migrate-mail
 
 This endpoint will check the **old_password**, see also the `/users/reset-password` endpoint if the user forgot their password.''',
       summary: 'Change Password',
-      operationId: 'change_password_users_change_password_post',
+      operationId: 'post_users_change-password',
       consumes: [],
       produces: [],
       security: [],
@@ -12212,7 +12087,7 @@ This endpoint will check the **old_password**, see also the `/users/reset-passwo
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Read User',
-      operationId: 'read_user_users__user_id__get',
+      operationId: 'get_users_{user_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12240,7 +12115,7 @@ This endpoint will check the **old_password**, see also the `/users/reset-passwo
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update User',
-      operationId: 'update_user_users__user_id__patch',
+      operationId: 'patch_users_{user_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12267,7 +12142,7 @@ This endpoint will check the **old_password**, see also the `/users/reset-passwo
           '''This endpoint will ask administrators to process to the user deletion.
 This manual verification is needed to prevent data from being deleting for other users''',
       summary: 'Delete User',
-      operationId: 'delete_user_users_me_ask_deletion_post',
+      operationId: 'post_users_me_ask-deletion',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12292,7 +12167,7 @@ This manual verification is needed to prevent data from being deleting for other
       description:
           'Fusion two users into one. The first user will be deleted and its data will be transferred to the second user.',
       summary: 'Merge Users',
-      operationId: 'merge_users_users_merge_post',
+      operationId: 'post_users_merge',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12321,8 +12196,7 @@ This manual verification is needed to prevent data from being deleting for other
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update User As Super Admin',
-      operationId:
-          'update_user_as_super_admin_users__user_id__super_admin_patch',
+      operationId: 'patch_users_{user_id}_super-admin',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12345,7 +12219,7 @@ This manual verification is needed to prevent data from being deleting for other
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get the profile picture of the authenticated user.',
       summary: 'Read Own Profile Picture',
-      operationId: 'read_own_profile_picture_users_me_profile_picture_get',
+      operationId: 'get_users_me_profile-picture',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12371,8 +12245,7 @@ This manual verification is needed to prevent data from being deleting for other
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Create Current User Profile Picture',
-      operationId:
-          'create_current_user_profile_picture_users_me_profile_picture_post',
+      operationId: 'post_users_me_profile-picture',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12406,8 +12279,7 @@ This manual verification is needed to prevent data from being deleting for other
 
 Unauthenticated users can use this endpoint (needed for some OIDC services)''',
       summary: 'Read User Profile Picture',
-      operationId:
-          'read_user_profile_picture_users__user_id__profile_picture_get',
+      operationId: 'get_users_{user_id}_profile-picture',
       consumes: [],
       produces: [],
       security: [],
@@ -12430,7 +12302,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Webhook',
-      operationId: 'webhook_checkout_helloasso_webhook_post',
+      operationId: 'post_checkout_helloasso_webhook',
       consumes: [],
       produces: [],
       security: [],
@@ -12454,7 +12326,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
       description:
           'Return all memberships from database as a list of dictionaries',
       summary: 'Read Associations Memberships',
-      operationId: 'read_associations_memberships_memberships__get',
+      operationId: 'get_memberships_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12480,7 +12352,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Association Membership',
-      operationId: 'create_association_membership_memberships__post',
+      operationId: 'post_memberships_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12513,8 +12385,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
 
 **This endpoint is only usable by ECL members**''',
       summary: 'Read Association Membership',
-      operationId:
-          'read_association_membership_memberships__association_membership_id__members_get',
+      operationId: 'get_memberships_{association_membership_id}_members',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12552,8 +12423,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update Association Membership',
-      operationId:
-          'update_association_membership_memberships__association_membership_id__patch',
+      operationId: 'patch_memberships_{association_membership_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12581,8 +12451,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
 
 **This endpoint is only usable by administrators**''',
       summary: 'Delete Association Membership',
-      operationId:
-          'delete_association_membership_memberships__association_membership_id__delete',
+      operationId: 'delete_memberships_{association_membership_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12606,7 +12475,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all memberships for a user.',
       summary: 'Read User Memberships',
-      operationId: 'read_user_memberships_memberships_users__user_id__get',
+      operationId: 'get_memberships_users_{user_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12635,7 +12504,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
 
 **This endpoint is only usable by administrators and membership managers**''',
       summary: 'Create User Membership',
-      operationId: 'create_user_membership_memberships_users__user_id__post',
+      operationId: 'post_memberships_users_{user_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12669,7 +12538,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
 **This endpoint is only usable by administrators and membership managers**''',
       summary: 'Read User Association Membership History',
       operationId:
-          'read_user_association_membership_history_memberships_users__user_id___association_membership_id__get',
+          'get_memberships_users_{user_id}_{association_membership_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12703,8 +12572,7 @@ Return the list of unknown users whose email is not in the database.
 
 **User must be an administrator or a membership manager to use this endpoint.**''',
       summary: 'Add Batch Membership',
-      operationId:
-          'add_batch_membership_memberships__association_membership_id__add_batch__post',
+      operationId: 'post_memberships_{association_membership_id}_add-batch_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12738,8 +12606,7 @@ Return the list of unknown users whose email is not in the database.
 
 **This endpoint is only usable by administrators and membership managers**''',
       summary: 'Update User Membership',
-      operationId:
-          'update_user_membership_memberships_users__membership_id__patch',
+      operationId: 'patch_memberships_users_{membership_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12767,8 +12634,7 @@ Return the list of unknown users whose email is not in the database.
 
 **This endpoint is only usable by administrators and membership managers**''',
       summary: 'Delete User Membership',
-      operationId:
-          'delete_user_membership_memberships_users__membership_id__delete',
+      operationId: 'delete_memberships_users_{membership_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12796,7 +12662,7 @@ Return the list of unknown users whose email is not in the database.
 **This endpoint is only usable by administrators**''',
       summary: 'Synchronize Membership With Group',
       operationId:
-          'synchronize_membership_with_group_memberships__membership_id__group__group_id__synchronize_post',
+          'post_memberships_{membership_id}_group_{group_id}_synchronize',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12821,7 +12687,7 @@ Return the list of unknown users whose email is not in the database.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all groups from database as a list of dictionaries',
       summary: 'Read Groups',
-      operationId: 'read_groups_groups__get',
+      operationId: 'get_groups_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12847,7 +12713,7 @@ Return the list of unknown users whose email is not in the database.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Group',
-      operationId: 'create_group_groups__post',
+      operationId: 'post_groups_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12876,7 +12742,7 @@ Return the list of unknown users whose email is not in the database.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Read Group',
-      operationId: 'read_group_groups__group_id__get',
+      operationId: 'get_groups_{group_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12903,7 +12769,7 @@ Return the list of unknown users whose email is not in the database.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update Group',
-      operationId: 'update_group_groups__group_id__patch',
+      operationId: 'patch_groups_{group_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12934,7 +12800,7 @@ This will remove the group from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Delete Group',
-      operationId: 'delete_group_groups__group_id__delete',
+      operationId: 'delete_groups_{group_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12961,7 +12827,7 @@ This will remove the group from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Membership',
-      operationId: 'create_membership_groups_membership_post',
+      operationId: 'post_groups_membership',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -12989,7 +12855,7 @@ This will remove the group from all users but won\'t delete any user.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Delete Membership',
-      operationId: 'delete_membership_groups_membership_delete',
+      operationId: 'delete_groups_membership',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13018,7 +12884,7 @@ If an user does not exist it will be ignored.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Batch Membership',
-      operationId: 'create_batch_membership_groups_batch_membership_post',
+      operationId: 'post_groups_batch-membership',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13046,7 +12912,7 @@ If an user does not exist it will be ignored.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Delete Batch Membership',
-      operationId: 'delete_batch_membership_groups_batch_membership_delete',
+      operationId: 'delete_groups_batch-membership',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13075,7 +12941,7 @@ If an user does not exist it will be ignored.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Group Logo',
-      operationId: 'create_group_logo_groups__group_id__logo_post',
+      operationId: 'post_groups_{group_id}_logo',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13106,7 +12972,7 @@ If an user does not exist it will be ignored.
 
 **User must be authenticated**''',
       summary: 'Read User Profile Picture',
-      operationId: 'read_user_profile_picture_groups__group_id__logo_get',
+      operationId: 'get_groups_{group_id}_logo',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13130,7 +12996,7 @@ If an user does not exist it will be ignored.
       description:
           'Return information about Hyperion. This endpoint can be used to check if the API is up.',
       summary: 'Read Information',
-      operationId: 'read_information_information_get',
+      operationId: 'get_information',
       consumes: [],
       produces: [],
       security: [],
@@ -13153,7 +13019,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return Hyperion privacy',
       summary: 'Read Privacy',
-      operationId: 'read_privacy_privacy_get',
+      operationId: 'get_privacy',
       consumes: [],
       produces: [],
       security: [],
@@ -13176,7 +13042,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return Hyperion terms and conditions pages',
       summary: 'Read Terms And Conditions',
-      operationId: 'read_terms_and_conditions_terms_and_conditions_get',
+      operationId: 'get_terms-and-conditions',
       consumes: [],
       produces: [],
       security: [],
@@ -13199,7 +13065,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return MyPayment latest ToS',
       summary: 'Read Mypayment Tos',
-      operationId: 'read_mypayment_tos_mypayment_terms_of_service_get',
+      operationId: 'get_mypayment-terms-of-service',
       consumes: [],
       produces: [],
       security: [],
@@ -13222,7 +13088,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return Hyperion support',
       summary: 'Read Support',
-      operationId: 'read_support_support_get',
+      operationId: 'get_support',
       consumes: [],
       produces: [],
       security: [],
@@ -13245,7 +13111,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return Hyperion security.txt file',
       summary: 'Read Security Txt',
-      operationId: 'read_security_txt_security_txt_get',
+      operationId: 'get_security.txt',
       consumes: [],
       produces: [],
       security: [],
@@ -13268,7 +13134,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return Hyperion security.txt file',
       summary: 'Read Wellknown Security Txt',
-      operationId: 'read_wellknown_security_txt__well_known_security_txt_get',
+      operationId: 'get_.well-known_security.txt',
       consumes: [],
       produces: [],
       security: [],
@@ -13291,7 +13157,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return Hyperion robots.txt file',
       summary: 'Read Robots Txt',
-      operationId: 'read_robots_txt_robots_txt_get',
+      operationId: 'get_robots.txt',
       consumes: [],
       produces: [],
       security: [],
@@ -13314,7 +13180,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return Hyperion account deletion information',
       summary: 'Read Account Deletion',
-      operationId: 'read_account_deletion_account_deletion_get',
+      operationId: 'get_account-deletion',
       consumes: [],
       produces: [],
       security: [],
@@ -13337,7 +13203,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return a style file from the assets folder',
       summary: 'Get Variables',
-      operationId: 'get_variables_variables_get',
+      operationId: 'get_variables',
       consumes: [],
       produces: [],
       security: [],
@@ -13360,7 +13226,7 @@ If an user does not exist it will be ignored.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Favicon',
-      operationId: 'get_favicon_favicon_ico_get',
+      operationId: 'get_favicon.ico',
       consumes: [],
       produces: [],
       security: [],
@@ -13388,7 +13254,7 @@ If an user does not exist it will be ignored.
 
 Note: the request body needs to use **form-data** and not json.''',
       summary: 'Login For Access Token',
-      operationId: 'login_for_access_token_auth_simple_token_post',
+      operationId: 'post_auth_simple_token',
       consumes: [],
       produces: [],
       security: [],
@@ -13440,7 +13306,7 @@ See `/auth/authorization-flow/authorize-validation` endpoint for information abo
 
 **This endpoint is a UI endpoint which send and html page response. It will redirect to `/auth/authorization-flow/authorize-validation`**''',
       summary: 'Get Authorize Page',
-      operationId: 'get_authorize_page_auth_authorize_get',
+      operationId: 'get_auth_authorize',
       consumes: [],
       produces: [],
       security: [],
@@ -13487,7 +13353,7 @@ See `/auth/authorization-flow/authorize-validation` endpoint for information abo
 
 **This endpoint is a UI endpoint which send and html page response. It will redirect to `/auth/authorization-flow/authorize-validation`**''',
       summary: 'Post Authorize Page',
-      operationId: 'post_authorize_page_auth_authorize_post',
+      operationId: 'post_auth_authorize',
       consumes: [],
       produces: [],
       security: [],
@@ -13545,8 +13411,7 @@ References:
  * https://www.rfc-editor.org/rfc/rfc6749.html#section-4.1.2
  * https://openid.net/specs/openid-connect-core-1_0.html#AuthRequest''',
       summary: 'Authorize Validation',
-      operationId:
-          'authorize_validation_auth_authorization_flow_authorize_validation_post',
+      operationId: 'post_auth_authorization-flow_authorize-validation',
       consumes: [],
       produces: [],
       security: [],
@@ -13598,7 +13463,7 @@ Parameters must be `application/x-www-form-urlencoded` and include:
 https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.3
 https://openid.net/specs/openid-connect-core-1_0.html#TokenRequestValidation''',
       summary: 'Token',
-      operationId: 'token_auth_token_post',
+      operationId: 'post_auth_token',
       consumes: [],
       produces: [],
       security: [],
@@ -13647,7 +13512,7 @@ Reference:
 https://www.oauth.com/oauth2-servers/token-introspection-endpoint/
 https://datatracker.ietf.org/doc/html/rfc7662''',
       summary: 'Introspect',
-      operationId: 'introspect_auth_introspect_post',
+      operationId: 'post_auth_introspect',
       consumes: [],
       produces: [],
       security: [],
@@ -13692,7 +13557,7 @@ This procedure is not implemented in Hyperion as we can customize the response u
 Reference:
 https://openid.net/specs/openid-connect-core-1_0.html#UserInfo''',
       summary: 'Auth Get Userinfo',
-      operationId: 'auth_get_userinfo_auth_userinfo_get',
+      operationId: 'get_auth_userinfo',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13715,7 +13580,7 @@ https://openid.net/specs/openid-connect-core-1_0.html#UserInfo''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Jwks Uri',
-      operationId: 'jwks_uri_oidc_authorization_flow_jwks_uri_get',
+      operationId: 'get_oidc_authorization-flow_jwks_uri',
       consumes: [],
       produces: [],
       security: [],
@@ -13738,8 +13603,7 @@ https://openid.net/specs/openid-connect-core-1_0.html#UserInfo''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Oauth Configuration',
-      operationId:
-          'oauth_configuration__well_known_oauth_authorization_server_get',
+      operationId: 'get_.well-known_oauth-authorization-server',
       consumes: [],
       produces: [],
       security: [],
@@ -13762,7 +13626,7 @@ https://openid.net/specs/openid-connect-core-1_0.html#UserInfo''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Oidc Configuration',
-      operationId: 'oidc_configuration__well_known_openid_configuration_get',
+      operationId: 'get_.well-known_openid-configuration',
       consumes: [],
       produces: [],
       security: [],
@@ -13782,7 +13646,7 @@ https://openid.net/specs/openid-connect-core-1_0.html#UserInfo''',
 
   @override
   Future<Response<void>> _notificationDevicesPost({
-    required BodyRegisterFirebaseDeviceNotificationDevicesPost? body,
+    required BodyPostNotificationDevices? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description:
           '''Register a firebase device for the user, if the device already exists, this will update the creation date.
@@ -13790,7 +13654,7 @@ This endpoint should be called once a month to ensure that the token is still va
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Register Firebase Device',
-      operationId: 'register_firebase_device_notification_devices_post',
+      operationId: 'post_notification_devices',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13819,7 +13683,7 @@ This endpoint is useful to get firebase tokens for debugging purposes.
 
 **Only admins can use this endpoint**''',
       summary: 'Get Devices',
-      operationId: 'get_devices_notification_devices_get',
+      operationId: 'get_notification_devices',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13847,8 +13711,7 @@ This endpoint is useful to get firebase tokens for debugging purposes.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Unregister Firebase Device',
-      operationId:
-          'unregister_firebase_device_notification_devices__firebase_token__delete',
+      operationId: 'delete_notification_devices_{firebase_token}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13876,8 +13739,7 @@ If the topic define restrictions, the user must be in the corresponding group or
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Subscribe To Topic',
-      operationId:
-          'subscribe_to_topic_notification_topics__topic_id__subscribe_post',
+      operationId: 'post_notification_topics_{topic_id}_subscribe',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13903,8 +13765,7 @@ If the topic define restrictions, the user must be in the corresponding group or
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Unsubscribe To Topic',
-      operationId:
-          'unsubscribe_to_topic_notification_topics__topic_id__unsubscribe_post',
+      operationId: 'post_notification_topics_{topic_id}_unsubscribe',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13929,7 +13790,7 @@ If the topic define restrictions, the user must be in the corresponding group or
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Topics',
-      operationId: 'get_topics_notification_topics_get',
+      operationId: 'get_notification_topics',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13955,7 +13816,7 @@ If the topic define restrictions, the user must be in the corresponding group or
 
 **Only admins can use this endpoint**''',
       summary: 'Send Notification',
-      operationId: 'send_notification_notification_send_post',
+      operationId: 'post_notification_send',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -13983,7 +13844,7 @@ If the topic define restrictions, the user must be in the corresponding group or
 
 **Only admins can use this endpoint**''',
       summary: 'Send Test Notification',
-      operationId: 'send_test_notification_notification_test_send_post',
+      operationId: 'post_notification_test_send',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14011,8 +13872,7 @@ If the topic define restrictions, the user must be in the corresponding group or
 
 **Only admins can use this endpoint**''',
       summary: 'Send Test Future Notification',
-      operationId:
-          'send_test_future_notification_notification_test_send_future_post',
+      operationId: 'post_notification_test_send_future',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14039,8 +13899,7 @@ If the topic define restrictions, the user must be in the corresponding group or
 
 **Only admins can use this endpoint**''',
       summary: 'Send Test Notification Topic',
-      operationId:
-          'send_test_notification_topic_notification_test_send_topic_post',
+      operationId: 'post_notification_test_send_topic',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14065,8 +13924,7 @@ If the topic define restrictions, the user must be in the corresponding group or
 
 **Only admins can use this endpoint**''',
       summary: 'Send Test Future Notification Topic',
-      operationId:
-          'send_test_future_notification_topic_notification_test_send_topic_future_post',
+      operationId: 'post_notification_test_send_topic_future',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14089,7 +13947,7 @@ If the topic define restrictions, the user must be in the corresponding group or
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get the current bank account holder information.',
       summary: 'Get Bank Account Holder',
-      operationId: 'get_bank_account_holder_mypayment_bank_account_holder_get',
+      operationId: 'get_mypayment_bank-account-holder',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14113,7 +13971,7 @@ If the topic define restrictions, the user must be in the corresponding group or
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Set the bank account holder information.',
       summary: 'Set Bank Account Holder',
-      operationId: 'set_bank_account_holder_mypayment_bank_account_holder_post',
+      operationId: 'post_mypayment_bank-account-holder',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14138,7 +13996,7 @@ If the topic define restrictions, the user must be in the corresponding group or
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all structures.',
       summary: 'Get Structures',
-      operationId: 'get_structures_mypayment_structures_get',
+      operationId: 'get_mypayment_structures',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14170,7 +14028,7 @@ A structure contains:
 
 **The user must be an admin to use this endpoint**''',
       summary: 'Create Structure',
-      operationId: 'create_structure_mypayment_structures_post',
+      operationId: 'post_mypayment_structures',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14199,7 +14057,7 @@ A structure contains:
 
 **The user must be an admin to use this endpoint**''',
       summary: 'Update Structure',
-      operationId: 'update_structure_mypayment_structures__structure_id__patch',
+      operationId: 'patch_mypayment_structures_{structure_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14228,8 +14086,7 @@ A structure contains:
 
 **The user must be an admin to use this endpoint**''',
       summary: 'Delete Structure',
-      operationId:
-          'delete_structure_mypayment_structures__structure_id__delete',
+      operationId: 'delete_mypayment_structures_{structure_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14260,7 +14117,7 @@ The link will only be valid for a limited time.
 **The user must be the manager for this structure**''',
       summary: 'Init Transfer Structure Manager',
       operationId:
-          'init_transfer_structure_manager_mypayment_structures__structure_id__init_manager_transfer_post',
+          'post_mypayment_structures_{structure_id}_init-manager-transfer',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14290,8 +14147,7 @@ The link will only be valid for a limited time.
 
 The user must have initiated the update of the manager with `init_update_structure_manager`''',
       summary: 'Confirm Structure Manager Transfer',
-      operationId:
-          'confirm_structure_manager_transfer_mypayment_structures_confirm_manager_transfer_get',
+      operationId: 'get_mypayment_structures_confirm-manager-transfer',
       consumes: [],
       produces: [],
       security: [],
@@ -14326,8 +14182,7 @@ Stores name should be unique, as an user need to be able to identify a store by 
 **The user must be the manager for this structure**
 **The user must be a member of the associated CoreAssociation**''',
       summary: 'Create Store',
-      operationId:
-          'create_store_mypayment_structures__structure_id__stores_post',
+      operationId: 'post_mypayment_structures_{structure_id}_stores',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14357,7 +14212,7 @@ Stores name should be unique, as an user need to be able to identify a store by 
 
 **The user must be authorized to see the store history**''',
       summary: 'Get Store History',
-      operationId: 'get_store_history_mypayment_stores__store_id__history_get',
+      operationId: 'get_mypayment_stores_{store_id}_history',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14388,8 +14243,7 @@ Stores name should be unique, as an user need to be able to identify a store by 
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Export store payment history as a CSV file.',
       summary: 'Export Store History',
-      operationId:
-          'export_store_history_mypayment_stores__store_id__history_data_export_get',
+      operationId: 'get_mypayment_stores_{store_id}_history_data-export',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14421,7 +14275,7 @@ Stores name should be unique, as an user need to be able to identify a store by 
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get User Stores',
-      operationId: 'get_user_stores_mypayment_users_me_stores_get',
+      operationId: 'get_mypayment_users_me_stores',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14448,7 +14302,7 @@ Stores name should be unique, as an user need to be able to identify a store by 
 
 **The user must be the manager for this store\'s structure**''',
       summary: 'Update Store',
-      operationId: 'update_store_mypayment_stores__store_id__patch',
+      operationId: 'patch_mypayment_stores_{store_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14477,7 +14331,7 @@ Stores name should be unique, as an user need to be able to identify a store by 
 
 **The user must be the manager for this store\'s structure**''',
       summary: 'Delete Store',
-      operationId: 'delete_store_mypayment_stores__store_id__delete',
+      operationId: 'delete_mypayment_stores_{store_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14510,8 +14364,7 @@ This seller will have authorized permissions among:
 
 **The user must have the `can_manage_sellers` permission for this store**''',
       summary: 'Create Store Seller',
-      operationId:
-          'create_store_seller_mypayment_stores__store_id__sellers_post',
+      operationId: 'post_mypayment_stores_{store_id}_sellers',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14539,7 +14392,7 @@ This seller will have authorized permissions among:
 
 **The user must have the `can_manage_sellers` permission for this store**''',
       summary: 'Get Store Sellers',
-      operationId: 'get_store_sellers_mypayment_stores__store_id__sellers_get',
+      operationId: 'get_mypayment_stores_{store_id}_sellers',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14568,8 +14421,7 @@ The structure manager cannot be updated as a seller.
 
 **The user must have the `can_manage_sellers` permission for this store**''',
       summary: 'Update Store Seller',
-      operationId:
-          'update_store_seller_mypayment_stores__store_id__sellers__seller_user_id__patch',
+      operationId: 'patch_mypayment_stores_{store_id}_sellers_{seller_user_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14602,7 +14454,7 @@ The structure manager cannot be deleted as a seller.
 **The user must have the `can_manage_sellers` permission for this store**''',
       summary: 'Delete Store Seller',
       operationId:
-          'delete_store_seller_mypayment_stores__store_id__sellers__seller_user_id__delete',
+          'delete_mypayment_stores_{store_id}_sellers_{seller_user_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14631,7 +14483,7 @@ The user will need to accept the latest TOS version to be able to use MyPayment.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Register User',
-      operationId: 'register_user_mypayment_users_me_register_post',
+      operationId: 'post_mypayment_users_me_register',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14657,7 +14509,7 @@ The user will need to accept the latest TOS version to be able to use MyPayment.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get User Tos',
-      operationId: 'get_user_tos_mypayment_users_me_tos_get',
+      operationId: 'get_mypayment_users_me_tos',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14685,7 +14537,7 @@ If the user is already registered in the MyPayment system, this will update the 
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Sign Tos',
-      operationId: 'sign_tos_mypayment_users_me_tos_post',
+      operationId: 'post_mypayment_users_me_tos',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14712,7 +14564,7 @@ If the user is already registered in the MyPayment system, this will update the 
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get User Devices',
-      operationId: 'get_user_devices_mypayment_users_me_wallet_devices_get',
+      operationId: 'get_mypayment_users_me_wallet_devices',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14739,7 +14591,7 @@ The user will need to activate it using a token sent by email.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Create User Devices',
-      operationId: 'create_user_devices_mypayment_users_me_wallet_devices_post',
+      operationId: 'post_mypayment_users_me_wallet_devices',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14768,8 +14620,7 @@ The user will need to activate it using a token sent by email.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get User Device',
-      operationId:
-          'get_user_device_mypayment_users_me_wallet_devices__wallet_device_id__get',
+      operationId: 'get_mypayment_users_me_wallet_devices_{wallet_device_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14796,7 +14647,7 @@ The user will need to activate it using a token sent by email.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get User Wallet',
-      operationId: 'get_user_wallet_mypayment_users_me_wallet_get',
+      operationId: 'get_mypayment_users_me_wallet',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14820,7 +14671,7 @@ The user will need to activate it using a token sent by email.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Activate a wallet device',
       summary: 'Activate User Device',
-      operationId: 'activate_user_device_mypayment_devices_activate_get',
+      operationId: 'get_mypayment_devices_activate',
       consumes: [],
       produces: [],
       security: [],
@@ -14850,7 +14701,7 @@ The user will need to activate it using a token sent by email.
 **The user must be authenticated to use this endpoint**''',
       summary: 'Revoke User Devices',
       operationId:
-          'revoke_user_devices_mypayment_users_me_wallet_devices__wallet_device_id__revoke_post',
+          'post_mypayment_users_me_wallet_devices_{wallet_device_id}_revoke',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14879,8 +14730,7 @@ The user will need to activate it using a token sent by email.
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get User Wallet History',
-      operationId:
-          'get_user_wallet_history_mypayment_users_me_wallet_history_get',
+      operationId: 'get_mypayment_users_me_wallet_history',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14910,7 +14760,7 @@ The user will need to activate it using a token sent by email.
       description:
           'Initiate HelloAsso transfer, return a payment url to complete the transaction on HelloAsso website.',
       summary: 'Init Ha Transfer',
-      operationId: 'init_ha_transfer_mypayment_transfer_init_post',
+      operationId: 'post_mypayment_transfer_init',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -14944,7 +14794,7 @@ The user will need to activate it using a token sent by email.
 Redirect the user to the provided redirect `url`. The parameters `checkoutIntentId`, `code`, `orderId` and `error` passed by HelloAsso will be added to the redirect URL.
 The redirect `url` must be trusted by Hyperion in the dotenv.''',
       summary: 'Redirect From Ha Transfer',
-      operationId: 'redirect_from_ha_transfer_mypayment_transfer_redirect_get',
+      operationId: 'get_mypayment_transfer_redirect',
       consumes: [],
       produces: [],
       security: [],
@@ -14985,8 +14835,7 @@ If the store structure has an association membership, the user should be a membe
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Validate Can Scan Qrcode',
-      operationId:
-          'validate_can_scan_qrcode_mypayment_stores__store_id__scan_check_post',
+      operationId: 'post_mypayment_stores_{store_id}_scan_check',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15039,7 +14888,7 @@ The provided content is checked to ensure:
 **The user must be authenticated to use this endpoint**
 **The user must have the `can_bank` permission for this store**''',
       summary: 'Store Scan Qrcode',
-      operationId: 'store_scan_qrcode_mypayment_stores__store_id__scan_post',
+      operationId: 'post_mypayment_stores_{store_id}_scan',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15073,8 +14922,7 @@ To cancel a transaction made in the last 30 seconds, the endpoint `/mypayment/tr
 
 **The user must either be the credited user or a seller with cancel permissions of the credited store of the transaction**''',
       summary: 'Refund Transaction',
-      operationId:
-          'refund_transaction_mypayment_transactions__transaction_id__refund_post',
+      operationId: 'post_mypayment_transactions_{transaction_id}_refund',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15107,8 +14955,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must either be the credited user or the seller of the transaction**''',
       summary: 'Cancel Transaction',
-      operationId:
-          'cancel_transaction_mypayment_transactions__transaction_id__cancel_post',
+      operationId: 'post_mypayment_transactions_{transaction_id}_cancel',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15136,7 +14983,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get User Requests',
-      operationId: 'get_user_requests_mypayment_requests_get',
+      operationId: 'get_mypayment_requests',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15165,7 +15012,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Accept Request',
-      operationId: 'accept_request_mypayment_requests__request_id__accept_post',
+      operationId: 'post_mypayment_requests_{request_id}_accept',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15193,7 +15040,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Refuse Request',
-      operationId: 'refuse_request_mypayment_requests__request_id__refuse_post',
+      operationId: 'post_mypayment_requests_{request_id}_refuse',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15223,7 +15070,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Get Invoices',
-      operationId: 'get_invoices_mypayment_invoices_get',
+      operationId: 'get_mypayment_invoices',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15261,8 +15108,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be the structure manager**''',
       summary: 'Get Structure Invoices',
-      operationId:
-          'get_structure_invoices_mypayment_invoices_structures__structure_id__get',
+      operationId: 'get_mypayment_invoices_structures_{structure_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15295,8 +15141,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be the bank account holder**''',
       summary: 'Create Structure Invoice',
-      operationId:
-          'create_structure_invoice_mypayment_invoices_structures__structure_id__post',
+      operationId: 'post_mypayment_invoices_structures_{structure_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15320,7 +15165,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Download Invoice',
-      operationId: 'download_invoice_mypayment_invoices__invoice_id__get',
+      operationId: 'get_mypayment_invoices_{invoice_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15346,8 +15191,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be the bank account holder**''',
       summary: 'Delete Structure Invoice',
-      operationId:
-          'delete_structure_invoice_mypayment_invoices__invoice_id__delete',
+      operationId: 'delete_mypayment_invoices_{invoice_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15374,8 +15218,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be the bank account holder**''',
       summary: 'Update Invoice Paid Status',
-      operationId:
-          'update_invoice_paid_status_mypayment_invoices__invoice_id__paid_patch',
+      operationId: 'patch_mypayment_invoices_{invoice_id}_paid',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15403,8 +15246,7 @@ To refund an older transaction, use the `/mypayment/transactions/{transaction_id
 
 **The user must be the structure manager**''',
       summary: 'Aknowledge Invoice As Received',
-      operationId:
-          'aknowledge_invoice_as_received_mypayment_invoices__invoice_id__received_patch',
+      operationId: 'patch_mypayment_invoices_{invoice_id}_received',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15437,7 +15279,7 @@ Data includes:
 
 **The header must contain the MYPAYMENT_DATA_VERIFIER_ACCESS_TOKEN defined in the settings in the `x-data-verifier-token` field**''',
       summary: 'Get Data For Integrity Check',
-      operationId: 'get_data_for_integrity_check_mypayment_integrity_check_get',
+      operationId: 'get_mypayment_integrity-check',
       consumes: [],
       produces: [],
       security: [],
@@ -15470,7 +15312,7 @@ Data includes:
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Google Api Callback',
-      operationId: 'google_api_callback_google_api_oauth2callback_get',
+      operationId: 'get_google-api_oauth2callback',
       consumes: [],
       produces: [],
       security: [],
@@ -15495,7 +15337,7 @@ Data includes:
 
 To be considered open, an event should have its opening date in the past and its closing date in the future or not defined. Moreover, we only return enabled events.''',
       summary: 'Get Open Events',
-      operationId: 'get_open_events_tickets_events_get',
+      operationId: 'get_tickets_events',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15521,7 +15363,7 @@ To be considered open, an event should have its opening date in the past and its
 
 Only enabled sessions and categories are returned''',
       summary: 'Get Event',
-      operationId: 'get_event_tickets_events__event_id__get',
+      operationId: 'get_tickets_events_{event_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15546,7 +15388,7 @@ Only enabled sessions and categories are returned''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a checkout for an open event',
       summary: 'Create Checkout',
-      operationId: 'create_checkout_tickets_events__event_id__checkout_post',
+      operationId: 'post_tickets_events_{event_id}_checkout',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15572,7 +15414,7 @@ Only enabled sessions and categories are returned''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Get all tickets of the current user',
       summary: 'Get User Tickets',
-      operationId: 'get_user_tickets_tickets_user_me_tickets_get',
+      operationId: 'get_tickets_user_me_tickets',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15602,8 +15444,7 @@ Only enabled sessions and categories are returned''',
 
 Using this endpoint will invalidate existing transfer invitations.''',
       summary: 'Ticket Request Change Over',
-      operationId:
-          'ticket_request_change_over_tickets_user_me_tickets_change_over_request_post',
+      operationId: 'post_tickets_user_me_tickets_change-over_request',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15630,8 +15471,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       description:
           'Accept a ticket transfer invitation. The user will become the new owner of the ticket.',
       summary: 'Ticket Accept Change Over',
-      operationId:
-          'ticket_accept_change_over_tickets_user_me_tickets_change_over_accept_get',
+      operationId: 'get_tickets_user_me_tickets_change-over_accept',
       consumes: [],
       produces: [],
       security: [],
@@ -15659,7 +15499,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Get Event Admin',
-      operationId: 'get_event_admin_tickets_admin_events__event_id__get',
+      operationId: 'get_tickets_admin_events_{event_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15684,7 +15524,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Edit one event for admin',
       summary: 'Update Event',
-      operationId: 'update_event_tickets_admin_events__event_id__patch',
+      operationId: 'patch_tickets_admin_events_{event_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15710,7 +15550,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete one event for admin',
       summary: 'Delete Event',
-      operationId: 'delete_event_tickets_admin_events__event_id__delete',
+      operationId: 'delete_tickets_admin_events_{event_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15736,7 +15576,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Create Event',
-      operationId: 'create_event_tickets_admin_events_post',
+      operationId: 'post_tickets_admin_events',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15765,8 +15605,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Create Session',
-      operationId:
-          'create_session_tickets_admin_events__event_id__sessions_post',
+      operationId: 'post_tickets_admin_events_{event_id}_sessions',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15795,7 +15634,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       description: 'Edit one event for admin',
       summary: 'Update Session',
       operationId:
-          'update_session_tickets_admin_events__event_id__sessions__session_id__patch',
+          'patch_tickets_admin_events_{event_id}_sessions_{session_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15825,7 +15664,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       description: 'Delete one session for admin',
       summary: 'Delete Session',
       operationId:
-          'delete_session_tickets_admin_events__event_id__sessions__session_id__delete',
+          'delete_tickets_admin_events_{event_id}_sessions_{session_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15854,8 +15693,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Create Category',
-      operationId:
-          'create_category_tickets_admin_events__event_id__categories_post',
+      operationId: 'post_tickets_admin_events_{event_id}_categories',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15884,7 +15722,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       description: 'Edit one event for admin',
       summary: 'Update Category',
       operationId:
-          'update_category_tickets_admin_events__event_id__categories__category_id__patch',
+          'patch_tickets_admin_events_{event_id}_categories_{category_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15914,7 +15752,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       description: 'Delete one category for admin',
       summary: 'Delete Category',
       operationId:
-          'delete_category_tickets_admin_events__event_id__categories__category_id__delete',
+          'delete_tickets_admin_events_{event_id}_categories_{category_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15943,8 +15781,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Create Question',
-      operationId:
-          'create_question_tickets_admin_events__event_id__questions_post',
+      operationId: 'post_tickets_admin_events_{event_id}_questions',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -15973,7 +15810,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       description: 'Edit one event for admin',
       summary: 'Update Question',
       operationId:
-          'update_question_tickets_admin_events__event_id__questions__question_id__patch',
+          'patch_tickets_admin_events_{event_id}_questions_{question_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16003,7 +15840,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       description: 'Delete one question for admin',
       summary: 'Delete Question',
       operationId:
-          'delete_question_tickets_admin_events__event_id__questions__question_id__delete',
+          'delete_tickets_admin_events_{event_id}_questions_{question_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16032,8 +15869,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Get Event Tickets',
-      operationId:
-          'get_event_tickets_tickets_admin_events__event_id__tickets_get',
+      operationId: 'get_tickets_admin_events_{event_id}_tickets',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16062,8 +15898,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Get Event Tickets Csv',
-      operationId:
-          'get_event_tickets_csv_tickets_admin_events__event_id__tickets_csv_get',
+      operationId: 'get_tickets_admin_events_{event_id}_tickets_csv',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16090,7 +15925,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Check Ticket',
-      operationId: 'check_ticket_tickets_admin_tickets__ticket_id__check_post',
+      operationId: 'post_tickets_admin_tickets_{ticket_id}_check',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16119,7 +15954,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Scan Ticket',
-      operationId: 'scan_ticket_tickets_admin_tickets__ticket_id__scan_post',
+      operationId: 'post_tickets_admin_tickets_{ticket_id}_scan',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16143,8 +15978,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Events By Store',
-      operationId:
-          'get_events_by_store_tickets_admin_store__store_id__events_get',
+      operationId: 'get_tickets_admin_store_{store_id}_events',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16171,8 +16005,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
 
 **The user should have the right to manage the event seller**''',
       summary: 'Get Events By Association',
-      operationId:
-          'get_events_by_association_tickets_admin_association__association_id__events_get',
+      operationId: 'get_tickets_admin_association_{association_id}_events',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16197,7 +16030,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all permissions from database',
       summary: 'Read Permissions List',
-      operationId: 'read_permissions_list_permissions_list_get',
+      operationId: 'get_permissions_list',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16220,7 +16053,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all permissions from database',
       summary: 'Read Permissions',
-      operationId: 'read_permissions_permissions__get',
+      operationId: 'get_permissions_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16239,12 +16072,12 @@ Using this endpoint will invalidate existing transfer invitations.''',
   }
 
   @override
-  Future<Response<void>> _permissionsPost({
+  Future<Response<CorePermission>> _permissionsPost({
     required Object? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Create a new permission in database',
       summary: 'Create Permission',
-      operationId: 'create_permission_permissions__post',
+      operationId: 'post_permissions_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16261,7 +16094,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
       body: $body,
       tag: swaggerMetaData,
     );
-    return client.send<void, void>($request);
+    return client.send<CorePermission, CorePermission>($request);
   }
 
   @override
@@ -16270,7 +16103,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Delete a permission from database by name',
       summary: 'Delete Permission',
-      operationId: 'delete_permission_permissions__delete',
+      operationId: 'delete_permissions_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -16296,7 +16129,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return permission with name from database',
       summary: 'Read Permission',
-      operationId: 'read_permission_permissions__permission_name__get',
+      operationId: 'get_permissions_{permission_name}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],

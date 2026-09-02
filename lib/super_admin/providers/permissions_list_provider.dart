@@ -16,6 +16,40 @@ class PermissionsNotifier extends ListNotifierAPI<CorePermission> {
   Future<AsyncValue<List<CorePermission>>> loadPermissions() async {
     return await loadList(repository.permissionsGet);
   }
+
+  Future<bool> addGroupPermission(CoreGroupPermission permission) async {
+    return await add(
+      () => repository.permissionsPost(body: permission),
+      permission,
+    );
+  }
+
+  Future<bool> deleteGroupPermission(CoreGroupPermission permission) async {
+    return await delete(
+      () => repository.permissionsDelete(body: permission),
+      (permission) => permission.permissionName,
+      permission.permissionName,
+    );
+  }
+
+  Future<bool> addAccountTypePermission(
+    CoreAccountTypePermission permission,
+  ) async {
+    return await add(
+      () => repository.permissionsPost(body: permission),
+      permission,
+    );
+  }
+
+  Future<bool> deleteAccountTypePermission(
+    CoreAccountTypePermission permission,
+  ) async {
+    return await delete(
+      () => repository.permissionsDelete(body: permission),
+      (permission) => permission.permissionName,
+      permission.permissionName,
+    );
+  }
 }
 
 final permissionsProvider =

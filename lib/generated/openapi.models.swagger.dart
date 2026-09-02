@@ -36,9 +36,9 @@ class AccessToken {
   static const toJsonFactory = _$AccessTokenToJson;
   Map<String, dynamic> toJson() => _$AccessTokenToJson(this);
 
-  @JsonKey(name: 'access_token', defaultValue: '')
+  @JsonKey(name: 'access_token', includeIfNull: false, defaultValue: '')
   final String accessToken;
-  @JsonKey(name: 'token_type', defaultValue: '')
+  @JsonKey(name: 'token_type', includeIfNull: false, defaultValue: '')
   final String tokenType;
   static const fromJsonFactory = _$AccessTokenFromJson;
 
@@ -105,15 +105,15 @@ class AdvertBase {
   static const toJsonFactory = _$AdvertBaseToJson;
   Map<String, dynamic> toJson() => _$AdvertBaseToJson(this);
 
-  @JsonKey(name: 'title', defaultValue: '')
+  @JsonKey(name: 'title', includeIfNull: false, defaultValue: '')
   final String title;
-  @JsonKey(name: 'content', defaultValue: '')
+  @JsonKey(name: 'content', includeIfNull: false, defaultValue: '')
   final String content;
-  @JsonKey(name: 'advertiser_id', defaultValue: '')
+  @JsonKey(name: 'advertiser_id', includeIfNull: false, defaultValue: '')
   final String advertiserId;
-  @JsonKey(name: 'post_to_feed', defaultValue: false)
+  @JsonKey(name: 'post_to_feed', includeIfNull: false, defaultValue: false)
   final bool? postToFeed;
-  @JsonKey(name: 'notification', defaultValue: false)
+  @JsonKey(name: 'notification', includeIfNull: false, defaultValue: false)
   final bool notification;
   static const fromJsonFactory = _$AdvertBaseFromJson;
 
@@ -221,20 +221,20 @@ class AdvertComplete {
   static const toJsonFactory = _$AdvertCompleteToJson;
   Map<String, dynamic> toJson() => _$AdvertCompleteToJson(this);
 
-  @JsonKey(name: 'title', defaultValue: '')
+  @JsonKey(name: 'title', includeIfNull: false, defaultValue: '')
   final String title;
-  @JsonKey(name: 'content', defaultValue: '')
+  @JsonKey(name: 'content', includeIfNull: false, defaultValue: '')
   final String content;
-  @JsonKey(name: 'advertiser_id', defaultValue: '')
+  @JsonKey(name: 'advertiser_id', includeIfNull: false, defaultValue: '')
   final String advertiserId;
-  @JsonKey(name: 'post_to_feed', defaultValue: false)
+  @JsonKey(name: 'post_to_feed', includeIfNull: false, defaultValue: false)
   final bool? postToFeed;
-  @JsonKey(name: 'notification', defaultValue: false)
+  @JsonKey(name: 'notification', includeIfNull: false, defaultValue: false)
   final bool notification;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'date')
+  @JsonKey(name: 'date', includeIfNull: false)
   final DateTime? date;
   static const fromJsonFactory = _$AdvertCompleteFromJson;
 
@@ -342,9 +342,9 @@ class AdvertUpdate {
   static const toJsonFactory = _$AdvertUpdateToJson;
   Map<String, dynamic> toJson() => _$AdvertUpdateToJson(this);
 
-  @JsonKey(name: 'title')
+  @JsonKey(name: 'title', includeIfNull: false)
   final String? title;
-  @JsonKey(name: 'content')
+  @JsonKey(name: 'content', includeIfNull: false)
   final String? content;
   static const fromJsonFactory = _$AdvertUpdateFromJson;
 
@@ -401,11 +401,11 @@ class Answer {
   static const toJsonFactory = _$AnswerToJson;
   Map<String, dynamic> toJson() => _$AnswerToJson(this);
 
-  @JsonKey(name: 'question_id', defaultValue: '')
+  @JsonKey(name: 'question_id', includeIfNull: false, defaultValue: '')
   final String questionId;
-  @JsonKey(name: 'answer')
+  @JsonKey(name: 'answer', includeIfNull: false)
   final dynamic answer;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$AnswerFromJson;
 
@@ -468,9 +468,9 @@ class AnswerBoolean {
   static const toJsonFactory = _$AnswerBooleanToJson;
   Map<String, dynamic> toJson() => _$AnswerBooleanToJson(this);
 
-  @JsonKey(name: 'answer_type', defaultValue: '')
+  @JsonKey(name: 'answer_type', includeIfNull: false, defaultValue: '')
   final String answerType;
-  @JsonKey(name: 'answer', defaultValue: false)
+  @JsonKey(name: 'answer', includeIfNull: false, defaultValue: false)
   final bool answer;
   static const fromJsonFactory = _$AnswerBooleanFromJson;
 
@@ -527,9 +527,9 @@ class AnswerCreate {
   static const toJsonFactory = _$AnswerCreateToJson;
   Map<String, dynamic> toJson() => _$AnswerCreateToJson(this);
 
-  @JsonKey(name: 'question_id', defaultValue: '')
+  @JsonKey(name: 'question_id', includeIfNull: false, defaultValue: '')
   final String questionId;
-  @JsonKey(name: 'answer')
+  @JsonKey(name: 'answer', includeIfNull: false)
   final dynamic answer;
   static const fromJsonFactory = _$AnswerCreateFromJson;
 
@@ -586,9 +586,9 @@ class AnswerNumber {
   static const toJsonFactory = _$AnswerNumberToJson;
   Map<String, dynamic> toJson() => _$AnswerNumberToJson(this);
 
-  @JsonKey(name: 'answer_type', defaultValue: '')
+  @JsonKey(name: 'answer_type', includeIfNull: false, defaultValue: '')
   final String answerType;
-  @JsonKey(name: 'answer', defaultValue: 0)
+  @JsonKey(name: 'answer', includeIfNull: false, defaultValue: 0)
   final int answer;
   static const fromJsonFactory = _$AnswerNumberFromJson;
 
@@ -645,9 +645,9 @@ class AnswerText {
   static const toJsonFactory = _$AnswerTextToJson;
   Map<String, dynamic> toJson() => _$AnswerTextToJson(this);
 
-  @JsonKey(name: 'answer_type', defaultValue: '')
+  @JsonKey(name: 'answer_type', includeIfNull: false, defaultValue: '')
   final String answerType;
-  @JsonKey(name: 'answer', defaultValue: '')
+  @JsonKey(name: 'answer', includeIfNull: false, defaultValue: '')
   final String answer;
   static const fromJsonFactory = _$AnswerTextFromJson;
 
@@ -721,27 +721,28 @@ class Applicant {
   static const toJsonFactory = _$ApplicantToJson;
   Map<String, dynamic> toJson() => _$ApplicantToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'firstname', defaultValue: '')
+  @JsonKey(name: 'firstname', includeIfNull: false, defaultValue: '')
   final String firstname;
-  @JsonKey(name: 'nickname')
+  @JsonKey(name: 'nickname', includeIfNull: false)
   final String? nickname;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   @JsonKey(
     name: 'account_type',
+    includeIfNull: false,
     toJson: accountTypeToJson,
     fromJson: accountTypeFromJson,
   )
   final enums.AccountType accountType;
-  @JsonKey(name: 'school_id', defaultValue: '')
+  @JsonKey(name: 'school_id', includeIfNull: false, defaultValue: '')
   final String schoolId;
-  @JsonKey(name: 'email', defaultValue: '')
+  @JsonKey(name: 'email', includeIfNull: false, defaultValue: '')
   final String email;
-  @JsonKey(name: 'promo')
+  @JsonKey(name: 'promo', includeIfNull: false)
   final int? promo;
-  @JsonKey(name: 'phone')
+  @JsonKey(name: 'phone', includeIfNull: false)
   final String? phone;
   static const fromJsonFactory = _$ApplicantFromJson;
 
@@ -863,11 +864,11 @@ class Association {
   static const toJsonFactory = _$AssociationToJson;
   Map<String, dynamic> toJson() => _$AssociationToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'group_id', defaultValue: '')
+  @JsonKey(name: 'group_id', includeIfNull: false, defaultValue: '')
   final String groupId;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$AssociationFromJson;
 
@@ -939,19 +940,23 @@ class AssociationComplete {
   static const toJsonFactory = _$AssociationCompleteToJson;
   Map<String, dynamic> toJson() => _$AssociationCompleteToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'groupement_id', defaultValue: '')
+  @JsonKey(name: 'groupement_id', includeIfNull: false, defaultValue: '')
   final String groupementId;
-  @JsonKey(name: 'mandate_year', defaultValue: 0)
+  @JsonKey(name: 'mandate_year', includeIfNull: false, defaultValue: 0)
   final int mandateYear;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'associated_groups', defaultValue: <String>[])
+  @JsonKey(
+    name: 'associated_groups',
+    includeIfNull: false,
+    defaultValue: <String>[],
+  )
   final List<String>? associatedGroups;
-  @JsonKey(name: 'deactivated', defaultValue: false)
+  @JsonKey(name: 'deactivated', includeIfNull: false, defaultValue: false)
   final bool? deactivated;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$AssociationCompleteFromJson;
 
@@ -1067,13 +1072,13 @@ class AssociationEdit {
   static const toJsonFactory = _$AssociationEditToJson;
   Map<String, dynamic> toJson() => _$AssociationEditToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'groupement_id')
+  @JsonKey(name: 'groupement_id', includeIfNull: false)
   final String? groupementId;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'mandate_year')
+  @JsonKey(name: 'mandate_year', includeIfNull: false)
   final int? mandateYear;
   static const fromJsonFactory = _$AssociationEditFromJson;
 
@@ -1160,11 +1165,11 @@ class AssociationGroupement {
   static const toJsonFactory = _$AssociationGroupementToJson;
   Map<String, dynamic> toJson() => _$AssociationGroupementToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'manager_group_id', defaultValue: '')
+  @JsonKey(name: 'manager_group_id', includeIfNull: false, defaultValue: '')
   final String managerGroupId;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$AssociationGroupementFromJson;
 
@@ -1237,9 +1242,9 @@ class AssociationGroupementBase {
   static const toJsonFactory = _$AssociationGroupementBaseToJson;
   Map<String, dynamic> toJson() => _$AssociationGroupementBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'manager_group_id', defaultValue: '')
+  @JsonKey(name: 'manager_group_id', includeIfNull: false, defaultValue: '')
   final String managerGroupId;
   static const fromJsonFactory = _$AssociationGroupementBaseFromJson;
 
@@ -1298,7 +1303,11 @@ class AssociationGroupsEdit {
   static const toJsonFactory = _$AssociationGroupsEditToJson;
   Map<String, dynamic> toJson() => _$AssociationGroupsEditToJson(this);
 
-  @JsonKey(name: 'associated_groups', defaultValue: <String>[])
+  @JsonKey(
+    name: 'associated_groups',
+    includeIfNull: false,
+    defaultValue: <String>[],
+  )
   final List<String>? associatedGroups;
   static const fromJsonFactory = _$AssociationGroupsEditFromJson;
 
@@ -1351,9 +1360,9 @@ class AssociationUpdate {
   static const toJsonFactory = _$AssociationUpdateToJson;
   Map<String, dynamic> toJson() => _$AssociationUpdateToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'group_id')
+  @JsonKey(name: 'group_id', includeIfNull: false)
   final String? groupId;
   static const fromJsonFactory = _$AssociationUpdateFromJson;
 
@@ -1412,11 +1421,11 @@ class BatchPurchase {
   static const toJsonFactory = _$BatchPurchaseToJson;
   Map<String, dynamic> toJson() => _$BatchPurchaseToJson(this);
 
-  @JsonKey(name: 'user_emails', defaultValue: <String>[])
+  @JsonKey(name: 'user_emails', includeIfNull: false, defaultValue: <String>[])
   final List<String> userEmails;
-  @JsonKey(name: 'product_variant_id', defaultValue: '')
+  @JsonKey(name: 'product_variant_id', includeIfNull: false, defaultValue: '')
   final String productVariantId;
-  @JsonKey(name: 'quantity', defaultValue: 0)
+  @JsonKey(name: 'quantity', includeIfNull: false, defaultValue: 0)
   final int quantity;
   static const fromJsonFactory = _$BatchPurchaseFromJson;
 
@@ -1491,7 +1500,7 @@ class BatchResult {
   static const toJsonFactory = _$BatchResultToJson;
   Map<String, dynamic> toJson() => _$BatchResultToJson(this);
 
-  @JsonKey(name: 'failed')
+  @JsonKey(name: 'failed', includeIfNull: false)
   final Map<String, dynamic> failed;
   static const fromJsonFactory = _$BatchResultFromJson;
 
@@ -1540,11 +1549,11 @@ class BatchValidation {
   static const toJsonFactory = _$BatchValidationToJson;
   Map<String, dynamic> toJson() => _$BatchValidationToJson(this);
 
-  @JsonKey(name: 'user_emails', defaultValue: <String>[])
+  @JsonKey(name: 'user_emails', includeIfNull: false, defaultValue: <String>[])
   final List<String> userEmails;
-  @JsonKey(name: 'product_variant_id', defaultValue: '')
+  @JsonKey(name: 'product_variant_id', includeIfNull: false, defaultValue: '')
   final String productVariantId;
-  @JsonKey(name: 'validated', defaultValue: false)
+  @JsonKey(name: 'validated', includeIfNull: false, defaultValue: false)
   final bool validated;
   static const fromJsonFactory = _$BatchValidationFromJson;
 
@@ -1609,16 +1618,114 @@ extension $BatchValidationExtension on BatchValidation {
 }
 
 @JsonSerializable(explicitToJson: true)
-class BodyAuthorizeValidationAuthAuthorizationFlowAuthorizeValidationPost {
-  static BodyAuthorizeValidationAuthAuthorizationFlowAuthorizeValidationPost
-  empty() =>
-      BodyAuthorizeValidationAuthAuthorizationFlowAuthorizeValidationPost(
+class BodyPostAdvertAdvertsAdvertIdPicture {
+  static BodyPostAdvertAdvertsAdvertIdPicture empty() =>
+      BodyPostAdvertAdvertsAdvertIdPicture(image: '');
+  const BodyPostAdvertAdvertsAdvertIdPicture({required this.image});
+
+  factory BodyPostAdvertAdvertsAdvertIdPicture.fromJson(
+    Map<String, dynamic> json,
+  ) => _$BodyPostAdvertAdvertsAdvertIdPictureFromJson(json);
+
+  static const toJsonFactory = _$BodyPostAdvertAdvertsAdvertIdPictureToJson;
+  Map<String, dynamic> toJson() =>
+      _$BodyPostAdvertAdvertsAdvertIdPictureToJson(this);
+
+  @JsonKey(name: 'image', includeIfNull: false, defaultValue: '')
+  final String image;
+  static const fromJsonFactory = _$BodyPostAdvertAdvertsAdvertIdPictureFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BodyPostAdvertAdvertsAdvertIdPicture &&
+            (identical(other.image, image) ||
+                const DeepCollectionEquality().equals(other.image, image)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
+}
+
+extension $BodyPostAdvertAdvertsAdvertIdPictureExtension
+    on BodyPostAdvertAdvertsAdvertIdPicture {
+  BodyPostAdvertAdvertsAdvertIdPicture copyWith({String? image}) {
+    return BodyPostAdvertAdvertsAdvertIdPicture(image: image ?? this.image);
+  }
+
+  BodyPostAdvertAdvertsAdvertIdPicture copyWithWrapped({
+    Wrapped<String>? image,
+  }) {
+    return BodyPostAdvertAdvertsAdvertIdPicture(
+      image: (image != null ? image.value : this.image),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BodyPostAssociationsAssociationIdLogo {
+  static BodyPostAssociationsAssociationIdLogo empty() =>
+      BodyPostAssociationsAssociationIdLogo(image: '');
+  const BodyPostAssociationsAssociationIdLogo({required this.image});
+
+  factory BodyPostAssociationsAssociationIdLogo.fromJson(
+    Map<String, dynamic> json,
+  ) => _$BodyPostAssociationsAssociationIdLogoFromJson(json);
+
+  static const toJsonFactory = _$BodyPostAssociationsAssociationIdLogoToJson;
+  Map<String, dynamic> toJson() =>
+      _$BodyPostAssociationsAssociationIdLogoToJson(this);
+
+  @JsonKey(name: 'image', includeIfNull: false, defaultValue: '')
+  final String image;
+  static const fromJsonFactory =
+      _$BodyPostAssociationsAssociationIdLogoFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BodyPostAssociationsAssociationIdLogo &&
+            (identical(other.image, image) ||
+                const DeepCollectionEquality().equals(other.image, image)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
+}
+
+extension $BodyPostAssociationsAssociationIdLogoExtension
+    on BodyPostAssociationsAssociationIdLogo {
+  BodyPostAssociationsAssociationIdLogo copyWith({String? image}) {
+    return BodyPostAssociationsAssociationIdLogo(image: image ?? this.image);
+  }
+
+  BodyPostAssociationsAssociationIdLogo copyWithWrapped({
+    Wrapped<String>? image,
+  }) {
+    return BodyPostAssociationsAssociationIdLogo(
+      image: (image != null ? image.value : this.image),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BodyPostAuthAuthorizationFlowAuthorizeValidation {
+  static BodyPostAuthAuthorizationFlowAuthorizeValidation empty() =>
+      BodyPostAuthAuthorizationFlowAuthorizeValidation(
         clientId: '',
         responseType: '',
         email: '',
         password: '',
       );
-  const BodyAuthorizeValidationAuthAuthorizationFlowAuthorizeValidationPost({
+  const BodyPostAuthAuthorizationFlowAuthorizeValidation({
     required this.clientId,
     this.redirectUri,
     required this.responseType,
@@ -1631,48 +1738,42 @@ class BodyAuthorizeValidationAuthAuthorizationFlowAuthorizeValidationPost {
     required this.password,
   });
 
-  factory BodyAuthorizeValidationAuthAuthorizationFlowAuthorizeValidationPost.fromJson(
+  factory BodyPostAuthAuthorizationFlowAuthorizeValidation.fromJson(
     Map<String, dynamic> json,
-  ) =>
-      _$BodyAuthorizeValidationAuthAuthorizationFlowAuthorizeValidationPostFromJson(
-        json,
-      );
+  ) => _$BodyPostAuthAuthorizationFlowAuthorizeValidationFromJson(json);
 
   static const toJsonFactory =
-      _$BodyAuthorizeValidationAuthAuthorizationFlowAuthorizeValidationPostToJson;
+      _$BodyPostAuthAuthorizationFlowAuthorizeValidationToJson;
   Map<String, dynamic> toJson() =>
-      _$BodyAuthorizeValidationAuthAuthorizationFlowAuthorizeValidationPostToJson(
-        this,
-      );
+      _$BodyPostAuthAuthorizationFlowAuthorizeValidationToJson(this);
 
-  @JsonKey(name: 'client_id', defaultValue: '')
+  @JsonKey(name: 'client_id', includeIfNull: false, defaultValue: '')
   final String clientId;
-  @JsonKey(name: 'redirect_uri')
+  @JsonKey(name: 'redirect_uri', includeIfNull: false)
   final String? redirectUri;
-  @JsonKey(name: 'response_type', defaultValue: '')
+  @JsonKey(name: 'response_type', includeIfNull: false, defaultValue: '')
   final String responseType;
-  @JsonKey(name: 'scope')
+  @JsonKey(name: 'scope', includeIfNull: false)
   final String? scope;
-  @JsonKey(name: 'state')
+  @JsonKey(name: 'state', includeIfNull: false)
   final String? state;
-  @JsonKey(name: 'nonce')
+  @JsonKey(name: 'nonce', includeIfNull: false)
   final String? nonce;
-  @JsonKey(name: 'code_challenge')
+  @JsonKey(name: 'code_challenge', includeIfNull: false)
   final String? codeChallenge;
-  @JsonKey(name: 'code_challenge_method')
+  @JsonKey(name: 'code_challenge_method', includeIfNull: false)
   final String? codeChallengeMethod;
-  @JsonKey(name: 'email', defaultValue: '')
+  @JsonKey(name: 'email', includeIfNull: false, defaultValue: '')
   final String email;
-  @JsonKey(name: 'password', defaultValue: '')
+  @JsonKey(name: 'password', includeIfNull: false, defaultValue: '')
   final String password;
   static const fromJsonFactory =
-      _$BodyAuthorizeValidationAuthAuthorizationFlowAuthorizeValidationPostFromJson;
+      _$BodyPostAuthAuthorizationFlowAuthorizeValidationFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other
-                is BodyAuthorizeValidationAuthAuthorizationFlowAuthorizeValidationPost &&
+        (other is BodyPostAuthAuthorizationFlowAuthorizeValidation &&
             (identical(other.clientId, clientId) ||
                 const DeepCollectionEquality().equals(
                   other.clientId,
@@ -1731,9 +1832,9 @@ class BodyAuthorizeValidationAuthAuthorizationFlowAuthorizeValidationPost {
       runtimeType.hashCode;
 }
 
-extension $BodyAuthorizeValidationAuthAuthorizationFlowAuthorizeValidationPostExtension
-    on BodyAuthorizeValidationAuthAuthorizationFlowAuthorizeValidationPost {
-  BodyAuthorizeValidationAuthAuthorizationFlowAuthorizeValidationPost copyWith({
+extension $BodyPostAuthAuthorizationFlowAuthorizeValidationExtension
+    on BodyPostAuthAuthorizationFlowAuthorizeValidation {
+  BodyPostAuthAuthorizationFlowAuthorizeValidation copyWith({
     String? clientId,
     String? redirectUri,
     String? responseType,
@@ -1745,7 +1846,7 @@ extension $BodyAuthorizeValidationAuthAuthorizationFlowAuthorizeValidationPostEx
     String? email,
     String? password,
   }) {
-    return BodyAuthorizeValidationAuthAuthorizationFlowAuthorizeValidationPost(
+    return BodyPostAuthAuthorizationFlowAuthorizeValidation(
       clientId: clientId ?? this.clientId,
       redirectUri: redirectUri ?? this.redirectUri,
       responseType: responseType ?? this.responseType,
@@ -1759,8 +1860,7 @@ extension $BodyAuthorizeValidationAuthAuthorizationFlowAuthorizeValidationPostEx
     );
   }
 
-  BodyAuthorizeValidationAuthAuthorizationFlowAuthorizeValidationPost
-  copyWithWrapped({
+  BodyPostAuthAuthorizationFlowAuthorizeValidation copyWithWrapped({
     Wrapped<String>? clientId,
     Wrapped<String?>? redirectUri,
     Wrapped<String>? responseType,
@@ -1772,7 +1872,7 @@ extension $BodyAuthorizeValidationAuthAuthorizationFlowAuthorizeValidationPostEx
     Wrapped<String>? email,
     Wrapped<String>? password,
   }) {
-    return BodyAuthorizeValidationAuthAuthorizationFlowAuthorizeValidationPost(
+    return BodyPostAuthAuthorizationFlowAuthorizeValidation(
       clientId: (clientId != null ? clientId.value : this.clientId),
       redirectUri: (redirectUri != null ? redirectUri.value : this.redirectUri),
       responseType: (responseType != null
@@ -1794,927 +1894,10 @@ extension $BodyAuthorizeValidationAuthAuthorizationFlowAuthorizeValidationPostEx
 }
 
 @JsonSerializable(explicitToJson: true)
-class BodyCreateAdvertImageAdvertAdvertsAdvertIdPicturePost {
-  static BodyCreateAdvertImageAdvertAdvertsAdvertIdPicturePost empty() =>
-      BodyCreateAdvertImageAdvertAdvertsAdvertIdPicturePost(image: '');
-  const BodyCreateAdvertImageAdvertAdvertsAdvertIdPicturePost({
-    required this.image,
-  });
-
-  factory BodyCreateAdvertImageAdvertAdvertsAdvertIdPicturePost.fromJson(
-    Map<String, dynamic> json,
-  ) => _$BodyCreateAdvertImageAdvertAdvertsAdvertIdPicturePostFromJson(json);
-
-  static const toJsonFactory =
-      _$BodyCreateAdvertImageAdvertAdvertsAdvertIdPicturePostToJson;
-  Map<String, dynamic> toJson() =>
-      _$BodyCreateAdvertImageAdvertAdvertsAdvertIdPicturePostToJson(this);
-
-  @JsonKey(name: 'image', defaultValue: '')
-  final String image;
-  static const fromJsonFactory =
-      _$BodyCreateAdvertImageAdvertAdvertsAdvertIdPicturePostFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is BodyCreateAdvertImageAdvertAdvertsAdvertIdPicturePost &&
-            (identical(other.image, image) ||
-                const DeepCollectionEquality().equals(other.image, image)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
-}
-
-extension $BodyCreateAdvertImageAdvertAdvertsAdvertIdPicturePostExtension
-    on BodyCreateAdvertImageAdvertAdvertsAdvertIdPicturePost {
-  BodyCreateAdvertImageAdvertAdvertsAdvertIdPicturePost copyWith({
-    String? image,
-  }) {
-    return BodyCreateAdvertImageAdvertAdvertsAdvertIdPicturePost(
-      image: image ?? this.image,
-    );
-  }
-
-  BodyCreateAdvertImageAdvertAdvertsAdvertIdPicturePost copyWithWrapped({
-    Wrapped<String>? image,
-  }) {
-    return BodyCreateAdvertImageAdvertAdvertsAdvertIdPicturePost(
-      image: (image != null ? image.value : this.image),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class BodyCreateAssociationLogoAssociationsAssociationIdLogoPost {
-  static BodyCreateAssociationLogoAssociationsAssociationIdLogoPost empty() =>
-      BodyCreateAssociationLogoAssociationsAssociationIdLogoPost(image: '');
-  const BodyCreateAssociationLogoAssociationsAssociationIdLogoPost({
-    required this.image,
-  });
-
-  factory BodyCreateAssociationLogoAssociationsAssociationIdLogoPost.fromJson(
-    Map<String, dynamic> json,
-  ) => _$BodyCreateAssociationLogoAssociationsAssociationIdLogoPostFromJson(
-    json,
-  );
-
-  static const toJsonFactory =
-      _$BodyCreateAssociationLogoAssociationsAssociationIdLogoPostToJson;
-  Map<String, dynamic> toJson() =>
-      _$BodyCreateAssociationLogoAssociationsAssociationIdLogoPostToJson(this);
-
-  @JsonKey(name: 'image', defaultValue: '')
-  final String image;
-  static const fromJsonFactory =
-      _$BodyCreateAssociationLogoAssociationsAssociationIdLogoPostFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is BodyCreateAssociationLogoAssociationsAssociationIdLogoPost &&
-            (identical(other.image, image) ||
-                const DeepCollectionEquality().equals(other.image, image)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
-}
-
-extension $BodyCreateAssociationLogoAssociationsAssociationIdLogoPostExtension
-    on BodyCreateAssociationLogoAssociationsAssociationIdLogoPost {
-  BodyCreateAssociationLogoAssociationsAssociationIdLogoPost copyWith({
-    String? image,
-  }) {
-    return BodyCreateAssociationLogoAssociationsAssociationIdLogoPost(
-      image: image ?? this.image,
-    );
-  }
-
-  BodyCreateAssociationLogoAssociationsAssociationIdLogoPost copyWithWrapped({
-    Wrapped<String>? image,
-  }) {
-    return BodyCreateAssociationLogoAssociationsAssociationIdLogoPost(
-      image: (image != null ? image.value : this.image),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class BodyCreateAssociationLogoPhonebookAssociationsAssociationIdPicturePost {
-  static BodyCreateAssociationLogoPhonebookAssociationsAssociationIdPicturePost
-  empty() =>
-      BodyCreateAssociationLogoPhonebookAssociationsAssociationIdPicturePost(
-        image: '',
-      );
-  const BodyCreateAssociationLogoPhonebookAssociationsAssociationIdPicturePost({
-    required this.image,
-  });
-
-  factory BodyCreateAssociationLogoPhonebookAssociationsAssociationIdPicturePost.fromJson(
-    Map<String, dynamic> json,
-  ) =>
-      _$BodyCreateAssociationLogoPhonebookAssociationsAssociationIdPicturePostFromJson(
-        json,
-      );
-
-  static const toJsonFactory =
-      _$BodyCreateAssociationLogoPhonebookAssociationsAssociationIdPicturePostToJson;
-  Map<String, dynamic> toJson() =>
-      _$BodyCreateAssociationLogoPhonebookAssociationsAssociationIdPicturePostToJson(
-        this,
-      );
-
-  @JsonKey(name: 'image', defaultValue: '')
-  final String image;
-  static const fromJsonFactory =
-      _$BodyCreateAssociationLogoPhonebookAssociationsAssociationIdPicturePostFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other
-                is BodyCreateAssociationLogoPhonebookAssociationsAssociationIdPicturePost &&
-            (identical(other.image, image) ||
-                const DeepCollectionEquality().equals(other.image, image)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
-}
-
-extension $BodyCreateAssociationLogoPhonebookAssociationsAssociationIdPicturePostExtension
-    on BodyCreateAssociationLogoPhonebookAssociationsAssociationIdPicturePost {
-  BodyCreateAssociationLogoPhonebookAssociationsAssociationIdPicturePost
-  copyWith({String? image}) {
-    return BodyCreateAssociationLogoPhonebookAssociationsAssociationIdPicturePost(
-      image: image ?? this.image,
-    );
-  }
-
-  BodyCreateAssociationLogoPhonebookAssociationsAssociationIdPicturePost
-  copyWithWrapped({Wrapped<String>? image}) {
-    return BodyCreateAssociationLogoPhonebookAssociationsAssociationIdPicturePost(
-      image: (image != null ? image.value : this.image),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class BodyCreateCampaignsLogoCampaignListsListIdLogoPost {
-  static BodyCreateCampaignsLogoCampaignListsListIdLogoPost empty() =>
-      BodyCreateCampaignsLogoCampaignListsListIdLogoPost(image: '');
-  const BodyCreateCampaignsLogoCampaignListsListIdLogoPost({
-    required this.image,
-  });
-
-  factory BodyCreateCampaignsLogoCampaignListsListIdLogoPost.fromJson(
-    Map<String, dynamic> json,
-  ) => _$BodyCreateCampaignsLogoCampaignListsListIdLogoPostFromJson(json);
-
-  static const toJsonFactory =
-      _$BodyCreateCampaignsLogoCampaignListsListIdLogoPostToJson;
-  Map<String, dynamic> toJson() =>
-      _$BodyCreateCampaignsLogoCampaignListsListIdLogoPostToJson(this);
-
-  @JsonKey(name: 'image', defaultValue: '')
-  final String image;
-  static const fromJsonFactory =
-      _$BodyCreateCampaignsLogoCampaignListsListIdLogoPostFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is BodyCreateCampaignsLogoCampaignListsListIdLogoPost &&
-            (identical(other.image, image) ||
-                const DeepCollectionEquality().equals(other.image, image)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
-}
-
-extension $BodyCreateCampaignsLogoCampaignListsListIdLogoPostExtension
-    on BodyCreateCampaignsLogoCampaignListsListIdLogoPost {
-  BodyCreateCampaignsLogoCampaignListsListIdLogoPost copyWith({String? image}) {
-    return BodyCreateCampaignsLogoCampaignListsListIdLogoPost(
-      image: image ?? this.image,
-    );
-  }
-
-  BodyCreateCampaignsLogoCampaignListsListIdLogoPost copyWithWrapped({
-    Wrapped<String>? image,
-  }) {
-    return BodyCreateCampaignsLogoCampaignListsListIdLogoPost(
-      image: (image != null ? image.value : this.image),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class BodyCreateCampaignsLogoCinemaSessionsSessionIdPosterPost {
-  static BodyCreateCampaignsLogoCinemaSessionsSessionIdPosterPost empty() =>
-      BodyCreateCampaignsLogoCinemaSessionsSessionIdPosterPost(image: '');
-  const BodyCreateCampaignsLogoCinemaSessionsSessionIdPosterPost({
-    required this.image,
-  });
-
-  factory BodyCreateCampaignsLogoCinemaSessionsSessionIdPosterPost.fromJson(
-    Map<String, dynamic> json,
-  ) => _$BodyCreateCampaignsLogoCinemaSessionsSessionIdPosterPostFromJson(json);
-
-  static const toJsonFactory =
-      _$BodyCreateCampaignsLogoCinemaSessionsSessionIdPosterPostToJson;
-  Map<String, dynamic> toJson() =>
-      _$BodyCreateCampaignsLogoCinemaSessionsSessionIdPosterPostToJson(this);
-
-  @JsonKey(name: 'image', defaultValue: '')
-  final String image;
-  static const fromJsonFactory =
-      _$BodyCreateCampaignsLogoCinemaSessionsSessionIdPosterPostFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is BodyCreateCampaignsLogoCinemaSessionsSessionIdPosterPost &&
-            (identical(other.image, image) ||
-                const DeepCollectionEquality().equals(other.image, image)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
-}
-
-extension $BodyCreateCampaignsLogoCinemaSessionsSessionIdPosterPostExtension
-    on BodyCreateCampaignsLogoCinemaSessionsSessionIdPosterPost {
-  BodyCreateCampaignsLogoCinemaSessionsSessionIdPosterPost copyWith({
-    String? image,
-  }) {
-    return BodyCreateCampaignsLogoCinemaSessionsSessionIdPosterPost(
-      image: image ?? this.image,
-    );
-  }
-
-  BodyCreateCampaignsLogoCinemaSessionsSessionIdPosterPost copyWithWrapped({
-    Wrapped<String>? image,
-  }) {
-    return BodyCreateCampaignsLogoCinemaSessionsSessionIdPosterPost(
-      image: (image != null ? image.value : this.image),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class BodyCreateCurrentRaffleLogoTombolaRafflesRaffleIdLogoPost {
-  static BodyCreateCurrentRaffleLogoTombolaRafflesRaffleIdLogoPost empty() =>
-      BodyCreateCurrentRaffleLogoTombolaRafflesRaffleIdLogoPost(image: '');
-  const BodyCreateCurrentRaffleLogoTombolaRafflesRaffleIdLogoPost({
-    required this.image,
-  });
-
-  factory BodyCreateCurrentRaffleLogoTombolaRafflesRaffleIdLogoPost.fromJson(
-    Map<String, dynamic> json,
-  ) =>
-      _$BodyCreateCurrentRaffleLogoTombolaRafflesRaffleIdLogoPostFromJson(json);
-
-  static const toJsonFactory =
-      _$BodyCreateCurrentRaffleLogoTombolaRafflesRaffleIdLogoPostToJson;
-  Map<String, dynamic> toJson() =>
-      _$BodyCreateCurrentRaffleLogoTombolaRafflesRaffleIdLogoPostToJson(this);
-
-  @JsonKey(name: 'image', defaultValue: '')
-  final String image;
-  static const fromJsonFactory =
-      _$BodyCreateCurrentRaffleLogoTombolaRafflesRaffleIdLogoPostFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is BodyCreateCurrentRaffleLogoTombolaRafflesRaffleIdLogoPost &&
-            (identical(other.image, image) ||
-                const DeepCollectionEquality().equals(other.image, image)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
-}
-
-extension $BodyCreateCurrentRaffleLogoTombolaRafflesRaffleIdLogoPostExtension
-    on BodyCreateCurrentRaffleLogoTombolaRafflesRaffleIdLogoPost {
-  BodyCreateCurrentRaffleLogoTombolaRafflesRaffleIdLogoPost copyWith({
-    String? image,
-  }) {
-    return BodyCreateCurrentRaffleLogoTombolaRafflesRaffleIdLogoPost(
-      image: image ?? this.image,
-    );
-  }
-
-  BodyCreateCurrentRaffleLogoTombolaRafflesRaffleIdLogoPost copyWithWrapped({
-    Wrapped<String>? image,
-  }) {
-    return BodyCreateCurrentRaffleLogoTombolaRafflesRaffleIdLogoPost(
-      image: (image != null ? image.value : this.image),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class BodyCreateCurrentUserProfilePictureUsersMeProfilePicturePost {
-  static BodyCreateCurrentUserProfilePictureUsersMeProfilePicturePost empty() =>
-      BodyCreateCurrentUserProfilePictureUsersMeProfilePicturePost(image: '');
-  const BodyCreateCurrentUserProfilePictureUsersMeProfilePicturePost({
-    required this.image,
-  });
-
-  factory BodyCreateCurrentUserProfilePictureUsersMeProfilePicturePost.fromJson(
-    Map<String, dynamic> json,
-  ) => _$BodyCreateCurrentUserProfilePictureUsersMeProfilePicturePostFromJson(
-    json,
-  );
-
-  static const toJsonFactory =
-      _$BodyCreateCurrentUserProfilePictureUsersMeProfilePicturePostToJson;
-  Map<String, dynamic> toJson() =>
-      _$BodyCreateCurrentUserProfilePictureUsersMeProfilePicturePostToJson(
-        this,
-      );
-
-  @JsonKey(name: 'image', defaultValue: '')
-  final String image;
-  static const fromJsonFactory =
-      _$BodyCreateCurrentUserProfilePictureUsersMeProfilePicturePostFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is BodyCreateCurrentUserProfilePictureUsersMeProfilePicturePost &&
-            (identical(other.image, image) ||
-                const DeepCollectionEquality().equals(other.image, image)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
-}
-
-extension $BodyCreateCurrentUserProfilePictureUsersMeProfilePicturePostExtension
-    on BodyCreateCurrentUserProfilePictureUsersMeProfilePicturePost {
-  BodyCreateCurrentUserProfilePictureUsersMeProfilePicturePost copyWith({
-    String? image,
-  }) {
-    return BodyCreateCurrentUserProfilePictureUsersMeProfilePicturePost(
-      image: image ?? this.image,
-    );
-  }
-
-  BodyCreateCurrentUserProfilePictureUsersMeProfilePicturePost copyWithWrapped({
-    Wrapped<String>? image,
-  }) {
-    return BodyCreateCurrentUserProfilePictureUsersMeProfilePicturePost(
-      image: (image != null ? image.value : this.image),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class BodyCreateEventImageCalendarEventsEventIdImagePost {
-  static BodyCreateEventImageCalendarEventsEventIdImagePost empty() =>
-      BodyCreateEventImageCalendarEventsEventIdImagePost(image: '');
-  const BodyCreateEventImageCalendarEventsEventIdImagePost({
-    required this.image,
-  });
-
-  factory BodyCreateEventImageCalendarEventsEventIdImagePost.fromJson(
-    Map<String, dynamic> json,
-  ) => _$BodyCreateEventImageCalendarEventsEventIdImagePostFromJson(json);
-
-  static const toJsonFactory =
-      _$BodyCreateEventImageCalendarEventsEventIdImagePostToJson;
-  Map<String, dynamic> toJson() =>
-      _$BodyCreateEventImageCalendarEventsEventIdImagePostToJson(this);
-
-  @JsonKey(name: 'image', defaultValue: '')
-  final String image;
-  static const fromJsonFactory =
-      _$BodyCreateEventImageCalendarEventsEventIdImagePostFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is BodyCreateEventImageCalendarEventsEventIdImagePost &&
-            (identical(other.image, image) ||
-                const DeepCollectionEquality().equals(other.image, image)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
-}
-
-extension $BodyCreateEventImageCalendarEventsEventIdImagePostExtension
-    on BodyCreateEventImageCalendarEventsEventIdImagePost {
-  BodyCreateEventImageCalendarEventsEventIdImagePost copyWith({String? image}) {
-    return BodyCreateEventImageCalendarEventsEventIdImagePost(
-      image: image ?? this.image,
-    );
-  }
-
-  BodyCreateEventImageCalendarEventsEventIdImagePost copyWithWrapped({
-    Wrapped<String>? image,
-  }) {
-    return BodyCreateEventImageCalendarEventsEventIdImagePost(
-      image: (image != null ? image.value : this.image),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class BodyCreateGroupLogoGroupsGroupIdLogoPost {
-  static BodyCreateGroupLogoGroupsGroupIdLogoPost empty() =>
-      BodyCreateGroupLogoGroupsGroupIdLogoPost(image: '');
-  const BodyCreateGroupLogoGroupsGroupIdLogoPost({required this.image});
-
-  factory BodyCreateGroupLogoGroupsGroupIdLogoPost.fromJson(
-    Map<String, dynamic> json,
-  ) => _$BodyCreateGroupLogoGroupsGroupIdLogoPostFromJson(json);
-
-  static const toJsonFactory = _$BodyCreateGroupLogoGroupsGroupIdLogoPostToJson;
-  Map<String, dynamic> toJson() =>
-      _$BodyCreateGroupLogoGroupsGroupIdLogoPostToJson(this);
-
-  @JsonKey(name: 'image', defaultValue: '')
-  final String image;
-  static const fromJsonFactory =
-      _$BodyCreateGroupLogoGroupsGroupIdLogoPostFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is BodyCreateGroupLogoGroupsGroupIdLogoPost &&
-            (identical(other.image, image) ||
-                const DeepCollectionEquality().equals(other.image, image)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
-}
-
-extension $BodyCreateGroupLogoGroupsGroupIdLogoPostExtension
-    on BodyCreateGroupLogoGroupsGroupIdLogoPost {
-  BodyCreateGroupLogoGroupsGroupIdLogoPost copyWith({String? image}) {
-    return BodyCreateGroupLogoGroupsGroupIdLogoPost(image: image ?? this.image);
-  }
-
-  BodyCreateGroupLogoGroupsGroupIdLogoPost copyWithWrapped({
-    Wrapped<String>? image,
-  }) {
-    return BodyCreateGroupLogoGroupsGroupIdLogoPost(
-      image: (image != null ? image.value : this.image),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class BodyCreatePaperPdfAndCoverPhPaperIdPdfPost {
-  static BodyCreatePaperPdfAndCoverPhPaperIdPdfPost empty() =>
-      BodyCreatePaperPdfAndCoverPhPaperIdPdfPost(pdf: '');
-  const BodyCreatePaperPdfAndCoverPhPaperIdPdfPost({required this.pdf});
-
-  factory BodyCreatePaperPdfAndCoverPhPaperIdPdfPost.fromJson(
-    Map<String, dynamic> json,
-  ) => _$BodyCreatePaperPdfAndCoverPhPaperIdPdfPostFromJson(json);
-
-  static const toJsonFactory =
-      _$BodyCreatePaperPdfAndCoverPhPaperIdPdfPostToJson;
-  Map<String, dynamic> toJson() =>
-      _$BodyCreatePaperPdfAndCoverPhPaperIdPdfPostToJson(this);
-
-  @JsonKey(name: 'pdf', defaultValue: '')
-  final String pdf;
-  static const fromJsonFactory =
-      _$BodyCreatePaperPdfAndCoverPhPaperIdPdfPostFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is BodyCreatePaperPdfAndCoverPhPaperIdPdfPost &&
-            (identical(other.pdf, pdf) ||
-                const DeepCollectionEquality().equals(other.pdf, pdf)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(pdf) ^ runtimeType.hashCode;
-}
-
-extension $BodyCreatePaperPdfAndCoverPhPaperIdPdfPostExtension
-    on BodyCreatePaperPdfAndCoverPhPaperIdPdfPost {
-  BodyCreatePaperPdfAndCoverPhPaperIdPdfPost copyWith({String? pdf}) {
-    return BodyCreatePaperPdfAndCoverPhPaperIdPdfPost(pdf: pdf ?? this.pdf);
-  }
-
-  BodyCreatePaperPdfAndCoverPhPaperIdPdfPost copyWithWrapped({
-    Wrapped<String>? pdf,
-  }) {
-    return BodyCreatePaperPdfAndCoverPhPaperIdPdfPost(
-      pdf: (pdf != null ? pdf.value : this.pdf),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class BodyCreatePrizePictureTombolaPrizesPrizeIdPicturePost {
-  static BodyCreatePrizePictureTombolaPrizesPrizeIdPicturePost empty() =>
-      BodyCreatePrizePictureTombolaPrizesPrizeIdPicturePost(image: '');
-  const BodyCreatePrizePictureTombolaPrizesPrizeIdPicturePost({
-    required this.image,
-  });
-
-  factory BodyCreatePrizePictureTombolaPrizesPrizeIdPicturePost.fromJson(
-    Map<String, dynamic> json,
-  ) => _$BodyCreatePrizePictureTombolaPrizesPrizeIdPicturePostFromJson(json);
-
-  static const toJsonFactory =
-      _$BodyCreatePrizePictureTombolaPrizesPrizeIdPicturePostToJson;
-  Map<String, dynamic> toJson() =>
-      _$BodyCreatePrizePictureTombolaPrizesPrizeIdPicturePostToJson(this);
-
-  @JsonKey(name: 'image', defaultValue: '')
-  final String image;
-  static const fromJsonFactory =
-      _$BodyCreatePrizePictureTombolaPrizesPrizeIdPicturePostFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is BodyCreatePrizePictureTombolaPrizesPrizeIdPicturePost &&
-            (identical(other.image, image) ||
-                const DeepCollectionEquality().equals(other.image, image)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
-}
-
-extension $BodyCreatePrizePictureTombolaPrizesPrizeIdPicturePostExtension
-    on BodyCreatePrizePictureTombolaPrizesPrizeIdPicturePost {
-  BodyCreatePrizePictureTombolaPrizesPrizeIdPicturePost copyWith({
-    String? image,
-  }) {
-    return BodyCreatePrizePictureTombolaPrizesPrizeIdPicturePost(
-      image: image ?? this.image,
-    );
-  }
-
-  BodyCreatePrizePictureTombolaPrizesPrizeIdPicturePost copyWithWrapped({
-    Wrapped<String>? image,
-  }) {
-    return BodyCreatePrizePictureTombolaPrizesPrizeIdPicturePost(
-      image: (image != null ? image.value : this.image),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class BodyCreateRecommendationImageRecommendationRecommendationsRecommendationIdPicturePost {
-  static BodyCreateRecommendationImageRecommendationRecommendationsRecommendationIdPicturePost
-  empty() =>
-      BodyCreateRecommendationImageRecommendationRecommendationsRecommendationIdPicturePost(
-        image: '',
-      );
-  const BodyCreateRecommendationImageRecommendationRecommendationsRecommendationIdPicturePost({
-    required this.image,
-  });
-
-  factory BodyCreateRecommendationImageRecommendationRecommendationsRecommendationIdPicturePost.fromJson(
-    Map<String, dynamic> json,
-  ) =>
-      _$BodyCreateRecommendationImageRecommendationRecommendationsRecommendationIdPicturePostFromJson(
-        json,
-      );
-
-  static const toJsonFactory =
-      _$BodyCreateRecommendationImageRecommendationRecommendationsRecommendationIdPicturePostToJson;
-  Map<String, dynamic> toJson() =>
-      _$BodyCreateRecommendationImageRecommendationRecommendationsRecommendationIdPicturePostToJson(
-        this,
-      );
-
-  @JsonKey(name: 'image', defaultValue: '')
-  final String image;
-  static const fromJsonFactory =
-      _$BodyCreateRecommendationImageRecommendationRecommendationsRecommendationIdPicturePostFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other
-                is BodyCreateRecommendationImageRecommendationRecommendationsRecommendationIdPicturePost &&
-            (identical(other.image, image) ||
-                const DeepCollectionEquality().equals(other.image, image)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
-}
-
-extension $BodyCreateRecommendationImageRecommendationRecommendationsRecommendationIdPicturePostExtension
-    on
-        BodyCreateRecommendationImageRecommendationRecommendationsRecommendationIdPicturePost {
-  BodyCreateRecommendationImageRecommendationRecommendationsRecommendationIdPicturePost
-  copyWith({String? image}) {
-    return BodyCreateRecommendationImageRecommendationRecommendationsRecommendationIdPicturePost(
-      image: image ?? this.image,
-    );
-  }
-
-  BodyCreateRecommendationImageRecommendationRecommendationsRecommendationIdPicturePost
-  copyWithWrapped({Wrapped<String>? image}) {
-    return BodyCreateRecommendationImageRecommendationRecommendationsRecommendationIdPicturePost(
-      image: (image != null ? image.value : this.image),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class BodyIntrospectAuthIntrospectPost {
-  static BodyIntrospectAuthIntrospectPost empty() =>
-      BodyIntrospectAuthIntrospectPost(token: '');
-  const BodyIntrospectAuthIntrospectPost({
-    required this.token,
-    this.tokenTypeHint,
-    this.clientId,
-    this.clientSecret,
-  });
-
-  factory BodyIntrospectAuthIntrospectPost.fromJson(
-    Map<String, dynamic> json,
-  ) => _$BodyIntrospectAuthIntrospectPostFromJson(json);
-
-  static const toJsonFactory = _$BodyIntrospectAuthIntrospectPostToJson;
-  Map<String, dynamic> toJson() =>
-      _$BodyIntrospectAuthIntrospectPostToJson(this);
-
-  @JsonKey(name: 'token', defaultValue: '')
-  final String token;
-  @JsonKey(name: 'token_type_hint')
-  final String? tokenTypeHint;
-  @JsonKey(name: 'client_id')
-  final String? clientId;
-  @JsonKey(name: 'client_secret')
-  final String? clientSecret;
-  static const fromJsonFactory = _$BodyIntrospectAuthIntrospectPostFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is BodyIntrospectAuthIntrospectPost &&
-            (identical(other.token, token) ||
-                const DeepCollectionEquality().equals(other.token, token)) &&
-            (identical(other.tokenTypeHint, tokenTypeHint) ||
-                const DeepCollectionEquality().equals(
-                  other.tokenTypeHint,
-                  tokenTypeHint,
-                )) &&
-            (identical(other.clientId, clientId) ||
-                const DeepCollectionEquality().equals(
-                  other.clientId,
-                  clientId,
-                )) &&
-            (identical(other.clientSecret, clientSecret) ||
-                const DeepCollectionEquality().equals(
-                  other.clientSecret,
-                  clientSecret,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(token) ^
-      const DeepCollectionEquality().hash(tokenTypeHint) ^
-      const DeepCollectionEquality().hash(clientId) ^
-      const DeepCollectionEquality().hash(clientSecret) ^
-      runtimeType.hashCode;
-}
-
-extension $BodyIntrospectAuthIntrospectPostExtension
-    on BodyIntrospectAuthIntrospectPost {
-  BodyIntrospectAuthIntrospectPost copyWith({
-    String? token,
-    String? tokenTypeHint,
-    String? clientId,
-    String? clientSecret,
-  }) {
-    return BodyIntrospectAuthIntrospectPost(
-      token: token ?? this.token,
-      tokenTypeHint: tokenTypeHint ?? this.tokenTypeHint,
-      clientId: clientId ?? this.clientId,
-      clientSecret: clientSecret ?? this.clientSecret,
-    );
-  }
-
-  BodyIntrospectAuthIntrospectPost copyWithWrapped({
-    Wrapped<String>? token,
-    Wrapped<String?>? tokenTypeHint,
-    Wrapped<String?>? clientId,
-    Wrapped<String?>? clientSecret,
-  }) {
-    return BodyIntrospectAuthIntrospectPost(
-      token: (token != null ? token.value : this.token),
-      tokenTypeHint: (tokenTypeHint != null
-          ? tokenTypeHint.value
-          : this.tokenTypeHint),
-      clientId: (clientId != null ? clientId.value : this.clientId),
-      clientSecret: (clientSecret != null
-          ? clientSecret.value
-          : this.clientSecret),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class BodyLoginForAccessTokenAuthSimpleTokenPost {
-  static BodyLoginForAccessTokenAuthSimpleTokenPost empty() =>
-      BodyLoginForAccessTokenAuthSimpleTokenPost(username: '', password: '');
-  const BodyLoginForAccessTokenAuthSimpleTokenPost({
-    this.grantType,
-    required this.username,
-    required this.password,
-    this.scope,
-    this.clientId,
-    this.clientSecret,
-  });
-
-  factory BodyLoginForAccessTokenAuthSimpleTokenPost.fromJson(
-    Map<String, dynamic> json,
-  ) => _$BodyLoginForAccessTokenAuthSimpleTokenPostFromJson(json);
-
-  static const toJsonFactory =
-      _$BodyLoginForAccessTokenAuthSimpleTokenPostToJson;
-  Map<String, dynamic> toJson() =>
-      _$BodyLoginForAccessTokenAuthSimpleTokenPostToJson(this);
-
-  @JsonKey(name: 'grant_type')
-  final String? grantType;
-  @JsonKey(name: 'username', defaultValue: '')
-  final String username;
-  @JsonKey(name: 'password', defaultValue: '')
-  final String password;
-  @JsonKey(name: 'scope', defaultValue: '')
-  final String? scope;
-  @JsonKey(name: 'client_id')
-  final String? clientId;
-  @JsonKey(name: 'client_secret')
-  final String? clientSecret;
-  static const fromJsonFactory =
-      _$BodyLoginForAccessTokenAuthSimpleTokenPostFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is BodyLoginForAccessTokenAuthSimpleTokenPost &&
-            (identical(other.grantType, grantType) ||
-                const DeepCollectionEquality().equals(
-                  other.grantType,
-                  grantType,
-                )) &&
-            (identical(other.username, username) ||
-                const DeepCollectionEquality().equals(
-                  other.username,
-                  username,
-                )) &&
-            (identical(other.password, password) ||
-                const DeepCollectionEquality().equals(
-                  other.password,
-                  password,
-                )) &&
-            (identical(other.scope, scope) ||
-                const DeepCollectionEquality().equals(other.scope, scope)) &&
-            (identical(other.clientId, clientId) ||
-                const DeepCollectionEquality().equals(
-                  other.clientId,
-                  clientId,
-                )) &&
-            (identical(other.clientSecret, clientSecret) ||
-                const DeepCollectionEquality().equals(
-                  other.clientSecret,
-                  clientSecret,
-                )));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(grantType) ^
-      const DeepCollectionEquality().hash(username) ^
-      const DeepCollectionEquality().hash(password) ^
-      const DeepCollectionEquality().hash(scope) ^
-      const DeepCollectionEquality().hash(clientId) ^
-      const DeepCollectionEquality().hash(clientSecret) ^
-      runtimeType.hashCode;
-}
-
-extension $BodyLoginForAccessTokenAuthSimpleTokenPostExtension
-    on BodyLoginForAccessTokenAuthSimpleTokenPost {
-  BodyLoginForAccessTokenAuthSimpleTokenPost copyWith({
-    String? grantType,
-    String? username,
-    String? password,
-    String? scope,
-    String? clientId,
-    String? clientSecret,
-  }) {
-    return BodyLoginForAccessTokenAuthSimpleTokenPost(
-      grantType: grantType ?? this.grantType,
-      username: username ?? this.username,
-      password: password ?? this.password,
-      scope: scope ?? this.scope,
-      clientId: clientId ?? this.clientId,
-      clientSecret: clientSecret ?? this.clientSecret,
-    );
-  }
-
-  BodyLoginForAccessTokenAuthSimpleTokenPost copyWithWrapped({
-    Wrapped<String?>? grantType,
-    Wrapped<String>? username,
-    Wrapped<String>? password,
-    Wrapped<String?>? scope,
-    Wrapped<String?>? clientId,
-    Wrapped<String?>? clientSecret,
-  }) {
-    return BodyLoginForAccessTokenAuthSimpleTokenPost(
-      grantType: (grantType != null ? grantType.value : this.grantType),
-      username: (username != null ? username.value : this.username),
-      password: (password != null ? password.value : this.password),
-      scope: (scope != null ? scope.value : this.scope),
-      clientId: (clientId != null ? clientId.value : this.clientId),
-      clientSecret: (clientSecret != null
-          ? clientSecret.value
-          : this.clientSecret),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class BodyPostAuthorizePageAuthAuthorizePost {
-  static BodyPostAuthorizePageAuthAuthorizePost empty() =>
-      BodyPostAuthorizePageAuthAuthorizePost(
-        responseType: '',
-        clientId: '',
-        redirectUri: '',
-      );
-  const BodyPostAuthorizePageAuthAuthorizePost({
+class BodyPostAuthAuthorize {
+  static BodyPostAuthAuthorize empty() =>
+      BodyPostAuthAuthorize(responseType: '', clientId: '', redirectUri: '');
+  const BodyPostAuthAuthorize({
     required this.responseType,
     required this.clientId,
     required this.redirectUri,
@@ -2725,37 +1908,34 @@ class BodyPostAuthorizePageAuthAuthorizePost {
     this.codeChallengeMethod,
   });
 
-  factory BodyPostAuthorizePageAuthAuthorizePost.fromJson(
-    Map<String, dynamic> json,
-  ) => _$BodyPostAuthorizePageAuthAuthorizePostFromJson(json);
+  factory BodyPostAuthAuthorize.fromJson(Map<String, dynamic> json) =>
+      _$BodyPostAuthAuthorizeFromJson(json);
 
-  static const toJsonFactory = _$BodyPostAuthorizePageAuthAuthorizePostToJson;
-  Map<String, dynamic> toJson() =>
-      _$BodyPostAuthorizePageAuthAuthorizePostToJson(this);
+  static const toJsonFactory = _$BodyPostAuthAuthorizeToJson;
+  Map<String, dynamic> toJson() => _$BodyPostAuthAuthorizeToJson(this);
 
-  @JsonKey(name: 'response_type', defaultValue: '')
+  @JsonKey(name: 'response_type', includeIfNull: false, defaultValue: '')
   final String responseType;
-  @JsonKey(name: 'client_id', defaultValue: '')
+  @JsonKey(name: 'client_id', includeIfNull: false, defaultValue: '')
   final String clientId;
-  @JsonKey(name: 'redirect_uri', defaultValue: '')
+  @JsonKey(name: 'redirect_uri', includeIfNull: false, defaultValue: '')
   final String redirectUri;
-  @JsonKey(name: 'scope')
+  @JsonKey(name: 'scope', includeIfNull: false)
   final String? scope;
-  @JsonKey(name: 'state')
+  @JsonKey(name: 'state', includeIfNull: false)
   final String? state;
-  @JsonKey(name: 'nonce')
+  @JsonKey(name: 'nonce', includeIfNull: false)
   final String? nonce;
-  @JsonKey(name: 'code_challenge')
+  @JsonKey(name: 'code_challenge', includeIfNull: false)
   final String? codeChallenge;
-  @JsonKey(name: 'code_challenge_method')
+  @JsonKey(name: 'code_challenge_method', includeIfNull: false)
   final String? codeChallengeMethod;
-  static const fromJsonFactory =
-      _$BodyPostAuthorizePageAuthAuthorizePostFromJson;
+  static const fromJsonFactory = _$BodyPostAuthAuthorizeFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is BodyPostAuthorizePageAuthAuthorizePost &&
+        (other is BodyPostAuthAuthorize &&
             (identical(other.responseType, responseType) ||
                 const DeepCollectionEquality().equals(
                   other.responseType,
@@ -2805,9 +1985,8 @@ class BodyPostAuthorizePageAuthAuthorizePost {
       runtimeType.hashCode;
 }
 
-extension $BodyPostAuthorizePageAuthAuthorizePostExtension
-    on BodyPostAuthorizePageAuthAuthorizePost {
-  BodyPostAuthorizePageAuthAuthorizePost copyWith({
+extension $BodyPostAuthAuthorizeExtension on BodyPostAuthAuthorize {
+  BodyPostAuthAuthorize copyWith({
     String? responseType,
     String? clientId,
     String? redirectUri,
@@ -2817,7 +1996,7 @@ extension $BodyPostAuthorizePageAuthAuthorizePostExtension
     String? codeChallenge,
     String? codeChallengeMethod,
   }) {
-    return BodyPostAuthorizePageAuthAuthorizePost(
+    return BodyPostAuthAuthorize(
       responseType: responseType ?? this.responseType,
       clientId: clientId ?? this.clientId,
       redirectUri: redirectUri ?? this.redirectUri,
@@ -2829,7 +2008,7 @@ extension $BodyPostAuthorizePageAuthAuthorizePostExtension
     );
   }
 
-  BodyPostAuthorizePageAuthAuthorizePost copyWithWrapped({
+  BodyPostAuthAuthorize copyWithWrapped({
     Wrapped<String>? responseType,
     Wrapped<String>? clientId,
     Wrapped<String>? redirectUri,
@@ -2839,7 +2018,7 @@ extension $BodyPostAuthorizePageAuthAuthorizePostExtension
     Wrapped<String?>? codeChallenge,
     Wrapped<String?>? codeChallengeMethod,
   }) {
-    return BodyPostAuthorizePageAuthAuthorizePost(
+    return BodyPostAuthAuthorize(
       responseType: (responseType != null
           ? responseType.value
           : this.responseType),
@@ -2859,81 +2038,51 @@ extension $BodyPostAuthorizePageAuthAuthorizePostExtension
 }
 
 @JsonSerializable(explicitToJson: true)
-class BodyRecoverUserUsersRecoverPost {
-  static BodyRecoverUserUsersRecoverPost empty() =>
-      BodyRecoverUserUsersRecoverPost(email: '');
-  const BodyRecoverUserUsersRecoverPost({required this.email});
-
-  factory BodyRecoverUserUsersRecoverPost.fromJson(Map<String, dynamic> json) =>
-      _$BodyRecoverUserUsersRecoverPostFromJson(json);
-
-  static const toJsonFactory = _$BodyRecoverUserUsersRecoverPostToJson;
-  Map<String, dynamic> toJson() =>
-      _$BodyRecoverUserUsersRecoverPostToJson(this);
-
-  @JsonKey(name: 'email', defaultValue: '')
-  final String email;
-  static const fromJsonFactory = _$BodyRecoverUserUsersRecoverPostFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is BodyRecoverUserUsersRecoverPost &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(email) ^ runtimeType.hashCode;
-}
-
-extension $BodyRecoverUserUsersRecoverPostExtension
-    on BodyRecoverUserUsersRecoverPost {
-  BodyRecoverUserUsersRecoverPost copyWith({String? email}) {
-    return BodyRecoverUserUsersRecoverPost(email: email ?? this.email);
-  }
-
-  BodyRecoverUserUsersRecoverPost copyWithWrapped({Wrapped<String>? email}) {
-    return BodyRecoverUserUsersRecoverPost(
-      email: (email != null ? email.value : this.email),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class BodyRegisterFirebaseDeviceNotificationDevicesPost {
-  static BodyRegisterFirebaseDeviceNotificationDevicesPost empty() =>
-      BodyRegisterFirebaseDeviceNotificationDevicesPost(firebaseToken: '');
-  const BodyRegisterFirebaseDeviceNotificationDevicesPost({
-    required this.firebaseToken,
+class BodyPostAuthIntrospect {
+  static BodyPostAuthIntrospect empty() => BodyPostAuthIntrospect(token: '');
+  const BodyPostAuthIntrospect({
+    required this.token,
+    this.tokenTypeHint,
+    this.clientId,
+    this.clientSecret,
   });
 
-  factory BodyRegisterFirebaseDeviceNotificationDevicesPost.fromJson(
-    Map<String, dynamic> json,
-  ) => _$BodyRegisterFirebaseDeviceNotificationDevicesPostFromJson(json);
+  factory BodyPostAuthIntrospect.fromJson(Map<String, dynamic> json) =>
+      _$BodyPostAuthIntrospectFromJson(json);
 
-  static const toJsonFactory =
-      _$BodyRegisterFirebaseDeviceNotificationDevicesPostToJson;
-  Map<String, dynamic> toJson() =>
-      _$BodyRegisterFirebaseDeviceNotificationDevicesPostToJson(this);
+  static const toJsonFactory = _$BodyPostAuthIntrospectToJson;
+  Map<String, dynamic> toJson() => _$BodyPostAuthIntrospectToJson(this);
 
-  @JsonKey(name: 'firebase_token', defaultValue: '')
-  final String firebaseToken;
-  static const fromJsonFactory =
-      _$BodyRegisterFirebaseDeviceNotificationDevicesPostFromJson;
+  @JsonKey(name: 'token', includeIfNull: false, defaultValue: '')
+  final String token;
+  @JsonKey(name: 'token_type_hint', includeIfNull: false)
+  final String? tokenTypeHint;
+  @JsonKey(name: 'client_id', includeIfNull: false)
+  final String? clientId;
+  @JsonKey(name: 'client_secret', includeIfNull: false)
+  final String? clientSecret;
+  static const fromJsonFactory = _$BodyPostAuthIntrospectFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is BodyRegisterFirebaseDeviceNotificationDevicesPost &&
-            (identical(other.firebaseToken, firebaseToken) ||
+        (other is BodyPostAuthIntrospect &&
+            (identical(other.token, token) ||
+                const DeepCollectionEquality().equals(other.token, token)) &&
+            (identical(other.tokenTypeHint, tokenTypeHint) ||
                 const DeepCollectionEquality().equals(
-                  other.firebaseToken,
-                  firebaseToken,
+                  other.tokenTypeHint,
+                  tokenTypeHint,
+                )) &&
+            (identical(other.clientId, clientId) ||
+                const DeepCollectionEquality().equals(
+                  other.clientId,
+                  clientId,
+                )) &&
+            (identical(other.clientSecret, clientSecret) ||
+                const DeepCollectionEquality().equals(
+                  other.clientSecret,
+                  clientSecret,
                 )));
   }
 
@@ -2942,35 +2091,171 @@ class BodyRegisterFirebaseDeviceNotificationDevicesPost {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(firebaseToken) ^ runtimeType.hashCode;
+      const DeepCollectionEquality().hash(token) ^
+      const DeepCollectionEquality().hash(tokenTypeHint) ^
+      const DeepCollectionEquality().hash(clientId) ^
+      const DeepCollectionEquality().hash(clientSecret) ^
+      runtimeType.hashCode;
 }
 
-extension $BodyRegisterFirebaseDeviceNotificationDevicesPostExtension
-    on BodyRegisterFirebaseDeviceNotificationDevicesPost {
-  BodyRegisterFirebaseDeviceNotificationDevicesPost copyWith({
-    String? firebaseToken,
+extension $BodyPostAuthIntrospectExtension on BodyPostAuthIntrospect {
+  BodyPostAuthIntrospect copyWith({
+    String? token,
+    String? tokenTypeHint,
+    String? clientId,
+    String? clientSecret,
   }) {
-    return BodyRegisterFirebaseDeviceNotificationDevicesPost(
-      firebaseToken: firebaseToken ?? this.firebaseToken,
+    return BodyPostAuthIntrospect(
+      token: token ?? this.token,
+      tokenTypeHint: tokenTypeHint ?? this.tokenTypeHint,
+      clientId: clientId ?? this.clientId,
+      clientSecret: clientSecret ?? this.clientSecret,
     );
   }
 
-  BodyRegisterFirebaseDeviceNotificationDevicesPost copyWithWrapped({
-    Wrapped<String>? firebaseToken,
+  BodyPostAuthIntrospect copyWithWrapped({
+    Wrapped<String>? token,
+    Wrapped<String?>? tokenTypeHint,
+    Wrapped<String?>? clientId,
+    Wrapped<String?>? clientSecret,
   }) {
-    return BodyRegisterFirebaseDeviceNotificationDevicesPost(
-      firebaseToken: (firebaseToken != null
-          ? firebaseToken.value
-          : this.firebaseToken),
+    return BodyPostAuthIntrospect(
+      token: (token != null ? token.value : this.token),
+      tokenTypeHint: (tokenTypeHint != null
+          ? tokenTypeHint.value
+          : this.tokenTypeHint),
+      clientId: (clientId != null ? clientId.value : this.clientId),
+      clientSecret: (clientSecret != null
+          ? clientSecret.value
+          : this.clientSecret),
     );
   }
 }
 
 @JsonSerializable(explicitToJson: true)
-class BodyTokenAuthTokenPost {
-  static BodyTokenAuthTokenPost empty() =>
-      BodyTokenAuthTokenPost(grantType: '');
-  const BodyTokenAuthTokenPost({
+class BodyPostAuthSimpleToken {
+  static BodyPostAuthSimpleToken empty() =>
+      BodyPostAuthSimpleToken(username: '', password: '');
+  const BodyPostAuthSimpleToken({
+    this.grantType,
+    required this.username,
+    required this.password,
+    this.scope,
+    this.clientId,
+    this.clientSecret,
+  });
+
+  factory BodyPostAuthSimpleToken.fromJson(Map<String, dynamic> json) =>
+      _$BodyPostAuthSimpleTokenFromJson(json);
+
+  static const toJsonFactory = _$BodyPostAuthSimpleTokenToJson;
+  Map<String, dynamic> toJson() => _$BodyPostAuthSimpleTokenToJson(this);
+
+  @JsonKey(name: 'grant_type', includeIfNull: false)
+  final String? grantType;
+  @JsonKey(name: 'username', includeIfNull: false, defaultValue: '')
+  final String username;
+  @JsonKey(name: 'password', includeIfNull: false, defaultValue: '')
+  final String password;
+  @JsonKey(name: 'scope', includeIfNull: false, defaultValue: '')
+  final String? scope;
+  @JsonKey(name: 'client_id', includeIfNull: false)
+  final String? clientId;
+  @JsonKey(name: 'client_secret', includeIfNull: false)
+  final String? clientSecret;
+  static const fromJsonFactory = _$BodyPostAuthSimpleTokenFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BodyPostAuthSimpleToken &&
+            (identical(other.grantType, grantType) ||
+                const DeepCollectionEquality().equals(
+                  other.grantType,
+                  grantType,
+                )) &&
+            (identical(other.username, username) ||
+                const DeepCollectionEquality().equals(
+                  other.username,
+                  username,
+                )) &&
+            (identical(other.password, password) ||
+                const DeepCollectionEquality().equals(
+                  other.password,
+                  password,
+                )) &&
+            (identical(other.scope, scope) ||
+                const DeepCollectionEquality().equals(other.scope, scope)) &&
+            (identical(other.clientId, clientId) ||
+                const DeepCollectionEquality().equals(
+                  other.clientId,
+                  clientId,
+                )) &&
+            (identical(other.clientSecret, clientSecret) ||
+                const DeepCollectionEquality().equals(
+                  other.clientSecret,
+                  clientSecret,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(grantType) ^
+      const DeepCollectionEquality().hash(username) ^
+      const DeepCollectionEquality().hash(password) ^
+      const DeepCollectionEquality().hash(scope) ^
+      const DeepCollectionEquality().hash(clientId) ^
+      const DeepCollectionEquality().hash(clientSecret) ^
+      runtimeType.hashCode;
+}
+
+extension $BodyPostAuthSimpleTokenExtension on BodyPostAuthSimpleToken {
+  BodyPostAuthSimpleToken copyWith({
+    String? grantType,
+    String? username,
+    String? password,
+    String? scope,
+    String? clientId,
+    String? clientSecret,
+  }) {
+    return BodyPostAuthSimpleToken(
+      grantType: grantType ?? this.grantType,
+      username: username ?? this.username,
+      password: password ?? this.password,
+      scope: scope ?? this.scope,
+      clientId: clientId ?? this.clientId,
+      clientSecret: clientSecret ?? this.clientSecret,
+    );
+  }
+
+  BodyPostAuthSimpleToken copyWithWrapped({
+    Wrapped<String?>? grantType,
+    Wrapped<String>? username,
+    Wrapped<String>? password,
+    Wrapped<String?>? scope,
+    Wrapped<String?>? clientId,
+    Wrapped<String?>? clientSecret,
+  }) {
+    return BodyPostAuthSimpleToken(
+      grantType: (grantType != null ? grantType.value : this.grantType),
+      username: (username != null ? username.value : this.username),
+      password: (password != null ? password.value : this.password),
+      scope: (scope != null ? scope.value : this.scope),
+      clientId: (clientId != null ? clientId.value : this.clientId),
+      clientSecret: (clientSecret != null
+          ? clientSecret.value
+          : this.clientSecret),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BodyPostAuthToken {
+  static BodyPostAuthToken empty() => BodyPostAuthToken(grantType: '');
+  const BodyPostAuthToken({
     this.refreshToken,
     required this.grantType,
     this.code,
@@ -2980,32 +2265,32 @@ class BodyTokenAuthTokenPost {
     this.codeVerifier,
   });
 
-  factory BodyTokenAuthTokenPost.fromJson(Map<String, dynamic> json) =>
-      _$BodyTokenAuthTokenPostFromJson(json);
+  factory BodyPostAuthToken.fromJson(Map<String, dynamic> json) =>
+      _$BodyPostAuthTokenFromJson(json);
 
-  static const toJsonFactory = _$BodyTokenAuthTokenPostToJson;
-  Map<String, dynamic> toJson() => _$BodyTokenAuthTokenPostToJson(this);
+  static const toJsonFactory = _$BodyPostAuthTokenToJson;
+  Map<String, dynamic> toJson() => _$BodyPostAuthTokenToJson(this);
 
-  @JsonKey(name: 'refresh_token')
+  @JsonKey(name: 'refresh_token', includeIfNull: false)
   final String? refreshToken;
-  @JsonKey(name: 'grant_type', defaultValue: '')
+  @JsonKey(name: 'grant_type', includeIfNull: false, defaultValue: '')
   final String grantType;
-  @JsonKey(name: 'code')
+  @JsonKey(name: 'code', includeIfNull: false)
   final String? code;
-  @JsonKey(name: 'redirect_uri')
+  @JsonKey(name: 'redirect_uri', includeIfNull: false)
   final String? redirectUri;
-  @JsonKey(name: 'client_id')
+  @JsonKey(name: 'client_id', includeIfNull: false)
   final String? clientId;
-  @JsonKey(name: 'client_secret')
+  @JsonKey(name: 'client_secret', includeIfNull: false)
   final String? clientSecret;
-  @JsonKey(name: 'code_verifier')
+  @JsonKey(name: 'code_verifier', includeIfNull: false)
   final String? codeVerifier;
-  static const fromJsonFactory = _$BodyTokenAuthTokenPostFromJson;
+  static const fromJsonFactory = _$BodyPostAuthTokenFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is BodyTokenAuthTokenPost &&
+        (other is BodyPostAuthToken &&
             (identical(other.refreshToken, refreshToken) ||
                 const DeepCollectionEquality().equals(
                   other.refreshToken,
@@ -3055,8 +2340,8 @@ class BodyTokenAuthTokenPost {
       runtimeType.hashCode;
 }
 
-extension $BodyTokenAuthTokenPostExtension on BodyTokenAuthTokenPost {
-  BodyTokenAuthTokenPost copyWith({
+extension $BodyPostAuthTokenExtension on BodyPostAuthToken {
+  BodyPostAuthToken copyWith({
     String? refreshToken,
     String? grantType,
     String? code,
@@ -3065,7 +2350,7 @@ extension $BodyTokenAuthTokenPostExtension on BodyTokenAuthTokenPost {
     String? clientSecret,
     String? codeVerifier,
   }) {
-    return BodyTokenAuthTokenPost(
+    return BodyPostAuthToken(
       refreshToken: refreshToken ?? this.refreshToken,
       grantType: grantType ?? this.grantType,
       code: code ?? this.code,
@@ -3076,7 +2361,7 @@ extension $BodyTokenAuthTokenPostExtension on BodyTokenAuthTokenPost {
     );
   }
 
-  BodyTokenAuthTokenPost copyWithWrapped({
+  BodyPostAuthToken copyWithWrapped({
     Wrapped<String?>? refreshToken,
     Wrapped<String>? grantType,
     Wrapped<String?>? code,
@@ -3085,7 +2370,7 @@ extension $BodyTokenAuthTokenPostExtension on BodyTokenAuthTokenPost {
     Wrapped<String?>? clientSecret,
     Wrapped<String?>? codeVerifier,
   }) {
-    return BodyTokenAuthTokenPost(
+    return BodyPostAuthToken(
       refreshToken: (refreshToken != null
           ? refreshToken.value
           : this.refreshToken),
@@ -3104,31 +2389,29 @@ extension $BodyTokenAuthTokenPostExtension on BodyTokenAuthTokenPost {
 }
 
 @JsonSerializable(explicitToJson: true)
-class BodyUploadDocumentRaidDocumentDocumentTypePost {
-  static BodyUploadDocumentRaidDocumentDocumentTypePost empty() =>
-      BodyUploadDocumentRaidDocumentDocumentTypePost(file: '');
-  const BodyUploadDocumentRaidDocumentDocumentTypePost({required this.file});
+class BodyPostCalendarEventsEventIdImage {
+  static BodyPostCalendarEventsEventIdImage empty() =>
+      BodyPostCalendarEventsEventIdImage(image: '');
+  const BodyPostCalendarEventsEventIdImage({required this.image});
 
-  factory BodyUploadDocumentRaidDocumentDocumentTypePost.fromJson(
+  factory BodyPostCalendarEventsEventIdImage.fromJson(
     Map<String, dynamic> json,
-  ) => _$BodyUploadDocumentRaidDocumentDocumentTypePostFromJson(json);
+  ) => _$BodyPostCalendarEventsEventIdImageFromJson(json);
 
-  static const toJsonFactory =
-      _$BodyUploadDocumentRaidDocumentDocumentTypePostToJson;
+  static const toJsonFactory = _$BodyPostCalendarEventsEventIdImageToJson;
   Map<String, dynamic> toJson() =>
-      _$BodyUploadDocumentRaidDocumentDocumentTypePostToJson(this);
+      _$BodyPostCalendarEventsEventIdImageToJson(this);
 
-  @JsonKey(name: 'file', defaultValue: '')
-  final String file;
-  static const fromJsonFactory =
-      _$BodyUploadDocumentRaidDocumentDocumentTypePostFromJson;
+  @JsonKey(name: 'image', includeIfNull: false, defaultValue: '')
+  final String image;
+  static const fromJsonFactory = _$BodyPostCalendarEventsEventIdImageFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is BodyUploadDocumentRaidDocumentDocumentTypePost &&
-            (identical(other.file, file) ||
-                const DeepCollectionEquality().equals(other.file, file)));
+        (other is BodyPostCalendarEventsEventIdImage &&
+            (identical(other.image, image) ||
+                const DeepCollectionEquality().equals(other.image, image)));
   }
 
   @override
@@ -3136,61 +2419,144 @@ class BodyUploadDocumentRaidDocumentDocumentTypePost {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(file) ^ runtimeType.hashCode;
+      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
 }
 
-extension $BodyUploadDocumentRaidDocumentDocumentTypePostExtension
-    on BodyUploadDocumentRaidDocumentDocumentTypePost {
-  BodyUploadDocumentRaidDocumentDocumentTypePost copyWith({String? file}) {
-    return BodyUploadDocumentRaidDocumentDocumentTypePost(
-      file: file ?? this.file,
-    );
+extension $BodyPostCalendarEventsEventIdImageExtension
+    on BodyPostCalendarEventsEventIdImage {
+  BodyPostCalendarEventsEventIdImage copyWith({String? image}) {
+    return BodyPostCalendarEventsEventIdImage(image: image ?? this.image);
   }
 
-  BodyUploadDocumentRaidDocumentDocumentTypePost copyWithWrapped({
-    Wrapped<String>? file,
-  }) {
-    return BodyUploadDocumentRaidDocumentDocumentTypePost(
-      file: (file != null ? file.value : this.file),
+  BodyPostCalendarEventsEventIdImage copyWithWrapped({Wrapped<String>? image}) {
+    return BodyPostCalendarEventsEventIdImage(
+      image: (image != null ? image.value : this.image),
     );
   }
 }
 
 @JsonSerializable(explicitToJson: true)
-class BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost {
-  static BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost
-  empty() =>
-      BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost(
-        certificate: '',
-      );
-  const BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost({
-    required this.certificate,
-  });
+class BodyPostCampaignListsListIdLogo {
+  static BodyPostCampaignListsListIdLogo empty() =>
+      BodyPostCampaignListsListIdLogo(image: '');
+  const BodyPostCampaignListsListIdLogo({required this.image});
 
-  factory BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost.fromJson(
-    Map<String, dynamic> json,
-  ) =>
-      _$BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePostFromJson(
-        json,
-      );
+  factory BodyPostCampaignListsListIdLogo.fromJson(Map<String, dynamic> json) =>
+      _$BodyPostCampaignListsListIdLogoFromJson(json);
 
-  static const toJsonFactory =
-      _$BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePostToJson;
+  static const toJsonFactory = _$BodyPostCampaignListsListIdLogoToJson;
   Map<String, dynamic> toJson() =>
-      _$BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePostToJson(
-        this,
-      );
+      _$BodyPostCampaignListsListIdLogoToJson(this);
 
-  @JsonKey(name: 'certificate', defaultValue: '')
-  final String certificate;
-  static const fromJsonFactory =
-      _$BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePostFromJson;
+  @JsonKey(name: 'image', includeIfNull: false, defaultValue: '')
+  final String image;
+  static const fromJsonFactory = _$BodyPostCampaignListsListIdLogoFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other
-                is BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost &&
+        (other is BodyPostCampaignListsListIdLogo &&
+            (identical(other.image, image) ||
+                const DeepCollectionEquality().equals(other.image, image)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
+}
+
+extension $BodyPostCampaignListsListIdLogoExtension
+    on BodyPostCampaignListsListIdLogo {
+  BodyPostCampaignListsListIdLogo copyWith({String? image}) {
+    return BodyPostCampaignListsListIdLogo(image: image ?? this.image);
+  }
+
+  BodyPostCampaignListsListIdLogo copyWithWrapped({Wrapped<String>? image}) {
+    return BodyPostCampaignListsListIdLogo(
+      image: (image != null ? image.value : this.image),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BodyPostCinemaSessionsSessionIdPoster {
+  static BodyPostCinemaSessionsSessionIdPoster empty() =>
+      BodyPostCinemaSessionsSessionIdPoster(image: '');
+  const BodyPostCinemaSessionsSessionIdPoster({required this.image});
+
+  factory BodyPostCinemaSessionsSessionIdPoster.fromJson(
+    Map<String, dynamic> json,
+  ) => _$BodyPostCinemaSessionsSessionIdPosterFromJson(json);
+
+  static const toJsonFactory = _$BodyPostCinemaSessionsSessionIdPosterToJson;
+  Map<String, dynamic> toJson() =>
+      _$BodyPostCinemaSessionsSessionIdPosterToJson(this);
+
+  @JsonKey(name: 'image', includeIfNull: false, defaultValue: '')
+  final String image;
+  static const fromJsonFactory =
+      _$BodyPostCinemaSessionsSessionIdPosterFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BodyPostCinemaSessionsSessionIdPoster &&
+            (identical(other.image, image) ||
+                const DeepCollectionEquality().equals(other.image, image)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
+}
+
+extension $BodyPostCinemaSessionsSessionIdPosterExtension
+    on BodyPostCinemaSessionsSessionIdPoster {
+  BodyPostCinemaSessionsSessionIdPoster copyWith({String? image}) {
+    return BodyPostCinemaSessionsSessionIdPoster(image: image ?? this.image);
+  }
+
+  BodyPostCinemaSessionsSessionIdPoster copyWithWrapped({
+    Wrapped<String>? image,
+  }) {
+    return BodyPostCinemaSessionsSessionIdPoster(
+      image: (image != null ? image.value : this.image),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BodyPostCompetitionParticipantsSportsSportIdCertificate {
+  static BodyPostCompetitionParticipantsSportsSportIdCertificate empty() =>
+      BodyPostCompetitionParticipantsSportsSportIdCertificate(certificate: '');
+  const BodyPostCompetitionParticipantsSportsSportIdCertificate({
+    required this.certificate,
+  });
+
+  factory BodyPostCompetitionParticipantsSportsSportIdCertificate.fromJson(
+    Map<String, dynamic> json,
+  ) => _$BodyPostCompetitionParticipantsSportsSportIdCertificateFromJson(json);
+
+  static const toJsonFactory =
+      _$BodyPostCompetitionParticipantsSportsSportIdCertificateToJson;
+  Map<String, dynamic> toJson() =>
+      _$BodyPostCompetitionParticipantsSportsSportIdCertificateToJson(this);
+
+  @JsonKey(name: 'certificate', includeIfNull: false, defaultValue: '')
+  final String certificate;
+  static const fromJsonFactory =
+      _$BodyPostCompetitionParticipantsSportsSportIdCertificateFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BodyPostCompetitionParticipantsSportsSportIdCertificate &&
             (identical(other.certificate, certificate) ||
                 const DeepCollectionEquality().equals(
                   other.certificate,
@@ -3206,20 +2572,506 @@ class BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertif
       const DeepCollectionEquality().hash(certificate) ^ runtimeType.hashCode;
 }
 
-extension $BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePostExtension
-    on
-        BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost {
-  BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost
-  copyWith({String? certificate}) {
-    return BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost(
+extension $BodyPostCompetitionParticipantsSportsSportIdCertificateExtension
+    on BodyPostCompetitionParticipantsSportsSportIdCertificate {
+  BodyPostCompetitionParticipantsSportsSportIdCertificate copyWith({
+    String? certificate,
+  }) {
+    return BodyPostCompetitionParticipantsSportsSportIdCertificate(
       certificate: certificate ?? this.certificate,
     );
   }
 
-  BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost
-  copyWithWrapped({Wrapped<String>? certificate}) {
-    return BodyUploadParticipantCertificateCompetitionParticipantsSportsSportIdCertificatePost(
+  BodyPostCompetitionParticipantsSportsSportIdCertificate copyWithWrapped({
+    Wrapped<String>? certificate,
+  }) {
+    return BodyPostCompetitionParticipantsSportsSportIdCertificate(
       certificate: (certificate != null ? certificate.value : this.certificate),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BodyPostGroupsGroupIdLogo {
+  static BodyPostGroupsGroupIdLogo empty() =>
+      BodyPostGroupsGroupIdLogo(image: '');
+  const BodyPostGroupsGroupIdLogo({required this.image});
+
+  factory BodyPostGroupsGroupIdLogo.fromJson(Map<String, dynamic> json) =>
+      _$BodyPostGroupsGroupIdLogoFromJson(json);
+
+  static const toJsonFactory = _$BodyPostGroupsGroupIdLogoToJson;
+  Map<String, dynamic> toJson() => _$BodyPostGroupsGroupIdLogoToJson(this);
+
+  @JsonKey(name: 'image', includeIfNull: false, defaultValue: '')
+  final String image;
+  static const fromJsonFactory = _$BodyPostGroupsGroupIdLogoFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BodyPostGroupsGroupIdLogo &&
+            (identical(other.image, image) ||
+                const DeepCollectionEquality().equals(other.image, image)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
+}
+
+extension $BodyPostGroupsGroupIdLogoExtension on BodyPostGroupsGroupIdLogo {
+  BodyPostGroupsGroupIdLogo copyWith({String? image}) {
+    return BodyPostGroupsGroupIdLogo(image: image ?? this.image);
+  }
+
+  BodyPostGroupsGroupIdLogo copyWithWrapped({Wrapped<String>? image}) {
+    return BodyPostGroupsGroupIdLogo(
+      image: (image != null ? image.value : this.image),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BodyPostNotificationDevices {
+  static BodyPostNotificationDevices empty() =>
+      BodyPostNotificationDevices(firebaseToken: '');
+  const BodyPostNotificationDevices({required this.firebaseToken});
+
+  factory BodyPostNotificationDevices.fromJson(Map<String, dynamic> json) =>
+      _$BodyPostNotificationDevicesFromJson(json);
+
+  static const toJsonFactory = _$BodyPostNotificationDevicesToJson;
+  Map<String, dynamic> toJson() => _$BodyPostNotificationDevicesToJson(this);
+
+  @JsonKey(name: 'firebase_token', includeIfNull: false, defaultValue: '')
+  final String firebaseToken;
+  static const fromJsonFactory = _$BodyPostNotificationDevicesFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BodyPostNotificationDevices &&
+            (identical(other.firebaseToken, firebaseToken) ||
+                const DeepCollectionEquality().equals(
+                  other.firebaseToken,
+                  firebaseToken,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(firebaseToken) ^ runtimeType.hashCode;
+}
+
+extension $BodyPostNotificationDevicesExtension on BodyPostNotificationDevices {
+  BodyPostNotificationDevices copyWith({String? firebaseToken}) {
+    return BodyPostNotificationDevices(
+      firebaseToken: firebaseToken ?? this.firebaseToken,
+    );
+  }
+
+  BodyPostNotificationDevices copyWithWrapped({
+    Wrapped<String>? firebaseToken,
+  }) {
+    return BodyPostNotificationDevices(
+      firebaseToken: (firebaseToken != null
+          ? firebaseToken.value
+          : this.firebaseToken),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BodyPostPhPaperIdPdf {
+  static BodyPostPhPaperIdPdf empty() => BodyPostPhPaperIdPdf(pdf: '');
+  const BodyPostPhPaperIdPdf({required this.pdf});
+
+  factory BodyPostPhPaperIdPdf.fromJson(Map<String, dynamic> json) =>
+      _$BodyPostPhPaperIdPdfFromJson(json);
+
+  static const toJsonFactory = _$BodyPostPhPaperIdPdfToJson;
+  Map<String, dynamic> toJson() => _$BodyPostPhPaperIdPdfToJson(this);
+
+  @JsonKey(name: 'pdf', includeIfNull: false, defaultValue: '')
+  final String pdf;
+  static const fromJsonFactory = _$BodyPostPhPaperIdPdfFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BodyPostPhPaperIdPdf &&
+            (identical(other.pdf, pdf) ||
+                const DeepCollectionEquality().equals(other.pdf, pdf)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(pdf) ^ runtimeType.hashCode;
+}
+
+extension $BodyPostPhPaperIdPdfExtension on BodyPostPhPaperIdPdf {
+  BodyPostPhPaperIdPdf copyWith({String? pdf}) {
+    return BodyPostPhPaperIdPdf(pdf: pdf ?? this.pdf);
+  }
+
+  BodyPostPhPaperIdPdf copyWithWrapped({Wrapped<String>? pdf}) {
+    return BodyPostPhPaperIdPdf(pdf: (pdf != null ? pdf.value : this.pdf));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BodyPostPhonebookAssociationsAssociationIdPicture {
+  static BodyPostPhonebookAssociationsAssociationIdPicture empty() =>
+      BodyPostPhonebookAssociationsAssociationIdPicture(image: '');
+  const BodyPostPhonebookAssociationsAssociationIdPicture({
+    required this.image,
+  });
+
+  factory BodyPostPhonebookAssociationsAssociationIdPicture.fromJson(
+    Map<String, dynamic> json,
+  ) => _$BodyPostPhonebookAssociationsAssociationIdPictureFromJson(json);
+
+  static const toJsonFactory =
+      _$BodyPostPhonebookAssociationsAssociationIdPictureToJson;
+  Map<String, dynamic> toJson() =>
+      _$BodyPostPhonebookAssociationsAssociationIdPictureToJson(this);
+
+  @JsonKey(name: 'image', includeIfNull: false, defaultValue: '')
+  final String image;
+  static const fromJsonFactory =
+      _$BodyPostPhonebookAssociationsAssociationIdPictureFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BodyPostPhonebookAssociationsAssociationIdPicture &&
+            (identical(other.image, image) ||
+                const DeepCollectionEquality().equals(other.image, image)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
+}
+
+extension $BodyPostPhonebookAssociationsAssociationIdPictureExtension
+    on BodyPostPhonebookAssociationsAssociationIdPicture {
+  BodyPostPhonebookAssociationsAssociationIdPicture copyWith({String? image}) {
+    return BodyPostPhonebookAssociationsAssociationIdPicture(
+      image: image ?? this.image,
+    );
+  }
+
+  BodyPostPhonebookAssociationsAssociationIdPicture copyWithWrapped({
+    Wrapped<String>? image,
+  }) {
+    return BodyPostPhonebookAssociationsAssociationIdPicture(
+      image: (image != null ? image.value : this.image),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BodyPostRaidDocumentDocumentType {
+  static BodyPostRaidDocumentDocumentType empty() =>
+      BodyPostRaidDocumentDocumentType(file: '');
+  const BodyPostRaidDocumentDocumentType({required this.file});
+
+  factory BodyPostRaidDocumentDocumentType.fromJson(
+    Map<String, dynamic> json,
+  ) => _$BodyPostRaidDocumentDocumentTypeFromJson(json);
+
+  static const toJsonFactory = _$BodyPostRaidDocumentDocumentTypeToJson;
+  Map<String, dynamic> toJson() =>
+      _$BodyPostRaidDocumentDocumentTypeToJson(this);
+
+  @JsonKey(name: 'file', includeIfNull: false, defaultValue: '')
+  final String file;
+  static const fromJsonFactory = _$BodyPostRaidDocumentDocumentTypeFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BodyPostRaidDocumentDocumentType &&
+            (identical(other.file, file) ||
+                const DeepCollectionEquality().equals(other.file, file)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(file) ^ runtimeType.hashCode;
+}
+
+extension $BodyPostRaidDocumentDocumentTypeExtension
+    on BodyPostRaidDocumentDocumentType {
+  BodyPostRaidDocumentDocumentType copyWith({String? file}) {
+    return BodyPostRaidDocumentDocumentType(file: file ?? this.file);
+  }
+
+  BodyPostRaidDocumentDocumentType copyWithWrapped({Wrapped<String>? file}) {
+    return BodyPostRaidDocumentDocumentType(
+      file: (file != null ? file.value : this.file),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BodyPostRecommendationRecommendationsRecommendationIdPicture {
+  static BodyPostRecommendationRecommendationsRecommendationIdPicture empty() =>
+      BodyPostRecommendationRecommendationsRecommendationIdPicture(image: '');
+  const BodyPostRecommendationRecommendationsRecommendationIdPicture({
+    required this.image,
+  });
+
+  factory BodyPostRecommendationRecommendationsRecommendationIdPicture.fromJson(
+    Map<String, dynamic> json,
+  ) => _$BodyPostRecommendationRecommendationsRecommendationIdPictureFromJson(
+    json,
+  );
+
+  static const toJsonFactory =
+      _$BodyPostRecommendationRecommendationsRecommendationIdPictureToJson;
+  Map<String, dynamic> toJson() =>
+      _$BodyPostRecommendationRecommendationsRecommendationIdPictureToJson(
+        this,
+      );
+
+  @JsonKey(name: 'image', includeIfNull: false, defaultValue: '')
+  final String image;
+  static const fromJsonFactory =
+      _$BodyPostRecommendationRecommendationsRecommendationIdPictureFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BodyPostRecommendationRecommendationsRecommendationIdPicture &&
+            (identical(other.image, image) ||
+                const DeepCollectionEquality().equals(other.image, image)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
+}
+
+extension $BodyPostRecommendationRecommendationsRecommendationIdPictureExtension
+    on BodyPostRecommendationRecommendationsRecommendationIdPicture {
+  BodyPostRecommendationRecommendationsRecommendationIdPicture copyWith({
+    String? image,
+  }) {
+    return BodyPostRecommendationRecommendationsRecommendationIdPicture(
+      image: image ?? this.image,
+    );
+  }
+
+  BodyPostRecommendationRecommendationsRecommendationIdPicture copyWithWrapped({
+    Wrapped<String>? image,
+  }) {
+    return BodyPostRecommendationRecommendationsRecommendationIdPicture(
+      image: (image != null ? image.value : this.image),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BodyPostTombolaPrizesPrizeIdPicture {
+  static BodyPostTombolaPrizesPrizeIdPicture empty() =>
+      BodyPostTombolaPrizesPrizeIdPicture(image: '');
+  const BodyPostTombolaPrizesPrizeIdPicture({required this.image});
+
+  factory BodyPostTombolaPrizesPrizeIdPicture.fromJson(
+    Map<String, dynamic> json,
+  ) => _$BodyPostTombolaPrizesPrizeIdPictureFromJson(json);
+
+  static const toJsonFactory = _$BodyPostTombolaPrizesPrizeIdPictureToJson;
+  Map<String, dynamic> toJson() =>
+      _$BodyPostTombolaPrizesPrizeIdPictureToJson(this);
+
+  @JsonKey(name: 'image', includeIfNull: false, defaultValue: '')
+  final String image;
+  static const fromJsonFactory = _$BodyPostTombolaPrizesPrizeIdPictureFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BodyPostTombolaPrizesPrizeIdPicture &&
+            (identical(other.image, image) ||
+                const DeepCollectionEquality().equals(other.image, image)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
+}
+
+extension $BodyPostTombolaPrizesPrizeIdPictureExtension
+    on BodyPostTombolaPrizesPrizeIdPicture {
+  BodyPostTombolaPrizesPrizeIdPicture copyWith({String? image}) {
+    return BodyPostTombolaPrizesPrizeIdPicture(image: image ?? this.image);
+  }
+
+  BodyPostTombolaPrizesPrizeIdPicture copyWithWrapped({
+    Wrapped<String>? image,
+  }) {
+    return BodyPostTombolaPrizesPrizeIdPicture(
+      image: (image != null ? image.value : this.image),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BodyPostTombolaRafflesRaffleIdLogo {
+  static BodyPostTombolaRafflesRaffleIdLogo empty() =>
+      BodyPostTombolaRafflesRaffleIdLogo(image: '');
+  const BodyPostTombolaRafflesRaffleIdLogo({required this.image});
+
+  factory BodyPostTombolaRafflesRaffleIdLogo.fromJson(
+    Map<String, dynamic> json,
+  ) => _$BodyPostTombolaRafflesRaffleIdLogoFromJson(json);
+
+  static const toJsonFactory = _$BodyPostTombolaRafflesRaffleIdLogoToJson;
+  Map<String, dynamic> toJson() =>
+      _$BodyPostTombolaRafflesRaffleIdLogoToJson(this);
+
+  @JsonKey(name: 'image', includeIfNull: false, defaultValue: '')
+  final String image;
+  static const fromJsonFactory = _$BodyPostTombolaRafflesRaffleIdLogoFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BodyPostTombolaRafflesRaffleIdLogo &&
+            (identical(other.image, image) ||
+                const DeepCollectionEquality().equals(other.image, image)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
+}
+
+extension $BodyPostTombolaRafflesRaffleIdLogoExtension
+    on BodyPostTombolaRafflesRaffleIdLogo {
+  BodyPostTombolaRafflesRaffleIdLogo copyWith({String? image}) {
+    return BodyPostTombolaRafflesRaffleIdLogo(image: image ?? this.image);
+  }
+
+  BodyPostTombolaRafflesRaffleIdLogo copyWithWrapped({Wrapped<String>? image}) {
+    return BodyPostTombolaRafflesRaffleIdLogo(
+      image: (image != null ? image.value : this.image),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BodyPostUsersMeProfilePicture {
+  static BodyPostUsersMeProfilePicture empty() =>
+      BodyPostUsersMeProfilePicture(image: '');
+  const BodyPostUsersMeProfilePicture({required this.image});
+
+  factory BodyPostUsersMeProfilePicture.fromJson(Map<String, dynamic> json) =>
+      _$BodyPostUsersMeProfilePictureFromJson(json);
+
+  static const toJsonFactory = _$BodyPostUsersMeProfilePictureToJson;
+  Map<String, dynamic> toJson() => _$BodyPostUsersMeProfilePictureToJson(this);
+
+  @JsonKey(name: 'image', includeIfNull: false, defaultValue: '')
+  final String image;
+  static const fromJsonFactory = _$BodyPostUsersMeProfilePictureFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BodyPostUsersMeProfilePicture &&
+            (identical(other.image, image) ||
+                const DeepCollectionEquality().equals(other.image, image)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(image) ^ runtimeType.hashCode;
+}
+
+extension $BodyPostUsersMeProfilePictureExtension
+    on BodyPostUsersMeProfilePicture {
+  BodyPostUsersMeProfilePicture copyWith({String? image}) {
+    return BodyPostUsersMeProfilePicture(image: image ?? this.image);
+  }
+
+  BodyPostUsersMeProfilePicture copyWithWrapped({Wrapped<String>? image}) {
+    return BodyPostUsersMeProfilePicture(
+      image: (image != null ? image.value : this.image),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BodyPostUsersRecover {
+  static BodyPostUsersRecover empty() => BodyPostUsersRecover(email: '');
+  const BodyPostUsersRecover({required this.email});
+
+  factory BodyPostUsersRecover.fromJson(Map<String, dynamic> json) =>
+      _$BodyPostUsersRecoverFromJson(json);
+
+  static const toJsonFactory = _$BodyPostUsersRecoverToJson;
+  Map<String, dynamic> toJson() => _$BodyPostUsersRecoverToJson(this);
+
+  @JsonKey(name: 'email', includeIfNull: false, defaultValue: '')
+  final String email;
+  static const fromJsonFactory = _$BodyPostUsersRecoverFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BodyPostUsersRecover &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(email) ^ runtimeType.hashCode;
+}
+
+extension $BodyPostUsersRecoverExtension on BodyPostUsersRecover {
+  BodyPostUsersRecover copyWith({String? email}) {
+    return BodyPostUsersRecover(email: email ?? this.email);
+  }
+
+  BodyPostUsersRecover copyWithWrapped({Wrapped<String>? email}) {
+    return BodyPostUsersRecover(
+      email: (email != null ? email.value : this.email),
     );
   }
 }
@@ -3252,23 +3104,38 @@ class BookingBase {
   static const toJsonFactory = _$BookingBaseToJson;
   Map<String, dynamic> toJson() => _$BookingBaseToJson(this);
 
-  @JsonKey(name: 'reason', defaultValue: '')
+  @JsonKey(name: 'reason', includeIfNull: false, defaultValue: '')
   final String reason;
-  @JsonKey(name: 'start', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'start',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime start;
-  @JsonKey(name: 'end', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'end',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime end;
-  @JsonKey(name: 'creation', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'creation',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime creation;
-  @JsonKey(name: 'note')
+  @JsonKey(name: 'note', includeIfNull: false)
   final String? note;
-  @JsonKey(name: 'room_id', defaultValue: '')
+  @JsonKey(name: 'room_id', includeIfNull: false, defaultValue: '')
   final String roomId;
-  @JsonKey(name: 'key', defaultValue: false)
+  @JsonKey(name: 'key', includeIfNull: false, defaultValue: false)
   final bool key;
-  @JsonKey(name: 'recurrence_rule')
+  @JsonKey(name: 'recurrence_rule', includeIfNull: false)
   final String? recurrenceRule;
-  @JsonKey(name: 'entity')
+  @JsonKey(name: 'entity', includeIfNull: false)
   final String? entity;
   static const fromJsonFactory = _$BookingBaseFromJson;
 
@@ -3391,23 +3258,23 @@ class BookingEdit {
   static const toJsonFactory = _$BookingEditToJson;
   Map<String, dynamic> toJson() => _$BookingEditToJson(this);
 
-  @JsonKey(name: 'reason')
+  @JsonKey(name: 'reason', includeIfNull: false)
   final String? reason;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'start')
+  @JsonKey(name: 'start', includeIfNull: false)
   final DateTime? start;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'end')
+  @JsonKey(name: 'end', includeIfNull: false)
   final DateTime? end;
-  @JsonKey(name: 'note')
+  @JsonKey(name: 'note', includeIfNull: false)
   final String? note;
-  @JsonKey(name: 'room_id')
+  @JsonKey(name: 'room_id', includeIfNull: false)
   final String? roomId;
-  @JsonKey(name: 'key')
+  @JsonKey(name: 'key', includeIfNull: false)
   final bool? key;
-  @JsonKey(name: 'recurrence_rule')
+  @JsonKey(name: 'recurrence_rule', includeIfNull: false)
   final String? recurrenceRule;
-  @JsonKey(name: 'entity')
+  @JsonKey(name: 'entity', includeIfNull: false)
   final String? entity;
   static const fromJsonFactory = _$BookingEditFromJson;
 
@@ -3536,31 +3403,51 @@ class BookingReturn {
   static const toJsonFactory = _$BookingReturnToJson;
   Map<String, dynamic> toJson() => _$BookingReturnToJson(this);
 
-  @JsonKey(name: 'reason', defaultValue: '')
+  @JsonKey(name: 'reason', includeIfNull: false, defaultValue: '')
   final String reason;
-  @JsonKey(name: 'start', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'start',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime start;
-  @JsonKey(name: 'end', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'end',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime end;
-  @JsonKey(name: 'creation', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'creation',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime creation;
-  @JsonKey(name: 'note')
+  @JsonKey(name: 'note', includeIfNull: false)
   final String? note;
-  @JsonKey(name: 'room_id', defaultValue: '')
+  @JsonKey(name: 'room_id', includeIfNull: false, defaultValue: '')
   final String roomId;
-  @JsonKey(name: 'key', defaultValue: false)
+  @JsonKey(name: 'key', includeIfNull: false, defaultValue: false)
   final bool key;
-  @JsonKey(name: 'recurrence_rule')
+  @JsonKey(name: 'recurrence_rule', includeIfNull: false)
   final String? recurrenceRule;
-  @JsonKey(name: 'entity')
+  @JsonKey(name: 'entity', includeIfNull: false)
   final String? entity;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'decision', toJson: decisionToJson, fromJson: decisionFromJson)
+  @JsonKey(
+    name: 'decision',
+    includeIfNull: false,
+    toJson: decisionToJson,
+    fromJson: decisionFromJson,
+  )
   final enums.Decision decision;
-  @JsonKey(name: 'applicant_id', defaultValue: '')
+  @JsonKey(name: 'applicant_id', includeIfNull: false, defaultValue: '')
   final String applicantId;
-  @JsonKey(name: 'room')
+  @JsonKey(name: 'room', includeIfNull: false)
   final RoomComplete room;
   static const fromJsonFactory = _$BookingReturnFromJson;
 
@@ -3735,33 +3622,53 @@ class BookingReturnApplicant {
   static const toJsonFactory = _$BookingReturnApplicantToJson;
   Map<String, dynamic> toJson() => _$BookingReturnApplicantToJson(this);
 
-  @JsonKey(name: 'reason', defaultValue: '')
+  @JsonKey(name: 'reason', includeIfNull: false, defaultValue: '')
   final String reason;
-  @JsonKey(name: 'start', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'start',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime start;
-  @JsonKey(name: 'end', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'end',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime end;
-  @JsonKey(name: 'creation', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'creation',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime creation;
-  @JsonKey(name: 'note')
+  @JsonKey(name: 'note', includeIfNull: false)
   final String? note;
-  @JsonKey(name: 'room_id', defaultValue: '')
+  @JsonKey(name: 'room_id', includeIfNull: false, defaultValue: '')
   final String roomId;
-  @JsonKey(name: 'key', defaultValue: false)
+  @JsonKey(name: 'key', includeIfNull: false, defaultValue: false)
   final bool key;
-  @JsonKey(name: 'recurrence_rule')
+  @JsonKey(name: 'recurrence_rule', includeIfNull: false)
   final String? recurrenceRule;
-  @JsonKey(name: 'entity')
+  @JsonKey(name: 'entity', includeIfNull: false)
   final String? entity;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'decision', toJson: decisionToJson, fromJson: decisionFromJson)
+  @JsonKey(
+    name: 'decision',
+    includeIfNull: false,
+    toJson: decisionToJson,
+    fromJson: decisionFromJson,
+  )
   final enums.Decision decision;
-  @JsonKey(name: 'applicant_id', defaultValue: '')
+  @JsonKey(name: 'applicant_id', includeIfNull: false, defaultValue: '')
   final String applicantId;
-  @JsonKey(name: 'room')
+  @JsonKey(name: 'room', includeIfNull: false)
   final RoomComplete room;
-  @JsonKey(name: 'applicant')
+  @JsonKey(name: 'applicant', includeIfNull: false)
   final Applicant applicant;
   static const fromJsonFactory = _$BookingReturnApplicantFromJson;
 
@@ -3946,33 +3853,53 @@ class BookingReturnSimpleApplicant {
   static const toJsonFactory = _$BookingReturnSimpleApplicantToJson;
   Map<String, dynamic> toJson() => _$BookingReturnSimpleApplicantToJson(this);
 
-  @JsonKey(name: 'reason', defaultValue: '')
+  @JsonKey(name: 'reason', includeIfNull: false, defaultValue: '')
   final String reason;
-  @JsonKey(name: 'start', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'start',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime start;
-  @JsonKey(name: 'end', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'end',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime end;
-  @JsonKey(name: 'creation', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'creation',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime creation;
-  @JsonKey(name: 'note')
+  @JsonKey(name: 'note', includeIfNull: false)
   final String? note;
-  @JsonKey(name: 'room_id', defaultValue: '')
+  @JsonKey(name: 'room_id', includeIfNull: false, defaultValue: '')
   final String roomId;
-  @JsonKey(name: 'key', defaultValue: false)
+  @JsonKey(name: 'key', includeIfNull: false, defaultValue: false)
   final bool key;
-  @JsonKey(name: 'recurrence_rule')
+  @JsonKey(name: 'recurrence_rule', includeIfNull: false)
   final String? recurrenceRule;
-  @JsonKey(name: 'entity')
+  @JsonKey(name: 'entity', includeIfNull: false)
   final String? entity;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'decision', toJson: decisionToJson, fromJson: decisionFromJson)
+  @JsonKey(
+    name: 'decision',
+    includeIfNull: false,
+    toJson: decisionToJson,
+    fromJson: decisionFromJson,
+  )
   final enums.Decision decision;
-  @JsonKey(name: 'applicant_id', defaultValue: '')
+  @JsonKey(name: 'applicant_id', includeIfNull: false, defaultValue: '')
   final String applicantId;
-  @JsonKey(name: 'room')
+  @JsonKey(name: 'room', includeIfNull: false)
   final RoomComplete room;
-  @JsonKey(name: 'applicant')
+  @JsonKey(name: 'applicant', includeIfNull: false)
   final CoreUserSimple applicant;
   static const fromJsonFactory = _$BookingReturnSimpleApplicantFromJson;
 
@@ -4131,7 +4058,7 @@ class CashEdit {
   static const toJsonFactory = _$CashEditToJson;
   Map<String, dynamic> toJson() => _$CashEditToJson(this);
 
-  @JsonKey(name: 'balance', defaultValue: 0)
+  @JsonKey(name: 'balance', includeIfNull: false, defaultValue: 0)
   final int balance;
   static const fromJsonFactory = _$CashEditFromJson;
 
@@ -4186,17 +4113,17 @@ class Category {
   static const toJsonFactory = _$CategoryToJson;
   Map<String, dynamic> toJson() => _$CategoryToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'event_id', defaultValue: '')
+  @JsonKey(name: 'event_id', includeIfNull: false, defaultValue: '')
   final String eventId;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'price', defaultValue: 0)
+  @JsonKey(name: 'price', includeIfNull: false, defaultValue: 0)
   final int price;
-  @JsonKey(name: 'required_membership')
+  @JsonKey(name: 'required_membership', includeIfNull: false)
   final String? requiredMembership;
-  @JsonKey(name: 'disabled', defaultValue: false)
+  @JsonKey(name: 'disabled', includeIfNull: false, defaultValue: false)
   final bool disabled;
   static const fromJsonFactory = _$CategoryFromJson;
 
@@ -4312,23 +4239,23 @@ class CategoryAdmin {
   static const toJsonFactory = _$CategoryAdminToJson;
   Map<String, dynamic> toJson() => _$CategoryAdminToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'event_id', defaultValue: '')
+  @JsonKey(name: 'event_id', includeIfNull: false, defaultValue: '')
   final String eventId;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'price', defaultValue: 0)
+  @JsonKey(name: 'price', includeIfNull: false, defaultValue: 0)
   final int price;
-  @JsonKey(name: 'required_membership')
+  @JsonKey(name: 'required_membership', includeIfNull: false)
   final String? requiredMembership;
-  @JsonKey(name: 'disabled', defaultValue: false)
+  @JsonKey(name: 'disabled', includeIfNull: false, defaultValue: false)
   final bool disabled;
-  @JsonKey(name: 'quota')
+  @JsonKey(name: 'quota', includeIfNull: false)
   final int? quota;
-  @JsonKey(name: 'tickets_in_checkout', defaultValue: 0)
+  @JsonKey(name: 'tickets_in_checkout', includeIfNull: false, defaultValue: 0)
   final int ticketsInCheckout;
-  @JsonKey(name: 'tickets_sold', defaultValue: 0)
+  @JsonKey(name: 'tickets_sold', includeIfNull: false, defaultValue: 0)
   final int ticketsSold;
   static const fromJsonFactory = _$CategoryAdminFromJson;
 
@@ -4469,19 +4396,19 @@ class CategoryComplete {
   static const toJsonFactory = _$CategoryCompleteToJson;
   Map<String, dynamic> toJson() => _$CategoryCompleteToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'event_id', defaultValue: '')
+  @JsonKey(name: 'event_id', includeIfNull: false, defaultValue: '')
   final String eventId;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'price', defaultValue: 0)
+  @JsonKey(name: 'price', includeIfNull: false, defaultValue: 0)
   final int price;
-  @JsonKey(name: 'required_membership')
+  @JsonKey(name: 'required_membership', includeIfNull: false)
   final String? requiredMembership;
-  @JsonKey(name: 'disabled', defaultValue: false)
+  @JsonKey(name: 'disabled', includeIfNull: false, defaultValue: false)
   final bool disabled;
-  @JsonKey(name: 'quota')
+  @JsonKey(name: 'quota', includeIfNull: false)
   final int? quota;
   static const fromJsonFactory = _$CategoryCompleteFromJson;
 
@@ -4590,13 +4517,13 @@ class CategoryCreate {
   static const toJsonFactory = _$CategoryCreateToJson;
   Map<String, dynamic> toJson() => _$CategoryCreateToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'price', defaultValue: 0)
+  @JsonKey(name: 'price', includeIfNull: false, defaultValue: 0)
   final int price;
-  @JsonKey(name: 'quota')
+  @JsonKey(name: 'quota', includeIfNull: false)
   final int? quota;
-  @JsonKey(name: 'required_membership')
+  @JsonKey(name: 'required_membership', includeIfNull: false)
   final String? requiredMembership;
   static const fromJsonFactory = _$CategoryCreateFromJson;
 
@@ -4688,19 +4615,19 @@ class CategoryPublic {
   static const toJsonFactory = _$CategoryPublicToJson;
   Map<String, dynamic> toJson() => _$CategoryPublicToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'event_id', defaultValue: '')
+  @JsonKey(name: 'event_id', includeIfNull: false, defaultValue: '')
   final String eventId;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'price', defaultValue: 0)
+  @JsonKey(name: 'price', includeIfNull: false, defaultValue: 0)
   final int price;
-  @JsonKey(name: 'required_membership')
+  @JsonKey(name: 'required_membership', includeIfNull: false)
   final String? requiredMembership;
-  @JsonKey(name: 'disabled', defaultValue: false)
+  @JsonKey(name: 'disabled', includeIfNull: false, defaultValue: false)
   final bool disabled;
-  @JsonKey(name: 'sold_out', defaultValue: false)
+  @JsonKey(name: 'sold_out', includeIfNull: false, defaultValue: false)
   final bool soldOut;
   static const fromJsonFactory = _$CategoryPublicFromJson;
 
@@ -4809,15 +4736,15 @@ class CategoryUpdate {
   static const toJsonFactory = _$CategoryUpdateToJson;
   Map<String, dynamic> toJson() => _$CategoryUpdateToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'price')
+  @JsonKey(name: 'price', includeIfNull: false)
   final int? price;
-  @JsonKey(name: 'quota')
+  @JsonKey(name: 'quota', includeIfNull: false)
   final int? quota;
-  @JsonKey(name: 'required_membership')
+  @JsonKey(name: 'required_membership', includeIfNull: false)
   final String? requiredMembership;
-  @JsonKey(name: 'disabled')
+  @JsonKey(name: 'disabled', includeIfNull: false)
   final bool? disabled;
   static const fromJsonFactory = _$CategoryUpdateFromJson;
 
@@ -4923,33 +4850,34 @@ class CdrUser {
   static const toJsonFactory = _$CdrUserToJson;
   Map<String, dynamic> toJson() => _$CdrUserToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'firstname', defaultValue: '')
+  @JsonKey(name: 'firstname', includeIfNull: false, defaultValue: '')
   final String firstname;
-  @JsonKey(name: 'nickname')
+  @JsonKey(name: 'nickname', includeIfNull: false)
   final String? nickname;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   @JsonKey(
     name: 'account_type',
+    includeIfNull: false,
     toJson: accountTypeToJson,
     fromJson: accountTypeFromJson,
   )
   final enums.AccountType accountType;
-  @JsonKey(name: 'school_id', defaultValue: '')
+  @JsonKey(name: 'school_id', includeIfNull: false, defaultValue: '')
   final String schoolId;
-  @JsonKey(name: 'curriculum')
+  @JsonKey(name: 'curriculum', includeIfNull: false)
   final CurriculumComplete? curriculum;
-  @JsonKey(name: 'promo')
+  @JsonKey(name: 'promo', includeIfNull: false)
   final int? promo;
-  @JsonKey(name: 'email', defaultValue: '')
+  @JsonKey(name: 'email', includeIfNull: false, defaultValue: '')
   final String email;
-  @JsonKey(name: 'birthday', toJson: _dateToJson)
+  @JsonKey(name: 'birthday', includeIfNull: false, toJson: _dateToJson)
   final DateTime? birthday;
-  @JsonKey(name: 'phone')
+  @JsonKey(name: 'phone', includeIfNull: false)
   final String? phone;
-  @JsonKey(name: 'floor')
+  @JsonKey(name: 'floor', includeIfNull: false)
   final String? floor;
   static const fromJsonFactory = _$CdrUserFromJson;
 
@@ -5109,25 +5037,26 @@ class CdrUserPreview {
   static const toJsonFactory = _$CdrUserPreviewToJson;
   Map<String, dynamic> toJson() => _$CdrUserPreviewToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'firstname', defaultValue: '')
+  @JsonKey(name: 'firstname', includeIfNull: false, defaultValue: '')
   final String firstname;
-  @JsonKey(name: 'nickname')
+  @JsonKey(name: 'nickname', includeIfNull: false)
   final String? nickname;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   @JsonKey(
     name: 'account_type',
+    includeIfNull: false,
     toJson: accountTypeToJson,
     fromJson: accountTypeFromJson,
   )
   final enums.AccountType accountType;
-  @JsonKey(name: 'school_id', defaultValue: '')
+  @JsonKey(name: 'school_id', includeIfNull: false, defaultValue: '')
   final String schoolId;
-  @JsonKey(name: 'curriculum')
+  @JsonKey(name: 'curriculum', includeIfNull: false)
   final CurriculumComplete? curriculum;
-  @JsonKey(name: 'promo')
+  @JsonKey(name: 'promo', includeIfNull: false)
   final int? promo;
   static const fromJsonFactory = _$CdrUserPreviewFromJson;
 
@@ -5248,17 +5177,17 @@ class CdrUserUpdate {
   static const toJsonFactory = _$CdrUserUpdateToJson;
   Map<String, dynamic> toJson() => _$CdrUserUpdateToJson(this);
 
-  @JsonKey(name: 'promo')
+  @JsonKey(name: 'promo', includeIfNull: false)
   final int? promo;
-  @JsonKey(name: 'nickname')
+  @JsonKey(name: 'nickname', includeIfNull: false)
   final String? nickname;
-  @JsonKey(name: 'email')
+  @JsonKey(name: 'email', includeIfNull: false)
   final String? email;
-  @JsonKey(name: 'birthday', toJson: _dateToJson)
+  @JsonKey(name: 'birthday', includeIfNull: false, toJson: _dateToJson)
   final DateTime? birthday;
-  @JsonKey(name: 'phone')
+  @JsonKey(name: 'phone', includeIfNull: false)
   final String? phone;
-  @JsonKey(name: 'floor')
+  @JsonKey(name: 'floor', includeIfNull: false)
   final String? floor;
   static const fromJsonFactory = _$CdrUserUpdateFromJson;
 
@@ -5349,7 +5278,7 @@ class CdrYear {
   static const toJsonFactory = _$CdrYearToJson;
   Map<String, dynamic> toJson() => _$CdrYearToJson(this);
 
-  @JsonKey(name: 'year', defaultValue: 0)
+  @JsonKey(name: 'year', includeIfNull: false, defaultValue: 0)
   final int? year;
   static const fromJsonFactory = _$CdrYearFromJson;
 
@@ -5395,11 +5324,11 @@ class ChangePasswordRequest {
   static const toJsonFactory = _$ChangePasswordRequestToJson;
   Map<String, dynamic> toJson() => _$ChangePasswordRequestToJson(this);
 
-  @JsonKey(name: 'email', defaultValue: '')
+  @JsonKey(name: 'email', includeIfNull: false, defaultValue: '')
   final String email;
-  @JsonKey(name: 'old_password', defaultValue: '')
+  @JsonKey(name: 'old_password', includeIfNull: false, defaultValue: '')
   final String oldPassword;
-  @JsonKey(name: 'new_password', defaultValue: '')
+  @JsonKey(name: 'new_password', includeIfNull: false, defaultValue: '')
   final String newPassword;
   static const fromJsonFactory = _$ChangePasswordRequestFromJson;
 
@@ -5481,19 +5410,28 @@ class Checkout {
   static const toJsonFactory = _$CheckoutToJson;
   Map<String, dynamic> toJson() => _$CheckoutToJson(this);
 
-  @JsonKey(name: 'category_id', defaultValue: '')
+  @JsonKey(name: 'category_id', includeIfNull: false, defaultValue: '')
   final String categoryId;
-  @JsonKey(name: 'session_id', defaultValue: '')
+  @JsonKey(name: 'session_id', includeIfNull: false, defaultValue: '')
   final String sessionId;
-  @JsonKey(name: 'answers', defaultValue: <AnswerCreate>[])
+  @JsonKey(
+    name: 'answers',
+    includeIfNull: false,
+    defaultValue: <AnswerCreate>[],
+  )
   final List<AnswerCreate> answers;
   @JsonKey(
     name: 'mypayment_request_method',
+    includeIfNull: false,
     toJson: requestTypeToJson,
     fromJson: requestTypeFromJson,
   )
   final enums.RequestType mypaymentRequestMethod;
-  @JsonKey(name: 'mypayment_transfer_redirect_url', defaultValue: '')
+  @JsonKey(
+    name: 'mypayment_transfer_redirect_url',
+    includeIfNull: false,
+    defaultValue: '',
+  )
   final String mypaymentTransferRedirectUrl;
   static const fromJsonFactory = _$CheckoutFromJson;
 
@@ -5600,15 +5538,16 @@ class CheckoutResponse {
   static const toJsonFactory = _$CheckoutResponseToJson;
   Map<String, dynamic> toJson() => _$CheckoutResponseToJson(this);
 
-  @JsonKey(name: 'price', defaultValue: 0)
+  @JsonKey(name: 'price', includeIfNull: false, defaultValue: 0)
   final int price;
   @JsonKey(
     name: 'expiration',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime expiration;
-  @JsonKey(name: 'payment_url')
+  @JsonKey(name: 'payment_url', includeIfNull: false)
   final String? paymentUrl;
   static const fromJsonFactory = _$CheckoutResponseFromJson;
 
@@ -5690,17 +5629,22 @@ class CineSessionBase {
   static const toJsonFactory = _$CineSessionBaseToJson;
   Map<String, dynamic> toJson() => _$CineSessionBaseToJson(this);
 
-  @JsonKey(name: 'start', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'start',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime start;
-  @JsonKey(name: 'duration', defaultValue: 0)
+  @JsonKey(name: 'duration', includeIfNull: false, defaultValue: 0)
   final int duration;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'overview', defaultValue: '')
+  @JsonKey(name: 'overview', includeIfNull: false, defaultValue: '')
   final String overview;
-  @JsonKey(name: 'genre')
+  @JsonKey(name: 'genre', includeIfNull: false)
   final String? genre;
-  @JsonKey(name: 'tagline')
+  @JsonKey(name: 'tagline', includeIfNull: false)
   final String? tagline;
   static const fromJsonFactory = _$CineSessionBaseFromJson;
 
@@ -5805,19 +5749,24 @@ class CineSessionComplete {
   static const toJsonFactory = _$CineSessionCompleteToJson;
   Map<String, dynamic> toJson() => _$CineSessionCompleteToJson(this);
 
-  @JsonKey(name: 'start', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'start',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime start;
-  @JsonKey(name: 'duration', defaultValue: 0)
+  @JsonKey(name: 'duration', includeIfNull: false, defaultValue: 0)
   final int duration;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'overview', defaultValue: '')
+  @JsonKey(name: 'overview', includeIfNull: false, defaultValue: '')
   final String overview;
-  @JsonKey(name: 'genre')
+  @JsonKey(name: 'genre', includeIfNull: false)
   final String? genre;
-  @JsonKey(name: 'tagline')
+  @JsonKey(name: 'tagline', includeIfNull: false)
   final String? tagline;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$CineSessionCompleteFromJson;
 
@@ -5925,18 +5874,18 @@ class CineSessionUpdate {
   static const toJsonFactory = _$CineSessionUpdateToJson;
   Map<String, dynamic> toJson() => _$CineSessionUpdateToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'start')
+  @JsonKey(name: 'start', includeIfNull: false)
   final DateTime? start;
-  @JsonKey(name: 'duration')
+  @JsonKey(name: 'duration', includeIfNull: false)
   final int? duration;
-  @JsonKey(name: 'overview')
+  @JsonKey(name: 'overview', includeIfNull: false)
   final String? overview;
-  @JsonKey(name: 'genre')
+  @JsonKey(name: 'genre', includeIfNull: false)
   final String? genre;
-  @JsonKey(name: 'tagline')
+  @JsonKey(name: 'tagline', includeIfNull: false)
   final String? tagline;
   static const fromJsonFactory = _$CineSessionUpdateFromJson;
 
@@ -6041,23 +5990,33 @@ class CompetitionEdition {
   static const toJsonFactory = _$CompetitionEditionToJson;
   Map<String, dynamic> toJson() => _$CompetitionEditionToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'year', defaultValue: 0)
+  @JsonKey(name: 'year', includeIfNull: false, defaultValue: 0)
   final int year;
   @JsonKey(
     name: 'start_date',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime startDate;
-  @JsonKey(name: 'end_date', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'end_date',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime endDate;
-  @JsonKey(name: 'active', defaultValue: true)
+  @JsonKey(name: 'active', includeIfNull: false, defaultValue: true)
   final bool? active;
-  @JsonKey(name: 'inscription_enabled', defaultValue: false)
+  @JsonKey(
+    name: 'inscription_enabled',
+    includeIfNull: false,
+    defaultValue: false,
+  )
   final bool? inscriptionEnabled;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$CompetitionEditionFromJson;
 
@@ -6172,21 +6131,31 @@ class CompetitionEditionBase {
   static const toJsonFactory = _$CompetitionEditionBaseToJson;
   Map<String, dynamic> toJson() => _$CompetitionEditionBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'year', defaultValue: 0)
+  @JsonKey(name: 'year', includeIfNull: false, defaultValue: 0)
   final int year;
   @JsonKey(
     name: 'start_date',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime startDate;
-  @JsonKey(name: 'end_date', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'end_date',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime endDate;
-  @JsonKey(name: 'active', defaultValue: true)
+  @JsonKey(name: 'active', includeIfNull: false, defaultValue: true)
   final bool? active;
-  @JsonKey(name: 'inscription_enabled', defaultValue: false)
+  @JsonKey(
+    name: 'inscription_enabled',
+    includeIfNull: false,
+    defaultValue: false,
+  )
   final bool? inscriptionEnabled;
   static const fromJsonFactory = _$CompetitionEditionBaseFromJson;
 
@@ -6287,15 +6256,15 @@ class CompetitionEditionEdit {
   static const toJsonFactory = _$CompetitionEditionEditToJson;
   Map<String, dynamic> toJson() => _$CompetitionEditionEditToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'year')
+  @JsonKey(name: 'year', includeIfNull: false)
   final int? year;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'start_date')
+  @JsonKey(name: 'start_date', includeIfNull: false)
   final DateTime? startDate;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'end_date')
+  @JsonKey(name: 'end_date', includeIfNull: false)
   final DateTime? endDate;
   static const fromJsonFactory = _$CompetitionEditionEditFromJson;
 
@@ -6389,33 +6358,35 @@ class CompetitionUser {
 
   @JsonKey(
     name: 'sport_category',
+    includeIfNull: false,
     toJson: sportCategoryToJson,
     fromJson: sportCategoryFromJson,
   )
   final enums.SportCategory sportCategory;
-  @JsonKey(name: 'is_pompom', defaultValue: false)
+  @JsonKey(name: 'is_pompom', includeIfNull: false, defaultValue: false)
   final bool? isPompom;
-  @JsonKey(name: 'is_fanfare', defaultValue: false)
+  @JsonKey(name: 'is_fanfare', includeIfNull: false, defaultValue: false)
   final bool? isFanfare;
-  @JsonKey(name: 'is_cameraman', defaultValue: false)
+  @JsonKey(name: 'is_cameraman', includeIfNull: false, defaultValue: false)
   final bool? isCameraman;
-  @JsonKey(name: 'is_athlete', defaultValue: false)
+  @JsonKey(name: 'is_athlete', includeIfNull: false, defaultValue: false)
   final bool? isAthlete;
-  @JsonKey(name: 'allow_pictures', defaultValue: true)
+  @JsonKey(name: 'allow_pictures', includeIfNull: false, defaultValue: true)
   final bool? allowPictures;
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
   @JsonKey(
     name: 'created_at',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime createdAt;
-  @JsonKey(name: 'validated', defaultValue: false)
+  @JsonKey(name: 'validated', includeIfNull: false, defaultValue: false)
   final bool? validated;
-  @JsonKey(name: 'user')
+  @JsonKey(name: 'user', includeIfNull: false)
   final CoreUser user;
   static const fromJsonFactory = _$CompetitionUserFromJson;
 
@@ -6576,19 +6547,20 @@ class CompetitionUserBase {
 
   @JsonKey(
     name: 'sport_category',
+    includeIfNull: false,
     toJson: sportCategoryToJson,
     fromJson: sportCategoryFromJson,
   )
   final enums.SportCategory sportCategory;
-  @JsonKey(name: 'is_pompom', defaultValue: false)
+  @JsonKey(name: 'is_pompom', includeIfNull: false, defaultValue: false)
   final bool? isPompom;
-  @JsonKey(name: 'is_fanfare', defaultValue: false)
+  @JsonKey(name: 'is_fanfare', includeIfNull: false, defaultValue: false)
   final bool? isFanfare;
-  @JsonKey(name: 'is_cameraman', defaultValue: false)
+  @JsonKey(name: 'is_cameraman', includeIfNull: false, defaultValue: false)
   final bool? isCameraman;
-  @JsonKey(name: 'is_athlete', defaultValue: false)
+  @JsonKey(name: 'is_athlete', includeIfNull: false, defaultValue: false)
   final bool? isAthlete;
-  @JsonKey(name: 'allow_pictures', defaultValue: true)
+  @JsonKey(name: 'allow_pictures', includeIfNull: false, defaultValue: true)
   final bool? allowPictures;
   static const fromJsonFactory = _$CompetitionUserBaseFromJson;
 
@@ -6705,21 +6677,22 @@ class CompetitionUserEdit {
 
   @JsonKey(
     name: 'sport_category',
+    includeIfNull: false,
     toJson: sportCategoryNullableToJson,
     fromJson: sportCategoryNullableFromJson,
   )
   final enums.SportCategory? sportCategory;
-  @JsonKey(name: 'validated')
+  @JsonKey(name: 'validated', includeIfNull: false)
   final bool? validated;
-  @JsonKey(name: 'is_pompom')
+  @JsonKey(name: 'is_pompom', includeIfNull: false)
   final bool? isPompom;
-  @JsonKey(name: 'is_fanfare')
+  @JsonKey(name: 'is_fanfare', includeIfNull: false)
   final bool? isFanfare;
-  @JsonKey(name: 'is_cameraman')
+  @JsonKey(name: 'is_cameraman', includeIfNull: false)
   final bool? isCameraman;
-  @JsonKey(name: 'is_athlete')
+  @JsonKey(name: 'is_athlete', includeIfNull: false)
   final bool? isAthlete;
-  @JsonKey(name: 'allow_pictures')
+  @JsonKey(name: 'allow_pictures', includeIfNull: false)
   final bool? allowPictures;
   static const fromJsonFactory = _$CompetitionUserEditFromJson;
 
@@ -6854,31 +6827,33 @@ class CompetitionUserSimple {
 
   @JsonKey(
     name: 'sport_category',
+    includeIfNull: false,
     toJson: sportCategoryToJson,
     fromJson: sportCategoryFromJson,
   )
   final enums.SportCategory sportCategory;
-  @JsonKey(name: 'is_pompom', defaultValue: false)
+  @JsonKey(name: 'is_pompom', includeIfNull: false, defaultValue: false)
   final bool? isPompom;
-  @JsonKey(name: 'is_fanfare', defaultValue: false)
+  @JsonKey(name: 'is_fanfare', includeIfNull: false, defaultValue: false)
   final bool? isFanfare;
-  @JsonKey(name: 'is_cameraman', defaultValue: false)
+  @JsonKey(name: 'is_cameraman', includeIfNull: false, defaultValue: false)
   final bool? isCameraman;
-  @JsonKey(name: 'is_athlete', defaultValue: false)
+  @JsonKey(name: 'is_athlete', includeIfNull: false, defaultValue: false)
   final bool? isAthlete;
-  @JsonKey(name: 'allow_pictures', defaultValue: true)
+  @JsonKey(name: 'allow_pictures', includeIfNull: false, defaultValue: true)
   final bool? allowPictures;
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
   @JsonKey(
     name: 'created_at',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime createdAt;
-  @JsonKey(name: 'validated', defaultValue: false)
+  @JsonKey(name: 'validated', includeIfNull: false, defaultValue: false)
   final bool? validated;
   static const fromJsonFactory = _$CompetitionUserSimpleFromJson;
 
@@ -7028,10 +7003,11 @@ class CoreAccountTypePermission {
   static const toJsonFactory = _$CoreAccountTypePermissionToJson;
   Map<String, dynamic> toJson() => _$CoreAccountTypePermissionToJson(this);
 
-  @JsonKey(name: 'permission_name', defaultValue: '')
+  @JsonKey(name: 'permission_name', includeIfNull: false, defaultValue: '')
   final String permissionName;
   @JsonKey(
     name: 'account_type',
+    includeIfNull: false,
     toJson: accountTypeToJson,
     fromJson: accountTypeFromJson,
   )
@@ -7100,7 +7076,7 @@ class CoreBatchDeleteMembership {
   static const toJsonFactory = _$CoreBatchDeleteMembershipToJson;
   Map<String, dynamic> toJson() => _$CoreBatchDeleteMembershipToJson(this);
 
-  @JsonKey(name: 'group_id', defaultValue: '')
+  @JsonKey(name: 'group_id', includeIfNull: false, defaultValue: '')
   final String groupId;
   static const fromJsonFactory = _$CoreBatchDeleteMembershipFromJson;
 
@@ -7148,11 +7124,11 @@ class CoreBatchMembership {
   static const toJsonFactory = _$CoreBatchMembershipToJson;
   Map<String, dynamic> toJson() => _$CoreBatchMembershipToJson(this);
 
-  @JsonKey(name: 'user_emails', defaultValue: <String>[])
+  @JsonKey(name: 'user_emails', includeIfNull: false, defaultValue: <String>[])
   final List<String> userEmails;
-  @JsonKey(name: 'group_id', defaultValue: '')
+  @JsonKey(name: 'group_id', includeIfNull: false, defaultValue: '')
   final String groupId;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
   static const fromJsonFactory = _$CoreBatchMembershipFromJson;
 
@@ -7226,9 +7202,9 @@ class CoreBatchUserCreateRequest {
   static const toJsonFactory = _$CoreBatchUserCreateRequestToJson;
   Map<String, dynamic> toJson() => _$CoreBatchUserCreateRequestToJson(this);
 
-  @JsonKey(name: 'email', defaultValue: '')
+  @JsonKey(name: 'email', includeIfNull: false, defaultValue: '')
   final String email;
-  @JsonKey(name: 'default_group_id')
+  @JsonKey(name: 'default_group_id', includeIfNull: false)
   final String? defaultGroupId;
   static const fromJsonFactory = _$CoreBatchUserCreateRequestFromJson;
 
@@ -7292,13 +7268,17 @@ class CoreGroup {
   static const toJsonFactory = _$CoreGroupToJson;
   Map<String, dynamic> toJson() => _$CoreGroupToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'members', defaultValue: <CoreUserSimple>[])
+  @JsonKey(
+    name: 'members',
+    includeIfNull: false,
+    defaultValue: <CoreUserSimple>[],
+  )
   final List<CoreUserSimple>? members;
   static const fromJsonFactory = _$CoreGroupFromJson;
 
@@ -7372,9 +7352,9 @@ class CoreGroupCreate {
   static const toJsonFactory = _$CoreGroupCreateToJson;
   Map<String, dynamic> toJson() => _$CoreGroupCreateToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
   static const fromJsonFactory = _$CoreGroupCreateFromJson;
 
@@ -7435,9 +7415,9 @@ class CoreGroupPermission {
   static const toJsonFactory = _$CoreGroupPermissionToJson;
   Map<String, dynamic> toJson() => _$CoreGroupPermissionToJson(this);
 
-  @JsonKey(name: 'permission_name', defaultValue: '')
+  @JsonKey(name: 'permission_name', includeIfNull: false, defaultValue: '')
   final String permissionName;
-  @JsonKey(name: 'group_id', defaultValue: '')
+  @JsonKey(name: 'group_id', includeIfNull: false, defaultValue: '')
   final String groupId;
   static const fromJsonFactory = _$CoreGroupPermissionFromJson;
 
@@ -7500,11 +7480,11 @@ class CoreGroupSimple {
   static const toJsonFactory = _$CoreGroupSimpleToJson;
   Map<String, dynamic> toJson() => _$CoreGroupSimpleToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$CoreGroupSimpleFromJson;
 
@@ -7567,9 +7547,9 @@ class CoreGroupUpdate {
   static const toJsonFactory = _$CoreGroupUpdateToJson;
   Map<String, dynamic> toJson() => _$CoreGroupUpdateToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
   static const fromJsonFactory = _$CoreGroupUpdateFromJson;
 
@@ -7631,11 +7611,15 @@ class CoreInformation {
   static const toJsonFactory = _$CoreInformationToJson;
   Map<String, dynamic> toJson() => _$CoreInformationToJson(this);
 
-  @JsonKey(name: 'ready', defaultValue: false)
+  @JsonKey(name: 'ready', includeIfNull: false, defaultValue: false)
   final bool ready;
-  @JsonKey(name: 'version', defaultValue: '')
+  @JsonKey(name: 'version', includeIfNull: false, defaultValue: '')
   final String version;
-  @JsonKey(name: 'minimal_titan_version_code', defaultValue: 0)
+  @JsonKey(
+    name: 'minimal_titan_version_code',
+    includeIfNull: false,
+    defaultValue: 0,
+  )
   final int minimalTitanVersionCode;
   static const fromJsonFactory = _$CoreInformationFromJson;
 
@@ -7715,11 +7699,11 @@ class CoreMembership {
   static const toJsonFactory = _$CoreMembershipToJson;
   Map<String, dynamic> toJson() => _$CoreMembershipToJson(this);
 
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'group_id', defaultValue: '')
+  @JsonKey(name: 'group_id', includeIfNull: false, defaultValue: '')
   final String groupId;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
   static const fromJsonFactory = _$CoreMembershipFromJson;
 
@@ -7790,9 +7774,9 @@ class CoreMembershipDelete {
   static const toJsonFactory = _$CoreMembershipDeleteToJson;
   Map<String, dynamic> toJson() => _$CoreMembershipDeleteToJson(this);
 
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'group_id', defaultValue: '')
+  @JsonKey(name: 'group_id', includeIfNull: false, defaultValue: '')
   final String groupId;
   static const fromJsonFactory = _$CoreMembershipDeleteFromJson;
 
@@ -7854,12 +7838,13 @@ class CorePermission {
   static const toJsonFactory = _$CorePermissionToJson;
   Map<String, dynamic> toJson() => _$CorePermissionToJson(this);
 
-  @JsonKey(name: 'permission_name', defaultValue: '')
+  @JsonKey(name: 'permission_name', includeIfNull: false, defaultValue: '')
   final String permissionName;
-  @JsonKey(name: 'groups', defaultValue: <String>[])
+  @JsonKey(name: 'groups', includeIfNull: false, defaultValue: <String>[])
   final List<String> groups;
   @JsonKey(
     name: 'account_types',
+    includeIfNull: false,
     toJson: accountTypeListToJson,
     fromJson: accountTypeListFromJson,
   )
@@ -7940,11 +7925,11 @@ class CoreSchool {
   static const toJsonFactory = _$CoreSchoolToJson;
   Map<String, dynamic> toJson() => _$CoreSchoolToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'email_regex', defaultValue: '')
+  @JsonKey(name: 'email_regex', includeIfNull: false, defaultValue: '')
   final String emailRegex;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$CoreSchoolFromJson;
 
@@ -8007,9 +7992,9 @@ class CoreSchoolBase {
   static const toJsonFactory = _$CoreSchoolBaseToJson;
   Map<String, dynamic> toJson() => _$CoreSchoolBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'email_regex', defaultValue: '')
+  @JsonKey(name: 'email_regex', includeIfNull: false, defaultValue: '')
   final String emailRegex;
   static const fromJsonFactory = _$CoreSchoolBaseFromJson;
 
@@ -8066,9 +8051,9 @@ class CoreSchoolUpdate {
   static const toJsonFactory = _$CoreSchoolUpdateToJson;
   Map<String, dynamic> toJson() => _$CoreSchoolUpdateToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'email_regex')
+  @JsonKey(name: 'email_regex', includeIfNull: false)
   final String? emailRegex;
   static const fromJsonFactory = _$CoreSchoolUpdateFromJson;
 
@@ -8148,40 +8133,45 @@ class CoreUser {
   static const toJsonFactory = _$CoreUserToJson;
   Map<String, dynamic> toJson() => _$CoreUserToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'firstname', defaultValue: '')
+  @JsonKey(name: 'firstname', includeIfNull: false, defaultValue: '')
   final String firstname;
-  @JsonKey(name: 'nickname')
+  @JsonKey(name: 'nickname', includeIfNull: false)
   final String? nickname;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   @JsonKey(
     name: 'account_type',
+    includeIfNull: false,
     toJson: accountTypeToJson,
     fromJson: accountTypeFromJson,
   )
   final enums.AccountType accountType;
-  @JsonKey(name: 'school_id', defaultValue: '')
+  @JsonKey(name: 'school_id', includeIfNull: false, defaultValue: '')
   final String schoolId;
-  @JsonKey(name: 'email', defaultValue: '')
+  @JsonKey(name: 'email', includeIfNull: false, defaultValue: '')
   final String email;
-  @JsonKey(name: 'birthday', toJson: _dateToJson)
+  @JsonKey(name: 'birthday', includeIfNull: false, toJson: _dateToJson)
   final DateTime? birthday;
-  @JsonKey(name: 'promo')
+  @JsonKey(name: 'promo', includeIfNull: false)
   final int? promo;
-  @JsonKey(name: 'floor')
+  @JsonKey(name: 'floor', includeIfNull: false)
   final String? floor;
-  @JsonKey(name: 'phone')
+  @JsonKey(name: 'phone', includeIfNull: false)
   final String? phone;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'created_on')
+  @JsonKey(name: 'created_on', includeIfNull: false)
   final DateTime? createdOn;
-  @JsonKey(name: 'groups', defaultValue: <CoreGroupSimple>[])
+  @JsonKey(
+    name: 'groups',
+    includeIfNull: false,
+    defaultValue: <CoreGroupSimple>[],
+  )
   final List<CoreGroupSimple>? groups;
-  @JsonKey(name: 'school')
+  @JsonKey(name: 'school', includeIfNull: false)
   final CoreSchool? school;
-  @JsonKey(name: 'is_super_admin', defaultValue: false)
+  @JsonKey(name: 'is_super_admin', includeIfNull: false, defaultValue: false)
   final bool? isSuperAdmin;
   static const fromJsonFactory = _$CoreUserFromJson;
 
@@ -8367,23 +8357,23 @@ class CoreUserActivateRequest {
   static const toJsonFactory = _$CoreUserActivateRequestToJson;
   Map<String, dynamic> toJson() => _$CoreUserActivateRequestToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'firstname', defaultValue: '')
+  @JsonKey(name: 'firstname', includeIfNull: false, defaultValue: '')
   final String firstname;
-  @JsonKey(name: 'nickname')
+  @JsonKey(name: 'nickname', includeIfNull: false)
   final String? nickname;
-  @JsonKey(name: 'activation_token', defaultValue: '')
+  @JsonKey(name: 'activation_token', includeIfNull: false, defaultValue: '')
   final String activationToken;
-  @JsonKey(name: 'password', defaultValue: '')
+  @JsonKey(name: 'password', includeIfNull: false, defaultValue: '')
   final String password;
-  @JsonKey(name: 'birthday', toJson: _dateToJson)
+  @JsonKey(name: 'birthday', includeIfNull: false, toJson: _dateToJson)
   final DateTime? birthday;
-  @JsonKey(name: 'phone')
+  @JsonKey(name: 'phone', includeIfNull: false)
   final String? phone;
-  @JsonKey(name: 'floor')
+  @JsonKey(name: 'floor', includeIfNull: false)
   final String? floor;
-  @JsonKey(name: 'promo')
+  @JsonKey(name: 'promo', includeIfNull: false)
   final int? promo;
   static const fromJsonFactory = _$CoreUserActivateRequestFromJson;
 
@@ -8506,9 +8496,9 @@ class CoreUserCreateRequest {
   static const toJsonFactory = _$CoreUserCreateRequestToJson;
   Map<String, dynamic> toJson() => _$CoreUserCreateRequestToJson(this);
 
-  @JsonKey(name: 'email', defaultValue: '')
+  @JsonKey(name: 'email', includeIfNull: false, defaultValue: '')
   final String email;
-  @JsonKey(name: 'accept_external')
+  @JsonKey(name: 'accept_external', includeIfNull: false)
   @deprecated
   final bool? acceptExternal;
   static const fromJsonFactory = _$CoreUserCreateRequestFromJson;
@@ -8572,9 +8562,9 @@ class CoreUserFusionRequest {
   static const toJsonFactory = _$CoreUserFusionRequestToJson;
   Map<String, dynamic> toJson() => _$CoreUserFusionRequestToJson(this);
 
-  @JsonKey(name: 'user_kept_email', defaultValue: '')
+  @JsonKey(name: 'user_kept_email', includeIfNull: false, defaultValue: '')
   final String userKeptEmail;
-  @JsonKey(name: 'user_deleted_email', defaultValue: '')
+  @JsonKey(name: 'user_deleted_email', includeIfNull: false, defaultValue: '')
   final String userDeletedEmail;
   static const fromJsonFactory = _$CoreUserFusionRequestFromJson;
 
@@ -8654,21 +8644,22 @@ class CoreUserSimple {
   static const toJsonFactory = _$CoreUserSimpleToJson;
   Map<String, dynamic> toJson() => _$CoreUserSimpleToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'firstname', defaultValue: '')
+  @JsonKey(name: 'firstname', includeIfNull: false, defaultValue: '')
   final String firstname;
-  @JsonKey(name: 'nickname')
+  @JsonKey(name: 'nickname', includeIfNull: false)
   final String? nickname;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   @JsonKey(
     name: 'account_type',
+    includeIfNull: false,
     toJson: accountTypeToJson,
     fromJson: accountTypeFromJson,
   )
   final enums.AccountType accountType;
-  @JsonKey(name: 'school_id', defaultValue: '')
+  @JsonKey(name: 'school_id', includeIfNull: false, defaultValue: '')
   final String schoolId;
   static const fromJsonFactory = _$CoreUserSimpleFromJson;
 
@@ -8765,13 +8756,13 @@ class CoreUserUpdate {
   static const toJsonFactory = _$CoreUserUpdateToJson;
   Map<String, dynamic> toJson() => _$CoreUserUpdateToJson(this);
 
-  @JsonKey(name: 'nickname')
+  @JsonKey(name: 'nickname', includeIfNull: false)
   final String? nickname;
-  @JsonKey(name: 'birthday', toJson: _dateToJson)
+  @JsonKey(name: 'birthday', includeIfNull: false, toJson: _dateToJson)
   final DateTime? birthday;
-  @JsonKey(name: 'phone')
+  @JsonKey(name: 'phone', includeIfNull: false)
   final String? phone;
-  @JsonKey(name: 'floor')
+  @JsonKey(name: 'floor', includeIfNull: false)
   final String? floor;
   static const fromJsonFactory = _$CoreUserUpdateFromJson;
 
@@ -8859,29 +8850,30 @@ class CoreUserUpdateAdmin {
   static const toJsonFactory = _$CoreUserUpdateAdminToJson;
   Map<String, dynamic> toJson() => _$CoreUserUpdateAdminToJson(this);
 
-  @JsonKey(name: 'email')
+  @JsonKey(name: 'email', includeIfNull: false)
   final String? email;
-  @JsonKey(name: 'school_id')
+  @JsonKey(name: 'school_id', includeIfNull: false)
   final String? schoolId;
   @JsonKey(
     name: 'account_type',
+    includeIfNull: false,
     toJson: accountTypeNullableToJson,
     fromJson: accountTypeNullableFromJson,
   )
   final enums.AccountType? accountType;
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'firstname')
+  @JsonKey(name: 'firstname', includeIfNull: false)
   final String? firstname;
-  @JsonKey(name: 'promo')
+  @JsonKey(name: 'promo', includeIfNull: false)
   final int? promo;
-  @JsonKey(name: 'nickname')
+  @JsonKey(name: 'nickname', includeIfNull: false)
   final String? nickname;
-  @JsonKey(name: 'birthday', toJson: _dateToJson)
+  @JsonKey(name: 'birthday', includeIfNull: false, toJson: _dateToJson)
   final DateTime? birthday;
-  @JsonKey(name: 'phone')
+  @JsonKey(name: 'phone', includeIfNull: false)
   final String? phone;
-  @JsonKey(name: 'floor')
+  @JsonKey(name: 'floor', includeIfNull: false)
   final String? floor;
   static const fromJsonFactory = _$CoreUserUpdateAdminFromJson;
 
@@ -9027,25 +9019,25 @@ class CoreVariables {
   static const toJsonFactory = _$CoreVariablesToJson;
   Map<String, dynamic> toJson() => _$CoreVariablesToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'entity_name', defaultValue: '')
+  @JsonKey(name: 'entity_name', includeIfNull: false, defaultValue: '')
   final String entityName;
-  @JsonKey(name: 'email_placeholder', defaultValue: '')
+  @JsonKey(name: 'email_placeholder', includeIfNull: false, defaultValue: '')
   final String emailPlaceholder;
-  @JsonKey(name: 'main_activation_form')
+  @JsonKey(name: 'main_activation_form', includeIfNull: false)
   final MainActivationForm mainActivationForm;
-  @JsonKey(name: 'student_email_regex', defaultValue: '')
+  @JsonKey(name: 'student_email_regex', includeIfNull: false, defaultValue: '')
   final String studentEmailRegex;
-  @JsonKey(name: 'staff_email_regex')
+  @JsonKey(name: 'staff_email_regex', includeIfNull: false)
   final String? staffEmailRegex;
-  @JsonKey(name: 'former_student_email_regex')
+  @JsonKey(name: 'former_student_email_regex', includeIfNull: false)
   final String? formerStudentEmailRegex;
-  @JsonKey(name: 'primary_color', defaultValue: '')
+  @JsonKey(name: 'primary_color', includeIfNull: false, defaultValue: '')
   final String primaryColor;
-  @JsonKey(name: 'play_store_url')
+  @JsonKey(name: 'play_store_url', includeIfNull: false)
   final String? playStoreUrl;
-  @JsonKey(name: 'app_store_url')
+  @JsonKey(name: 'app_store_url', includeIfNull: false)
   final String? appStoreUrl;
   static const fromJsonFactory = _$CoreVariablesFromJson;
 
@@ -9203,7 +9195,7 @@ class CurriculumBase {
   static const toJsonFactory = _$CurriculumBaseToJson;
   Map<String, dynamic> toJson() => _$CurriculumBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
   static const fromJsonFactory = _$CurriculumBaseFromJson;
 
@@ -9244,9 +9236,9 @@ class CurriculumComplete {
   static const toJsonFactory = _$CurriculumCompleteToJson;
   Map<String, dynamic> toJson() => _$CurriculumCompleteToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$CurriculumCompleteFromJson;
 
@@ -9297,7 +9289,7 @@ class CustomDataBase {
   static const toJsonFactory = _$CustomDataBaseToJson;
   Map<String, dynamic> toJson() => _$CustomDataBaseToJson(this);
 
-  @JsonKey(name: 'value', defaultValue: '')
+  @JsonKey(name: 'value', includeIfNull: false, defaultValue: '')
   final String value;
   static const fromJsonFactory = _$CustomDataBaseFromJson;
 
@@ -9348,13 +9340,13 @@ class CustomDataComplete {
   static const toJsonFactory = _$CustomDataCompleteToJson;
   Map<String, dynamic> toJson() => _$CustomDataCompleteToJson(this);
 
-  @JsonKey(name: 'value', defaultValue: '')
+  @JsonKey(name: 'value', includeIfNull: false, defaultValue: '')
   final String value;
-  @JsonKey(name: 'field_id', defaultValue: '')
+  @JsonKey(name: 'field_id', includeIfNull: false, defaultValue: '')
   final String fieldId;
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'field')
+  @JsonKey(name: 'field', includeIfNull: false)
   final CustomDataFieldComplete field;
   static const fromJsonFactory = _$CustomDataCompleteFromJson;
 
@@ -9429,9 +9421,9 @@ class CustomDataFieldBase {
   static const toJsonFactory = _$CustomDataFieldBaseToJson;
   Map<String, dynamic> toJson() => _$CustomDataFieldBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'can_user_answer', defaultValue: false)
+  @JsonKey(name: 'can_user_answer', includeIfNull: false, defaultValue: false)
   final bool canUserAnswer;
   static const fromJsonFactory = _$CustomDataFieldBaseFromJson;
 
@@ -9500,13 +9492,13 @@ class CustomDataFieldComplete {
   static const toJsonFactory = _$CustomDataFieldCompleteToJson;
   Map<String, dynamic> toJson() => _$CustomDataFieldCompleteToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'can_user_answer', defaultValue: false)
+  @JsonKey(name: 'can_user_answer', includeIfNull: false, defaultValue: false)
   final bool canUserAnswer;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'product_id', defaultValue: '')
+  @JsonKey(name: 'product_id', includeIfNull: false, defaultValue: '')
   final String productId;
   static const fromJsonFactory = _$CustomDataFieldCompleteFromJson;
 
@@ -9590,11 +9582,11 @@ class DeliveryBase {
   static const toJsonFactory = _$DeliveryBaseToJson;
   Map<String, dynamic> toJson() => _$DeliveryBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'delivery_date', toJson: _dateToJson)
+  @JsonKey(name: 'delivery_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime deliveryDate;
-  @JsonKey(name: 'products_ids', defaultValue: <String>[])
+  @JsonKey(name: 'products_ids', includeIfNull: false, defaultValue: <String>[])
   final List<String>? productsIds;
   static const fromJsonFactory = _$DeliveryBaseFromJson;
 
@@ -9667,7 +9659,7 @@ class DeliveryProductsUpdate {
   static const toJsonFactory = _$DeliveryProductsUpdateToJson;
   Map<String, dynamic> toJson() => _$DeliveryProductsUpdateToJson(this);
 
-  @JsonKey(name: 'products_ids', defaultValue: <String>[])
+  @JsonKey(name: 'products_ids', includeIfNull: false, defaultValue: <String>[])
   final List<String> productsIds;
   static const fromJsonFactory = _$DeliveryProductsUpdateFromJson;
 
@@ -9724,19 +9716,21 @@ class DeliveryReturn {
   static const toJsonFactory = _$DeliveryReturnToJson;
   Map<String, dynamic> toJson() => _$DeliveryReturnToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'delivery_date', toJson: _dateToJson)
+  @JsonKey(name: 'delivery_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime deliveryDate;
   @JsonKey(
     name: 'products',
+    includeIfNull: false,
     defaultValue: <AppModulesAmapSchemasAmapProductComplete>[],
   )
   final List<AppModulesAmapSchemasAmapProductComplete>? products;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   @JsonKey(
     name: 'status',
+    includeIfNull: false,
     toJson: deliveryStatusTypeToJson,
     fromJson: deliveryStatusTypeFromJson,
   )
@@ -9825,9 +9819,9 @@ class DeliveryUpdate {
   static const toJsonFactory = _$DeliveryUpdateToJson;
   Map<String, dynamic> toJson() => _$DeliveryUpdateToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'delivery_date', toJson: _dateToJson)
+  @JsonKey(name: 'delivery_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime? deliveryDate;
   static const fromJsonFactory = _$DeliveryUpdateFromJson;
 
@@ -9900,18 +9894,20 @@ class Document {
 
   @JsonKey(
     name: 'type',
+    includeIfNull: false,
     toJson: documentTypeToJson,
     fromJson: documentTypeFromJson,
   )
   final enums.DocumentType type;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'uploaded_at', toJson: _dateToJson)
+  @JsonKey(name: 'uploaded_at', includeIfNull: false, toJson: _dateToJson)
   final DateTime uploadedAt;
   @JsonKey(
     name: 'validation',
+    includeIfNull: false,
     toJson: documentValidationToJson,
     fromJson: documentValidationFromJson,
   )
@@ -9998,7 +9994,7 @@ class DocumentBase {
   static const toJsonFactory = _$DocumentBaseToJson;
   Map<String, dynamic> toJson() => _$DocumentBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
   static const fromJsonFactory = _$DocumentBaseFromJson;
 
@@ -10044,11 +10040,11 @@ class DocumentComplete {
   static const toJsonFactory = _$DocumentCompleteToJson;
   Map<String, dynamic> toJson() => _$DocumentCompleteToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'seller_id', defaultValue: '')
+  @JsonKey(name: 'seller_id', includeIfNull: false, defaultValue: '')
   final String sellerId;
   static const fromJsonFactory = _$DocumentCompleteFromJson;
 
@@ -10111,7 +10107,7 @@ class DocumentCreation {
   static const toJsonFactory = _$DocumentCreationToJson;
   Map<String, dynamic> toJson() => _$DocumentCreationToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$DocumentCreationFromJson;
 
@@ -10152,11 +10148,11 @@ class EmergencyContact {
   static const toJsonFactory = _$EmergencyContactToJson;
   Map<String, dynamic> toJson() => _$EmergencyContactToJson(this);
 
-  @JsonKey(name: 'firstname')
+  @JsonKey(name: 'firstname', includeIfNull: false)
   final String? firstname;
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'phone')
+  @JsonKey(name: 'phone', includeIfNull: false)
   final String? phone;
   static const fromJsonFactory = _$EmergencyContactFromJson;
 
@@ -10245,34 +10241,47 @@ class EventAdmin {
   static const toJsonFactory = _$EventAdminToJson;
   Map<String, dynamic> toJson() => _$EventAdminToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'store_id', defaultValue: '')
+  @JsonKey(name: 'store_id', includeIfNull: false, defaultValue: '')
   final String storeId;
   @JsonKey(
     name: 'open_datetime',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime openDatetime;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'close_datetime')
+  @JsonKey(name: 'close_datetime', includeIfNull: false)
   final DateTime? closeDatetime;
-  @JsonKey(name: 'disabled', defaultValue: false)
+  @JsonKey(name: 'disabled', includeIfNull: false, defaultValue: false)
   final bool disabled;
-  @JsonKey(name: 'quota')
+  @JsonKey(name: 'quota', includeIfNull: false)
   final int? quota;
-  @JsonKey(name: 'sessions', defaultValue: <SessionAdmin>[])
+  @JsonKey(
+    name: 'sessions',
+    includeIfNull: false,
+    defaultValue: <SessionAdmin>[],
+  )
   final List<SessionAdmin> sessions;
-  @JsonKey(name: 'categories', defaultValue: <CategoryAdmin>[])
+  @JsonKey(
+    name: 'categories',
+    includeIfNull: false,
+    defaultValue: <CategoryAdmin>[],
+  )
   final List<CategoryAdmin> categories;
-  @JsonKey(name: 'questions', defaultValue: <QuestionAdmin>[])
+  @JsonKey(
+    name: 'questions',
+    includeIfNull: false,
+    defaultValue: <QuestionAdmin>[],
+  )
   final List<QuestionAdmin> questions;
-  @JsonKey(name: 'tickets_in_checkout', defaultValue: 0)
+  @JsonKey(name: 'tickets_in_checkout', includeIfNull: false, defaultValue: 0)
   final int ticketsInCheckout;
-  @JsonKey(name: 'tickets_sold', defaultValue: 0)
+  @JsonKey(name: 'tickets_sold', includeIfNull: false, defaultValue: 0)
   final int ticketsSold;
   static const fromJsonFactory = _$EventAdminFromJson;
 
@@ -10453,30 +10462,40 @@ class EventBaseCreation {
   static const toJsonFactory = _$EventBaseCreationToJson;
   Map<String, dynamic> toJson() => _$EventBaseCreationToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'start', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'start',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime start;
-  @JsonKey(name: 'end', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'end',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime end;
-  @JsonKey(name: 'all_day', defaultValue: false)
+  @JsonKey(name: 'all_day', includeIfNull: false, defaultValue: false)
   final bool allDay;
-  @JsonKey(name: 'location', defaultValue: '')
+  @JsonKey(name: 'location', includeIfNull: false, defaultValue: '')
   final String location;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'recurrence_rule')
+  @JsonKey(name: 'recurrence_rule', includeIfNull: false)
   final String? recurrenceRule;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'ticket_url_opening')
+  @JsonKey(name: 'ticket_url_opening', includeIfNull: false)
   final DateTime? ticketUrlOpening;
-  @JsonKey(name: 'notification', defaultValue: false)
+  @JsonKey(name: 'notification', includeIfNull: false, defaultValue: false)
   final bool notification;
-  @JsonKey(name: 'association_id', defaultValue: '')
+  @JsonKey(name: 'association_id', includeIfNull: false, defaultValue: '')
   final String associationId;
-  @JsonKey(name: 'ticket_url')
+  @JsonKey(name: 'ticket_url', includeIfNull: false)
   final String? ticketUrl;
-  @JsonKey(name: 'ticket_event_id')
+  @JsonKey(name: 'ticket_event_id', includeIfNull: false)
   final String? ticketEventId;
   static const fromJsonFactory = _$EventBaseCreationFromJson;
 
@@ -10664,36 +10683,51 @@ class EventCompleteTicketUrl {
   static const toJsonFactory = _$EventCompleteTicketUrlToJson;
   Map<String, dynamic> toJson() => _$EventCompleteTicketUrlToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'start', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'start',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime start;
-  @JsonKey(name: 'end', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'end',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime end;
-  @JsonKey(name: 'all_day', defaultValue: false)
+  @JsonKey(name: 'all_day', includeIfNull: false, defaultValue: false)
   final bool allDay;
-  @JsonKey(name: 'location', defaultValue: '')
+  @JsonKey(name: 'location', includeIfNull: false, defaultValue: '')
   final String location;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'recurrence_rule')
+  @JsonKey(name: 'recurrence_rule', includeIfNull: false)
   final String? recurrenceRule;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'ticket_url_opening')
+  @JsonKey(name: 'ticket_url_opening', includeIfNull: false)
   final DateTime? ticketUrlOpening;
-  @JsonKey(name: 'notification', defaultValue: false)
+  @JsonKey(name: 'notification', includeIfNull: false, defaultValue: false)
   final bool notification;
-  @JsonKey(name: 'association_id', defaultValue: '')
+  @JsonKey(name: 'association_id', includeIfNull: false, defaultValue: '')
   final String associationId;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'association')
+  @JsonKey(name: 'association', includeIfNull: false)
   final Association association;
-  @JsonKey(name: 'decision', toJson: decisionToJson, fromJson: decisionFromJson)
+  @JsonKey(
+    name: 'decision',
+    includeIfNull: false,
+    toJson: decisionToJson,
+    fromJson: decisionFromJson,
+  )
   final enums.Decision decision;
-  @JsonKey(name: 'ticket_url')
+  @JsonKey(name: 'ticket_url', includeIfNull: false)
   final String? ticketUrl;
-  @JsonKey(name: 'ticket_event_id')
+  @JsonKey(name: 'ticket_event_id', includeIfNull: false)
   final String? ticketEventId;
   static const fromJsonFactory = _$EventCompleteTicketUrlFromJson;
 
@@ -10899,26 +10933,39 @@ class EventCreate {
   static const toJsonFactory = _$EventCreateToJson;
   Map<String, dynamic> toJson() => _$EventCreateToJson(this);
 
-  @JsonKey(name: 'store_id', defaultValue: '')
+  @JsonKey(name: 'store_id', includeIfNull: false, defaultValue: '')
   final String storeId;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'quota')
+  @JsonKey(name: 'quota', includeIfNull: false)
   final int? quota;
   @JsonKey(
     name: 'open_datetime',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime openDatetime;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'close_datetime')
+  @JsonKey(name: 'close_datetime', includeIfNull: false)
   final DateTime? closeDatetime;
-  @JsonKey(name: 'sessions', defaultValue: <SessionCreate>[])
+  @JsonKey(
+    name: 'sessions',
+    includeIfNull: false,
+    defaultValue: <SessionCreate>[],
+  )
   final List<SessionCreate> sessions;
-  @JsonKey(name: 'categories', defaultValue: <CategoryCreate>[])
+  @JsonKey(
+    name: 'categories',
+    includeIfNull: false,
+    defaultValue: <CategoryCreate>[],
+  )
   final List<CategoryCreate> categories;
-  @JsonKey(name: 'questions', defaultValue: <QuestionCreate>[])
+  @JsonKey(
+    name: 'questions',
+    includeIfNull: false,
+    defaultValue: <QuestionCreate>[],
+  )
   final List<QuestionCreate> questions;
   static const fromJsonFactory = _$EventCreateFromJson;
 
@@ -11051,30 +11098,30 @@ class EventEdit {
   static const toJsonFactory = _$EventEditToJson;
   Map<String, dynamic> toJson() => _$EventEditToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'start')
+  @JsonKey(name: 'start', includeIfNull: false)
   final DateTime? start;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'end')
+  @JsonKey(name: 'end', includeIfNull: false)
   final DateTime? end;
-  @JsonKey(name: 'all_day')
+  @JsonKey(name: 'all_day', includeIfNull: false)
   final bool? allDay;
-  @JsonKey(name: 'location')
+  @JsonKey(name: 'location', includeIfNull: false)
   final String? location;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'recurrence_rule')
+  @JsonKey(name: 'recurrence_rule', includeIfNull: false)
   final String? recurrenceRule;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'ticket_url_opening')
+  @JsonKey(name: 'ticket_url_opening', includeIfNull: false)
   final DateTime? ticketUrlOpening;
-  @JsonKey(name: 'ticket_url')
+  @JsonKey(name: 'ticket_url', includeIfNull: false)
   final String? ticketUrl;
-  @JsonKey(name: 'ticket_event_id')
+  @JsonKey(name: 'ticket_event_id', includeIfNull: false)
   final String? ticketEventId;
-  @JsonKey(name: 'notification')
+  @JsonKey(name: 'notification', includeIfNull: false)
   final bool? notification;
   static const fromJsonFactory = _$EventEditFromJson;
 
@@ -11245,30 +11292,43 @@ class EventPublic {
   static const toJsonFactory = _$EventPublicToJson;
   Map<String, dynamic> toJson() => _$EventPublicToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'store_id', defaultValue: '')
+  @JsonKey(name: 'store_id', includeIfNull: false, defaultValue: '')
   final String storeId;
   @JsonKey(
     name: 'open_datetime',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime openDatetime;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'close_datetime')
+  @JsonKey(name: 'close_datetime', includeIfNull: false)
   final DateTime? closeDatetime;
-  @JsonKey(name: 'disabled', defaultValue: false)
+  @JsonKey(name: 'disabled', includeIfNull: false, defaultValue: false)
   final bool disabled;
-  @JsonKey(name: 'sessions', defaultValue: <SessionPublic>[])
+  @JsonKey(
+    name: 'sessions',
+    includeIfNull: false,
+    defaultValue: <SessionPublic>[],
+  )
   final List<SessionPublic> sessions;
-  @JsonKey(name: 'categories', defaultValue: <CategoryPublic>[])
+  @JsonKey(
+    name: 'categories',
+    includeIfNull: false,
+    defaultValue: <CategoryPublic>[],
+  )
   final List<CategoryPublic> categories;
-  @JsonKey(name: 'questions', defaultValue: <QuestionPublic>[])
+  @JsonKey(
+    name: 'questions',
+    includeIfNull: false,
+    defaultValue: <QuestionPublic>[],
+  )
   final List<QuestionPublic> questions;
-  @JsonKey(name: 'sold_out', defaultValue: false)
+  @JsonKey(name: 'sold_out', includeIfNull: false, defaultValue: false)
   final bool soldOut;
   static const fromJsonFactory = _$EventPublicFromJson;
 
@@ -11420,22 +11480,23 @@ class EventSimple {
   static const toJsonFactory = _$EventSimpleToJson;
   Map<String, dynamic> toJson() => _$EventSimpleToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'store_id', defaultValue: '')
+  @JsonKey(name: 'store_id', includeIfNull: false, defaultValue: '')
   final String storeId;
   @JsonKey(
     name: 'open_datetime',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime openDatetime;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'close_datetime')
+  @JsonKey(name: 'close_datetime', includeIfNull: false)
   final DateTime? closeDatetime;
-  @JsonKey(name: 'disabled', defaultValue: false)
+  @JsonKey(name: 'disabled', includeIfNull: false, defaultValue: false)
   final bool disabled;
   static const fromJsonFactory = _$EventSimpleFromJson;
 
@@ -11536,7 +11597,7 @@ class EventTicketUrl {
   static const toJsonFactory = _$EventTicketUrlToJson;
   Map<String, dynamic> toJson() => _$EventTicketUrlToJson(this);
 
-  @JsonKey(name: 'ticket_url', defaultValue: '')
+  @JsonKey(name: 'ticket_url', includeIfNull: false, defaultValue: '')
   final String ticketUrl;
   static const fromJsonFactory = _$EventTicketUrlFromJson;
 
@@ -11588,17 +11649,17 @@ class EventUpdate {
   static const toJsonFactory = _$EventUpdateToJson;
   Map<String, dynamic> toJson() => _$EventUpdateToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'quota')
+  @JsonKey(name: 'quota', includeIfNull: false)
   final int? quota;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'open_datetime')
+  @JsonKey(name: 'open_datetime', includeIfNull: false)
   final DateTime? openDatetime;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'close_datetime')
+  @JsonKey(name: 'close_datetime', includeIfNull: false)
   final DateTime? closeDatetime;
-  @JsonKey(name: 'disabled')
+  @JsonKey(name: 'disabled', includeIfNull: false)
   final bool? disabled;
   static const fromJsonFactory = _$EventUpdateFromJson;
 
@@ -11689,9 +11750,13 @@ class FirebaseDevice {
   static const toJsonFactory = _$FirebaseDeviceToJson;
   Map<String, dynamic> toJson() => _$FirebaseDeviceToJson(this);
 
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'firebase_device_token', defaultValue: '')
+  @JsonKey(
+    name: 'firebase_device_token',
+    includeIfNull: false,
+    defaultValue: '',
+  )
   final String? firebaseDeviceToken;
   static const fromJsonFactory = _$FirebaseDeviceFromJson;
 
@@ -11750,7 +11815,7 @@ class FlappyBirdScoreBase {
   static const toJsonFactory = _$FlappyBirdScoreBaseToJson;
   Map<String, dynamic> toJson() => _$FlappyBirdScoreBaseToJson(this);
 
-  @JsonKey(name: 'value', defaultValue: 0)
+  @JsonKey(name: 'value', includeIfNull: false, defaultValue: 0)
   final int value;
   static const fromJsonFactory = _$FlappyBirdScoreBaseFromJson;
 
@@ -11805,17 +11870,18 @@ class FlappyBirdScoreCompleteFeedBack {
   Map<String, dynamic> toJson() =>
       _$FlappyBirdScoreCompleteFeedBackToJson(this);
 
-  @JsonKey(name: 'value', defaultValue: 0)
+  @JsonKey(name: 'value', includeIfNull: false, defaultValue: 0)
   final int value;
-  @JsonKey(name: 'user')
+  @JsonKey(name: 'user', includeIfNull: false)
   final CoreUserSimple user;
   @JsonKey(
     name: 'creation_time',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime creationTime;
-  @JsonKey(name: 'position', defaultValue: 0)
+  @JsonKey(name: 'position', includeIfNull: false, defaultValue: 0)
   final int position;
   static const fromJsonFactory = _$FlappyBirdScoreCompleteFeedBackFromJson;
 
@@ -11907,19 +11973,20 @@ class FlappyBirdScoreInDB {
   static const toJsonFactory = _$FlappyBirdScoreInDBToJson;
   Map<String, dynamic> toJson() => _$FlappyBirdScoreInDBToJson(this);
 
-  @JsonKey(name: 'value', defaultValue: 0)
+  @JsonKey(name: 'value', includeIfNull: false, defaultValue: 0)
   final int value;
-  @JsonKey(name: 'user')
+  @JsonKey(name: 'user', includeIfNull: false)
   final CoreUserSimple user;
   @JsonKey(
     name: 'creation_time',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime creationTime;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
   static const fromJsonFactory = _$FlappyBirdScoreInDBFromJson;
 
@@ -12007,12 +12074,13 @@ class GenerateTicketBase {
   static const toJsonFactory = _$GenerateTicketBaseToJson;
   Map<String, dynamic> toJson() => _$GenerateTicketBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'max_use', defaultValue: 0)
+  @JsonKey(name: 'max_use', includeIfNull: false, defaultValue: 0)
   final int maxUse;
   @JsonKey(
     name: 'expiration',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
@@ -12092,17 +12160,18 @@ class GenerateTicketComplete {
   static const toJsonFactory = _$GenerateTicketCompleteToJson;
   Map<String, dynamic> toJson() => _$GenerateTicketCompleteToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'max_use', defaultValue: 0)
+  @JsonKey(name: 'max_use', includeIfNull: false, defaultValue: 0)
   final int maxUse;
   @JsonKey(
     name: 'expiration',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime expiration;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$GenerateTicketCompleteFromJson;
 
@@ -12181,11 +12250,11 @@ class GroupNotificationRequest {
   static const toJsonFactory = _$GroupNotificationRequestToJson;
   Map<String, dynamic> toJson() => _$GroupNotificationRequestToJson(this);
 
-  @JsonKey(name: 'group_id', defaultValue: '')
+  @JsonKey(name: 'group_id', includeIfNull: false, defaultValue: '')
   final String groupId;
-  @JsonKey(name: 'title', defaultValue: '')
+  @JsonKey(name: 'title', includeIfNull: false, defaultValue: '')
   final String title;
-  @JsonKey(name: 'content', defaultValue: '')
+  @JsonKey(name: 'content', includeIfNull: false, defaultValue: '')
   final String content;
   static const fromJsonFactory = _$GroupNotificationRequestFromJson;
 
@@ -12252,7 +12321,11 @@ class HTTPValidationError {
   static const toJsonFactory = _$HTTPValidationErrorToJson;
   Map<String, dynamic> toJson() => _$HTTPValidationErrorToJson(this);
 
-  @JsonKey(name: 'detail', defaultValue: <ValidationError>[])
+  @JsonKey(
+    name: 'detail',
+    includeIfNull: false,
+    defaultValue: <ValidationError>[],
+  )
   final List<ValidationError>? detail;
   static const fromJsonFactory = _$HTTPValidationErrorFromJson;
 
@@ -12314,33 +12387,41 @@ class History {
   static const toJsonFactory = _$HistoryToJson;
   Map<String, dynamic> toJson() => _$HistoryToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   @JsonKey(
     name: 'type',
+    includeIfNull: false,
     toJson: historyTypeToJson,
     fromJson: historyTypeFromJson,
   )
   final enums.HistoryType type;
   @JsonKey(
     name: 'direction',
+    includeIfNull: false,
     toJson: historyDirectionToJson,
     fromJson: historyDirectionFromJson,
   )
   final enums.HistoryDirection direction;
-  @JsonKey(name: 'other_wallet_name', defaultValue: '')
+  @JsonKey(name: 'other_wallet_name', includeIfNull: false, defaultValue: '')
   final String otherWalletName;
-  @JsonKey(name: 'total', defaultValue: 0)
+  @JsonKey(name: 'total', includeIfNull: false, defaultValue: 0)
   final int total;
-  @JsonKey(name: 'creation', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'creation',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime creation;
   @JsonKey(
     name: 'status',
+    includeIfNull: false,
     toJson: transactionStatusToJson,
     fromJson: transactionStatusFromJson,
   )
   final enums.TransactionStatus status;
-  @JsonKey(name: 'refund')
+  @JsonKey(name: 'refund', includeIfNull: false)
   final HistoryRefund? refund;
   static const fromJsonFactory = _$HistoryFromJson;
 
@@ -12451,9 +12532,14 @@ class HistoryRefund {
   static const toJsonFactory = _$HistoryRefundToJson;
   Map<String, dynamic> toJson() => _$HistoryRefundToJson(this);
 
-  @JsonKey(name: 'total', defaultValue: 0)
+  @JsonKey(name: 'total', includeIfNull: false, defaultValue: 0)
   final int total;
-  @JsonKey(name: 'creation', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'creation',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime creation;
   static const fromJsonFactory = _$HistoryRefundFromJson;
 
@@ -12510,7 +12596,7 @@ class IcalSecret {
   static const toJsonFactory = _$IcalSecretToJson;
   Map<String, dynamic> toJson() => _$IcalSecretToJson(this);
 
-  @JsonKey(name: 'secret', defaultValue: '')
+  @JsonKey(name: 'secret', includeIfNull: false, defaultValue: '')
   final String secret;
   static const fromJsonFactory = _$IcalSecretFromJson;
 
@@ -12556,11 +12642,11 @@ class Information {
   static const toJsonFactory = _$InformationToJson;
   Map<String, dynamic> toJson() => _$InformationToJson(this);
 
-  @JsonKey(name: 'manager', defaultValue: '')
+  @JsonKey(name: 'manager', includeIfNull: false, defaultValue: '')
   final String manager;
-  @JsonKey(name: 'link', defaultValue: '')
+  @JsonKey(name: 'link', includeIfNull: false, defaultValue: '')
   final String link;
-  @JsonKey(name: 'description', defaultValue: '')
+  @JsonKey(name: 'description', includeIfNull: false, defaultValue: '')
   final String description;
   static const fromJsonFactory = _$InformationFromJson;
 
@@ -12626,11 +12712,11 @@ class InformationEdit {
   static const toJsonFactory = _$InformationEditToJson;
   Map<String, dynamic> toJson() => _$InformationEditToJson(this);
 
-  @JsonKey(name: 'manager')
+  @JsonKey(name: 'manager', includeIfNull: false)
   final String? manager;
-  @JsonKey(name: 'link')
+  @JsonKey(name: 'link', includeIfNull: false)
   final String? link;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
   static const fromJsonFactory = _$InformationEditFromJson;
 
@@ -12712,15 +12798,24 @@ class IntegrityCheckData {
   static const toJsonFactory = _$IntegrityCheckDataToJson;
   Map<String, dynamic> toJson() => _$IntegrityCheckDataToJson(this);
 
-  @JsonKey(name: 'date', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'date',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime date;
-  @JsonKey(name: 'wallets', defaultValue: <WalletBase>[])
+  @JsonKey(name: 'wallets', includeIfNull: false, defaultValue: <WalletBase>[])
   final List<WalletBase> wallets;
-  @JsonKey(name: 'transactions', defaultValue: <TransactionBase>[])
+  @JsonKey(
+    name: 'transactions',
+    includeIfNull: false,
+    defaultValue: <TransactionBase>[],
+  )
   final List<TransactionBase> transactions;
-  @JsonKey(name: 'transfers', defaultValue: <Transfer>[])
+  @JsonKey(name: 'transfers', includeIfNull: false, defaultValue: <Transfer>[])
   final List<Transfer> transfers;
-  @JsonKey(name: 'refunds', defaultValue: <RefundBase>[])
+  @JsonKey(name: 'refunds', includeIfNull: false, defaultValue: <RefundBase>[])
   final List<RefundBase> refunds;
   static const fromJsonFactory = _$IntegrityCheckDataFromJson;
 
@@ -12810,7 +12905,7 @@ class IntrospectTokenResponse {
   static const toJsonFactory = _$IntrospectTokenResponseToJson;
   Map<String, dynamic> toJson() => _$IntrospectTokenResponseToJson(this);
 
-  @JsonKey(name: 'active', defaultValue: false)
+  @JsonKey(name: 'active', includeIfNull: false, defaultValue: false)
   final bool active;
   static const fromJsonFactory = _$IntrospectTokenResponseFromJson;
 
@@ -12853,9 +12948,9 @@ class InviteToken {
   static const toJsonFactory = _$InviteTokenToJson;
   Map<String, dynamic> toJson() => _$InviteTokenToJson(this);
 
-  @JsonKey(name: 'team_id', defaultValue: '')
+  @JsonKey(name: 'team_id', includeIfNull: false, defaultValue: '')
   final String teamId;
-  @JsonKey(name: 'token', defaultValue: '')
+  @JsonKey(name: 'token', includeIfNull: false, defaultValue: '')
   final String token;
   static const fromJsonFactory = _$InviteTokenFromJson;
 
@@ -12931,31 +13026,46 @@ class Invoice {
   static const toJsonFactory = _$InvoiceToJson;
   Map<String, dynamic> toJson() => _$InvoiceToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'reference', defaultValue: '')
+  @JsonKey(name: 'reference', includeIfNull: false, defaultValue: '')
   final String reference;
-  @JsonKey(name: 'structure_id', defaultValue: '')
+  @JsonKey(name: 'structure_id', includeIfNull: false, defaultValue: '')
   final String structureId;
-  @JsonKey(name: 'creation', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'creation',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime creation;
   @JsonKey(
     name: 'start_date',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime startDate;
-  @JsonKey(name: 'end_date', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'end_date',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime endDate;
-  @JsonKey(name: 'total', defaultValue: 0)
+  @JsonKey(name: 'total', includeIfNull: false, defaultValue: 0)
   final int total;
-  @JsonKey(name: 'paid', defaultValue: false)
+  @JsonKey(name: 'paid', includeIfNull: false, defaultValue: false)
   final bool? paid;
-  @JsonKey(name: 'received', defaultValue: false)
+  @JsonKey(name: 'received', includeIfNull: false, defaultValue: false)
   final bool? received;
-  @JsonKey(name: 'structure')
+  @JsonKey(name: 'structure', includeIfNull: false)
   final Structure structure;
-  @JsonKey(name: 'details', defaultValue: <InvoiceDetail>[])
+  @JsonKey(
+    name: 'details',
+    includeIfNull: false,
+    defaultValue: <InvoiceDetail>[],
+  )
   final List<InvoiceDetail> details;
   static const fromJsonFactory = _$InvoiceFromJson;
 
@@ -13106,13 +13216,13 @@ class InvoiceDetail {
   static const toJsonFactory = _$InvoiceDetailToJson;
   Map<String, dynamic> toJson() => _$InvoiceDetailToJson(this);
 
-  @JsonKey(name: 'invoice_id', defaultValue: '')
+  @JsonKey(name: 'invoice_id', includeIfNull: false, defaultValue: '')
   final String invoiceId;
-  @JsonKey(name: 'store_id', defaultValue: '')
+  @JsonKey(name: 'store_id', includeIfNull: false, defaultValue: '')
   final String storeId;
-  @JsonKey(name: 'total', defaultValue: 0)
+  @JsonKey(name: 'total', includeIfNull: false, defaultValue: 0)
   final int total;
-  @JsonKey(name: 'store')
+  @JsonKey(name: 'store', includeIfNull: false)
   final StoreSimple store;
   static const fromJsonFactory = _$InvoiceDetailFromJson;
 
@@ -13204,19 +13314,23 @@ class Item {
   static const toJsonFactory = _$ItemToJson;
   Map<String, dynamic> toJson() => _$ItemToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'suggested_caution', defaultValue: 0)
+  @JsonKey(name: 'suggested_caution', includeIfNull: false, defaultValue: 0)
   final int suggestedCaution;
-  @JsonKey(name: 'total_quantity', defaultValue: 0)
+  @JsonKey(name: 'total_quantity', includeIfNull: false, defaultValue: 0)
   final int totalQuantity;
-  @JsonKey(name: 'suggested_lending_duration', defaultValue: 0)
+  @JsonKey(
+    name: 'suggested_lending_duration',
+    includeIfNull: false,
+    defaultValue: 0,
+  )
   final int suggestedLendingDuration;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'loaner_id', defaultValue: '')
+  @JsonKey(name: 'loaner_id', includeIfNull: false, defaultValue: '')
   final String loanerId;
-  @JsonKey(name: 'loaned_quantity', defaultValue: 0)
+  @JsonKey(name: 'loaned_quantity', includeIfNull: false, defaultValue: 0)
   final int loanedQuantity;
   static const fromJsonFactory = _$ItemFromJson;
 
@@ -13345,13 +13459,17 @@ class ItemBase {
   static const toJsonFactory = _$ItemBaseToJson;
   Map<String, dynamic> toJson() => _$ItemBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'suggested_caution', defaultValue: 0)
+  @JsonKey(name: 'suggested_caution', includeIfNull: false, defaultValue: 0)
   final int suggestedCaution;
-  @JsonKey(name: 'total_quantity', defaultValue: 0)
+  @JsonKey(name: 'total_quantity', includeIfNull: false, defaultValue: 0)
   final int totalQuantity;
-  @JsonKey(name: 'suggested_lending_duration', defaultValue: 0)
+  @JsonKey(
+    name: 'suggested_lending_duration',
+    includeIfNull: false,
+    defaultValue: 0,
+  )
   final int suggestedLendingDuration;
   static const fromJsonFactory = _$ItemBaseFromJson;
 
@@ -13441,9 +13559,9 @@ class ItemBorrowed {
   static const toJsonFactory = _$ItemBorrowedToJson;
   Map<String, dynamic> toJson() => _$ItemBorrowedToJson(this);
 
-  @JsonKey(name: 'item_id', defaultValue: '')
+  @JsonKey(name: 'item_id', includeIfNull: false, defaultValue: '')
   final String itemId;
-  @JsonKey(name: 'quantity', defaultValue: 0)
+  @JsonKey(name: 'quantity', includeIfNull: false, defaultValue: 0)
   final int quantity;
   static const fromJsonFactory = _$ItemBorrowedFromJson;
 
@@ -13501,9 +13619,9 @@ class ItemQuantity {
   static const toJsonFactory = _$ItemQuantityToJson;
   Map<String, dynamic> toJson() => _$ItemQuantityToJson(this);
 
-  @JsonKey(name: 'quantity', defaultValue: 0)
+  @JsonKey(name: 'quantity', includeIfNull: false, defaultValue: 0)
   final int quantity;
-  @JsonKey(name: 'itemSimple')
+  @JsonKey(name: 'itemSimple', includeIfNull: false)
   final ItemSimple itemSimple;
   static const fromJsonFactory = _$ItemQuantityFromJson;
 
@@ -13567,11 +13685,11 @@ class ItemSimple {
   static const toJsonFactory = _$ItemSimpleToJson;
   Map<String, dynamic> toJson() => _$ItemSimpleToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'loaner_id', defaultValue: '')
+  @JsonKey(name: 'loaner_id', includeIfNull: false, defaultValue: '')
   final String loanerId;
   static const fromJsonFactory = _$ItemSimpleFromJson;
 
@@ -13639,13 +13757,13 @@ class ItemUpdate {
   static const toJsonFactory = _$ItemUpdateToJson;
   Map<String, dynamic> toJson() => _$ItemUpdateToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'suggested_caution')
+  @JsonKey(name: 'suggested_caution', includeIfNull: false)
   final int? suggestedCaution;
-  @JsonKey(name: 'total_quantity')
+  @JsonKey(name: 'total_quantity', includeIfNull: false)
   final int? totalQuantity;
-  @JsonKey(name: 'suggested_lending_duration')
+  @JsonKey(name: 'suggested_lending_duration', includeIfNull: false)
   final int? suggestedLendingDuration;
   static const fromJsonFactory = _$ItemUpdateFromJson;
 
@@ -13748,17 +13866,26 @@ class ListBase {
   static const toJsonFactory = _$ListBaseToJson;
   Map<String, dynamic> toJson() => _$ListBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'description', defaultValue: '')
+  @JsonKey(name: 'description', includeIfNull: false, defaultValue: '')
   final String description;
-  @JsonKey(name: 'type', toJson: listTypeToJson, fromJson: listTypeFromJson)
+  @JsonKey(
+    name: 'type',
+    includeIfNull: false,
+    toJson: listTypeToJson,
+    fromJson: listTypeFromJson,
+  )
   final enums.ListType type;
-  @JsonKey(name: 'section_id', defaultValue: '')
+  @JsonKey(name: 'section_id', includeIfNull: false, defaultValue: '')
   final String sectionId;
-  @JsonKey(name: 'members', defaultValue: <ListMemberBase>[])
+  @JsonKey(
+    name: 'members',
+    includeIfNull: false,
+    defaultValue: <ListMemberBase>[],
+  )
   final List<ListMemberBase> members;
-  @JsonKey(name: 'program')
+  @JsonKey(name: 'program', includeIfNull: false)
   final String? program;
   static const fromJsonFactory = _$ListBaseFromJson;
 
@@ -13858,19 +13985,20 @@ class ListEdit {
   static const toJsonFactory = _$ListEditToJson;
   Map<String, dynamic> toJson() => _$ListEditToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
   @JsonKey(
     name: 'type',
+    includeIfNull: false,
     toJson: listTypeNullableToJson,
     fromJson: listTypeNullableFromJson,
   )
   final enums.ListType? type;
-  @JsonKey(name: 'members')
+  @JsonKey(name: 'members', includeIfNull: false)
   final List<ListMemberBase>? members;
-  @JsonKey(name: 'program')
+  @JsonKey(name: 'program', includeIfNull: false)
   final String? program;
   static const fromJsonFactory = _$ListEditFromJson;
 
@@ -13954,9 +14082,9 @@ class ListMemberBase {
   static const toJsonFactory = _$ListMemberBaseToJson;
   Map<String, dynamic> toJson() => _$ListMemberBaseToJson(this);
 
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'role', defaultValue: '')
+  @JsonKey(name: 'role', includeIfNull: false, defaultValue: '')
   final String role;
   static const fromJsonFactory = _$ListMemberBaseFromJson;
 
@@ -14015,11 +14143,11 @@ class ListMemberComplete {
   static const toJsonFactory = _$ListMemberCompleteToJson;
   Map<String, dynamic> toJson() => _$ListMemberCompleteToJson(this);
 
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'role', defaultValue: '')
+  @JsonKey(name: 'role', includeIfNull: false, defaultValue: '')
   final String role;
-  @JsonKey(name: 'user')
+  @JsonKey(name: 'user', includeIfNull: false)
   final CoreUserSimple user;
   static const fromJsonFactory = _$ListMemberCompleteFromJson;
 
@@ -14098,19 +14226,28 @@ class ListReturn {
   static const toJsonFactory = _$ListReturnToJson;
   Map<String, dynamic> toJson() => _$ListReturnToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'description', defaultValue: '')
+  @JsonKey(name: 'description', includeIfNull: false, defaultValue: '')
   final String description;
-  @JsonKey(name: 'type', toJson: listTypeToJson, fromJson: listTypeFromJson)
+  @JsonKey(
+    name: 'type',
+    includeIfNull: false,
+    toJson: listTypeToJson,
+    fromJson: listTypeFromJson,
+  )
   final enums.ListType type;
-  @JsonKey(name: 'section')
+  @JsonKey(name: 'section', includeIfNull: false)
   final SectionComplete section;
-  @JsonKey(name: 'members', defaultValue: <ListMemberComplete>[])
+  @JsonKey(
+    name: 'members',
+    includeIfNull: false,
+    defaultValue: <ListMemberComplete>[],
+  )
   final List<ListMemberComplete> members;
-  @JsonKey(name: 'program')
+  @JsonKey(name: 'program', includeIfNull: false)
   final String? program;
   static const fromJsonFactory = _$ListReturnFromJson;
 
@@ -14234,29 +14371,33 @@ class Loan {
   static const toJsonFactory = _$LoanToJson;
   Map<String, dynamic> toJson() => _$LoanToJson(this);
 
-  @JsonKey(name: 'borrower_id', defaultValue: '')
+  @JsonKey(name: 'borrower_id', includeIfNull: false, defaultValue: '')
   final String borrowerId;
-  @JsonKey(name: 'loaner_id', defaultValue: '')
+  @JsonKey(name: 'loaner_id', includeIfNull: false, defaultValue: '')
   final String loanerId;
-  @JsonKey(name: 'start', toJson: _dateToJson)
+  @JsonKey(name: 'start', includeIfNull: false, toJson: _dateToJson)
   final DateTime start;
-  @JsonKey(name: 'end', toJson: _dateToJson)
+  @JsonKey(name: 'end', includeIfNull: false, toJson: _dateToJson)
   final DateTime end;
-  @JsonKey(name: 'notes')
+  @JsonKey(name: 'notes', includeIfNull: false)
   final String? notes;
-  @JsonKey(name: 'caution')
+  @JsonKey(name: 'caution', includeIfNull: false)
   final String? caution;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'returned', defaultValue: false)
+  @JsonKey(name: 'returned', includeIfNull: false, defaultValue: false)
   final bool returned;
-  @JsonKey(name: 'returned_date', toJson: _dateToJson)
+  @JsonKey(name: 'returned_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime? returnedDate;
-  @JsonKey(name: 'items_qty', defaultValue: <ItemQuantity>[])
+  @JsonKey(
+    name: 'items_qty',
+    includeIfNull: false,
+    defaultValue: <ItemQuantity>[],
+  )
   final List<ItemQuantity> itemsQty;
-  @JsonKey(name: 'borrower')
+  @JsonKey(name: 'borrower', includeIfNull: false)
   final CoreUserSimple borrower;
-  @JsonKey(name: 'loaner')
+  @JsonKey(name: 'loaner', includeIfNull: false)
   final Loaner loaner;
   static const fromJsonFactory = _$LoanFromJson;
 
@@ -14420,19 +14561,23 @@ class LoanCreation {
   static const toJsonFactory = _$LoanCreationToJson;
   Map<String, dynamic> toJson() => _$LoanCreationToJson(this);
 
-  @JsonKey(name: 'borrower_id', defaultValue: '')
+  @JsonKey(name: 'borrower_id', includeIfNull: false, defaultValue: '')
   final String borrowerId;
-  @JsonKey(name: 'loaner_id', defaultValue: '')
+  @JsonKey(name: 'loaner_id', includeIfNull: false, defaultValue: '')
   final String loanerId;
-  @JsonKey(name: 'start', toJson: _dateToJson)
+  @JsonKey(name: 'start', includeIfNull: false, toJson: _dateToJson)
   final DateTime start;
-  @JsonKey(name: 'end', toJson: _dateToJson)
+  @JsonKey(name: 'end', includeIfNull: false, toJson: _dateToJson)
   final DateTime end;
-  @JsonKey(name: 'notes')
+  @JsonKey(name: 'notes', includeIfNull: false)
   final String? notes;
-  @JsonKey(name: 'caution')
+  @JsonKey(name: 'caution', includeIfNull: false)
   final String? caution;
-  @JsonKey(name: 'items_borrowed', defaultValue: <ItemBorrowed>[])
+  @JsonKey(
+    name: 'items_borrowed',
+    includeIfNull: false,
+    defaultValue: <ItemBorrowed>[],
+  )
   final List<ItemBorrowed> itemsBorrowed;
   static const fromJsonFactory = _$LoanCreationFromJson;
 
@@ -14538,9 +14683,9 @@ class LoanExtend {
   static const toJsonFactory = _$LoanExtendToJson;
   Map<String, dynamic> toJson() => _$LoanExtendToJson(this);
 
-  @JsonKey(name: 'end', toJson: _dateToJson)
+  @JsonKey(name: 'end', includeIfNull: false, toJson: _dateToJson)
   final DateTime? end;
-  @JsonKey(name: 'duration')
+  @JsonKey(name: 'duration', includeIfNull: false)
   final int? duration;
   static const fromJsonFactory = _$LoanExtendFromJson;
 
@@ -14605,19 +14750,19 @@ class LoanUpdate {
   static const toJsonFactory = _$LoanUpdateToJson;
   Map<String, dynamic> toJson() => _$LoanUpdateToJson(this);
 
-  @JsonKey(name: 'borrower_id')
+  @JsonKey(name: 'borrower_id', includeIfNull: false)
   final String? borrowerId;
-  @JsonKey(name: 'start', toJson: _dateToJson)
+  @JsonKey(name: 'start', includeIfNull: false, toJson: _dateToJson)
   final DateTime? start;
-  @JsonKey(name: 'end', toJson: _dateToJson)
+  @JsonKey(name: 'end', includeIfNull: false, toJson: _dateToJson)
   final DateTime? end;
-  @JsonKey(name: 'notes')
+  @JsonKey(name: 'notes', includeIfNull: false)
   final String? notes;
-  @JsonKey(name: 'caution')
+  @JsonKey(name: 'caution', includeIfNull: false)
   final String? caution;
-  @JsonKey(name: 'returned')
+  @JsonKey(name: 'returned', includeIfNull: false)
   final bool? returned;
-  @JsonKey(name: 'items_borrowed')
+  @JsonKey(name: 'items_borrowed', includeIfNull: false)
   final List<ItemBorrowed>? itemsBorrowed;
   static const fromJsonFactory = _$LoanUpdateFromJson;
 
@@ -14726,11 +14871,11 @@ class Loaner {
   static const toJsonFactory = _$LoanerToJson;
   Map<String, dynamic> toJson() => _$LoanerToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'group_manager_id', defaultValue: '')
+  @JsonKey(name: 'group_manager_id', includeIfNull: false, defaultValue: '')
   final String groupManagerId;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$LoanerFromJson;
 
@@ -14795,9 +14940,9 @@ class LoanerBase {
   static const toJsonFactory = _$LoanerBaseToJson;
   Map<String, dynamic> toJson() => _$LoanerBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'group_manager_id', defaultValue: '')
+  @JsonKey(name: 'group_manager_id', includeIfNull: false, defaultValue: '')
   final String groupManagerId;
   static const fromJsonFactory = _$LoanerBaseFromJson;
 
@@ -14856,9 +15001,9 @@ class LoanerUpdate {
   static const toJsonFactory = _$LoanerUpdateToJson;
   Map<String, dynamic> toJson() => _$LoanerUpdateToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'group_manager_id')
+  @JsonKey(name: 'group_manager_id', includeIfNull: false)
   final String? groupManagerId;
   static const fromJsonFactory = _$LoanerUpdateFromJson;
 
@@ -14925,19 +15070,19 @@ class Location {
   static const toJsonFactory = _$LocationToJson;
   Map<String, dynamic> toJson() => _$LocationToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'address')
+  @JsonKey(name: 'address', includeIfNull: false)
   final String? address;
-  @JsonKey(name: 'latitude')
+  @JsonKey(name: 'latitude', includeIfNull: false)
   final double? latitude;
-  @JsonKey(name: 'longitude')
+  @JsonKey(name: 'longitude', includeIfNull: false)
   final double? longitude;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
   static const fromJsonFactory = _$LocationFromJson;
 
@@ -15050,15 +15195,15 @@ class LocationBase {
   static const toJsonFactory = _$LocationBaseToJson;
   Map<String, dynamic> toJson() => _$LocationBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'address')
+  @JsonKey(name: 'address', includeIfNull: false)
   final String? address;
-  @JsonKey(name: 'latitude')
+  @JsonKey(name: 'latitude', includeIfNull: false)
   final double? latitude;
-  @JsonKey(name: 'longitude')
+  @JsonKey(name: 'longitude', includeIfNull: false)
   final double? longitude;
   static const fromJsonFactory = _$LocationBaseFromJson;
 
@@ -15158,21 +15303,25 @@ class LocationComplete {
   static const toJsonFactory = _$LocationCompleteToJson;
   Map<String, dynamic> toJson() => _$LocationCompleteToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'address')
+  @JsonKey(name: 'address', includeIfNull: false)
   final String? address;
-  @JsonKey(name: 'latitude')
+  @JsonKey(name: 'latitude', includeIfNull: false)
   final double? latitude;
-  @JsonKey(name: 'longitude')
+  @JsonKey(name: 'longitude', includeIfNull: false)
   final double? longitude;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
-  @JsonKey(name: 'matches', defaultValue: <MatchComplete>[])
+  @JsonKey(
+    name: 'matches',
+    includeIfNull: false,
+    defaultValue: <MatchComplete>[],
+  )
   final List<MatchComplete>? matches;
   static const fromJsonFactory = _$LocationCompleteFromJson;
 
@@ -15292,15 +15441,15 @@ class LocationEdit {
   static const toJsonFactory = _$LocationEditToJson;
   Map<String, dynamic> toJson() => _$LocationEditToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'address')
+  @JsonKey(name: 'address', includeIfNull: false)
   final String? address;
-  @JsonKey(name: 'latitude')
+  @JsonKey(name: 'latitude', includeIfNull: false)
   final double? latitude;
-  @JsonKey(name: 'longitude')
+  @JsonKey(name: 'longitude', includeIfNull: false)
   final double? longitude;
   static const fromJsonFactory = _$LocationEditFromJson;
 
@@ -15390,7 +15539,7 @@ class MailMigrationRequest {
   static const toJsonFactory = _$MailMigrationRequestToJson;
   Map<String, dynamic> toJson() => _$MailMigrationRequestToJson(this);
 
-  @JsonKey(name: 'new_email', defaultValue: '')
+  @JsonKey(name: 'new_email', includeIfNull: false, defaultValue: '')
   final String newEmail;
   static const fromJsonFactory = _$MailMigrationRequestFromJson;
 
@@ -15442,13 +15591,18 @@ class MainActivationForm {
 
   @JsonKey(
     name: 'fields',
+    includeIfNull: false,
     toJson: activationFormFieldListToJson,
     fromJson: activationFormFieldListFromJson,
   )
   final List<enums.ActivationFormField> fields;
-  @JsonKey(name: 'floor_choices', defaultValue: <String>[])
+  @JsonKey(
+    name: 'floor_choices',
+    includeIfNull: false,
+    defaultValue: <String>[],
+  )
   final List<String>? floorChoices;
-  @JsonKey(name: 'promotion_offset')
+  @JsonKey(name: 'promotion_offset', includeIfNull: false)
   final int? promotionOffset;
   static const fromJsonFactory = _$MainActivationFormFromJson;
 
@@ -15522,11 +15676,11 @@ class Manager {
   static const toJsonFactory = _$ManagerToJson;
   Map<String, dynamic> toJson() => _$ManagerToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'group_id', defaultValue: '')
+  @JsonKey(name: 'group_id', includeIfNull: false, defaultValue: '')
   final String groupId;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$ManagerFromJson;
 
@@ -15589,9 +15743,9 @@ class ManagerBase {
   static const toJsonFactory = _$ManagerBaseToJson;
   Map<String, dynamic> toJson() => _$ManagerBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'group_id', defaultValue: '')
+  @JsonKey(name: 'group_id', includeIfNull: false, defaultValue: '')
   final String groupId;
   static const fromJsonFactory = _$ManagerBaseFromJson;
 
@@ -15645,9 +15799,9 @@ class ManagerUpdate {
   static const toJsonFactory = _$ManagerUpdateToJson;
   Map<String, dynamic> toJson() => _$ManagerUpdateToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'group_id')
+  @JsonKey(name: 'group_id', includeIfNull: false)
   final String? groupId;
   static const fromJsonFactory = _$ManagerUpdateFromJson;
 
@@ -15720,28 +15874,28 @@ class Match {
   static const toJsonFactory = _$MatchToJson;
   Map<String, dynamic> toJson() => _$MatchToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'team1_id', defaultValue: '')
+  @JsonKey(name: 'team1_id', includeIfNull: false, defaultValue: '')
   final String team1Id;
-  @JsonKey(name: 'team2_id', defaultValue: '')
+  @JsonKey(name: 'team2_id', includeIfNull: false, defaultValue: '')
   final String team2Id;
-  @JsonKey(name: 'location_id', defaultValue: '')
+  @JsonKey(name: 'location_id', includeIfNull: false, defaultValue: '')
   final String locationId;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'date')
+  @JsonKey(name: 'date', includeIfNull: false)
   final DateTime? date;
-  @JsonKey(name: 'score_team1')
+  @JsonKey(name: 'score_team1', includeIfNull: false)
   final int? scoreTeam1;
-  @JsonKey(name: 'score_team2')
+  @JsonKey(name: 'score_team2', includeIfNull: false)
   final int? scoreTeam2;
-  @JsonKey(name: 'winner_id')
+  @JsonKey(name: 'winner_id', includeIfNull: false)
   final String? winnerId;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'sport_id', defaultValue: '')
+  @JsonKey(name: 'sport_id', includeIfNull: false, defaultValue: '')
   final String sportId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
   static const fromJsonFactory = _$MatchFromJson;
 
@@ -15895,22 +16049,22 @@ class MatchBase {
   static const toJsonFactory = _$MatchBaseToJson;
   Map<String, dynamic> toJson() => _$MatchBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'team1_id', defaultValue: '')
+  @JsonKey(name: 'team1_id', includeIfNull: false, defaultValue: '')
   final String team1Id;
-  @JsonKey(name: 'team2_id', defaultValue: '')
+  @JsonKey(name: 'team2_id', includeIfNull: false, defaultValue: '')
   final String team2Id;
-  @JsonKey(name: 'location_id', defaultValue: '')
+  @JsonKey(name: 'location_id', includeIfNull: false, defaultValue: '')
   final String locationId;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'date')
+  @JsonKey(name: 'date', includeIfNull: false)
   final DateTime? date;
-  @JsonKey(name: 'score_team1')
+  @JsonKey(name: 'score_team1', includeIfNull: false)
   final int? scoreTeam1;
-  @JsonKey(name: 'score_team2')
+  @JsonKey(name: 'score_team2', includeIfNull: false)
   final int? scoreTeam2;
-  @JsonKey(name: 'winner_id')
+  @JsonKey(name: 'winner_id', includeIfNull: false)
   final String? winnerId;
   static const fromJsonFactory = _$MatchBaseFromJson;
 
@@ -16053,34 +16207,34 @@ class MatchComplete {
   static const toJsonFactory = _$MatchCompleteToJson;
   Map<String, dynamic> toJson() => _$MatchCompleteToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'team1_id', defaultValue: '')
+  @JsonKey(name: 'team1_id', includeIfNull: false, defaultValue: '')
   final String team1Id;
-  @JsonKey(name: 'team2_id', defaultValue: '')
+  @JsonKey(name: 'team2_id', includeIfNull: false, defaultValue: '')
   final String team2Id;
-  @JsonKey(name: 'location_id', defaultValue: '')
+  @JsonKey(name: 'location_id', includeIfNull: false, defaultValue: '')
   final String locationId;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'date')
+  @JsonKey(name: 'date', includeIfNull: false)
   final DateTime? date;
-  @JsonKey(name: 'score_team1')
+  @JsonKey(name: 'score_team1', includeIfNull: false)
   final int? scoreTeam1;
-  @JsonKey(name: 'score_team2')
+  @JsonKey(name: 'score_team2', includeIfNull: false)
   final int? scoreTeam2;
-  @JsonKey(name: 'winner_id')
+  @JsonKey(name: 'winner_id', includeIfNull: false)
   final String? winnerId;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'sport_id', defaultValue: '')
+  @JsonKey(name: 'sport_id', includeIfNull: false, defaultValue: '')
   final String sportId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
-  @JsonKey(name: 'team1')
+  @JsonKey(name: 'team1', includeIfNull: false)
   final Team team1;
-  @JsonKey(name: 'team2')
+  @JsonKey(name: 'team2', includeIfNull: false)
   final Team team2;
-  @JsonKey(name: 'location')
+  @JsonKey(name: 'location', includeIfNull: false)
   final Location location;
   static const fromJsonFactory = _$MatchCompleteFromJson;
 
@@ -16258,24 +16412,24 @@ class MatchEdit {
   static const toJsonFactory = _$MatchEditToJson;
   Map<String, dynamic> toJson() => _$MatchEditToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'sport_id')
+  @JsonKey(name: 'sport_id', includeIfNull: false)
   final String? sportId;
-  @JsonKey(name: 'team1_id')
+  @JsonKey(name: 'team1_id', includeIfNull: false)
   final String? team1Id;
-  @JsonKey(name: 'team2_id')
+  @JsonKey(name: 'team2_id', includeIfNull: false)
   final String? team2Id;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'date')
+  @JsonKey(name: 'date', includeIfNull: false)
   final DateTime? date;
-  @JsonKey(name: 'location_id')
+  @JsonKey(name: 'location_id', includeIfNull: false)
   final String? locationId;
-  @JsonKey(name: 'score_team1')
+  @JsonKey(name: 'score_team1', includeIfNull: false)
   final int? scoreTeam1;
-  @JsonKey(name: 'score_team2')
+  @JsonKey(name: 'score_team2', includeIfNull: false)
   final int? scoreTeam2;
-  @JsonKey(name: 'winner_id')
+  @JsonKey(name: 'winner_id', includeIfNull: false)
   final String? winnerId;
   static const fromJsonFactory = _$MatchEditFromJson;
 
@@ -16421,29 +16575,34 @@ class MemberComplete {
   static const toJsonFactory = _$MemberCompleteToJson;
   Map<String, dynamic> toJson() => _$MemberCompleteToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'firstname', defaultValue: '')
+  @JsonKey(name: 'firstname', includeIfNull: false, defaultValue: '')
   final String firstname;
-  @JsonKey(name: 'nickname')
+  @JsonKey(name: 'nickname', includeIfNull: false)
   final String? nickname;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   @JsonKey(
     name: 'account_type',
+    includeIfNull: false,
     toJson: accountTypeToJson,
     fromJson: accountTypeFromJson,
   )
   final enums.AccountType accountType;
-  @JsonKey(name: 'school_id', defaultValue: '')
+  @JsonKey(name: 'school_id', includeIfNull: false, defaultValue: '')
   final String schoolId;
-  @JsonKey(name: 'email', defaultValue: '')
+  @JsonKey(name: 'email', includeIfNull: false, defaultValue: '')
   final String email;
-  @JsonKey(name: 'phone')
+  @JsonKey(name: 'phone', includeIfNull: false)
   final String? phone;
-  @JsonKey(name: 'promo')
+  @JsonKey(name: 'promo', includeIfNull: false)
   final int? promo;
-  @JsonKey(name: 'memberships', defaultValue: <MembershipComplete>[])
+  @JsonKey(
+    name: 'memberships',
+    includeIfNull: false,
+    defaultValue: <MembershipComplete>[],
+  )
   final List<MembershipComplete> memberships;
   static const fromJsonFactory = _$MemberCompleteFromJson;
 
@@ -16586,19 +16745,19 @@ class MembershipComplete {
   static const toJsonFactory = _$MembershipCompleteToJson;
   Map<String, dynamic> toJson() => _$MembershipCompleteToJson(this);
 
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'association_id', defaultValue: '')
+  @JsonKey(name: 'association_id', includeIfNull: false, defaultValue: '')
   final String associationId;
-  @JsonKey(name: 'mandate_year', defaultValue: 0)
+  @JsonKey(name: 'mandate_year', includeIfNull: false, defaultValue: 0)
   final int mandateYear;
-  @JsonKey(name: 'role_name', defaultValue: '')
+  @JsonKey(name: 'role_name', includeIfNull: false, defaultValue: '')
   final String roleName;
-  @JsonKey(name: 'role_tags', defaultValue: '')
+  @JsonKey(name: 'role_tags', includeIfNull: false, defaultValue: '')
   final String? roleTags;
-  @JsonKey(name: 'member_order', defaultValue: 0)
+  @JsonKey(name: 'member_order', includeIfNull: false, defaultValue: 0)
   final int memberOrder;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$MembershipCompleteFromJson;
 
@@ -16707,11 +16866,11 @@ class MembershipEdit {
   static const toJsonFactory = _$MembershipEditToJson;
   Map<String, dynamic> toJson() => _$MembershipEditToJson(this);
 
-  @JsonKey(name: 'role_name')
+  @JsonKey(name: 'role_name', includeIfNull: false)
   final String? roleName;
-  @JsonKey(name: 'role_tags')
+  @JsonKey(name: 'role_tags', includeIfNull: false)
   final String? roleTags;
-  @JsonKey(name: 'member_order')
+  @JsonKey(name: 'member_order', includeIfNull: false)
   final int? memberOrder;
   static const fromJsonFactory = _$MembershipEditFromJson;
 
@@ -16789,11 +16948,11 @@ class MembershipSimple {
   static const toJsonFactory = _$MembershipSimpleToJson;
   Map<String, dynamic> toJson() => _$MembershipSimpleToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'manager_group_id', defaultValue: '')
+  @JsonKey(name: 'manager_group_id', includeIfNull: false, defaultValue: '')
   final String managerGroupId;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$MembershipSimpleFromJson;
 
@@ -16870,11 +17029,11 @@ class MembershipUserMappingEmail {
   static const toJsonFactory = _$MembershipUserMappingEmailToJson;
   Map<String, dynamic> toJson() => _$MembershipUserMappingEmailToJson(this);
 
-  @JsonKey(name: 'user_email', defaultValue: '')
+  @JsonKey(name: 'user_email', includeIfNull: false, defaultValue: '')
   final String userEmail;
-  @JsonKey(name: 'start_date', toJson: _dateToJson)
+  @JsonKey(name: 'start_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime startDate;
-  @JsonKey(name: 'end_date', toJson: _dateToJson)
+  @JsonKey(name: 'end_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime endDate;
   static const fromJsonFactory = _$MembershipUserMappingEmailFromJson;
 
@@ -16945,7 +17104,7 @@ class MyPaymentBankAccountHolder {
   static const toJsonFactory = _$MyPaymentBankAccountHolderToJson;
   Map<String, dynamic> toJson() => _$MyPaymentBankAccountHolderToJson(this);
 
-  @JsonKey(name: 'holder_structure_id', defaultValue: '')
+  @JsonKey(name: 'holder_structure_id', includeIfNull: false, defaultValue: '')
   final String holderStructureId;
   static const fromJsonFactory = _$MyPaymentBankAccountHolderFromJson;
 
@@ -17019,28 +17178,34 @@ class News {
   static const toJsonFactory = _$NewsToJson;
   Map<String, dynamic> toJson() => _$NewsToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'title', defaultValue: '')
+  @JsonKey(name: 'title', includeIfNull: false, defaultValue: '')
   final String title;
-  @JsonKey(name: 'start', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'start',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime start;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'end')
+  @JsonKey(name: 'end', includeIfNull: false)
   final DateTime? end;
-  @JsonKey(name: 'entity', defaultValue: '')
+  @JsonKey(name: 'entity', includeIfNull: false, defaultValue: '')
   final String entity;
-  @JsonKey(name: 'location')
+  @JsonKey(name: 'location', includeIfNull: false)
   final String? location;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'action_start')
+  @JsonKey(name: 'action_start', includeIfNull: false)
   final DateTime? actionStart;
-  @JsonKey(name: 'module', defaultValue: '')
+  @JsonKey(name: 'module', includeIfNull: false, defaultValue: '')
   final String module;
-  @JsonKey(name: 'module_object_id', defaultValue: '')
+  @JsonKey(name: 'module_object_id', includeIfNull: false, defaultValue: '')
   final String moduleObjectId;
   @JsonKey(
     name: 'status',
+    includeIfNull: false,
     toJson: newsStatusToJson,
     fromJson: newsStatusFromJson,
   )
@@ -17179,19 +17344,24 @@ class OrderBase {
   static const toJsonFactory = _$OrderBaseToJson;
   Map<String, dynamic> toJson() => _$OrderBaseToJson(this);
 
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'delivery_id', defaultValue: '')
+  @JsonKey(name: 'delivery_id', includeIfNull: false, defaultValue: '')
   final String deliveryId;
-  @JsonKey(name: 'products_ids', defaultValue: <String>[])
+  @JsonKey(name: 'products_ids', includeIfNull: false, defaultValue: <String>[])
   final List<String> productsIds;
   @JsonKey(
     name: 'collection_slot',
+    includeIfNull: false,
     toJson: amapSlotTypeToJson,
     fromJson: amapSlotTypeFromJson,
   )
   final enums.AmapSlotType collectionSlot;
-  @JsonKey(name: 'products_quantity', defaultValue: <int>[])
+  @JsonKey(
+    name: 'products_quantity',
+    includeIfNull: false,
+    defaultValue: <int>[],
+  )
   final List<int> productsQuantity;
   static const fromJsonFactory = _$OrderBaseFromJson;
 
@@ -17289,15 +17459,16 @@ class OrderEdit {
   static const toJsonFactory = _$OrderEditToJson;
   Map<String, dynamic> toJson() => _$OrderEditToJson(this);
 
-  @JsonKey(name: 'products_ids')
+  @JsonKey(name: 'products_ids', includeIfNull: false)
   final List<String>? productsIds;
   @JsonKey(
     name: 'collection_slot',
+    includeIfNull: false,
     toJson: amapSlotTypeNullableToJson,
     fromJson: amapSlotTypeNullableFromJson,
   )
   final enums.AmapSlotType? collectionSlot;
-  @JsonKey(name: 'products_quantity')
+  @JsonKey(name: 'products_quantity', includeIfNull: false)
   final List<int>? productsQuantity;
   static const fromJsonFactory = _$OrderEditFromJson;
 
@@ -17394,31 +17565,37 @@ class OrderReturn {
   static const toJsonFactory = _$OrderReturnToJson;
   Map<String, dynamic> toJson() => _$OrderReturnToJson(this);
 
-  @JsonKey(name: 'user')
+  @JsonKey(name: 'user', includeIfNull: false)
   final CoreUserSimple user;
-  @JsonKey(name: 'delivery_id', defaultValue: '')
+  @JsonKey(name: 'delivery_id', includeIfNull: false, defaultValue: '')
   final String deliveryId;
-  @JsonKey(name: 'delivery_name', defaultValue: '')
+  @JsonKey(name: 'delivery_name', includeIfNull: false, defaultValue: '')
   final String deliveryName;
-  @JsonKey(name: 'productsdetail', defaultValue: <ProductQuantity>[])
+  @JsonKey(
+    name: 'productsdetail',
+    includeIfNull: false,
+    defaultValue: <ProductQuantity>[],
+  )
   final List<ProductQuantity> productsdetail;
   @JsonKey(
     name: 'collection_slot',
+    includeIfNull: false,
     toJson: amapSlotTypeToJson,
     fromJson: amapSlotTypeFromJson,
   )
   final enums.AmapSlotType collectionSlot;
-  @JsonKey(name: 'order_id', defaultValue: '')
+  @JsonKey(name: 'order_id', includeIfNull: false, defaultValue: '')
   final String orderId;
-  @JsonKey(name: 'amount', defaultValue: 0)
+  @JsonKey(name: 'amount', includeIfNull: false, defaultValue: 0)
   final int amount;
   @JsonKey(
     name: 'ordering_date',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime orderingDate;
-  @JsonKey(name: 'delivery_date', toJson: _dateToJson)
+  @JsonKey(name: 'delivery_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime deliveryDate;
   static const fromJsonFactory = _$OrderReturnFromJson;
 
@@ -17560,11 +17737,11 @@ class PackTicketBase {
   static const toJsonFactory = _$PackTicketBaseToJson;
   Map<String, dynamic> toJson() => _$PackTicketBaseToJson(this);
 
-  @JsonKey(name: 'price', defaultValue: 0)
+  @JsonKey(name: 'price', includeIfNull: false, defaultValue: 0)
   final int price;
-  @JsonKey(name: 'pack_size', defaultValue: 0)
+  @JsonKey(name: 'pack_size', includeIfNull: false, defaultValue: 0)
   final int packSize;
-  @JsonKey(name: 'raffle_id', defaultValue: '')
+  @JsonKey(name: 'raffle_id', includeIfNull: false, defaultValue: '')
   final String raffleId;
   static const fromJsonFactory = _$PackTicketBaseFromJson;
 
@@ -17630,11 +17807,11 @@ class PackTicketEdit {
   static const toJsonFactory = _$PackTicketEditToJson;
   Map<String, dynamic> toJson() => _$PackTicketEditToJson(this);
 
-  @JsonKey(name: 'raffle_id')
+  @JsonKey(name: 'raffle_id', includeIfNull: false)
   final String? raffleId;
-  @JsonKey(name: 'price')
+  @JsonKey(name: 'price', includeIfNull: false)
   final int? price;
-  @JsonKey(name: 'pack_size')
+  @JsonKey(name: 'pack_size', includeIfNull: false)
   final int? packSize;
   static const fromJsonFactory = _$PackTicketEditFromJson;
 
@@ -17706,13 +17883,13 @@ class PackTicketSimple {
   static const toJsonFactory = _$PackTicketSimpleToJson;
   Map<String, dynamic> toJson() => _$PackTicketSimpleToJson(this);
 
-  @JsonKey(name: 'price', defaultValue: 0)
+  @JsonKey(name: 'price', includeIfNull: false, defaultValue: 0)
   final int price;
-  @JsonKey(name: 'pack_size', defaultValue: 0)
+  @JsonKey(name: 'pack_size', includeIfNull: false, defaultValue: 0)
   final int packSize;
-  @JsonKey(name: 'raffle_id', defaultValue: '')
+  @JsonKey(name: 'raffle_id', includeIfNull: false, defaultValue: '')
   final String raffleId;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$PackTicketSimpleFromJson;
 
@@ -17789,9 +17966,9 @@ class PaperBase {
   static const toJsonFactory = _$PaperBaseToJson;
   Map<String, dynamic> toJson() => _$PaperBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'release_date', toJson: _dateToJson)
+  @JsonKey(name: 'release_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime releaseDate;
   static const fromJsonFactory = _$PaperBaseFromJson;
 
@@ -17853,11 +18030,11 @@ class PaperComplete {
   static const toJsonFactory = _$PaperCompleteToJson;
   Map<String, dynamic> toJson() => _$PaperCompleteToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'release_date', toJson: _dateToJson)
+  @JsonKey(name: 'release_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime releaseDate;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$PaperCompleteFromJson;
 
@@ -17920,9 +18097,9 @@ class PaperUpdate {
   static const toJsonFactory = _$PaperUpdateToJson;
   Map<String, dynamic> toJson() => _$PaperUpdateToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'release_date', toJson: _dateToJson)
+  @JsonKey(name: 'release_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime? releaseDate;
   static const fromJsonFactory = _$PaperUpdateFromJson;
 
@@ -17996,23 +18173,23 @@ class Participant {
   static const toJsonFactory = _$ParticipantToJson;
   Map<String, dynamic> toJson() => _$ParticipantToJson(this);
 
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'sport_id', defaultValue: '')
+  @JsonKey(name: 'sport_id', includeIfNull: false, defaultValue: '')
   final String sportId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
-  @JsonKey(name: 'school_id', defaultValue: '')
+  @JsonKey(name: 'school_id', includeIfNull: false, defaultValue: '')
   final String schoolId;
-  @JsonKey(name: 'license')
+  @JsonKey(name: 'license', includeIfNull: false)
   final String? license;
-  @JsonKey(name: 'certificate_file_id')
+  @JsonKey(name: 'certificate_file_id', includeIfNull: false)
   final String? certificateFileId;
-  @JsonKey(name: 'is_license_valid', defaultValue: false)
+  @JsonKey(name: 'is_license_valid', includeIfNull: false, defaultValue: false)
   final bool isLicenseValid;
-  @JsonKey(name: 'substitute', defaultValue: false)
+  @JsonKey(name: 'substitute', includeIfNull: false, defaultValue: false)
   final bool? substitute;
-  @JsonKey(name: 'team_id', defaultValue: '')
+  @JsonKey(name: 'team_id', includeIfNull: false, defaultValue: '')
   final String teamId;
   static const fromJsonFactory = _$ParticipantFromJson;
 
@@ -18164,27 +18341,27 @@ class ParticipantComplete {
   static const toJsonFactory = _$ParticipantCompleteToJson;
   Map<String, dynamic> toJson() => _$ParticipantCompleteToJson(this);
 
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'sport_id', defaultValue: '')
+  @JsonKey(name: 'sport_id', includeIfNull: false, defaultValue: '')
   final String sportId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
-  @JsonKey(name: 'school_id', defaultValue: '')
+  @JsonKey(name: 'school_id', includeIfNull: false, defaultValue: '')
   final String schoolId;
-  @JsonKey(name: 'license')
+  @JsonKey(name: 'license', includeIfNull: false)
   final String? license;
-  @JsonKey(name: 'certificate_file_id')
+  @JsonKey(name: 'certificate_file_id', includeIfNull: false)
   final String? certificateFileId;
-  @JsonKey(name: 'is_license_valid', defaultValue: false)
+  @JsonKey(name: 'is_license_valid', includeIfNull: false, defaultValue: false)
   final bool isLicenseValid;
-  @JsonKey(name: 'substitute', defaultValue: false)
+  @JsonKey(name: 'substitute', includeIfNull: false, defaultValue: false)
   final bool? substitute;
-  @JsonKey(name: 'team_id', defaultValue: '')
+  @JsonKey(name: 'team_id', includeIfNull: false, defaultValue: '')
   final String teamId;
-  @JsonKey(name: 'user')
+  @JsonKey(name: 'user', includeIfNull: false)
   final CompetitionUser user;
-  @JsonKey(name: 'team')
+  @JsonKey(name: 'team', includeIfNull: false)
   final Team team;
   static const fromJsonFactory = _$ParticipantCompleteFromJson;
 
@@ -18329,11 +18506,11 @@ class ParticipantInfo {
   static const toJsonFactory = _$ParticipantInfoToJson;
   Map<String, dynamic> toJson() => _$ParticipantInfoToJson(this);
 
-  @JsonKey(name: 'license')
+  @JsonKey(name: 'license', includeIfNull: false)
   final String? license;
-  @JsonKey(name: 'substitute', defaultValue: false)
+  @JsonKey(name: 'substitute', includeIfNull: false, defaultValue: false)
   final bool? substitute;
-  @JsonKey(name: 'team_id')
+  @JsonKey(name: 'team_id', includeIfNull: false)
   final String? teamId;
   static const fromJsonFactory = _$ParticipantInfoFromJson;
 
@@ -18403,7 +18580,7 @@ class PaymentUrl {
   static const toJsonFactory = _$PaymentUrlToJson;
   Map<String, dynamic> toJson() => _$PaymentUrlToJson(this);
 
-  @JsonKey(name: 'url', defaultValue: '')
+  @JsonKey(name: 'url', includeIfNull: false, defaultValue: '')
   final String url;
   static const fromJsonFactory = _$PaymentUrlFromJson;
 
@@ -18465,41 +18642,43 @@ class PlantComplete {
   static const toJsonFactory = _$PlantCompleteToJson;
   Map<String, dynamic> toJson() => _$PlantCompleteToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'reference', defaultValue: '')
+  @JsonKey(name: 'reference', includeIfNull: false, defaultValue: '')
   final String reference;
   @JsonKey(
     name: 'state',
+    includeIfNull: false,
     toJson: plantStateToJson,
     fromJson: plantStateFromJson,
   )
   final enums.PlantState state;
-  @JsonKey(name: 'species_id', defaultValue: '')
+  @JsonKey(name: 'species_id', includeIfNull: false, defaultValue: '')
   final String speciesId;
   @JsonKey(
     name: 'propagation_method',
+    includeIfNull: false,
     toJson: propagationMethodToJson,
     fromJson: propagationMethodFromJson,
   )
   final enums.PropagationMethod propagationMethod;
-  @JsonKey(name: 'nb_seeds_envelope', defaultValue: 0)
+  @JsonKey(name: 'nb_seeds_envelope', includeIfNull: false, defaultValue: 0)
   final int? nbSeedsEnvelope;
-  @JsonKey(name: 'planting_date', toJson: _dateToJson)
+  @JsonKey(name: 'planting_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime? plantingDate;
-  @JsonKey(name: 'borrower_id')
+  @JsonKey(name: 'borrower_id', includeIfNull: false)
   final String? borrowerId;
-  @JsonKey(name: 'nickname')
+  @JsonKey(name: 'nickname', includeIfNull: false)
   final String? nickname;
-  @JsonKey(name: 'previous_note')
+  @JsonKey(name: 'previous_note', includeIfNull: false)
   final String? previousNote;
-  @JsonKey(name: 'current_note')
+  @JsonKey(name: 'current_note', includeIfNull: false)
   final String? currentNote;
-  @JsonKey(name: 'borrowing_date', toJson: _dateToJson)
+  @JsonKey(name: 'borrowing_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime? borrowingDate;
-  @JsonKey(name: 'ancestor_id')
+  @JsonKey(name: 'ancestor_id', includeIfNull: false)
   final String? ancestorId;
-  @JsonKey(name: 'confidential', defaultValue: false)
+  @JsonKey(name: 'confidential', includeIfNull: false, defaultValue: false)
   final bool? confidential;
   static const fromJsonFactory = _$PlantCompleteFromJson;
 
@@ -18698,21 +18877,22 @@ class PlantCreation {
   static const toJsonFactory = _$PlantCreationToJson;
   Map<String, dynamic> toJson() => _$PlantCreationToJson(this);
 
-  @JsonKey(name: 'species_id', defaultValue: '')
+  @JsonKey(name: 'species_id', includeIfNull: false, defaultValue: '')
   final String speciesId;
   @JsonKey(
     name: 'propagation_method',
+    includeIfNull: false,
     toJson: propagationMethodToJson,
     fromJson: propagationMethodFromJson,
   )
   final enums.PropagationMethod propagationMethod;
-  @JsonKey(name: 'nb_seeds_envelope', defaultValue: 0)
+  @JsonKey(name: 'nb_seeds_envelope', includeIfNull: false, defaultValue: 0)
   final int? nbSeedsEnvelope;
-  @JsonKey(name: 'ancestor_id')
+  @JsonKey(name: 'ancestor_id', includeIfNull: false)
   final String? ancestorId;
-  @JsonKey(name: 'previous_note')
+  @JsonKey(name: 'previous_note', includeIfNull: false)
   final String? previousNote;
-  @JsonKey(name: 'confidential', defaultValue: false)
+  @JsonKey(name: 'confidential', includeIfNull: false, defaultValue: false)
   final bool? confidential;
   static const fromJsonFactory = _$PlantCreationFromJson;
 
@@ -18832,19 +19012,20 @@ class PlantEdit {
 
   @JsonKey(
     name: 'state',
+    includeIfNull: false,
     toJson: plantStateNullableToJson,
     fromJson: plantStateNullableFromJson,
   )
   final enums.PlantState? state;
-  @JsonKey(name: 'current_note')
+  @JsonKey(name: 'current_note', includeIfNull: false)
   final String? currentNote;
-  @JsonKey(name: 'confidential', defaultValue: false)
+  @JsonKey(name: 'confidential', includeIfNull: false, defaultValue: false)
   final bool? confidential;
-  @JsonKey(name: 'planting_date', toJson: _dateToJson)
+  @JsonKey(name: 'planting_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime? plantingDate;
-  @JsonKey(name: 'borrowing_date', toJson: _dateToJson)
+  @JsonKey(name: 'borrowing_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime? borrowingDate;
-  @JsonKey(name: 'nickname')
+  @JsonKey(name: 'nickname', includeIfNull: false)
   final String? nickname;
   static const fromJsonFactory = _$PlantEditFromJson;
 
@@ -18966,31 +19147,33 @@ class PlantSimple {
   static const toJsonFactory = _$PlantSimpleToJson;
   Map<String, dynamic> toJson() => _$PlantSimpleToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'reference', defaultValue: '')
+  @JsonKey(name: 'reference', includeIfNull: false, defaultValue: '')
   final String reference;
   @JsonKey(
     name: 'state',
+    includeIfNull: false,
     toJson: plantStateToJson,
     fromJson: plantStateFromJson,
   )
   final enums.PlantState state;
-  @JsonKey(name: 'species_id', defaultValue: '')
+  @JsonKey(name: 'species_id', includeIfNull: false, defaultValue: '')
   final String speciesId;
   @JsonKey(
     name: 'propagation_method',
+    includeIfNull: false,
     toJson: propagationMethodToJson,
     fromJson: propagationMethodFromJson,
   )
   final enums.PropagationMethod propagationMethod;
-  @JsonKey(name: 'nb_seeds_envelope', defaultValue: 0)
+  @JsonKey(name: 'nb_seeds_envelope', includeIfNull: false, defaultValue: 0)
   final int? nbSeedsEnvelope;
-  @JsonKey(name: 'planting_date', toJson: _dateToJson)
+  @JsonKey(name: 'planting_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime? plantingDate;
-  @JsonKey(name: 'borrower_id')
+  @JsonKey(name: 'borrower_id', includeIfNull: false)
   final String? borrowerId;
-  @JsonKey(name: 'nickname')
+  @JsonKey(name: 'nickname', includeIfNull: false)
   final String? nickname;
   static const fromJsonFactory = _$PlantSimpleFromJson;
 
@@ -19129,13 +19312,13 @@ class PrizeBase {
   static const toJsonFactory = _$PrizeBaseToJson;
   Map<String, dynamic> toJson() => _$PrizeBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'description', defaultValue: '')
+  @JsonKey(name: 'description', includeIfNull: false, defaultValue: '')
   final String description;
-  @JsonKey(name: 'raffle_id', defaultValue: '')
+  @JsonKey(name: 'raffle_id', includeIfNull: false, defaultValue: '')
   final String raffleId;
-  @JsonKey(name: 'quantity', defaultValue: 0)
+  @JsonKey(name: 'quantity', includeIfNull: false, defaultValue: 0)
   final int quantity;
   static const fromJsonFactory = _$PrizeBaseFromJson;
 
@@ -19215,13 +19398,13 @@ class PrizeEdit {
   static const toJsonFactory = _$PrizeEditToJson;
   Map<String, dynamic> toJson() => _$PrizeEditToJson(this);
 
-  @JsonKey(name: 'raffle_id')
+  @JsonKey(name: 'raffle_id', includeIfNull: false)
   final String? raffleId;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'quantity')
+  @JsonKey(name: 'quantity', includeIfNull: false)
   final int? quantity;
   static const fromJsonFactory = _$PrizeEditFromJson;
 
@@ -19308,15 +19491,15 @@ class PrizeSimple {
   static const toJsonFactory = _$PrizeSimpleToJson;
   Map<String, dynamic> toJson() => _$PrizeSimpleToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'description', defaultValue: '')
+  @JsonKey(name: 'description', includeIfNull: false, defaultValue: '')
   final String description;
-  @JsonKey(name: 'raffle_id', defaultValue: '')
+  @JsonKey(name: 'raffle_id', includeIfNull: false, defaultValue: '')
   final String raffleId;
-  @JsonKey(name: 'quantity', defaultValue: 0)
+  @JsonKey(name: 'quantity', includeIfNull: false, defaultValue: 0)
   final int quantity;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$PrizeSimpleFromJson;
 
@@ -19409,15 +19592,15 @@ class Product {
   static const toJsonFactory = _$ProductToJson;
   Map<String, dynamic> toJson() => _$ProductToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'required', defaultValue: false)
+  @JsonKey(name: 'required', includeIfNull: false, defaultValue: false)
   final bool? required;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
   static const fromJsonFactory = _$ProductFromJson;
 
@@ -19525,32 +19708,37 @@ class ProductCompleteNoConstraint {
   static const toJsonFactory = _$ProductCompleteNoConstraintToJson;
   Map<String, dynamic> toJson() => _$ProductCompleteNoConstraintToJson(this);
 
-  @JsonKey(name: 'name_fr', defaultValue: '')
+  @JsonKey(name: 'name_fr', includeIfNull: false, defaultValue: '')
   final String nameFr;
-  @JsonKey(name: 'name_en')
+  @JsonKey(name: 'name_en', includeIfNull: false)
   final String? nameEn;
-  @JsonKey(name: 'description_fr')
+  @JsonKey(name: 'description_fr', includeIfNull: false)
   final String? descriptionFr;
-  @JsonKey(name: 'description_en')
+  @JsonKey(name: 'description_en', includeIfNull: false)
   final String? descriptionEn;
-  @JsonKey(name: 'available_online', defaultValue: false)
+  @JsonKey(name: 'available_online', includeIfNull: false, defaultValue: false)
   final bool availableOnline;
-  @JsonKey(name: 'needs_validation', defaultValue: false)
+  @JsonKey(name: 'needs_validation', includeIfNull: false, defaultValue: false)
   final bool needsValidation;
-  @JsonKey(name: 'year', defaultValue: 0)
+  @JsonKey(name: 'year', includeIfNull: false, defaultValue: 0)
   final int year;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'seller_id', defaultValue: '')
+  @JsonKey(name: 'seller_id', includeIfNull: false, defaultValue: '')
   final String sellerId;
   @JsonKey(
     name: 'variants',
+    includeIfNull: false,
     defaultValue: <AppModulesCdrSchemasCdrProductVariantComplete>[],
   )
   final List<AppModulesCdrSchemasCdrProductVariantComplete>? variants;
-  @JsonKey(name: 'related_membership')
+  @JsonKey(name: 'related_membership', includeIfNull: false)
   final MembershipSimple? relatedMembership;
-  @JsonKey(name: 'tickets', defaultValue: <GenerateTicketComplete>[])
+  @JsonKey(
+    name: 'tickets',
+    includeIfNull: false,
+    defaultValue: <GenerateTicketComplete>[],
+  )
   final List<GenerateTicketComplete> tickets;
   static const fromJsonFactory = _$ProductCompleteNoConstraintFromJson;
 
@@ -19711,9 +19899,9 @@ class ProductQuantity {
   static const toJsonFactory = _$ProductQuantityToJson;
   Map<String, dynamic> toJson() => _$ProductQuantityToJson(this);
 
-  @JsonKey(name: 'quantity', defaultValue: 0)
+  @JsonKey(name: 'quantity', includeIfNull: false, defaultValue: 0)
   final int quantity;
-  @JsonKey(name: 'product')
+  @JsonKey(name: 'product', includeIfNull: false)
   final AppModulesAmapSchemasAmapProductComplete product;
   static const fromJsonFactory = _$ProductQuantityFromJson;
 
@@ -19778,11 +19966,11 @@ class ProductSimple {
   static const toJsonFactory = _$ProductSimpleToJson;
   Map<String, dynamic> toJson() => _$ProductSimpleToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'price', defaultValue: 0)
+  @JsonKey(name: 'price', includeIfNull: false, defaultValue: 0)
   final int price;
-  @JsonKey(name: 'category', defaultValue: '')
+  @JsonKey(name: 'category', includeIfNull: false, defaultValue: '')
   final String category;
   static const fromJsonFactory = _$ProductSimpleFromJson;
 
@@ -19863,33 +20051,35 @@ class ProductVariant {
   static const toJsonFactory = _$ProductVariantToJson;
   Map<String, dynamic> toJson() => _$ProductVariantToJson(this);
 
-  @JsonKey(name: 'product_id', defaultValue: '')
+  @JsonKey(name: 'product_id', includeIfNull: false, defaultValue: '')
   final String productId;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'price', defaultValue: 0)
+  @JsonKey(name: 'price', includeIfNull: false, defaultValue: 0)
   final int price;
-  @JsonKey(name: 'enabled', defaultValue: true)
+  @JsonKey(name: 'enabled', includeIfNull: false, defaultValue: true)
   final bool? enabled;
-  @JsonKey(name: 'unique', defaultValue: false)
+  @JsonKey(name: 'unique', includeIfNull: false, defaultValue: false)
   final bool unique;
   @JsonKey(
     name: 'school_type',
+    includeIfNull: false,
     toJson: productSchoolTypeNullableToJson,
     fromJson: productSchoolTypeNullableFromJson,
   )
   final enums.ProductSchoolType? schoolType;
   @JsonKey(
     name: 'public_type',
+    includeIfNull: false,
     toJson: productPublicTypeNullableToJson,
     fromJson: productPublicTypeNullableFromJson,
   )
   final enums.ProductPublicType? publicType;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$ProductVariantFromJson;
 
@@ -20042,37 +20232,39 @@ class ProductVariantStats {
   static const toJsonFactory = _$ProductVariantStatsToJson;
   Map<String, dynamic> toJson() => _$ProductVariantStatsToJson(this);
 
-  @JsonKey(name: 'product_id', defaultValue: '')
+  @JsonKey(name: 'product_id', includeIfNull: false, defaultValue: '')
   final String productId;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'price', defaultValue: 0)
+  @JsonKey(name: 'price', includeIfNull: false, defaultValue: 0)
   final int price;
-  @JsonKey(name: 'enabled', defaultValue: true)
+  @JsonKey(name: 'enabled', includeIfNull: false, defaultValue: true)
   final bool? enabled;
-  @JsonKey(name: 'unique', defaultValue: false)
+  @JsonKey(name: 'unique', includeIfNull: false, defaultValue: false)
   final bool unique;
   @JsonKey(
     name: 'school_type',
+    includeIfNull: false,
     toJson: productSchoolTypeNullableToJson,
     fromJson: productSchoolTypeNullableFromJson,
   )
   final enums.ProductSchoolType? schoolType;
   @JsonKey(
     name: 'public_type',
+    includeIfNull: false,
     toJson: productPublicTypeNullableToJson,
     fromJson: productPublicTypeNullableFromJson,
   )
   final enums.ProductPublicType? publicType;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'booked', defaultValue: 0)
+  @JsonKey(name: 'booked', includeIfNull: false, defaultValue: 0)
   final int booked;
-  @JsonKey(name: 'paid', defaultValue: 0)
+  @JsonKey(name: 'paid', includeIfNull: false, defaultValue: 0)
   final int paid;
   static const fromJsonFactory = _$ProductVariantStatsFromJson;
 
@@ -20231,18 +20423,19 @@ class Purchase {
   static const toJsonFactory = _$PurchaseToJson;
   Map<String, dynamic> toJson() => _$PurchaseToJson(this);
 
-  @JsonKey(name: 'product_variant_id', defaultValue: '')
+  @JsonKey(name: 'product_variant_id', includeIfNull: false, defaultValue: '')
   final String productVariantId;
-  @JsonKey(name: 'quantity', defaultValue: 0)
+  @JsonKey(name: 'quantity', includeIfNull: false, defaultValue: 0)
   final int quantity;
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
-  @JsonKey(name: 'validated', defaultValue: false)
+  @JsonKey(name: 'validated', includeIfNull: false, defaultValue: false)
   final bool validated;
   @JsonKey(
     name: 'purchased_on',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
@@ -20347,9 +20540,9 @@ class PurchaseEdit {
   static const toJsonFactory = _$PurchaseEditToJson;
   Map<String, dynamic> toJson() => _$PurchaseEditToJson(this);
 
-  @JsonKey(name: 'quantity')
+  @JsonKey(name: 'quantity', includeIfNull: false)
   final int? quantity;
-  @JsonKey(name: 'validated')
+  @JsonKey(name: 'validated', includeIfNull: false)
   final bool? validated;
   static const fromJsonFactory = _$PurchaseEditFromJson;
 
@@ -20427,25 +20620,26 @@ class PurchaseReturn {
   static const toJsonFactory = _$PurchaseReturnToJson;
   Map<String, dynamic> toJson() => _$PurchaseReturnToJson(this);
 
-  @JsonKey(name: 'quantity', defaultValue: 0)
+  @JsonKey(name: 'quantity', includeIfNull: false, defaultValue: 0)
   final int quantity;
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'product_variant_id', defaultValue: '')
+  @JsonKey(name: 'product_variant_id', includeIfNull: false, defaultValue: '')
   final String productVariantId;
-  @JsonKey(name: 'validated', defaultValue: false)
+  @JsonKey(name: 'validated', includeIfNull: false, defaultValue: false)
   final bool validated;
   @JsonKey(
     name: 'purchased_on',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime purchasedOn;
-  @JsonKey(name: 'price', defaultValue: 0)
+  @JsonKey(name: 'price', includeIfNull: false, defaultValue: 0)
   final int price;
-  @JsonKey(name: 'product')
+  @JsonKey(name: 'product', includeIfNull: false)
   final AppModulesCdrSchemasCdrProductComplete product;
-  @JsonKey(name: 'seller')
+  @JsonKey(name: 'seller', includeIfNull: false)
   final SellerComplete seller;
   static const fromJsonFactory = _$PurchaseReturnFromJson;
 
@@ -20577,23 +20771,24 @@ class Question {
   static const toJsonFactory = _$QuestionToJson;
   Map<String, dynamic> toJson() => _$QuestionToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'event_id', defaultValue: '')
+  @JsonKey(name: 'event_id', includeIfNull: false, defaultValue: '')
   final String eventId;
-  @JsonKey(name: 'question', defaultValue: '')
+  @JsonKey(name: 'question', includeIfNull: false, defaultValue: '')
   final String question;
   @JsonKey(
     name: 'answer_type',
+    includeIfNull: false,
     toJson: answerTypeToJson,
     fromJson: answerTypeFromJson,
   )
   final enums.AnswerType answerType;
-  @JsonKey(name: 'price')
+  @JsonKey(name: 'price', includeIfNull: false)
   final int? price;
-  @JsonKey(name: 'required', defaultValue: false)
+  @JsonKey(name: 'required', includeIfNull: false, defaultValue: false)
   final bool required;
-  @JsonKey(name: 'disabled', defaultValue: false)
+  @JsonKey(name: 'disabled', includeIfNull: false, defaultValue: false)
   final bool disabled;
   static const fromJsonFactory = _$QuestionFromJson;
 
@@ -20716,23 +20911,24 @@ class QuestionAdmin {
   static const toJsonFactory = _$QuestionAdminToJson;
   Map<String, dynamic> toJson() => _$QuestionAdminToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'event_id', defaultValue: '')
+  @JsonKey(name: 'event_id', includeIfNull: false, defaultValue: '')
   final String eventId;
-  @JsonKey(name: 'question', defaultValue: '')
+  @JsonKey(name: 'question', includeIfNull: false, defaultValue: '')
   final String question;
   @JsonKey(
     name: 'answer_type',
+    includeIfNull: false,
     toJson: answerTypeToJson,
     fromJson: answerTypeFromJson,
   )
   final enums.AnswerType answerType;
-  @JsonKey(name: 'price')
+  @JsonKey(name: 'price', includeIfNull: false)
   final int? price;
-  @JsonKey(name: 'required', defaultValue: false)
+  @JsonKey(name: 'required', includeIfNull: false, defaultValue: false)
   final bool required;
-  @JsonKey(name: 'disabled', defaultValue: false)
+  @JsonKey(name: 'disabled', includeIfNull: false, defaultValue: false)
   final bool disabled;
   static const fromJsonFactory = _$QuestionAdminFromJson;
 
@@ -20849,17 +21045,18 @@ class QuestionCreate {
   static const toJsonFactory = _$QuestionCreateToJson;
   Map<String, dynamic> toJson() => _$QuestionCreateToJson(this);
 
-  @JsonKey(name: 'question', defaultValue: '')
+  @JsonKey(name: 'question', includeIfNull: false, defaultValue: '')
   final String question;
   @JsonKey(
     name: 'answer_type',
+    includeIfNull: false,
     toJson: answerTypeToJson,
     fromJson: answerTypeFromJson,
   )
   final enums.AnswerType answerType;
-  @JsonKey(name: 'price')
+  @JsonKey(name: 'price', includeIfNull: false)
   final int? price;
-  @JsonKey(name: 'required', defaultValue: false)
+  @JsonKey(name: 'required', includeIfNull: false, defaultValue: false)
   final bool required;
   static const fromJsonFactory = _$QuestionCreateFromJson;
 
@@ -20955,23 +21152,24 @@ class QuestionPublic {
   static const toJsonFactory = _$QuestionPublicToJson;
   Map<String, dynamic> toJson() => _$QuestionPublicToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'event_id', defaultValue: '')
+  @JsonKey(name: 'event_id', includeIfNull: false, defaultValue: '')
   final String eventId;
-  @JsonKey(name: 'question', defaultValue: '')
+  @JsonKey(name: 'question', includeIfNull: false, defaultValue: '')
   final String question;
   @JsonKey(
     name: 'answer_type',
+    includeIfNull: false,
     toJson: answerTypeToJson,
     fromJson: answerTypeFromJson,
   )
   final enums.AnswerType answerType;
-  @JsonKey(name: 'price')
+  @JsonKey(name: 'price', includeIfNull: false)
   final int? price;
-  @JsonKey(name: 'required', defaultValue: false)
+  @JsonKey(name: 'required', includeIfNull: false, defaultValue: false)
   final bool required;
-  @JsonKey(name: 'disabled', defaultValue: false)
+  @JsonKey(name: 'disabled', includeIfNull: false, defaultValue: false)
   final bool disabled;
   static const fromJsonFactory = _$QuestionPublicFromJson;
 
@@ -21084,19 +21282,20 @@ class QuestionUpdate {
   static const toJsonFactory = _$QuestionUpdateToJson;
   Map<String, dynamic> toJson() => _$QuestionUpdateToJson(this);
 
-  @JsonKey(name: 'question')
+  @JsonKey(name: 'question', includeIfNull: false)
   final String? question;
   @JsonKey(
     name: 'answer_type',
+    includeIfNull: false,
     toJson: answerTypeNullableToJson,
     fromJson: answerTypeNullableFromJson,
   )
   final enums.AnswerType? answerType;
-  @JsonKey(name: 'price')
+  @JsonKey(name: 'price', includeIfNull: false)
   final int? price;
-  @JsonKey(name: 'required')
+  @JsonKey(name: 'required', includeIfNull: false)
   final bool? required;
-  @JsonKey(name: 'disabled')
+  @JsonKey(name: 'disabled', includeIfNull: false)
   final bool? disabled;
   static const fromJsonFactory = _$QuestionUpdateFromJson;
 
@@ -21191,17 +21390,18 @@ class RaffleBase {
   static const toJsonFactory = _$RaffleBaseToJson;
   Map<String, dynamic> toJson() => _$RaffleBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
   @JsonKey(
     name: 'status',
+    includeIfNull: false,
     toJson: raffleStatusTypeNullableToJson,
     fromJson: raffleStatusTypeNullableFromJson,
   )
   final enums.RaffleStatusType? status;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'group_id', defaultValue: '')
+  @JsonKey(name: 'group_id', includeIfNull: false, defaultValue: '')
   final String groupId;
   static const fromJsonFactory = _$RaffleBaseFromJson;
 
@@ -21282,19 +21482,20 @@ class RaffleComplete {
   static const toJsonFactory = _$RaffleCompleteToJson;
   Map<String, dynamic> toJson() => _$RaffleCompleteToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
   @JsonKey(
     name: 'status',
+    includeIfNull: false,
     toJson: raffleStatusTypeNullableToJson,
     fromJson: raffleStatusTypeNullableFromJson,
   )
   final enums.RaffleStatusType? status;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'group_id', defaultValue: '')
+  @JsonKey(name: 'group_id', includeIfNull: false, defaultValue: '')
   final String groupId;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$RaffleCompleteFromJson;
 
@@ -21378,9 +21579,9 @@ class RaffleEdit {
   static const toJsonFactory = _$RaffleEditToJson;
   Map<String, dynamic> toJson() => _$RaffleEditToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
   static const fromJsonFactory = _$RaffleEditFromJson;
 
@@ -21437,9 +21638,9 @@ class RaffleStats {
   static const toJsonFactory = _$RaffleStatsToJson;
   Map<String, dynamic> toJson() => _$RaffleStatsToJson(this);
 
-  @JsonKey(name: 'tickets_sold', defaultValue: 0)
+  @JsonKey(name: 'tickets_sold', includeIfNull: false, defaultValue: 0)
   final int ticketsSold;
-  @JsonKey(name: 'amount_raised', defaultValue: 0)
+  @JsonKey(name: 'amount_raised', includeIfNull: false, defaultValue: 0)
   final int amountRaised;
   static const fromJsonFactory = _$RaffleStatsFromJson;
 
@@ -21502,7 +21703,7 @@ class RaidDriveFoldersCreation {
   static const toJsonFactory = _$RaidDriveFoldersCreationToJson;
   Map<String, dynamic> toJson() => _$RaidDriveFoldersCreationToJson(this);
 
-  @JsonKey(name: 'parent_folder_id', defaultValue: '')
+  @JsonKey(name: 'parent_folder_id', includeIfNull: false, defaultValue: '')
   final String parentFolderId;
   static const fromJsonFactory = _$RaidDriveFoldersCreationFromJson;
 
@@ -21565,27 +21766,31 @@ class RaidInformation {
   static const toJsonFactory = _$RaidInformationToJson;
   Map<String, dynamic> toJson() => _$RaidInformationToJson(this);
 
-  @JsonKey(name: 'raid_start_date', toJson: _dateToJson)
+  @JsonKey(name: 'raid_start_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime? raidStartDate;
-  @JsonKey(name: 'raid_end_date', toJson: _dateToJson)
+  @JsonKey(name: 'raid_end_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime? raidEndDate;
-  @JsonKey(name: 'raid_registering_end_date', toJson: _dateToJson)
+  @JsonKey(
+    name: 'raid_registering_end_date',
+    includeIfNull: false,
+    toJson: _dateToJson,
+  )
   final DateTime? raidRegisteringEndDate;
-  @JsonKey(name: 'payment_link')
+  @JsonKey(name: 'payment_link', includeIfNull: false)
   final String? paymentLink;
-  @JsonKey(name: 'contact')
+  @JsonKey(name: 'contact', includeIfNull: false)
   final String? contact;
-  @JsonKey(name: 'president')
+  @JsonKey(name: 'president', includeIfNull: false)
   final EmergencyContact? president;
-  @JsonKey(name: 'volunteer_responsible')
+  @JsonKey(name: 'volunteer_responsible', includeIfNull: false)
   final EmergencyContact? volunteerResponsible;
-  @JsonKey(name: 'security_responsible')
+  @JsonKey(name: 'security_responsible', includeIfNull: false)
   final EmergencyContact? securityResponsible;
-  @JsonKey(name: 'rescue')
+  @JsonKey(name: 'rescue', includeIfNull: false)
   final EmergencyContact? rescue;
-  @JsonKey(name: 'raid_rules_id')
+  @JsonKey(name: 'raid_rules_id', includeIfNull: false)
   final String? raidRulesId;
-  @JsonKey(name: 'raid_information_id')
+  @JsonKey(name: 'raid_information_id', includeIfNull: false)
   final String? raidInformationId;
   static const fromJsonFactory = _$RaidInformationFromJson;
 
@@ -21794,65 +21999,75 @@ class RaidParticipant {
   static const toJsonFactory = _$RaidParticipantToJson;
   Map<String, dynamic> toJson() => _$RaidParticipantToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'firstname', defaultValue: '')
+  @JsonKey(name: 'firstname', includeIfNull: false, defaultValue: '')
   final String firstname;
-  @JsonKey(name: 'birthday', toJson: _dateToJson)
+  @JsonKey(name: 'birthday', includeIfNull: false, toJson: _dateToJson)
   final DateTime birthday;
-  @JsonKey(name: 'phone', defaultValue: '')
+  @JsonKey(name: 'phone', includeIfNull: false, defaultValue: '')
   final String phone;
-  @JsonKey(name: 'email', defaultValue: '')
+  @JsonKey(name: 'email', includeIfNull: false, defaultValue: '')
   final String email;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   @JsonKey(
     name: 'bike_size',
+    includeIfNull: false,
     toJson: sizeNullableToJson,
     fromJson: sizeNullableFromJson,
   )
   final enums.Size? bikeSize;
   @JsonKey(
     name: 't_shirt_size',
+    includeIfNull: false,
     toJson: sizeNullableToJson,
     fromJson: sizeNullableFromJson,
   )
   final enums.Size? tShirtSize;
-  @JsonKey(name: 'situation')
+  @JsonKey(name: 'situation', includeIfNull: false)
   final String? situation;
-  @JsonKey(name: 'validation_progress', defaultValue: 0.0)
+  @JsonKey(name: 'validation_progress', includeIfNull: false, defaultValue: 0.0)
   final double validationProgress;
-  @JsonKey(name: 'payment', defaultValue: false)
+  @JsonKey(name: 'payment', includeIfNull: false, defaultValue: false)
   final bool payment;
-  @JsonKey(name: 't_shirt_payment', defaultValue: false)
+  @JsonKey(name: 't_shirt_payment', includeIfNull: false, defaultValue: false)
   final bool tShirtPayment;
-  @JsonKey(name: 'number_of_document', defaultValue: 0)
+  @JsonKey(name: 'number_of_document', includeIfNull: false, defaultValue: 0)
   final int numberOfDocument;
-  @JsonKey(name: 'number_of_validated_document', defaultValue: 0)
+  @JsonKey(
+    name: 'number_of_validated_document',
+    includeIfNull: false,
+    defaultValue: 0,
+  )
   final int numberOfValidatedDocument;
-  @JsonKey(name: 'address')
+  @JsonKey(name: 'address', includeIfNull: false)
   final String? address;
-  @JsonKey(name: 'other_school')
+  @JsonKey(name: 'other_school', includeIfNull: false)
   final String? otherSchool;
-  @JsonKey(name: 'company')
+  @JsonKey(name: 'company', includeIfNull: false)
   final String? company;
-  @JsonKey(name: 'diet')
+  @JsonKey(name: 'diet', includeIfNull: false)
   final String? diet;
-  @JsonKey(name: 'id_card')
+  @JsonKey(name: 'id_card', includeIfNull: false)
   final Document? idCard;
-  @JsonKey(name: 'medical_certificate')
+  @JsonKey(name: 'medical_certificate', includeIfNull: false)
   final Document? medicalCertificate;
-  @JsonKey(name: 'security_file')
+  @JsonKey(name: 'security_file', includeIfNull: false)
   final SecurityFile? securityFile;
-  @JsonKey(name: 'student_card')
+  @JsonKey(name: 'student_card', includeIfNull: false)
   final Document? studentCard;
-  @JsonKey(name: 'raid_rules')
+  @JsonKey(name: 'raid_rules', includeIfNull: false)
   final Document? raidRules;
-  @JsonKey(name: 'parent_authorization')
+  @JsonKey(name: 'parent_authorization', includeIfNull: false)
   final Document? parentAuthorization;
-  @JsonKey(name: 'attestation_on_honour', defaultValue: false)
+  @JsonKey(
+    name: 'attestation_on_honour',
+    includeIfNull: false,
+    defaultValue: false,
+  )
   final bool attestationOnHonour;
-  @JsonKey(name: 'is_minor', defaultValue: false)
+  @JsonKey(name: 'is_minor', includeIfNull: false, defaultValue: false)
   final bool isMinor;
   static const fromJsonFactory = _$RaidParticipantFromJson;
 
@@ -22166,15 +22381,15 @@ class RaidParticipantBase {
   static const toJsonFactory = _$RaidParticipantBaseToJson;
   Map<String, dynamic> toJson() => _$RaidParticipantBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'firstname', defaultValue: '')
+  @JsonKey(name: 'firstname', includeIfNull: false, defaultValue: '')
   final String firstname;
-  @JsonKey(name: 'birthday', toJson: _dateToJson)
+  @JsonKey(name: 'birthday', includeIfNull: false, toJson: _dateToJson)
   final DateTime birthday;
-  @JsonKey(name: 'phone', defaultValue: '')
+  @JsonKey(name: 'phone', includeIfNull: false, defaultValue: '')
   final String phone;
-  @JsonKey(name: 'email', defaultValue: '')
+  @JsonKey(name: 'email', includeIfNull: false, defaultValue: '')
   final String email;
   static const fromJsonFactory = _$RaidParticipantBaseFromJson;
 
@@ -22288,41 +22503,47 @@ class RaidParticipantPreview {
   static const toJsonFactory = _$RaidParticipantPreviewToJson;
   Map<String, dynamic> toJson() => _$RaidParticipantPreviewToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'firstname', defaultValue: '')
+  @JsonKey(name: 'firstname', includeIfNull: false, defaultValue: '')
   final String firstname;
-  @JsonKey(name: 'birthday', toJson: _dateToJson)
+  @JsonKey(name: 'birthday', includeIfNull: false, toJson: _dateToJson)
   final DateTime birthday;
-  @JsonKey(name: 'phone', defaultValue: '')
+  @JsonKey(name: 'phone', includeIfNull: false, defaultValue: '')
   final String phone;
-  @JsonKey(name: 'email', defaultValue: '')
+  @JsonKey(name: 'email', includeIfNull: false, defaultValue: '')
   final String email;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   @JsonKey(
     name: 'bike_size',
+    includeIfNull: false,
     toJson: sizeNullableToJson,
     fromJson: sizeNullableFromJson,
   )
   final enums.Size? bikeSize;
   @JsonKey(
     name: 't_shirt_size',
+    includeIfNull: false,
     toJson: sizeNullableToJson,
     fromJson: sizeNullableFromJson,
   )
   final enums.Size? tShirtSize;
-  @JsonKey(name: 'situation')
+  @JsonKey(name: 'situation', includeIfNull: false)
   final String? situation;
-  @JsonKey(name: 'validation_progress', defaultValue: 0.0)
+  @JsonKey(name: 'validation_progress', includeIfNull: false, defaultValue: 0.0)
   final double validationProgress;
-  @JsonKey(name: 'payment', defaultValue: false)
+  @JsonKey(name: 'payment', includeIfNull: false, defaultValue: false)
   final bool payment;
-  @JsonKey(name: 't_shirt_payment', defaultValue: false)
+  @JsonKey(name: 't_shirt_payment', includeIfNull: false, defaultValue: false)
   final bool tShirtPayment;
-  @JsonKey(name: 'number_of_document', defaultValue: 0)
+  @JsonKey(name: 'number_of_document', includeIfNull: false, defaultValue: 0)
   final int numberOfDocument;
-  @JsonKey(name: 'number_of_validated_document', defaultValue: 0)
+  @JsonKey(
+    name: 'number_of_validated_document',
+    includeIfNull: false,
+    defaultValue: 0,
+  )
   final int numberOfValidatedDocument;
   static const fromJsonFactory = _$RaidParticipantPreviewFromJson;
 
@@ -22525,51 +22746,53 @@ class RaidParticipantUpdate {
   static const toJsonFactory = _$RaidParticipantUpdateToJson;
   Map<String, dynamic> toJson() => _$RaidParticipantUpdateToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'firstname')
+  @JsonKey(name: 'firstname', includeIfNull: false)
   final String? firstname;
-  @JsonKey(name: 'birthday', toJson: _dateToJson)
+  @JsonKey(name: 'birthday', includeIfNull: false, toJson: _dateToJson)
   final DateTime? birthday;
-  @JsonKey(name: 'address')
+  @JsonKey(name: 'address', includeIfNull: false)
   final String? address;
-  @JsonKey(name: 'phone')
+  @JsonKey(name: 'phone', includeIfNull: false)
   final String? phone;
-  @JsonKey(name: 'email')
+  @JsonKey(name: 'email', includeIfNull: false)
   final String? email;
   @JsonKey(
     name: 'bike_size',
+    includeIfNull: false,
     toJson: sizeNullableToJson,
     fromJson: sizeNullableFromJson,
   )
   final enums.Size? bikeSize;
   @JsonKey(
     name: 't_shirt_size',
+    includeIfNull: false,
     toJson: sizeNullableToJson,
     fromJson: sizeNullableFromJson,
   )
   final enums.Size? tShirtSize;
-  @JsonKey(name: 'situation')
+  @JsonKey(name: 'situation', includeIfNull: false)
   final String? situation;
-  @JsonKey(name: 'other_school')
+  @JsonKey(name: 'other_school', includeIfNull: false)
   final String? otherSchool;
-  @JsonKey(name: 'company')
+  @JsonKey(name: 'company', includeIfNull: false)
   final String? company;
-  @JsonKey(name: 'diet')
+  @JsonKey(name: 'diet', includeIfNull: false)
   final String? diet;
-  @JsonKey(name: 'attestation_on_honour')
+  @JsonKey(name: 'attestation_on_honour', includeIfNull: false)
   final bool? attestationOnHonour;
-  @JsonKey(name: 'id_card_id')
+  @JsonKey(name: 'id_card_id', includeIfNull: false)
   final String? idCardId;
-  @JsonKey(name: 'medical_certificate_id')
+  @JsonKey(name: 'medical_certificate_id', includeIfNull: false)
   final String? medicalCertificateId;
-  @JsonKey(name: 'security_file_id')
+  @JsonKey(name: 'security_file_id', includeIfNull: false)
   final String? securityFileId;
-  @JsonKey(name: 'student_card_id')
+  @JsonKey(name: 'student_card_id', includeIfNull: false)
   final String? studentCardId;
-  @JsonKey(name: 'raid_rules_id')
+  @JsonKey(name: 'raid_rules_id', includeIfNull: false)
   final String? raidRulesId;
-  @JsonKey(name: 'parent_authorization_id')
+  @JsonKey(name: 'parent_authorization_id', includeIfNull: false)
   final String? parentAuthorizationId;
   static const fromJsonFactory = _$RaidParticipantUpdateFromJson;
 
@@ -22806,13 +23029,13 @@ class RaidPrice {
   static const toJsonFactory = _$RaidPriceToJson;
   Map<String, dynamic> toJson() => _$RaidPriceToJson(this);
 
-  @JsonKey(name: 'student_price')
+  @JsonKey(name: 'student_price', includeIfNull: false)
   final int? studentPrice;
-  @JsonKey(name: 'partner_price')
+  @JsonKey(name: 'partner_price', includeIfNull: false)
   final int? partnerPrice;
-  @JsonKey(name: 'external_price')
+  @JsonKey(name: 'external_price', includeIfNull: false)
   final int? externalPrice;
-  @JsonKey(name: 't_shirt_price')
+  @JsonKey(name: 't_shirt_price', includeIfNull: false)
   final int? tShirtPrice;
   static const fromJsonFactory = _$RaidPriceFromJson;
 
@@ -22921,31 +23144,33 @@ class RaidTeam {
   static const toJsonFactory = _$RaidTeamToJson;
   Map<String, dynamic> toJson() => _$RaidTeamToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'number')
+  @JsonKey(name: 'number', includeIfNull: false)
   final int? number;
-  @JsonKey(name: 'captain')
+  @JsonKey(name: 'captain', includeIfNull: false)
   final RaidParticipant captain;
-  @JsonKey(name: 'second')
+  @JsonKey(name: 'second', includeIfNull: false)
   final RaidParticipant? second;
   @JsonKey(
     name: 'difficulty',
+    includeIfNull: false,
     toJson: difficultyNullableToJson,
     fromJson: difficultyNullableFromJson,
   )
   final enums.Difficulty? difficulty;
   @JsonKey(
     name: 'meeting_place',
+    includeIfNull: false,
     toJson: meetingPlaceNullableToJson,
     fromJson: meetingPlaceNullableFromJson,
   )
   final enums.MeetingPlace? meetingPlace;
-  @JsonKey(name: 'validation_progress', defaultValue: 0.0)
+  @JsonKey(name: 'validation_progress', includeIfNull: false, defaultValue: 0.0)
   final double validationProgress;
-  @JsonKey(name: 'file_id')
+  @JsonKey(name: 'file_id', includeIfNull: false)
   final String? fileId;
   static const fromJsonFactory = _$RaidTeamFromJson;
 
@@ -23067,7 +23292,7 @@ class RaidTeamBase {
   static const toJsonFactory = _$RaidTeamBaseToJson;
   Map<String, dynamic> toJson() => _$RaidTeamBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
   static const fromJsonFactory = _$RaidTeamBaseFromJson;
 
@@ -23126,29 +23351,31 @@ class RaidTeamPreview {
   static const toJsonFactory = _$RaidTeamPreviewToJson;
   Map<String, dynamic> toJson() => _$RaidTeamPreviewToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'number')
+  @JsonKey(name: 'number', includeIfNull: false)
   final int? number;
-  @JsonKey(name: 'captain')
+  @JsonKey(name: 'captain', includeIfNull: false)
   final RaidParticipantPreview captain;
-  @JsonKey(name: 'second')
+  @JsonKey(name: 'second', includeIfNull: false)
   final RaidParticipantPreview? second;
   @JsonKey(
     name: 'difficulty',
+    includeIfNull: false,
     toJson: difficultyNullableToJson,
     fromJson: difficultyNullableFromJson,
   )
   final enums.Difficulty? difficulty;
   @JsonKey(
     name: 'meeting_place',
+    includeIfNull: false,
     toJson: meetingPlaceNullableToJson,
     fromJson: meetingPlaceNullableFromJson,
   )
   final enums.MeetingPlace? meetingPlace;
-  @JsonKey(name: 'validation_progress', defaultValue: 0.0)
+  @JsonKey(name: 'validation_progress', includeIfNull: false, defaultValue: 0.0)
   final double validationProgress;
   static const fromJsonFactory = _$RaidTeamPreviewFromJson;
 
@@ -23268,18 +23495,20 @@ class RaidTeamUpdate {
   static const toJsonFactory = _$RaidTeamUpdateToJson;
   Map<String, dynamic> toJson() => _$RaidTeamUpdateToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'number')
+  @JsonKey(name: 'number', includeIfNull: false)
   final int? number;
   @JsonKey(
     name: 'difficulty',
+    includeIfNull: false,
     toJson: difficultyNullableToJson,
     fromJson: difficultyNullableFromJson,
   )
   final enums.Difficulty? difficulty;
   @JsonKey(
     name: 'meeting_place',
+    includeIfNull: false,
     toJson: meetingPlaceNullableToJson,
     fromJson: meetingPlaceNullableFromJson,
   )
@@ -23374,17 +23603,22 @@ class Recommendation {
   static const toJsonFactory = _$RecommendationToJson;
   Map<String, dynamic> toJson() => _$RecommendationToJson(this);
 
-  @JsonKey(name: 'title', defaultValue: '')
+  @JsonKey(name: 'title', includeIfNull: false, defaultValue: '')
   final String title;
-  @JsonKey(name: 'code')
+  @JsonKey(name: 'code', includeIfNull: false)
   final String? code;
-  @JsonKey(name: 'summary', defaultValue: '')
+  @JsonKey(name: 'summary', includeIfNull: false, defaultValue: '')
   final String summary;
-  @JsonKey(name: 'description', defaultValue: '')
+  @JsonKey(name: 'description', includeIfNull: false, defaultValue: '')
   final String description;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'creation', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'creation',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime creation;
   static const fromJsonFactory = _$RecommendationFromJson;
 
@@ -23484,13 +23718,13 @@ class RecommendationBase {
   static const toJsonFactory = _$RecommendationBaseToJson;
   Map<String, dynamic> toJson() => _$RecommendationBaseToJson(this);
 
-  @JsonKey(name: 'title', defaultValue: '')
+  @JsonKey(name: 'title', includeIfNull: false, defaultValue: '')
   final String title;
-  @JsonKey(name: 'code')
+  @JsonKey(name: 'code', includeIfNull: false)
   final String? code;
-  @JsonKey(name: 'summary', defaultValue: '')
+  @JsonKey(name: 'summary', includeIfNull: false, defaultValue: '')
   final String summary;
-  @JsonKey(name: 'description', defaultValue: '')
+  @JsonKey(name: 'description', includeIfNull: false, defaultValue: '')
   final String description;
   static const fromJsonFactory = _$RecommendationBaseFromJson;
 
@@ -23572,13 +23806,13 @@ class RecommendationEdit {
   static const toJsonFactory = _$RecommendationEditToJson;
   Map<String, dynamic> toJson() => _$RecommendationEditToJson(this);
 
-  @JsonKey(name: 'title')
+  @JsonKey(name: 'title', includeIfNull: false)
   final String? title;
-  @JsonKey(name: 'code')
+  @JsonKey(name: 'code', includeIfNull: false)
   final String? code;
-  @JsonKey(name: 'summary')
+  @JsonKey(name: 'summary', includeIfNull: false)
   final String? summary;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
   static const fromJsonFactory = _$RecommendationEditFromJson;
 
@@ -23670,19 +23904,24 @@ class RefundBase {
   static const toJsonFactory = _$RefundBaseToJson;
   Map<String, dynamic> toJson() => _$RefundBaseToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'total', defaultValue: 0)
+  @JsonKey(name: 'total', includeIfNull: false, defaultValue: 0)
   final int total;
-  @JsonKey(name: 'creation', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'creation',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime creation;
-  @JsonKey(name: 'transaction_id', defaultValue: '')
+  @JsonKey(name: 'transaction_id', includeIfNull: false, defaultValue: '')
   final String transactionId;
-  @JsonKey(name: 'seller_user_id')
+  @JsonKey(name: 'seller_user_id', includeIfNull: false)
   final String? sellerUserId;
-  @JsonKey(name: 'credited_wallet_id', defaultValue: '')
+  @JsonKey(name: 'credited_wallet_id', includeIfNull: false, defaultValue: '')
   final String creditedWalletId;
-  @JsonKey(name: 'debited_wallet_id', defaultValue: '')
+  @JsonKey(name: 'debited_wallet_id', includeIfNull: false, defaultValue: '')
   final String debitedWalletId;
   static const fromJsonFactory = _$RefundBaseFromJson;
 
@@ -23797,9 +24036,9 @@ class RefundInfo {
   static const toJsonFactory = _$RefundInfoToJson;
   Map<String, dynamic> toJson() => _$RefundInfoToJson(this);
 
-  @JsonKey(name: 'complete_refund', defaultValue: false)
+  @JsonKey(name: 'complete_refund', includeIfNull: false, defaultValue: false)
   final bool completeRefund;
-  @JsonKey(name: 'amount')
+  @JsonKey(name: 'amount', includeIfNull: false)
   final int? amount;
   static const fromJsonFactory = _$RefundInfoFromJson;
 
@@ -23870,37 +24109,44 @@ class Request$ {
   static const toJsonFactory = _$Request$ToJson;
   Map<String, dynamic> toJson() => _$Request$ToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'wallet_id', defaultValue: '')
+  @JsonKey(name: 'wallet_id', includeIfNull: false, defaultValue: '')
   final String walletId;
-  @JsonKey(name: 'creation', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'creation',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime creation;
   @JsonKey(
     name: 'expiration_date',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime expirationDate;
-  @JsonKey(name: 'total', defaultValue: 0)
+  @JsonKey(name: 'total', includeIfNull: false, defaultValue: 0)
   final int total;
-  @JsonKey(name: 'store_id', defaultValue: '')
+  @JsonKey(name: 'store_id', includeIfNull: false, defaultValue: '')
   final String storeId;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'store_note')
+  @JsonKey(name: 'store_note', includeIfNull: false)
   final String? storeNote;
-  @JsonKey(name: 'module', defaultValue: '')
+  @JsonKey(name: 'module', includeIfNull: false, defaultValue: '')
   final String module;
-  @JsonKey(name: 'object_id', defaultValue: '')
+  @JsonKey(name: 'object_id', includeIfNull: false, defaultValue: '')
   final String objectId;
   @JsonKey(
     name: 'status',
+    includeIfNull: false,
     toJson: requestStatusToJson,
     fromJson: requestStatusFromJson,
   )
   final enums.RequestStatus status;
-  @JsonKey(name: 'transaction_id')
+  @JsonKey(name: 'transaction_id', includeIfNull: false)
   final String? transactionId;
   static const fromJsonFactory = _$Request$FromJson;
 
@@ -24056,9 +24302,9 @@ class ResetPasswordRequest {
   static const toJsonFactory = _$ResetPasswordRequestToJson;
   Map<String, dynamic> toJson() => _$ResetPasswordRequestToJson(this);
 
-  @JsonKey(name: 'reset_token', defaultValue: '')
+  @JsonKey(name: 'reset_token', includeIfNull: false, defaultValue: '')
   final String resetToken;
-  @JsonKey(name: 'new_password', defaultValue: '')
+  @JsonKey(name: 'new_password', includeIfNull: false, defaultValue: '')
   final String newPassword;
   static const fromJsonFactory = _$ResetPasswordRequestFromJson;
 
@@ -24118,7 +24364,7 @@ class RoleTagsReturn {
   static const toJsonFactory = _$RoleTagsReturnToJson;
   Map<String, dynamic> toJson() => _$RoleTagsReturnToJson(this);
 
-  @JsonKey(name: 'tags', defaultValue: <String>[])
+  @JsonKey(name: 'tags', includeIfNull: false, defaultValue: <String>[])
   final List<String> tags;
   static const fromJsonFactory = _$RoleTagsReturnFromJson;
 
@@ -24159,9 +24405,9 @@ class RoomBase {
   static const toJsonFactory = _$RoomBaseToJson;
   Map<String, dynamic> toJson() => _$RoomBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'manager_id', defaultValue: '')
+  @JsonKey(name: 'manager_id', includeIfNull: false, defaultValue: '')
   final String managerId;
   static const fromJsonFactory = _$RoomBaseFromJson;
 
@@ -24222,11 +24468,11 @@ class RoomComplete {
   static const toJsonFactory = _$RoomCompleteToJson;
   Map<String, dynamic> toJson() => _$RoomCompleteToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'manager_id', defaultValue: '')
+  @JsonKey(name: 'manager_id', includeIfNull: false, defaultValue: '')
   final String managerId;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$RoomCompleteFromJson;
 
@@ -24304,19 +24550,24 @@ class ScanInfo {
   static const toJsonFactory = _$ScanInfoToJson;
   Map<String, dynamic> toJson() => _$ScanInfoToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'tot', defaultValue: 0)
+  @JsonKey(name: 'tot', includeIfNull: false, defaultValue: 0)
   final int tot;
-  @JsonKey(name: 'iat', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'iat',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime iat;
-  @JsonKey(name: 'key', defaultValue: '')
+  @JsonKey(name: 'key', includeIfNull: false, defaultValue: '')
   final String key;
-  @JsonKey(name: 'store', defaultValue: false)
+  @JsonKey(name: 'store', includeIfNull: false, defaultValue: false)
   final bool store;
-  @JsonKey(name: 'signature', defaultValue: '')
+  @JsonKey(name: 'signature', includeIfNull: false, defaultValue: '')
   final String signature;
-  @JsonKey(name: 'bypass_membership', defaultValue: false)
+  @JsonKey(name: 'bypass_membership', includeIfNull: false, defaultValue: false)
   final bool? bypassMembership;
   static const fromJsonFactory = _$ScanInfoFromJson;
 
@@ -24426,15 +24677,19 @@ class SchoolExtension {
   static const toJsonFactory = _$SchoolExtensionToJson;
   Map<String, dynamic> toJson() => _$SchoolExtensionToJson(this);
 
-  @JsonKey(name: 'school_id', defaultValue: '')
+  @JsonKey(name: 'school_id', includeIfNull: false, defaultValue: '')
   final String schoolId;
-  @JsonKey(name: 'from_lyon', defaultValue: false)
+  @JsonKey(name: 'from_lyon', includeIfNull: false, defaultValue: false)
   final bool fromLyon;
-  @JsonKey(name: 'active', defaultValue: true)
+  @JsonKey(name: 'active', includeIfNull: false, defaultValue: true)
   final bool? active;
-  @JsonKey(name: 'inscription_enabled', defaultValue: false)
+  @JsonKey(
+    name: 'inscription_enabled',
+    includeIfNull: false,
+    defaultValue: false,
+  )
   final bool? inscriptionEnabled;
-  @JsonKey(name: 'school')
+  @JsonKey(name: 'school', includeIfNull: false)
   final CoreSchool school;
   static const fromJsonFactory = _$SchoolExtensionFromJson;
 
@@ -24529,13 +24784,17 @@ class SchoolExtensionBase {
   static const toJsonFactory = _$SchoolExtensionBaseToJson;
   Map<String, dynamic> toJson() => _$SchoolExtensionBaseToJson(this);
 
-  @JsonKey(name: 'school_id', defaultValue: '')
+  @JsonKey(name: 'school_id', includeIfNull: false, defaultValue: '')
   final String schoolId;
-  @JsonKey(name: 'from_lyon', defaultValue: false)
+  @JsonKey(name: 'from_lyon', includeIfNull: false, defaultValue: false)
   final bool fromLyon;
-  @JsonKey(name: 'active', defaultValue: true)
+  @JsonKey(name: 'active', includeIfNull: false, defaultValue: true)
   final bool? active;
-  @JsonKey(name: 'inscription_enabled', defaultValue: false)
+  @JsonKey(
+    name: 'inscription_enabled',
+    includeIfNull: false,
+    defaultValue: false,
+  )
   final bool? inscriptionEnabled;
   static const fromJsonFactory = _$SchoolExtensionBaseFromJson;
 
@@ -24621,11 +24880,11 @@ class SchoolExtensionEdit {
   static const toJsonFactory = _$SchoolExtensionEditToJson;
   Map<String, dynamic> toJson() => _$SchoolExtensionEditToJson(this);
 
-  @JsonKey(name: 'from_lyon')
+  @JsonKey(name: 'from_lyon', includeIfNull: false)
   final bool? fromLyon;
-  @JsonKey(name: 'active')
+  @JsonKey(name: 'active', includeIfNull: false)
   final bool? active;
-  @JsonKey(name: 'inscription_enabled')
+  @JsonKey(name: 'inscription_enabled', includeIfNull: false)
   final bool? inscriptionEnabled;
   static const fromJsonFactory = _$SchoolExtensionEditFromJson;
 
@@ -24711,29 +24970,29 @@ class SchoolGeneralQuota {
   static const toJsonFactory = _$SchoolGeneralQuotaToJson;
   Map<String, dynamic> toJson() => _$SchoolGeneralQuotaToJson(this);
 
-  @JsonKey(name: 'athlete_quota')
+  @JsonKey(name: 'athlete_quota', includeIfNull: false)
   final int? athleteQuota;
-  @JsonKey(name: 'cameraman_quota')
+  @JsonKey(name: 'cameraman_quota', includeIfNull: false)
   final int? cameramanQuota;
-  @JsonKey(name: 'pompom_quota')
+  @JsonKey(name: 'pompom_quota', includeIfNull: false)
   final int? pompomQuota;
-  @JsonKey(name: 'fanfare_quota')
+  @JsonKey(name: 'fanfare_quota', includeIfNull: false)
   final int? fanfareQuota;
-  @JsonKey(name: 'athlete_cameraman_quota')
+  @JsonKey(name: 'athlete_cameraman_quota', includeIfNull: false)
   final int? athleteCameramanQuota;
-  @JsonKey(name: 'athlete_pompom_quota')
+  @JsonKey(name: 'athlete_pompom_quota', includeIfNull: false)
   final int? athletePompomQuota;
-  @JsonKey(name: 'athlete_fanfare_quota')
+  @JsonKey(name: 'athlete_fanfare_quota', includeIfNull: false)
   final int? athleteFanfareQuota;
-  @JsonKey(name: 'non_athlete_cameraman_quota')
+  @JsonKey(name: 'non_athlete_cameraman_quota', includeIfNull: false)
   final int? nonAthleteCameramanQuota;
-  @JsonKey(name: 'non_athlete_pompom_quota')
+  @JsonKey(name: 'non_athlete_pompom_quota', includeIfNull: false)
   final int? nonAthletePompomQuota;
-  @JsonKey(name: 'non_athlete_fanfare_quota')
+  @JsonKey(name: 'non_athlete_fanfare_quota', includeIfNull: false)
   final int? nonAthleteFanfareQuota;
-  @JsonKey(name: 'school_id', defaultValue: '')
+  @JsonKey(name: 'school_id', includeIfNull: false, defaultValue: '')
   final String schoolId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
   static const fromJsonFactory = _$SchoolGeneralQuotaFromJson;
 
@@ -24932,25 +25191,25 @@ class SchoolGeneralQuotaBase {
   static const toJsonFactory = _$SchoolGeneralQuotaBaseToJson;
   Map<String, dynamic> toJson() => _$SchoolGeneralQuotaBaseToJson(this);
 
-  @JsonKey(name: 'athlete_quota')
+  @JsonKey(name: 'athlete_quota', includeIfNull: false)
   final int? athleteQuota;
-  @JsonKey(name: 'cameraman_quota')
+  @JsonKey(name: 'cameraman_quota', includeIfNull: false)
   final int? cameramanQuota;
-  @JsonKey(name: 'pompom_quota')
+  @JsonKey(name: 'pompom_quota', includeIfNull: false)
   final int? pompomQuota;
-  @JsonKey(name: 'fanfare_quota')
+  @JsonKey(name: 'fanfare_quota', includeIfNull: false)
   final int? fanfareQuota;
-  @JsonKey(name: 'athlete_cameraman_quota')
+  @JsonKey(name: 'athlete_cameraman_quota', includeIfNull: false)
   final int? athleteCameramanQuota;
-  @JsonKey(name: 'athlete_pompom_quota')
+  @JsonKey(name: 'athlete_pompom_quota', includeIfNull: false)
   final int? athletePompomQuota;
-  @JsonKey(name: 'athlete_fanfare_quota')
+  @JsonKey(name: 'athlete_fanfare_quota', includeIfNull: false)
   final int? athleteFanfareQuota;
-  @JsonKey(name: 'non_athlete_cameraman_quota')
+  @JsonKey(name: 'non_athlete_cameraman_quota', includeIfNull: false)
   final int? nonAthleteCameramanQuota;
-  @JsonKey(name: 'non_athlete_pompom_quota')
+  @JsonKey(name: 'non_athlete_pompom_quota', includeIfNull: false)
   final int? nonAthletePompomQuota;
-  @JsonKey(name: 'non_athlete_fanfare_quota')
+  @JsonKey(name: 'non_athlete_fanfare_quota', includeIfNull: false)
   final int? nonAthleteFanfareQuota;
   static const fromJsonFactory = _$SchoolGeneralQuotaBaseFromJson;
 
@@ -25124,13 +25383,13 @@ class SchoolProductQuota {
   static const toJsonFactory = _$SchoolProductQuotaToJson;
   Map<String, dynamic> toJson() => _$SchoolProductQuotaToJson(this);
 
-  @JsonKey(name: 'product_id', defaultValue: '')
+  @JsonKey(name: 'product_id', includeIfNull: false, defaultValue: '')
   final String productId;
-  @JsonKey(name: 'quota', defaultValue: 0)
+  @JsonKey(name: 'quota', includeIfNull: false, defaultValue: 0)
   final int quota;
-  @JsonKey(name: 'school_id', defaultValue: '')
+  @JsonKey(name: 'school_id', includeIfNull: false, defaultValue: '')
   final String schoolId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
   static const fromJsonFactory = _$SchoolProductQuotaFromJson;
 
@@ -25211,9 +25470,9 @@ class SchoolProductQuotaBase {
   static const toJsonFactory = _$SchoolProductQuotaBaseToJson;
   Map<String, dynamic> toJson() => _$SchoolProductQuotaBaseToJson(this);
 
-  @JsonKey(name: 'product_id', defaultValue: '')
+  @JsonKey(name: 'product_id', includeIfNull: false, defaultValue: '')
   final String productId;
-  @JsonKey(name: 'quota', defaultValue: 0)
+  @JsonKey(name: 'quota', includeIfNull: false, defaultValue: 0)
   final int quota;
   static const fromJsonFactory = _$SchoolProductQuotaBaseFromJson;
 
@@ -25270,7 +25529,7 @@ class SchoolProductQuotaEdit {
   static const toJsonFactory = _$SchoolProductQuotaEditToJson;
   Map<String, dynamic> toJson() => _$SchoolProductQuotaEditToJson(this);
 
-  @JsonKey(name: 'quota', defaultValue: 0)
+  @JsonKey(name: 'quota', includeIfNull: false, defaultValue: 0)
   final int quota;
   static const fromJsonFactory = _$SchoolProductQuotaEditFromJson;
 
@@ -25313,9 +25572,9 @@ class SchoolResult {
   static const toJsonFactory = _$SchoolResultToJson;
   Map<String, dynamic> toJson() => _$SchoolResultToJson(this);
 
-  @JsonKey(name: 'school_id', defaultValue: '')
+  @JsonKey(name: 'school_id', includeIfNull: false, defaultValue: '')
   final String schoolId;
-  @JsonKey(name: 'total_points', defaultValue: 0)
+  @JsonKey(name: 'total_points', includeIfNull: false, defaultValue: 0)
   final int totalPoints;
   static const fromJsonFactory = _$SchoolResultFromJson;
 
@@ -25382,15 +25641,15 @@ class SchoolSportQuota {
   static const toJsonFactory = _$SchoolSportQuotaToJson;
   Map<String, dynamic> toJson() => _$SchoolSportQuotaToJson(this);
 
-  @JsonKey(name: 'participant_quota')
+  @JsonKey(name: 'participant_quota', includeIfNull: false)
   final int? participantQuota;
-  @JsonKey(name: 'team_quota')
+  @JsonKey(name: 'team_quota', includeIfNull: false)
   final int? teamQuota;
-  @JsonKey(name: 'school_id', defaultValue: '')
+  @JsonKey(name: 'school_id', includeIfNull: false, defaultValue: '')
   final String schoolId;
-  @JsonKey(name: 'sport_id', defaultValue: '')
+  @JsonKey(name: 'sport_id', includeIfNull: false, defaultValue: '')
   final String sportId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
   static const fromJsonFactory = _$SchoolSportQuotaFromJson;
 
@@ -25485,9 +25744,9 @@ class SchoolSportQuotaEdit {
   static const toJsonFactory = _$SchoolSportQuotaEditToJson;
   Map<String, dynamic> toJson() => _$SchoolSportQuotaEditToJson(this);
 
-  @JsonKey(name: 'participant_quota')
+  @JsonKey(name: 'participant_quota', includeIfNull: false)
   final int? participantQuota;
-  @JsonKey(name: 'team_quota')
+  @JsonKey(name: 'team_quota', includeIfNull: false)
   final int? teamQuota;
   static const fromJsonFactory = _$SchoolSportQuotaEditFromJson;
 
@@ -25549,9 +25808,9 @@ class SectionBase {
   static const toJsonFactory = _$SectionBaseToJson;
   Map<String, dynamic> toJson() => _$SectionBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'description', defaultValue: '')
+  @JsonKey(name: 'description', includeIfNull: false, defaultValue: '')
   final String description;
   static const fromJsonFactory = _$SectionBaseFromJson;
 
@@ -25613,11 +25872,11 @@ class SectionComplete {
   static const toJsonFactory = _$SectionCompleteToJson;
   Map<String, dynamic> toJson() => _$SectionCompleteToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'description', defaultValue: '')
+  @JsonKey(name: 'description', includeIfNull: false, defaultValue: '')
   final String description;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$SectionCompleteFromJson;
 
@@ -25701,41 +25960,42 @@ class SecurityFile {
   static const toJsonFactory = _$SecurityFileToJson;
   Map<String, dynamic> toJson() => _$SecurityFileToJson(this);
 
-  @JsonKey(name: 'allergy')
+  @JsonKey(name: 'allergy', includeIfNull: false)
   final String? allergy;
-  @JsonKey(name: 'asthma', defaultValue: false)
+  @JsonKey(name: 'asthma', includeIfNull: false, defaultValue: false)
   final bool asthma;
-  @JsonKey(name: 'intensive_care_unit')
+  @JsonKey(name: 'intensive_care_unit', includeIfNull: false)
   final bool? intensiveCareUnit;
-  @JsonKey(name: 'intensive_care_unit_when')
+  @JsonKey(name: 'intensive_care_unit_when', includeIfNull: false)
   final String? intensiveCareUnitWhen;
-  @JsonKey(name: 'ongoing_treatment')
+  @JsonKey(name: 'ongoing_treatment', includeIfNull: false)
   final String? ongoingTreatment;
-  @JsonKey(name: 'sicknesses')
+  @JsonKey(name: 'sicknesses', includeIfNull: false)
   final String? sicknesses;
-  @JsonKey(name: 'hospitalization')
+  @JsonKey(name: 'hospitalization', includeIfNull: false)
   final String? hospitalization;
-  @JsonKey(name: 'surgical_operation')
+  @JsonKey(name: 'surgical_operation', includeIfNull: false)
   final String? surgicalOperation;
-  @JsonKey(name: 'trauma')
+  @JsonKey(name: 'trauma', includeIfNull: false)
   final String? trauma;
-  @JsonKey(name: 'family')
+  @JsonKey(name: 'family', includeIfNull: false)
   final String? family;
-  @JsonKey(name: 'emergency_person_firstname')
+  @JsonKey(name: 'emergency_person_firstname', includeIfNull: false)
   final String? emergencyPersonFirstname;
-  @JsonKey(name: 'emergency_person_name')
+  @JsonKey(name: 'emergency_person_name', includeIfNull: false)
   final String? emergencyPersonName;
-  @JsonKey(name: 'emergency_person_phone')
+  @JsonKey(name: 'emergency_person_phone', includeIfNull: false)
   final String? emergencyPersonPhone;
-  @JsonKey(name: 'file_id')
+  @JsonKey(name: 'file_id', includeIfNull: false)
   final String? fileId;
   @JsonKey(
     name: 'validation',
+    includeIfNull: false,
     toJson: documentValidationToJson,
     fromJson: documentValidationFromJson,
   )
   final enums.DocumentValidation validation;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$SecurityFileFromJson;
 
@@ -25959,33 +26219,33 @@ class SecurityFileBase {
   static const toJsonFactory = _$SecurityFileBaseToJson;
   Map<String, dynamic> toJson() => _$SecurityFileBaseToJson(this);
 
-  @JsonKey(name: 'allergy')
+  @JsonKey(name: 'allergy', includeIfNull: false)
   final String? allergy;
-  @JsonKey(name: 'asthma', defaultValue: false)
+  @JsonKey(name: 'asthma', includeIfNull: false, defaultValue: false)
   final bool asthma;
-  @JsonKey(name: 'intensive_care_unit')
+  @JsonKey(name: 'intensive_care_unit', includeIfNull: false)
   final bool? intensiveCareUnit;
-  @JsonKey(name: 'intensive_care_unit_when')
+  @JsonKey(name: 'intensive_care_unit_when', includeIfNull: false)
   final String? intensiveCareUnitWhen;
-  @JsonKey(name: 'ongoing_treatment')
+  @JsonKey(name: 'ongoing_treatment', includeIfNull: false)
   final String? ongoingTreatment;
-  @JsonKey(name: 'sicknesses')
+  @JsonKey(name: 'sicknesses', includeIfNull: false)
   final String? sicknesses;
-  @JsonKey(name: 'hospitalization')
+  @JsonKey(name: 'hospitalization', includeIfNull: false)
   final String? hospitalization;
-  @JsonKey(name: 'surgical_operation')
+  @JsonKey(name: 'surgical_operation', includeIfNull: false)
   final String? surgicalOperation;
-  @JsonKey(name: 'trauma')
+  @JsonKey(name: 'trauma', includeIfNull: false)
   final String? trauma;
-  @JsonKey(name: 'family')
+  @JsonKey(name: 'family', includeIfNull: false)
   final String? family;
-  @JsonKey(name: 'emergency_person_firstname')
+  @JsonKey(name: 'emergency_person_firstname', includeIfNull: false)
   final String? emergencyPersonFirstname;
-  @JsonKey(name: 'emergency_person_name')
+  @JsonKey(name: 'emergency_person_name', includeIfNull: false)
   final String? emergencyPersonName;
-  @JsonKey(name: 'emergency_person_phone')
+  @JsonKey(name: 'emergency_person_phone', includeIfNull: false)
   final String? emergencyPersonPhone;
-  @JsonKey(name: 'file_id')
+  @JsonKey(name: 'file_id', includeIfNull: false)
   final String? fileId;
   static const fromJsonFactory = _$SecurityFileBaseFromJson;
 
@@ -26182,13 +26442,13 @@ class SeedLibraryInformation {
   static const toJsonFactory = _$SeedLibraryInformationToJson;
   Map<String, dynamic> toJson() => _$SeedLibraryInformationToJson(this);
 
-  @JsonKey(name: 'facebook_url', defaultValue: '')
+  @JsonKey(name: 'facebook_url', includeIfNull: false, defaultValue: '')
   final String? facebookUrl;
-  @JsonKey(name: 'forum_url', defaultValue: '')
+  @JsonKey(name: 'forum_url', includeIfNull: false, defaultValue: '')
   final String? forumUrl;
-  @JsonKey(name: 'description', defaultValue: '')
+  @JsonKey(name: 'description', includeIfNull: false, defaultValue: '')
   final String? description;
-  @JsonKey(name: 'contact', defaultValue: '')
+  @JsonKey(name: 'contact', includeIfNull: false, defaultValue: '')
   final String? contact;
   static const fromJsonFactory = _$SeedLibraryInformationFromJson;
 
@@ -26285,21 +26545,25 @@ class Seller {
   static const toJsonFactory = _$SellerToJson;
   Map<String, dynamic> toJson() => _$SellerToJson(this);
 
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'store_id', defaultValue: '')
+  @JsonKey(name: 'store_id', includeIfNull: false, defaultValue: '')
   final String storeId;
-  @JsonKey(name: 'can_bank', defaultValue: false)
+  @JsonKey(name: 'can_bank', includeIfNull: false, defaultValue: false)
   final bool canBank;
-  @JsonKey(name: 'can_see_history', defaultValue: false)
+  @JsonKey(name: 'can_see_history', includeIfNull: false, defaultValue: false)
   final bool canSeeHistory;
-  @JsonKey(name: 'can_cancel', defaultValue: false)
+  @JsonKey(name: 'can_cancel', includeIfNull: false, defaultValue: false)
   final bool canCancel;
-  @JsonKey(name: 'can_manage_sellers', defaultValue: false)
+  @JsonKey(
+    name: 'can_manage_sellers',
+    includeIfNull: false,
+    defaultValue: false,
+  )
   final bool canManageSellers;
-  @JsonKey(name: 'can_manage_events', defaultValue: false)
+  @JsonKey(name: 'can_manage_events', includeIfNull: false, defaultValue: false)
   final bool canManageEvents;
-  @JsonKey(name: 'user')
+  @JsonKey(name: 'user', includeIfNull: false)
   final CoreUserSimple user;
   static const fromJsonFactory = _$SellerFromJson;
 
@@ -26426,11 +26690,11 @@ class SellerBase {
   static const toJsonFactory = _$SellerBaseToJson;
   Map<String, dynamic> toJson() => _$SellerBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'group_id', defaultValue: '')
+  @JsonKey(name: 'group_id', includeIfNull: false, defaultValue: '')
   final String groupId;
-  @JsonKey(name: 'order', defaultValue: 0)
+  @JsonKey(name: 'order', includeIfNull: false, defaultValue: 0)
   final int order;
   static const fromJsonFactory = _$SellerBaseFromJson;
 
@@ -26499,13 +26763,13 @@ class SellerComplete {
   static const toJsonFactory = _$SellerCompleteToJson;
   Map<String, dynamic> toJson() => _$SellerCompleteToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'group_id', defaultValue: '')
+  @JsonKey(name: 'group_id', includeIfNull: false, defaultValue: '')
   final String groupId;
-  @JsonKey(name: 'order', defaultValue: 0)
+  @JsonKey(name: 'order', includeIfNull: false, defaultValue: 0)
   final int order;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$SellerCompleteFromJson;
 
@@ -26592,17 +26856,21 @@ class SellerCreation {
   static const toJsonFactory = _$SellerCreationToJson;
   Map<String, dynamic> toJson() => _$SellerCreationToJson(this);
 
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'can_bank', defaultValue: false)
+  @JsonKey(name: 'can_bank', includeIfNull: false, defaultValue: false)
   final bool canBank;
-  @JsonKey(name: 'can_see_history', defaultValue: false)
+  @JsonKey(name: 'can_see_history', includeIfNull: false, defaultValue: false)
   final bool canSeeHistory;
-  @JsonKey(name: 'can_cancel', defaultValue: false)
+  @JsonKey(name: 'can_cancel', includeIfNull: false, defaultValue: false)
   final bool canCancel;
-  @JsonKey(name: 'can_manage_sellers', defaultValue: false)
+  @JsonKey(
+    name: 'can_manage_sellers',
+    includeIfNull: false,
+    defaultValue: false,
+  )
   final bool canManageSellers;
-  @JsonKey(name: 'can_manage_events', defaultValue: false)
+  @JsonKey(name: 'can_manage_events', includeIfNull: false, defaultValue: false)
   final bool? canManageEvents;
   static const fromJsonFactory = _$SellerCreationFromJson;
 
@@ -26708,11 +26976,11 @@ class SellerEdit {
   static const toJsonFactory = _$SellerEditToJson;
   Map<String, dynamic> toJson() => _$SellerEditToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'group_id')
+  @JsonKey(name: 'group_id', includeIfNull: false)
   final String? groupId;
-  @JsonKey(name: 'order')
+  @JsonKey(name: 'order', includeIfNull: false)
   final int? order;
   static const fromJsonFactory = _$SellerEditFromJson;
 
@@ -26781,15 +27049,15 @@ class SellerUpdate {
   static const toJsonFactory = _$SellerUpdateToJson;
   Map<String, dynamic> toJson() => _$SellerUpdateToJson(this);
 
-  @JsonKey(name: 'can_bank')
+  @JsonKey(name: 'can_bank', includeIfNull: false)
   final bool? canBank;
-  @JsonKey(name: 'can_see_history')
+  @JsonKey(name: 'can_see_history', includeIfNull: false)
   final bool? canSeeHistory;
-  @JsonKey(name: 'can_cancel')
+  @JsonKey(name: 'can_cancel', includeIfNull: false)
   final bool? canCancel;
-  @JsonKey(name: 'can_manage_sellers')
+  @JsonKey(name: 'can_manage_sellers', includeIfNull: false)
   final bool? canManageSellers;
-  @JsonKey(name: 'can_manage_events')
+  @JsonKey(name: 'can_manage_events', includeIfNull: false)
   final bool? canManageEvents;
   static const fromJsonFactory = _$SellerUpdateFromJson;
 
@@ -26900,19 +27168,20 @@ class Session {
   static const toJsonFactory = _$SessionToJson;
   Map<String, dynamic> toJson() => _$SessionToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'event_id', defaultValue: '')
+  @JsonKey(name: 'event_id', includeIfNull: false, defaultValue: '')
   final String eventId;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
   @JsonKey(
     name: 'start_datetime',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime startDatetime;
-  @JsonKey(name: 'disabled', defaultValue: false)
+  @JsonKey(name: 'disabled', includeIfNull: false, defaultValue: false)
   final bool disabled;
   static const fromJsonFactory = _$SessionFromJson;
 
@@ -27019,25 +27288,26 @@ class SessionAdmin {
   static const toJsonFactory = _$SessionAdminToJson;
   Map<String, dynamic> toJson() => _$SessionAdminToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'event_id', defaultValue: '')
+  @JsonKey(name: 'event_id', includeIfNull: false, defaultValue: '')
   final String eventId;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
   @JsonKey(
     name: 'start_datetime',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime startDatetime;
-  @JsonKey(name: 'disabled', defaultValue: false)
+  @JsonKey(name: 'disabled', includeIfNull: false, defaultValue: false)
   final bool disabled;
-  @JsonKey(name: 'quota')
+  @JsonKey(name: 'quota', includeIfNull: false)
   final int? quota;
-  @JsonKey(name: 'tickets_in_checkout', defaultValue: 0)
+  @JsonKey(name: 'tickets_in_checkout', includeIfNull: false, defaultValue: 0)
   final int ticketsInCheckout;
-  @JsonKey(name: 'tickets_sold', defaultValue: 0)
+  @JsonKey(name: 'tickets_sold', includeIfNull: false, defaultValue: 0)
   final int ticketsSold;
   static const fromJsonFactory = _$SessionAdminFromJson;
 
@@ -27169,21 +27439,22 @@ class SessionComplete {
   static const toJsonFactory = _$SessionCompleteToJson;
   Map<String, dynamic> toJson() => _$SessionCompleteToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'event_id', defaultValue: '')
+  @JsonKey(name: 'event_id', includeIfNull: false, defaultValue: '')
   final String eventId;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
   @JsonKey(
     name: 'start_datetime',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime startDatetime;
-  @JsonKey(name: 'disabled', defaultValue: false)
+  @JsonKey(name: 'disabled', includeIfNull: false, defaultValue: false)
   final bool disabled;
-  @JsonKey(name: 'quota')
+  @JsonKey(name: 'quota', includeIfNull: false)
   final int? quota;
   static const fromJsonFactory = _$SessionCompleteFromJson;
 
@@ -27284,15 +27555,16 @@ class SessionCreate {
   static const toJsonFactory = _$SessionCreateToJson;
   Map<String, dynamic> toJson() => _$SessionCreateToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
   @JsonKey(
     name: 'start_datetime',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime startDatetime;
-  @JsonKey(name: 'quota')
+  @JsonKey(name: 'quota', includeIfNull: false)
   final int? quota;
   static const fromJsonFactory = _$SessionCreateFromJson;
 
@@ -27371,21 +27643,22 @@ class SessionPublic {
   static const toJsonFactory = _$SessionPublicToJson;
   Map<String, dynamic> toJson() => _$SessionPublicToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'event_id', defaultValue: '')
+  @JsonKey(name: 'event_id', includeIfNull: false, defaultValue: '')
   final String eventId;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
   @JsonKey(
     name: 'start_datetime',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime startDatetime;
-  @JsonKey(name: 'disabled', defaultValue: false)
+  @JsonKey(name: 'disabled', includeIfNull: false, defaultValue: false)
   final bool disabled;
-  @JsonKey(name: 'sold_out', defaultValue: false)
+  @JsonKey(name: 'sold_out', includeIfNull: false, defaultValue: false)
   final bool soldOut;
   static const fromJsonFactory = _$SessionPublicFromJson;
 
@@ -27486,14 +27759,14 @@ class SessionUpdate {
   static const toJsonFactory = _$SessionUpdateToJson;
   Map<String, dynamic> toJson() => _$SessionUpdateToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'start_datetime')
+  @JsonKey(name: 'start_datetime', includeIfNull: false)
   final DateTime? startDatetime;
-  @JsonKey(name: 'quota')
+  @JsonKey(name: 'quota', includeIfNull: false)
   final int? quota;
-  @JsonKey(name: 'disabled')
+  @JsonKey(name: 'disabled', includeIfNull: false)
   final bool? disabled;
   static const fromJsonFactory = _$SessionUpdateFromJson;
 
@@ -27575,11 +27848,12 @@ class SignatureBase {
 
   @JsonKey(
     name: 'signature_type',
+    includeIfNull: false,
     toJson: documentSignatureTypeToJson,
     fromJson: documentSignatureTypeFromJson,
   )
   final enums.DocumentSignatureType signatureType;
-  @JsonKey(name: 'numeric_signature_id')
+  @JsonKey(name: 'numeric_signature_id', includeIfNull: false)
   final String? numericSignatureId;
   static const fromJsonFactory = _$SignatureBaseFromJson;
 
@@ -27657,15 +27931,16 @@ class SignatureComplete {
 
   @JsonKey(
     name: 'signature_type',
+    includeIfNull: false,
     toJson: documentSignatureTypeToJson,
     fromJson: documentSignatureTypeFromJson,
   )
   final enums.DocumentSignatureType signatureType;
-  @JsonKey(name: 'numeric_signature_id')
+  @JsonKey(name: 'numeric_signature_id', includeIfNull: false)
   final String? numericSignatureId;
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'document_id', defaultValue: '')
+  @JsonKey(name: 'document_id', includeIfNull: false, defaultValue: '')
   final String documentId;
   static const fromJsonFactory = _$SignatureCompleteFromJson;
 
@@ -27763,17 +28038,22 @@ class SignedContent {
   static const toJsonFactory = _$SignedContentToJson;
   Map<String, dynamic> toJson() => _$SignedContentToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'tot', defaultValue: 0)
+  @JsonKey(name: 'tot', includeIfNull: false, defaultValue: 0)
   final int tot;
-  @JsonKey(name: 'iat', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'iat',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime iat;
-  @JsonKey(name: 'key', defaultValue: '')
+  @JsonKey(name: 'key', includeIfNull: false, defaultValue: '')
   final String key;
-  @JsonKey(name: 'store', defaultValue: false)
+  @JsonKey(name: 'store', includeIfNull: false, defaultValue: false)
   final bool store;
-  @JsonKey(name: 'signature', defaultValue: '')
+  @JsonKey(name: 'signature', includeIfNull: false, defaultValue: '')
   final String signature;
   static const fromJsonFactory = _$SignedContentFromJson;
 
@@ -27876,27 +28156,28 @@ class SpeciesBase {
   static const toJsonFactory = _$SpeciesBaseToJson;
   Map<String, dynamic> toJson() => _$SpeciesBaseToJson(this);
 
-  @JsonKey(name: 'prefix', defaultValue: '')
+  @JsonKey(name: 'prefix', includeIfNull: false, defaultValue: '')
   final String prefix;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'difficulty', defaultValue: 0)
+  @JsonKey(name: 'difficulty', includeIfNull: false, defaultValue: 0)
   final int difficulty;
   @JsonKey(
     name: 'species_type',
+    includeIfNull: false,
     toJson: speciesTypeToJson,
     fromJson: speciesTypeFromJson,
   )
   final enums.SpeciesType speciesType;
-  @JsonKey(name: 'card')
+  @JsonKey(name: 'card', includeIfNull: false)
   final String? card;
-  @JsonKey(name: 'nb_seeds_recommended')
+  @JsonKey(name: 'nb_seeds_recommended', includeIfNull: false)
   final int? nbSeedsRecommended;
-  @JsonKey(name: 'start_season', toJson: _dateToJson)
+  @JsonKey(name: 'start_season', includeIfNull: false, toJson: _dateToJson)
   final DateTime? startSeason;
-  @JsonKey(name: 'end_season', toJson: _dateToJson)
+  @JsonKey(name: 'end_season', includeIfNull: false, toJson: _dateToJson)
   final DateTime? endSeason;
-  @JsonKey(name: 'time_maturation')
+  @JsonKey(name: 'time_maturation', includeIfNull: false)
   final int? timeMaturation;
   static const fromJsonFactory = _$SpeciesBaseFromJson;
 
@@ -28041,29 +28322,30 @@ class SpeciesComplete {
   static const toJsonFactory = _$SpeciesCompleteToJson;
   Map<String, dynamic> toJson() => _$SpeciesCompleteToJson(this);
 
-  @JsonKey(name: 'prefix', defaultValue: '')
+  @JsonKey(name: 'prefix', includeIfNull: false, defaultValue: '')
   final String prefix;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'difficulty', defaultValue: 0)
+  @JsonKey(name: 'difficulty', includeIfNull: false, defaultValue: 0)
   final int difficulty;
   @JsonKey(
     name: 'species_type',
+    includeIfNull: false,
     toJson: speciesTypeToJson,
     fromJson: speciesTypeFromJson,
   )
   final enums.SpeciesType speciesType;
-  @JsonKey(name: 'card')
+  @JsonKey(name: 'card', includeIfNull: false)
   final String? card;
-  @JsonKey(name: 'nb_seeds_recommended')
+  @JsonKey(name: 'nb_seeds_recommended', includeIfNull: false)
   final int? nbSeedsRecommended;
-  @JsonKey(name: 'start_season', toJson: _dateToJson)
+  @JsonKey(name: 'start_season', includeIfNull: false, toJson: _dateToJson)
   final DateTime? startSeason;
-  @JsonKey(name: 'end_season', toJson: _dateToJson)
+  @JsonKey(name: 'end_season', includeIfNull: false, toJson: _dateToJson)
   final DateTime? endSeason;
-  @JsonKey(name: 'time_maturation')
+  @JsonKey(name: 'time_maturation', includeIfNull: false)
   final int? timeMaturation;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$SpeciesCompleteFromJson;
 
@@ -28208,27 +28490,28 @@ class SpeciesEdit {
   static const toJsonFactory = _$SpeciesEditToJson;
   Map<String, dynamic> toJson() => _$SpeciesEditToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'prefix')
+  @JsonKey(name: 'prefix', includeIfNull: false)
   final String? prefix;
-  @JsonKey(name: 'difficulty')
+  @JsonKey(name: 'difficulty', includeIfNull: false)
   final int? difficulty;
-  @JsonKey(name: 'card')
+  @JsonKey(name: 'card', includeIfNull: false)
   final String? card;
   @JsonKey(
     name: 'species_type',
+    includeIfNull: false,
     toJson: speciesTypeNullableToJson,
     fromJson: speciesTypeNullableFromJson,
   )
   final enums.SpeciesType? speciesType;
-  @JsonKey(name: 'nb_seeds_recommended')
+  @JsonKey(name: 'nb_seeds_recommended', includeIfNull: false)
   final int? nbSeedsRecommended;
-  @JsonKey(name: 'start_season', toJson: _dateToJson)
+  @JsonKey(name: 'start_season', includeIfNull: false, toJson: _dateToJson)
   final DateTime? startSeason;
-  @JsonKey(name: 'end_season', toJson: _dateToJson)
+  @JsonKey(name: 'end_season', includeIfNull: false, toJson: _dateToJson)
   final DateTime? endSeason;
-  @JsonKey(name: 'time_maturation')
+  @JsonKey(name: 'time_maturation', includeIfNull: false)
   final int? timeMaturation;
   static const fromJsonFactory = _$SpeciesEditFromJson;
 
@@ -28359,6 +28642,7 @@ class SpeciesTypesReturn {
 
   @JsonKey(
     name: 'species_type',
+    includeIfNull: false,
     toJson: speciesTypeListToJson,
     fromJson: speciesTypeListFromJson,
   )
@@ -28415,21 +28699,22 @@ class Sport {
   static const toJsonFactory = _$SportToJson;
   Map<String, dynamic> toJson() => _$SportToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'team_size', defaultValue: 0)
+  @JsonKey(name: 'team_size', includeIfNull: false, defaultValue: 0)
   final int teamSize;
-  @JsonKey(name: 'substitute_max')
+  @JsonKey(name: 'substitute_max', includeIfNull: false)
   final int? substituteMax;
   @JsonKey(
     name: 'sport_category',
+    includeIfNull: false,
     toJson: sportCategoryNullableToJson,
     fromJson: sportCategoryNullableFromJson,
   )
   final enums.SportCategory? sportCategory;
-  @JsonKey(name: 'active', defaultValue: true)
+  @JsonKey(name: 'active', includeIfNull: false, defaultValue: true)
   final bool? active;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$SportFromJson;
 
@@ -28533,19 +28818,20 @@ class SportBase {
   static const toJsonFactory = _$SportBaseToJson;
   Map<String, dynamic> toJson() => _$SportBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'team_size', defaultValue: 0)
+  @JsonKey(name: 'team_size', includeIfNull: false, defaultValue: 0)
   final int teamSize;
-  @JsonKey(name: 'substitute_max')
+  @JsonKey(name: 'substitute_max', includeIfNull: false)
   final int? substituteMax;
   @JsonKey(
     name: 'sport_category',
+    includeIfNull: false,
     toJson: sportCategoryNullableToJson,
     fromJson: sportCategoryNullableFromJson,
   )
   final enums.SportCategory? sportCategory;
-  @JsonKey(name: 'active', defaultValue: true)
+  @JsonKey(name: 'active', includeIfNull: false, defaultValue: true)
   final bool? active;
   static const fromJsonFactory = _$SportBaseFromJson;
 
@@ -28642,19 +28928,20 @@ class SportEdit {
   static const toJsonFactory = _$SportEditToJson;
   Map<String, dynamic> toJson() => _$SportEditToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'team_size')
+  @JsonKey(name: 'team_size', includeIfNull: false)
   final int? teamSize;
-  @JsonKey(name: 'substitute_max')
+  @JsonKey(name: 'substitute_max', includeIfNull: false)
   final int? substituteMax;
   @JsonKey(
     name: 'sport_category',
+    includeIfNull: false,
     toJson: sportCategoryNullableToJson,
     fromJson: sportCategoryNullableFromJson,
   )
   final enums.SportCategory? sportCategory;
-  @JsonKey(name: 'active')
+  @JsonKey(name: 'active', includeIfNull: false)
   final bool? active;
   static const fromJsonFactory = _$SportEditFromJson;
 
@@ -28745,7 +29032,11 @@ class SportPodiumRankings {
   static const toJsonFactory = _$SportPodiumRankingsToJson;
   Map<String, dynamic> toJson() => _$SportPodiumRankingsToJson(this);
 
-  @JsonKey(name: 'rankings', defaultValue: <TeamSportResultBase>[])
+  @JsonKey(
+    name: 'rankings',
+    includeIfNull: false,
+    defaultValue: <TeamSportResultBase>[],
+  )
   final List<TeamSportResultBase> rankings;
   static const fromJsonFactory = _$SportPodiumRankingsFromJson;
 
@@ -28793,9 +29084,9 @@ class SportQuotaInfo {
   static const toJsonFactory = _$SportQuotaInfoToJson;
   Map<String, dynamic> toJson() => _$SportQuotaInfoToJson(this);
 
-  @JsonKey(name: 'participant_quota')
+  @JsonKey(name: 'participant_quota', includeIfNull: false)
   final int? participantQuota;
-  @JsonKey(name: 'team_quota')
+  @JsonKey(name: 'team_quota', includeIfNull: false)
   final int? teamQuota;
   static const fromJsonFactory = _$SportQuotaInfoFromJson;
 
@@ -28858,6 +29149,7 @@ class Status {
 
   @JsonKey(
     name: 'status',
+    includeIfNull: false,
     toJson: cdrStatusNullableToJson,
     fromJson: cdrStatusStatusNullableFromJson,
   )
@@ -28918,19 +29210,24 @@ class Store {
   static const toJsonFactory = _$StoreToJson;
   Map<String, dynamic> toJson() => _$StoreToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'association_id')
+  @JsonKey(name: 'association_id', includeIfNull: false)
   final String? associationId;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'structure_id', defaultValue: '')
+  @JsonKey(name: 'structure_id', includeIfNull: false, defaultValue: '')
   final String structureId;
-  @JsonKey(name: 'wallet_id', defaultValue: '')
+  @JsonKey(name: 'wallet_id', includeIfNull: false, defaultValue: '')
   final String walletId;
-  @JsonKey(name: 'creation', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'creation',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime creation;
-  @JsonKey(name: 'structure')
+  @JsonKey(name: 'structure', includeIfNull: false)
   final Structure structure;
   static const fromJsonFactory = _$StoreFromJson;
 
@@ -29039,9 +29336,9 @@ class StoreBase {
   static const toJsonFactory = _$StoreBaseToJson;
   Map<String, dynamic> toJson() => _$StoreBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'association_id')
+  @JsonKey(name: 'association_id', includeIfNull: false)
   final String? associationId;
   static const fromJsonFactory = _$StoreBaseFromJson;
 
@@ -29113,17 +29410,22 @@ class StoreSimple {
   static const toJsonFactory = _$StoreSimpleToJson;
   Map<String, dynamic> toJson() => _$StoreSimpleToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'association_id')
+  @JsonKey(name: 'association_id', includeIfNull: false)
   final String? associationId;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'structure_id', defaultValue: '')
+  @JsonKey(name: 'structure_id', includeIfNull: false, defaultValue: '')
   final String structureId;
-  @JsonKey(name: 'wallet_id', defaultValue: '')
+  @JsonKey(name: 'wallet_id', includeIfNull: false, defaultValue: '')
   final String walletId;
-  @JsonKey(name: 'creation', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'creation',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime creation;
   static const fromJsonFactory = _$StoreSimpleFromJson;
 
@@ -29222,9 +29524,9 @@ class StoreUpdate {
   static const toJsonFactory = _$StoreUpdateToJson;
   Map<String, dynamic> toJson() => _$StoreUpdateToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'association_id')
+  @JsonKey(name: 'association_id', includeIfNull: false)
   final String? associationId;
   static const fromJsonFactory = _$StoreUpdateFromJson;
 
@@ -29313,35 +29615,48 @@ class Structure {
   static const toJsonFactory = _$StructureToJson;
   Map<String, dynamic> toJson() => _$StructureToJson(this);
 
-  @JsonKey(name: 'short_id', defaultValue: '')
+  @JsonKey(name: 'short_id', includeIfNull: false, defaultValue: '')
   final String shortId;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'association_membership_id')
+  @JsonKey(name: 'association_membership_id', includeIfNull: false)
   final String? associationMembershipId;
-  @JsonKey(name: 'manager_user_id', defaultValue: '')
+  @JsonKey(name: 'manager_user_id', includeIfNull: false, defaultValue: '')
   final String managerUserId;
-  @JsonKey(name: 'siege_address_street', defaultValue: '')
+  @JsonKey(name: 'siege_address_street', includeIfNull: false, defaultValue: '')
   final String siegeAddressStreet;
-  @JsonKey(name: 'siege_address_city', defaultValue: '')
+  @JsonKey(name: 'siege_address_city', includeIfNull: false, defaultValue: '')
   final String siegeAddressCity;
-  @JsonKey(name: 'siege_address_zipcode', defaultValue: '')
+  @JsonKey(
+    name: 'siege_address_zipcode',
+    includeIfNull: false,
+    defaultValue: '',
+  )
   final String siegeAddressZipcode;
-  @JsonKey(name: 'siege_address_country', defaultValue: '')
+  @JsonKey(
+    name: 'siege_address_country',
+    includeIfNull: false,
+    defaultValue: '',
+  )
   final String siegeAddressCountry;
-  @JsonKey(name: 'siret')
+  @JsonKey(name: 'siret', includeIfNull: false)
   final String? siret;
-  @JsonKey(name: 'iban', defaultValue: '')
+  @JsonKey(name: 'iban', includeIfNull: false, defaultValue: '')
   final String iban;
-  @JsonKey(name: 'bic', defaultValue: '')
+  @JsonKey(name: 'bic', includeIfNull: false, defaultValue: '')
   final String bic;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'creation', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'creation',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime creation;
-  @JsonKey(name: 'manager_user')
+  @JsonKey(name: 'manager_user', includeIfNull: false)
   final CoreUserSimple managerUser;
-  @JsonKey(name: 'association_membership')
+  @JsonKey(name: 'association_membership', includeIfNull: false)
   final MembershipSimple? associationMembership;
   static const fromJsonFactory = _$StructureFromJson;
 
@@ -29560,27 +29875,35 @@ class StructureBase {
   static const toJsonFactory = _$StructureBaseToJson;
   Map<String, dynamic> toJson() => _$StructureBaseToJson(this);
 
-  @JsonKey(name: 'short_id', defaultValue: '')
+  @JsonKey(name: 'short_id', includeIfNull: false, defaultValue: '')
   final String shortId;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'association_membership_id')
+  @JsonKey(name: 'association_membership_id', includeIfNull: false)
   final String? associationMembershipId;
-  @JsonKey(name: 'manager_user_id', defaultValue: '')
+  @JsonKey(name: 'manager_user_id', includeIfNull: false, defaultValue: '')
   final String managerUserId;
-  @JsonKey(name: 'siege_address_street', defaultValue: '')
+  @JsonKey(name: 'siege_address_street', includeIfNull: false, defaultValue: '')
   final String siegeAddressStreet;
-  @JsonKey(name: 'siege_address_city', defaultValue: '')
+  @JsonKey(name: 'siege_address_city', includeIfNull: false, defaultValue: '')
   final String siegeAddressCity;
-  @JsonKey(name: 'siege_address_zipcode', defaultValue: '')
+  @JsonKey(
+    name: 'siege_address_zipcode',
+    includeIfNull: false,
+    defaultValue: '',
+  )
   final String siegeAddressZipcode;
-  @JsonKey(name: 'siege_address_country', defaultValue: '')
+  @JsonKey(
+    name: 'siege_address_country',
+    includeIfNull: false,
+    defaultValue: '',
+  )
   final String siegeAddressCountry;
-  @JsonKey(name: 'siret')
+  @JsonKey(name: 'siret', includeIfNull: false)
   final String? siret;
-  @JsonKey(name: 'iban', defaultValue: '')
+  @JsonKey(name: 'iban', includeIfNull: false, defaultValue: '')
   final String iban;
-  @JsonKey(name: 'bic', defaultValue: '')
+  @JsonKey(name: 'bic', includeIfNull: false, defaultValue: '')
   final String bic;
   static const fromJsonFactory = _$StructureBaseFromJson;
 
@@ -29737,7 +30060,7 @@ class StructureTranfert {
   static const toJsonFactory = _$StructureTranfertToJson;
   Map<String, dynamic> toJson() => _$StructureTranfertToJson(this);
 
-  @JsonKey(name: 'new_manager_user_id', defaultValue: '')
+  @JsonKey(name: 'new_manager_user_id', includeIfNull: false, defaultValue: '')
   final String newManagerUserId;
   static const fromJsonFactory = _$StructureTranfertFromJson;
 
@@ -29799,25 +30122,25 @@ class StructureUpdate {
   static const toJsonFactory = _$StructureUpdateToJson;
   Map<String, dynamic> toJson() => _$StructureUpdateToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'short_id')
+  @JsonKey(name: 'short_id', includeIfNull: false)
   final String? shortId;
-  @JsonKey(name: 'association_membership_id')
+  @JsonKey(name: 'association_membership_id', includeIfNull: false)
   final String? associationMembershipId;
-  @JsonKey(name: 'siret')
+  @JsonKey(name: 'siret', includeIfNull: false)
   final String? siret;
-  @JsonKey(name: 'siege_address_street')
+  @JsonKey(name: 'siege_address_street', includeIfNull: false)
   final String? siegeAddressStreet;
-  @JsonKey(name: 'siege_address_city')
+  @JsonKey(name: 'siege_address_city', includeIfNull: false)
   final String? siegeAddressCity;
-  @JsonKey(name: 'siege_address_zipcode')
+  @JsonKey(name: 'siege_address_zipcode', includeIfNull: false)
   final String? siegeAddressZipcode;
-  @JsonKey(name: 'siege_address_country')
+  @JsonKey(name: 'siege_address_country', includeIfNull: false)
   final String? siegeAddressCountry;
-  @JsonKey(name: 'iban')
+  @JsonKey(name: 'iban', includeIfNull: false)
   final String? iban;
-  @JsonKey(name: 'bic')
+  @JsonKey(name: 'bic', includeIfNull: false)
   final String? bic;
   static const fromJsonFactory = _$StructureUpdateFromJson;
 
@@ -29962,7 +30285,7 @@ class TOSSignature {
   static const toJsonFactory = _$TOSSignatureToJson;
   Map<String, dynamic> toJson() => _$TOSSignatureToJson(this);
 
-  @JsonKey(name: 'accepted_tos_version', defaultValue: 0)
+  @JsonKey(name: 'accepted_tos_version', includeIfNull: false, defaultValue: 0)
   final int acceptedTosVersion;
   static const fromJsonFactory = _$TOSSignatureFromJson;
 
@@ -30024,16 +30347,16 @@ class TOSSignatureResponse {
   static const toJsonFactory = _$TOSSignatureResponseToJson;
   Map<String, dynamic> toJson() => _$TOSSignatureResponseToJson(this);
 
-  @JsonKey(name: 'accepted_tos_version', defaultValue: 0)
+  @JsonKey(name: 'accepted_tos_version', includeIfNull: false, defaultValue: 0)
   final int acceptedTosVersion;
-  @JsonKey(name: 'latest_tos_version', defaultValue: 0)
+  @JsonKey(name: 'latest_tos_version', includeIfNull: false, defaultValue: 0)
   final int latestTosVersion;
-  @JsonKey(name: 'tos_content', defaultValue: '')
+  @JsonKey(name: 'tos_content', includeIfNull: false, defaultValue: '')
   final String tosContent;
-  @JsonKey(name: 'max_transaction_total', defaultValue: 0)
+  @JsonKey(name: 'max_transaction_total', includeIfNull: false, defaultValue: 0)
   @deprecated
   final int? maxTransactionTotal;
-  @JsonKey(name: 'max_wallet_balance', defaultValue: 0)
+  @JsonKey(name: 'max_wallet_balance', includeIfNull: false, defaultValue: 0)
   final int maxWalletBalance;
   static const fromJsonFactory = _$TOSSignatureResponseFromJson;
 
@@ -30149,20 +30472,21 @@ class Team {
   static const toJsonFactory = _$TeamToJson;
   Map<String, dynamic> toJson() => _$TeamToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
-  @JsonKey(name: 'school_id', defaultValue: '')
+  @JsonKey(name: 'school_id', includeIfNull: false, defaultValue: '')
   final String schoolId;
-  @JsonKey(name: 'sport_id', defaultValue: '')
+  @JsonKey(name: 'sport_id', includeIfNull: false, defaultValue: '')
   final String sportId;
-  @JsonKey(name: 'captain_id', defaultValue: '')
+  @JsonKey(name: 'captain_id', includeIfNull: false, defaultValue: '')
   final String captainId;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   @JsonKey(
     name: 'created_at',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
@@ -30290,25 +30614,30 @@ class TeamComplete {
   static const toJsonFactory = _$TeamCompleteToJson;
   Map<String, dynamic> toJson() => _$TeamCompleteToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
-  @JsonKey(name: 'school_id', defaultValue: '')
+  @JsonKey(name: 'school_id', includeIfNull: false, defaultValue: '')
   final String schoolId;
-  @JsonKey(name: 'sport_id', defaultValue: '')
+  @JsonKey(name: 'sport_id', includeIfNull: false, defaultValue: '')
   final String sportId;
-  @JsonKey(name: 'captain_id', defaultValue: '')
+  @JsonKey(name: 'captain_id', includeIfNull: false, defaultValue: '')
   final String captainId;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   @JsonKey(
     name: 'created_at',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime createdAt;
-  @JsonKey(name: 'participants', defaultValue: <ParticipantComplete>[])
+  @JsonKey(
+    name: 'participants',
+    includeIfNull: false,
+    defaultValue: <ParticipantComplete>[],
+  )
   final List<ParticipantComplete> participants;
   static const fromJsonFactory = _$TeamCompleteFromJson;
 
@@ -30427,9 +30756,9 @@ class TeamEdit {
   static const toJsonFactory = _$TeamEditToJson;
   Map<String, dynamic> toJson() => _$TeamEditToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'captain_id')
+  @JsonKey(name: 'captain_id', includeIfNull: false)
   final String? captainId;
   static const fromJsonFactory = _$TeamEditFromJson;
 
@@ -30492,13 +30821,13 @@ class TeamInfo {
   static const toJsonFactory = _$TeamInfoToJson;
   Map<String, dynamic> toJson() => _$TeamInfoToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'school_id', defaultValue: '')
+  @JsonKey(name: 'school_id', includeIfNull: false, defaultValue: '')
   final String schoolId;
-  @JsonKey(name: 'sport_id', defaultValue: '')
+  @JsonKey(name: 'sport_id', includeIfNull: false, defaultValue: '')
   final String sportId;
-  @JsonKey(name: 'captain_id', defaultValue: '')
+  @JsonKey(name: 'captain_id', includeIfNull: false, defaultValue: '')
   final String captainId;
   static const fromJsonFactory = _$TeamInfoFromJson;
 
@@ -30592,17 +30921,17 @@ class TeamSportResult {
   static const toJsonFactory = _$TeamSportResultToJson;
   Map<String, dynamic> toJson() => _$TeamSportResultToJson(this);
 
-  @JsonKey(name: 'school_id', defaultValue: '')
+  @JsonKey(name: 'school_id', includeIfNull: false, defaultValue: '')
   final String schoolId;
-  @JsonKey(name: 'sport_id', defaultValue: '')
+  @JsonKey(name: 'sport_id', includeIfNull: false, defaultValue: '')
   final String sportId;
-  @JsonKey(name: 'team_id', defaultValue: '')
+  @JsonKey(name: 'team_id', includeIfNull: false, defaultValue: '')
   final String teamId;
-  @JsonKey(name: 'points', defaultValue: 0)
+  @JsonKey(name: 'points', includeIfNull: false, defaultValue: 0)
   final int points;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
-  @JsonKey(name: 'rank', defaultValue: 0)
+  @JsonKey(name: 'rank', includeIfNull: false, defaultValue: 0)
   final int rank;
   static const fromJsonFactory = _$TeamSportResultFromJson;
 
@@ -30702,13 +31031,13 @@ class TeamSportResultBase {
   static const toJsonFactory = _$TeamSportResultBaseToJson;
   Map<String, dynamic> toJson() => _$TeamSportResultBaseToJson(this);
 
-  @JsonKey(name: 'school_id', defaultValue: '')
+  @JsonKey(name: 'school_id', includeIfNull: false, defaultValue: '')
   final String schoolId;
-  @JsonKey(name: 'sport_id', defaultValue: '')
+  @JsonKey(name: 'sport_id', includeIfNull: false, defaultValue: '')
   final String sportId;
-  @JsonKey(name: 'team_id', defaultValue: '')
+  @JsonKey(name: 'team_id', includeIfNull: false, defaultValue: '')
   final String teamId;
-  @JsonKey(name: 'points', defaultValue: 0)
+  @JsonKey(name: 'points', includeIfNull: false, defaultValue: 0)
   final int points;
   static const fromJsonFactory = _$TeamSportResultBaseFromJson;
 
@@ -30801,19 +31130,19 @@ class TeamSportResultComplete {
   static const toJsonFactory = _$TeamSportResultCompleteToJson;
   Map<String, dynamic> toJson() => _$TeamSportResultCompleteToJson(this);
 
-  @JsonKey(name: 'school_id', defaultValue: '')
+  @JsonKey(name: 'school_id', includeIfNull: false, defaultValue: '')
   final String schoolId;
-  @JsonKey(name: 'sport_id', defaultValue: '')
+  @JsonKey(name: 'sport_id', includeIfNull: false, defaultValue: '')
   final String sportId;
-  @JsonKey(name: 'team_id', defaultValue: '')
+  @JsonKey(name: 'team_id', includeIfNull: false, defaultValue: '')
   final String teamId;
-  @JsonKey(name: 'points', defaultValue: 0)
+  @JsonKey(name: 'points', includeIfNull: false, defaultValue: 0)
   final int points;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
-  @JsonKey(name: 'rank', defaultValue: 0)
+  @JsonKey(name: 'rank', includeIfNull: false, defaultValue: 0)
   final int rank;
-  @JsonKey(name: 'team')
+  @JsonKey(name: 'team', includeIfNull: false)
   final Team team;
   static const fromJsonFactory = _$TeamSportResultCompleteFromJson;
 
@@ -30928,17 +31257,17 @@ class TheMovieDB {
   static const toJsonFactory = _$TheMovieDBToJson;
   Map<String, dynamic> toJson() => _$TheMovieDBToJson(this);
 
-  @JsonKey(name: 'genres', defaultValue: <Object>[])
+  @JsonKey(name: 'genres', includeIfNull: false, defaultValue: <Object>[])
   final List<Object> genres;
-  @JsonKey(name: 'overview', defaultValue: '')
+  @JsonKey(name: 'overview', includeIfNull: false, defaultValue: '')
   final String overview;
-  @JsonKey(name: 'poster_path', defaultValue: '')
+  @JsonKey(name: 'poster_path', includeIfNull: false, defaultValue: '')
   final String posterPath;
-  @JsonKey(name: 'title', defaultValue: '')
+  @JsonKey(name: 'title', includeIfNull: false, defaultValue: '')
   final String title;
-  @JsonKey(name: 'runtime', defaultValue: 0)
+  @JsonKey(name: 'runtime', includeIfNull: false, defaultValue: 0)
   final int runtime;
-  @JsonKey(name: 'tagline', defaultValue: '')
+  @JsonKey(name: 'tagline', includeIfNull: false, defaultValue: '')
   final String tagline;
   static const fromJsonFactory = _$TheMovieDBFromJson;
 
@@ -31036,9 +31365,9 @@ class TicketChangeOverInvitation {
   static const toJsonFactory = _$TicketChangeOverInvitationToJson;
   Map<String, dynamic> toJson() => _$TicketChangeOverInvitationToJson(this);
 
-  @JsonKey(name: 'ticket_id', defaultValue: '')
+  @JsonKey(name: 'ticket_id', includeIfNull: false, defaultValue: '')
   final String ticketId;
-  @JsonKey(name: 'email', defaultValue: '')
+  @JsonKey(name: 'email', includeIfNull: false, defaultValue: '')
   final String email;
   static const fromJsonFactory = _$TicketChangeOverInvitationFromJson;
 
@@ -31095,7 +31424,7 @@ class TicketScan {
   static const toJsonFactory = _$TicketScanToJson;
   Map<String, dynamic> toJson() => _$TicketScanToJson(this);
 
-  @JsonKey(name: 'tag', defaultValue: '')
+  @JsonKey(name: 'tag', includeIfNull: false, defaultValue: '')
   final String tag;
   static const fromJsonFactory = _$TicketScanFromJson;
 
@@ -31136,7 +31465,7 @@ class TicketSecret {
   static const toJsonFactory = _$TicketSecretToJson;
   Map<String, dynamic> toJson() => _$TicketSecretToJson(this);
 
-  @JsonKey(name: 'qr_code_secret', defaultValue: '')
+  @JsonKey(name: 'qr_code_secret', includeIfNull: false, defaultValue: '')
   final String qrCodeSecret;
   static const fromJsonFactory = _$TicketSecretFromJson;
 
@@ -31189,13 +31518,13 @@ class TicketSimple {
   static const toJsonFactory = _$TicketSimpleToJson;
   Map<String, dynamic> toJson() => _$TicketSimpleToJson(this);
 
-  @JsonKey(name: 'pack_id', defaultValue: '')
+  @JsonKey(name: 'pack_id', includeIfNull: false, defaultValue: '')
   final String packId;
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'winning_prize')
+  @JsonKey(name: 'winning_prize', includeIfNull: false)
   final String? winningPrize;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory = _$TicketSimpleFromJson;
 
@@ -31279,17 +31608,17 @@ class TokenResponse {
   static const toJsonFactory = _$TokenResponseToJson;
   Map<String, dynamic> toJson() => _$TokenResponseToJson(this);
 
-  @JsonKey(name: 'access_token', defaultValue: '')
+  @JsonKey(name: 'access_token', includeIfNull: false, defaultValue: '')
   final String accessToken;
-  @JsonKey(name: 'token_type', defaultValue: '')
+  @JsonKey(name: 'token_type', includeIfNull: false, defaultValue: '')
   final String? tokenType;
-  @JsonKey(name: 'expires_in', defaultValue: 0)
+  @JsonKey(name: 'expires_in', includeIfNull: false, defaultValue: 0)
   final int? expiresIn;
-  @JsonKey(name: 'scope', defaultValue: '')
+  @JsonKey(name: 'scope', includeIfNull: false, defaultValue: '')
   final String? scope;
-  @JsonKey(name: 'refresh_token', defaultValue: '')
+  @JsonKey(name: 'refresh_token', includeIfNull: false, defaultValue: '')
   final String refreshToken;
-  @JsonKey(name: 'id_token')
+  @JsonKey(name: 'id_token', includeIfNull: false)
   final String? idToken;
   static const fromJsonFactory = _$TokenResponseFromJson;
 
@@ -31400,15 +31729,19 @@ class TopicUser {
   static const toJsonFactory = _$TopicUserToJson;
   Map<String, dynamic> toJson() => _$TopicUserToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'module_root', defaultValue: '')
+  @JsonKey(name: 'module_root', includeIfNull: false, defaultValue: '')
   final String moduleRoot;
-  @JsonKey(name: 'topic_identifier')
+  @JsonKey(name: 'topic_identifier', includeIfNull: false)
   final String? topicIdentifier;
-  @JsonKey(name: 'is_user_subscribed', defaultValue: false)
+  @JsonKey(
+    name: 'is_user_subscribed',
+    includeIfNull: false,
+    defaultValue: false,
+  )
   final bool isUserSubscribed;
   static const fromJsonFactory = _$TopicUserFromJson;
 
@@ -31518,31 +31851,38 @@ class TransactionBase {
   static const toJsonFactory = _$TransactionBaseToJson;
   Map<String, dynamic> toJson() => _$TransactionBaseToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'debited_wallet_id', defaultValue: '')
+  @JsonKey(name: 'debited_wallet_id', includeIfNull: false, defaultValue: '')
   final String debitedWalletId;
-  @JsonKey(name: 'credited_wallet_id', defaultValue: '')
+  @JsonKey(name: 'credited_wallet_id', includeIfNull: false, defaultValue: '')
   final String creditedWalletId;
   @JsonKey(
     name: 'transaction_type',
+    includeIfNull: false,
     toJson: transactionTypeToJson,
     fromJson: transactionTypeFromJson,
   )
   final enums.TransactionType transactionType;
-  @JsonKey(name: 'seller_user_id')
+  @JsonKey(name: 'seller_user_id', includeIfNull: false)
   final String? sellerUserId;
-  @JsonKey(name: 'total', defaultValue: 0)
+  @JsonKey(name: 'total', includeIfNull: false, defaultValue: 0)
   final int total;
-  @JsonKey(name: 'creation', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'creation',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime creation;
   @JsonKey(
     name: 'status',
+    includeIfNull: false,
     toJson: transactionStatusToJson,
     fromJson: transactionStatusFromJson,
   )
   final enums.TransactionStatus status;
-  @JsonKey(name: 'qr_code_id')
+  @JsonKey(name: 'qr_code_id', includeIfNull: false)
   final String? qrCodeId;
   static const fromJsonFactory = _$TransactionBaseFromJson;
 
@@ -31698,32 +32038,39 @@ class Transfer {
   static const toJsonFactory = _$TransferToJson;
   Map<String, dynamic> toJson() => _$TransferToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   @JsonKey(
     name: 'origin',
+    includeIfNull: false,
     toJson: transferOriginToJson,
     fromJson: transferOriginFromJson,
   )
   final enums.TransferOrigin origin;
-  @JsonKey(name: 'transfer_identifier', defaultValue: '')
+  @JsonKey(name: 'transfer_identifier', includeIfNull: false, defaultValue: '')
   final String transferIdentifier;
-  @JsonKey(name: 'approver_user_id')
+  @JsonKey(name: 'approver_user_id', includeIfNull: false)
   final String? approverUserId;
-  @JsonKey(name: 'wallet_id', defaultValue: '')
+  @JsonKey(name: 'wallet_id', includeIfNull: false, defaultValue: '')
   final String walletId;
-  @JsonKey(name: 'total', defaultValue: 0)
+  @JsonKey(name: 'total', includeIfNull: false, defaultValue: 0)
   final int total;
-  @JsonKey(name: 'creation', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'creation',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime creation;
-  @JsonKey(name: 'confirmed', defaultValue: false)
+  @JsonKey(name: 'confirmed', includeIfNull: false, defaultValue: false)
   final bool confirmed;
-  @JsonKey(name: 'module')
+  @JsonKey(name: 'module', includeIfNull: false)
   final String? module;
-  @JsonKey(name: 'object_id')
+  @JsonKey(name: 'object_id', includeIfNull: false)
   final String? objectId;
   @JsonKey(
     name: 'type',
+    includeIfNull: false,
     toJson: transferTypeToJson,
     fromJson: transferTypeFromJson,
   )
@@ -31868,9 +32215,9 @@ class TransferInfo {
   static const toJsonFactory = _$TransferInfoToJson;
   Map<String, dynamic> toJson() => _$TransferInfoToJson(this);
 
-  @JsonKey(name: 'amount', defaultValue: 0)
+  @JsonKey(name: 'amount', includeIfNull: false, defaultValue: 0)
   final int amount;
-  @JsonKey(name: 'redirect_url', defaultValue: '')
+  @JsonKey(name: 'redirect_url', includeIfNull: false, defaultValue: '')
   final String redirectUrl;
   static const fromJsonFactory = _$TransferInfoFromJson;
 
@@ -31935,15 +32282,16 @@ class UserGroupMembership {
   static const toJsonFactory = _$UserGroupMembershipToJson;
   Map<String, dynamic> toJson() => _$UserGroupMembershipToJson(this);
 
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
   @JsonKey(
     name: 'group',
+    includeIfNull: false,
     toJson: competitionGroupTypeToJson,
     fromJson: competitionGroupTypeFromJson,
   )
   final enums.CompetitionGroupType group;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
   static const fromJsonFactory = _$UserGroupMembershipFromJson;
 
@@ -32020,17 +32368,18 @@ class UserGroupMembershipComplete {
   static const toJsonFactory = _$UserGroupMembershipCompleteToJson;
   Map<String, dynamic> toJson() => _$UserGroupMembershipCompleteToJson(this);
 
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
   @JsonKey(
     name: 'group',
+    includeIfNull: false,
     toJson: competitionGroupTypeToJson,
     fromJson: competitionGroupTypeFromJson,
   )
   final enums.CompetitionGroupType group;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
-  @JsonKey(name: 'user')
+  @JsonKey(name: 'user', includeIfNull: false)
   final CoreUser user;
   static const fromJsonFactory = _$UserGroupMembershipCompleteFromJson;
 
@@ -32112,11 +32461,15 @@ class UserMembershipBase {
   static const toJsonFactory = _$UserMembershipBaseToJson;
   Map<String, dynamic> toJson() => _$UserMembershipBaseToJson(this);
 
-  @JsonKey(name: 'association_membership_id', defaultValue: '')
+  @JsonKey(
+    name: 'association_membership_id',
+    includeIfNull: false,
+    defaultValue: '',
+  )
   final String associationMembershipId;
-  @JsonKey(name: 'start_date', toJson: _dateToJson)
+  @JsonKey(name: 'start_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime startDate;
-  @JsonKey(name: 'end_date', toJson: _dateToJson)
+  @JsonKey(name: 'end_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime endDate;
   static const fromJsonFactory = _$UserMembershipBaseFromJson;
 
@@ -32206,17 +32559,21 @@ class UserMembershipComplete {
   static const toJsonFactory = _$UserMembershipCompleteToJson;
   Map<String, dynamic> toJson() => _$UserMembershipCompleteToJson(this);
 
-  @JsonKey(name: 'association_membership_id', defaultValue: '')
+  @JsonKey(
+    name: 'association_membership_id',
+    includeIfNull: false,
+    defaultValue: '',
+  )
   final String associationMembershipId;
-  @JsonKey(name: 'start_date', toJson: _dateToJson)
+  @JsonKey(name: 'start_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime startDate;
-  @JsonKey(name: 'end_date', toJson: _dateToJson)
+  @JsonKey(name: 'end_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime endDate;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'user')
+  @JsonKey(name: 'user', includeIfNull: false)
   final CoreUserSimple user;
   static const fromJsonFactory = _$UserMembershipCompleteFromJson;
 
@@ -32316,9 +32673,9 @@ class UserMembershipEdit {
   static const toJsonFactory = _$UserMembershipEditToJson;
   Map<String, dynamic> toJson() => _$UserMembershipEditToJson(this);
 
-  @JsonKey(name: 'start_date', toJson: _dateToJson)
+  @JsonKey(name: 'start_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime? startDate;
-  @JsonKey(name: 'end_date', toJson: _dateToJson)
+  @JsonKey(name: 'end_date', includeIfNull: false, toJson: _dateToJson)
   final DateTime? endDate;
   static const fromJsonFactory = _$UserMembershipEditFromJson;
 
@@ -32398,27 +32755,36 @@ class UserStore {
   static const toJsonFactory = _$UserStoreToJson;
   Map<String, dynamic> toJson() => _$UserStoreToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'association_id')
+  @JsonKey(name: 'association_id', includeIfNull: false)
   final String? associationId;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'structure_id', defaultValue: '')
+  @JsonKey(name: 'structure_id', includeIfNull: false, defaultValue: '')
   final String structureId;
-  @JsonKey(name: 'wallet_id', defaultValue: '')
+  @JsonKey(name: 'wallet_id', includeIfNull: false, defaultValue: '')
   final String walletId;
-  @JsonKey(name: 'creation', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'creation',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime creation;
-  @JsonKey(name: 'structure')
+  @JsonKey(name: 'structure', includeIfNull: false)
   final Structure structure;
-  @JsonKey(name: 'can_bank', defaultValue: false)
+  @JsonKey(name: 'can_bank', includeIfNull: false, defaultValue: false)
   final bool canBank;
-  @JsonKey(name: 'can_see_history', defaultValue: false)
+  @JsonKey(name: 'can_see_history', includeIfNull: false, defaultValue: false)
   final bool canSeeHistory;
-  @JsonKey(name: 'can_cancel', defaultValue: false)
+  @JsonKey(name: 'can_cancel', includeIfNull: false, defaultValue: false)
   final bool canCancel;
-  @JsonKey(name: 'can_manage_sellers', defaultValue: false)
+  @JsonKey(
+    name: 'can_manage_sellers',
+    includeIfNull: false,
+    defaultValue: false,
+  )
   final bool canManageSellers;
   static const fromJsonFactory = _$UserStoreFromJson;
 
@@ -32587,28 +32953,29 @@ class UserTicket {
   static const toJsonFactory = _$UserTicketToJson;
   Map<String, dynamic> toJson() => _$UserTicketToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'firstname', defaultValue: '')
+  @JsonKey(name: 'firstname', includeIfNull: false, defaultValue: '')
   final String firstname;
-  @JsonKey(name: 'nickname')
+  @JsonKey(name: 'nickname', includeIfNull: false)
   final String? nickname;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   @JsonKey(
     name: 'account_type',
+    includeIfNull: false,
     toJson: accountTypeToJson,
     fromJson: accountTypeFromJson,
   )
   final enums.AccountType accountType;
-  @JsonKey(name: 'school_id', defaultValue: '')
+  @JsonKey(name: 'school_id', includeIfNull: false, defaultValue: '')
   final String schoolId;
-  @JsonKey(name: 'promo')
+  @JsonKey(name: 'promo', includeIfNull: false)
   final int? promo;
-  @JsonKey(name: 'floor')
+  @JsonKey(name: 'floor', includeIfNull: false)
   final String? floor;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'created_on')
+  @JsonKey(name: 'created_on', includeIfNull: false)
   final DateTime? createdOn;
   static const fromJsonFactory = _$UserTicketFromJson;
 
@@ -32736,15 +33103,15 @@ class ValidationError {
   static const toJsonFactory = _$ValidationErrorToJson;
   Map<String, dynamic> toJson() => _$ValidationErrorToJson(this);
 
-  @JsonKey(name: 'loc', defaultValue: <Object>[])
+  @JsonKey(name: 'loc', includeIfNull: false, defaultValue: <Object>[])
   final List<Object> loc;
-  @JsonKey(name: 'msg', defaultValue: '')
+  @JsonKey(name: 'msg', includeIfNull: false, defaultValue: '')
   final String msg;
-  @JsonKey(name: 'type', defaultValue: '')
+  @JsonKey(name: 'type', includeIfNull: false, defaultValue: '')
   final String type;
-  @JsonKey(name: 'input')
+  @JsonKey(name: 'input', includeIfNull: false)
   final dynamic input;
-  @JsonKey(name: 'ctx')
+  @JsonKey(name: 'ctx', includeIfNull: false)
   final Object? ctx;
   static const fromJsonFactory = _$ValidationErrorFromJson;
 
@@ -32836,21 +33203,22 @@ class VolunteerRegistrationComplete {
   static const toJsonFactory = _$VolunteerRegistrationCompleteToJson;
   Map<String, dynamic> toJson() => _$VolunteerRegistrationCompleteToJson(this);
 
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
-  @JsonKey(name: 'shift_id', defaultValue: '')
+  @JsonKey(name: 'shift_id', includeIfNull: false, defaultValue: '')
   final String shiftId;
   @JsonKey(
     name: 'registered_at',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime registeredAt;
-  @JsonKey(name: 'validated', defaultValue: false)
+  @JsonKey(name: 'validated', includeIfNull: false, defaultValue: false)
   final bool validated;
-  @JsonKey(name: 'shift')
+  @JsonKey(name: 'shift', includeIfNull: false)
   final VolunteerShiftComplete shift;
   static const fromJsonFactory = _$VolunteerRegistrationCompleteFromJson;
 
@@ -32970,29 +33338,35 @@ class VolunteerShift {
   static const toJsonFactory = _$VolunteerShiftToJson;
   Map<String, dynamic> toJson() => _$VolunteerShiftToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'manager_id', defaultValue: '')
+  @JsonKey(name: 'manager_id', includeIfNull: false, defaultValue: '')
   final String managerId;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'value', defaultValue: 0)
+  @JsonKey(name: 'value', includeIfNull: false, defaultValue: 0)
   final int value;
   @JsonKey(
     name: 'start_time',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime startTime;
-  @JsonKey(name: 'end_time', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'end_time',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime endTime;
-  @JsonKey(name: 'location')
+  @JsonKey(name: 'location', includeIfNull: false)
   final String? location;
-  @JsonKey(name: 'max_volunteers', defaultValue: 0)
+  @JsonKey(name: 'max_volunteers', includeIfNull: false, defaultValue: 0)
   final int maxVolunteers;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
   static const fromJsonFactory = _$VolunteerShiftFromJson;
 
@@ -33144,25 +33518,31 @@ class VolunteerShiftBase {
   static const toJsonFactory = _$VolunteerShiftBaseToJson;
   Map<String, dynamic> toJson() => _$VolunteerShiftBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'manager_id', defaultValue: '')
+  @JsonKey(name: 'manager_id', includeIfNull: false, defaultValue: '')
   final String managerId;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'value', defaultValue: 0)
+  @JsonKey(name: 'value', includeIfNull: false, defaultValue: 0)
   final int value;
   @JsonKey(
     name: 'start_time',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime startTime;
-  @JsonKey(name: 'end_time', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'end_time',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime endTime;
-  @JsonKey(name: 'location')
+  @JsonKey(name: 'location', includeIfNull: false)
   final String? location;
-  @JsonKey(name: 'max_volunteers', defaultValue: 0)
+  @JsonKey(name: 'max_volunteers', includeIfNull: false, defaultValue: 0)
   final int maxVolunteers;
   static const fromJsonFactory = _$VolunteerShiftBaseFromJson;
 
@@ -33303,31 +33683,37 @@ class VolunteerShiftComplete {
   static const toJsonFactory = _$VolunteerShiftCompleteToJson;
   Map<String, dynamic> toJson() => _$VolunteerShiftCompleteToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'manager_id', defaultValue: '')
+  @JsonKey(name: 'manager_id', includeIfNull: false, defaultValue: '')
   final String managerId;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'value', defaultValue: 0)
+  @JsonKey(name: 'value', includeIfNull: false, defaultValue: 0)
   final int value;
   @JsonKey(
     name: 'start_time',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime startTime;
-  @JsonKey(name: 'end_time', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'end_time',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime endTime;
-  @JsonKey(name: 'location')
+  @JsonKey(name: 'location', includeIfNull: false)
   final String? location;
-  @JsonKey(name: 'max_volunteers', defaultValue: 0)
+  @JsonKey(name: 'max_volunteers', includeIfNull: false, defaultValue: 0)
   final int maxVolunteers;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
-  @JsonKey(name: 'manager')
+  @JsonKey(name: 'manager', includeIfNull: false)
   final CoreUser manager;
   static const fromJsonFactory = _$VolunteerShiftCompleteFromJson;
 
@@ -33478,21 +33864,21 @@ class VolunteerShiftEdit {
   static const toJsonFactory = _$VolunteerShiftEditToJson;
   Map<String, dynamic> toJson() => _$VolunteerShiftEditToJson(this);
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'value')
+  @JsonKey(name: 'value', includeIfNull: false)
   final int? value;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'start_time')
+  @JsonKey(name: 'start_time', includeIfNull: false)
   final DateTime? startTime;
   @_$DateTimeJsonConverter()
-  @JsonKey(name: 'end_time')
+  @JsonKey(name: 'end_time', includeIfNull: false)
   final DateTime? endTime;
-  @JsonKey(name: 'location')
+  @JsonKey(name: 'location', includeIfNull: false)
   final String? location;
-  @JsonKey(name: 'max_volunteers')
+  @JsonKey(name: 'max_volunteers', includeIfNull: false)
   final int? maxVolunteers;
   static const fromJsonFactory = _$VolunteerShiftEditFromJson;
 
@@ -33601,7 +33987,7 @@ class VoteBase {
   static const toJsonFactory = _$VoteBaseToJson;
   Map<String, dynamic> toJson() => _$VoteBaseToJson(this);
 
-  @JsonKey(name: 'list_id', defaultValue: '')
+  @JsonKey(name: 'list_id', includeIfNull: false, defaultValue: '')
   final String listId;
   static const fromJsonFactory = _$VoteBaseFromJson;
 
@@ -33642,9 +34028,9 @@ class VoteStats {
   static const toJsonFactory = _$VoteStatsToJson;
   Map<String, dynamic> toJson() => _$VoteStatsToJson(this);
 
-  @JsonKey(name: 'section_id', defaultValue: '')
+  @JsonKey(name: 'section_id', includeIfNull: false, defaultValue: '')
   final String sectionId;
-  @JsonKey(name: 'count', defaultValue: 0)
+  @JsonKey(name: 'count', includeIfNull: false, defaultValue: 0)
   final int count;
   static const fromJsonFactory = _$VoteStatsFromJson;
 
@@ -33700,6 +34086,7 @@ class VoteStatus {
 
   @JsonKey(
     name: 'status',
+    includeIfNull: false,
     toJson: statusTypeToJson,
     fromJson: statusTypeFromJson,
   )
@@ -33754,15 +34141,20 @@ class Wallet {
   static const toJsonFactory = _$WalletToJson;
   Map<String, dynamic> toJson() => _$WalletToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'type', toJson: walletTypeToJson, fromJson: walletTypeFromJson)
+  @JsonKey(
+    name: 'type',
+    includeIfNull: false,
+    toJson: walletTypeToJson,
+    fromJson: walletTypeFromJson,
+  )
   final enums.WalletType type;
-  @JsonKey(name: 'balance', defaultValue: 0)
+  @JsonKey(name: 'balance', includeIfNull: false, defaultValue: 0)
   final int balance;
-  @JsonKey(name: 'store')
+  @JsonKey(name: 'store', includeIfNull: false)
   final Store? store;
-  @JsonKey(name: 'user')
+  @JsonKey(name: 'user', includeIfNull: false)
   final CoreUser? user;
   static const fromJsonFactory = _$WalletFromJson;
 
@@ -33848,11 +34240,16 @@ class WalletBase {
   static const toJsonFactory = _$WalletBaseToJson;
   Map<String, dynamic> toJson() => _$WalletBaseToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'type', toJson: walletTypeToJson, fromJson: walletTypeFromJson)
+  @JsonKey(
+    name: 'type',
+    includeIfNull: false,
+    toJson: walletTypeToJson,
+    fromJson: walletTypeFromJson,
+  )
   final enums.WalletType type;
-  @JsonKey(name: 'balance', defaultValue: 0)
+  @JsonKey(name: 'balance', includeIfNull: false, defaultValue: 0)
   final int balance;
   static const fromJsonFactory = _$WalletBaseFromJson;
 
@@ -33924,16 +34321,22 @@ class WalletDevice {
   static const toJsonFactory = _$WalletDeviceToJson;
   Map<String, dynamic> toJson() => _$WalletDeviceToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'wallet_id', defaultValue: '')
+  @JsonKey(name: 'wallet_id', includeIfNull: false, defaultValue: '')
   final String walletId;
-  @JsonKey(name: 'creation', fromJson: dateTimeFromJson, toJson: dateTimeToJson)
+  @JsonKey(
+    name: 'creation',
+    includeIfNull: false,
+    fromJson: dateTimeFromJson,
+    toJson: dateTimeToJson,
+  )
   final DateTime creation;
   @JsonKey(
     name: 'status',
+    includeIfNull: false,
     toJson: walletDeviceStatusToJson,
     fromJson: walletDeviceStatusFromJson,
   )
@@ -34024,9 +34427,9 @@ class WalletDeviceCreation {
   static const toJsonFactory = _$WalletDeviceCreationToJson;
   Map<String, dynamic> toJson() => _$WalletDeviceCreationToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'ed25519_public_key', defaultValue: '')
+  @JsonKey(name: 'ed25519_public_key', includeIfNull: false, defaultValue: '')
   final String ed25519PublicKey;
   static const fromJsonFactory = _$WalletDeviceCreationFromJson;
 
@@ -34095,9 +34498,9 @@ class AppCoreAssociationsSchemasAssociationsAssociationBase {
   Map<String, dynamic> toJson() =>
       _$AppCoreAssociationsSchemasAssociationsAssociationBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'group_id', defaultValue: '')
+  @JsonKey(name: 'group_id', includeIfNull: false, defaultValue: '')
   final String groupId;
   static const fromJsonFactory =
       _$AppCoreAssociationsSchemasAssociationsAssociationBaseFromJson;
@@ -34166,9 +34569,9 @@ class AppCoreMembershipsSchemasMembershipsMembershipBase {
   Map<String, dynamic> toJson() =>
       _$AppCoreMembershipsSchemasMembershipsMembershipBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'manager_group_id', defaultValue: '')
+  @JsonKey(name: 'manager_group_id', includeIfNull: false, defaultValue: '')
   final String managerGroupId;
   static const fromJsonFactory =
       _$AppCoreMembershipsSchemasMembershipsMembershipBaseFromJson;
@@ -34259,27 +34662,27 @@ class AppCoreTicketsSchemasTicketsTicket {
   Map<String, dynamic> toJson() =>
       _$AppCoreTicketsSchemasTicketsTicketToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'price', defaultValue: 0)
+  @JsonKey(name: 'price', includeIfNull: false, defaultValue: 0)
   final int price;
-  @JsonKey(name: 'scanned', defaultValue: false)
+  @JsonKey(name: 'scanned', includeIfNull: false, defaultValue: false)
   final bool scanned;
-  @JsonKey(name: 'event_id', defaultValue: '')
+  @JsonKey(name: 'event_id', includeIfNull: false, defaultValue: '')
   final String eventId;
-  @JsonKey(name: 'category_id', defaultValue: '')
+  @JsonKey(name: 'category_id', includeIfNull: false, defaultValue: '')
   final String categoryId;
-  @JsonKey(name: 'session_id', defaultValue: '')
+  @JsonKey(name: 'session_id', includeIfNull: false, defaultValue: '')
   final String sessionId;
-  @JsonKey(name: 'category')
+  @JsonKey(name: 'category', includeIfNull: false)
   final Category category;
-  @JsonKey(name: 'session')
+  @JsonKey(name: 'session', includeIfNull: false)
   final Session session;
-  @JsonKey(name: 'user')
+  @JsonKey(name: 'user', includeIfNull: false)
   final CoreUserSimple user;
-  @JsonKey(name: 'answers', defaultValue: <Answer>[])
+  @JsonKey(name: 'answers', includeIfNull: false, defaultValue: <Answer>[])
   final List<Answer> answers;
   static const fromJsonFactory = _$AppCoreTicketsSchemasTicketsTicketFromJson;
 
@@ -34448,29 +34851,29 @@ class AppCoreTicketsSchemasTicketsTicketComplete {
   Map<String, dynamic> toJson() =>
       _$AppCoreTicketsSchemasTicketsTicketCompleteToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'price', defaultValue: 0)
+  @JsonKey(name: 'price', includeIfNull: false, defaultValue: 0)
   final int price;
-  @JsonKey(name: 'scanned', defaultValue: false)
+  @JsonKey(name: 'scanned', includeIfNull: false, defaultValue: false)
   final bool scanned;
-  @JsonKey(name: 'event_id', defaultValue: '')
+  @JsonKey(name: 'event_id', includeIfNull: false, defaultValue: '')
   final String eventId;
-  @JsonKey(name: 'category_id', defaultValue: '')
+  @JsonKey(name: 'category_id', includeIfNull: false, defaultValue: '')
   final String categoryId;
-  @JsonKey(name: 'session_id', defaultValue: '')
+  @JsonKey(name: 'session_id', includeIfNull: false, defaultValue: '')
   final String sessionId;
-  @JsonKey(name: 'category')
+  @JsonKey(name: 'category', includeIfNull: false)
   final Category category;
-  @JsonKey(name: 'session')
+  @JsonKey(name: 'session', includeIfNull: false)
   final Session session;
-  @JsonKey(name: 'user')
+  @JsonKey(name: 'user', includeIfNull: false)
   final CoreUserSimple user;
-  @JsonKey(name: 'answers', defaultValue: <Answer>[])
+  @JsonKey(name: 'answers', includeIfNull: false, defaultValue: <Answer>[])
   final List<Answer> answers;
-  @JsonKey(name: 'event')
+  @JsonKey(name: 'event', includeIfNull: false)
   final EventSimple event;
   static const fromJsonFactory =
       _$AppCoreTicketsSchemasTicketsTicketCompleteFromJson;
@@ -34633,14 +35036,15 @@ class AppModulesAmapSchemasAmapCashComplete {
   Map<String, dynamic> toJson() =>
       _$AppModulesAmapSchemasAmapCashCompleteToJson(this);
 
-  @JsonKey(name: 'balance', defaultValue: 0)
+  @JsonKey(name: 'balance', includeIfNull: false, defaultValue: 0)
   final int balance;
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'user')
+  @JsonKey(name: 'user', includeIfNull: false)
   final CoreUserSimple user;
   @JsonKey(
     name: 'last_order_date',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
@@ -34737,13 +35141,13 @@ class AppModulesAmapSchemasAmapProductComplete {
   Map<String, dynamic> toJson() =>
       _$AppModulesAmapSchemasAmapProductCompleteToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'price', defaultValue: 0)
+  @JsonKey(name: 'price', includeIfNull: false, defaultValue: 0)
   final int price;
-  @JsonKey(name: 'category', defaultValue: '')
+  @JsonKey(name: 'category', includeIfNull: false, defaultValue: '')
   final String category;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
   static const fromJsonFactory =
       _$AppModulesAmapSchemasAmapProductCompleteFromJson;
@@ -34826,11 +35230,11 @@ class AppModulesAmapSchemasAmapProductEdit {
   Map<String, dynamic> toJson() =>
       _$AppModulesAmapSchemasAmapProductEditToJson(this);
 
-  @JsonKey(name: 'category')
+  @JsonKey(name: 'category', includeIfNull: false)
   final String? category;
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'price')
+  @JsonKey(name: 'price', includeIfNull: false)
   final int? price;
   static const fromJsonFactory = _$AppModulesAmapSchemasAmapProductEditFromJson;
 
@@ -34904,9 +35308,9 @@ class AppModulesCampaignSchemasCampaignResult {
   Map<String, dynamic> toJson() =>
       _$AppModulesCampaignSchemasCampaignResultToJson(this);
 
-  @JsonKey(name: 'list_id', defaultValue: '')
+  @JsonKey(name: 'list_id', includeIfNull: false, defaultValue: '')
   final String listId;
-  @JsonKey(name: 'count', defaultValue: 0)
+  @JsonKey(name: 'count', includeIfNull: false, defaultValue: 0)
   final int count;
   static const fromJsonFactory =
       _$AppModulesCampaignSchemasCampaignResultFromJson;
@@ -34974,10 +35378,11 @@ class AppModulesCdrSchemasCdrPaymentBase {
   Map<String, dynamic> toJson() =>
       _$AppModulesCdrSchemasCdrPaymentBaseToJson(this);
 
-  @JsonKey(name: 'total', defaultValue: 0)
+  @JsonKey(name: 'total', includeIfNull: false, defaultValue: 0)
   final int total;
   @JsonKey(
     name: 'payment_type',
+    includeIfNull: false,
     toJson: paymentTypeToJson,
     fromJson: paymentTypeFromJson,
   )
@@ -35056,19 +35461,20 @@ class AppModulesCdrSchemasCdrPaymentComplete {
   Map<String, dynamic> toJson() =>
       _$AppModulesCdrSchemasCdrPaymentCompleteToJson(this);
 
-  @JsonKey(name: 'total', defaultValue: 0)
+  @JsonKey(name: 'total', includeIfNull: false, defaultValue: 0)
   final int total;
   @JsonKey(
     name: 'payment_type',
+    includeIfNull: false,
     toJson: paymentTypeToJson,
     fromJson: paymentTypeFromJson,
   )
   final enums.PaymentType paymentType;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'year', defaultValue: 0)
+  @JsonKey(name: 'year', includeIfNull: false, defaultValue: 0)
   final int year;
   static const fromJsonFactory =
       _$AppModulesCdrSchemasCdrPaymentCompleteFromJson;
@@ -35170,25 +35576,37 @@ class AppModulesCdrSchemasCdrProductBase {
   Map<String, dynamic> toJson() =>
       _$AppModulesCdrSchemasCdrProductBaseToJson(this);
 
-  @JsonKey(name: 'name_fr', defaultValue: '')
+  @JsonKey(name: 'name_fr', includeIfNull: false, defaultValue: '')
   final String nameFr;
-  @JsonKey(name: 'name_en')
+  @JsonKey(name: 'name_en', includeIfNull: false)
   final String? nameEn;
-  @JsonKey(name: 'description_fr')
+  @JsonKey(name: 'description_fr', includeIfNull: false)
   final String? descriptionFr;
-  @JsonKey(name: 'description_en')
+  @JsonKey(name: 'description_en', includeIfNull: false)
   final String? descriptionEn;
-  @JsonKey(name: 'available_online', defaultValue: false)
+  @JsonKey(name: 'available_online', includeIfNull: false, defaultValue: false)
   final bool availableOnline;
-  @JsonKey(name: 'needs_validation', defaultValue: true)
+  @JsonKey(name: 'needs_validation', includeIfNull: false, defaultValue: true)
   final bool? needsValidation;
-  @JsonKey(name: 'related_membership')
+  @JsonKey(name: 'related_membership', includeIfNull: false)
   final MembershipSimple? relatedMembership;
-  @JsonKey(name: 'tickets', defaultValue: <GenerateTicketBase>[])
+  @JsonKey(
+    name: 'tickets',
+    includeIfNull: false,
+    defaultValue: <GenerateTicketBase>[],
+  )
   final List<GenerateTicketBase>? tickets;
-  @JsonKey(name: 'product_constraints', defaultValue: <String>[])
+  @JsonKey(
+    name: 'product_constraints',
+    includeIfNull: false,
+    defaultValue: <String>[],
+  )
   final List<String> productConstraints;
-  @JsonKey(name: 'document_constraints', defaultValue: <String>[])
+  @JsonKey(
+    name: 'document_constraints',
+    includeIfNull: false,
+    defaultValue: <String>[],
+  )
   final List<String> documentConstraints;
   static const fromJsonFactory = _$AppModulesCdrSchemasCdrProductBaseFromJson;
 
@@ -35365,39 +35783,49 @@ class AppModulesCdrSchemasCdrProductComplete {
   Map<String, dynamic> toJson() =>
       _$AppModulesCdrSchemasCdrProductCompleteToJson(this);
 
-  @JsonKey(name: 'name_fr', defaultValue: '')
+  @JsonKey(name: 'name_fr', includeIfNull: false, defaultValue: '')
   final String nameFr;
-  @JsonKey(name: 'name_en')
+  @JsonKey(name: 'name_en', includeIfNull: false)
   final String? nameEn;
-  @JsonKey(name: 'description_fr')
+  @JsonKey(name: 'description_fr', includeIfNull: false)
   final String? descriptionFr;
-  @JsonKey(name: 'description_en')
+  @JsonKey(name: 'description_en', includeIfNull: false)
   final String? descriptionEn;
-  @JsonKey(name: 'available_online', defaultValue: false)
+  @JsonKey(name: 'available_online', includeIfNull: false, defaultValue: false)
   final bool availableOnline;
-  @JsonKey(name: 'needs_validation', defaultValue: false)
+  @JsonKey(name: 'needs_validation', includeIfNull: false, defaultValue: false)
   final bool needsValidation;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'year', defaultValue: 0)
+  @JsonKey(name: 'year', includeIfNull: false, defaultValue: 0)
   final int year;
-  @JsonKey(name: 'seller_id', defaultValue: '')
+  @JsonKey(name: 'seller_id', includeIfNull: false, defaultValue: '')
   final String sellerId;
   @JsonKey(
     name: 'variants',
+    includeIfNull: false,
     defaultValue: <AppModulesCdrSchemasCdrProductVariantComplete>[],
   )
   final List<AppModulesCdrSchemasCdrProductVariantComplete>? variants;
-  @JsonKey(name: 'related_membership')
+  @JsonKey(name: 'related_membership', includeIfNull: false)
   final MembershipSimple? relatedMembership;
   @JsonKey(
     name: 'product_constraints',
+    includeIfNull: false,
     defaultValue: <ProductCompleteNoConstraint>[],
   )
   final List<ProductCompleteNoConstraint>? productConstraints;
-  @JsonKey(name: 'document_constraints', defaultValue: <DocumentComplete>[])
+  @JsonKey(
+    name: 'document_constraints',
+    includeIfNull: false,
+    defaultValue: <DocumentComplete>[],
+  )
   final List<DocumentComplete>? documentConstraints;
-  @JsonKey(name: 'tickets', defaultValue: <GenerateTicketComplete>[])
+  @JsonKey(
+    name: 'tickets',
+    includeIfNull: false,
+    defaultValue: <GenerateTicketComplete>[],
+  )
   final List<GenerateTicketComplete>? tickets;
   static const fromJsonFactory =
       _$AppModulesCdrSchemasCdrProductCompleteFromJson;
@@ -35594,23 +36022,23 @@ class AppModulesCdrSchemasCdrProductEdit {
   Map<String, dynamic> toJson() =>
       _$AppModulesCdrSchemasCdrProductEditToJson(this);
 
-  @JsonKey(name: 'name_fr')
+  @JsonKey(name: 'name_fr', includeIfNull: false)
   final String? nameFr;
-  @JsonKey(name: 'name_en')
+  @JsonKey(name: 'name_en', includeIfNull: false)
   final String? nameEn;
-  @JsonKey(name: 'description_fr')
+  @JsonKey(name: 'description_fr', includeIfNull: false)
   final String? descriptionFr;
-  @JsonKey(name: 'description_en')
+  @JsonKey(name: 'description_en', includeIfNull: false)
   final String? descriptionEn;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'available_online')
+  @JsonKey(name: 'available_online', includeIfNull: false)
   final bool? availableOnline;
-  @JsonKey(name: 'related_membership')
+  @JsonKey(name: 'related_membership', includeIfNull: false)
   final MembershipSimple? relatedMembership;
-  @JsonKey(name: 'product_constraints')
+  @JsonKey(name: 'product_constraints', includeIfNull: false)
   final List<String>? productConstraints;
-  @JsonKey(name: 'document_constraints')
+  @JsonKey(name: 'document_constraints', includeIfNull: false)
   final List<String>? documentConstraints;
   static const fromJsonFactory = _$AppModulesCdrSchemasCdrProductEditFromJson;
 
@@ -35770,23 +36198,27 @@ class AppModulesCdrSchemasCdrProductVariantBase {
   Map<String, dynamic> toJson() =>
       _$AppModulesCdrSchemasCdrProductVariantBaseToJson(this);
 
-  @JsonKey(name: 'name_fr', defaultValue: '')
+  @JsonKey(name: 'name_fr', includeIfNull: false, defaultValue: '')
   final String nameFr;
-  @JsonKey(name: 'name_en')
+  @JsonKey(name: 'name_en', includeIfNull: false)
   final String? nameEn;
-  @JsonKey(name: 'description_fr')
+  @JsonKey(name: 'description_fr', includeIfNull: false)
   final String? descriptionFr;
-  @JsonKey(name: 'description_en')
+  @JsonKey(name: 'description_en', includeIfNull: false)
   final String? descriptionEn;
-  @JsonKey(name: 'price', defaultValue: 0)
+  @JsonKey(name: 'price', includeIfNull: false, defaultValue: 0)
   final int price;
-  @JsonKey(name: 'enabled', defaultValue: false)
+  @JsonKey(name: 'enabled', includeIfNull: false, defaultValue: false)
   final bool enabled;
-  @JsonKey(name: 'unique', defaultValue: false)
+  @JsonKey(name: 'unique', includeIfNull: false, defaultValue: false)
   final bool unique;
-  @JsonKey(name: 'allowed_curriculum', defaultValue: <String>[])
+  @JsonKey(
+    name: 'allowed_curriculum',
+    includeIfNull: false,
+    defaultValue: <String>[],
+  )
   final List<String> allowedCurriculum;
-  @JsonKey(name: 'related_membership_added_duration')
+  @JsonKey(name: 'related_membership_added_duration', includeIfNull: false)
   final String? relatedMembershipAddedDuration;
   static const fromJsonFactory =
       _$AppModulesCdrSchemasCdrProductVariantBaseFromJson;
@@ -35946,29 +36378,33 @@ class AppModulesCdrSchemasCdrProductVariantComplete {
   Map<String, dynamic> toJson() =>
       _$AppModulesCdrSchemasCdrProductVariantCompleteToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'year', defaultValue: 0)
+  @JsonKey(name: 'year', includeIfNull: false, defaultValue: 0)
   final int year;
-  @JsonKey(name: 'product_id', defaultValue: '')
+  @JsonKey(name: 'product_id', includeIfNull: false, defaultValue: '')
   final String productId;
-  @JsonKey(name: 'name_fr', defaultValue: '')
+  @JsonKey(name: 'name_fr', includeIfNull: false, defaultValue: '')
   final String nameFr;
-  @JsonKey(name: 'name_en')
+  @JsonKey(name: 'name_en', includeIfNull: false)
   final String? nameEn;
-  @JsonKey(name: 'description_fr')
+  @JsonKey(name: 'description_fr', includeIfNull: false)
   final String? descriptionFr;
-  @JsonKey(name: 'description_en')
+  @JsonKey(name: 'description_en', includeIfNull: false)
   final String? descriptionEn;
-  @JsonKey(name: 'price', defaultValue: 0)
+  @JsonKey(name: 'price', includeIfNull: false, defaultValue: 0)
   final int price;
-  @JsonKey(name: 'enabled', defaultValue: false)
+  @JsonKey(name: 'enabled', includeIfNull: false, defaultValue: false)
   final bool enabled;
-  @JsonKey(name: 'unique', defaultValue: false)
+  @JsonKey(name: 'unique', includeIfNull: false, defaultValue: false)
   final bool unique;
-  @JsonKey(name: 'allowed_curriculum', defaultValue: <CurriculumComplete>[])
+  @JsonKey(
+    name: 'allowed_curriculum',
+    includeIfNull: false,
+    defaultValue: <CurriculumComplete>[],
+  )
   final List<CurriculumComplete>? allowedCurriculum;
-  @JsonKey(name: 'related_membership_added_duration')
+  @JsonKey(name: 'related_membership_added_duration', includeIfNull: false)
   final String? relatedMembershipAddedDuration;
   static const fromJsonFactory =
       _$AppModulesCdrSchemasCdrProductVariantCompleteFromJson;
@@ -36141,23 +36577,23 @@ class AppModulesCdrSchemasCdrProductVariantEdit {
   Map<String, dynamic> toJson() =>
       _$AppModulesCdrSchemasCdrProductVariantEditToJson(this);
 
-  @JsonKey(name: 'name_fr')
+  @JsonKey(name: 'name_fr', includeIfNull: false)
   final String? nameFr;
-  @JsonKey(name: 'name_en')
+  @JsonKey(name: 'name_en', includeIfNull: false)
   final String? nameEn;
-  @JsonKey(name: 'description_fr')
+  @JsonKey(name: 'description_fr', includeIfNull: false)
   final String? descriptionFr;
-  @JsonKey(name: 'description_en')
+  @JsonKey(name: 'description_en', includeIfNull: false)
   final String? descriptionEn;
-  @JsonKey(name: 'price')
+  @JsonKey(name: 'price', includeIfNull: false)
   final int? price;
-  @JsonKey(name: 'enabled')
+  @JsonKey(name: 'enabled', includeIfNull: false)
   final bool? enabled;
-  @JsonKey(name: 'unique')
+  @JsonKey(name: 'unique', includeIfNull: false)
   final bool? unique;
-  @JsonKey(name: 'allowed_curriculum')
+  @JsonKey(name: 'allowed_curriculum', includeIfNull: false)
   final List<String>? allowedCurriculum;
-  @JsonKey(name: 'related_membership_added_duration')
+  @JsonKey(name: 'related_membership_added_duration', includeIfNull: false)
   final String? relatedMembershipAddedDuration;
   static const fromJsonFactory =
       _$AppModulesCdrSchemasCdrProductVariantEditFromJson;
@@ -36295,7 +36731,7 @@ class AppModulesCdrSchemasCdrPurchaseBase {
   Map<String, dynamic> toJson() =>
       _$AppModulesCdrSchemasCdrPurchaseBaseToJson(this);
 
-  @JsonKey(name: 'quantity', defaultValue: 0)
+  @JsonKey(name: 'quantity', includeIfNull: false, defaultValue: 0)
   final int quantity;
   static const fromJsonFactory = _$AppModulesCdrSchemasCdrPurchaseBaseFromJson;
 
@@ -36361,16 +36797,17 @@ class AppModulesCdrSchemasCdrPurchaseComplete {
   Map<String, dynamic> toJson() =>
       _$AppModulesCdrSchemasCdrPurchaseCompleteToJson(this);
 
-  @JsonKey(name: 'quantity', defaultValue: 0)
+  @JsonKey(name: 'quantity', includeIfNull: false, defaultValue: 0)
   final int quantity;
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'product_variant_id', defaultValue: '')
+  @JsonKey(name: 'product_variant_id', includeIfNull: false, defaultValue: '')
   final String productVariantId;
-  @JsonKey(name: 'validated', defaultValue: false)
+  @JsonKey(name: 'validated', includeIfNull: false, defaultValue: false)
   final bool validated;
   @JsonKey(
     name: 'purchased_on',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
@@ -36483,23 +36920,24 @@ class AppModulesCdrSchemasCdrTicket {
   static const toJsonFactory = _$AppModulesCdrSchemasCdrTicketToJson;
   Map<String, dynamic> toJson() => _$AppModulesCdrSchemasCdrTicketToJson(this);
 
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'product_variant')
+  @JsonKey(name: 'product_variant', includeIfNull: false)
   final AppModulesCdrSchemasCdrProductVariantComplete productVariant;
-  @JsonKey(name: 'user')
+  @JsonKey(name: 'user', includeIfNull: false)
   final UserTicket user;
-  @JsonKey(name: 'scan_left', defaultValue: 0)
+  @JsonKey(name: 'scan_left', includeIfNull: false, defaultValue: 0)
   final int scanLeft;
-  @JsonKey(name: 'tags', defaultValue: '')
+  @JsonKey(name: 'tags', includeIfNull: false, defaultValue: '')
   final String tags;
   @JsonKey(
     name: 'expiration',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime expiration;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
   static const fromJsonFactory = _$AppModulesCdrSchemasCdrTicketFromJson;
 
@@ -36618,17 +37056,21 @@ class AppModulesPhonebookSchemasPhonebookAssociationBase {
   Map<String, dynamic> toJson() =>
       _$AppModulesPhonebookSchemasPhonebookAssociationBaseToJson(this);
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'groupement_id', defaultValue: '')
+  @JsonKey(name: 'groupement_id', includeIfNull: false, defaultValue: '')
   final String groupementId;
-  @JsonKey(name: 'mandate_year', defaultValue: 0)
+  @JsonKey(name: 'mandate_year', includeIfNull: false, defaultValue: 0)
   final int mandateYear;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'associated_groups', defaultValue: <String>[])
+  @JsonKey(
+    name: 'associated_groups',
+    includeIfNull: false,
+    defaultValue: <String>[],
+  )
   final List<String>? associatedGroups;
-  @JsonKey(name: 'deactivated', defaultValue: false)
+  @JsonKey(name: 'deactivated', includeIfNull: false, defaultValue: false)
   final bool? deactivated;
   static const fromJsonFactory =
       _$AppModulesPhonebookSchemasPhonebookAssociationBaseFromJson;
@@ -36751,17 +37193,17 @@ class AppModulesPhonebookSchemasPhonebookMembershipBase {
   Map<String, dynamic> toJson() =>
       _$AppModulesPhonebookSchemasPhonebookMembershipBaseToJson(this);
 
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'association_id', defaultValue: '')
+  @JsonKey(name: 'association_id', includeIfNull: false, defaultValue: '')
   final String associationId;
-  @JsonKey(name: 'mandate_year', defaultValue: 0)
+  @JsonKey(name: 'mandate_year', includeIfNull: false, defaultValue: 0)
   final int mandateYear;
-  @JsonKey(name: 'role_name', defaultValue: '')
+  @JsonKey(name: 'role_name', includeIfNull: false, defaultValue: '')
   final String roleName;
-  @JsonKey(name: 'role_tags', defaultValue: '')
+  @JsonKey(name: 'role_tags', includeIfNull: false, defaultValue: '')
   final String? roleTags;
-  @JsonKey(name: 'member_order', defaultValue: 0)
+  @JsonKey(name: 'member_order', includeIfNull: false, defaultValue: 0)
   final int memberOrder;
   static const fromJsonFactory =
       _$AppModulesPhonebookSchemasPhonebookMembershipBaseFromJson;
@@ -36877,11 +37319,11 @@ class AppModulesRaffleSchemasRaffleCashComplete {
   Map<String, dynamic> toJson() =>
       _$AppModulesRaffleSchemasRaffleCashCompleteToJson(this);
 
-  @JsonKey(name: 'balance', defaultValue: 0)
+  @JsonKey(name: 'balance', includeIfNull: false, defaultValue: 0)
   final int balance;
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'user')
+  @JsonKey(name: 'user', includeIfNull: false)
   final CoreUserSimple user;
   static const fromJsonFactory =
       _$AppModulesRaffleSchemasRaffleCashCompleteFromJson;
@@ -36968,19 +37410,19 @@ class AppModulesRaffleSchemasRaffleTicketComplete {
   Map<String, dynamic> toJson() =>
       _$AppModulesRaffleSchemasRaffleTicketCompleteToJson(this);
 
-  @JsonKey(name: 'pack_id', defaultValue: '')
+  @JsonKey(name: 'pack_id', includeIfNull: false, defaultValue: '')
   final String packId;
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'winning_prize')
+  @JsonKey(name: 'winning_prize', includeIfNull: false)
   final String? winningPrize;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'prize')
+  @JsonKey(name: 'prize', includeIfNull: false)
   final PrizeSimple? prize;
-  @JsonKey(name: 'pack_ticket')
+  @JsonKey(name: 'pack_ticket', includeIfNull: false)
   final PackTicketSimple packTicket;
-  @JsonKey(name: 'user')
+  @JsonKey(name: 'user', includeIfNull: false)
   final CoreUserSimple user;
   static const fromJsonFactory =
       _$AppModulesRaffleSchemasRaffleTicketCompleteFromJson;
@@ -37092,7 +37534,7 @@ class AppModulesSportCompetitionSchemasSportCompetitionPaymentBase {
         this,
       );
 
-  @JsonKey(name: 'total', defaultValue: 0)
+  @JsonKey(name: 'total', includeIfNull: false, defaultValue: 0)
   final int total;
   static const fromJsonFactory =
       _$AppModulesSportCompetitionSchemasSportCompetitionPaymentBaseFromJson;
@@ -37164,16 +37606,17 @@ class AppModulesSportCompetitionSchemasSportCompetitionPaymentComplete {
         this,
       );
 
-  @JsonKey(name: 'total', defaultValue: 0)
+  @JsonKey(name: 'total', includeIfNull: false, defaultValue: 0)
   final int total;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
   @JsonKey(
     name: 'method',
+    includeIfNull: false,
     toJson: paiementMethodTypeToJson,
     fromJson: paiementMethodTypeFromJson,
   )
@@ -37272,11 +37715,11 @@ class AppModulesSportCompetitionSchemasSportCompetitionProductBase {
         this,
       );
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'required', defaultValue: false)
+  @JsonKey(name: 'required', includeIfNull: false, defaultValue: false)
   final bool? required;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
   static const fromJsonFactory =
       _$AppModulesSportCompetitionSchemasSportCompetitionProductBaseFromJson;
@@ -37369,17 +37812,21 @@ class AppModulesSportCompetitionSchemasSportCompetitionProductComplete {
         this,
       );
 
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'required', defaultValue: false)
+  @JsonKey(name: 'required', includeIfNull: false, defaultValue: false)
   final bool? required;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
-  @JsonKey(name: 'variants', defaultValue: <ProductVariantStats>[])
+  @JsonKey(
+    name: 'variants',
+    includeIfNull: false,
+    defaultValue: <ProductVariantStats>[],
+  )
   final List<ProductVariantStats>? variants;
   static const fromJsonFactory =
       _$AppModulesSportCompetitionSchemasSportCompetitionProductCompleteFromJson;
@@ -37492,11 +37939,11 @@ class AppModulesSportCompetitionSchemasSportCompetitionProductEdit {
         this,
       );
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'required')
+  @JsonKey(name: 'required', includeIfNull: false)
   final bool? required;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
   static const fromJsonFactory =
       _$AppModulesSportCompetitionSchemasSportCompetitionProductEditFromJson;
@@ -37593,26 +38040,28 @@ class AppModulesSportCompetitionSchemasSportCompetitionProductVariantBase {
         this,
       );
 
-  @JsonKey(name: 'product_id', defaultValue: '')
+  @JsonKey(name: 'product_id', includeIfNull: false, defaultValue: '')
   final String productId;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'price', defaultValue: 0)
+  @JsonKey(name: 'price', includeIfNull: false, defaultValue: 0)
   final int price;
-  @JsonKey(name: 'enabled', defaultValue: true)
+  @JsonKey(name: 'enabled', includeIfNull: false, defaultValue: true)
   final bool? enabled;
-  @JsonKey(name: 'unique', defaultValue: false)
+  @JsonKey(name: 'unique', includeIfNull: false, defaultValue: false)
   final bool unique;
   @JsonKey(
     name: 'school_type',
+    includeIfNull: false,
     toJson: productSchoolTypeNullableToJson,
     fromJson: productSchoolTypeNullableFromJson,
   )
   final enums.ProductSchoolType? schoolType;
   @JsonKey(
     name: 'public_type',
+    includeIfNull: false,
     toJson: productPublicTypeNullableToJson,
     fromJson: productPublicTypeNullableFromJson,
   )
@@ -37763,35 +38212,37 @@ class AppModulesSportCompetitionSchemasSportCompetitionProductVariantComplete {
         this,
       );
 
-  @JsonKey(name: 'product_id', defaultValue: '')
+  @JsonKey(name: 'product_id', includeIfNull: false, defaultValue: '')
   final String productId;
-  @JsonKey(name: 'name', defaultValue: '')
+  @JsonKey(name: 'name', includeIfNull: false, defaultValue: '')
   final String name;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'price', defaultValue: 0)
+  @JsonKey(name: 'price', includeIfNull: false, defaultValue: 0)
   final int price;
-  @JsonKey(name: 'enabled', defaultValue: true)
+  @JsonKey(name: 'enabled', includeIfNull: false, defaultValue: true)
   final bool? enabled;
-  @JsonKey(name: 'unique', defaultValue: false)
+  @JsonKey(name: 'unique', includeIfNull: false, defaultValue: false)
   final bool unique;
   @JsonKey(
     name: 'school_type',
+    includeIfNull: false,
     toJson: productSchoolTypeNullableToJson,
     fromJson: productSchoolTypeNullableFromJson,
   )
   final enums.ProductSchoolType? schoolType;
   @JsonKey(
     name: 'public_type',
+    includeIfNull: false,
     toJson: productPublicTypeNullableToJson,
     fromJson: productPublicTypeNullableFromJson,
   )
   final enums.ProductPublicType? publicType;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
-  @JsonKey(name: 'id', defaultValue: '')
+  @JsonKey(name: 'id', includeIfNull: false, defaultValue: '')
   final String id;
-  @JsonKey(name: 'product')
+  @JsonKey(name: 'product', includeIfNull: false)
   final Product product;
   static const fromJsonFactory =
       _$AppModulesSportCompetitionSchemasSportCompetitionProductVariantCompleteFromJson;
@@ -37952,24 +38403,26 @@ class AppModulesSportCompetitionSchemasSportCompetitionProductVariantEdit {
         this,
       );
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
-  @JsonKey(name: 'description')
+  @JsonKey(name: 'description', includeIfNull: false)
   final String? description;
-  @JsonKey(name: 'price')
+  @JsonKey(name: 'price', includeIfNull: false)
   final int? price;
-  @JsonKey(name: 'enabled')
+  @JsonKey(name: 'enabled', includeIfNull: false)
   final bool? enabled;
-  @JsonKey(name: 'unique')
+  @JsonKey(name: 'unique', includeIfNull: false)
   final bool? unique;
   @JsonKey(
     name: 'school_type',
+    includeIfNull: false,
     toJson: productSchoolTypeNullableToJson,
     fromJson: productSchoolTypeNullableFromJson,
   )
   final enums.ProductSchoolType? schoolType;
   @JsonKey(
     name: 'public_type',
+    includeIfNull: false,
     toJson: productPublicTypeNullableToJson,
     fromJson: productPublicTypeNullableFromJson,
   )
@@ -38094,9 +38547,9 @@ class AppModulesSportCompetitionSchemasSportCompetitionPurchaseBase {
         this,
       );
 
-  @JsonKey(name: 'product_variant_id', defaultValue: '')
+  @JsonKey(name: 'product_variant_id', includeIfNull: false, defaultValue: '')
   final String productVariantId;
-  @JsonKey(name: 'quantity', defaultValue: 0)
+  @JsonKey(name: 'quantity', includeIfNull: false, defaultValue: 0)
   final int quantity;
   static const fromJsonFactory =
       _$AppModulesSportCompetitionSchemasSportCompetitionPurchaseBaseFromJson;
@@ -38187,23 +38640,24 @@ class AppModulesSportCompetitionSchemasSportCompetitionPurchaseComplete {
         this,
       );
 
-  @JsonKey(name: 'product_variant_id', defaultValue: '')
+  @JsonKey(name: 'product_variant_id', includeIfNull: false, defaultValue: '')
   final String productVariantId;
-  @JsonKey(name: 'quantity', defaultValue: 0)
+  @JsonKey(name: 'quantity', includeIfNull: false, defaultValue: 0)
   final int quantity;
-  @JsonKey(name: 'user_id', defaultValue: '')
+  @JsonKey(name: 'user_id', includeIfNull: false, defaultValue: '')
   final String userId;
-  @JsonKey(name: 'edition_id', defaultValue: '')
+  @JsonKey(name: 'edition_id', includeIfNull: false, defaultValue: '')
   final String editionId;
-  @JsonKey(name: 'validated', defaultValue: false)
+  @JsonKey(name: 'validated', includeIfNull: false, defaultValue: false)
   final bool validated;
   @JsonKey(
     name: 'purchased_on',
+    includeIfNull: false,
     fromJson: dateTimeFromJson,
     toJson: dateTimeToJson,
   )
   final DateTime purchasedOn;
-  @JsonKey(name: 'product_variant')
+  @JsonKey(name: 'product_variant', includeIfNull: false)
   final ProductVariant productVariant;
   static const fromJsonFactory =
       _$AppModulesSportCompetitionSchemasSportCompetitionPurchaseCompleteFromJson;
@@ -38323,7 +38777,7 @@ class AppTypesStandardResponsesResult {
   Map<String, dynamic> toJson() =>
       _$AppTypesStandardResponsesResultToJson(this);
 
-  @JsonKey(name: 'success', defaultValue: true)
+  @JsonKey(name: 'success', includeIfNull: false, defaultValue: true)
   final bool? success;
   static const fromJsonFactory = _$AppTypesStandardResponsesResultFromJson;
 
