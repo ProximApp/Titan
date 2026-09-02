@@ -4828,7 +4828,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ticketsSessionSoldOut => 'This session is sold out';
 
   @override
-  String get ticketsOfferTicket => 'Offer this ticket';
+  String get ticketsOfferTicket => 'Transfer this ticket';
 
   @override
   String get ticketsOfferDescription =>
