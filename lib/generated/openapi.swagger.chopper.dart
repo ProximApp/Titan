@@ -11818,7 +11818,7 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
   }
 
   @override
-  Future<Response<List<AccountType>>> _usersAccountTypesGet({
+  Future<Response<List<String>>> _usersAccountTypesGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all account types hardcoded in the system',
       summary: 'Get Account Types',
@@ -11837,7 +11837,7 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
       client.baseUrl,
       tag: swaggerMetaData,
     );
-    return client.send<List<AccountType>, AccountType>($request);
+    return client.send<List<String>, String>($request);
   }
 
   @override

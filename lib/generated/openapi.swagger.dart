@@ -13463,13 +13463,15 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
   });
 
   ///Get Account Types
-  Future<chopper.Response<List<enums.AccountType>>> usersAccountTypesGet() {
+  /// TODO: CHANGE BACK
+  Future<chopper.Response<List<String>>> usersAccountTypesGet() {
     return _usersAccountTypesGet();
   }
 
   ///Get Account Types
   @GET(path: '/users/account-types/')
-  Future<chopper.Response<List<enums.AccountType>>> _usersAccountTypesGet({
+  /// TODO: CHANGE BACK
+  Future<chopper.Response<List<String>>> _usersAccountTypesGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Return all account types hardcoded in the system',
