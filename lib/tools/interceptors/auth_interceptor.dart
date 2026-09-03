@@ -10,12 +10,17 @@ class AuthInterceptor implements HeadersInterceptor {
   AuthInterceptor({required this.token});
 
   @override
-  Map<String, String> get headers => {'Authorization': 'Bearer $token'};
+  Map<String, String> get headers =>
+      token.isEmpty ? {} : {'Authorization': 'Bearer $token'};
 
   @override
   FutureOr<Response<BodyType>> intercept<BodyType>(
     Chain<BodyType> chain,
   ) async {
+    if (token.isEmpty) {
+      return chain.proceed(chain.request);
+    }
+
     final request = applyHeader(
       chain.request,
       'Authorization',

@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
@@ -8,7 +9,11 @@ class PermissionsNamesListNotifier extends ListNotifierAPI<String> {
 
   @override
   AsyncValue<List<String>> build() {
-    loadPermissionsNamesList();
+    final token = ref.watch(tokenProvider);
+    final isLoggedIn = ref.watch(isLoggedInProvider);
+    if (isLoggedIn && token.isNotEmpty) {
+      loadPermissionsNamesList();
+    }
     return const AsyncLoading();
   }
 
