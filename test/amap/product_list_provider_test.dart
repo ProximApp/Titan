@@ -90,7 +90,9 @@ void main() {
     test(
       'updateProduct should update an existing product in the list',
       () async {
-        final updatedProduct = product.copyWith(name: 'Updated Product 1');
+        final updatedProduct = products.first.copyWith(
+          name: 'Updated Product 1',
+        );
         when(
           () => mockProductListRepository.amapProductsProductIdPatch(
             productId: any(named: 'productId'),
