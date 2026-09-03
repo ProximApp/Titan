@@ -15,7 +15,12 @@ class LogInterceptor implements Interceptor {
     final request = chain.request;
     final response = await chain.proceed(request);
     if (response.statusCode >= 400) {
-      logger.error("Response: ${response.statusCode} ${response.bodyString}");
+      final body = response.bodyString;
+      const maxLength = 500;
+      final truncatedBody = body.length > maxLength
+          ? '${body.substring(0, maxLength)}...'
+          : body;
+      logger.error("Response: ${response.statusCode} $truncatedBody");
     }
     return response;
   }
