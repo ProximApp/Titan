@@ -7,7 +7,8 @@ import 'package:path_provider/path_provider.dart';
 /// A logger output that writes logs to a file
 class FileLoggerOutput implements LoggerOutput {
   static const String logFileName = 'myecl.log';
-  late File logFile;
+  File? logFile;
+  bool _ready = false;
 
   // The maximum size of the log file, in bytes
   static const int maxFileSize = 1 * 1024 * 1024; // 1MB
@@ -26,17 +27,21 @@ class FileLoggerOutput implements LoggerOutput {
   @override
   Future<void> init() async {
     logFile = await _getLogFile();
+    _ready = true;
 
     // If the file is more than maxFileSize (in bytes), clear its content
-    if (await logFile.length() > maxFileSize) {
+    if (await logFile!.length() > maxFileSize) {
       clearLogs();
     }
   }
 
   @override
   void writeLog(Log log) {
+    if (!_ready || logFile == null) {
+      return;
+    }
     try {
-      logFile.writeAsStringSync(logToEscapedString(log), mode: FileMode.append);
+      logFile!.writeAsStringSync(logToEscapedString(log), mode: FileMode.append);
     } catch (e) {
       print("Error writing log: $e"); // ignore: avoid_print
     }
@@ -46,7 +51,10 @@ class FileLoggerOutput implements LoggerOutput {
   /// The logs will be returned in reverse order, the most recent at the beginning
   @override
   List<Log> getLogs() {
-    final String logsString = logFile.readAsStringSync();
+    if (!_ready || logFile == null) {
+      return [];
+    }
+    final String logsString = logFile!.readAsStringSync();
 
     return logsFromEscapedString(
       logsString,
@@ -57,7 +65,10 @@ class FileLoggerOutput implements LoggerOutput {
   /// The logs will be returned in reverse order, the most recent at the beginning
   @override
   List<Log> getNotificationLogs() {
-    final String logsString = logFile.readAsStringSync();
+    if (!_ready || logFile == null) {
+      return [];
+    }
+    final String logsString = logFile!.readAsStringSync();
 
     return logsFromEscapedString(
       logsString,
@@ -67,11 +78,14 @@ class FileLoggerOutput implements LoggerOutput {
   /// Delete the non notification logs
   @override
   void clearLogs() {
-    final String logsString = logFile.readAsStringSync();
+    if (!_ready || logFile == null) {
+      return;
+    }
+    final String logsString = logFile!.readAsStringSync();
     final notificationLogs = logsFromEscapedString(
       logsString,
     ).where((element) => element.level == LogLevel.notification).toList();
-    logFile.writeAsStringSync("");
+    logFile!.writeAsStringSync("");
     for (Log log in notificationLogs) {
       writeLog(log);
     }
@@ -80,11 +94,14 @@ class FileLoggerOutput implements LoggerOutput {
   /// Delete the notification logs
   @override
   void clearNotificationLogs() {
-    final String logsString = logFile.readAsStringSync();
+    if (!_ready || logFile == null) {
+      return;
+    }
+    final String logsString = logFile!.readAsStringSync();
     final logs = logsFromEscapedString(
       logsString,
     ).where((element) => element.level != LogLevel.notification).toList();
-    logFile.writeAsStringSync("");
+    logFile!.writeAsStringSync("");
     for (Log log in logs) {
       writeLog(log);
     }

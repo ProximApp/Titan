@@ -8,29 +8,38 @@ import 'package:titan/tools/logs/print_logger_output.dart';
 
 class Logger {
   LoggerOutput? loggerOutput;
+  Future<void>? _initFuture;
+  bool _initialized = false;
 
   /// The log level of the logger
   /// Only logs with a level equal to or higher than this level will be written
   LogLevel minimalLogLevel = LogLevel.warning;
 
   Logger() {
-    init();
+    _initFuture = init();
   }
 
-  void init() async {
+  Future<void> init() async {
     if (kIsWeb) {
       loggerOutput = PrintLoggerOutput();
-      await loggerOutput!.init();
     } else {
       loggerOutput = FileLoggerOutput();
-      await loggerOutput!.init();
     }
+    await loggerOutput!.init();
+    _initialized = true;
   }
 
   void writeLog(Log log) {
-    if (log.level.index >= minimalLogLevel.index) {
-      loggerOutput?.writeLog(log);
+    if (log.level.index < minimalLogLevel.index) {
+      return;
     }
+
+    if (!_initialized) {
+      _initFuture?.then((_) => writeLog(log));
+      return;
+    }
+
+    loggerOutput?.writeLog(log);
   }
 
   List<Log> getLogs() {
