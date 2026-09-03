@@ -112,6 +112,7 @@ Future showCustomBottomModal({
 }) async {
   final navbarAnimationNotifier = ref.watch(navbarAnimationProvider.notifier);
   navbarAnimationNotifier.hideForModal();
+  final parentContainer = ProviderScope.containerOf(context, listen: false);
 
   try {
     await showModalBottomSheet(
@@ -120,7 +121,8 @@ Future showCustomBottomModal({
       isScrollControlled: true,
       useRootNavigator: true,
       context: context,
-      builder: (_) => modal,
+      builder: (_) =>
+          UncontrolledProviderScope(container: parentContainer, child: modal),
     );
   } finally {
     navbarAnimationNotifier.showForModal();
