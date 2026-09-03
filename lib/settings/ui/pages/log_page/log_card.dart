@@ -69,7 +69,10 @@ class LogCard extends StatelessWidget {
                     AppLocalizations.of(context)!.settingsCopied,
                   );
                 },
-                child: HeroIcon(HeroIcons.clipboardDocumentList, color: Colors.white),
+                child: HeroIcon(
+                  HeroIcons.clipboardDocumentList,
+                  color: Colors.white,
+                ),
               ),
             ],
           ),
