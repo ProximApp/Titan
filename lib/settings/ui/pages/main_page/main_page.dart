@@ -13,6 +13,7 @@ import 'package:titan/tools/ui/styleguide/confirm_modal.dart';
 import 'package:titan/tools/ui/widgets/vertical_clip_scroll.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/settings/providers/notification_topic_provider.dart';
+import 'package:titan/settings/router.dart';
 import 'package:titan/settings/tools/functions.dart';
 import 'package:titan/settings/ui/pages/main_page/edit_profile.dart';
 import 'package:titan/settings/ui/pages/main_page/load_switch_topic.dart';
@@ -419,6 +420,23 @@ class SettingsMainPage extends HookConsumerWidget {
                   );
                 },
               ),
+              if (!kIsWeb) ...[
+                const SizedBox(height: 20),
+                Text(
+                  localizeWithContext.settingsHelp,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: ColorConstants.title,
+                  ),
+                ),
+                ListItem(
+                  title: localizeWithContext.settingsLogs,
+                  onTap: () {
+                    QR.to(SettingsRouter.root + SettingsRouter.logs);
+                  },
+                ),
+              ],
               const SizedBox(height: 60),
               Text(
                 "${localizeWithContext.othersVersion} $titanVersion",
