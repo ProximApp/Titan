@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/super_admin/providers/permission_name_list_provider.dart';
 import 'package:titan/super_admin/providers/permissions_list_provider.dart';
@@ -37,12 +36,6 @@ final moduleRootListProvider = Provider<AsyncValue<List<String>>>((ref) {
     user: user,
     permissions: permissions,
     permissionCatalog: catalog,
-  );
-
-  debugPrint(
-    '[Modules] moduleRoots computed → $moduleRoots '
-    '(groups=${(user.groups ?? []).map((g) => g.id).toList()}, '
-    'accountType=${user.accountType})',
   );
 
   return AsyncValue.data(moduleRoots);
