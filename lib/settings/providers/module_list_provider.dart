@@ -1,9 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/admin/router.dart';
 import 'package:titan/admin/providers/is_admin_provider.dart';
 import 'package:titan/advert/router.dart';
-import 'package:titan/super_admin/providers/all_my_module_roots_list_provider.dart';
+import 'package:titan/super_admin/providers/module_root_list_provider.dart';
 import 'package:titan/amap/router.dart';
 import 'package:titan/booking/router.dart';
 import 'package:titan/centralisation/router.dart';
@@ -20,6 +19,7 @@ import 'package:titan/purchases/router.dart';
 import 'package:titan/raffle/router.dart';
 import 'package:titan/recommendation/router.dart';
 import 'package:titan/seed-library/router.dart';
+import 'package:titan/tickets/router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:titan/settings/router.dart';
 import 'package:titan/super_admin/providers/is_super_admin_provider.dart';
@@ -53,19 +53,21 @@ class ModulesNotifier extends Notifier<List<Module>> {
     RecommendationRouter.module,
     VoteRouter.module,
     SeedLibraryRouter.module,
+    TicketsRouter.module,
   ];
 
   @override
   List<Module> build() {
-    final myModulesRoot = ref
-        .watch(allMyModuleRootList)
-        .map((root) => '/$root')
-        .toList();
+    final moduleRootsAsync = ref.watch(moduleRootListProvider);
 
     isAdmin = ref.watch(isAdminProvider);
     isSuperAdmin = ref.watch(isSuperAdminProvider);
 
-    loadModules(myModulesRoot);
+    moduleRootsAsync.whenData((roots) {
+      final myModulesRoot = roots.map((root) => '/$root').toList();
+      loadModules(myModulesRoot);
+    });
+
     return [];
   }
 
@@ -102,6 +104,7 @@ class ModulesNotifier extends Notifier<List<Module>> {
     List<String> modulesName = prefs.getStringList(dbModule) ?? [];
     List<String> allSavedModulesName = prefs.getStringList(dbAllModules) ?? [];
     final allModulesName = allModules.map((e) => e.root.toString()).toList();
+
     if (modulesName.isEmpty) {
       modulesName = allModulesName;
       saveModules();
@@ -131,7 +134,7 @@ class ModulesNotifier extends Notifier<List<Module>> {
         Module module = allModules[allSavedModulesName.indexOf(name)];
         if (roots.contains(module.root)) {
           modules.add(module);
-        } else if (!kDebugMode) {
+        } else {
           toDelete.add(module);
         }
       }

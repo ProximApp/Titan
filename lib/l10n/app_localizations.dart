@@ -4438,7 +4438,7 @@ abstract class AppLocalizations {
   /// No description provided for @moduleAdminDescription.
   ///
   /// In fr, this message translates to:
-  /// **'Gérer les utilisateurs, groupes et structures'**
+  /// **'Module d\'administration pour les administrateurs'**
   String get moduleAdminDescription;
 
   /// No description provided for @moduleAdvert.
@@ -4450,7 +4450,7 @@ abstract class AppLocalizations {
   /// No description provided for @moduleAdvertDescription.
   ///
   /// In fr, this message translates to:
-  /// **'Gérer les feeds'**
+  /// **'Consulter le feed'**
   String get moduleAdvertDescription;
 
   /// No description provided for @moduleAmap.
@@ -4462,7 +4462,7 @@ abstract class AppLocalizations {
   /// No description provided for @moduleAmapDescription.
   ///
   /// In fr, this message translates to:
-  /// **'Gérer les livraisons et les produits'**
+  /// **'Commander votre panier AMAP'**
   String get moduleAmapDescription;
 
   /// No description provided for @moduleBooking.
@@ -4474,7 +4474,7 @@ abstract class AppLocalizations {
   /// No description provided for @moduleBookingDescription.
   ///
   /// In fr, this message translates to:
-  /// **'Gérer les réservations, les salles et les managers'**
+  /// **'Réserver une salle'**
   String get moduleBookingDescription;
 
   /// No description provided for @moduleCalendar.
@@ -4510,7 +4510,7 @@ abstract class AppLocalizations {
   /// No description provided for @moduleCinemaDescription.
   ///
   /// In fr, this message translates to:
-  /// **'Gérer les séances de cinéma'**
+  /// **'Consulter la programmation cinéma'**
   String get moduleCinemaDescription;
 
   /// No description provided for @moduleEvent.
@@ -4522,7 +4522,7 @@ abstract class AppLocalizations {
   /// No description provided for @moduleEventDescription.
   ///
   /// In fr, this message translates to:
-  /// **'Gérer les événements et les participants'**
+  /// **'Consulter les événements'**
   String get moduleEventDescription;
 
   /// No description provided for @moduleFeed.
@@ -4534,7 +4534,7 @@ abstract class AppLocalizations {
   /// No description provided for @moduleFeedDescription.
   ///
   /// In fr, this message translates to:
-  /// **'Consulter les événements'**
+  /// **'Consulter les derniers événements'**
   String get moduleFeedDescription;
 
   /// No description provided for @moduleFlappyBird.
@@ -4546,7 +4546,7 @@ abstract class AppLocalizations {
   /// No description provided for @moduleFlappyBirdDescription.
   ///
   /// In fr, this message translates to:
-  /// **'Jouer à Flappy Bird et consulter le classement'**
+  /// **'Jouer à Flappy Bird'**
   String get moduleFlappyBirdDescription;
 
   /// No description provided for @moduleLoan.
@@ -4558,7 +4558,7 @@ abstract class AppLocalizations {
   /// No description provided for @moduleLoanDescription.
   ///
   /// In fr, this message translates to:
-  /// **'Gérer les prêts et les articles'**
+  /// **'Consulter vos prêts'**
   String get moduleLoanDescription;
 
   /// No description provided for @moduleOthers.
@@ -4570,7 +4570,7 @@ abstract class AppLocalizations {
   /// No description provided for @moduleOthersDescription.
   ///
   /// In fr, this message translates to:
-  /// **'Afficher les autres modules'**
+  /// **'Autres modules'**
   String get moduleOthersDescription;
 
   /// No description provided for @modulePayment.
@@ -4582,7 +4582,7 @@ abstract class AppLocalizations {
   /// No description provided for @modulePaymentDescription.
   ///
   /// In fr, this message translates to:
-  /// **'Gérer les paiements, les statistiques et les appareils'**
+  /// **'Payer et consulter vos transactions'**
   String get modulePaymentDescription;
 
   /// No description provided for @modulePh.
@@ -4594,7 +4594,7 @@ abstract class AppLocalizations {
   /// No description provided for @modulePhDescription.
   ///
   /// In fr, this message translates to:
-  /// **'Gérer les PH, les formulaires et les administrateurs'**
+  /// **'Consulter les PH'**
   String get modulePhDescription;
 
   /// No description provided for @modulePhonebook.
@@ -4606,7 +4606,7 @@ abstract class AppLocalizations {
   /// No description provided for @modulePhonebookDescription.
   ///
   /// In fr, this message translates to:
-  /// **'Gérer les associations, les membres et les administrateurs'**
+  /// **'Consulter l\'annuaire et les associations'**
   String get modulePhonebookDescription;
 
   /// No description provided for @modulePurchases.
@@ -4618,7 +4618,7 @@ abstract class AppLocalizations {
   /// No description provided for @modulePurchasesDescription.
   ///
   /// In fr, this message translates to:
-  /// **'Gérer les achats, les tickets et l\'historique'**
+  /// **'Consulter vos achats'**
   String get modulePurchasesDescription;
 
   /// No description provided for @moduleRaffle.
@@ -4630,7 +4630,7 @@ abstract class AppLocalizations {
   /// No description provided for @moduleRaffleDescription.
   ///
   /// In fr, this message translates to:
-  /// **'Gérer les tombolas, les prix et les tickets'**
+  /// **'Consulter la tombola'**
   String get moduleRaffleDescription;
 
   /// No description provided for @moduleRecommendation.
@@ -4642,7 +4642,7 @@ abstract class AppLocalizations {
   /// No description provided for @moduleRecommendationDescription.
   ///
   /// In fr, this message translates to:
-  /// **'Gérer les recommandations, les informations et les administrateurs'**
+  /// **'Consulter les bons plans'**
   String get moduleRecommendationDescription;
 
   /// No description provided for @moduleSeedLibrary.
@@ -4654,7 +4654,7 @@ abstract class AppLocalizations {
   /// No description provided for @moduleSeedLibraryDescription.
   ///
   /// In fr, this message translates to:
-  /// **'Gérer les graines, les espèces et les stocks'**
+  /// **'Consulter la grainothèque'**
   String get moduleSeedLibraryDescription;
 
   /// No description provided for @moduleSettings.
@@ -4666,7 +4666,7 @@ abstract class AppLocalizations {
   /// No description provided for @moduleSettingsDescription.
   ///
   /// In fr, this message translates to:
-  /// **'Gérer les paramètres de l\'application'**
+  /// **'Gérer vos paramètres'**
   String get moduleSettingsDescription;
 
   /// No description provided for @moduleStyleGuide.
@@ -4678,7 +4678,7 @@ abstract class AppLocalizations {
   /// No description provided for @moduleStyleGuideDescription.
   ///
   /// In fr, this message translates to:
-  /// **'Explore the UI components and styles used in Titan'**
+  /// **'Guide de style pour les développeurs'**
   String get moduleStyleGuideDescription;
 
   /// No description provided for @moduleVote.
@@ -4690,7 +4690,7 @@ abstract class AppLocalizations {
   /// No description provided for @moduleVoteDescription.
   ///
   /// In fr, this message translates to:
-  /// **'Gérer les votes, les sections et les candidats'**
+  /// **'Voter pour les campagnes'**
   String get moduleVoteDescription;
 
   /// No description provided for @othersAdmin.

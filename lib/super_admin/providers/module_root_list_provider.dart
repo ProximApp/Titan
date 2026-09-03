@@ -1,46 +1,42 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/generated/openapi.swagger.dart';
-import 'package:titan/tools/providers/list_notifier_api.dart';
-import 'package:titan/tools/repository/repository.dart';
+import 'package:titan/super_admin/providers/permission_name_list_provider.dart';
+import 'package:titan/super_admin/providers/permissions_list_provider.dart';
+import 'package:titan/super_admin/tools/module_roots.dart';
 import 'package:titan/user/providers/user_provider.dart';
 
-class ModuleListNotifier extends ListNotifierAPI<String> {
-  Openapi get repository => ref.watch(repositoryProvider);
+final moduleRootListProvider = Provider<AsyncValue<List<String>>>((ref) {
+  final userAsync = ref.watch(asyncUserProvider);
+  final permissionsAsync = ref.watch(permissionsProvider);
+  final catalogAsync = ref.watch(permissionsNamesListProvider);
 
-  @override
-  AsyncValue<List<String>> build() {
-    final userProvider = ref.watch(asyncUserProvider);
-    userProvider.maybeWhen(
-      data: (data) => {loadMyModuleRoots()},
-      orElse: () {},
-    );
+  if (userAsync.isLoading ||
+      permissionsAsync.isLoading ||
+      catalogAsync.isLoading) {
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<List<String>>> loadMyModuleRoots() async {
-    final response = await repository.permissionsListGet();
-    if (!response.isSuccessful || response.body == null) {
-      state = const AsyncValue.data(<String>[]);
-      return state;
-    }
-
-    final allPermissions = response.body!;
-
-    final moduleRoots = <String>{};
-    for (final permission in allPermissions) {
-      if (permission.contains('.access')) {
-        final moduleRoot = permission.split('.').first;
-        moduleRoots.add(moduleRoot);
-      }
-    }
-
-    final moduleRootsList = moduleRoots.toList()..sort();
-    state = AsyncValue.data(moduleRootsList);
-    return state;
+  if (userAsync.hasError) {
+    return AsyncValue.error(userAsync.error!, userAsync.stackTrace!);
   }
-}
-
-final moduleRootListProvider =
-    NotifierProvider<ModuleListNotifier, AsyncValue<List<String>>>(
-      ModuleListNotifier.new,
+  if (permissionsAsync.hasError) {
+    return AsyncValue.error(
+      permissionsAsync.error!,
+      permissionsAsync.stackTrace!,
     );
+  }
+  if (catalogAsync.hasError) {
+    return AsyncValue.error(catalogAsync.error!, catalogAsync.stackTrace!);
+  }
+
+  final user = userAsync.requireValue;
+  final permissions = permissionsAsync.requireValue;
+  final catalog = catalogAsync.requireValue;
+
+  final moduleRoots = computeUserModuleRoots(
+    user: user,
+    permissions: permissions,
+    permissionCatalog: catalog,
+  );
+
+  return AsyncValue.data(moduleRoots);
+});
