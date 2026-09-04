@@ -6,10 +6,7 @@ import 'dart:convert';
 
 class SectionRepository {
   static String get host => "${getCentralisationHost()}links.json";
-  final Map<String, String> headers = {
-    "Content-Type": "application/json; charset=UTF-8",
-    "Accept": "application/json",
-  };
+  final Map<String, String> headers = {"Accept": "application/json"};
 
   static final Logger logger = Logger();
   void initLogger() {
