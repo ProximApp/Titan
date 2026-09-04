@@ -9,6 +9,7 @@ class SectionNotifier extends ListNotifier<Section> {
 
   @override
   AsyncValue<List<Section>> build() {
+    initState();
     return const AsyncValue.loading();
   }
 
