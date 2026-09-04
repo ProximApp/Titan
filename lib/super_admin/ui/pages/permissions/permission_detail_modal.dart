@@ -77,15 +77,38 @@ class PermissionDetailModal extends HookConsumerWidget {
                       label: accountType,
                       isAuthorized: isAuthorized,
                       onAuthorize: () async {
+                        if (permission == null) {
+                          return;
+                        }
+                        final updatedAccountTypes = [
+                          ...permission.accountTypes,
+                          model.accountType,
+                        ];
                         await runPermissionUpdate(
                           () => permissionsNotifier.addAccountTypePermission(
+                            permission.copyWith(
+                              accountTypes: updatedAccountTypes,
+                            ),
                             model,
                           ),
                         );
                       },
                       onUnauthorize: () async {
+                        if (permission == null) {
+                          return;
+                        }
+                        final updatedAccountTypes = permission.accountTypes
+                            .where(
+                              (a) => !a.name.contains(
+                                snakeToCamelCase(accountType),
+                              ),
+                            )
+                            .toList();
                         await runPermissionUpdate(
                           () => permissionsNotifier.deleteAccountTypePermission(
+                            permission.copyWith(
+                              accountTypes: updatedAccountTypes,
+                            ),
                             model,
                           ),
                         );
@@ -104,14 +127,29 @@ class PermissionDetailModal extends HookConsumerWidget {
                       label: group.name,
                       isAuthorized: isAuthorized,
                       onAuthorize: () async {
+                        if (permission == null) {
+                          return;
+                        }
+                        final updatedGroups = [...permission.groups, group.id];
                         await runPermissionUpdate(
-                          () => permissionsNotifier.addGroupPermission(model),
+                          () => permissionsNotifier.addGroupPermission(
+                            permission.copyWith(groups: updatedGroups),
+                            model,
+                          ),
                         );
                       },
                       onUnauthorize: () async {
+                        if (permission == null) {
+                          return;
+                        }
+                        final updatedGroups = permission.groups
+                            .where((g) => g != group.id)
+                            .toList();
                         await runPermissionUpdate(
-                          () =>
-                              permissionsNotifier.deleteGroupPermission(model),
+                          () => permissionsNotifier.deleteGroupPermission(
+                            permission.copyWith(groups: updatedGroups),
+                            model,
+                          ),
                         );
                       },
                     );

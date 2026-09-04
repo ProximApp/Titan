@@ -22,37 +22,47 @@ class PermissionsNotifier extends ListNotifierAPI<CorePermission> {
     return await loadList(repository.permissionsGet);
   }
 
-  Future<bool> addGroupPermission(CoreGroupPermission permission) async {
-    return await add(
-      () => repository.permissionsPost(body: permission),
+  Future<bool> addGroupPermission(
+    CorePermission permission,
+    CoreGroupPermission model,
+  ) async {
+    return await update(
+      () => repository.permissionsPost(body: model),
+      (p) => p.permissionName,
       permission,
     );
   }
 
-  Future<bool> deleteGroupPermission(CoreGroupPermission permission) async {
-    return await delete(
-      () => repository.permissionsDelete(body: permission),
-      (permission) => permission.permissionName,
-      permission.permissionName,
+  Future<bool> deleteGroupPermission(
+    CorePermission permission,
+    CoreGroupPermission model,
+  ) async {
+    return await update(
+      () => repository.permissionsDelete(body: model),
+      (p) => p.permissionName,
+      permission,
     );
   }
 
   Future<bool> addAccountTypePermission(
-    CoreAccountTypePermission permission,
+    CorePermission permission,
+    CoreAccountTypePermission model,
   ) async {
-    return await add(
-      () => repository.permissionsPost(body: permission),
+    return await update(
+      () => repository.permissionsPost(body: model),
+      (p) => p.permissionName,
       permission,
     );
   }
 
   Future<bool> deleteAccountTypePermission(
-    CoreAccountTypePermission permission,
+    CorePermission permission,
+    CoreAccountTypePermission model,
   ) async {
-    return await delete(
-      () => repository.permissionsDelete(body: permission),
-      (permission) => permission.permissionName,
-      permission.permissionName,
+    return await update(
+      () => repository.permissionsDelete(body: model),
+      (p) => p.permissionName,
+      permission,
     );
   }
 }
