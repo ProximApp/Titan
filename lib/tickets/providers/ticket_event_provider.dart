@@ -1,4 +1,6 @@
+import 'package:chopper/chopper.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:titan/generated/client_mapping.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tickets/adapters/category.dart';
 import 'package:titan/tickets/adapters/question.dart';
@@ -34,16 +36,20 @@ class TicketEventNotifier extends SingleNotifierAPI<EventAdmin> {
 
   Future<bool> editTicketEvent(EventAdmin ticketEvent) async {
     return await update(
-      () => repository.ticketsAdminEventsEventIdPatch(
-        eventId: ticketEvent.id,
-        body: ticketEvent.toEventUpdate(),
+      () => repository.client.send<void, void>(
+        Request(
+          'PATCH',
+          Uri.parse('/tickets/admin/events/${ticketEvent.id}'),
+          repository.client.baseUrl,
+          body: ticketEvent.toUpdateJson(),
+        ),
       ),
       ticketEvent,
     );
   }
 
   Future<bool> deleteEvent(String eventId) async {
-    return await delete(
+    return await this.delete(
       () => repository.ticketsAdminEventsEventIdDelete(eventId: eventId),
     );
   }
@@ -71,10 +77,19 @@ class TicketEventNotifier extends SingleNotifierAPI<EventAdmin> {
   ) async {
     SessionComplete? created;
     await update(() async {
-      final response = await repository.ticketsAdminEventsEventIdSessionsPost(
-        eventId: event.id,
-        body: session,
+      generatedMapping.putIfAbsent(
+        SessionComplete,
+        () => SessionComplete.fromJsonFactory,
       );
+      final response = await repository.client
+          .send<SessionComplete, SessionComplete>(
+            Request(
+              'POST',
+              Uri.parse('/tickets/admin/events/${event.id}/sessions'),
+              repository.client.baseUrl,
+              body: session.toCreateJson(),
+            ),
+          );
       if (response.isSuccessful) created = response.body;
       return response;
     }, event);
@@ -88,10 +103,13 @@ class TicketEventNotifier extends SingleNotifierAPI<EventAdmin> {
 
   Future<bool> updateSession(EventAdmin event, SessionAdmin session) async {
     return await update(
-      () => repository.ticketsAdminEventsEventIdSessionsSessionIdPatch(
-        eventId: event.id,
-        sessionId: session.id,
-        body: session.toSessionUpdate(),
+      () => repository.client.send<void, void>(
+        Request(
+          'PATCH',
+          Uri.parse('/tickets/admin/events/${event.id}/sessions/${session.id}'),
+          repository.client.baseUrl,
+          body: session.toUpdateJson(),
+        ),
       ),
       event.copyWith(
         sessions: [
@@ -125,10 +143,19 @@ class TicketEventNotifier extends SingleNotifierAPI<EventAdmin> {
   ) async {
     CategoryComplete? created;
     await update(() async {
-      final response = await repository.ticketsAdminEventsEventIdCategoriesPost(
-        eventId: event.id,
-        body: category,
+      generatedMapping.putIfAbsent(
+        CategoryComplete,
+        () => CategoryComplete.fromJsonFactory,
       );
+      final response = await repository.client
+          .send<CategoryComplete, CategoryComplete>(
+            Request(
+              'POST',
+              Uri.parse('/tickets/admin/events/${event.id}/categories'),
+              repository.client.baseUrl,
+              body: category.toCreateJson(),
+            ),
+          );
       if (response.isSuccessful) created = response.body;
       return response;
     }, event);
@@ -142,10 +169,15 @@ class TicketEventNotifier extends SingleNotifierAPI<EventAdmin> {
 
   Future<bool> updateCategory(EventAdmin event, CategoryAdmin category) async {
     return await update(
-      () => repository.ticketsAdminEventsEventIdCategoriesCategoryIdPatch(
-        eventId: event.id,
-        categoryId: category.id,
-        body: category.toCategoryUpdate(),
+      () => repository.client.send<void, void>(
+        Request(
+          'PATCH',
+          Uri.parse(
+            '/tickets/admin/events/${event.id}/categories/${category.id}',
+          ),
+          repository.client.baseUrl,
+          body: category.toUpdateJson(),
+        ),
       ),
       event.copyWith(
         categories: [
@@ -176,9 +208,14 @@ class TicketEventNotifier extends SingleNotifierAPI<EventAdmin> {
   ) async {
     Question? created;
     await update(() async {
-      final response = await repository.ticketsAdminEventsEventIdQuestionsPost(
-        eventId: event.id,
-        body: question,
+      generatedMapping.putIfAbsent(Question, () => Question.fromJsonFactory);
+      final response = await repository.client.send<Question, Question>(
+        Request(
+          'POST',
+          Uri.parse('/tickets/admin/events/${event.id}/questions'),
+          repository.client.baseUrl,
+          body: question.toCreateJson(),
+        ),
       );
       if (response.isSuccessful) created = response.body;
       return response;
@@ -193,10 +230,15 @@ class TicketEventNotifier extends SingleNotifierAPI<EventAdmin> {
 
   Future<bool> updateQuestion(EventAdmin event, QuestionAdmin question) async {
     return await update(
-      () => repository.ticketsAdminEventsEventIdQuestionsQuestionIdPatch(
-        eventId: event.id,
-        questionId: question.id,
-        body: question.toQuestionUpdate(),
+      () => repository.client.send<void, void>(
+        Request(
+          'PATCH',
+          Uri.parse(
+            '/tickets/admin/events/${event.id}/questions/${question.id}',
+          ),
+          repository.client.baseUrl,
+          body: question.toUpdateJson(),
+        ),
       ),
       event.copyWith(
         questions: [

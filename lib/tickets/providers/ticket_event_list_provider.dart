@@ -20,10 +20,7 @@ class ShotgunListNotifier extends ListNotifierAPI<EventSimple> {
   }
 
   Future<bool> createTicketEvent(EventCreate event) async {
-    generatedMapping.putIfAbsent(
-      EventAdmin,
-      () => EventAdmin.fromJsonFactory,
-    );
+    generatedMapping.putIfAbsent(EventAdmin, () => EventAdmin.fromJsonFactory);
     final response = await repository.client.send<EventAdmin, EventAdmin>(
       Request(
         'POST',

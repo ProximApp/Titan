@@ -1,5 +1,13 @@
 import 'package:titan/generated/openapi.models.swagger.dart';
 
+extension $SessionCreate on SessionCreate {
+  Map<String, dynamic> toCreateJson() {
+    final json = toJson();
+    json['quota'] = quota;
+    return json;
+  }
+}
+
 extension $SessionAdmin on SessionAdmin {
   SessionUpdate toSessionUpdate() => SessionUpdate(
     name: name,
@@ -7,6 +15,12 @@ extension $SessionAdmin on SessionAdmin {
     quota: quota,
     disabled: disabled,
   );
+
+  Map<String, dynamic> toUpdateJson() {
+    final json = toSessionUpdate().toJson();
+    json['quota'] = quota;
+    return json;
+  }
 }
 
 extension $SessionComplete on SessionComplete {

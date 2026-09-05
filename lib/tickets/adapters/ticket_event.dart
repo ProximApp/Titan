@@ -46,8 +46,6 @@ extension $EventCreate on EventCreate {
 }
 
 extension $EventAdmin on EventAdmin {
-  // The generated payload serialises nulls, so every field has to be sent back
-  // or the backend would clear the ones the caller does not set.
   EventUpdate toEventUpdate() => EventUpdate(
     name: name,
     quota: quota,
@@ -55,6 +53,13 @@ extension $EventAdmin on EventAdmin {
     closeDatetime: closeDatetime,
     disabled: disabled,
   );
+
+  Map<String, dynamic> toUpdateJson() {
+    final json = toEventUpdate().toJson();
+    json['quota'] = quota;
+    json['close_datetime'] = dateTimeToJson(closeDatetime);
+    return json;
+  }
 
   TicketEventStatus get status =>
       _statusFrom(disabled, openDatetime, closeDatetime);
