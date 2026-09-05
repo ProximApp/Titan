@@ -1,8 +1,14 @@
 import 'package:titan/generated/openapi.models.swagger.dart';
 
+extension $QuestionCreate on QuestionCreate {
+  Map<String, dynamic> toCreateJson() {
+    final json = toJson();
+    json['price'] = price;
+    return json;
+  }
+}
+
 extension $QuestionAdmin on QuestionAdmin {
-  // The generated payload serialises nulls, so every field has to be sent back
-  // or the backend would clear the ones the form does not edit.
   QuestionUpdate toQuestionUpdate() => QuestionUpdate(
     question: question,
     answerType: answerType,
@@ -10,6 +16,12 @@ extension $QuestionAdmin on QuestionAdmin {
     required: required,
     disabled: disabled,
   );
+
+  Map<String, dynamic> toUpdateJson() {
+    final json = toQuestionUpdate().toJson();
+    json['price'] = price;
+    return json;
+  }
 }
 
 extension $Question on Question {
