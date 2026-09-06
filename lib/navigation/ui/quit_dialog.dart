@@ -8,6 +8,8 @@ import 'package:titan/navigation/providers/display_quit_popup.dart';
 import 'package:titan/service/providers/firebase_token_expiration_provider.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
+import 'package:titan/user/providers/profile_picture_provider.dart';
+import 'package:titan/user/providers/user_provider.dart';
 import 'package:titan/l10n/app_localizations.dart';
 
 class QuitDialog extends HookConsumerWidget {
@@ -35,6 +37,9 @@ class QuitDialog extends HookConsumerWidget {
                 ref.watch(firebaseTokenExpirationProvider.notifier).reset();
               }
               isCachingNotifier.set(false);
+              // Invalidate user and profile picture providers to clear cached data
+              ref.invalidate(asyncUserProvider);
+              ref.invalidate(profilePictureProvider);
               displayToast(
                 context,
                 TypeMsg.msg,
