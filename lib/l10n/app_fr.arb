@@ -1026,6 +1026,7 @@
   "paiementPaymentRequestRefused": "Demande de paiement refusée",
   "paiementPaymentSuccessful": "Paiement réussi !",
   "paiementPayWithHA": "Payer avec HelloAsso",
+  "ticketsHelloAssoPersonalLinkWarning": "Le lien de paiement est personnel et ne doit pas être partagé.",
   "paiementPending": "En attente",
   "paiementPersonalBalance": "Solde personnel",
   "paiementPleaseAcceptPopup": "Veuillez autoriser les popups",

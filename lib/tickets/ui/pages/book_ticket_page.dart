@@ -816,6 +816,17 @@ class _TicketEventContent extends HookConsumerWidget {
                       ],
                     ),
                   ),
+                  if (selectedPaymentProvider.value == 'helloasso') ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      l10n.ticketsHelloAssoPersonalLinkWarning,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: ColorConstants.tertiary,
+                        fontSize: 11,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  ],
                 ],
               ],
               const SizedBox(height: 24),
