@@ -380,6 +380,9 @@ class SettingsMainPage extends HookConsumerWidget {
                         }
                         isCachingNotifier.set(false);
                         pathForwardingProviderNotifier.reset();
+                        // Invalidate user and profile picture providers to clear cached data
+                        ref.invalidate(asyncUserProvider);
+                        ref.invalidate(profilePictureProvider);
                         QR.to(LoginRouter.root);
                         displayToast(
                           context,
