@@ -5407,6 +5407,12 @@ abstract class AppLocalizations {
   /// **'Payer avec HelloAsso'**
   String get paiementPayWithHA;
 
+  /// No description provided for @ticketsHelloAssoPersonalLinkWarning.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le lien de paiement est personnel et ne doit pas être partagé.'**
+  String get ticketsHelloAssoPersonalLinkWarning;
+
   /// No description provided for @paiementPending.
   ///
   /// In fr, this message translates to:
