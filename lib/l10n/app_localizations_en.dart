@@ -2760,6 +2760,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paiementPayWithHA => 'Pay with HelloAsso';
 
   @override
+  String get ticketsHelloAssoPersonalLinkWarning =>
+      'The payment link is personal and must not be shared.';
+
+  @override
   String get paiementPending => 'Pending';
 
   @override
