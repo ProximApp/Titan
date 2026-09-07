@@ -1,6 +1,4 @@
-import 'package:chopper/chopper.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/generated/client_mapping.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tickets/adapters/category.dart';
 import 'package:titan/tickets/adapters/question.dart';
@@ -9,13 +7,6 @@ import 'package:titan/tickets/adapters/ticket_event.dart';
 import 'package:titan/tools/providers/single_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
 
-/// The event an admin is currently looking at, plus every edit that can be made
-/// to it.
-///
-/// Sessions, categories and questions live inside [EventAdmin], so their
-/// endpoints all go through [update]: the request is sent, and on success the
-/// state becomes the locally recomputed event. That avoids a refetch, which
-/// would discard the unsaved form input the edit page is holding.
 class TicketEventNotifier extends SingleNotifierAPI<EventAdmin> {
   Openapi get repository => ref.watch(repositoryProvider);
 
@@ -36,60 +27,34 @@ class TicketEventNotifier extends SingleNotifierAPI<EventAdmin> {
 
   Future<bool> editTicketEvent(EventAdmin ticketEvent) async {
     return await update(
-      () => repository.client.send<void, void>(
-        Request(
-          'PATCH',
-          Uri.parse('/tickets/admin/events/${ticketEvent.id}'),
-          repository.client.baseUrl,
-          body: ticketEvent.toUpdateJson(),
-        ),
+      () => repository.ticketsAdminEventsEventIdPatch(
+        eventId: ticketEvent.id,
+        body: ticketEvent.toEventUpdate(),
       ),
       ticketEvent,
     );
   }
 
   Future<bool> deleteEvent(String eventId) async {
-    return await this.delete(
+    return await delete(
       () => repository.ticketsAdminEventsEventIdDelete(eventId: eventId),
     );
   }
 
-  /// Cancels the event: unlike a delete, the sales stay on record and the
-  /// attendees are refunded.
-  ///
-  /// The endpoint does not exist yet — it arrives with a later codegen pass —
-  /// so this reports a failure rather than pretending the event was cancelled.
-  /// Once generated, call it through [update] like the other mutations and drop
-  /// the `ticketsCancelEventUnavailable` reason at the call site.
   Future<bool> cancelEvent(String eventId) async {
     return false;
   }
 
-  // --- Sessions ---
-
-  /// Returns the created session, or null when the backend refused it.
-  ///
-  /// The id only exists once the response comes back, so the merged event is
-  /// applied after [update] rather than being handed to it up front.
   Future<SessionAdmin?> createSession(
     EventAdmin event,
     SessionCreate session,
   ) async {
     SessionComplete? created;
     await update(() async {
-      generatedMapping.putIfAbsent(
-        SessionComplete,
-        () => SessionComplete.fromJsonFactory,
+      final response = await repository.ticketsAdminEventsEventIdSessionsPost(
+        eventId: event.id,
+        body: session,
       );
-      final response = await repository.client
-          .send<SessionComplete, SessionComplete>(
-            Request(
-              'POST',
-              Uri.parse('/tickets/admin/events/${event.id}/sessions'),
-              repository.client.baseUrl,
-              body: session.toCreateJson(),
-            ),
-          );
       if (response.isSuccessful) created = response.body;
       return response;
     }, event);
@@ -103,13 +68,10 @@ class TicketEventNotifier extends SingleNotifierAPI<EventAdmin> {
 
   Future<bool> updateSession(EventAdmin event, SessionAdmin session) async {
     return await update(
-      () => repository.client.send<void, void>(
-        Request(
-          'PATCH',
-          Uri.parse('/tickets/admin/events/${event.id}/sessions/${session.id}'),
-          repository.client.baseUrl,
-          body: session.toUpdateJson(),
-        ),
+      () => repository.ticketsAdminEventsEventIdSessionsSessionIdPatch(
+        eventId: event.id,
+        sessionId: session.id,
+        body: session.toSessionUpdate(),
       ),
       event.copyWith(
         sessions: [
@@ -131,31 +93,16 @@ class TicketEventNotifier extends SingleNotifierAPI<EventAdmin> {
     );
   }
 
-  // --- Categories ---
-
-  /// Returns the created category, or null when the backend refused it.
-  ///
-  /// The id only exists once the response comes back, so the merged event is
-  /// applied after [update] rather than being handed to it up front.
   Future<CategoryAdmin?> createCategory(
     EventAdmin event,
     CategoryCreate category,
   ) async {
     CategoryComplete? created;
     await update(() async {
-      generatedMapping.putIfAbsent(
-        CategoryComplete,
-        () => CategoryComplete.fromJsonFactory,
+      final response = await repository.ticketsAdminEventsEventIdCategoriesPost(
+        eventId: event.id,
+        body: category,
       );
-      final response = await repository.client
-          .send<CategoryComplete, CategoryComplete>(
-            Request(
-              'POST',
-              Uri.parse('/tickets/admin/events/${event.id}/categories'),
-              repository.client.baseUrl,
-              body: category.toCreateJson(),
-            ),
-          );
       if (response.isSuccessful) created = response.body;
       return response;
     }, event);
@@ -169,15 +116,10 @@ class TicketEventNotifier extends SingleNotifierAPI<EventAdmin> {
 
   Future<bool> updateCategory(EventAdmin event, CategoryAdmin category) async {
     return await update(
-      () => repository.client.send<void, void>(
-        Request(
-          'PATCH',
-          Uri.parse(
-            '/tickets/admin/events/${event.id}/categories/${category.id}',
-          ),
-          repository.client.baseUrl,
-          body: category.toUpdateJson(),
-        ),
+      () => repository.ticketsAdminEventsEventIdCategoriesCategoryIdPatch(
+        eventId: event.id,
+        categoryId: category.id,
+        body: category.toCategoryUpdate(),
       ),
       event.copyWith(
         categories: [
@@ -208,14 +150,9 @@ class TicketEventNotifier extends SingleNotifierAPI<EventAdmin> {
   ) async {
     Question? created;
     await update(() async {
-      generatedMapping.putIfAbsent(Question, () => Question.fromJsonFactory);
-      final response = await repository.client.send<Question, Question>(
-        Request(
-          'POST',
-          Uri.parse('/tickets/admin/events/${event.id}/questions'),
-          repository.client.baseUrl,
-          body: question.toCreateJson(),
-        ),
+      final response = await repository.ticketsAdminEventsEventIdQuestionsPost(
+        eventId: event.id,
+        body: question,
       );
       if (response.isSuccessful) created = response.body;
       return response;
@@ -230,15 +167,10 @@ class TicketEventNotifier extends SingleNotifierAPI<EventAdmin> {
 
   Future<bool> updateQuestion(EventAdmin event, QuestionAdmin question) async {
     return await update(
-      () => repository.client.send<void, void>(
-        Request(
-          'PATCH',
-          Uri.parse(
-            '/tickets/admin/events/${event.id}/questions/${question.id}',
-          ),
-          repository.client.baseUrl,
-          body: question.toUpdateJson(),
-        ),
+      () => repository.ticketsAdminEventsEventIdQuestionsQuestionIdPatch(
+        eventId: event.id,
+        questionId: question.id,
+        body: question.toQuestionUpdate(),
       ),
       event.copyWith(
         questions: [
@@ -261,11 +193,6 @@ class TicketEventNotifier extends SingleNotifierAPI<EventAdmin> {
   }
 }
 
-final ticketEventProvider =
-    NotifierProvider<TicketEventNotifier, AsyncValue<EventAdmin>>(
-      TicketEventNotifier.new,
-    );
-
 class PublicTicketEventByIdNotifier extends AsyncNotifier<EventPublic> {
   PublicTicketEventByIdNotifier(this._id);
 
@@ -286,3 +213,8 @@ final publicTicketEventByIdProvider =
       EventPublic,
       String
     >(PublicTicketEventByIdNotifier.new);
+
+final ticketEventProvider =
+    NotifierProvider<TicketEventNotifier, AsyncValue<EventAdmin>>(
+      TicketEventNotifier.new,
+    );
