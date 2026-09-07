@@ -371,8 +371,9 @@ class SettingsMainPage extends HookConsumerWidget {
                       description:
                           localizeWithContext.settingsLogOutDescription,
                       title: localizeWithContext.settingsLogOut,
-                      onYes: () {
-                        auth.deleteToken();
+                      onYes: () async {
+                        await auth.deleteToken();
+                        if (!context.mounted) return;
                         if (!kIsWeb) {
                           ref
                               .watch(firebaseTokenExpirationProvider.notifier)

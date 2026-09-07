@@ -31,8 +31,9 @@ class QuitDialog extends HookConsumerWidget {
           child: CustomDialogBox(
             descriptions: AppLocalizations.of(context)!.drawerLoginOut,
             title: AppLocalizations.of(context)!.drawerLogOut,
-            onYes: () {
-              auth.deleteToken();
+            onYes: () async {
+              await auth.deleteToken();
+              if (!context.mounted) return;
               if (!kIsWeb) {
                 ref.watch(firebaseTokenExpirationProvider.notifier).reset();
               }

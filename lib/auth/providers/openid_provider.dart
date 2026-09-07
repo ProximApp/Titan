@@ -91,10 +91,6 @@ final tokenProvider = Provider((ref) {
 });
 
 class OpenIdTokenProvider extends Notifier<AsyncValue<models.TokenResponse>> {
-  final String tokenKey = "token";
-  final String refreshTokenKey = "refresh_token";
-  OpenIdTokenProvider() : super();
-
   AuthRepository get userRepository => ref.read(authRepositoryProvider);
 
   @override
@@ -103,11 +99,11 @@ class OpenIdTokenProvider extends Notifier<AsyncValue<models.TokenResponse>> {
     return const AsyncValue.loading();
   }
 
-  Future getTokenFromRequest() async {
+  Future<void> getTokenFromRequest() async {
     state = const AsyncValue.loading();
     try {
       final tokenResponse = await userRepository.getTokenFromRequest();
-      if (tokenResponse.accessToken != "") {
+      if (tokenResponse.accessToken.isNotEmpty) {
         state = AsyncValue.data(tokenResponse);
       } else {
         state = const AsyncValue.error("Error", StackTrace.empty);
@@ -117,11 +113,11 @@ class OpenIdTokenProvider extends Notifier<AsyncValue<models.TokenResponse>> {
     }
   }
 
-  Future getTokenFromStorage() async {
+  Future<void> getTokenFromStorage() async {
     state = const AsyncValue.loading();
     try {
       final tokenResponse = await userRepository.getTokenFromStorage();
-      if (tokenResponse.accessToken != "") {
+      if (tokenResponse.accessToken.isNotEmpty) {
         state = AsyncValue.data(tokenResponse);
       } else {
         state = const AsyncValue.error("Error", StackTrace.empty);
@@ -131,37 +127,22 @@ class OpenIdTokenProvider extends Notifier<AsyncValue<models.TokenResponse>> {
     }
   }
 
-  Future<void> getAuthToken(String authorizationToken) async {
-    state = const AsyncValue.loading();
-    try {
-      final tokenResponse = await userRepository.getAuthToken(
-        authorizationToken,
-      );
-      if (tokenResponse.accessToken != "") {
-        state = AsyncValue.data(tokenResponse);
-      } else {
-        state = const AsyncValue.error("Error", StackTrace.empty);
-      }
-    } catch (e, s) {
-      state = AsyncValue.error(e, s);
-    }
-  }
-
-  Future<bool> refreshToken() async {
-    state = const AsyncValue.loading();
+  Future<String> refreshAccessToken() async {
     try {
       final tokenResponse = await userRepository.refreshToken();
-      if (tokenResponse.accessToken != "") {
-        state = AsyncValue.data(tokenResponse);
-        return true;
+      if (tokenResponse.accessToken.isEmpty) {
+        throw Exception('Received an empty access token');
       }
-      state = const AsyncValue.error("Error", StackTrace.empty);
-      return false;
+      state = AsyncValue.data(tokenResponse);
+      return tokenResponse.accessToken;
     } catch (e, s) {
       state = AsyncValue.error(e, s);
-      return false;
+      rethrow;
     }
   }
 
-  void deleteToken() => userRepository.deleteToken();
+  Future<void> deleteToken() async {
+    await userRepository.deleteToken();
+    state = const AsyncValue.error('Logged out', StackTrace.empty);
+  }
 }

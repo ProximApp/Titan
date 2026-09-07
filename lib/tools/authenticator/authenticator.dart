@@ -4,12 +4,12 @@ import 'dart:io';
 import 'package:chopper/chopper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/auth/repository/auth_repository.dart';
+import 'package:titan/auth/providers/openid_provider.dart';
 
 class AppAuthenticator implements Authenticator {
-  AppAuthenticator({required this.repo});
+  AppAuthenticator({required this.refreshAccessToken});
 
-  final AuthRepository repo;
+  final Future<String> Function() refreshAccessToken;
 
   @override
   FutureOr<Request?> authenticate(
@@ -31,7 +31,7 @@ class AppAuthenticator implements Authenticator {
         final newToken = await _refreshToken();
 
         return applyHeaders(request, {
-          HttpHeaders.authorizationHeader: newToken,
+          HttpHeaders.authorizationHeader: 'Bearer $newToken',
           // Setting the retry count to not end up in an infinite loop
           // of unsuccessful updates
           'Retry-Count': '1',
@@ -45,32 +45,25 @@ class AppAuthenticator implements Authenticator {
     return null;
   }
 
-  // Completer to prevent multiple token refreshes at the same time
-  Completer<String>? _completer;
+  Future<String>? _refreshInProgress;
 
   Future<String> _refreshToken() {
-    var completer = _completer;
-    if (completer != null && !completer.isCompleted) {
+    final refreshInProgress = _refreshInProgress;
+    if (refreshInProgress != null) {
       debugPrint('Token refresh is already in progress');
-      return completer.future;
+      return refreshInProgress;
     }
 
-    completer = Completer<String>();
-    _completer = completer;
-
-    repo
-        .refreshToken()
-        .then((response) {
-          debugPrint('[AppAuthenticator] Refreshed token');
-          // Completing with a new token
-          completer?.complete(response.accessToken);
-        })
-        .onError((error, stackTrace) {
-          // Completing with an error
-          completer?.completeError(error ?? 'Refresh token error', stackTrace);
-        });
-
-    return completer.future;
+    final refresh = refreshAccessToken().then((token) {
+      debugPrint('[AppAuthenticator] Refreshed token');
+      return token;
+    });
+    _refreshInProgress = refresh;
+    return refresh.whenComplete(() {
+      if (identical(_refreshInProgress, refresh)) {
+        _refreshInProgress = null;
+      }
+    });
   }
 
   @override
@@ -81,6 +74,7 @@ class AppAuthenticator implements Authenticator {
 }
 
 final authenticatorProvider = Provider<AppAuthenticator>((ref) {
-  final repo = ref.watch(authRepositoryProvider);
-  return AppAuthenticator(repo: repo);
+  return AppAuthenticator(
+    refreshAccessToken: ref.read(authTokenProvider.notifier).refreshAccessToken,
+  );
 });
