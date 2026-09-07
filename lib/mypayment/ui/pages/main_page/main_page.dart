@@ -153,6 +153,7 @@ class PaymentMainPage extends HookConsumerWidget {
               controller: ScrollController(),
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.only(bottom: 60),
                 child: TOSDialogBox(
                   descriptions: tos.maybeWhen(
                     orElse: () => '',

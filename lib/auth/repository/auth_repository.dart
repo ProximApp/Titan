@@ -18,6 +18,7 @@ class AuthRepository {
   final FlutterAppAuth appAuth = const FlutterAppAuth();
   final CacheManager cacheManager = CacheManager();
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
+  Future<models.TokenResponse>? _refreshInProgress;
   final Base64Codec base64 = const Base64Codec.urlSafe();
   final String tokenName = "my_ecl_auth_token";
   final String clientId = "Titan";
@@ -67,7 +68,7 @@ class AuthRepository {
               },
             );
             if (response.isSuccessful && response.body != null) {
-              storeToken(response.body!);
+              await storeToken(response.body!);
               return response.body!;
             } else {
               throw Exception('Wrong credentials');
@@ -103,6 +104,9 @@ class AuthRepository {
           }
         },
         loginCallback: (String data) async {
+          if (receivedCode) {
+            return;
+          }
           receivedCode = true;
           try {
             completer.complete(await login(data));
@@ -125,12 +129,11 @@ class AuthRepository {
         ),
       );
       if (resp.accessToken != null && resp.refreshToken != null) {
-        await _secureStorage.write(key: tokenName, value: resp.refreshToken);
         tokenResponse = models.TokenResponse(
           accessToken: resp.accessToken!,
           refreshToken: resp.refreshToken!,
         );
-        storeToken(tokenResponse);
+        await storeToken(tokenResponse);
         return tokenResponse;
       } else {
         throw Exception('Wrong credentials');
@@ -138,119 +141,96 @@ class AuthRepository {
     }
   }
 
-  Future<models.TokenResponse> getTokenFromStorage() async {
-    models.TokenResponse tokenResponse = models.TokenResponse.empty();
-    return _secureStorage.read(key: tokenName).then((token) async {
-      if (token != null) {
-        try {
-          if (kIsWeb) {
-            final response = await openIdRepository.authTokenPost(
-              body: {
-                "client_id": clientId,
-                "code": token,
-                "redirect_uri": "",
-                "code_verifier": "",
-                "grant_type": "refresh_token",
-                "refresh_token": token,
-              },
-            );
-            if (response.isSuccessful && response.body != null) {
-              tokenResponse = response.body!;
-              storeToken(tokenResponse);
-            }
-          } else {
-            final resp = await appAuth.token(
-              TokenRequest(
-                clientId,
-                redirectUrl,
-                serviceConfiguration: authorizationServiceConfiguration,
-                scopes: scopes,
-                refreshToken: token,
-              ),
-            );
-            if (resp.accessToken != null && resp.refreshToken != null) {
-              tokenResponse = models.TokenResponse(
-                accessToken: resp.accessToken!,
-                refreshToken: resp.refreshToken!,
-              );
-              storeToken(tokenResponse);
-            } else {
-              throw Exception('Wrong credentials');
-            }
-          }
-        } on TimeoutException catch (_) {
-          throw Exception('No response from server');
-        } catch (e) {
-          rethrow;
-        }
-      } else {
-        throw Exception('Wrong credentials');
+  Future<models.TokenResponse> getTokenFromStorage() => refreshToken();
+
+  Future<models.TokenResponse> refreshToken() {
+    final refreshInProgress = _refreshInProgress;
+    if (refreshInProgress != null) {
+      return refreshInProgress;
+    }
+
+    final refresh = _refreshStoredToken();
+    _refreshInProgress = refresh;
+    return refresh.whenComplete(() {
+      if (identical(_refreshInProgress, refresh)) {
+        _refreshInProgress = null;
       }
-      return tokenResponse;
     });
   }
 
-  Future<models.TokenResponse> getAuthToken(String authorizationToken) async {
-    models.TokenResponse tokenResponse = models.TokenResponse.empty();
-    appAuth
-        .token(
+  Future<models.TokenResponse> _refreshStoredToken() async {
+    final refreshToken = await _secureStorage.read(key: tokenName);
+    if (refreshToken == null || refreshToken.isEmpty) {
+      throw Exception('No refresh token found');
+    }
+
+    try {
+      late final models.TokenResponse tokenResponse;
+      if (kIsWeb) {
+        final response = await openIdRepository.authTokenPost(
+          body: {
+            "client_id": clientId,
+            "grant_type": "refresh_token",
+            "refresh_token": refreshToken,
+          },
+        );
+        if (!response.isSuccessful || response.body == null) {
+          if (response.statusCode == 400 || response.statusCode == 401) {
+            await _secureStorage.delete(key: tokenName);
+          }
+          throw Exception('Unable to refresh credentials');
+        }
+        tokenResponse = response.body!;
+      } else {
+        final resp = await appAuth.token(
           TokenRequest(
             clientId,
             redirectUrl,
             serviceConfiguration: authorizationServiceConfiguration,
             scopes: scopes,
-            authorizationCode: authorizationToken,
+            refreshToken: refreshToken,
           ),
-        )
-        .then((resp) {
-          if (resp.accessToken != null && resp.refreshToken != null) {
-            tokenResponse = models.TokenResponse(
-              accessToken: resp.accessToken!,
-              refreshToken: resp.refreshToken!,
-            );
-            storeToken(tokenResponse);
-          } else {
-            throw Exception('Wrong credentials');
-          }
-        });
-    return tokenResponse;
-  }
-
-  Future<models.TokenResponse> refreshToken() async {
-    models.TokenResponse tokenResponse = models.TokenResponse.empty();
-    if (tokenResponse.refreshToken != "") {
-      final resp = await appAuth.token(
-        TokenRequest(
-          clientId,
-          redirectUrl,
-          serviceConfiguration: authorizationServiceConfiguration,
-          scopes: scopes,
-          refreshToken: tokenResponse.refreshToken,
-        ),
-      );
-      if (resp.accessToken == null || resp.refreshToken == null) {
-        return tokenResponse;
+        );
+        if (resp.accessToken == null || resp.refreshToken == null) {
+          throw Exception('Unable to refresh credentials');
+        }
+        tokenResponse = models.TokenResponse(
+          accessToken: resp.accessToken!,
+          refreshToken: resp.refreshToken!,
+        );
       }
-      tokenResponse = models.TokenResponse(
-        accessToken: resp.accessToken!,
-        refreshToken: resp.refreshToken!,
-      );
-      storeToken(tokenResponse);
+
+      await storeToken(tokenResponse);
       return tokenResponse;
+    } on FlutterAppAuthPlatformException catch (error) {
+      final oauthError = error.platformErrorDetails.error;
+      if (oauthError == FlutterAppAuthOAuthError.invalidGrant ||
+          oauthError == FlutterAppAuthOAuthError.invalidRequest) {
+        await _secureStorage.delete(key: tokenName);
+      }
+      rethrow;
+    } on TimeoutException catch (_) {
+      throw Exception('No response from server');
     }
-    return tokenResponse;
   }
 
-  void storeToken(models.TokenResponse tokenResponse) {
-    if (tokenResponse.accessToken != "" && tokenResponse.refreshToken != "") {
-      _secureStorage.write(key: tokenName, value: tokenResponse.refreshToken);
+  Future<void> storeToken(models.TokenResponse tokenResponse) async {
+    if (tokenResponse.accessToken.isEmpty ||
+        tokenResponse.refreshToken.isEmpty) {
+      throw Exception('Invalid token response');
     }
+    await _secureStorage.write(
+      key: tokenName,
+      value: tokenResponse.refreshToken,
+    );
   }
 
-  void deleteToken() {
-    _secureStorage.delete(key: tokenName);
-    cacheManager.deleteCache(tokenName);
-    cacheManager.deleteCache("id");
+  Future<void> deleteToken() async {
+    await Future.wait([
+      _secureStorage.delete(key: tokenName),
+      cacheManager.deleteCache(tokenName),
+      cacheManager.deleteCache("id"),
+    ]);
   }
 }
 
