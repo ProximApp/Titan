@@ -8,7 +8,7 @@ import 'package:titan/admin/providers/structure_provider.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/mypayment/providers/invoice_list_provider.dart';
 import 'package:titan/mypayment/providers/structure_list_provider.dart';
-import 'package:titan/mypayment/ui/pages/invoices_admin_page/invoice_card.dart';
+import 'package:titan/mypayment/ui/components/invoice_card.dart';
 import 'package:titan/mypayment/ui/mypayment.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/functions.dart';
@@ -188,7 +188,11 @@ class InvoicesAdminPage extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 10),
                   ...invoices.map(
-                    (invoice) => InvoiceCard(invoice: invoice, isAdmin: true),
+                    (invoice) => InvoiceCard(
+                      invoice: invoice,
+                      isAdmin: true,
+                      invoicesRefresher: refreshInvoices,
+                    ),
                   ),
                 ],
               );
