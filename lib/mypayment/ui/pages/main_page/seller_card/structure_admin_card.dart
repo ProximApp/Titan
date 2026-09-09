@@ -82,6 +82,7 @@ class StructureAdminCard extends ConsumerWidget {
                       text: localizeWithContext.paiementInvoices,
                       onPressed: () {
                         Navigator.of(context).pop();
+                        selectedStructureNotifier.setStructure(structure);
                         invoicesNotifier.getStructureInvoices(structure.id);
                         QR.to(
                           PaymentRouter.root + PaymentRouter.invoicesStructure,
