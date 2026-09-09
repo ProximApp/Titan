@@ -914,6 +914,7 @@
   "paiementCantLaunchURL": "Can't open link",
   "paiementClose": "Close",
   "paiementCompletePayment": "Complete payment",
+  "paiementConfirmInvoiceReceived": "Confirm receipt of the invoice?",
   "paiementConfirmPayment": "Confirm Payment",
   "paiementConfirmYourPurchase": "Confirm your purchase",
   "paiementCreate": "Create",

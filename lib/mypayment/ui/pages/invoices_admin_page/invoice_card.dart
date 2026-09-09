@@ -112,7 +112,8 @@ class InvoiceCard extends HookConsumerWidget {
                         context: context,
                         ref: ref,
                         modal: ConfirmModal.danger(
-                          title: localizeWithContext.paiementDeleteInvoice,
+                          title: localizeWithContext
+                              .paiementConfirmInvoiceReceived,
                           description:
                               localizeWithContext.globalIrreversibleAction,
                           onYes: () async {

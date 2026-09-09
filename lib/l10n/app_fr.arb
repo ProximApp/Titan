@@ -922,6 +922,7 @@
   "paiementCantLaunchURL": "Impossible d'ouvrir le lien",
   "paiementClose": "Fermer",
   "paiementCompletePayment": "Finaliser le paiement",
+  "paiementConfirmInvoiceReceived": "Confirmer la réception de la facture ?",
   "paiementConfirmPayment": "Confirmer le paiement",
   "paiementConfirmYourPurchase": "Confirmer votre achat",
   "paiementCreate": "Créer",

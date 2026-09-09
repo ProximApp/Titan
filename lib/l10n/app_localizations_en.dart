@@ -2515,6 +2515,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paiementCompletePayment => 'Complete payment';
 
   @override
+  String get paiementConfirmInvoiceReceived =>
+      'Confirm receipt of the invoice?';
+
+  @override
   String get paiementConfirmPayment => 'Confirm Payment';
 
   @override
