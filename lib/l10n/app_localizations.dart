@@ -4957,6 +4957,12 @@ abstract class AppLocalizations {
   /// **'Finaliser le paiement'**
   String get paiementCompletePayment;
 
+  /// No description provided for @paiementConfirmInvoiceReceived.
+  ///
+  /// In fr, this message translates to:
+  /// **'Confirmer la réception de la facture ?'**
+  String get paiementConfirmInvoiceReceived;
+
   /// No description provided for @paiementConfirmPayment.
   ///
   /// In fr, this message translates to:

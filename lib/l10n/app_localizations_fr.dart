@@ -2538,6 +2538,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get paiementCompletePayment => 'Finaliser le paiement';
 
   @override
+  String get paiementConfirmInvoiceReceived =>
+      'Confirmer la réception de la facture ?';
+
+  @override
   String get paiementConfirmPayment => 'Confirmer le paiement';
 
   @override
