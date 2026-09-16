@@ -156,6 +156,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedRefresh => 'Refresh';
 
   @override
+  String get retry => 'Retry';
+
+  @override
   String get feedPleaseProvideASGExternalLink =>
       'Please provide a SG external link';
 
