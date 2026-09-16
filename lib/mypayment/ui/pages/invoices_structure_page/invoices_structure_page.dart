@@ -4,7 +4,7 @@ import 'package:titan/tools/ui/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/mypayment/providers/invoice_list_provider.dart';
 import 'package:titan/mypayment/providers/selected_structure_provider.dart';
-import 'package:titan/mypayment/ui/pages/invoices_admin_page/invoice_card.dart';
+import 'package:titan/mypayment/ui/components/invoice_card.dart';
 import 'package:titan/mypayment/ui/mypayment.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
@@ -89,7 +89,11 @@ class StructureInvoicesPage extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 10),
                   ...invoices.map(
-                    (invoice) => InvoiceCard(invoice: invoice, isAdmin: false),
+                    (invoice) => InvoiceCard(
+                      invoice: invoice,
+                      isAdmin: false,
+                      invoicesRefresher: refreshInvoices,
+                    ),
                   ),
                 ],
               ),

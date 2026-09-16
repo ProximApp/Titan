@@ -19,9 +19,14 @@ import 'package:titan/tools/ui/styleguide/list_item_template.dart';
 class InvoiceCard extends HookConsumerWidget {
   final Invoice invoice;
   final bool isAdmin;
+  final Function invoicesRefresher;
 
-  const InvoiceCard({super.key, required this.invoice, required this.isAdmin})
-    : super();
+  const InvoiceCard({
+    super.key,
+    required this.invoice,
+    required this.isAdmin,
+    required this.invoicesRefresher,
+  }) : super();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -91,6 +96,7 @@ class InvoiceCard extends HookConsumerWidget {
                           TypeMsg.msg,
                           localizeWithContext.paiementModifySuccessfully,
                         );
+                        invoicesRefresher();
                       } else {
                         displayToastWithContext(
                           TypeMsg.error,
@@ -112,7 +118,7 @@ class InvoiceCard extends HookConsumerWidget {
                         context: context,
                         ref: ref,
                         modal: ConfirmModal.danger(
-                          title: localizeWithContext.paiementDeleteInvoice,
+                          title: localizeWithContext.paiementMarkReceived,
                           description:
                               localizeWithContext.globalIrreversibleAction,
                           onYes: () async {
@@ -123,6 +129,7 @@ class InvoiceCard extends HookConsumerWidget {
                                 TypeMsg.msg,
                                 localizeWithContext.paiementModifySuccessfully,
                               );
+                              invoicesRefresher();
                             } else {
                               displayToastWithContext(
                                 TypeMsg.error,
