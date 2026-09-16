@@ -56,6 +56,7 @@
   "feedManageRequests": "Demandes de publication",
   "feedNoNewsAvailable": "Aucune actualité disponible",
   "feedRefresh": "Actualiser",
+  "retry": "Réessayer",
   "feedPleaseProvideASGExternalLink": "Veuillez entrer un lien externe pour le SG",
   "feedPleaseProvideASGDate": "Veuillez entrer une date de SG",
   "feedTicketsIn": "Ouverture {time}",
