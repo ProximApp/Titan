@@ -257,6 +257,19 @@ flutter pub run flutter_launcher_icons
 
 ## Building using Fastlane
 
+### Keys configuration
+
+Create a file `android/key.properties`
+
+```
+storePassword=
+keyPassword=
+keyAlias=upload
+storeFile=./../upload-keystore.jks
+```
+
+You need to put your keystore signature file in `android/upload-keystore.jks`
+
 ### Fastlane configuration
 
 For automated signature and upload, you need to provide the following keys:
