@@ -4502,13 +4502,12 @@ extension $CategoryCompleteExtension on CategoryComplete {
 
 @JsonSerializable(explicitToJson: true)
 class CategoryCreate {
-  static CategoryCreate empty() =>
-      CategoryCreate(name: '', price: 0, quota: null, requiredMembership: null);
+  static CategoryCreate empty() => CategoryCreate(name: '', price: 0);
   const CategoryCreate({
     required this.name,
     required this.price,
-    required this.quota,
-    required this.requiredMembership,
+    this.quota,
+    this.requiredMembership,
   });
 
   factory CategoryCreate.fromJson(Map<String, dynamic> json) =>
@@ -10909,9 +10908,7 @@ class EventCreate {
   static EventCreate empty() => EventCreate(
     storeId: '',
     name: '',
-    quota: null,
     openDatetime: DateTime(2000),
-    closeDatetime: null,
     sessions: const [],
     categories: const [],
     questions: const [],
@@ -10919,9 +10916,9 @@ class EventCreate {
   const EventCreate({
     required this.storeId,
     required this.name,
-    required this.quota,
+    this.quota,
     required this.openDatetime,
-    required this.closeDatetime,
+    this.closeDatetime,
     required this.sessions,
     required this.categories,
     required this.questions,
@@ -21029,13 +21026,12 @@ class QuestionCreate {
   static QuestionCreate empty() => QuestionCreate(
     question: '',
     answerType: enums.AnswerType.text,
-    price: null,
     required: false,
   );
   const QuestionCreate({
     required this.question,
     required this.answerType,
-    required this.price,
+    this.price,
     required this.required,
   });
 
@@ -27542,11 +27538,11 @@ extension $SessionCompleteExtension on SessionComplete {
 @JsonSerializable(explicitToJson: true)
 class SessionCreate {
   static SessionCreate empty() =>
-      SessionCreate(name: '', startDatetime: DateTime(2000), quota: null);
+      SessionCreate(name: '', startDatetime: DateTime(2000));
   const SessionCreate({
     required this.name,
     required this.startDatetime,
-    required this.quota,
+    this.quota,
   });
 
   factory SessionCreate.fromJson(Map<String, dynamic> json) =>
@@ -40062,6 +40058,65 @@ List<enums.NewsStatus>? newsStatusNullableListFromJson(
   return newsStatus.map((e) => newsStatusFromJson(e.toString())).toList();
 }
 
+String? orderByNullableToJson(enums.OrderBy? orderBy) {
+  return orderBy?.value;
+}
+
+String? orderByToJson(enums.OrderBy orderBy) {
+  return orderBy.value;
+}
+
+enums.OrderBy orderByFromJson(Object? orderBy, [enums.OrderBy? defaultValue]) {
+  return enums.OrderBy.values.firstWhereOrNull((e) => e.value == orderBy) ??
+      defaultValue ??
+      enums.OrderBy.swaggerGeneratedUnknown;
+}
+
+enums.OrderBy? orderByNullableFromJson(
+  Object? orderBy, [
+  enums.OrderBy? defaultValue,
+]) {
+  if (orderBy == null) {
+    return null;
+  }
+  return enums.OrderBy.values.firstWhereOrNull((e) => e.value == orderBy) ??
+      defaultValue;
+}
+
+String orderByExplodedListToJson(List<enums.OrderBy>? orderBy) {
+  return orderBy?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> orderByListToJson(List<enums.OrderBy>? orderBy) {
+  if (orderBy == null) {
+    return [];
+  }
+
+  return orderBy.map((e) => e.value!).toList();
+}
+
+List<enums.OrderBy> orderByListFromJson(
+  List? orderBy, [
+  List<enums.OrderBy>? defaultValue,
+]) {
+  if (orderBy == null) {
+    return defaultValue ?? [];
+  }
+
+  return orderBy.map((e) => orderByFromJson(e.toString())).toList();
+}
+
+List<enums.OrderBy>? orderByNullableListFromJson(
+  List? orderBy, [
+  List<enums.OrderBy>? defaultValue,
+]) {
+  if (orderBy == null) {
+    return defaultValue;
+  }
+
+  return orderBy.map((e) => orderByFromJson(e.toString())).toList();
+}
+
 String? paiementMethodTypeNullableToJson(
   enums.PaiementMethodType? paiementMethodType,
 ) {
@@ -41413,3 +41468,4 @@ class Wrapped<T> {
   final T value;
   const Wrapped.value(this.value);
 }
+

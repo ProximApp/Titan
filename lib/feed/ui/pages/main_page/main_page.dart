@@ -220,27 +220,24 @@ class FeedMainPage extends HookConsumerWidget {
                 const SizedBox(height: 10),
 
                 Expanded(
-                  child: SingleChildScrollView(
-                    controller: scrollController,
-                    physics: const BouncingScrollPhysics(),
-                    child: AsyncChild(
-                      value: news,
-                      builder: (context, news) => news.isEmpty
-                          ? Center(
-                              child: Text(
-                                localizeWithContext.feedNoNewsAvailable,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: ColorConstants.tertiary,
-                                ),
+                  child: AsyncChild(
+                    value: news,
+                    builder: (context, news) => news.isEmpty
+                        ? Center(
+                            child: Text(
+                              localizeWithContext.feedNoNewsAvailable,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: ColorConstants.tertiary,
                               ),
-                            )
-                          : FeedTimeline(
-                              isAdmin: isFeedAdmin,
-                              items: news,
-                              onItemTap: (item) {},
                             ),
-                    ),
+                          )
+                        : FeedTimeline(
+                            controller: scrollController,
+                            isAdmin: isFeedAdmin,
+                            items: news,
+                            onItemTap: (item) {},
+                          ),
                   ),
                 ),
               ],

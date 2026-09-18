@@ -312,6 +312,20 @@ enum NewsStatus {
   const NewsStatus(this.value);
 }
 
+enum OrderBy {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('asc')
+  asc('asc'),
+  @JsonValue('desc')
+  desc('desc');
+
+  final String? value;
+
+  const OrderBy(this.value);
+}
+
 enum PaiementMethodType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),

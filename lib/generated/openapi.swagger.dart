@@ -36,6 +36,7 @@ import 'openapi.enums.swagger.dart'
         ListType,
         MeetingPlace,
         NewsStatus,
+        OrderBy,
         PaiementMethodType,
         PaymentType,
         PlantState,
@@ -12767,18 +12768,54 @@ Only accessible to raid admins.''',
   });
 
   ///Get Published News
-  Future<chopper.Response<List<News>>> feedNewsGet() {
+  ///@param limit
+  ///@param offset
+  ///@param order Sort order on (start, end, id): ascending (oldest first) or descending (newest first)
+  ///@param start_after Only return news starting at or after this datetime (inclusive window filters for paging before/after a date)
+  ///@param start_before Only return news starting at or before this datetime (inclusive window filters for paging before/after a date)
+  Future<chopper.Response<List<News>>> feedNewsGet({
+    int? limit,
+    int? offset,
+    enums.OrderBy? order,
+    String? startAfter,
+    String? startBefore,
+  }) {
     generatedMapping.putIfAbsent(News, () => News.fromJsonFactory);
 
-    return _feedNewsGet();
+    return _feedNewsGet(
+      limit: limit,
+      offset: offset,
+      order: order?.value?.toString(),
+      startAfter: startAfter,
+      startBefore: startBefore,
+    );
   }
 
   ///Get Published News
+  ///@param limit
+  ///@param offset
+  ///@param order Sort order on (start, end, id): ascending (oldest first) or descending (newest first)
+  ///@param start_after Only return news starting at or after this datetime (inclusive window filters for paging before/after a date)
+  ///@param start_before Only return news starting at or before this datetime (inclusive window filters for paging before/after a date)
   @GET(path: '/feed/news')
   Future<chopper.Response<List<News>>> _feedNewsGet({
+    @Query('limit') int? limit,
+    @Query('offset') int? offset,
+    @Query('order') String? order,
+    @Query('start_after') String? startAfter,
+    @Query('start_before') String? startBefore,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Return published news from the feed',
+      description: '''Return published news from the feed, paginated.
+
+The results are ordered on (start, end, id) — ascending by default, or
+newest first with `order=desc` — so that consecutive pages are stable and
+can be fetched with limit/offset.
+
+The optional `start_after` / `start_before` bounds window the query on the
+news start date (`start >= start_after`, `start <= start_before`), letting
+clients page backwards and forwards around a given datetime (e.g. "today")
+with `limit`/`offset`.''',
       summary: 'Get Published News',
       operationId: 'get_feed_news',
       consumes: [],
