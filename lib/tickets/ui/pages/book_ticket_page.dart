@@ -111,7 +111,7 @@ class _TicketEventContent extends HookConsumerWidget {
     // Helper to get redirect URL
     String getRedirectUrl() {
       return kIsWeb
-          ? "${getTitanURL()}/tickets"
+          ? "${getTitanURL()}tickets"
           : "${getTitanURLScheme()}://tickets";
     }
 
