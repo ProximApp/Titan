@@ -7,7 +7,7 @@ enum TicketTransferBlockReason { transferable, alreadyUsed, sessionPast }
 // Backend stores price in cents; the UI works in euros.
 extension $AppCoreTicketsSchemasTicketsTicketComplete
     on AppCoreTicketsSchemasTicketsTicketComplete {
-  int get priceInEuros => price ~/ 100;
+  double get priceInEuros => price / 100;
 
   TicketTransferBlockReason get transferBlockReason {
     if (scanned) {
