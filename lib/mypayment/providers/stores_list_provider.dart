@@ -23,7 +23,10 @@ class StoreListNotifier extends ListNotifierAPI<UserStore> {
       () => repository
           .mypaymentStructuresStructureIdStoresPost(
             structureId: structure.id,
-            body: StoreBase(name: store.name),
+            body: StoreBase(
+              name: store.name,
+              associationId: store.associationId,
+            ),
           )
           .then(
             (response) =>
@@ -37,7 +40,7 @@ class StoreListNotifier extends ListNotifierAPI<UserStore> {
     return await update(
       () => repository.mypaymentStoresStoreIdPatch(
         storeId: store.id,
-        body: StoreUpdate(name: store.name),
+        body: StoreUpdate(name: store.name, associationId: store.associationId),
       ),
       (store) => store.id,
       store,

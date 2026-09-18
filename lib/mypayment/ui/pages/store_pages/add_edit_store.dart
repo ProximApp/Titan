@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:titan/admin/providers/assocation_list_provider.dart';
+import 'package:titan/admin/ui/components/association_picker_modal.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/mypayment/providers/my_stores_provider.dart';
@@ -13,6 +15,8 @@ import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/tools/ui/layouts/add_edit_button_layout.dart';
 import 'package:titan/tools/ui/widgets/align_left_text.dart';
 import 'package:titan/tools/ui/widgets/text_entry.dart';
+import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
+import 'package:titan/tools/ui/styleguide/list_item.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 
 class AddEditStorePage extends HookConsumerWidget {
@@ -26,6 +30,20 @@ class AddEditStorePage extends HookConsumerWidget {
     final isEdit = store.id != UserStore.empty().id;
     final name = useTextEditingController(text: store.name);
     Structure structure = ref.watch(selectedStructureProvider);
+    final associations = ref.watch(associationListProvider);
+    final association = useState<Association>(Association.empty());
+
+    useEffect(() {
+      associations.whenData((values) {
+        final current = values.where(
+          (value) => value.id == store.associationId,
+        );
+        if (current.isNotEmpty) {
+          association.value = current.first;
+        }
+      });
+      return null;
+    }, [associations, store.associationId]);
 
     void displayToastWithContext(TypeMsg type, String msg) {
       displayToast(context, type, msg);
@@ -62,6 +80,28 @@ class AddEditStorePage extends HookConsumerWidget {
                             context,
                           )!.paiementStoreName,
                         ),
+                        const SizedBox(height: 20),
+                        ListItem(
+                          title: association.value.id.isNotEmpty
+                              ? association.value.name
+                              : AppLocalizations.of(
+                                  context,
+                                )!.paiementSelectAssociation,
+                          subtitle: AppLocalizations.of(
+                            context,
+                          )!.paiementLinkedAssociation,
+                          onTap: () async {
+                            await showCustomBottomModal(
+                              context: context,
+                              ref: ref,
+                              modal: AssociationPickerModal(
+                                selected: association.value,
+                                onSelect: (selected) =>
+                                    association.value = selected,
+                              ),
+                            );
+                          },
+                        ),
                         const SizedBox(height: 50),
                         WaitingButton(
                           builder: (child) => AddEditButtonLayout(
@@ -94,6 +134,9 @@ class AddEditStorePage extends HookConsumerWidget {
                               UserStore newStore = store.copyWith(
                                 name: name.text,
                                 structure: structure,
+                                associationId: association.value.id.isEmpty
+                                    ? null
+                                    : association.value.id,
                               );
                               final value = isEdit
                                   ? await storeListNotifier.updateStore(
