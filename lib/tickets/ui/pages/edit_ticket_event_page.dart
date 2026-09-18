@@ -583,7 +583,8 @@ class _CategoryRow extends HookWidget {
                   keyboardType: TextInputType.number,
                   enabled: !locked,
                   onChanged: (value) {
-                    final euros = double.tryParse(value) ?? category.priceInEuros;
+                    final euros =
+                        double.tryParse(value) ?? category.priceInEuros;
                     onChanged(category.copyWith(price: (euros * 100).round()));
                   },
                 ),
@@ -1124,9 +1125,7 @@ class _QuestionRow extends HookWidget {
     final l10n = AppLocalizations.of(context)!;
     final textController = useTextEditingController(text: question.question);
     final priceController = useTextEditingController(
-      text: question.price == null
-          ? ''
-          : (question.price! / 100).toString(),
+      text: question.price == null ? '' : (question.price! / 100).toString(),
     );
 
     return Padding(
