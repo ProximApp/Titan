@@ -1,39 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:titan/feed/ui/pages/main_page/pagination_footer.dart';
 import 'package:titan/feed/ui/pages/main_page/time_line_item.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 
 class FeedTimeline extends StatelessWidget {
   final List<News> items;
   final Function(News item)? onItemTap;
-  final bool isAdmin;
+  final bool isLoadingNextPage;
+  final bool nextPageFailed;
+  final VoidCallback? onLoadNextPage;
+  final bool isLoadingPreviousPage;
+  final bool previousPageFailed;
+  final VoidCallback? onLoadPreviousPage;
 
   const FeedTimeline({
     super.key,
     required this.items,
     this.onItemTap,
-    required this.isAdmin,
+    this.isLoadingNextPage = false,
+    this.nextPageFailed = false,
+    this.onLoadNextPage,
+    this.isLoadingPreviousPage = false,
+    this.previousPageFailed = false,
+    this.onLoadPreviousPage,
   });
 
   @override
   Widget build(BuildContext context) {
-    items.sort((a, b) {
-      if (a.start == b.start) {
-        if (a.end == null && b.end == null) return 0;
-        if (a.end == null) return -1;
-        if (b.end == null) return 1;
-        return a.end!.compareTo(b.end!);
-      }
-      return a.start.compareTo(b.start);
-    });
     return Column(
       children: [
+        PaginationFooter(
+          isTop: true,
+          isLoading: isLoadingPreviousPage,
+          showRetry: previousPageFailed,
+          onRetry: onLoadPreviousPage ?? () {},
+        ),
         ...items.map(
           (item) => TimelineItem(
+            key: GlobalObjectKey(item),
             item: item,
             onTap: onItemTap != null ? () => onItemTap!(item) : null,
           ),
         ),
-        SizedBox(height: 80),
+        PaginationFooter(
+          isLoading: isLoadingNextPage,
+          showRetry: nextPageFailed,
+          onRetry: onLoadNextPage ?? () {},
+        ),
       ],
     );
   }

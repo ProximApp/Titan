@@ -56,6 +56,7 @@
   "feedManageRequests": "Manage requests",
   "feedNoNewsAvailable": "No news available",
   "feedRefresh": "Refresh",
+  "retry": "Retry",
   "feedPleaseProvideASGExternalLink": "Please provide a SG external link",
   "feedPleaseProvideASGDate": "Please provide a SG date",
   "feedTicketsIn": "Opens {time}",
