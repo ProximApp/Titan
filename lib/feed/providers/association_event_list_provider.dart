@@ -37,6 +37,7 @@ class AssociationEventsListNotifier
           recurrenceRule: event.recurrenceRule,
           ticketUrl: event.ticketUrl,
           ticketUrlOpening: event.ticketUrlOpening,
+          ticketEventId: event.ticketEventId,
           notification: event.notification,
         ),
       ),

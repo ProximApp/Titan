@@ -10,6 +10,7 @@ extension $EventCompleteTicketUrl on EventCompleteTicketUrl {
       location: location,
       description: description,
       recurrenceRule: recurrenceRule,
+      ticketUrlOpening: ticketUrlOpening,
       notification: notification,
       associationId: associationId,
       ticketUrl: ticketUrl,
