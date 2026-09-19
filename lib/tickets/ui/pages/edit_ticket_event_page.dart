@@ -26,10 +26,6 @@ import 'package:titan/tools/ui/styleguide/button.dart';
 import 'package:titan/tools/ui/styleguide/date_entry.dart';
 import 'package:titan/tools/ui/styleguide/text_entry.dart';
 
-// Prices are stored in cents by the backend and shown in euros everywhere in
-// the module.
-const _centsPerEuro = 100;
-
 class EditTicketEventPage extends HookConsumerWidget {
   const EditTicketEventPage({super.key});
 
@@ -475,7 +471,7 @@ class _EditCategoriesSection extends ConsumerWidget {
         event,
         CategoryCreate(
           name: submitted.name,
-          price: priceInEuros * _centsPerEuro,
+          price: priceInEuros * 100,
           quota: int.tryParse(submitted.quotaText),
           requiredMembership: null,
         ),
@@ -587,8 +583,9 @@ class _CategoryRow extends HookWidget {
                   keyboardType: TextInputType.number,
                   enabled: !locked,
                   onChanged: (value) {
-                    final euros = int.tryParse(value) ?? category.priceInEuros;
-                    onChanged(category.copyWith(price: euros * _centsPerEuro));
+                    final euros =
+                        double.tryParse(value) ?? category.priceInEuros;
+                    onChanged(category.copyWith(price: (euros * 100).round()));
                   },
                 ),
               ),
@@ -1042,7 +1039,7 @@ class _EditQuestionsSection extends ConsumerWidget {
         QuestionCreate(
           question: submitted.text,
           answerType: submitted.answerType,
-          price: priceInEuros == null ? null : priceInEuros * _centsPerEuro,
+          price: priceInEuros == null ? null : priceInEuros * 100,
           required: submitted.required,
         ),
       );
@@ -1128,9 +1125,7 @@ class _QuestionRow extends HookWidget {
     final l10n = AppLocalizations.of(context)!;
     final textController = useTextEditingController(text: question.question);
     final priceController = useTextEditingController(
-      text: question.price == null
-          ? ''
-          : (question.price! ~/ _centsPerEuro).toString(),
+      text: question.price == null ? '' : (question.price! / 100).toString(),
     );
 
     return Padding(
@@ -1214,7 +1209,7 @@ class _QuestionRow extends HookWidget {
                         final euros = int.tryParse(value);
                         onChanged(
                           question.copyWith(
-                            price: euros == null ? null : euros * _centsPerEuro,
+                            price: euros == null ? null : euros * 100,
                           ),
                         );
                       },

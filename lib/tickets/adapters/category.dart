@@ -1,7 +1,7 @@
 import 'package:titan/generated/openapi.models.swagger.dart';
 
 extension $CategoryAdmin on CategoryAdmin {
-  int get priceInEuros => price ~/ 100;
+  double get priceInEuros => price / 100;
 
   CategoryUpdate toCategoryUpdate() => CategoryUpdate(
     name: name,
@@ -13,7 +13,7 @@ extension $CategoryAdmin on CategoryAdmin {
 }
 
 extension $CategoryPublic on CategoryPublic {
-  int get priceInEuros => price ~/ 100;
+  double get priceInEuros => price / 100;
 }
 
 extension $CategoryComplete on CategoryComplete {
