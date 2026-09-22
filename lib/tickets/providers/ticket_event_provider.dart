@@ -215,6 +215,6 @@ final publicTicketEventByIdProvider =
     >(PublicTicketEventByIdNotifier.new);
 
 final ticketEventProvider =
-    NotifierProvider<TicketEventNotifier, AsyncValue<EventAdmin>>(
+    NotifierProvider.autoDispose<TicketEventNotifier, AsyncValue<EventAdmin>>(
       TicketEventNotifier.new,
     );
