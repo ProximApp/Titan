@@ -385,6 +385,12 @@ abstract class AppLocalizations {
   /// **'Actualiser'**
   String get feedRefresh;
 
+  /// No description provided for @retry.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réessayer'**
+  String get retry;
+
   /// No description provided for @feedPleaseProvideASGExternalLink.
   ///
   /// In fr, this message translates to:
