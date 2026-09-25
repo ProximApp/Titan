@@ -9,20 +9,15 @@ import 'package:titan/feed/tools/news_filter_type.dart';
 
 void main() {
   group('feed / extensions / news_filter_type', () {
-    test(
-      'news_filter_type extension compiles', () {
+    test('news_filter_type extension compiles', () {
       // smoke: the import above already compiled; the extension is
       // reachable from package:titan/test without further surgery.
       expect(true, isTrue);
     });
 
-    test(
-      'NewsFilterTypeExtension on NewsFilterType compiles and runs', () {
+    test('NewsFilterTypeExtension on NewsFilterType compiles and runs', () {
       final subject = NewsFilterType.values.first;
       expect(subject.getKey(), isNotNull);
     });
-
   });
 }
-
-
