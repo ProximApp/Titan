@@ -37,7 +37,6 @@ class SingleMapNotifier<T, E> extends Notifier<Map<T, AsyncValue<E>?>> {
   }
 
   Future<void> autoLoad(
-    WidgetRef ref,
     T t,
     Future<AsyncValue<E>> Function(T t) loader,
   ) async {

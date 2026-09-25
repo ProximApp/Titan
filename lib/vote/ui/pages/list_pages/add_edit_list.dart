@@ -268,7 +268,6 @@ class AddEditListPage extends HookConsumerWidget {
                                 final logoBytes = logo.value;
                                 if (logoBytes != null) {
                                   listLogosNotifier.autoLoad(
-                                    ref,
                                     newList.id,
                                     (listId) => logoNotifier.updateLogo(
                                       listId,
@@ -290,7 +289,6 @@ class AddEditListPage extends HookConsumerWidget {
                             final logoBytes = logo.value;
                             if (created != null && logoBytes != null) {
                               listLogosNotifier.autoLoad(
-                                    ref,
                                 created.id,
                                 (listId) =>
                                     logoNotifier.updateLogo(listId, logoBytes),
