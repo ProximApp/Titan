@@ -2,16 +2,24 @@
 // Re-run the generator when the adapter changes.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:titan/generated/openapi.mock_factories.dart';
+
+import '../../generated/openapi_mock_factories.dart';
+
 import 'package:titan/tickets/adapters/user_ticket.dart';
 
 void main() {
   group('tickets / adapters / user_ticket', () {
     test('AppCoreTicketsSchemasTicketsTicketComplete on AppCoreTicketsSchemasTicketsTicketComplete runs', () {
-      final appCoreTicketsSchemasTicketsTicketComplete = MockAppCoreTicketsSchemasTicketsTicketComplete.any;
-      expect(appCoreTicketsSchemasTicketsTicketComplete.priceInEuros, isNotNull);
-      expect(appCoreTicketsSchemasTicketsTicketComplete.isTransferable, isNotNull);
+      final appCoreTicketsSchemasTicketsTicketComplete =
+          MockAppCoreTicketsSchemasTicketsTicketComplete.any;
+      expect(
+        appCoreTicketsSchemasTicketsTicketComplete.priceInEuros,
+        isNotNull,
+      );
+      expect(
+        appCoreTicketsSchemasTicketsTicketComplete.isTransferable,
+        isNotNull,
+      );
     });
   });
 }
-
