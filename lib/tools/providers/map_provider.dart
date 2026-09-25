@@ -65,7 +65,6 @@ class MapNotifier<T, E> extends Notifier<Map<T, AsyncValue<List<E>>?>> {
   }
 
   Future<void> autoLoad(
-    WidgetRef ref,
     T t,
     Future<E> Function(T t) loader,
   ) async {
@@ -76,7 +75,6 @@ class MapNotifier<T, E> extends Notifier<Map<T, AsyncValue<List<E>>?>> {
   }
 
   Future<void> autoLoadList(
-    WidgetRef ref,
     T t,
     Future<AsyncValue<List<E>>> Function(T t) loader,
   ) async {
