@@ -2,7 +2,9 @@
 // Re-run the generator when the extension changes.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:titan/generated/openapi.mock_factories.dart';
+
+import '../../generated/openapi_mock_factories.dart';
+
 import 'package:titan/generated/openapi.models.swagger.dart';
 // Extensions discovered in this file:
 //   extension MemberCompleteName on MemberComplete {
@@ -11,19 +13,20 @@ import 'package:titan/phonebook/extensions/members.dart';
 
 void main() {
   group('phonebook / extensions / members', () {
-    test(
-      'members extension compiles', () {
+    test('members extension compiles', () {
       // smoke: the import above already compiled; the extension is
       // reachable from package:titan/test without further surgery.
       expect(true, isTrue);
     });
 
-    test(
-      'MemberCompleteName on MemberComplete compiles and runs', () {
+    test('MemberCompleteName on MemberComplete compiles and runs', () {
       final subject = MockMemberComplete.any;
       expect(subject.getName(), isNotNull);
       // Branch pass: populated receiver so the non-null arms execute too.
-      final subject2 = MockMemberComplete.any.copyWith(nickname: 'x-nickname', phone: 'x-phone');
+      final subject2 = MockMemberComplete.any.copyWith(
+        nickname: 'x-nickname',
+        phone: 'x-phone',
+      );
       expect(subject2.getName(), isNotNull);
       // Empty-receiver pass: runs the id.isEmpty / null-nullable arms.
       final subject3 = MemberComplete.empty();
@@ -32,8 +35,5 @@ void main() {
       final subject4 = MemberComplete.empty().copyWith(id: 'x-id');
       expect(subject4.getName(), isNotNull);
     });
-
   });
 }
-
-
