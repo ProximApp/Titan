@@ -2,7 +2,9 @@
 // Re-run the generator when the adapter changes.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:titan/generated/openapi.mock_factories.dart';
+
+import '../../generated/openapi_mock_factories.dart';
+
 import 'package:titan/super_admin/adapters/core_group_permission.dart';
 
 void main() {
@@ -13,4 +15,3 @@ void main() {
     });
   });
 }
-
