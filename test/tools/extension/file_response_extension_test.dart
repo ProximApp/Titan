@@ -4,6 +4,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:http/http.dart' as http;
+
 import 'dart:typed_data';
 // Extensions discovered in this file:
 //   extension FileResponse on chopper.Response {
@@ -12,20 +13,15 @@ import 'package:titan/tools/repository/file_response.dart';
 
 void main() {
   group('tools / extensions / file_response', () {
-    test(
-      'file_response extension compiles', () {
+    test('file_response extension compiles', () {
       // smoke: the import above already compiled; the extension is
       // reachable from package:titan/test without further surgery.
       expect(true, isTrue);
     });
 
-    test(
-      'FileResponse on chopper.Response compiles and runs', () {
+    test('FileResponse on chopper.Response compiles and runs', () {
       final subject = chopper.Response(http.Response('x', 200), Uint8List(0));
       expect(subject.fileBytes, isNotNull);
     });
-
   });
 }
-
-
