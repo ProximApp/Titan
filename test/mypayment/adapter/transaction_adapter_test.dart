@@ -6,7 +6,6 @@ import 'package:titan/generated/openapi.enums.swagger.dart' as enums;
 import 'package:titan/mypayment/adapters/transaction_adapter.dart';
 import 'package:titan/mypayment/adapters/store_adapter.dart';
 
-
 void main() {
   // Handwritten counterpart of the AUTO-GENERATED *_adapter_test.dart files:
   // asserts real FIELD VALUES (direction + zero-checkout semantics) instead of
@@ -73,7 +72,7 @@ void main() {
       expect(us.structureId, 'structure-2');
       expect(us.walletId, 'wallet-2');
       expect(us.creation, DateTime.utc(2026, 1, 1));
-      expect(us.structure is models.Structure, isTrue);
+      expect(us.structure, isA<models.Structure>());
       expect(us.canBank, false);
       expect(us.canSeeHistory, false);
       expect(us.canCancel, false);

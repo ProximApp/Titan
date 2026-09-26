@@ -7,7 +7,7 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/mypayment/providers/request_history_provider.dart';
 import 'package:titan/tools/repository/repository.dart';
 
-class MockRequestHistoryRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 Request$ request({
   String id = '1',
@@ -31,12 +31,12 @@ Request$ request({
 
 void main() {
   group('RequestHistoryNotifier', () {
-    late MockRequestHistoryRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late RequestHistoryNotifier notifier;
 
     setUp(() {
-      mockRepository = MockRequestHistoryRepository();
+      mockRepository = MockOpenapi();
       when(() => mockRepository.mypaymentRequestsGet(used: any(named: 'used')))
           .thenAnswer(
             (_) async =>
