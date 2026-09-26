@@ -71,30 +71,32 @@ class AdvertMainPage extends HookConsumerWidget {
             child: AsyncChild(
               value: advertList,
               builder: (context, advertData) {
-                final sortedAdvertData = advertData
+                final adverts = advertData
                     .sortedBy((element) => element.date ?? DateTime(0))
-                    .reversed;
-                final filteredSortedAdvertData = sortedAdvertData.where(
-                  (advert) =>
-                      selected
-                          .where((e) => advert.advertiserId == e.id)
-                          .isNotEmpty ||
-                      selected.isEmpty,
-                );
+                    .reversed
+                    .where(
+                      (advert) =>
+                          selected
+                              .where((e) => advert.advertiserId == e.id)
+                              .isNotEmpty ||
+                          selected.isEmpty,
+                    )
+                    .toList();
+
                 return Refresher(
                   controller: ScrollController(),
                   onRefresh: () async {
                     await advertListNotifier.loadAdverts();
                     advertPostersNotifier.resetTData();
                   },
-                  child: Column(
-                    children: [
-                      ...filteredSortedAdvertData.map(
-                        (advert) => AdvertCard(advert: advert),
-                      ),
-                      SizedBox(height: 80),
-                    ],
-                  ),
+                  slivers: [
+                    SliverList.builder(
+                      itemCount: adverts.length,
+                      itemBuilder: (context, index) =>
+                          AdvertCard(advert: adverts[index]),
+                    ),
+                    const SliverToBoxAdapter(child: SizedBox(height: 80)),
+                  ],
                 );
               },
             ),
