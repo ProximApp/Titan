@@ -1,9 +1,6 @@
-import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
-import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/loan/providers/edit_selected_items_provider.dart';
 import 'package:titan/loan/providers/item_list_provider.dart';
