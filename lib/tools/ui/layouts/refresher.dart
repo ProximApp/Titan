@@ -7,27 +7,44 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/navigation/ui/scroll_to_hide_navbar.dart';
 
 class Refresher extends HookConsumerWidget {
-  final Widget child;
+  final Widget? child;
+  final List<Widget>? slivers;
   final Future Function() onRefresh;
   final ScrollController controller;
+
   const Refresher({
     super.key,
     required this.onRefresh,
-    required this.child,
     required this.controller,
-  });
+    this.child,
+    this.slivers,
+  }) : assert(child != null || slivers != null, 'Provide child or slivers');
+
+  List<Widget> _slivers(BoxConstraints constraints) {
+    if (slivers != null) return slivers!;
+    return [
+      SliverToBoxAdapter(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minHeight: constraints.maxHeight),
+          child: child,
+        ),
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (kIsWeb) {
       return ScrollToHideNavbar(
         controller: controller,
-        child: SingleChildScrollView(
-          controller: controller,
-          physics: const AlwaysScrollableScrollPhysics(
-            parent: BouncingScrollPhysics(),
+        child: LayoutBuilder(
+          builder: (context, constraints) => CustomScrollView(
+            controller: controller,
+            physics: const AlwaysScrollableScrollPhysics(
+              parent: BouncingScrollPhysics(),
+            ),
+            slivers: _slivers(constraints),
           ),
-          child: child,
         ),
       );
     }
@@ -39,19 +56,17 @@ class Refresher extends HookConsumerWidget {
       onRefresh: onRefresh,
       child: ScrollToHideNavbar(
         controller: controller,
-        child: SingleChildScrollView(
+        child: CustomScrollView(
           controller: controller,
           physics: const AlwaysScrollableScrollPhysics(
             parent: BouncingScrollPhysics(),
           ),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: constraints.maxHeight),
-            child: child,
-          ),
+          slivers: _slivers(constraints),
         ),
       ),
     ),
   );
+
   Widget buildIOSList(WidgetRef ref) => LayoutBuilder(
     builder: (context, constraints) => ScrollToHideNavbar(
       controller: controller,
@@ -63,12 +78,7 @@ class Refresher extends HookConsumerWidget {
         ),
         slivers: [
           CupertinoSliverRefreshControl(onRefresh: onRefresh),
-          SliverToBoxAdapter(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: child,
-            ),
-          ),
+          ..._slivers(constraints),
         ],
       ),
     ),
