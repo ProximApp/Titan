@@ -2,7 +2,9 @@
 // Re-run the generator when the adapter changes.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:titan/generated/openapi.mock_factories.dart';
+
+import '../../generated/openapi_mock_factories.dart';
+
 import 'package:titan/admin/adapters/core_group.dart';
 
 void main() {
@@ -11,8 +13,10 @@ void main() {
       final coreGroup = MockCoreGroup.any;
       expect(coreGroup.toCoreGroupSimple(), isNotNull);
       expect(coreGroup.toCoreMembership(MockCoreUserSimple.any), isNotNull);
-      expect(coreGroup.toCoreMembershipDelete(MockCoreUserSimple.any), isNotNull);
+      expect(
+        coreGroup.toCoreMembershipDelete(MockCoreUserSimple.any),
+        isNotNull,
+      );
     });
   });
 }
-

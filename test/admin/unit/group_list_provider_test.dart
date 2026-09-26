@@ -7,13 +7,13 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/admin/providers/all_group_list_provider.dart';
 import 'package:titan/tools/repository/repository.dart';
 
-class MockGroupRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 class MockCoreUserNotifier extends Mock implements Notifier<CoreUser> {}
 
 void main() {
   group('GroupListNotifier', () {
-    late MockGroupRepository mockGroup;
+    late MockOpenapi mockGroup;
     late ProviderContainer container;
     late GroupListNotifier groupNotifier;
     final group = CoreGroupSimple(
@@ -34,7 +34,7 @@ void main() {
     final returnedGroup = CoreGroupSimple.empty().copyWith(id: "2");
 
     setUp(() async {
-      mockGroup = MockGroupRepository();
+      mockGroup = MockOpenapi();
       // Default stub for the build()-time auto-load.
       when(() => mockGroup.groupsGet()).thenAnswer(
         (_) async =>

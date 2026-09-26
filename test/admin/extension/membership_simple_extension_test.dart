@@ -2,7 +2,9 @@
 // Re-run the generator when the extension changes.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:titan/generated/openapi.mock_factories.dart';
+
+import '../../generated/openapi_mock_factories.dart';
+
 import 'package:titan/generated/openapi.models.swagger.dart';
 // Extensions discovered in this file:
 //   extension MembershipSimpleDisplay on MembershipSimple {
@@ -11,15 +13,13 @@ import 'package:titan/admin/extensions/membership_simple.dart';
 
 void main() {
   group('admin / extensions / membership_simple', () {
-    test(
-      'membership_simple extension compiles', () {
+    test('membership_simple extension compiles', () {
       // smoke: the import above already compiled; the extension is
       // reachable from package:titan/test without further surgery.
       expect(true, isTrue);
     });
 
-    test(
-      'MembershipSimpleDisplay on MembershipSimple compiles and runs', () {
+    test('MembershipSimpleDisplay on MembershipSimple compiles and runs', () {
       final subject = MockMembershipSimple.any;
       expect(subject.displayName('test'), isNotNull);
       expect(subject.isEmptyMembership, isNotNull);
@@ -32,8 +32,5 @@ void main() {
       expect(subject4.displayName('test'), isNotNull);
       expect(subject4.isEmptyMembership, isNotNull);
     });
-
   });
 }
-
-
