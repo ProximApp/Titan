@@ -30,11 +30,11 @@ void main() {
     });
 
     test(
-      'Module.copyWith copies the name into the description (documented bug)',
+      'Module.copyWith keeps the description when it is not overridden',
       () {
-        // Documented as-is: copyWith falls back to `this.name` instead of
-        // `this.description`, so an untouched description silently becomes
-        // the module name.
+        // copyWith used to fall back to `this.name` instead of
+        // `this.description`, silently replacing the description with the
+        // module name. Fixed: an untouched description now survives a copy.
         final module = Module.fromJson({
           'name': 'Cinema',
           'description': 'Movies',
@@ -44,7 +44,7 @@ void main() {
 
         final copied = module.copyWith(icon: 'new-icon');
 
-        expect(copied.description, 'Cinema');
+        expect(copied.description, 'Movies');
       },
     );
 
