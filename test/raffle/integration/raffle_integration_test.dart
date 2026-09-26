@@ -6,27 +6,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 import 'package:qlevar_router/qlevar_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/raffle/providers/raffle_id_provider.dart';
 import 'package:titan/raffle/ui/pages/main_page/ticket_card.dart';
+import 'package:titan/raffle/ui/pages/raffle_page/prize_card.dart';
+import 'package:titan/raffle/ui/pages/raffle_page/prize_dialog.dart';
 import 'package:titan/raffle/ui/pages/raffle_page/raffle_page.dart';
 
-import 'app_scaffold.dart';
-
-chopper.Response<T> chopperResponse<T>(T body) =>
-    chopper.Response(http.Response('body', 200), body);
-
-chopper.Response<List<T>> chopperListResponse<T>(List<T> body) =>
-    chopper.Response(http.Response('body', 200), body);
-
-Future<void> settle(WidgetTester tester, {int frames = 12}) async {
-  for (var i = 0; i < frames; i++) {
-    await tester.pump(const Duration(milliseconds: 60));
-  }
-}
+import '../../shared/app_scaffold.dart';
 
 final adminUser = CoreUser.empty().copyWith(
   id: 'user-1',
@@ -108,16 +97,11 @@ void stubRaffleList(IntegrationScaffold scaffold) {
 }
 
 void main() {
-  TestWidgetsFlutterBinding.ensureInitialized();
-
   late IntegrationScaffold scaffold;
 
   setUp(() {
-    QR.reset();
-    SharedPreferences.setMockInitialValues({});
     scaffold = IntegrationScaffold();
-    scaffold.stubInformation();
-    scaffold.stubFeed();
+    scaffold.shellSetUp();
   });
 
   group('Raffle main page', () {
@@ -127,11 +111,9 @@ void main() {
     // first; the remaining tests only assert on already-mounted routes.
     testWidgets('admin button opens the raffle admin page', (tester) async {
       // Empty raffle list: the header (with the admin button) still renders,
-      // but no raffle card mounts — an embedded card crashes debug-mode
-      // layout (see the ticket-card group below).
-      when(
-        () => scaffold.repository.tombolaRafflesGet(),
-      ).thenAnswer((_) async => chopperListResponse(<RaffleComplete>[]));
+      // with no raffle card mounted.
+      when(() => scaffold.repository.tombolaRafflesGet())
+          .thenAnswer((_) async => chopperListResponse(<RaffleComplete>[]));
       when(
         () => scaffold.repository.tombolaUsersUserIdTicketsGet(
           userId: any(named: 'userId'),
@@ -145,9 +127,8 @@ void main() {
         (_) async =>
             chopperListResponse(<AppModulesRaffleSchemasRaffleCashComplete>[]),
       );
-      when(
-        () => scaffold.repository.groupsGet(),
-      ).thenAnswer((_) async => chopperListResponse(<CoreGroupSimple>[]));
+      when(() => scaffold.repository.groupsGet())
+          .thenAnswer((_) async => chopperListResponse(<CoreGroupSimple>[]));
 
       await scaffold.pumpApp(
         tester,
@@ -167,9 +148,8 @@ void main() {
     testWidgets('shows the empty state without raffles or tickets', (
       tester,
     ) async {
-      when(
-        () => scaffold.repository.tombolaRafflesGet(),
-      ).thenAnswer((_) async => chopperListResponse(<RaffleComplete>[]));
+      when(() => scaffold.repository.tombolaRafflesGet())
+          .thenAnswer((_) async => chopperListResponse(<RaffleComplete>[]));
       when(
         () => scaffold.repository.tombolaUsersUserIdTicketsGet(
           userId: any(named: 'userId'),
@@ -195,9 +175,10 @@ void main() {
 
     // NOTE: /tombola/detail is a nested child route; mounted through the
     // shell its content never builds (the parent page's TopBar is all that
-    // renders), and with a seeded raffle list the parent page lays out a
-    // raffle card whose embedded Scaffold crashes debug-mode layout. The
-    // detail page is therefore covered by the standalone test below.
+    // renders). The detail page is therefore covered by the standalone
+    // test below. A seeded raffle list renders cards in the shell since
+    // the card's own RaffleTemplate wrapper was removed — see
+    // raffle_main_page_cards_integration_test.
 
     // NOTE: a deep link to /tombola/detail as a non-admin does NOT bounce
     // cleanly: AuthenticatedMiddleware forwards the deep-linked path into
@@ -278,15 +259,98 @@ void main() {
       expect(find.textContaining('PS5'), findsOneWidget);
       expect(find.textContaining('A good cause'), findsOneWidget);
     });
+
+    testWidgets('tapping a prize card opens its dialog', (tester) async {
+      when(() => scaffold.repository.tombolaRafflesGet()).thenAnswer(
+        (_) async => chopperListResponse([
+          raffle('r-1', 'Gala(open)', RaffleStatusType.open),
+        ]),
+      );
+      when(
+        () => scaffold.repository.tombolaUsersUserIdCashGet(
+          userId: any(named: 'userId'),
+        ),
+      ).thenAnswer(
+        (_) async => chopperResponse(
+          AppModulesRaffleSchemasRaffleCashComplete.empty().copyWith(
+            userId: 'user-1',
+            balance: 1250,
+          ),
+        ),
+      );
+      when(
+        () => scaffold.repository.tombolaRafflesRaffleIdPrizesGet(
+          raffleId: any(named: 'raffleId'),
+        ),
+      ).thenAnswer(
+        (_) async => chopperListResponse([
+          PrizeSimple.empty().copyWith(
+            id: 'prize-1',
+            name: 'PS5',
+            raffleId: 'r-1',
+            quantity: 1,
+            description: 'A shiny console',
+          ),
+          PrizeSimple.empty().copyWith(
+            id: 'prize-2',
+            name: 'Switch',
+            raffleId: 'r-1',
+            quantity: 2,
+            description: '',
+          ),
+        ]),
+      );
+      when(
+        () => scaffold.repository.tombolaRafflesRaffleIdPackTicketsGet(
+          raffleId: any(named: 'raffleId'),
+        ),
+      ).thenAnswer((_) async => chopperListResponse(<PackTicketSimple>[]));
+
+      final container = scaffold.makeContainer(user: adminUser);
+      container.read(raffleIdProvider.notifier).setId('r-1');
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: MaterialApp(
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [Locale('en', 'US'), Locale('fr', 'FR')],
+            home: const RaffleInfoPage(),
+          ),
+        ),
+      );
+      await settle(tester, frames: 16);
+
+      // Described prize: dialog shows the copy and the singular quantity.
+      await tester.tap(find.byType(PrizeCard).first);
+      await settle(tester, frames: 8);
+      expect(find.byType(PrizeDialog), findsOneWidget);
+      expect(find.text('A shiny console'), findsOneWidget);
+      expect(find.text('1 Prize winnable'), findsOneWidget);
+
+      // Dismiss through the barrier, then the empty-description prize.
+      await tester.tapAt(const Offset(8, 8));
+      await settle(tester, frames: 8);
+      expect(find.byType(PrizeDialog), findsNothing);
+
+      await tester.tap(find.byType(PrizeCard).last);
+      await settle(tester, frames: 8);
+      expect(find.byType(PrizeDialog), findsOneWidget);
+      expect(find.text('No description'), findsOneWidget);
+      // The template pluralizes both words: "2 Prizes winnables".
+      expect(find.text('2 Prizes winnables'), findsOneWidget);
+    });
   });
 
   group('Raffle ticket card', () {
-    // The main page embeds each card inside its own RaffleTemplate
-    // (a full Scaffold nested in the page's scroll view), which throws
-    // unbounded-height assertions in debug mode — a latent app quirk that
-    // only release builds tolerate. The cards are therefore exercised
-    // standalone in a bounded viewport; everything around them (list
-    // grouping, empty state) is covered by the shell tests above.
+    // The winning-ticket card repeats a shine animation forever, so any
+    // shell test that seeds tickets can never pumpAndSettle — the card is
+    // exercised standalone here in a bounded viewport instead. Plain-shell
+    // grouping lives in raffle_main_page_cards_integration_test.
     testWidgets(
       'renders price and count for plain tickets, prize for winners',
       (tester) async {
