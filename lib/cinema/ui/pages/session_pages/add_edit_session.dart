@@ -287,7 +287,6 @@ class AddEditSessionPage extends HookConsumerWidget {
                                   sessionPosterMapProvider.notifier,
                                 );
                                 sessionPosterMapNotifier.autoLoad(
-                                  ref,
                                   session.id,
                                   (sessionId) => sessionPosterNotifier
                                       .updateLogo(sessionId, logoBytes),
@@ -310,7 +309,6 @@ class AddEditSessionPage extends HookConsumerWidget {
                                   sessionPosterMapProvider.notifier,
                                 );
                                 sessionPosterMapNotifier.autoLoad(
-                                  ref,
                                   newSession.id,
                                   (sessionId) => sessionPosterNotifier
                                       .updateLogo(sessionId, logoBytes),
