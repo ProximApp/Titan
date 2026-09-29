@@ -32,9 +32,26 @@ jobs:
         run: flutter pub get
 
       - name: Test project
-        run: flutter test --flavor prod --dart-define=flavor=prod --coverage
+        run: flutter test --flavor prod --dart-define=flavor=prod --dart-define=APP_ID_PREFIX=test --dart-define=APP_NAME=MyEMApp --dart-define=BACKEND_HOST=https://myemapp.com/ --dart-define=TITAN_URL=https://myemapp.com/ --coverage
+
+      - name: Coverage report and threshold gate
+        env:
+          COVERAGE_MIN: "28" # ratchet floor; raise as coverage grows
+        run: |
+          dart run tool/coverage_report.dart \
+            --min=$COVERAGE_MIN \
+            --summary="$GITHUB_STEP_SUMMARY" \
+            --lcov-out=coverage/lcov.filtered.info
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lcov-report
+          path: coverage/lcov.filtered.info
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
+        with:
+          files: coverage/lcov.filtered.info
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
