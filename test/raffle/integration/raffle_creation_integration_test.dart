@@ -89,9 +89,6 @@ void main() {
     when(() => scaffold.repository.tombolaRafflesGet()).thenAnswer(
       (_) async => chopperListResponse([raffle('r-1', 'Gala', status)]),
     );
-    // PrizeCard's fixed 125px column overflows by 8px with its normal
-    // content (same class as known bugs 10-11, shipped visual bug).
-    scaffold.absorbLayoutOverflows(tester);
     final container = scaffold.makeContainer(user: adminUser);
     container.read(raffleIdProvider.notifier).setId('r-1');
     scaffold.setWideSurface(tester);
