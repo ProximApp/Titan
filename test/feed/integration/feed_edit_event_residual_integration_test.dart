@@ -121,22 +121,15 @@ void main() {
       // hook, so tapping the text would skip the date-clearing branch).
       await tester.tap(
         find.descendant(
-          of: find.ancestor(
-            of: find.text('All day'),
-            matching: find.byType(Row),
-          ).first,
+          of: find
+              .ancestor(of: find.text('All day'), matching: find.byType(Row))
+              .first,
           matching: find.byType(Checkbox),
         ),
       );
       await settle(tester, frames: 6);
-      expect(
-        find.widgetWithText(TextField, '10/10/2026'),
-        findsNothing,
-      );
-      expect(
-        find.widgetWithText(TextField, '10/11/2026'),
-        findsNothing,
-      );
+      expect(find.widgetWithText(TextField, '10/10/2026'), findsNothing);
+      expect(find.widgetWithText(TextField, '10/11/2026'), findsNothing);
 
       // Refill the dates as timed values.
       await tester.enterText(
@@ -184,7 +177,15 @@ void main() {
         const Offset(0, -200),
       );
       await settle(tester, frames: 2);
-      await tester.tap(find.text('Edit event'));
+      // Lift the submit row clear of the ScrollToHideNavbar band — a tap
+      // under the overlay is silently dropped (README convention 11's
+      // cousin).
+      await tester.drag(
+        find.byType(SingleChildScrollView).last,
+        const Offset(0, -80),
+      );
+      await settle(tester, frames: 2);
+      await tester.tap(find.text('Edit event'), warnIfMissed: false);
       await settle(tester, frames: 14);
 
       expect(capturedEdit, isNotNull);
@@ -198,7 +199,9 @@ void main() {
         ),
       ).called(1);
       expect(find.text('Event modified'), findsOneWidget);
-      expect(find.text('No news available'), findsOneWidget);
+      // QR.back() lands on the association events list the journey started
+      // from, not the feed root.
+      expect(find.text('Gala de printemps'), findsOneWidget);
       await tester.pump(const Duration(seconds: 3));
       await tester.pump();
     },
@@ -227,11 +230,7 @@ void main() {
 
     await scaffold.openModal(tester, find.text('Gala de printemps'));
     await scaffold.tapInModal(tester, find.text('Edit'));
-    for (
-      var i = 0;
-      i < 20 && find.text('Edit event').evaluate().isEmpty;
-      i++
-    ) {
+    for (var i = 0; i < 20 && find.text('Edit event').evaluate().isEmpty; i++) {
       await settle(tester, frames: 4);
     }
     expect(find.text('Edit event'), findsOneWidget);
@@ -254,7 +253,14 @@ void main() {
       const Offset(0, -200),
     );
     await settle(tester, frames: 2);
-    await tester.tap(find.text('Edit event'));
+    // Lift the submit row clear of the ScrollToHideNavbar band — a tap
+    // under the overlay is silently dropped.
+    await tester.drag(
+      find.byType(SingleChildScrollView).last,
+      const Offset(0, -80),
+    );
+    await settle(tester, frames: 2);
+    await tester.tap(find.text('Edit event'), warnIfMissed: false);
     await settle(tester, frames: 14);
 
     expect(find.text('Error while modifying'), findsOneWidget);
@@ -277,10 +283,71 @@ class _FakeImagePickerPlatform extends ImagePickerPlatform {
 }
 
 List<int> _pngBytes() => <int>[
-  0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00, 0x00, 0x00, 0x0d,
-  0x49, 0x48, 0x44, 0x52, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01,
-  0x08, 0x06, 0x00, 0x00, 0x00, 0x1f, 0x15, 0xc4, 0x89, 0x00, 0x00, 0x00,
-  0x0d, 0x49, 0x44, 0x41, 0x54, 0x78, 0x9c, 0x63, 0x00, 0x01, 0x00, 0x00,
-  0x05, 0x00, 0x01, 0x0d, 0x0a, 0x2d, 0xb4, 0x00, 0x00, 0x00, 0x00, 0x49,
-  0x45, 0x4e, 0x44, 0xae, 0x42, 0x60, 0x82,
+  0x89,
+  0x50,
+  0x4e,
+  0x47,
+  0x0d,
+  0x0a,
+  0x1a,
+  0x0a,
+  0x00,
+  0x00,
+  0x00,
+  0x0d,
+  0x49,
+  0x48,
+  0x44,
+  0x52,
+  0x00,
+  0x00,
+  0x00,
+  0x01,
+  0x00,
+  0x00,
+  0x00,
+  0x01,
+  0x08,
+  0x06,
+  0x00,
+  0x00,
+  0x00,
+  0x1f,
+  0x15,
+  0xc4,
+  0x89,
+  0x00,
+  0x00,
+  0x00,
+  0x0d,
+  0x49,
+  0x44,
+  0x41,
+  0x54,
+  0x78,
+  0x9c,
+  0x63,
+  0x00,
+  0x01,
+  0x00,
+  0x00,
+  0x05,
+  0x00,
+  0x01,
+  0x0d,
+  0x0a,
+  0x2d,
+  0xb4,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x49,
+  0x45,
+  0x4e,
+  0x44,
+  0xae,
+  0x42,
+  0x60,
+  0x82,
 ];

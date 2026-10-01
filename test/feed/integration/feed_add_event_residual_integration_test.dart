@@ -187,6 +187,12 @@ void main() {
         find.widgetWithText(TextField, 'End date'),
         '10/09/2026 20:00',
       );
+      // Location is a required field: without it Form.validate() blocks the
+      // submit before the date comparison ever runs.
+      await tester.enterText(
+        find.widgetWithText(TextField, 'Location'),
+        'Amphi Marie Curie',
+      );
       await settle(tester, frames: 4);
       await submit(tester);
       expect(find.text('End date must be after start date'), findsOneWidget);
