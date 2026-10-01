@@ -16,13 +16,10 @@ import '../../shared/app_scaffold.dart';
 
 /// ItemBar — the add-edit-loan page's item selection strip (96 uncovered
 /// lines): the per-loaner item map, the quantity steppers and their
-/// end-date/caution side effects. The map is only populated through the
-/// search bar's onChanged (nothing loads it on mount — a fresh page shows
-/// "No items" until the user types), so every flow here drives the real
-/// search field. The steppers call setEndFromSelected, which parses the
-/// start date — an empty start (the shipped default) throws inside
-/// DateFormat.parse (README ledger #34), so the stepper tests pre-seed
-/// startProvider, the state after a legit date pick.
+/// end-date/caution side effects. The map is pre-populated on a deep link
+/// (the admin page mounts underneath and seeds it) and re-seeded by the
+/// search bar's onChanged. The steppers call setEndFromSelected, which
+/// used to throw inside DateFormat.parse on the empty default start
 ///
 /// loan_admin_integration_test covers the admin shell render — nothing
 /// overlaps. The steppers' plus icon is the only one on the page.
@@ -85,9 +82,6 @@ void main() {
         loanerId: 'loaner-1',
       ),
     ).thenAnswer((_) async => chopperListResponse([tente]));
-    // The legit state after picking a start date (an empty start throws in
-    // setEndFromSelected — ledger #34).
-    container.read(startProvider.notifier).setStart('1/15/2026');
 
     await pumpAddEditLoan(tester, container);
 
@@ -108,16 +102,25 @@ void main() {
     expect(find.textContaining('3 Available'), findsOneWidget);
     expect(find.textContaining('3000.00 €'), findsOneWidget);
 
-    // Plus once: quantity 1, the end date lands on start + the item's
-    // suggested duration (3 days) and the caution totals 1 × 3000 €.
+    // Plus once: quantity 1, the end stays EMPTY (no start date picked
+    // yet — the guard of ledger #34 turns the old crash into a no-op) and
+    // the caution still totals 1 × 3000 €.
     await tester.tap(
       find.byWidgetPredicate((w) => w is HeroIcon && w.icon == HeroIcons.plus),
     );
     await settle(tester, frames: 6);
     expect(container.read(editSelectedListProvider), [1]);
-    expect(container.read(endProvider), '1/18/2026');
+    expect(container.read(endProvider), '');
     expect(container.read(cautionProvider).text, '3000.00 €');
     expect(find.textContaining('1 selected item'), findsOneWidget);
+
+    // Picking a start date afterwards computes the end from the current
+    // selection (start + the shortest suggested duration, 3 days).
+    container.read(startProvider.notifier).setStart('1/15/2026');
+    container.read(endProvider.notifier).setEndFromSelected('1/15/2026', [
+      tente,
+    ], 'en_US');
+    expect(container.read(endProvider), '1/18/2026');
 
     // Minus back to zero: the empty-selection branch clears both fields.
     await tester.tap(
@@ -144,7 +147,6 @@ void main() {
         loanerId: 'loaner-1',
       ),
     ).thenAnswer((_) async => chopperListResponse([scarce]));
-    container.read(startProvider.notifier).setStart('1/15/2026');
 
     await pumpAddEditLoan(tester, container);
     await searchItems(tester, 'Perceuse');
@@ -153,14 +155,14 @@ void main() {
       (w) => w is HeroIcon && w.icon == HeroIcons.plus,
     );
     // Available is 1 (3 total - 2 loaned): the first tap selects it, the
-    // second is ignored at the cap.
+    // second is ignored at the cap. The end stays empty
     await tester.tap(plus);
     await settle(tester, frames: 6);
     expect(container.read(editSelectedListProvider), [1]);
     await tester.tap(plus);
     await settle(tester, frames: 6);
     expect(container.read(editSelectedListProvider), [1]);
-    expect(container.read(endProvider), '1/18/2026');
+    expect(container.read(endProvider), '');
   });
 
   testWidgets('a loaner without items shows the empty bar through both '
@@ -217,7 +219,6 @@ void main() {
         loanerId: 'loaner-1',
       ),
     ).thenAnswer((_) async => chopperListResponse([tente]));
-    container.read(startProvider.notifier).setStart('1/15/2026');
     // The state the loan list pushes before navigating in edit mode: the
     // loan carries its itemsQty, which EditSelectedListProvider folds into
     // the initial stepper values.
