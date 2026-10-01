@@ -22,8 +22,7 @@ class FakeSessionListNotifier extends SessionListNotifier {
 
 class _LoadingSessionListNotifier extends SessionListNotifier {
   @override
-  AsyncValue<List<CineSessionComplete>> build() =>
-      const AsyncValue.loading();
+  AsyncValue<List<CineSessionComplete>> build() => const AsyncValue.loading();
 }
 
 void main() {
@@ -37,10 +36,7 @@ void main() {
     });
 
     test('formatDate pads day, month, hour and minute', () {
-      expect(
-        formatDate(DateTime(2024, 3, 5, 7, 8)),
-        '05/03/2024 - 07h08',
-      );
+      expect(formatDate(DateTime(2024, 3, 5, 7, 8)), '05/03/2024 - 07h08');
     });
 
     test('parseDuration converts "HH:mm" to minutes and back', () {
@@ -66,20 +62,22 @@ void main() {
       expect(result, bytes);
     });
 
-    test('keeps oversized non-images as they are when compression fails',
-        () async {
-      final bytes = Uint8List.fromList(List.filled(1500 * 1024, 0));
-      final client = http_testing.MockClient(
-        (request) async => http.Response.bytes(bytes, 200),
-      );
+    test(
+      'keeps oversized non-images as they are when compression fails',
+      () async {
+        final bytes = Uint8List.fromList(List.filled(1500 * 1024, 0));
+        final client = http_testing.MockClient(
+          (request) async => http.Response.bytes(bytes, 200),
+        );
 
-      final result = await http.runWithClient(
-        () => getFromUrl('https://example.com/poster.jpg'),
-        () => client,
-      );
+        final result = await http.runWithClient(
+          () => getFromUrl('https://example.com/poster.jpg'),
+          () => client,
+        );
 
-      expect(result, bytes);
-    });
+        expect(result, bytes);
+      },
+    );
   });
 
   group('MainPageIndexNotifier', () {
