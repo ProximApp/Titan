@@ -29,24 +29,21 @@ void main() {
       expect(decoded.liked, isFalse);
     });
 
-    test(
-      'Module.copyWith keeps the description when it is not overridden',
-      () {
-        // copyWith used to fall back to `this.name` instead of
-        // `this.description`, silently replacing the description with the
-        // module name. Fixed: an untouched description now survives a copy.
-        final module = Module.fromJson({
-          'name': 'Cinema',
-          'description': 'Movies',
-          'icon': 'i',
-          'url': 'u',
-        });
+    test('Module.copyWith keeps the description when it is not overridden', () {
+      // copyWith used to fall back to `this.name` instead of
+      // `this.description`, silently replacing the description with the
+      // module name. Fixed: an untouched description now survives a copy.
+      final module = Module.fromJson({
+        'name': 'Cinema',
+        'description': 'Movies',
+        'icon': 'i',
+        'url': 'u',
+      });
 
-        final copied = module.copyWith(icon: 'new-icon');
+      final copied = module.copyWith(icon: 'new-icon');
 
-        expect(copied.description, 'Movies');
-      },
-    );
+      expect(copied.description, 'Movies');
+    });
 
     test('Section.fromJson keeps the section name and modules', () {
       final section = Section.fromJson('Clubs', [
