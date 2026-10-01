@@ -25,10 +25,7 @@ void main() {
         },
       );
 
-      final result = await authenticator.authenticate(
-        request(),
-        response(200),
-      );
+      final result = await authenticator.authenticate(request(), response(200));
 
       expect(result, null);
       expect(refreshCalls, 0);
@@ -43,10 +40,7 @@ void main() {
         },
       );
 
-      final result = await authenticator.authenticate(
-        request(),
-        response(401),
-      );
+      final result = await authenticator.authenticate(request(), response(401));
 
       expect(refreshCalls, 1);
       expect(result, isNotNull);
@@ -77,10 +71,7 @@ void main() {
         refreshAccessToken: () async => throw Exception('expired session'),
       );
 
-      final result = await authenticator.authenticate(
-        request(),
-        response(401),
-      );
+      final result = await authenticator.authenticate(request(), response(401));
 
       expect(result, null);
     });

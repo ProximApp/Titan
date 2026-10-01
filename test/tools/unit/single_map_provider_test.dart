@@ -77,10 +77,7 @@ void main() {
     test('autoLoad loads the value asynchronously', () async {
       notifier.loadTList(['a']);
 
-      await notifier.autoLoad(
-        'a',
-        (t) async => AsyncValue.data(t.length),
-      );
+      await notifier.autoLoad('a', (t) async => AsyncValue.data(t.length));
 
       expect(container.read(testMapProvider)['a']!.value, 1);
     });

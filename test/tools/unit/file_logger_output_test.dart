@@ -11,10 +11,7 @@ void main() {
         time: DateTime(2026, 9, 25, 12, 30),
       );
 
-      expect(
-        log.toString(),
-        '2026-09-25T12:30:00.000 | WARNING | hello',
-      );
+      expect(log.toString(), '2026-09-25T12:30:00.000 | WARNING | hello');
     });
 
     test('copyWith overrides only the given fields', () {
