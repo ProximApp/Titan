@@ -144,6 +144,7 @@ void main() {
     final fields = find.byType(TextFormField);
     await tester.enterText(fields.at(0), 'Club des élèves');
     await tester.enterText(fields.at(1), 'Weekly meeting');
+    await tester.enterText(fields.at(2), 'Bring badges');
     await tester.enterText(fields.at(3), '15/01/2026 18:00');
     await tester.enterText(fields.at(4), '15/01/2026 20:00');
 
@@ -171,13 +172,12 @@ void main() {
             as BookingBase;
     expect(captured.reason, 'Weekly meeting');
     expect(captured.roomId, 'room-1');
-    // KNOWN BUGS (README ledger): BookingReturnApplicant.toBookingBase()
-    // drops entity, note AND recurrenceRule, so a created booking loses all
-    // three fields (the BookingEdit path keeps them). Assert the drops
-    // until the adapter is fixed.
-    expect(captured.entity, isNull);
-    expect(captured.note, isNull);
-    expect(captured.recurrenceRule, isNull);
+    // Ledger #18 fixed: toBookingBase() carries entity and note into the
+    // created booking. The page sends the RRULE as an EMPTY STRING for
+    // non-recurring bookings (its non-recurrent default), not null.
+    expect(captured.entity, 'Club des élèves');
+    expect(captured.note, 'Bring badges');
+    expect(captured.recurrenceRule, isEmpty);
     expect(find.text('Request added'), findsOneWidget);
     // Drain the success toast (autoClose 2500ms + 400ms animation).
     await tester.pump(const Duration(seconds: 3));
