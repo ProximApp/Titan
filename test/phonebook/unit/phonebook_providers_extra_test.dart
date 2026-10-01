@@ -26,7 +26,8 @@ class FakeAssociationListNotifier extends AssociationListNotifier {
   final List<AssociationComplete> associations;
 
   @override
-  AsyncValue<List<AssociationComplete>> build() => AsyncValue.data(associations);
+  AsyncValue<List<AssociationComplete>> build() =>
+      AsyncValue.data(associations);
 }
 
 class FakeGroupementListNotifier extends AssociationGroupementListNotifier {
@@ -61,8 +62,7 @@ class _LoadingAssociationListNotifier extends AssociationListNotifier {
 
 class _LoadingGroupementListNotifier extends AssociationGroupementListNotifier {
   @override
-  AsyncValue<List<AssociationGroupement>> build() =>
-      const AsyncValue.loading();
+  AsyncValue<List<AssociationGroupement>> build() => const AsyncValue.loading();
 }
 
 class _LoadingMembersListNotifier extends AssociationMemberListNotifier {
@@ -75,7 +75,8 @@ class FakeRolesTagsNotifier extends RolesTagsNotifier {
   final List<String> tags;
 
   @override
-  AsyncValue<RoleTagsReturn> build() => AsyncValue.data(RoleTagsReturn(tags: tags));
+  AsyncValue<RoleTagsReturn> build() =>
+      AsyncValue.data(RoleTagsReturn(tags: tags));
 }
 
 MemberComplete memberWithMembership(
@@ -127,7 +128,10 @@ void main() {
       );
       final member = MemberComplete.empty().copyWith(
         memberships: [
-          MembershipComplete.empty().copyWith(associationId: 'a-1', mandateYear: 2023),
+          MembershipComplete.empty().copyWith(
+            associationId: 'a-1',
+            mandateYear: 2023,
+          ),
           matching,
         ],
       );
@@ -169,9 +173,21 @@ void main() {
         AssociationGroupement.empty().copyWith(id: 'g-2', name: 'Sport'),
       ];
       final associations = [
-        AssociationComplete.empty().copyWith(id: 'a-1', groupementId: 'g-2', name: 'Zoo'),
-        AssociationComplete.empty().copyWith(id: 'a-2', groupementId: 'g-1', name: 'Échecs'),
-        AssociationComplete.empty().copyWith(id: 'a-3', groupementId: 'g-1', name: 'Arts'),
+        AssociationComplete.empty().copyWith(
+          id: 'a-1',
+          groupementId: 'g-2',
+          name: 'Zoo',
+        ),
+        AssociationComplete.empty().copyWith(
+          id: 'a-2',
+          groupementId: 'g-1',
+          name: 'Échecs',
+        ),
+        AssociationComplete.empty().copyWith(
+          id: 'a-3',
+          groupementId: 'g-1',
+          name: 'Arts',
+        ),
       ];
 
       final sorted = sortedAssociationByKind(associations, groupements);
@@ -231,9 +247,21 @@ void main() {
       AssociationGroupement.empty().copyWith(id: 'g-2', name: 'Sport'),
     ];
     final associations = [
-      AssociationComplete.empty().copyWith(id: 'a-1', groupementId: 'g-1', name: 'Échecs'),
-      AssociationComplete.empty().copyWith(id: 'a-2', groupementId: 'g-1', name: 'Arts'),
-      AssociationComplete.empty().copyWith(id: 'a-3', groupementId: 'g-2', name: 'Écurie'),
+      AssociationComplete.empty().copyWith(
+        id: 'a-1',
+        groupementId: 'g-1',
+        name: 'Échecs',
+      ),
+      AssociationComplete.empty().copyWith(
+        id: 'a-2',
+        groupementId: 'g-1',
+        name: 'Arts',
+      ),
+      AssociationComplete.empty().copyWith(
+        id: 'a-3',
+        groupementId: 'g-2',
+        name: 'Écurie',
+      ),
     ];
 
     test('filters by name ignoring accents and case', () {
@@ -313,7 +341,9 @@ void main() {
     test('is empty while the associations are loading', () {
       final container = ProviderContainer(
         overrides: [
-          associationListProvider.overrideWith(_LoadingAssociationListNotifier.new),
+          associationListProvider.overrideWith(
+            _LoadingAssociationListNotifier.new,
+          ),
           associationGroupementListProvider.overrideWith(
             _LoadingGroupementListNotifier.new,
           ),
@@ -353,9 +383,10 @@ void main() {
     });
 
     test('createAssociation appends the created association', () async {
-      final base =
-          AppModulesPhonebookSchemasPhonebookAssociationBase.empty();
-      when(() => mockRepository.phonebookAssociationsPost(body: base)).thenAnswer(
+      final base = AppModulesPhonebookSchemasPhonebookAssociationBase.empty();
+      when(
+        () => mockRepository.phonebookAssociationsPost(body: base),
+      ).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), association),
       );
       final container = ProviderContainer(
@@ -398,34 +429,38 @@ void main() {
       container.dispose();
     });
 
-    test('deactivateAssociation flags the association as deactivated', () async {
-      when(() => mockRepository.phonebookAssociationsGet()).thenAnswer(
-        (_) async =>
-            chopper.Response(http.Response('body', 200), [association]),
-      );
-      when(
-        () => mockRepository.phonebookAssociationsAssociationIdDeactivatePatch(
-          associationId: 'a-1',
-        ),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('body', 200), null),
-      );
-      final container = ProviderContainer(
-        overrides: [repositoryProvider.overrideWithValue(mockRepository)],
-      );
+    test(
+      'deactivateAssociation flags the association as deactivated',
+      () async {
+        when(() => mockRepository.phonebookAssociationsGet()).thenAnswer(
+          (_) async =>
+              chopper.Response(http.Response('body', 200), [association]),
+        );
+        when(
+          () =>
+              mockRepository.phonebookAssociationsAssociationIdDeactivatePatch(
+                associationId: 'a-1',
+              ),
+        ).thenAnswer(
+          (_) async => chopper.Response(http.Response('body', 200), null),
+        );
+        final container = ProviderContainer(
+          overrides: [repositoryProvider.overrideWithValue(mockRepository)],
+        );
 
-      final notifier = container.read(associationListProvider.notifier);
-      await notifier.loadAssociations();
-      final ok = await notifier.deactivateAssociation(association);
+        final notifier = container.read(associationListProvider.notifier);
+        await notifier.loadAssociations();
+        final ok = await notifier.deactivateAssociation(association);
 
-      expect(ok, isTrue);
-      expect(
-        container.read(associationListProvider).value!.first.deactivated,
-        isTrue,
-      );
+        expect(ok, isTrue);
+        expect(
+          container.read(associationListProvider).value!.first.deactivated,
+          isTrue,
+        );
 
-      container.dispose();
-    });
+        container.dispose();
+      },
+    );
   });
 
   group('isPhonebookAdminProvider', () {
@@ -549,7 +584,9 @@ void main() {
           associationProvider.overrideWith(
             () => FakeAssociationNotifier(association),
           ),
-          rolesTagsProvider.overrideWith(() => FakeRolesTagsNotifier(['treasurer'])),
+          rolesTagsProvider.overrideWith(
+            () => FakeRolesTagsNotifier(['treasurer']),
+          ),
           associationMemberListProvider.overrideWith(
             () => FakeMembersNotifier([
               memberWithMembership(
