@@ -40,8 +40,13 @@ class _LoadingRaffleListNotifier extends RaffleListNotifier {
   AsyncValue<List<RaffleComplete>> build() => const AsyncValue.loading();
 }
 
-AppModulesRaffleSchemasRaffleTicketComplete ticket(String id, {PrizeSimple? prize}) =>
-    AppModulesRaffleSchemasRaffleTicketComplete.empty().copyWith(id: id, prize: prize);
+AppModulesRaffleSchemasRaffleTicketComplete ticket(
+  String id, {
+  PrizeSimple? prize,
+}) => AppModulesRaffleSchemasRaffleTicketComplete.empty().copyWith(
+  id: id,
+  prize: prize,
+);
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -118,7 +123,9 @@ void main() {
 
     test('drawPrize appends the drawn tickets', () async {
       final drawn = [
-        AppModulesRaffleSchemasRaffleTicketComplete.empty().copyWith(id: 't-drawn'),
+        AppModulesRaffleSchemasRaffleTicketComplete.empty().copyWith(
+          id: 't-drawn',
+        ),
       ];
       when(
         () => mockRepository.tombolaPrizesPrizeIdDrawPost(
@@ -128,7 +135,10 @@ void main() {
         (_) async => chopper.Response(http.Response('body', 200), drawn),
       );
 
-      final winning = ticket('t-1', prize: PrizeSimple.empty().copyWith(id: 'p-1'));
+      final winning = ticket(
+        't-1',
+        prize: PrizeSimple.empty().copyWith(id: 'p-1'),
+      );
       final container = ProviderContainer(
         overrides: [
           repositoryProvider.overrideWithValue(mockRepository),
@@ -146,7 +156,10 @@ void main() {
       );
 
       expect(result.value, drawn);
-      expect(container.read(winningTicketListProvider).value, [winning, ...drawn]);
+      expect(container.read(winningTicketListProvider).value, [
+        winning,
+        ...drawn,
+      ]);
 
       container.dispose();
     });
@@ -164,7 +177,10 @@ void main() {
         ),
       );
 
-      final winning = ticket('t-1', prize: PrizeSimple.empty().copyWith(id: 'p-1'));
+      final winning = ticket(
+        't-1',
+        prize: PrizeSimple.empty().copyWith(id: 'p-1'),
+      );
       final container = ProviderContainer(
         overrides: [
           repositoryProvider.overrideWithValue(mockRepository),
@@ -181,7 +197,10 @@ void main() {
         PrizeSimple.empty().copyWith(id: 'p-1'),
       );
 
-      expect(result, isA<AsyncError<List<AppModulesRaffleSchemasRaffleTicketComplete>>>());
+      expect(
+        result,
+        isA<AsyncError<List<AppModulesRaffleSchemasRaffleTicketComplete>>>(),
+      );
       expect(container.read(winningTicketListProvider).value, [winning]);
 
       container.dispose();
@@ -189,25 +208,30 @@ void main() {
   });
 
   group('RaffleIdProvider', () {
-    test('starts with an empty id while the raffles are not loaded and can be set', () {
-      final container = ProviderContainer(
-        overrides: [
-          raffleListProvider.overrideWith(_LoadingRaffleListNotifier.new),
-        ],
-      );
+    test(
+      'starts with an empty id while the raffles are not loaded and can be set',
+      () {
+        final container = ProviderContainer(
+          overrides: [
+            raffleListProvider.overrideWith(_LoadingRaffleListNotifier.new),
+          ],
+        );
 
-      expect(container.read(raffleIdProvider), '');
+        expect(container.read(raffleIdProvider), '');
 
-      final notifier = container.read(raffleIdProvider.notifier);
-      notifier.setId('raffle-42');
-      expect(container.read(raffleIdProvider), 'raffle-42');
+        final notifier = container.read(raffleIdProvider.notifier);
+        notifier.setId('raffle-42');
+        expect(container.read(raffleIdProvider), 'raffle-42');
 
-      container.dispose();
-    });
+        container.dispose();
+      },
+    );
 
     test('FakeRaffleIdNotifier overrides the derived id', () {
       final container = ProviderContainer(
-        overrides: [raffleIdProvider.overrideWith(() => FakeRaffleIdNotifier('x'))],
+        overrides: [
+          raffleIdProvider.overrideWith(() => FakeRaffleIdNotifier('x')),
+        ],
       );
 
       expect(container.read(raffleIdProvider), 'x');

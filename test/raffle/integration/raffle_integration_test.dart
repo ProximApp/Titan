@@ -6,7 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 import 'package:qlevar_router/qlevar_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:titan/l10n/app_localizations.dart';
@@ -14,19 +13,7 @@ import 'package:titan/raffle/providers/raffle_id_provider.dart';
 import 'package:titan/raffle/ui/pages/main_page/ticket_card.dart';
 import 'package:titan/raffle/ui/pages/raffle_page/raffle_page.dart';
 
-import 'app_scaffold.dart';
-
-chopper.Response<T> chopperResponse<T>(T body) =>
-    chopper.Response(http.Response('body', 200), body);
-
-chopper.Response<List<T>> chopperListResponse<T>(List<T> body) =>
-    chopper.Response(http.Response('body', 200), body);
-
-Future<void> settle(WidgetTester tester, {int frames = 12}) async {
-  for (var i = 0; i < frames; i++) {
-    await tester.pump(const Duration(milliseconds: 60));
-  }
-}
+import '../../shared/app_scaffold.dart';
 
 final adminUser = CoreUser.empty().copyWith(
   id: 'user-1',
@@ -108,16 +95,11 @@ void stubRaffleList(IntegrationScaffold scaffold) {
 }
 
 void main() {
-  TestWidgetsFlutterBinding.ensureInitialized();
-
   late IntegrationScaffold scaffold;
 
   setUp(() {
-    QR.reset();
-    SharedPreferences.setMockInitialValues({});
     scaffold = IntegrationScaffold();
-    scaffold.stubInformation();
-    scaffold.stubFeed();
+    scaffold.shellSetUp();
   });
 
   group('Raffle main page', () {
