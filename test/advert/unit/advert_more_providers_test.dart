@@ -65,10 +65,7 @@ void main() {
         Association.empty().copyWith(id: 'a-2', name: 'BDA'),
       );
 
-      expect(
-        notifier.state.map((e) => e.id),
-        ['a-1', 'a-2'],
-      );
+      expect(notifier.state.map((e) => e.id), ['a-1', 'a-2']);
     });
 
     test('removeAssociation filters by id', () {
@@ -116,9 +113,9 @@ void main() {
         advertiserId: 'asso-1',
         date: DateTime(2026, 5, 1),
       );
-      when(() => repository.advertAdvertsGet()).thenAnswer(
-        (_) async => chopperListResponse([advert]),
-      );
+      when(
+        () => repository.advertAdvertsGet(),
+      ).thenAnswer((_) async => chopperListResponse([advert]));
 
       container.read(advertListProvider);
       await pumpEventQueue();

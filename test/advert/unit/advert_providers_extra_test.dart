@@ -27,7 +27,8 @@ void main() {
       // the listing call stubbed so the state settles on data. Baseline is
       // an empty list; tests that need the advert pre-loaded re-stub below.
       when(() => mockRepository.advertAdvertsGet()).thenAnswer(
-        (_) async => chopper.Response(http.Response('body', 200), <AdvertComplete>[]),
+        (_) async =>
+            chopper.Response(http.Response('body', 200), <AdvertComplete>[]),
       );
     });
 
