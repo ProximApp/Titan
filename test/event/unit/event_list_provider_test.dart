@@ -4,15 +4,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:titan/event/adapters/event_complete_ticket_url.dart';
 import 'package:titan/event/providers/event_list_provider.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 
-class MockEventRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('EventListNotifier', () {
-    late MockEventRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late EventListNotifier provider;
     final events = [
@@ -23,7 +22,7 @@ void main() {
     final updatedEvent = events.first.copyWith(name: 'Updated Event');
 
     setUp(() async {
-      mockRepository = MockEventRepository();
+      mockRepository = MockOpenapi();
       // Default stub for the build()-time auto-load.
       when(() => mockRepository.calendarEventsGet()).thenAnswer(
         (_) async => chopper.Response(

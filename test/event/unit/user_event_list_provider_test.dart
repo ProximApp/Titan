@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/event/adapters/event_complete_ticket_url.dart';
 import 'package:titan/event/providers/user_event_list_provider.dart';
@@ -11,11 +10,11 @@ import 'package:chopper/chopper.dart' as chopper;
 import 'package:http/http.dart' as http;
 import 'package:titan/tools/repository/repository.dart';
 
-class MockEventRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('EventEventListProvider', () {
-    late MockEventRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late EventEventListProvider provider;
     final events = [
@@ -26,7 +25,7 @@ void main() {
     final updatedEvent = events.first.copyWith(name: 'Updated Event');
 
     setUp(() async {
-      mockRepository = MockEventRepository();
+      mockRepository = MockOpenapi();
       when(() => mockRepository.calendarEventsConfirmedGet()).thenAnswer(
         (_) async => chopper.Response(
           http.Response('[]', 200),
