@@ -2,17 +2,16 @@ import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/amap/adapters/product_complete.dart';
 import 'package:titan/amap/providers/product_list_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 
-class MockProductListRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('ProductListNotifier', () {
-    late MockProductListRepository mockProductListRepository;
+    late MockOpenapi mockProductListRepository;
     late ProviderContainer container;
     late ProductListNotifier notifier;
     final products = [
@@ -34,7 +33,7 @@ void main() {
     final productToAdd = product.toProductSimple();
 
     setUp(() async {
-      mockProductListRepository = MockProductListRepository();
+      mockProductListRepository = MockOpenapi();
       when(() => mockProductListRepository.amapProductsGet()).thenAnswer(
         (_) async => chopper.Response(
           http.Response('[]', 200),

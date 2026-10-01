@@ -2,17 +2,16 @@ import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/amap/providers/category_list_provider.dart';
 import 'package:titan/amap/providers/product_list_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 
-class MockProductListRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('categoryListProvider', () {
-    late MockProductListRepository mockProductListRepository;
+    late MockOpenapi mockProductListRepository;
 
     final products = [
       AppModulesAmapSchemasAmapProductComplete(
@@ -36,7 +35,7 @@ void main() {
     ];
 
     setUp(() {
-      mockProductListRepository = MockProductListRepository();
+      mockProductListRepository = MockOpenapi();
       when(() => mockProductListRepository.amapProductsGet()).thenAnswer(
         (_) async => chopper.Response(
           http.Response('[]', 200),

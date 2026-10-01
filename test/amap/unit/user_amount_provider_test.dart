@@ -10,10 +10,10 @@ import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 
-class MockAmapUserRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
-  late MockAmapUserRepository mockRepository;
+  late MockOpenapi mockRepository;
   late ProviderContainer container;
   late UserCashNotifier notifier;
 
@@ -33,7 +33,7 @@ void main() {
   );
 
   setUp(() async {
-    mockRepository = MockAmapUserRepository();
+    mockRepository = MockOpenapi();
     container = ProviderContainer(
       overrides: [
         repositoryProvider.overrideWithValue(mockRepository),

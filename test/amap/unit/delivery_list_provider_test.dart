@@ -3,15 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:titan/amap/providers/delivery_list_provider.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 
-class MockDeliveryListRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('DeliveryListNotifier', () {
-    late MockDeliveryListRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late DeliveryListNotifier notifier;
 
@@ -38,7 +37,7 @@ void main() {
     ];
 
     setUp(() async {
-      mockRepository = MockDeliveryListRepository();
+      mockRepository = MockOpenapi();
       when(() => mockRepository.amapDeliveriesGet()).thenAnswer(
         (_) async =>
             chopper.Response(http.Response('[]', 200), <DeliveryReturn>[]),
