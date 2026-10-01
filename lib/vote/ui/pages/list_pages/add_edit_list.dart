@@ -281,22 +281,21 @@ class AddEditListPage extends HookConsumerWidget {
                               orElse: () {},
                             );
                           } else {
-                            listList.maybeWhen(
-                              data: (list) {
-                                final newList = list.last;
-                                final logoBytes = logo.value;
-                                if (logoBytes != null) {
-                                  listLogosNotifier.autoLoad(
-                                    newList.id,
-                                    (listId) => logoNotifier.updateLogo(
-                                      listId,
-                                      logoBytes,
-                                    ),
-                                  );
-                                }
-                              },
-                              orElse: () {},
-                            );
+                            final created = ref
+                                .read(listListProvider)
+                                .maybeWhen(
+                                  data: (lists) =>
+                                      lists.isEmpty ? null : lists.last,
+                                  orElse: () => null,
+                                );
+                            final logoBytes = logo.value;
+                            if (created != null && logoBytes != null) {
+                              listLogosNotifier.autoLoad(
+                                created.id,
+                                (listId) =>
+                                    logoNotifier.updateLogo(listId, logoBytes),
+                              );
+                            }
                           }
                           membersNotifier.clearMembers();
                           sectionsNotifier.setTData(
