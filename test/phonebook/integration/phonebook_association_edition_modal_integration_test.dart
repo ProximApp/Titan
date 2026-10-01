@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,11 +16,10 @@ import '../../shared/phonebook_fixtures.dart';
 /// middleware chain (and the deferred loadLibrary) alive per convention 10
 /// — a later isolate state wedges the route-add without mounting the page.
 /// The four other actions open a nested ConfirmModal.danger whose onYes
-/// fires the real PATCH/DELETE endpoints; their success toasts are broken
-/// (ledger #29, hence the never-completing stubs). The deactivate/delete
-/// wiring was crossed (ledger #30) and is now FIXED: live → deactivate
-/// PATCH, deactivated → DELETE, asserted below. The admin shell render
-/// itself lives in phonebook_admin_integration_test.dart — nothing
+/// fires the real PATCH/DELETE endpoints; the toasts render through the
+/// root-navigator context the modal captures at build time (ledger #29
+/// fixed), so the stubs complete normally and the tests assert the toast
+/// text.
 /// overlaps.
 void main() {
   late IntegrationScaffold scaffold;
@@ -48,17 +45,10 @@ void main() {
     );
   }
 
-  /// The confirm actions' success/failure toasts display through the
-  /// edition sheet's context, which the sheet popped BEFORE onYes ran — the
-  /// l10n lookup on the deactivated element throws a ZONE-uncaught error in
-  /// debug (README ledger #29, same family as #21; release silently drops
-  /// the toast). That error path cannot be absorbed by FlutterError.onError
-  /// filters (the binding asserts on any override plus an uncaught zone
-  /// error), so the endpoint stubs below never complete: the wire call is
-  /// recorded for verification, and the dead toast continuation never
-  /// resumes.
-  Future<chopper.Response<void>> neverCompleting(_) =>
-      Completer<chopper.Response<void>>().future;
+  /// The confirm actions' toasts display through the edition modal's
+  /// build-time root-navigator context — completing stubs let onYes
+  /// run to the end.
+  Future<chopper.Response<void>> okVoid(_) async => chopperResponseVoid();
 
   Future<void> pumpAdmin(WidgetTester tester, ProviderContainer container) =>
       scaffold.pumpApp(
@@ -148,7 +138,7 @@ void main() {
         associationId: 'a-1',
         body: any(named: 'body'),
       ),
-    ).thenAnswer(neverCompleting);
+    ).thenAnswer(okVoid);
 
     await pumpAdmin(tester, container);
     await settle(tester);
@@ -166,12 +156,12 @@ void main() {
     // Confirm pops the sheet itself before running onYes, so the sheet is
     // gone while the PATCH is in flight.
     await scaffold.tapInModal(tester, find.text('Confirm'));
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < 6; i++) {
       await tester.pump(const Duration(milliseconds: 60));
     }
 
-    // onYes PATCHed the association with mandateYear + 1 (the success toast
-    // is dead code on a popped context, ledger #29).
+    // onYes PATCHed the association with mandateYear + 1 and the success
+    // toast renders on the surviving root-navigator context
     final captured =
         verify(
               () => scaffold.repository.phonebookAssociationsAssociationIdPatch(
@@ -183,7 +173,9 @@ void main() {
     expect(captured.mandateYear, 2027);
     expect(captured.name, 'Robot Club');
     expect(captured.description, 'We build robots');
+    expect(find.text('Association updated'), findsOneWidget);
     expect(scaffold.isModalOpen(tester), isFalse);
+    await scaffold.drainToast(tester);
   });
 
   testWidgets('the live association deactivate button deactivates', (
@@ -198,7 +190,7 @@ void main() {
           scaffold.repository.phonebookAssociationsAssociationIdDeactivatePatch(
             associationId: 'a-1',
           ),
-    ).thenAnswer(neverCompleting);
+    ).thenAnswer(okVoid);
 
     await pumpAdmin(tester, container);
     await settle(tester);
@@ -210,11 +202,13 @@ void main() {
     expect(find.text('This action is irreversible'), findsOneWidget);
 
     await scaffold.tapInModal(tester, find.text('Confirm'));
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < 6; i++) {
       await tester.pump(const Duration(milliseconds: 60));
     }
+
     expect(scaffold.isModalOpen(tester), isFalse);
-    // Ledger #30 fixed: the deactivate PATCH fires, never the DELETE.
+    // Ledger #30 fixed: the deactivate PATCH fires (never the DELETE) and
+    // the success toast renders on the surviving context.
     verify(
       () =>
           scaffold.repository.phonebookAssociationsAssociationIdDeactivatePatch(
@@ -226,7 +220,10 @@ void main() {
         associationId: any(named: 'associationId'),
       ),
     );
+    expect(find.text('Association deactivated'), findsOneWidget);
+    await scaffold.drainToast(tester);
   });
+
   testWidgets('the deactivated association delete button deletes', (
     tester,
   ) async {
@@ -239,7 +236,7 @@ void main() {
       () => scaffold.repository.phonebookAssociationsAssociationIdDelete(
         associationId: 'a-1',
       ),
-    ).thenAnswer(neverCompleting);
+    ).thenAnswer(okVoid);
 
     await pumpAdmin(tester, container);
     await settle(tester);
@@ -256,13 +253,12 @@ void main() {
       find.text('This will erase all association history'),
       findsOneWidget,
     );
-
     await scaffold.tapInModal(tester, find.text('Confirm'));
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < 6; i++) {
       await tester.pump(const Duration(milliseconds: 60));
     }
+
     expect(scaffold.isModalOpen(tester), isFalse);
-    // Ledger #30 fixed: the DELETE fires, never the deactivate PATCH.
     verify(
       () => scaffold.repository.phonebookAssociationsAssociationIdDelete(
         associationId: 'a-1',
@@ -274,5 +270,7 @@ void main() {
             associationId: any(named: 'associationId'),
           ),
     );
+    expect(find.text('Association deleted'), findsOneWidget);
+    await scaffold.drainToast(tester);
   });
 }
