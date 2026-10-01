@@ -54,10 +54,6 @@ void main() {
       );
       addTearDown(container.dispose);
       scaffold.setWideSurface(tester);
-      // AdminSessionCard ships with a 1px vertical overflow in its fixed-
-      // height button row (same class as LoanCard/BookingCard); swallow
-      // exactly that, anything else stays fatal.
-      scaffold.absorbLayoutOverflows(tester);
       when(() => scaffold.repository.cinemaSessionsGet()).thenAnswer(
         (_) async => chopperListResponse([session('c-1', 'Blade Runner')]),
       );
