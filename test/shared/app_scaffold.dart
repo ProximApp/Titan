@@ -10,6 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:toastification/toastification.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:titan/auth/providers/openid_provider.dart';
@@ -687,23 +688,28 @@ class IntegrationScaffold {
     await tester.pumpWidget(
       UncontrolledProviderScope(
         container: container,
-        child: MaterialApp.router(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en', 'US'), Locale('fr', 'FR')],
-          // The real app wraps every routed page in AppTemplate through this
-          // builder; without it the NavigationTemplate (navbar, quit dialog)
-          // never mounts.
-          builder: (context, child) =>
-              child == null ? const SizedBox() : AppTemplate(child: child),
-          routeInformationParser: const QRouteInformationParser(),
-          routerDelegate: QRouterDelegate(
-            container.read(appRouterProvider).routes,
-            initPath: initialPath,
+        // Mirrors lib/main.dart's ToastificationWrapper: toasts fired with
+        // a dead context (confirm flows that pop first) fall back to this
+        // global overlay.
+        child: ToastificationWrapper(
+          child: MaterialApp.router(
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [Locale('en', 'US'), Locale('fr', 'FR')],
+            // The real app wraps every routed page in AppTemplate through this
+            // builder; without it the NavigationTemplate (navbar, quit dialog)
+            // never mounts.
+            builder: (context, child) =>
+                child == null ? const SizedBox() : AppTemplate(child: child),
+            routeInformationParser: const QRouteInformationParser(),
+            routerDelegate: QRouterDelegate(
+              container.read(appRouterProvider).routes,
+              initPath: initialPath,
+            ),
           ),
         ),
       ),
