@@ -29,17 +29,11 @@ void main() {
     });
 
     test('falls back to bouture on unknown values', () {
-      expect(
-        getPropagationMethodByValue('unknown'),
-        PropagationMethod.bouture,
-      );
+      expect(getPropagationMethodByValue('unknown'), PropagationMethod.bouture);
     });
 
     test('formats propagation methods back to french values', () {
-      expect(
-        getPropagationMethodValue(PropagationMethod.bouture),
-        'bouture',
-      );
+      expect(getPropagationMethodValue(PropagationMethod.bouture), 'bouture');
       expect(getPropagationMethodValue(PropagationMethod.graine), 'graine');
       expect(
         getPropagationMethodValue(PropagationMethod.swaggerGeneratedUnknown),
