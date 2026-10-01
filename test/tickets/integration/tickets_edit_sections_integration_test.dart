@@ -353,9 +353,38 @@ void main() {
       findsOneWidget,
     );
     await scaffold.drainToast(tester);
-    // A SUCCESSFUL delete never completes: its toast is displayed with the
-    // NAVIGATOR's context, from where no Overlay resolves and no
-    // ToastificationWrapper exists (known bug 21) — the success branch
-    // crashes on its own toast and is untestable until fixed.
+  });
+
+  testWidgets('delete event success toasts and pops through the navigator', (
+    tester,
+  ) async {
+    await pumpEdit(tester, sellerContainer(), ticketEventFixture());
+    // The form is unmounted by its own pop before the success toast fires,
+    // so the page toasts through the navigator's context captured at
+    // delete time — it resolves the app-level ToastificationWrapper.
+    when(
+      // ignore: void_checks
+      () => scaffold.repository.ticketsAdminEventsEventIdDelete(
+        eventId: any(named: 'eventId'),
+      ),
+    ).thenAnswer((_) async => chopperResponseVoid());
+    when(
+      () => scaffold.repository.ticketsEventsGet(),
+    ).thenAnswer((_) async => chopperListResponse<EventSimple>([]));
+
+    await scrollTo(tester, find.text('Delete ticketing'));
+    await tester.tap(find.text('Delete ticketing'));
+    await pumpFrames(tester, 14);
+
+    expect(find.text('Confirm deletion?'), findsOneWidget);
+    await tester.tap(find.text('Confirm'));
+    await pumpFrames(tester, 16);
+
+    verify(
+      () =>
+          scaffold.repository.ticketsAdminEventsEventIdDelete(eventId: 'evt-1'),
+    ).called(1);
+    expect(find.text('Ticketing deleted successfully'), findsOneWidget);
+    await scaffold.drainToast(tester);
   });
 }
