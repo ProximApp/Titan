@@ -4,15 +4,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:titan/booking/adapters/booking_return_applicant.dart';
 import 'package:titan/booking/providers/user_booking_list_provider.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 
-class MockBookingRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('UserBookingListProvider', () {
-    late MockBookingRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late UserBookingListProvider provider;
     final bookings = [
@@ -23,7 +22,7 @@ void main() {
     final updatedBooking = bookings.first.copyWith(reason: 'Updated');
 
     setUp(() async {
-      mockRepository = MockBookingRepository();
+      mockRepository = MockOpenapi();
       when(() => mockRepository.bookingBookingsUsersMeGet())
           .thenThrow(Exception('Failed to load bookings'));
       container = ProviderContainer(

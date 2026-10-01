@@ -2,17 +2,16 @@ import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/booking/adapters/room.dart';
 import 'package:titan/booking/providers/room_list_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 
-class MockRoomRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('RoomListNotifier', () {
-    late MockRoomRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late RoomListNotifier provider;
     final rooms = [
@@ -23,7 +22,7 @@ void main() {
     final updatedRoom = rooms.first.copyWith(name: 'Updated Room');
 
     setUp(() async {
-      mockRepository = MockRoomRepository();
+      mockRepository = MockOpenapi();
       when(() => mockRepository.bookingRoomsGet())
           .thenThrow(Exception('Failed to load rooms'));
       container = ProviderContainer(

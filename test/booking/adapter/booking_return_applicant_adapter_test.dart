@@ -2,14 +2,19 @@
 // Re-run the generator when the adapter changes.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:titan/generated/openapi.mock_factories.dart';
+
+import '../../generated/openapi_mock_factories.dart';
+
 import 'package:titan/booking/adapters/booking_return_applicant.dart';
 
 void main() {
   group('booking / adapters / booking_return_applicant', () {
     test('BookingReturnApplicant on BookingReturnApplicant runs', () {
       final bookingReturnApplicant = MockBookingReturnApplicant.any;
-      expect(bookingReturnApplicant.toBookingReturnSimpleApplicant(), isNotNull);
+      expect(
+        bookingReturnApplicant.toBookingReturnSimpleApplicant(),
+        isNotNull,
+      );
       expect(bookingReturnApplicant.toBookingReturn(), isNotNull);
       expect(bookingReturnApplicant.toBookingBase(), isNotNull);
       expect(bookingReturnApplicant.toBookingEdit(), isNotNull);
@@ -22,4 +27,3 @@ void main() {
     });
   });
 }
-
