@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/mypayment/class/history_interval.dart';
@@ -207,7 +206,10 @@ void main() {
     });
 
     test('toString describes the interval', () {
-      final interval = HistoryInterval(DateTime(2026, 1, 1), DateTime(2026, 1, 31));
+      final interval = HistoryInterval(
+        DateTime(2026, 1, 1),
+        DateTime(2026, 1, 31),
+      );
 
       expect(interval.toString(), contains('2026-01-01'));
       expect(interval.toString(), contains('2026-01-31'));

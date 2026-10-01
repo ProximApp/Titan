@@ -92,8 +92,7 @@ void main() {
           walletDeviceId: 'device-1',
         ),
       ).thenAnswer(
-        (_) async =>
-            chopper.Response(http.Response('{}', 404), null),
+        (_) async => chopper.Response(http.Response('{}', 404), null),
       );
 
       final result = await container.read(canPayProvider.future);

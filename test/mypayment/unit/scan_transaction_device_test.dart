@@ -40,10 +40,7 @@ void main() {
               chopper.Response(http.Response('body', 200), transaction),
         );
 
-        final result = await notifier.scan(
-          'store-1',
-          ScanInfo.empty(),
-        );
+        final result = await notifier.scan('store-1', ScanInfo.empty());
 
         expect(result, isA<AsyncData<History>>());
         verify(
@@ -213,9 +210,10 @@ void main() {
         final device = WalletDevice.empty().copyWith(id: 'device-1');
         notifier.state = AsyncValue.data([device]);
         when(
-          () => mockRepository.mypaymentUsersMeWalletDevicesWalletDeviceIdRevokePost(
-            walletDeviceId: 'device-1',
-          ),
+          () => mockRepository
+              .mypaymentUsersMeWalletDevicesWalletDeviceIdRevokePost(
+                walletDeviceId: 'device-1',
+              ),
         ).thenAnswer(
           (_) async => chopper.Response(http.Response('body', 200), null),
         );
@@ -232,9 +230,10 @@ void main() {
         final device = WalletDevice.empty().copyWith(id: 'device-1');
         notifier.state = AsyncValue.data([device]);
         when(
-          () => mockRepository.mypaymentUsersMeWalletDevicesWalletDeviceIdRevokePost(
-            walletDeviceId: 'device-1',
-          ),
+          () => mockRepository
+              .mypaymentUsersMeWalletDevicesWalletDeviceIdRevokePost(
+                walletDeviceId: 'device-1',
+              ),
         ).thenThrow(Exception('revoke failed'));
 
         final result = await notifier.revokeDevice(device);

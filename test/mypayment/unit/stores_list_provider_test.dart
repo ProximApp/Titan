@@ -22,8 +22,7 @@ void main() {
     setUp(() {
       mockRepository = MockRepository();
       when(() => mockRepository.mypaymentUsersMeStoresGet()).thenAnswer(
-        (_) async =>
-            chopper.Response(http.Response('[]', 200), <UserStore>[]),
+        (_) async => chopper.Response(http.Response('[]', 200), <UserStore>[]),
       );
       container = ProviderContainer(
         overrides: [repositoryProvider.overrideWithValue(mockRepository)],
@@ -65,13 +64,13 @@ void main() {
       );
 
       notifier.state = AsyncValue.data([]);
-      final result = await notifier.createStore(structure, store.copyWith(id: 'store-2'));
+      final result = await notifier.createStore(
+        structure,
+        store.copyWith(id: 'store-2'),
+      );
 
       expect(result, true);
-      expect(
-        notifier.state.value!.map((s) => s.id),
-        contains('store-2'),
-      );
+      expect(notifier.state.value!.map((s) => s.id), contains('store-2'));
     });
 
     test('createStore handles error', () async {
