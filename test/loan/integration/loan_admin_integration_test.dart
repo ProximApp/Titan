@@ -35,7 +35,6 @@ void main() {
     'deep link to /loan/admin lists the loaner items for a loaner manager',
     (tester) async {
       final container = scaffold.makeContainer(myLoaners: [loaner]);
-      scaffold.absorbLayoutOverflows(tester);
       addTearDown(container.dispose);
       scaffold.setWideSurface(tester);
       when(

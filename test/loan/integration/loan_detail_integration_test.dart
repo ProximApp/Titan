@@ -19,7 +19,6 @@ void main() {
     final container = scaffold.makeContainer();
     addTearDown(container.dispose);
     scaffold.setWideSurface(tester);
-    scaffold.absorbLayoutOverflows(tester);
     // The detail page renders the client-side loan state set by the loan
     // lists; no repository call happens on mount. The fixed-width LoanCard
     // overflows its row layout for long names (see README known bugs), so

@@ -39,7 +39,6 @@ void main() {
       final container = scaffold.makeContainer(myLoaners: [loaner]);
       addTearDown(container.dispose);
       scaffold.setWideSurface(tester);
-      scaffold.absorbLayoutOverflows(tester);
       when(
         () => scaffold.repository.loansUsersMeLoanersGet(),
       ).thenAnswer((_) async => chopperListResponse([loaner]));

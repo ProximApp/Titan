@@ -49,7 +49,6 @@ void main() {
     WidgetTester tester,
     ProviderContainer container,
   ) async {
-    scaffold.absorbLayoutOverflows(tester);
     scaffold.setWideSurface(tester);
     await scaffold.pumpApp(
       tester,
