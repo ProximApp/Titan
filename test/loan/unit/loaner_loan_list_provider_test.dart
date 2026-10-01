@@ -67,9 +67,7 @@ void main() {
 
     test('addLoan appends the created loan', () async {
       final created = Loan.empty().copyWith(id: 'new');
-      when(
-        () => mockRepository.loansPost(body: any(named: 'body')),
-      ).thenAnswer(
+      when(() => mockRepository.loansPost(body: any(named: 'body'))).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), created),
       );
 
@@ -101,9 +99,7 @@ void main() {
 
     test('deleteLoan removes the loan', () async {
       final loan = Loan.empty().copyWith(id: '1');
-      when(
-        () => mockRepository.loansLoanIdDelete(loanId: '1'),
-      ).thenAnswer(
+      when(() => mockRepository.loansLoanIdDelete(loanId: '1')).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
@@ -116,9 +112,7 @@ void main() {
 
     test('returnLoan removes the returned loan', () async {
       final loan = Loan.empty().copyWith(id: '1');
-      when(
-        () => mockRepository.loansLoanIdReturnPost(loanId: '1'),
-      ).thenAnswer(
+      when(() => mockRepository.loansLoanIdReturnPost(loanId: '1')).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
