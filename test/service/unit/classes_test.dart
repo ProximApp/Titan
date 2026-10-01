@@ -69,10 +69,7 @@ void main() {
     });
 
     test('toJson keeps the token and stringifies the expiration', () {
-      final token = FirebaseTokenExpiration(
-        'user-2',
-        DateTime(2026, 1, 1),
-      );
+      final token = FirebaseTokenExpiration('user-2', DateTime(2026, 1, 1));
 
       final json = token.toJson();
 
