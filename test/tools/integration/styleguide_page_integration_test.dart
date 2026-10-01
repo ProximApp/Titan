@@ -13,33 +13,6 @@ import '../../shared/app_scaffold.dart';
 /// The styleguide page (`/styleguide`, 307 executable lines — the tools
 /// module's biggest uncovered UI file). One deep-link shell asserting the
 /// component catalog renders and the interactive demos respond.
-///
-/// The FloatingNavbar demo ships with an EMPTY items list, which drives
-/// `itemWidth = availableWidth / items.length` to infinity and throws a
-/// layout assertion inside its Stack on every frame (a latent page bug —
-/// see the README ledger). The broken layout also cascades into debug
-/// scheduler-callback semantics assertions on the same frames. The absorb
-/// filter CANNOT live in setUp(): testWidgets/binding.runTest overwrites
-/// FlutterError.onError after setUp runs, so a setUp-installed filter is
-/// silently discarded. It must be installed as the first statement inside
-/// each testWidgets body, chained to the handler testWidgets just
-/// installed; addTearDown inside the body restores it.
-void absorbNavbarLayoutExceptions() {
-  final previous = FlutterError.onError;
-  FlutterError.onError = (details) {
-    final message = details.exception.toString();
-    final isNavbarDamage =
-        message.contains('infinite width') ||
-        message.contains('parentDataDirty') ||
-        message.contains('_needsLayout') ||
-        message.contains('_needsPaint') ||
-        message.contains('during a scheduler callback');
-    if (isNavbarDamage) return;
-    previous?.call(details);
-  };
-  addTearDown(() => FlutterError.onError = previous);
-}
-
 void main() {
   late IntegrationScaffold scaffold;
 
@@ -85,7 +58,6 @@ void main() {
   testWidgets('the styleguide page renders its component catalog', (
     tester,
   ) async {
-    absorbNavbarLayoutExceptions();
     await pumpStyleGuide(tester);
 
     // The page's section headers render.
@@ -110,7 +82,6 @@ void main() {
   });
 
   testWidgets('the button and list-item demos react to taps', (tester) async {
-    absorbNavbarLayoutExceptions();
     await pumpStyleGuide(tester);
 
     // The main-button demo pushes a SnackBar through the scaffold.
@@ -171,7 +142,6 @@ void main() {
   testWidgets('the search bar and toggle demos update their state', (
     tester,
   ) async {
-    absorbNavbarLayoutExceptions();
     await pumpStyleGuide(tester);
 
     // The toggle list items fire their onTap SnackBars: tap the ROW (the
@@ -220,7 +190,6 @@ void main() {
   testWidgets('the remaining button variants fire their own snack bars', (
     tester,
   ) async {
-    absorbNavbarLayoutExceptions();
     await pumpStyleGuide(tester);
 
     await ensureOnScreen(tester, find.text('Delete'));
@@ -252,7 +221,6 @@ void main() {
   testWidgets('the profile row and template rows react to taps', (
     tester,
   ) async {
-    absorbNavbarLayoutExceptions();
     await pumpStyleGuide(tester);
 
     // The 4th ListItem is the Profile demo (Settings/Account/Notifications
@@ -286,7 +254,6 @@ void main() {
   testWidgets('the multi-select demos report selections and long presses', (
     tester,
   ) async {
-    absorbNavbarLayoutExceptions();
     await pumpStyleGuide(tester);
 
     // Basic demo: tap a fruit chip.
@@ -323,7 +290,6 @@ void main() {
   testWidgets('the filter-dialog search bar opens its option dialog', (
     tester,
   ) async {
-    absorbNavbarLayoutExceptions();
     await pumpStyleGuide(tester);
 
     // The SECOND search bar owns the filter dialog (the first one only
@@ -367,7 +333,6 @@ void main() {
   testWidgets('the entry demos accept input and respond to taps', (
     tester,
   ) async {
-    absorbNavbarLayoutExceptions();
     await pumpStyleGuide(tester);
 
     // The text entries take input (Name / Amount with € suffix / multiline
