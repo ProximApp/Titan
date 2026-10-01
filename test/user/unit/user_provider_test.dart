@@ -10,22 +10,27 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/user/providers/user_provider.dart';
 
-class MockUserRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 class _FalseNotifier extends IsLoggedInProvider {
   @override
   bool build() => false;
 }
 
+class _TrueNotifier extends IsLoggedInProvider {
+  @override
+  bool build() => true;
+}
+
 void main() {
   group('UserNotifier', () {
-    late MockUserRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late UserNotifier provider;
     final user = CoreUser.empty().copyWith(id: '1');
 
     setUp(() async {
-      mockRepository = MockUserRepository();
+      mockRepository = MockOpenapi();
       container = ProviderContainer(
         overrides: [
           repositoryProvider.overrideWithValue(mockRepository),
@@ -215,5 +220,55 @@ void main() {
 
       expect(result, false);
     });
+  });
+
+  group('logged-in build and the userProvider projection', () {
+    late MockOpenapi mockRepository;
+    final user = CoreUser.empty().copyWith(id: '1');
+
+    setUp(() {
+      mockRepository = MockOpenapi();
+      when(() => mockRepository.usersMeGet()).thenAnswer(
+        (_) async => chopper.Response(http.Response('body', 200), user),
+      );
+    });
+
+    ProviderContainer makeLoggedInContainer() {
+      final container = ProviderContainer(
+        overrides: [
+          repositoryProvider.overrideWithValue(mockRepository),
+          isLoggedInProvider.overrideWith(() => _TrueNotifier()),
+          tokenProvider.overrideWithValue('a-token'),
+          idProvider.overrideWith((ref) => Future.value('u-1')),
+        ],
+      );
+      addTearDown(container.dispose);
+      return container;
+    }
+
+    test('build loads me once an id and a token are available', () async {
+      final container = makeLoggedInContainer();
+      // idProvider must hold data before asyncUserProvider builds, or the
+      // id gate stays on the loading state and loadMe never fires.
+      await container.read(idProvider.future);
+
+      container.read(asyncUserProvider);
+      await Future<void>.delayed(Duration.zero);
+
+      verify(() => mockRepository.usersMeGet()).called(1);
+    });
+
+    test(
+      'userProvider projects the loaded user, empty while loading',
+      () async {
+        final container = makeLoggedInContainer();
+        await container.read(idProvider.future);
+
+        expect(container.read(userProvider), CoreUser.empty());
+
+        await Future<void>.delayed(Duration.zero);
+        expect(container.read(userProvider), user);
+      },
+    );
   });
 }

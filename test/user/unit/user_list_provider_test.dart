@@ -7,11 +7,11 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/user/providers/user_list_provider.dart';
 
-class MockUserListRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('UserListNotifier', () {
-    late MockUserListRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late UserListNotifier provider;
     final users = [
@@ -20,7 +20,7 @@ void main() {
     ];
 
     setUp(() async {
-      mockRepository = MockUserListRepository();
+      mockRepository = MockOpenapi();
       container = ProviderContainer(
         overrides: [repositoryProvider.overrideWithValue(mockRepository)],
       );

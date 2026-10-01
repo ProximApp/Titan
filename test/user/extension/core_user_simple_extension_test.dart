@@ -2,7 +2,9 @@
 // Re-run the generator when the extension changes.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:titan/generated/openapi.mock_factories.dart';
+
+import '../../generated/openapi_mock_factories.dart';
+
 import 'package:titan/generated/openapi.models.swagger.dart';
 // Extensions discovered in this file:
 //   extension CoreUserSimpleName on CoreUserSimple {
@@ -11,15 +13,13 @@ import 'package:titan/user/extensions/core_user_simple.dart';
 
 void main() {
   group('user / extensions / core_user_simple', () {
-    test(
-      'core_user_simple extension compiles', () {
+    test('core_user_simple extension compiles', () {
       // smoke: the import above already compiled; the extension is
       // reachable from package:titan/test without further surgery.
       expect(true, isTrue);
     });
 
-    test(
-      'CoreUserSimpleName on CoreUserSimple compiles and runs', () {
+    test('CoreUserSimpleName on CoreUserSimple compiles and runs', () {
       final subject = MockCoreUserSimple.any;
       expect(subject.getName(), isNotNull);
       // Branch pass: populated receiver so the non-null arms execute too.
@@ -32,8 +32,5 @@ void main() {
       final subject4 = CoreUserSimple.empty().copyWith(id: 'x-id');
       expect(subject4.getName(), isNotNull);
     });
-
   });
 }
-
-

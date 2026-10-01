@@ -2,7 +2,9 @@
 // Re-run the generator when the extension changes.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:titan/generated/openapi.mock_factories.dart';
+
+import '../../generated/openapi_mock_factories.dart';
+
 import 'package:titan/generated/openapi.models.swagger.dart';
 // Extensions discovered in this file:
 //   extension ApplicantName on Applicant {
@@ -11,19 +13,20 @@ import 'package:titan/user/extensions/applicants.dart';
 
 void main() {
   group('user / extensions / applicants', () {
-    test(
-      'applicants extension compiles', () {
+    test('applicants extension compiles', () {
       // smoke: the import above already compiled; the extension is
       // reachable from package:titan/test without further surgery.
       expect(true, isTrue);
     });
 
-    test(
-      'ApplicantName on Applicant compiles and runs', () {
+    test('ApplicantName on Applicant compiles and runs', () {
       final subject = MockApplicant.any;
       expect(subject.getName(), isNotNull);
       // Branch pass: populated receiver so the non-null arms execute too.
-      final subject2 = MockApplicant.any.copyWith(nickname: 'x-nickname', phone: 'x-phone');
+      final subject2 = MockApplicant.any.copyWith(
+        nickname: 'x-nickname',
+        phone: 'x-phone',
+      );
       expect(subject2.getName(), isNotNull);
       // Empty-receiver pass: runs the id.isEmpty / null-nullable arms.
       final subject3 = Applicant.empty();
@@ -32,8 +35,5 @@ void main() {
       final subject4 = Applicant.empty().copyWith(id: 'x-id');
       expect(subject4.getName(), isNotNull);
     });
-
   });
 }
-
-
