@@ -1,5 +1,4 @@
 import 'package:chopper/chopper.dart' as chopper;
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
@@ -88,29 +87,6 @@ void main() {
     scaffold.shellSetUp();
   });
 
-  /// VoteBars' Expanded sits in the admin page's scrollable column, so
-  /// showing the counting graph throws the unbounded-flex assertion with a
-  /// scheduler-callback cascade — a shipped debug-mode crash (README
-  /// ledger #33). The graph tests absorb exactly that family; anything
-  /// else stays fatal.
-  void absorbUnboundedGraphException() {
-    final previous = FlutterError.onError;
-    FlutterError.onError = (details) {
-      final message = details.exception.toString();
-      final isGraphDamage =
-          message.contains(
-            'non-zero flex but incoming height constraints are unbounded',
-          ) ||
-          message.contains('parentDataDirty') ||
-          message.contains('_needsLayout') ||
-          message.contains('_needsPaint') ||
-          message.contains('during a scheduler callback');
-      if (isGraphDamage) return;
-      previous?.call(details);
-    };
-    addTearDown(() => FlutterError.onError = previous);
-  }
-
   Future<void> pumpAdmin(
     WidgetTester tester, {
     required enums.StatusType status,
@@ -184,11 +160,9 @@ void main() {
     await pumpAdmin(tester, status: enums.StatusType.open, withLists: true);
 
     // Open: no add button, the section's live vote count is loaded, and
-    // the close action is available. KNOWN BUG (ledger #32): VoteCount's
-    // dataBuilder interpolates the whole List<int> from the map provider,
-    // so the count renders with brackets — asserted as shipped.
+    // the close action is available.
     expect(find.byType(CustomIconButton), findsNothing);
-    expect(find.text('[7] Votes'), findsOneWidget);
+    expect(find.text('7 Votes'), findsOneWidget);
     await scaffold.ensureOnScreen(tester, find.text('Close votes'));
     when(
       () => scaffold.repository.campaignStatusClosePost(),
@@ -227,7 +201,6 @@ void main() {
 
   testWidgets('the counting status reveals the graph and publishes through '
       'the dialog', (tester) async {
-    absorbUnboundedGraphException();
     await pumpAdmin(tester, status: enums.StatusType.counting, withLists: true);
 
     // Counting starts with the graph hidden: placeholder + Reset only.
@@ -239,13 +212,15 @@ void main() {
     await tester.tap(find.text('Show votes'));
     await pumpFrames(tester, 10);
 
-    // The placeholder is replaced by the graph area and the publish row
-    // appears. The chart itself never paints in debug (the unbounded-flex
-    // crash above kills its layout before the axis titles build — probed:
-    // zero %-texts render), so the result data is asserted through the
-    // endpoint chain instead, not through the bars.
+    // The placeholder is replaced by the graph and the publish row
+    // appears and the raw count from the real results endpoint.
     expect(find.text('Publish'), findsOneWidget);
     expect(find.text('Show votes'), findsNothing);
+    // "BDE" renders twice: the list card in the section list above and
+    // the chart's bottom-axis label.
+    expect(find.text('BDE'), findsNWidgets(2));
+    expect(find.text('100.00%'), findsOneWidget);
+    expect(find.text('12 Votes'), findsOneWidget);
     await scaffold.ensureOnScreen(tester, find.text('Publish'));
     when(
       () => scaffold.repository.campaignStatusPublishedPost(),
@@ -261,16 +236,18 @@ void main() {
     await pumpFrames(tester, 12);
 
     verify(() => scaffold.repository.campaignStatusPublishedPost()).called(1);
-    // Published keeps the bars area and the Reset action, drops the
-    // publish row.
+    // Published keeps the graph (with its labels) and the Reset action,
+    // drops the publish row.
     expect(find.text('Publish'), findsNothing);
     expect(find.text('Reset'), findsOneWidget);
+    expect(find.text('BDE'), findsNWidgets(2));
+    expect(find.text('100.00%'), findsOneWidget);
+    expect(find.text('12 Votes'), findsOneWidget);
   });
 
   testWidgets('the reset dialog returns the campaign to waiting', (
     tester,
   ) async {
-    absorbUnboundedGraphException();
     await pumpAdmin(tester, status: enums.StatusType.counting, withLists: true);
 
     await scaffold.ensureOnScreen(tester, find.text('Reset'));
