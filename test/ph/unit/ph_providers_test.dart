@@ -21,12 +21,8 @@ class FakePhListNotifier extends PhListNotifier {
       loading ? const AsyncValue.loading() : AsyncValue.data(papers);
 }
 
-PaperComplete paper(String id, String name, int year) =>
-    PaperComplete.empty().copyWith(
-      id: id,
-      name: name,
-      releaseDate: DateTime(year, 3, 7),
-    );
+PaperComplete paper(String id, String name, int year) => PaperComplete.empty()
+    .copyWith(id: id, name: name, releaseDate: DateTime(year, 3, 7));
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -43,18 +39,12 @@ void main() {
 
   group('ph tools functions', () {
     test('phFormatDate formats in the requested locale', () {
-      expect(
-        phFormatDate(DateTime(2026, 3, 7), 'en'),
-        'March 7, 2026',
-      );
+      expect(phFormatDate(DateTime(2026, 3, 7), 'en'), 'March 7, 2026');
       expect(phFormatDate(DateTime(2026, 3, 7), 'fr'), '7 mars 2026');
     });
 
     test('phFormatDateEntry formats with the short month style', () {
-      expect(
-        phFormatDateEntry(DateTime(2026, 12, 31), 'en'),
-        'Dec 31, 2026',
-      );
+      expect(phFormatDateEntry(DateTime(2026, 12, 31), 'en'), 'Dec 31, 2026');
     });
 
     test('shortenText keeps short text and truncates with ellipsis', () {
