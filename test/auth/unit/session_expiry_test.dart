@@ -60,7 +60,9 @@ void main() {
     test('a non-expired access token means signed in', () {
       final container = containerWithToken(
         models.TokenResponse(
-          accessToken: jwtWithExpiry(DateTime.now().add(const Duration(hours: 1))),
+          accessToken: jwtWithExpiry(
+            DateTime.now().add(const Duration(hours: 1)),
+          ),
           refreshToken: 'r',
         ),
       );
@@ -101,49 +103,49 @@ void main() {
   });
 
   group('OpenIdTokenProvider.refreshAccessToken (provider side)', () {
-    test('stores the refreshed token and returns the new access token',
-        () async {
-      final authRepository = MockAuthRepository();
-      final jwt = jwtWithExpiry(DateTime.now().add(const Duration(hours: 1)));
-      when(() => authRepository.refreshToken()).thenAnswer(
-        (_) async => models.TokenResponse(
-          accessToken: jwt,
-          refreshToken: 'rotated-refresh',
-        ),
-      );
-      final container = ProviderContainer(
-        overrides: [
-          isConnectedProvider.overrideWith(() => _StaticIsConnected(true)),
-          authRepositoryProvider.overrideWithValue(authRepository),
-          // Start from a dead session (the state the refresh heals).
-          authTokenProvider.overrideWith(
-            () => FakeOpenIdToken(
-              const models.TokenResponse(accessToken: '', refreshToken: ''),
-            ),
+    test(
+      'stores the refreshed token and returns the new access token',
+      () async {
+        final authRepository = MockAuthRepository();
+        final jwt = jwtWithExpiry(DateTime.now().add(const Duration(hours: 1)));
+        when(() => authRepository.refreshToken()).thenAnswer(
+          (_) async => models.TokenResponse(
+            accessToken: jwt,
+            refreshToken: 'rotated-refresh',
           ),
-        ],
-      );
-      addTearDown(container.dispose);
+        );
+        final container = ProviderContainer(
+          overrides: [
+            isConnectedProvider.overrideWith(() => _StaticIsConnected(true)),
+            authRepositoryProvider.overrideWithValue(authRepository),
+            // Start from a dead session (the state the refresh heals).
+            authTokenProvider.overrideWith(
+              () => FakeOpenIdToken(
+                const models.TokenResponse(accessToken: '', refreshToken: ''),
+              ),
+            ),
+          ],
+        );
+        addTearDown(container.dispose);
 
-      final newToken = await container
-          .read(authTokenProvider.notifier)
-          .refreshAccessToken();
+        final newToken = await container
+            .read(authTokenProvider.notifier)
+            .refreshAccessToken();
 
-      expect(newToken, jwt);
-      // The provider state now carries the fresh session: the whole app
-      // (middlewares, authenticator) reads from here.
-      expect(
-        container.read(authTokenProvider).value!.refreshToken,
-        'rotated-refresh',
-      );
-      expect(container.read(isLoggedInProvider), isTrue);
-    });
+        expect(newToken, jwt);
+        // The provider state now carries the fresh session: the whole app
+        // (middlewares, authenticator) reads from here.
+        expect(
+          container.read(authTokenProvider).value!.refreshToken,
+          'rotated-refresh',
+        );
+        expect(container.read(isLoggedInProvider), isTrue);
+      },
+    );
 
     test('rethrows when the repository refresh fails', () async {
       final authRepository = MockAuthRepository();
-      when(
-        () => authRepository.refreshToken(),
-      ).thenThrow(Exception('expired'));
+      when(() => authRepository.refreshToken()).thenThrow(Exception('expired'));
       final container = ProviderContainer(
         overrides: [
           isConnectedProvider.overrideWith(() => _StaticIsConnected(true)),
