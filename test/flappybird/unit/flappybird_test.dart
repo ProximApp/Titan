@@ -54,7 +54,10 @@ void main() {
     test('returns the ten material shades around the base color', () {
       final swatch = getSwatch(Colors.blue);
 
-      expect(swatch.keys, containsAll([50, 100, 200, 300, 400, 500, 600, 700, 800, 900]));
+      expect(
+        swatch.keys,
+        containsAll([50, 100, 200, 300, 400, 500, 600, 700, 800, 900]),
+      );
       expect(swatch[500]!.value, Colors.blue.value);
     });
 
