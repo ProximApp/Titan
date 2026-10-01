@@ -7,11 +7,11 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/version/providers/version_verifier_provider.dart';
 
-class MockVersionRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('VersionVerifierNotifier', () {
-    late MockVersionRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late VersionVerifierNotifier provider;
     final version = CoreInformation(
@@ -21,7 +21,7 @@ void main() {
     );
 
     setUp(() async {
-      mockRepository = MockVersionRepository();
+      mockRepository = MockOpenapi();
       when(() => mockRepository.informationGet()).thenAnswer(
         (_) async => chopper.Response(
           http.Response('{}', 200),
