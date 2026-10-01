@@ -60,8 +60,6 @@ void main() {
     );
     addTearDown(container.dispose);
     scaffold.setWideSurface(tester);
-    // The manager cards hit the known BookingCard overflow (README #11).
-    scaffold.absorbLayoutOverflows(tester);
     stubManager(scaffold);
 
     await scaffold.pumpApp(
@@ -89,8 +87,6 @@ void main() {
       );
       addTearDown(container.dispose);
       scaffold.setWideSurface(tester);
-      // The manager cards hit the known BookingCard overflow (README #11).
-      scaffold.absorbLayoutOverflows(tester);
       stubManager(
         scaffold,
         bookings: [

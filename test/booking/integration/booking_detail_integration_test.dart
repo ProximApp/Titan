@@ -20,7 +20,6 @@ void main() {
     final container = scaffold.makeContainer();
     addTearDown(container.dispose);
     scaffold.setWideSurface(tester);
-    scaffold.absorbLayoutOverflows(tester);
     // The main page mounts underneath with an empty list, so no booking
     // card (whose fixed-width rows overflow the layout) is rendered.
     when(
