@@ -1,5 +1,4 @@
 import 'package:chopper/chopper.dart' as chopper;
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
@@ -148,7 +147,7 @@ void main() {
     expect(find.text('Gala'), findsOneWidget);
     expect(find.textContaining('500.00'), findsOneWidget);
     // Open status: the card shows the buy label.
-    expect(find.text('Buy this ticket'), findsOneWidget);    // Ledger #31 fixed: the status label paints INSIDE the card, so the
+    expect(find.text('Buy this ticket'), findsOneWidget);
     // label tap opens the dialog directly.
     await tester.tap(find.text('Buy this ticket'));
     await pumpFrames(tester, 6);
@@ -193,7 +192,7 @@ void main() {
     ).thenAnswer(
       (_) async =>
           chopperListResponse(<AppModulesRaffleSchemasRaffleTicketComplete>[]),
-    );    // Ledger #31 fixed: the label tap opens the dialog directly.
+    );
     await tester.tap(find.text('Buy this ticket'));
     await pumpFrames(tester, 6);
     await tester.tap(
@@ -223,7 +222,7 @@ void main() {
       (_) async => chopperListResponse([
         AppModulesRaffleSchemasRaffleTicketComplete.empty(),
       ]),
-    );    // Ledger #31 fixed: the label tap opens the dialog directly.
+    );
     await tester.tap(find.text('Buy this ticket'));
     await pumpFrames(tester, 6);
     await tester.tap(
@@ -258,7 +257,7 @@ void main() {
             [],
             error: 'sold out',
           ),
-    );    // Ledger #31 fixed: the label tap opens the dialog directly.
+    );
     await tester.tap(find.text('Buy this ticket'));
     await pumpFrames(tester, 6);
     await tester.tap(
@@ -279,7 +278,7 @@ void main() {
     await pumpDetail(tester, status: RaffleStatusType.creation);
 
     expect(find.text('Unavailable raffle'), findsOneWidget);
-    expect(find.text('Buy this ticket'), findsNothing);    // Ledger #31 fixed: the label tap is now hittable; the status guard
+    expect(find.text('Buy this ticket'), findsNothing);
     // must keep the dialog closed.
     await tester.tap(find.text('Unavailable raffle'));
     await pumpFrames(tester, 6);
