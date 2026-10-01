@@ -736,22 +736,6 @@ class IntegrationScaffold {
     addTearDown(tester.view.reset);
   }
 
-  /// Several fixed-width cards (LoanCard, BookingCard in detail mode,
-  /// ItemCard in edit mode) overflow their inner rows by design at any
-  /// fixture width — see README known bugs. Swallows exactly those layout
-  /// exceptions and still fails the test for any other rendering error.
-  void absorbLayoutOverflows(WidgetTester tester) {
-    final previous = FlutterError.onError;
-    FlutterError.onError = (details) {
-      if (details.exception is FlutterError &&
-          details.exception.toString().contains('overflowed')) {
-        return;
-      }
-      previous?.call(details);
-    };
-    addTearDown(() => FlutterError.onError = previous);
-  }
-
   /// Stubs the connectivity probe the session bootstrap watches.
   void stubInformation() {
     when(() => repository.informationGet()).thenAnswer(
