@@ -76,12 +76,12 @@ void stubEmptyAmap(IntegrationScaffold scaffold) {
   ).thenAnswer((_) async => chopperResponse(cash(0)));
   when(
     () => scaffold.repository.amapDeliveriesGet(),
-  ).thenAnswer((_) async => chopperListResponse(<DeliveryReturn>[]));
+  ).thenAnswer((_) async => chopperListResponse(const <DeliveryReturn>[]));
   when(
     () => scaffold.repository.amapUsersUserIdOrdersGet(
       userId: any(named: 'userId'),
     ),
-  ).thenAnswer((_) async => chopperListResponse(<OrderReturn>[]));
+  ).thenAnswer((_) async => chopperListResponse(const <OrderReturn>[]));
 }
 
 void main() {
