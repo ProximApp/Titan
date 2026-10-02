@@ -17,6 +17,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:url_launcher_platform_interface/link.dart';
+import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 import 'package:toastification/toastification.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -1442,4 +1444,53 @@ void ignoreAmapKnownQuirks() {
     previous?.call(details);
   };
   addTearDown(() => FlutterError.onError = previous);
+}
+
+/// url_launcher's platform side: records every URL the app asks to open and
+/// answers with whatever [launchSucceeds] says.
+///
+/// The fund confirm button's whole happy path ends in `launchUrl`, and a
+/// `false` answer is what makes it throw `paiementCantLaunchURL` — so both
+/// answers are worth being able to choose per test.
+class FakeUrlLauncher extends UrlLauncherPlatform {
+  FakeUrlLauncher({this.launchSucceeds = true});
+
+  /// What a launch resolves to. `false` is the "no browser available" answer
+  /// the fund button turns into an exception.
+  final bool launchSucceeds;
+
+  final List<String> launched = [];
+
+  @override
+  LinkDelegate? get linkDelegate => null;
+
+  @override
+  Future<bool> canLaunch(String url) async => launchSucceeds;
+
+  // `launchUrl` on the base class is the non-virtual helper that decomposes a
+  // LaunchOptions into these named flags, so overriding `launch` records every
+  // launch whichever mode the caller asked for.
+  @override
+  Future<bool> launch(
+    String url, {
+    required bool useSafariVC,
+    required bool useWebView,
+    required bool enableJavaScript,
+    required bool enableDomStorage,
+    required bool universalLinksOnly,
+    required Map<String, String> headers,
+    String? webOnlyWindowName,
+  }) async {
+    launched.add(url);
+    return launchSucceeds;
+  }
+}
+
+/// Installs [fake] as url_launcher's platform for the current test, and puts
+/// the method-channel implementation back afterwards — a leaked fake would
+/// silently absorb the launch of any other test's url in the same isolate.
+void stubUrlLauncher(FakeUrlLauncher fake) {
+  final previous = UrlLauncherPlatform.instance;
+  UrlLauncherPlatform.instance = fake;
+  addTearDown(() => UrlLauncherPlatform.instance = previous);
 }
