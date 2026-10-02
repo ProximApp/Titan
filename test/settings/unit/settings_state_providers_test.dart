@@ -21,6 +21,21 @@ class FakeModulesNotifier extends ModulesNotifier {
   }
 }
 
+/// A container whose backend grants exactly [grantedRoots] module roots.
+/// A second container with the same SharedPreferences stands in for an app
+/// restart, because the module selection is persisted, not held in memory.
+ProviderContainer makeModulesContainer(List<String> grantedRoots) {
+  return ProviderContainer(
+    overrides: [
+      loggerProvider.overrideWithValue(MockLogger()),
+      userProvider.overrideWithValue(CoreUser.empty()),
+      isAdminProvider.overrideWithValue(false),
+      isSuperAdminProvider.overrideWithValue(false),
+      moduleRootListProvider.overrideWithValue(AsyncValue.data(grantedRoots)),
+    ],
+  );
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -40,29 +55,17 @@ void main() {
   });
 
   group('ModulesNotifier', () {
-    late MockLogger mockLogger;
     late ProviderContainer container;
 
     setUp(() {
       SharedPreferences.setMockInitialValues({});
-      mockLogger = MockLogger();
-      container = ProviderContainer(
-        overrides: [
-          loggerProvider.overrideWithValue(mockLogger),
-          userProvider.overrideWithValue(CoreUser.empty()),
-          isAdminProvider.overrideWithValue(false),
-          isSuperAdminProvider.overrideWithValue(false),
-          moduleRootListProvider.overrideWithValue(
-            const AsyncValue.data([
-              'amap',
-              'booking',
-              'phonebook',
-              'purchases',
-              'vote',
-            ]),
-          ),
-        ],
-      );
+      container = makeModulesContainer([
+        'amap',
+        'booking',
+        'phonebook',
+        'purchases',
+        'vote',
+      ]);
       // Riverpod 3 auto-disposes providers without listeners, and
       // saveModules' fire-and-forget SharedPreferences callback then hits a
       // disposed ref. An active listener keeps the notifier alive.
@@ -145,12 +148,58 @@ void main() {
             .map((m) => m.root)
             .toList();
         // Reordering follows ReorderableListView semantics: moving index 0 to
-        // 2 lands it at index 1 (newIndex -= 1). allModules is reordered in
-        // place and the state follows it.
+        // 2 lands it at index 1 (newIndex -= 1). The drag indexes the visible
+        // list, so /settings survives the move.
         expect(roots, ['/phonebook', '/amap', '/vote', '/settings']);
+
+        // The move is mirrored into the catalog, which keeps every module:
+        // /settings is appended to the visible list, never catalogued.
+        await Future<void>.delayed(Duration.zero);
         final savedOrder = (await SharedPreferences.getInstance())
             .getStringList('allModules');
-        expect(savedOrder, ['/phonebook', '/amap', '/vote', '/settings']);
+        expect(savedOrder, contains('/home'));
+        expect(savedOrder, isNot(contains('/settings')));
+        expect(
+          savedOrder!.indexOf('/phonebook'),
+          lessThan(savedOrder.indexOf('/amap')),
+        );
+
+        // loadModules re-sorts by the persisted catalog order, so the drag
+        // survives a reload. This only holds now that the catalog is not
+        // pruned to the granted subset: that pruning made the saved order
+        // compare unequal on every launch and threw it away.
+        await notifier.loadModules(['/amap', '/phonebook', '/vote']);
+        expect(container.read(modulesProvider).map((m) => m.root).toList(), [
+          '/phonebook',
+          '/amap',
+          '/vote',
+          '/settings',
+        ]);
+      },
+    );
+
+    test(
+      'a restart keeps the selection: ungranted modules stay hidden',
+      () async {
+        final notifier = container.read(modulesProvider.notifier);
+        await notifier.loadModules(['/amap', '/phonebook', '/vote']);
+        await Future<void>.delayed(Duration.zero);
+
+        // Restart: a fresh container and notifier over the same persisted
+        // selection, but the backend now grants only /amap. loadModules used
+        // to read the selection back out of a catalog it had already pruned
+        // to the granted subset, so a restart walked the saved names only and
+        // re-exposed every module in the catalog (ledger #40).
+        final restarted = makeModulesContainer(['amap']);
+        addTearDown(restarted.dispose);
+        restarted.listen(modulesProvider, (_, _) {});
+        await restarted.read(modulesProvider.notifier).loadModules(['/amap']);
+        await Future<void>.delayed(Duration.zero);
+
+        expect(restarted.read(modulesProvider).map((m) => m.root), [
+          '/amap',
+          '/settings',
+        ]);
       },
     );
 
