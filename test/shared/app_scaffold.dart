@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cryptography_plus/cryptography_plus.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -534,13 +535,36 @@ final myPaymentStore = UserStore.empty().copyWith(
 /// payment pages only need getKeyId() (the FutureBuilder in DevicesPage
 /// dereferences it), so a fake with a configurable key id keeps every test
 /// command free of build-specific defines.
+///
+/// It also answers `getKeyPair()` and `signMessage()`, because the pay
+/// flow's QR modal is built from a REAL Ed25519 signature
+/// (`getQRCodeContent` signs the payload and base64s the bytes). Leaving
+/// those unimplemented would make `QrCode`'s FutureBuilder render its error
+/// branch, and the whole point of that test is the QR appearing. The keys
+/// are pure Dart — cryptography_plus has no platform side — so a real
+/// in-memory pair is both cheaper and more honest than a stubbed signature.
 class FakeKeyService extends Fake implements KeyService {
   FakeKeyService([this.keyId]);
 
   final String? keyId;
 
+  final _algorithm = Ed25519();
+  SimpleKeyPair? _keyPair;
+
   @override
   Future<String?> getKeyId() async => keyId;
+
+  /// Null when [keyId] is null, mirroring the real service's "no device
+  /// registered" answer rather than handing back a key nothing points at.
+  @override
+  Future<SimpleKeyPair?> getKeyPair() async {
+    if (keyId == null) return null;
+    return _keyPair ??= await _algorithm.newKeyPair();
+  }
+
+  @override
+  Future<Signature> signMessage(SimpleKeyPair keyPair, List<int> message) =>
+      _algorithm.sign(message, keyPair: keyPair);
 }
 
 /// The real Logger kicks off an async init() that REPLACES loggerOutput
@@ -894,6 +918,13 @@ class IntegrationScaffold {
     /// resolving and redirecting away on the first frame. Riverpod 3 exports
     /// no Override type, so overrides are swapped by flag, not by list.
     bool holdVersionVerifier = false,
+
+    /// What `KeyService.getKeyId()` resolves to. Null (the default) is the
+    /// "no device registered" answer, which is what most tests want: it keeps
+    /// the mypayment pay/fund confirm buttons on their error branch instead of
+    /// reaching the platform. Pass a value to let the pay flow get past the
+    /// account card's device gate.
+    String? deviceKeyId,
   }) {
     return ProviderContainer(
       overrides: [
@@ -910,7 +941,7 @@ class IntegrationScaffold {
         userProvider.overrideWithValue(user ?? CoreUser.empty()),
         if (seedAsyncUser && user != null)
           asyncUserProvider.overrideWith(() => FakeAsyncUserNotifier(user)),
-        keyServiceProvider.overrideWith((ref) => FakeKeyService()),
+        keyServiceProvider.overrideWith((ref) => FakeKeyService(deviceKeyId)),
         if (myAssociations.isNotEmpty)
           asyncMyAssociationListProvider.overrideWith(
             () => FakeMyAssociationListNotifier(myAssociations),
@@ -1382,4 +1413,29 @@ class IntegrationScaffold {
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump();
   }
+}
+
+/// Filters the ONE Riverpod 3 quirk the amap cards cannot avoid.
+///
+/// `UserCashNotifier` and `UserOrderListNotifier` `return state` from
+/// `build()`, which throws "Tried to read the state of an uninitialized
+/// provider" once on the first build before the load they scheduled heals
+/// the state. It is a real bug in the app (bug #3 in the README's list) and
+/// filtering it is the only way to mount anything that watches those
+/// providers — but the filter is deliberately narrow: it matches that one
+/// message and nothing else, so every `A RenderFlex overflowed` still reaches
+/// `FlutterError.onError` and stays fatal. That narrowness is what makes a
+/// card layout test under this filter a real guard rather than a no-op.
+void ignoreAmapKnownQuirks() {
+  final previous = FlutterError.onError;
+  FlutterError.onError = (details) {
+    final message = details.exception.toString();
+    if (message.contains(
+      'Tried to read the state of an uninitialized provider',
+    )) {
+      return;
+    }
+    previous?.call(details);
+  };
+  addTearDown(() => FlutterError.onError = previous);
 }
