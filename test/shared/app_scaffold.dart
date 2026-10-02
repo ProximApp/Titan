@@ -2,6 +2,9 @@ import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:chopper/chopper.dart' as chopper;
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core_platform_interface/firebase_core_platform_interface.dart';
+import 'package:firebase_messaging_platform_interface/firebase_messaging_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -137,6 +140,115 @@ class FakeMobileScannerPlatform extends MobileScannerPlatform {
   }) async => null;
 }
 
+/// firebase_core's platform side. `Firebase.initializeApp()` and
+/// `FirebaseMessaging.instance` both need a default app to exist —
+/// Firebase.app() throws `[core/no-app]` otherwise, and no test has one,
+/// because main() initializes Firebase outside any test's reach.
+class FakeFirebaseCore extends FirebasePlatform {
+  FirebaseAppPlatform? _app;
+
+  @override
+  Future<FirebaseAppPlatform> initializeApp({
+    String? name,
+    FirebaseOptions? options,
+  }) async {
+    final app = FirebaseAppPlatform(
+      name ?? defaultFirebaseAppName,
+      options ??
+          const FirebaseOptions(
+            apiKey: 'fake-api-key',
+            appId: '1:1:fake:1',
+            messagingSenderId: '0',
+            projectId: 'fake-project',
+          ),
+    );
+    _app = app;
+    return app;
+  }
+
+  /// FirebaseMessaging.instance resolves the default app through here, so a
+  /// fake that only implemented initializeApp would still throw `[core/no-app]`
+  /// the moment anything touched Firebase.app().
+  @override
+  FirebaseAppPlatform app([String name = defaultFirebaseAppName]) {
+    final app = _app;
+    if (app == null || app.name != name) {
+      throw StateError('No fake Firebase App "$name" has been created.');
+    }
+    return app;
+  }
+
+  @override
+  List<FirebaseAppPlatform> get apps =>
+      _app == null ? const [] : <FirebaseAppPlatform>[_app!];
+}
+
+/// firebase_messaging's platform side: answers the permission prompt and the
+/// token request, and counts the token calls so a test can assert that the
+/// token came from the platform and not from a provider override. Everything
+/// else keeps the interface's UnimplementedError default.
+class FakeFirebaseMessaging extends FirebaseMessagingPlatform {
+  FakeFirebaseMessaging(this.status);
+
+  final AuthorizationStatus status;
+  int tokenCalls = 0;
+
+  @override
+  Future<String?> getToken({
+    String? vapidKey,
+    String? serviceWorkerScriptPath,
+  }) async {
+    tokenCalls++;
+    return 'fake-fcm-token';
+  }
+
+  /// FirebaseMessaging's constructor goes through instanceFor →
+  /// delegateFor().setInitialValues(), so a fake that only overrides the two
+  /// methods under test still throws UnimplementedError on first use.
+  @override
+  FirebaseMessagingPlatform delegateFor({required FirebaseApp app}) => this;
+
+  @override
+  FirebaseMessagingPlatform setInitialValues({bool? isAutoInitEnabled}) => this;
+
+  @override
+  Future<NotificationSettings> requestPermission({
+    bool alert = true,
+    bool announcement = false,
+    bool badge = true,
+    bool carPlay = false,
+    bool criticalAlert = false,
+    bool provisional = false,
+    bool sound = true,
+    bool providesAppNotificationSettings = false,
+  }) async => NotificationSettings(
+    alert: AppleNotificationSetting.enabled,
+    announcement: AppleNotificationSetting.enabled,
+    authorizationStatus: status,
+    badge: AppleNotificationSetting.enabled,
+    carPlay: AppleNotificationSetting.notSupported,
+    criticalAlert: AppleNotificationSetting.disabled,
+    lockScreen: AppleNotificationSetting.enabled,
+    notificationCenter: AppleNotificationSetting.enabled,
+    providesAppNotificationSettings: providesAppNotificationSettings
+        ? AppleNotificationSetting.enabled
+        : AppleNotificationSetting.disabled,
+    showPreviews: AppleShowPreviewSetting.whenAuthenticated,
+    sound: AppleNotificationSetting.enabled,
+    timeSensitive: AppleNotificationSetting.disabled,
+  );
+}
+
+/// Installs the messaging fake and returns it. No teardown: the platform
+/// instance is process-global, every file that needs it runs in its own
+/// isolate, and there is no meaningful previous value to restore (reading it
+/// would construct the MethodChannel implementation just to throw it away).
+FakeFirebaseMessaging stubFirebaseMessaging(AuthorizationStatus status) {
+  final fake = FakeFirebaseMessaging(status);
+  FirebaseMessagingPlatform.instance = fake;
+  return fake;
+}
+
 chopper.Response<T> chopperResponse<T>(T body) =>
     chopper.Response(http.Response('body', 200), body);
 
@@ -145,6 +257,44 @@ chopper.Response<List<T>> chopperListResponse<T>(List<T> body) =>
 
 chopper.Response<void> chopperResponseVoid() =>
     chopper.Response(http.Response('body', 200), null);
+
+/// Mirrors the private channel of flutter_local_notifications' platform
+/// implementations. Returns the live list of every call the plugin made
+/// through it, in order (initialize / show / periodicallyShow / cancel /
+/// createNotificationChannelGroup / pendingNotificationRequests /
+/// getActiveNotifications), so a test can assert on the plugin's behaviour
+/// without the platform. Lives here because the service wrapper, the
+/// background FCM handler and the notification-settings tests all drive the
+/// same channel.
+const MethodChannel _localNotificationsChannel = MethodChannel(
+  'dexterous.com/flutter/local_notifications',
+);
+
+List<MethodCall> stubLocalNotificationsChannel({
+  List<Map<String, Object?>> pending = const [],
+  List<Map<String, Object?>> active = const [],
+}) {
+  final calls = <MethodCall>[];
+  TestWidgetsFlutterBinding.instance.defaultBinaryMessenger
+      .setMockMethodCallHandler(_localNotificationsChannel, (call) async {
+        calls.add(call);
+        switch (call.method) {
+          case 'initialize':
+            return true;
+          case 'pendingNotificationRequests':
+            return pending;
+          case 'getActiveNotifications':
+            return active;
+          default:
+            return null;
+        }
+      });
+  addTearDown(
+    () => TestWidgetsFlutterBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(_localNotificationsChannel, null),
+  );
+  return calls;
+}
 
 /// Pumps a fixed number of frames for pages with a permanently-active
 /// animation that never settle (see pumpApp's pumpAndSettle: false).
@@ -495,6 +645,13 @@ class IntegrationScaffold {
     Map<String, List<Seller>> storeSellers = const {},
     List<CoreGroupSimple> groups = const [],
     List<SellerComplete> purchasesSellers = const [],
+
+    /// Opt-in for the ONE test surface the harness normally gates shut:
+    /// NavigationTemplate only calls setUpNotification for a non-empty user
+    /// while shouldSetupProvider is true, and both Firebase providers hit
+    /// platform channels that do not exist in tests. A test that passes this
+    /// owns the FirebaseMessagingPlatform/FirebasePlatform fakes itself.
+    bool runNotificationSetup = false,
   }) {
     return ProviderContainer(
       overrides: [
@@ -540,9 +697,11 @@ class IntegrationScaffold {
           idProvider.overrideWith((ref) => Future<String>.value(userId)),
         // NavigationTemplate runs the notification setup for any non-empty
         // user when shouldSetup is true; both Firebase providers hit platform
-        // channels that do not exist in tests.
+        // channels that do not exist in tests, so the gate stays shut unless
+        // the test opts in with runNotificationSetup: true.
         firebaseTokenProvider.overrideWithValue(Future.value('test-token')),
-        shouldSetupProvider.overrideWith(FakeShouldSetupNotifier.new),
+        if (!runNotificationSetup)
+          shouldSetupProvider.overrideWith(FakeShouldSetupNotifier.new),
         // The tickets admin gate (canManageTicketEventsProvider) chains
         // myStoresProvider → sellerStoreProvider(store.id) → canManageEvents;
         // pre-seeding makes the gate deterministic instead of racing the
