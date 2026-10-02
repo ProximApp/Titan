@@ -6,6 +6,8 @@ import 'package:titan/generated/openapi.swagger.dart';
 
 import '../../shared/app_scaffold.dart';
 
+export '../../shared/app_scaffold.dart' show ignoreAmapKnownQuirks;
+
 final amapAdminUser = CoreUser.empty().copyWith(
   id: 'user-1',
   groups: [
@@ -54,19 +56,6 @@ OrderReturn order(String orderId, String deliveryId, int amount) =>
 /// what makes the card layout pass (ledger #4) a real guard: the order,
 /// delivery, cash and "see more" cards all render inside fixed-width
 /// containers at their natural text sizes.
-void ignoreAmapKnownQuirks() {
-  final previous = FlutterError.onError;
-  FlutterError.onError = (details) {
-    final message = details.exception.toString();
-    if (message.contains(
-      'Tried to read the state of an uninitialized provider',
-    )) {
-      return;
-    }
-    previous?.call(details);
-  };
-  addTearDown(() => FlutterError.onError = previous);
-}
 
 void stubEmptyAmap(IntegrationScaffold scaffold) {
   when(

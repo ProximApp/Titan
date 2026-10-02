@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -5,6 +6,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:titan/amap/ui/components/order_ui.dart';
 import 'package:titan/amap/ui/components/product_ui.dart';
 import 'package:titan/amap/ui/pages/admin_page/user_cash_ui.dart';
+import 'package:titan/amap/ui/pages/admin_page/user_cash_ui_layout.dart';
 import 'package:titan/generated/openapi.enums.swagger.dart' as enums;
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/ui/heroicons.dart';
@@ -258,5 +260,64 @@ void main() {
     expect(find.textContaining('1250000.00'), findsOneWidget);
     expect(find.textContaining('A nickname'), findsOneWidget);
     expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('the cash layout wrapper fits a long child in 150x100', (
+    tester,
+  ) async {
+    // `UserCashUiLayout` is a bare `CardLayout(width: 150, height: 100)` that
+    // takes an arbitrary child, so the child is the variable and the box is
+    // the constraint. The child here mirrors the real one in `user_cash_ui`:
+    // a Column of two AutoSizeTexts and a balance. Nesting another CardLayout
+    // is not an option — CardLayout wraps its child in a Hero, and two Heroes
+    // cannot nest.
+    stubCardLoads();
+    final container = scaffold.makeContainer(userId: 'user-1');
+    addTearDown(container.dispose);
+
+    await scaffold.pumpWidgetApp(
+      tester,
+      Scaffold(
+        body: SingleChildScrollView(
+          child: UserCashUiLayout(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                SizedBox(height: 8),
+                AutoSizeText(
+                  'A nickname that will not fit in 150px',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 5),
+                AutoSizeText(
+                  'Jean-Baptiste DelaunayDeserializer',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 14),
+                ),
+                SizedBox(height: 5),
+                AutoSizeText(
+                  '1250000.00',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      container,
+      appFonts: true,
+    );
+
+    expect(find.byType(UserCashUiLayout), findsOneWidget);
+    expect(find.textContaining('1250000.00'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+
+    await scaffold.unmountApp(tester);
   });
 }
