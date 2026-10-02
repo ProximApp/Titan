@@ -148,7 +148,10 @@ void main() {
     });
 
     test('processDateToAPIWithoutHour keeps the date part only', () {
-      expect(processDateToAPIWithoutHour(DateTime(2026, 1, 2, 3, 4)), '2026-01-02');
+      expect(
+        processDateToAPIWithoutHour(DateTime(2026, 1, 2, 3, 4)),
+        '2026-01-02',
+      );
     });
 
     test('processDateFromAPI converts to local time', () {
@@ -170,16 +173,17 @@ void main() {
     test('formatDates renders a same-day range', () {
       final start = DateTime(2100, 12, 31, 10);
       final end = DateTime(2100, 12, 31, 12);
-      expect(
-        formatDates(start, end, false),
-        'Le 31/12/2100 de 10:00 à 12:00',
-      );
+      expect(formatDates(start, end, false), 'Le 31/12/2100 de 10:00 à 12:00');
       expect(formatDates(start, end, true), 'Le 31/12/2100 toute la journée');
     });
 
     test('formatDates renders a multi-day range', () {
       expect(
-        formatDates(DateTime(2100, 12, 30, 10), DateTime(2100, 12, 31, 12), false),
+        formatDates(
+          DateTime(2100, 12, 30, 10),
+          DateTime(2100, 12, 31, 12),
+          false,
+        ),
         'Du 30/12/2100 à 10:00 au 31/12/2100 à 12:00',
       );
     });
@@ -235,7 +239,7 @@ void main() {
           'en_US',
         ),
         'Tous les Lundi, Mercredi et Vendredi toute la journée '
-            'jusqu\'au 4/2/2026',
+        'jusqu\'au 4/2/2026',
       );
     });
   });
