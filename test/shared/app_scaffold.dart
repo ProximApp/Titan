@@ -821,6 +821,48 @@ class IntegrationScaffold {
     );
   }
 
+  /// The WIDGET-test shell (`test/<module>/widget/`): the real
+  /// ProviderScope, the real l10n delegates and the real toast wrapper, but
+  /// NO router and no AppTemplate — for mounting one widget (a card, a row,
+  /// a chip) instead of a whole page. Cards are where the fixed-width
+  /// layout bugs live (ledgers #4/#38), and a card mounts in milliseconds
+  /// where a page needs a navigation journey plus the one-deep-link-per-file
+  /// rules of conventions 1/10.
+  ///
+  /// [surface] defaults to a 360x640 phone, deliberately far narrower than
+  /// the integration shell's 1920x1080: a card that only fits on a desktop
+  /// is the bug, and nothing filters overflows here.
+  Future<void> pumpWidgetApp(
+    WidgetTester tester,
+    Widget child,
+    ProviderContainer container, {
+    // `ui.Size`, not `Size`: openapi.swagger.dart exports the amap slot enum
+    // with a `Size` constant that shadows dart:ui's in this file.
+    ui.Size surface = const ui.Size(360, 640),
+  }) async {
+    tester.view.physicalSize = surface;
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: ToastificationWrapper(
+          child: MaterialApp(
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [Locale('en', 'US'), Locale('fr', 'FR')],
+            home: Scaffold(body: child),
+          ),
+        ),
+      ),
+    );
+    await settle(tester, frames: 4);
+  }
+
   Future<void> pumpApp(
     WidgetTester tester,
     ProviderContainer container, {
