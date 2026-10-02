@@ -31,40 +31,18 @@ import '../../shared/app_scaffold.dart';
 /// service would silently resolve to null (groupNotifications' no-op branch)
 /// unless `registerWith()` installs it first.
 
-/// Mirrors the private channel of the plugin's platform implementations.
-const MethodChannel _localNotificationsChannel = MethodChannel(
-  'dexterous.com/flutter/local_notifications',
-);
-
 /// Every method call the service made through the channel, in order.
 List<MethodCall> channelCalls = <MethodCall>[];
 
-/// Installs the mock channel handler. [pending] answers
-/// `pendingNotificationRequests` (raw plugin maps), [active] answers
-/// `getActiveNotifications`; everything else resolves to null (fire-and-
-/// forget for show/cancel/initialize).
+/// Installs the mock channel handler. The handler itself lives in the
+/// scaffold now (the FCM setup tests drive the same plugin channel).
 void stubLocalNotifications({
   List<Map<String, Object?>> pending = const [],
   List<Map<String, Object?>> active = const [],
 }) {
-  channelCalls = <MethodCall>[];
-  TestWidgetsFlutterBinding.instance.defaultBinaryMessenger
-      .setMockMethodCallHandler(_localNotificationsChannel, (call) async {
-        channelCalls.add(call);
-        switch (call.method) {
-          case 'initialize':
-            return true;
-          case 'pendingNotificationRequests':
-            return pending;
-          case 'getActiveNotifications':
-            return active;
-          default:
-            return null;
-        }
-      });
-  addTearDown(
-    () => TestWidgetsFlutterBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(_localNotificationsChannel, null),
+  channelCalls = stubLocalNotificationsChannel(
+    pending: pending,
+    active: active,
   );
 }
 
