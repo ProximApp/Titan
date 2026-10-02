@@ -27,7 +27,7 @@ void main() {
     ).thenAnswer((_) async => chopperListResponse(<RoomComplete>[]));
     when(
       () => scaffold.repository.bookingBookingsUsersMeGet(),
-    ).thenAnswer((_) async => chopperListResponse(<BookingReturn>[]));
+    ).thenAnswer((_) async => chopperListResponse(const <BookingReturn>[]));
     // The detail page renders the client-side booking state set by the
     // booking lists; the non-admin branch is shown for regular users.
     container
