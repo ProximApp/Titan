@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:chopper/chopper.dart' as chopper;
@@ -44,6 +46,7 @@ import 'package:titan/service/providers/firebase_token_provider.dart';
 import 'package:titan/super_admin/providers/permission_name_list_provider.dart';
 import 'package:titan/tools/ui/layouts/app_template.dart';
 import 'package:titan/super_admin/providers/permissions_list_provider.dart';
+import 'package:titan/tools/logs/log.dart';
 import 'package:titan/tools/logs/logger.dart';
 import 'package:titan/tools/logs/logger_output.dart';
 import 'package:titan/tools/repository/repository.dart';
@@ -341,6 +344,161 @@ Future<void> settle(WidgetTester tester, {int frames = 12}) async {
   }
 }
 
+/// A 1x1 transparent PNG - the smallest thing `Image.network` can decode.
+final _onePixelPng = base64Decode(
+  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk'
+  'YPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
+);
+
+HttpOverrides? _imageOverrides;
+
+/// Serves [_onePixelPng] for every image request.
+///
+/// `flutter_test` answers every HTTP request with a 400, so a widget that
+/// builds an `Image.network` unconditionally - `LinkCard` draws its module
+/// logo straight from a URL, with no provider to stub - dies with
+/// `NetworkImageLoadException` before it lays out, which would make "no
+/// overflow" true for the wrong reason. An `.svg` URL gets the PNG too;
+/// `flutter_svg` fails to parse it and draws its placeholder, which is what
+/// a broken asset looks like anyway.
+void stubNetworkImages() {
+  if (_imageOverrides != null) return;
+  _imageOverrides = HttpOverrides.global = _PixelImageOverrides();
+}
+
+/// `implements` + `noSuchMethod` rather than `extends`: only [getUrl] is ever
+/// called, and Dart lets the rest of the interface be absent that way.
+class _PixelImageOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) => _PixelImageClient();
+}
+
+class _PixelImageClient implements HttpClient {
+  @override
+  noSuchMethod(Invocation invocation) =>
+      throw UnimplementedError('the card sweep only issues getUrl');
+
+  /// `NetworkImage._sharedHttpClient` reads both of these off the client
+  /// before it ever makes a request.
+  @override
+  bool autoUncompress = true;
+
+  @override
+  int? maxConnectionsPerHost = 6;
+
+  @override
+  Future<HttpClientRequest> getUrl(Uri url) async => _PixelRequest();
+}
+
+class _PixelRequest implements HttpClientRequest {
+  @override
+  noSuchMethod(Invocation invocation) =>
+      throw UnimplementedError('the card sweep only closes the request');
+
+  @override
+  Future<HttpClientResponse> close() async => _PixelResponse();
+}
+
+/// Only `statusCode`, `contentLength` and the byte stream are ever read, and
+/// `listen` is routed through [noSuchMethod] rather than declared: its
+/// `void Function(StreamEvent<List<int>>)` parameter type is not available
+/// to this SDK's `dart:async`, and `Stream.value(...).listen` is a drop-in
+/// for it at runtime.
+class _PixelResponse implements HttpClientResponse {
+  @override
+  noSuchMethod(Invocation invocation) {
+    if (invocation.memberName == #listen) {
+      final stream = Stream<List<int>>.value(_onePixelPng);
+      return Function.apply(
+        stream.listen,
+        invocation.positionalArguments,
+        Map.of(invocation.namedArguments),
+      );
+    }
+    throw UnimplementedError('the image loader reads ${invocation.memberName}');
+  }
+
+  @override
+  int get statusCode => 200;
+
+  @override
+  String get reasonPhrase => 'OK';
+
+  @override
+  int get contentLength => _onePixelPng.length;
+
+  /// The image loader checks this before decoding.
+  @override
+  HttpHeaders get headers => _PngHeaders();
+
+  /// `consolidateHttpClientResponseBytes` branches on this.
+  @override
+  HttpClientResponseCompressionState compressionState =
+      HttpClientResponseCompressionState.notCompressed;
+}
+
+/// `HttpHeaders` is abstract on the VM, and the loader only ever reads
+/// `contentType` off it.
+class _PngHeaders implements HttpHeaders {
+  @override
+  noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+
+  @override
+  ContentType get contentType => ContentType('image', 'png');
+}
+
+/// The app's own font families, loaded from `assets/google_fonts/`.
+///
+/// `flutter_test` draws every glyph as a square of the font size, so the
+/// default test font measures every localized label one to two times wider
+/// than a device does. That is why convention 20 exists: an overflow under
+/// the harness font is not evidence of a layout bug. Registering the REAL
+/// faces turns the harness into a device-width oracle, which is the only way
+/// a "mount it at 360 and fail on overflow" sweep can be trusted.
+///
+/// Lato is the body family — `main.dart` sets
+/// `GoogleFonts.latoTextTheme(Theme.of(context).textTheme)`. Roboto is
+/// declared in pubspec only so the web engine stops downloading it from
+/// fonts.gstatic.com before the first paint. ElMessiri and Silkscreen are
+/// bundled for the handful of `GoogleFonts.*` call sites (flappybird, and
+/// one home page).
+///
+/// Only the weights actually bundled are registered; anything heavier is
+/// faux-bolded by Skia, exactly as on device, where the font manifest
+/// declares the same single face.
+const Map<String, List<String>> appFontFiles = {
+  'Lato': ['Lato-Regular.ttf', 'Lato-Bold.ttf'],
+  'Roboto': ['Roboto-Regular.ttf'],
+  'El Messiri': ['ElMessiri-Regular.ttf', 'ElMessiri-Bold.ttf'],
+  'Silkscreen': ['Silkscreen-Regular.ttf', 'Silkscreen-Bold.ttf'],
+};
+
+/// `ThemeData` matching the app's, with Lato as the body family instead of
+/// the harness font. Only `textTheme` is touched: the cards under test style
+/// their own `Text`s with sizes and colours, and those merge with (and
+/// therefore inherit the family from) this.
+ThemeData get appTheme => ThemeData(
+  useMaterial3: false,
+  textTheme: Typography.material2021().black.apply(fontFamily: 'Lato'),
+);
+
+bool _appFontsLoaded = false;
+
+/// Registers [appFontFiles] with the engine. Idempotent, and safe to call
+/// from every test that needs it — `FontLoader` replaces a family wholesale.
+Future<void> loadAppFonts() async {
+  if (_appFontsLoaded) return;
+  _appFontsLoaded = true;
+  for (final entry in appFontFiles.entries) {
+    final loader = FontLoader(entry.key);
+    for (final name in entry.value) {
+      final bytes = File('assets/google_fonts/$name').readAsBytesSync();
+      loader.addFont(Future.value(ByteData.sublistView(bytes)));
+    }
+    await loader.load();
+  }
+}
+
 /// A structure the given user manages: myStructuresProvider matches on
 /// managerUser.id, not managerUserId.
 Structure structure(String id, String name, String userId) =>
@@ -398,6 +556,39 @@ class _StubLogger extends Logger {
   Future<void> init() async {}
 }
 
+/// Records what the logger actually handed to its output, so a test can tell
+/// a line that was WRITTEN from one the logger's threshold silently dropped:
+/// both look like a logger that was never called. Pair it with
+/// [IntegrationScaffold.stubLoggerOutput].
+class CapturingLoggerOutput implements LoggerOutput {
+  final List<Log> logs = [];
+  final List<Log> notifications = [];
+
+  @override
+  Future<void> init() async {}
+
+  @override
+  void writeLog(Log log) {
+    if (log.level == LogLevel.notification) {
+      notifications.add(log);
+      return;
+    }
+    logs.add(log);
+  }
+
+  @override
+  List<Log> getLogs() => logs;
+
+  @override
+  List<Log> getNotificationLogs() => notifications;
+
+  @override
+  void clearLogs() => logs.clear();
+
+  @override
+  void clearNotificationLogs() => notifications.clear();
+}
+
 /// The real verifier calls the backend through the repository; the middleware
 /// only needs the data branch to decide the app is up to date.
 class FakeVersionVerifierNotifier extends VersionVerifierNotifier {
@@ -405,6 +596,14 @@ class FakeVersionVerifierNotifier extends VersionVerifierNotifier {
   AsyncValue<CoreInformation> build() => AsyncValue.data(
     CoreInformation(ready: true, version: '1.0.0', minimalTitanVersionCode: 1),
   );
+}
+
+/// The boot screen's LoadingPage answers to this notifier's `when`: on data it
+/// routes to the update page, the login page, or the forwarded path, so a test
+/// that wants to observe its spinner has to keep it unresolved.
+class FakeHoldingVersionVerifierNotifier extends VersionVerifierNotifier {
+  @override
+  AsyncValue<CoreInformation> build() => AsyncValue<CoreInformation>.loading();
 }
 
 /// The real notifier calls PackageInfo.fromPlatform(), which has no platform
@@ -689,13 +888,23 @@ class IntegrationScaffold {
     /// platform channels that do not exist in tests. A test that passes this
     /// owns the FirebaseMessagingPlatform/FirebasePlatform fakes itself.
     bool runNotificationSetup = false,
+
+    /// Holds the version verifier in its loading state, so a page that routes
+    /// on its answer (the boot screen's LoadingPage) stays put instead of
+    /// resolving and redirecting away on the first frame. Riverpod 3 exports
+    /// no Override type, so overrides are swapped by flag, not by list.
+    bool holdVersionVerifier = false,
   }) {
     return ProviderContainer(
       overrides: [
         if (_loggerOutput != null)
           loggerProvider.overrideWith((ref) => _StubLogger(_loggerOutput!)),
         repositoryProvider.overrideWithValue(repository),
-        versionVerifierProvider.overrideWith(FakeVersionVerifierNotifier.new),
+        versionVerifierProvider.overrideWith(
+          holdVersionVerifier
+              ? FakeHoldingVersionVerifierNotifier.new
+              : FakeVersionVerifierNotifier.new,
+        ),
         titanVersionProvider.overrideWith(FakeTitanVersionNotifier.new),
         isLoggedInProvider.overrideWith(FakeIsLoggedInNotifier.new),
         userProvider.overrideWithValue(user ?? CoreUser.empty()),
@@ -876,15 +1085,19 @@ class IntegrationScaffold {
     // `ui.Size`, not `Size`: openapi.swagger.dart exports the amap slot enum
     // with a `Size` constant that shadows dart:ui's in this file.
     ui.Size surface = const ui.Size(360, 640),
+    bool appFonts = false,
   }) async {
     tester.view.physicalSize = surface;
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
+    if (appFonts) await loadAppFonts();
+    if (appFonts) stubNetworkImages();
     await tester.pumpWidget(
       UncontrolledProviderScope(
         container: container,
         child: ToastificationWrapper(
           child: MaterialApp(
+            theme: appFonts ? appTheme : null,
             localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
@@ -1152,6 +1365,21 @@ class IntegrationScaffold {
   /// test at teardown.
   Future<void> drainToast(WidgetTester tester) async {
     await tester.pump(const Duration(seconds: 3));
+    await tester.pump();
+  }
+
+  /// Unmounts the tree inside the test body and pumps once.
+  ///
+  /// Riverpod's ProviderScheduler defers autoDispose work to a zero-duration
+  /// Timer. When an autoDisposed provider loses its last listener while the
+  /// tree is being torn down, that Timer is armed AFTER the test's last pump,
+  /// and flutter_test's "A Timer is still pending even after the widget tree
+  /// was disposed" assertion fires. Unmounting here gives the scheduler a
+  /// frame to run in. Needed by tests that leave a provider permanently
+  /// loading (a hanging repository call), which is exactly the shape of the
+  /// pages with a Loader on screen.
+  Future<void> unmountApp(WidgetTester tester) async {
+    await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump();
   }
 }
