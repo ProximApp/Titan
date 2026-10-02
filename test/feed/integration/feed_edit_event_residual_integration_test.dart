@@ -4,7 +4,6 @@ import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.enums.swagger.dart' as enums;
@@ -163,7 +162,9 @@ void main() {
         ),
       ).thenAnswer((inv) async {
         capturedEdit = inv.namedArguments[#body] as EventEdit;
-        return chopperResponse(EventCompleteTicketUrl.empty());
+        return chopperResponse<EventCompleteTicketUrl>(
+          EventCompleteTicketUrl.empty(),
+        );
       });
       when(
         () => scaffold.repository.calendarEventsEventIdImagePost(
@@ -236,7 +237,6 @@ void main() {
     expect(find.text('Edit event'), findsOneWidget);
 
     when(
-      // ignore: void_checks
       () => scaffold.repository.calendarEventsEventIdPatch(
         eventId: any(named: 'eventId'),
         body: any(named: 'body'),
