@@ -544,27 +544,25 @@ final myPaymentStore = UserStore.empty().copyWith(
 /// are pure Dart — cryptography_plus has no platform side — so a real
 /// in-memory pair is both cheaper and more honest than a stubbed signature.
 class FakeKeyService extends Fake implements KeyService {
-  FakeKeyService([this._keyId]);
+  FakeKeyService([this.keyId]);
 
-  /// Mutable so a test can reach the branches that read the key a SECOND time
-  /// after the first read already passed — the pay confirm button re-reads
-  /// `getKeyId()` after the biometric and refuses the QR when it has gone.
-  String? _keyId;
-
-  String? get keyId => _keyId;
-  set keyId(String? value) => _keyId = value;
+  /// A plain mutable field so a test can reach the branches that read the key
+  /// a SECOND time after the first read already passed — the pay confirm
+  /// button re-reads `getKeyId()` after the biometric and refuses the QR when
+  /// it has gone.
+  String? keyId;
 
   final _algorithm = Ed25519();
   SimpleKeyPair? _keyPair;
 
   @override
-  Future<String?> getKeyId() async => _keyId;
+  Future<String?> getKeyId() async => keyId;
 
   /// Null when [keyId] is null, mirroring the real service's "no device
   /// registered" answer rather than handing back a key nothing points at.
   @override
   Future<SimpleKeyPair?> getKeyPair() async {
-    if (_keyId == null) return null;
+    if (keyId == null) return null;
     return _keyPair ??= await _algorithm.newKeyPair();
   }
 
