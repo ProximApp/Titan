@@ -13,6 +13,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/service/providers/firebase_token_expiration_provider.dart';
+import 'package:titan/tools/logs/log.dart';
 import 'package:titan/service/tools/setup.dart';
 
 import '../../shared/app_scaffold.dart';
@@ -62,10 +63,16 @@ class CallsSetUpNotification extends ConsumerWidget {
 void main() {
   late IntegrationScaffold scaffold;
   late int topicsCalls;
+  late CapturingLoggerOutput logs;
 
   setUp(() async {
     scaffold = IntegrationScaffold();
     scaffold.shellSetUp();
+    // The container wires loggerProvider through _StubLogger when an output is
+    // stubbed, so the captured lines are the ones that survived the logger's
+    // level threshold.
+    logs = CapturingLoggerOutput();
+    scaffold.stubLoggerOutput(logs);
     AndroidFlutterLocalNotificationsPlugin.registerWith();
     stubLocalNotificationsChannel();
     FirebasePlatform.instance = FakeFirebaseCore();
@@ -153,6 +160,32 @@ void main() {
     expect(expiration.difference(DateTime.now()).inDays, closeTo(30, 1));
     expect(topicsCalls, 2);
     expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('the registration line survives the logger threshold', (
+    tester,
+  ) async {
+    // This is the app's only `logger.info` call, and the logger's floor used
+    // to be LogLevel.warning — so the line was accepted and dropped, and the
+    // registration left no trace anywhere.
+    await runWithCachedDate(
+      tester,
+      userId: 'user-1',
+      expiration: DateTime.now().subtract(const Duration(days: 1)),
+    );
+
+    expect(
+      logs.logs.where(
+        (l) => l.message == 'Firebase messaging token registered',
+      ),
+      hasLength(1),
+    );
+    expect(
+      logs.logs
+          .firstWhere((l) => l.message == 'Firebase messaging token registered')
+          .level,
+      LogLevel.info,
+    );
   });
 
   testWidgets('a null expiration re-registers instead of crashing', (
