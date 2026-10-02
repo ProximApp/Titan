@@ -58,14 +58,47 @@ void main() {
       addTearDown(container.dispose);
       final notifier = container.read(selectedAssociationProvider.notifier);
 
+      // The first append's list is the one a previous reader could be
+      // holding. `addAssociation` used to be `state.add(i);
+      // state = state.sublist(0);` — an in-place mutation of provider state
+      // followed by a copy of itself, which is a slower way to write
+      // `[...state, i]`. The test's NAME always claimed a copy; only the body
+      // was missing the assertion that made it true.
+      final empty = notifier.state;
       notifier.addAssociation(
         Association.empty().copyWith(id: 'a-1', name: 'BDE'),
       );
+      expect(empty, isEmpty, reason: 'the pre-add list must not have grown');
+      expect(identical(empty, notifier.state), isFalse);
+
+      final afterFirst = notifier.state;
       notifier.addAssociation(
         Association.empty().copyWith(id: 'a-2', name: 'BDA'),
       );
+      expect(afterFirst.map((e) => e.id), ['a-1']);
+      expect(identical(afterFirst, notifier.state), isFalse);
 
       expect(notifier.state.map((e) => e.id), ['a-1', 'a-2']);
+    });
+
+    test('addAssociation notifies its listeners', () {
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+      container.read(selectedAssociationProvider.notifier).addAssociation(
+        Association.empty().copyWith(id: 'a-1', name: 'BDE'),
+      );
+
+      var notifications = 0;
+      container.listen(
+        selectedAssociationProvider,
+        (previous, next) => notifications++,
+      );
+
+      container.read(selectedAssociationProvider.notifier).addAssociation(
+        Association.empty().copyWith(id: 'a-2', name: 'BDA'),
+      );
+
+      expect(notifications, 1);
     });
 
     test('removeAssociation filters by id', () {
