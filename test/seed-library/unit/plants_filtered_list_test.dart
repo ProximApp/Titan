@@ -296,16 +296,19 @@ void main() {
     test('addPlantToList notifies its listeners', () {
       final container = makeContainer();
       addTearDown(container.dispose);
-      container.read(myPlantListProvider.notifier).state = AsyncValue.data(
-        [plant('1', 'm')],
-      );
+      container.read(myPlantListProvider.notifier).state = AsyncValue.data([
+        plant('1', 'm'),
+      ]);
 
       var notifications = 0;
-      container.listen(myPlantListProvider, (previous, next) => notifications++);
-
-      container.read(myPlantListProvider.notifier).addPlantToList(
-        plant('2', 'm'),
+      container.listen(
+        myPlantListProvider,
+        (previous, next) => notifications++,
       );
+
+      container
+          .read(myPlantListProvider.notifier)
+          .addPlantToList(plant('2', 'm'));
 
       expect(notifications, 1);
     });
@@ -334,8 +337,14 @@ void main() {
 
       notifier.deletePlantFromList('p-1');
 
-      expect(notifier.state, isA<AsyncValue<List<PlantSimple>>>()
-          .having((s) => s.isLoading, 'isLoading', isTrue));
+      expect(
+        notifier.state,
+        isA<AsyncValue<List<PlantSimple>>>().having(
+          (s) => s.isLoading,
+          'isLoading',
+          isTrue,
+        ),
+      );
     });
   });
 }
