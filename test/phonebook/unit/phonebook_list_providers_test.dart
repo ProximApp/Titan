@@ -349,10 +349,9 @@ void main() {
                 mandateYear: any(named: 'mandateYear'),
               ),
         ).thenAnswer(
-          (_) async => chopper.Response(
-            http.Response('body', 200),
-            [member('9', [membership('asso-1', 2026, 0)])],
-          ),
+          (_) async => chopper.Response(http.Response('body', 200), [
+            member('9', [membership('asso-1', 2026, 0)]),
+          ]),
         );
         when(
           () => mockRepository.phonebookAssociationsMembershipsPost(
@@ -453,62 +452,65 @@ void main() {
         expect(notifier.state.value, [renamed]);
       });
 
-      test('reorderMember renumbers without mutating the members in state', () async {
-        // The reorder used to alias `members[i].memberships` — a list inside a
-        // model already held by the previous state — mutate it in place, and
-        // then DISCARD the result of `members[i].copyWith(memberships: ...)`,
-        // so the whole renumber only worked by accident, through the in-place
-        // mutation it was not supposed to depend on.
-        final a = member('1', [membership('asso-1', 2026, 0)]);
-        final b = member('2', [membership('asso-1', 2026, 1)]);
-        final c = member('3', [membership('asso-1', 2026, 2)]);
-        when(
-          () => mockRepository
-              .phonebookAssociationsAssociationIdMembersMandateYearGet(
-                associationId: any(named: 'associationId'),
-                mandateYear: any(named: 'mandateYear'),
-              ),
-        ).thenAnswer(
-          (_) async =>
-              chopper.Response(http.Response('body', 200), [a, b, c]),
-        );
-        when(
-          () => mockRepository
-              .phonebookAssociationsMembershipsMembershipIdPatch(
-                membershipId: any(named: 'membershipId'),
-                body: any(named: 'body'),
-              ),
-        ).thenAnswer(
-          (_) async => chopper.Response<void>(http.Response('body', 200), null),
-        );
-        final notifier = container.read(associationMemberListProvider.notifier);
-        await notifier.loadMembers('asso-1', 2026);
+      test(
+        'reorderMember renumbers without mutating the members in state',
+        () async {
+          // The reorder used to alias `members[i].memberships` — a list inside a
+          // model already held by the previous state — mutate it in place, and
+          // then DISCARD the result of `members[i].copyWith(memberships: ...)`,
+          // so the whole renumber only worked by accident, through the in-place
+          // mutation it was not supposed to depend on.
+          final a = member('1', [membership('asso-1', 2026, 0)]);
+          final b = member('2', [membership('asso-1', 2026, 1)]);
+          final c = member('3', [membership('asso-1', 2026, 2)]);
+          when(
+            () => mockRepository
+                .phonebookAssociationsAssociationIdMembersMandateYearGet(
+                  associationId: any(named: 'associationId'),
+                  mandateYear: any(named: 'mandateYear'),
+                ),
+          ).thenAnswer(
+            (_) async =>
+                chopper.Response(http.Response('body', 200), [a, b, c]),
+          );
+          when(
+            () => mockRepository
+                .phonebookAssociationsMembershipsMembershipIdPatch(
+                  membershipId: any(named: 'membershipId'),
+                  body: any(named: 'body'),
+                ),
+          ).thenAnswer(
+            (_) async =>
+                chopper.Response<void>(http.Response('body', 200), null),
+          );
+          final notifier = container.read(
+            associationMemberListProvider.notifier,
+          );
+          await notifier.loadMembers('asso-1', 2026);
 
-        // Drag the last member to the front.
-        final result = await notifier.reorderMember(
-          c,
-          membership('asso-1', 2026, 2),
-          2,
-          0,
-        );
+          // Drag the last member to the front.
+          final result = await notifier.reorderMember(
+            c,
+            membership('asso-1', 2026, 2),
+            2,
+            0,
+          );
 
-        expect(result, isTrue);
-        expect(
-          notifier.state.value!.map((m) => m.id),
-          ['3', '1', '2'],
-        );
-        // Every member's membership was renumbered to its new position.
-        expect(
-          notifier.state.value!.map((m) => m.memberships.first.memberOrder),
-          [0, 1, 2],
-        );
-        // And the models that were in state before the call are untouched,
-        // which is the part the old code got for free by aliasing.
-        expect(a.memberships.first.memberOrder, 0);
-        expect(b.memberships.first.memberOrder, 1);
-        expect(c.memberships.first.memberOrder, 2);
-        expect(notifier.state.value!.first, isNot(same(c)));
-      });
+          expect(result, isTrue);
+          expect(notifier.state.value!.map((m) => m.id), ['3', '1', '2']);
+          // Every member's membership was renumbered to its new position.
+          expect(
+            notifier.state.value!.map((m) => m.memberships.first.memberOrder),
+            [0, 1, 2],
+          );
+          // And the models that were in state before the call are untouched,
+          // which is the part the old code got for free by aliasing.
+          expect(a.memberships.first.memberOrder, 0);
+          expect(b.memberships.first.memberOrder, 1);
+          expect(c.memberships.first.memberOrder, 2);
+          expect(notifier.state.value!.first, isNot(same(c)));
+        },
+      );
 
       test('deleteMember removes the member from the list', () async {
         final kept = member('1', [membership('asso-1', 2026, 0)]);
