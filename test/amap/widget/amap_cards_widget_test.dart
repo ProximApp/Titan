@@ -7,6 +7,8 @@ import 'package:titan/amap/ui/components/product_ui.dart';
 import 'package:titan/amap/ui/pages/admin_page/user_cash_ui.dart';
 import 'package:titan/generated/openapi.enums.swagger.dart' as enums;
 import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/ui/heroicons.dart';
+import 'package:titan/tools/ui/layouts/horizontal_list_view.dart';
 
 import '../../shared/app_scaffold.dart';
 
@@ -123,6 +125,85 @@ void main() {
     expect(find.text('Soir'), findsOneWidget);
     // And the whole card stayed inside the phone width.
     expect(tester.getSize(find.byType(OrderUI)).width, lessThanOrEqualTo(360));
+    // The card keeps its designed proportions: the height fix below scales
+    // with the text, it does not resize the card at the default scale.
+    expect(tester.getSize(find.byType(OrderUI)).height, 150);
+  });
+
+  testWidgets(
+    'the order card detail state fits its own content, buttons or not',
+    (tester) async {
+      stubCardLoads();
+      await scaffold.pumpWidgetApp(
+        tester,
+        OrderUI(order: order(), showButton: false, isDetail: true),
+        cardContainer(),
+      );
+
+      // The detail card drops the info icon and the button row, but its
+      // three remaining lines (date, count/amount, slot) measured 104px
+      // against a pinned 100px box — a 4px overflow at the DEFAULT text
+      // scale, on a page nobody had mounted at phone width before.
+      expect(find.textContaining('12/31/2100'), findsOneWidget);
+      expect(find.text('12500.00€'), findsOneWidget);
+      expect(find.text('Soir'), findsOneWidget);
+      // No button row in the detail state.
+      expect(find.byType(HeroIcon), findsNothing);
+      expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets('the order card grows with the text scale', (tester) async {
+    stubCardLoads();
+    // Every state overflowed its pinned height at 1.3x (17px / 9px / 27px)
+    // and the height now follows `MediaQuery.textScalerOf`. 2.0x is the
+    // most extreme text setting iOS/Android expose in their own pickers.
+    for (final scale in [1.3, 1.5, 2.0]) {
+      for (final state in const [
+        (showButton: true, isDetail: false),
+        (showButton: false, isDetail: false),
+        (showButton: false, isDetail: true),
+      ]) {
+        await scaffold.pumpWidgetApp(
+          tester,
+          MediaQuery(
+            data: MediaQueryData(textScaler: TextScaler.linear(scale)),
+            child: OrderUI(
+              order: order(),
+              showButton: state.showButton,
+              isDetail: state.isDetail,
+            ),
+          ),
+          cardContainer(),
+        );
+        expect(
+          tester.takeException(),
+          isNull,
+          reason: 'order card overflowed at a ${scale}x text scale',
+        );
+      }
+    }
+  });
+
+  testWidgets('the order card still fits the main page strip at 1.3x', (
+    tester,
+  ) async {
+    stubCardLoads();
+    // The main page puts the cards in a HorizontalListView(height: 195), so
+    // the taller card must still fit inside that bound.
+    await scaffold.pumpWidgetApp(
+      tester,
+      MediaQuery(
+        data: const MediaQueryData(textScaler: TextScaler.linear(1.3)),
+        child: HorizontalListView(
+          height: 195,
+          children: [OrderUI(order: order())],
+        ),
+      ),
+      cardContainer(),
+    );
+
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets('the product card fits a long category and name', (tester) async {
