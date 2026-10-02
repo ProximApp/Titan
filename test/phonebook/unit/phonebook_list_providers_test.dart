@@ -323,9 +323,59 @@ void main() {
           );
 
           expect(result, isTrue);
-          expect(notifier.state.value, [newMember]);
+          // The caller's own object is left alone. This used to be
+          // `member.memberships.add(res.body!)` followed by
+          // `[...members, member]`, so the new membership went into the very
+          // object the caller still held — and, when `member` came from the
+          // provider, into the object already inside state.
+          expect(newMember.memberships, isEmpty);
+          expect(notifier.state.value, hasLength(1));
+          final stored = notifier.state.value!.single;
+          expect(identical(stored, newMember), isFalse);
+          expect(stored.memberships.map((m) => m.id), ['membership-1']);
+          expect(stored.id, newMember.id);
         },
       );
+
+      test('addMember does not mutate the member already in state', () async {
+        final created = MembershipComplete.empty().copyWith(
+          id: 'membership-2',
+          associationId: 'asso-1',
+        );
+        when(
+          () => mockRepository
+              .phonebookAssociationsAssociationIdMembersMandateYearGet(
+                associationId: any(named: 'associationId'),
+                mandateYear: any(named: 'mandateYear'),
+              ),
+        ).thenAnswer(
+          (_) async => chopper.Response(
+            http.Response('body', 200),
+            [member('9', [membership('asso-1', 2026, 0)])],
+          ),
+        );
+        when(
+          () => mockRepository.phonebookAssociationsMembershipsPost(
+            body: any(named: 'body'),
+          ),
+        ).thenAnswer(
+          (_) async => chopper.Response(http.Response('body', 201), created),
+        );
+        final notifier = container.read(associationMemberListProvider.notifier);
+        await notifier.loadMembers('asso-1', 2026);
+        final before = notifier.state.value!.single;
+
+        await notifier.addMember(
+          before,
+          AppModulesPhonebookSchemasPhonebookMembershipBase.empty(),
+        );
+        // The member that was in state before the call still has exactly the
+        // one membership it had. `addMember` APPENDS (it is a different
+        // endpoint than `updateMember`), so the list grows to two.
+        expect(before.memberships, hasLength(1));
+        expect(notifier.state.value, hasLength(2));
+        expect(notifier.state.value!.last.memberships, hasLength(2));
+      });
 
       test(
         'addMember fails without touching the list when the endpoint rejects',
@@ -401,6 +451,63 @@ void main() {
 
         expect(result, isTrue);
         expect(notifier.state.value, [renamed]);
+      });
+
+      test('reorderMember renumbers without mutating the members in state', () async {
+        // The reorder used to alias `members[i].memberships` — a list inside a
+        // model already held by the previous state — mutate it in place, and
+        // then DISCARD the result of `members[i].copyWith(memberships: ...)`,
+        // so the whole renumber only worked by accident, through the in-place
+        // mutation it was not supposed to depend on.
+        final a = member('1', [membership('asso-1', 2026, 0)]);
+        final b = member('2', [membership('asso-1', 2026, 1)]);
+        final c = member('3', [membership('asso-1', 2026, 2)]);
+        when(
+          () => mockRepository
+              .phonebookAssociationsAssociationIdMembersMandateYearGet(
+                associationId: any(named: 'associationId'),
+                mandateYear: any(named: 'mandateYear'),
+              ),
+        ).thenAnswer(
+          (_) async =>
+              chopper.Response(http.Response('body', 200), [a, b, c]),
+        );
+        when(
+          () => mockRepository
+              .phonebookAssociationsMembershipsMembershipIdPatch(
+                membershipId: any(named: 'membershipId'),
+                body: any(named: 'body'),
+              ),
+        ).thenAnswer(
+          (_) async => chopper.Response<void>(http.Response('body', 200), null),
+        );
+        final notifier = container.read(associationMemberListProvider.notifier);
+        await notifier.loadMembers('asso-1', 2026);
+
+        // Drag the last member to the front.
+        final result = await notifier.reorderMember(
+          c,
+          membership('asso-1', 2026, 2),
+          2,
+          0,
+        );
+
+        expect(result, isTrue);
+        expect(
+          notifier.state.value!.map((m) => m.id),
+          ['3', '1', '2'],
+        );
+        // Every member's membership was renumbered to its new position.
+        expect(
+          notifier.state.value!.map((m) => m.memberships.first.memberOrder),
+          [0, 1, 2],
+        );
+        // And the models that were in state before the call are untouched,
+        // which is the part the old code got for free by aliasing.
+        expect(a.memberships.first.memberOrder, 0);
+        expect(b.memberships.first.memberOrder, 1);
+        expect(c.memberships.first.memberOrder, 2);
+        expect(notifier.state.value!.first, isNot(same(c)));
       });
 
       test('deleteMember removes the member from the list', () async {
