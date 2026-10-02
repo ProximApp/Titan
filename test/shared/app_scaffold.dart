@@ -5,6 +5,7 @@ import 'package:chopper/chopper.dart' as chopper;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_core_platform_interface/firebase_core_platform_interface.dart';
 import 'package:firebase_messaging_platform_interface/firebase_messaging_platform_interface.dart';
+import 'package:local_auth_platform_interface/local_auth_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -187,6 +188,42 @@ class FakeFirebaseCore extends FirebasePlatform {
 /// token request, and counts the token calls so a test can assert that the
 /// token came from the platform and not from a provider override. Everything
 /// else keeps the interface's UnimplementedError default.
+/// local_auth's `authenticate()` is a method channel to the OS biometric
+/// prompt, which does not exist in a test env. The pay and fund confirm
+/// buttons call it on every submit, so the flows need a platform fake whose
+/// answer a test can flip per case (denied / accepted).
+class FakeLocalAuth extends LocalAuthPlatform {
+  FakeLocalAuth(this.authenticateResult);
+
+  /// What `authenticate()` resolves to. `false` is the "user cancelled"
+  /// outcome the confirm buttons turn into an error toast.
+  final bool authenticateResult;
+  int authenticateCalls = 0;
+  final List<String> reasons = [];
+
+  @override
+  Future<bool> authenticate({
+    required String localizedReason,
+    required Iterable<AuthMessages> authMessages,
+    AuthenticationOptions options = const AuthenticationOptions(),
+  }) async {
+    authenticateCalls++;
+    reasons.add(localizedReason);
+    return authenticateResult;
+  }
+
+  @override
+  Future<bool> deviceSupportsBiometrics() async => authenticateResult;
+
+  @override
+  Future<bool> isDeviceSupported() async => authenticateResult;
+}
+
+/// Installs [fake] as local_auth's platform for the current test.
+void stubLocalAuth(FakeLocalAuth fake) {
+  LocalAuthPlatform.instance = fake;
+}
+
 class FakeFirebaseMessaging extends FirebaseMessagingPlatform {
   FakeFirebaseMessaging(this.status);
 
