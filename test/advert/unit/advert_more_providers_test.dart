@@ -84,9 +84,9 @@ void main() {
     test('addAssociation notifies its listeners', () {
       final container = ProviderContainer();
       addTearDown(container.dispose);
-      container.read(selectedAssociationProvider.notifier).addAssociation(
-        Association.empty().copyWith(id: 'a-1', name: 'BDE'),
-      );
+      container
+          .read(selectedAssociationProvider.notifier)
+          .addAssociation(Association.empty().copyWith(id: 'a-1', name: 'BDE'));
 
       var notifications = 0;
       container.listen(
@@ -94,9 +94,9 @@ void main() {
         (previous, next) => notifications++,
       );
 
-      container.read(selectedAssociationProvider.notifier).addAssociation(
-        Association.empty().copyWith(id: 'a-2', name: 'BDA'),
-      );
+      container
+          .read(selectedAssociationProvider.notifier)
+          .addAssociation(Association.empty().copyWith(id: 'a-2', name: 'BDA'));
 
       expect(notifications, 1);
     });
