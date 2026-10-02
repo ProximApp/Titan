@@ -22,9 +22,9 @@ void main() {
     final container = scaffold.makeContainer();
     addTearDown(container.dispose);
     scaffold.setWideSurface(tester);
-    when(
-      () => scaffold.repository.cinemaSessionsGet(),
-    ).thenAnswer((_) async => chopperListResponse(<CineSessionComplete>[]));
+    when(() => scaffold.repository.cinemaSessionsGet()).thenAnswer(
+      (_) async => chopperListResponse(const <CineSessionComplete>[]),
+    );
     when(
       () => scaffold.repository.cinemaSessionsSessionIdPosterGet(
         sessionId: any(named: 'sessionId'),
