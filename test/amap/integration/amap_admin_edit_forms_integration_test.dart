@@ -30,10 +30,10 @@ void main() {
     scaffold.shellSetUp();
   });
 
-  /// Stubs everything the admin page loads on mount. Nullable params +
-  /// fresh list bodies: default values must be const (immutable) but the
-  /// DeliveryHandler sorts the provider's list in place, so the stub must
-  /// hand out growable lists — as the real deserializer would.
+  /// Stubs everything the admin page loads on mount. Nullable params so the
+  /// defaults can be const: DeliveryHandler sorts a copy of the provider's
+  /// list (ledger #12), so an unmodifiable fixture is now the honest one and
+  /// guards the fix.
   void stubAdminLoads({
     List<AppModulesAmapSchemasAmapProductComplete>? products,
     List<DeliveryReturn>? deliveries,
@@ -42,9 +42,9 @@ void main() {
       (_) async =>
           chopperListResponse(<AppModulesAmapSchemasAmapCashComplete>[]),
     );
-    when(
-      () => scaffold.repository.amapDeliveriesGet(),
-    ).thenAnswer((_) async => chopperListResponse(deliveries ?? []));
+    when(() => scaffold.repository.amapDeliveriesGet()).thenAnswer(
+      (_) async => chopperListResponse(deliveries ?? const <DeliveryReturn>[]),
+    );
     // The admin page's delivery cards auto-load their orders per delivery;
     // an un-stubbed call would read as a null Future<Response> and kill the
     // whole child-route mount with a type error.

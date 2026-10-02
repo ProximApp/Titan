@@ -46,14 +46,14 @@ OrderReturn order(String orderId, String deliveryId, int amount) =>
       orderingDate: DateTime(2100),
     );
 
-/// The amap pages ship with two debug-mode-only exceptions that release
-/// builds never surface:
-/// 1. the cash and order-list notifiers `return state` from build(), which
-///    always throws once on the first build under Riverpod 3 before the
-///    load they scheduled heals the state;
-/// 2. the order card's fixed-width rows overflow horizontally by ~125px
-///    with real-world dates (a latent visual bug).
-/// Both are filtered; anything else stays fatal.
+/// The amap pages ship ONE debug-mode-only exception that release builds
+/// never surface: the cash and order-list notifiers `return state` from
+/// build(), which always throws once on the first build under Riverpod 3
+/// before the load they scheduled heals the state. It is filtered; anything
+/// else — including every `A RenderFlex overflowed` — stays fatal, which is
+/// what makes the card layout pass (ledger #4) a real guard: the order,
+/// delivery, cash and "see more" cards all render inside fixed-width
+/// containers at their natural text sizes.
 void ignoreAmapKnownQuirks() {
   final previous = FlutterError.onError;
   FlutterError.onError = (details) {
@@ -61,9 +61,6 @@ void ignoreAmapKnownQuirks() {
     if (message.contains(
       'Tried to read the state of an uninitialized provider',
     )) {
-      return;
-    }
-    if (message.contains('A RenderFlex overflowed')) {
       return;
     }
     previous?.call(details);

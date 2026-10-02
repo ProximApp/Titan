@@ -32,10 +32,10 @@ void main() {
     category: category,
   );
 
-  /// Stubs everything the admin page loads on mount. Nullable params +
-  /// fresh list bodies: default values must be const (immutable) but the
-  /// DeliveryHandler sorts the provider's list in place, so the stub must
-  /// hand out growable lists — as the real deserializer would.
+  /// Stubs everything the admin page loads on mount. Nullable params so the
+  /// defaults can be const: DeliveryHandler sorts a copy of the provider's
+  /// list (ledger #12), so an unmodifiable fixture is now the honest one and
+  /// guards the fix.
   void stubAdminLoads({
     List<AppModulesAmapSchemasAmapProductComplete>? products,
   }) {
@@ -45,7 +45,7 @@ void main() {
     );
     when(
       () => scaffold.repository.amapDeliveriesGet(),
-    ).thenAnswer((_) async => chopperListResponse(<DeliveryReturn>[]));
+    ).thenAnswer((_) async => chopperListResponse(const <DeliveryReturn>[]));
     when(
       () => scaffold.repository.amapProductsGet(),
     ).thenAnswer((_) async => chopperListResponse(products ?? []));
