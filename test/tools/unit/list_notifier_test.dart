@@ -24,6 +24,13 @@ class MockListNotifier extends ListNotifier<MockData> {
     return add(f, t);
   }
 
+  Future<bool> testAddAll(
+    Future<List<MockData>> Function(List<MockData> listT) f,
+    List<MockData> listT,
+  ) async {
+    return addAll(f, listT);
+  }
+
   Future<bool> testUpdate(
     Future<bool> Function(MockData t) f,
     List<MockData> Function(List<MockData> listT, MockData t) replace,
@@ -561,5 +568,95 @@ void main() {
         }
       },
     );
+  });
+
+  // The whole file above asserts CONTENTS, and in-place mutation changes
+  // contents too, so it could not tell the two apart. `add` and `addAll` used
+  // to do `d.add(newT); state = AsyncValue.data(d);` where `d` IS the list
+  // object already inside `state` — a mutation of provider state, invisible to
+  // anyone holding the previous reference and a hard throw if that list ever
+  // came from an unmodifiable source.
+  group('ListNotifier does not mutate the list inside its own state', () {
+    test('add leaves the previous list object untouched', () async {
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+      final notifier = container.read(mockListNotifierProvider.notifier);
+      final existing = MockData();
+      notifier.state = AsyncValue.data([existing]);
+      final snapshot = notifier.state.value!;
+
+      await notifier.testAdd((_) async => MockData(), MockData());
+
+      // The list the old code would have appended into still has one element.
+      expect(snapshot, hasLength(1));
+      expect(identical(snapshot, notifier.state.value), isFalse);
+      expect(notifier.state.value, hasLength(2));
+    });
+
+    test('add leaves the previous list object untouched on failure', () async {
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+      final notifier = container.read(mockListNotifierProvider.notifier);
+      notifier.state = AsyncValue.data([MockData()]);
+      final snapshot = notifier.state.value!;
+
+      final ok = await notifier.testAdd(
+        (_) async => throw StateError('nope'),
+        MockData(),
+      );
+
+      expect(ok, isFalse);
+      // The `catch` branch re-wraps `d`, so with the old code this snapshot
+      // would already carry the half-finished append.
+      expect(snapshot, hasLength(1));
+      expect(notifier.state.value, hasLength(1));
+    });
+
+    test('addAll leaves the previous list object untouched', () async {
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+      final notifier = container.read(mockListNotifierProvider.notifier);
+      notifier.state = AsyncValue.data([MockData()]);
+      final snapshot = notifier.state.value!;
+
+      await notifier.testAddAll((_) async => [MockData(), MockData()], []);
+
+      expect(snapshot, hasLength(1));
+      expect(identical(snapshot, notifier.state.value), isFalse);
+      expect(notifier.state.value, hasLength(3));
+    });
+
+    test('add notifies its listeners', () async {
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+      final notifier = container.read(mockListNotifierProvider.notifier);
+      notifier.state = AsyncValue.data([MockData()]);
+
+      var notifications = 0;
+      container.listen(
+        mockListNotifierProvider,
+        (previous, next) => notifications++,
+      );
+
+      await notifier.testAdd((_) async => MockData(), MockData());
+
+      expect(notifications, 1);
+    });
+
+    test('a listener is handed the untouched previous list', () async {
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+      final notifier = container.read(mockListNotifierProvider.notifier);
+      notifier.state = AsyncValue.data([MockData()]);
+
+      final seen = <int>[];
+      container.listen(mockListNotifierProvider, (previous, next) {
+        seen.add(previous?.value?.length ?? -1);
+      });
+
+      await notifier.testAdd((_) async => MockData(), MockData());
+
+      expect(seen, [1]);
+    });
   });
 }
