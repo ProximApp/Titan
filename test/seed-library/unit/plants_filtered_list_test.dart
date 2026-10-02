@@ -254,4 +254,88 @@ void main() {
       );
     });
   });
+
+  // `deletePlantFromList` and `addPlantToList` used to do
+  // `AsyncValue.data(plants..removeWhere(...))` / `AsyncValue.data(plants..add(x))`
+  // where `plants` is the list object ALREADY inside `state` — an in-place
+  // mutation of provider state. `updatePlantInList` two methods away already
+  // did it correctly, which is what made the inconsistency visible.
+  //
+  // A content assertion cannot see this: mutating in place really does change
+  // what `container.read` returns, so the list "looks" right. What it cannot
+  // fake is the object identity of the list a previous reader is holding.
+  group('myPlantListProvider does not mutate the list inside its state', () {
+    test('deletePlantFromList leaves the previous list untouched', () {
+      final container = makeContainer();
+      addTearDown(container.dispose);
+      final notifier = container.read(myPlantListProvider.notifier)
+        ..state = AsyncValue.data([plant('1', 'm'), plant('2', 'm')]);
+      final snapshot = notifier.state.value!;
+
+      notifier.deletePlantFromList('p-1');
+
+      expect(snapshot.map((p) => p.reference), ['1', '2']);
+      expect(notifier.state.value!.map((p) => p.reference), ['2']);
+      expect(identical(snapshot, notifier.state.value), isFalse);
+    });
+
+    test('addPlantToList leaves the previous list untouched', () {
+      final container = makeContainer();
+      addTearDown(container.dispose);
+      final notifier = container.read(myPlantListProvider.notifier)
+        ..state = AsyncValue.data([plant('1', 'm')]);
+      final snapshot = notifier.state.value!;
+
+      notifier.addPlantToList(plant('2', 'm'));
+
+      expect(snapshot.map((p) => p.reference), ['1']);
+      expect(notifier.state.value!.map((p) => p.reference), ['1', '2']);
+      expect(identical(snapshot, notifier.state.value), isFalse);
+    });
+
+    test('addPlantToList notifies its listeners', () {
+      final container = makeContainer();
+      addTearDown(container.dispose);
+      container.read(myPlantListProvider.notifier).state = AsyncValue.data(
+        [plant('1', 'm')],
+      );
+
+      var notifications = 0;
+      container.listen(myPlantListProvider, (previous, next) => notifications++);
+
+      container.read(myPlantListProvider.notifier).addPlantToList(
+        plant('2', 'm'),
+      );
+
+      expect(notifications, 1);
+    });
+
+    test('a listener is handed the untouched previous list', () {
+      final container = makeContainer();
+      addTearDown(container.dispose);
+      final notifier = container.read(myPlantListProvider.notifier)
+        ..state = AsyncValue.data([plant('1', 'm'), plant('2', 'm')]);
+
+      final seen = <int>[];
+      container.listen(myPlantListProvider, (previous, next) {
+        seen.add(previous?.value?.length ?? -1);
+      });
+
+      notifier.deletePlantFromList('p-1');
+
+      expect(seen, [2]);
+    });
+
+    test('deletePlantFromList is a no-op while loading', () {
+      final container = makeContainer();
+      addTearDown(container.dispose);
+      final notifier = container.read(myPlantListProvider.notifier)
+        ..state = const AsyncValue.loading();
+
+      notifier.deletePlantFromList('p-1');
+
+      expect(notifier.state, isA<AsyncValue<List<PlantSimple>>>()
+          .having((s) => s.isLoading, 'isLoading', isTrue));
+    });
+  });
 }
