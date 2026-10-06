@@ -19,7 +19,9 @@ class PathForwardingProvider extends Notifier<PathForwarding> {
     final currentParams = state.queryParameters;
     if (currentParams == null) return;
     final newParams = Map<String, String>.from(currentParams)..remove(key);
-    state = state.copyWith(
+    state = PathForwarding(
+      path: state.path,
+      isLoggedIn: state.isLoggedIn,
       queryParameters: newParams.isEmpty ? null : newParams,
     );
   }
