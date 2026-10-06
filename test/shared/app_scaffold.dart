@@ -54,8 +54,11 @@ import 'package:titan/tools/logs/logger.dart';
 import 'package:titan/tools/logs/logger_output.dart';
 import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/user/providers/user_provider.dart';
+import 'package:titan/version/providers/minimal_hyperion_version_provider.dart';
 import 'package:titan/version/providers/titan_version_provider.dart';
 import 'package:titan/version/providers/version_verifier_provider.dart';
+
+import 'page_module_guard.dart';
 
 class MockRepository extends Mock implements Openapi {}
 
@@ -347,10 +350,77 @@ Future<void> settle(WidgetTester tester, {int frames = 12}) async {
   }
 }
 
+/// Mounts ANY widget under the app's real shell at ANY size — the general
+/// one-off counterpart to `IntegrationScaffold.pumpWidgetApp`, for tests
+/// whose whole body is "this widget, this viewport".
+///
+/// The shell is the same one `pumpWidgetApp` builds — `ToastificationWrapper`
+/// → a plain `MaterialApp` with the real l10n delegates and [widget] as
+/// `home` — with `UncontrolledProviderScope` added only when [container] is
+/// given, so a widget that reads no providers mounts without one. No router,
+/// no AppTemplate, no convention 1/10/11 bookkeeping.
+///
+/// * [surface] — physical pixels at DPR 1 (logical == pixels), restored in
+///   tearDown. Defaults to the 360x640 phone the sweeps measure against.
+/// * [appFonts] — loads the bundled faces and stubs network images to a 1x1
+///   PNG; defaults to true so text is measured with the device's glyphs.
+///   An overflow at [surface] is fatal, which is the point.
+/// * [locale] — pins the strings the widget resolves. A file that mounts a
+///   locale for the first time must prime BOTH arb libraries in `setUpAll`
+///   first: the deferred `loadLibrary()` behind `AppLocalizations` only
+///   ever completes for the first genuine load in a file (see
+///   localization_round_trip_test.dart).
+/// * [frames] — frames [settle] pumps after mounting.
+Future<void> pumpWidgetAt(
+  WidgetTester tester,
+  Widget widget, {
+  ProviderContainer? container,
+  // `ui.Size`, not `Size`: openapi.swagger.dart exports the amap slot enum
+  // with a `Size` constant that shadows dart:ui's in this file.
+  ui.Size surface = const ui.Size(360, 640),
+  bool appFonts = true,
+  Locale? locale,
+  int frames = 4,
+}) async {
+  tester.view.physicalSize = surface;
+  tester.view.devicePixelRatio = 1;
+  addTearDown(tester.view.reset);
+  if (appFonts) {
+    await loadAppFonts();
+    stubNetworkImages();
+  }
+  Widget tree = ToastificationWrapper(
+    child: MaterialApp(
+      theme: appFonts ? appTheme : null,
+      locale: locale,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('en', 'US'), Locale('fr', 'FR')],
+      home: Scaffold(body: widget),
+    ),
+  );
+  if (container != null) {
+    tree = UncontrolledProviderScope(container: container, child: tree);
+  }
+  await tester.pumpWidget(tree);
+  await settle(tester, frames: frames);
+}
+
 /// A 1x1 transparent PNG - the smallest thing `Image.network` can decode.
 final _onePixelPng = base64Decode(
   'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk'
   'YPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
+);
+
+/// A real, decodable SVG — flutter_svg PARSES its body, so an `.svg` URL
+/// answered with PNG bytes dies with "Invalid SVG data" instead of drawing.
+final _realSvgBytes = utf8.encode(
+  '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">'
+  '<rect width="24" height="24" fill="#204550"/></svg>',
 );
 
 HttpOverrides? _imageOverrides;
@@ -390,16 +460,59 @@ class _PixelImageClient implements HttpClient {
   int? maxConnectionsPerHost = 6;
 
   @override
-  Future<HttpClientRequest> getUrl(Uri url) async => _PixelRequest();
+  Future<HttpClientRequest> getUrl(Uri url) async => _PixelRequest(url);
+
+  /// `package:http`'s `IOClient.send` — the path flutter_svg's
+  /// `SvgNetworkLoader` reaches — calls `openUrl`, not `getUrl`.
+  @override
+  Future<HttpClientRequest> openUrl(String method, Uri url) async =>
+      _PixelRequest(url);
+
+  /// flutter_svg disposes the client it opened as soon as its single
+  /// request completes; closing must answer, not throw.
+  @override
+  Future<HttpClient> close({bool force = false}) async => this;
 }
 
 class _PixelRequest implements HttpClientRequest {
+  _PixelRequest(this._url);
+
+  final Uri _url;
+
   @override
   noSuchMethod(Invocation invocation) =>
       throw UnimplementedError('the card sweep only closes the request');
 
+  // `package:http`'s `IOClient.send` configures the request it just opened
+  // and pipes the (empty) body through it before closing.
   @override
-  Future<HttpClientResponse> close() async => _PixelResponse();
+  bool followRedirects = true;
+
+  @override
+  int maxRedirects = 5;
+
+  @override
+  int contentLength = -1;
+
+  @override
+  bool persistentConnection = true;
+
+  @override
+  final HttpHeaders headers = _PixelHeaders();
+
+  @override
+  Future<void> addStream(Stream<List<int>> stream) => stream.drain<void>();
+
+  @override
+  Future<HttpClientResponse> close() async => _PixelResponse(_url);
+}
+
+/// Accepts every write and iterates as empty: the only calls on either
+/// request's headers are `set` (the caller's) and `forEach` (the response's),
+/// and a one-pixel answer carries no headers of its own.
+class _PixelHeaders implements HttpHeaders {
+  @override
+  noSuchMethod(Invocation invocation) => null;
 }
 
 /// Only `statusCode`, `contentLength` and the byte stream are ever read, and
@@ -408,10 +521,19 @@ class _PixelRequest implements HttpClientRequest {
 /// to this SDK's `dart:async`, and `Stream.value(...).listen` is a drop-in
 /// for it at runtime.
 class _PixelResponse implements HttpClientResponse {
+  _PixelResponse(this._url);
+
+  final Uri _url;
+
+  /// `.svg` URLs get real SVG bytes; every other URL gets the one-pixel PNG
+  /// the image loaders swallow.
+  List<int> get _bytes =>
+      _url.path.toLowerCase().endsWith('.svg') ? _realSvgBytes : _onePixelPng;
+
   @override
   noSuchMethod(Invocation invocation) {
     if (invocation.memberName == #listen) {
-      final stream = Stream<List<int>>.value(_onePixelPng);
+      final stream = Stream<List<int>>.value(_bytes);
       return Function.apply(
         stream.listen,
         invocation.positionalArguments,
@@ -428,11 +550,23 @@ class _PixelResponse implements HttpClientResponse {
   String get reasonPhrase => 'OK';
 
   @override
-  int get contentLength => _onePixelPng.length;
+  int get contentLength => _bytes.length;
 
   /// The image loader checks this before decoding.
   @override
-  HttpHeaders get headers => _PngHeaders();
+  HttpHeaders get headers => _PngHeaders(_url);
+
+  // `package:http`'s `IOClient.send` reads these off the response when it
+  // builds its own: a one-pixel 200 never redirects and never came from a
+  // persistent connection.
+  @override
+  bool get isRedirect => false;
+
+  @override
+  List<RedirectInfo> get redirects => const [];
+
+  @override
+  bool get persistentConnection => false;
 
   /// `consolidateHttpClientResponseBytes` branches on this.
   @override
@@ -443,11 +577,24 @@ class _PixelResponse implements HttpClientResponse {
 /// `HttpHeaders` is abstract on the VM, and the loader only ever reads
 /// `contentType` off it.
 class _PngHeaders implements HttpHeaders {
+  _PngHeaders(this._url);
+
+  final Uri _url;
+
   @override
   noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 
   @override
-  ContentType get contentType => ContentType('image', 'png');
+  ContentType get contentType => _url.path.toLowerCase().endsWith('.svg')
+      ? ContentType('image', 'svg+xml')
+      : ContentType('image', 'png');
+
+  /// `package:http`'s `IOClient.send` iterates the response headers into its
+  /// own map; a one-pixel answer carries none, so iterating nothing is the
+  /// truthful implementation — and it must not throw, which is what the
+  /// `super.noSuchMethod` above would do.
+  @override
+  void forEach(void Function(String name, List<String> values) action) {}
 }
 
 /// The app's own font families, loaded from `assets/google_fonts/`.
@@ -568,9 +715,22 @@ class FakeKeyService extends Fake implements KeyService {
     return _keyPair ??= await _algorithm.newKeyPair();
   }
 
+  /// The messages this fake has signed, oldest first, as strings: the pay
+  /// flow jsonEncodes its envelope BEFORE signing, so
+  /// `jsonDecode(signedMessages.last)` recovers the exact payload a seller's
+  /// scanner receives — assert what the other side reads (convention 29).
+  final List<String> signedMessages = [];
+
+  /// The pair the flow's own [getKeyPair] produced — null exactly when
+  /// [getKeyId] is null. A test verifying a signature the flow ALREADY
+  /// produced needs this pair; minting a fresh one would prove nothing.
+  SimpleKeyPair? get keyPairForTest => _keyPair;
+
   @override
-  Future<Signature> signMessage(SimpleKeyPair keyPair, List<int> message) =>
-      _algorithm.sign(message, keyPair: keyPair);
+  Future<Signature> signMessage(SimpleKeyPair keyPair, List<int> message) {
+    signedMessages.add(utf8.decode(message, allowMalformed: true));
+    return _algorithm.sign(message, keyPair: keyPair);
+  }
 }
 
 /// The real Logger kicks off an async init() that REPLACES loggerOutput
@@ -622,9 +782,21 @@ class CapturingLoggerOutput implements LoggerOutput {
 /// The real verifier calls the backend through the repository; the middleware
 /// only needs the data branch to decide the app is up to date.
 class FakeVersionVerifierNotifier extends VersionVerifierNotifier {
+  FakeVersionVerifierNotifier([this.minimalTitanVersionCode = 1]);
+
+  /// What the backend demands at minimum. The old fake hardcoded 1, which
+  /// paired with [FakeTitanVersionNotifier]'s 999 to pin
+  /// `minimalTitanVersionCode <= titanVersion` — and with it UpdatePage —
+  /// shut (ledger #55).
+  final int minimalTitanVersionCode;
+
   @override
   AsyncValue<CoreInformation> build() => AsyncValue.data(
-    CoreInformation(ready: true, version: '1.0.0', minimalTitanVersionCode: 1),
+    CoreInformation(
+      ready: true,
+      version: '1.0.0',
+      minimalTitanVersionCode: minimalTitanVersionCode,
+    ),
   );
 }
 
@@ -636,12 +808,68 @@ class FakeHoldingVersionVerifierNotifier extends VersionVerifierNotifier {
   AsyncValue<CoreInformation> build() => AsyncValue<CoreInformation>.loading();
 }
 
+/// The state neither shipped fake could produce: the `error:` arm that
+/// AuthenticatedMiddleware and LoadingPage both route to `/no_internet`
+/// (ledger #55). [recoversOnRetry] decides what the FIRST `loadVersion()` —
+/// the one NoInternetPage's retry triggers through
+/// `IsConnectedProvider.isInternet()` — does to the state: the default
+/// leaves it exactly as it found it, so the page's "still offline" branch
+/// holds; `true` flips it to data so a test can watch the recovery.
+class FakeFailingVersionVerifierNotifier extends VersionVerifierNotifier {
+  FakeFailingVersionVerifierNotifier({
+    required this.recoversOnRetry,
+    this.minimalTitanVersionCode = 1,
+  });
+
+  final bool recoversOnRetry;
+  final int minimalTitanVersionCode;
+
+  @override
+  AsyncValue<CoreInformation> build() => AsyncValue.error(
+    StateError('version verification failed (failVersionVerifier)'),
+    StackTrace.current,
+  );
+
+  @override
+  Future<AsyncValue<CoreInformation>> loadVersion() async {
+    if (recoversOnRetry) {
+      state = AsyncValue.data(
+        CoreInformation(
+          ready: true,
+          version: '1.0.0',
+          minimalTitanVersionCode: minimalTitanVersionCode,
+        ),
+      );
+      return state;
+    }
+    return state;
+  }
+}
+
 /// The real notifier calls PackageInfo.fromPlatform(), which has no platform
 /// channel in tests; the middleware only needs an int to compare against the
 /// backend's minimal version.
 class FakeTitanVersionNotifier extends TitanVersionNotifier {
+  FakeTitanVersionNotifier([this.value = 999]);
+
+  /// The client's own version. 999 keeps every version gate open; a test
+  /// pinning the update branch passes 1 (ledger #55).
+  final int value;
+
   @override
-  int build() => 999;
+  int build() => value;
+}
+
+/// The Hyperion minimum without the real notifier's storage round-trip:
+/// `build()` answers directly, so a read right after construction works.
+class _FakeMinimalHyperionVersionNotifier
+    extends MinimalHyperionVersionNotifier {
+  _FakeMinimalHyperionVersionNotifier(this.value);
+
+  final String value;
+
+  @override
+  String build() => value;
 }
 
 /// The real provider derives the session from the OIDC token storage, which
@@ -682,13 +910,24 @@ class FakeAsyncUserNotifier extends UserNotifier {
 /// The real notifiers fetch the permission catalog; the module catalog only
 /// needs the loading state resolved.
 class FakePermissionsNamesListNotifier extends PermissionsNamesListNotifier {
+  FakePermissionsNamesListNotifier([this.names = const []]);
+
+  /// The permission names the catalog lists — what
+  /// `buildPermissionToModuleRootMap` keys its map by.
+  final List<String> names;
+
   @override
-  AsyncValue<List<String>> build() => AsyncValue.data(const []);
+  AsyncValue<List<String>> build() => AsyncValue.data(names);
 }
 
 class FakePermissionsNotifier extends PermissionsNotifier {
+  FakePermissionsNotifier([this.permissions = const []]);
+
+  /// The grants the backend returns for this user.
+  final List<CorePermission> permissions;
+
   @override
-  AsyncValue<List<CorePermission>> build() => AsyncValue.data(const []);
+  AsyncValue<List<CorePermission>> build() => AsyncValue.data(permissions);
 }
 
 /// The real notifier reads the shared preferences cache; the notification
@@ -931,6 +1170,34 @@ class IntegrationScaffold {
     /// reaching the platform. Pass a value to let the pay flow get past the
     /// account card's device gate.
     String? deviceKeyId,
+
+    /// Puts `versionVerifierProvider` in its `error:` state — the arm
+    /// AuthenticatedMiddleware and LoadingPage both route to `/no_internet`,
+    /// which neither shipped fake could reach (ledger #55).
+    bool failVersionVerifier = false,
+
+    /// With [failVersionVerifier]: whether the first retry's `loadVersion()`
+    /// recovers to data. The default leaves the state as it found it, which
+    /// is NoInternetPage's "still offline, stay put" branch.
+    bool versionVerifierRecoversOnRetry = false,
+
+    /// The two sides of `minimalTitanVersionCode <= titanVersion` — the
+    /// comparison UpdatePage branches on. Defaults (1 <= 999) keep every
+    /// version gate open; ledger #55's tests pass 1 and 1000 to open the
+    /// update branch.
+    int titanVersion = 999,
+    int minimalTitanVersionCode = 1,
+
+    /// Read back off `minimalHyperionVersionProvider`; null leaves the real
+    /// storage-loading notifier alone.
+    String? minimalHyperionVersion,
+
+    /// The permission chain's two halves: the names the catalog lists
+    /// (`permissionsNamesListProvider`) and the grants the backend returns
+    /// (`permissionsProvider`). Null leaves the repository-backed providers
+    /// alone, which is what every test that does not care about gating wants.
+    List<CorePermission>? permissions,
+    List<String>? permissionCatalog,
   }) {
     return ProviderContainer(
       overrides: [
@@ -938,11 +1205,22 @@ class IntegrationScaffold {
           loggerProvider.overrideWith((ref) => _StubLogger(_loggerOutput!)),
         repositoryProvider.overrideWithValue(repository),
         versionVerifierProvider.overrideWith(
-          holdVersionVerifier
-              ? FakeHoldingVersionVerifierNotifier.new
-              : FakeVersionVerifierNotifier.new,
+          () => holdVersionVerifier
+              ? FakeHoldingVersionVerifierNotifier()
+              : failVersionVerifier
+              ? FakeFailingVersionVerifierNotifier(
+                  recoversOnRetry: versionVerifierRecoversOnRetry,
+                  minimalTitanVersionCode: minimalTitanVersionCode,
+                )
+              : FakeVersionVerifierNotifier(minimalTitanVersionCode),
         ),
-        titanVersionProvider.overrideWith(FakeTitanVersionNotifier.new),
+        titanVersionProvider.overrideWith(
+          () => FakeTitanVersionNotifier(titanVersion),
+        ),
+        if (minimalHyperionVersion != null)
+          minimalHyperionVersionProvider.overrideWith(
+            () => _FakeMinimalHyperionVersionNotifier(minimalHyperionVersion),
+          ),
         isLoggedInProvider.overrideWith(FakeIsLoggedInNotifier.new),
         userProvider.overrideWithValue(user ?? CoreUser.empty()),
         if (seedAsyncUser && user != null)
@@ -1003,6 +1281,22 @@ class IntegrationScaffold {
         if (purchasesSellers.isNotEmpty)
           sellerListProvider.overrideWith(
             () => FakePurchasesSellerListNotifier(purchasesSellers),
+          ),
+        // An EMPTY catalog means "not known yet": the real notifier must
+        // stay in its loading state — the cold-start state the middleware
+        // must never read as "no modules" (the loading guard in
+        // no_module_redirect_integration_test).
+        if (permissionCatalog != null && permissionCatalog.isNotEmpty)
+          permissionsNamesListProvider.overrideWith(
+            () => FakePermissionsNamesListNotifier(permissionCatalog),
+          ),
+        // Providing the catalog also stands in for the backend's grant
+        // answer: without it the repository-backed notifier lands in its
+        // error state and the roots list is never the `AsyncData([])` the
+        // /no_module redirect requires.
+        if (permissions != null || permissionCatalog != null)
+          permissionsProvider.overrideWith(
+            () => FakePermissionsNotifier(permissions ?? const []),
           ),
       ],
     );
@@ -1123,38 +1417,30 @@ class IntegrationScaffold {
     // with a `Size` constant that shadows dart:ui's in this file.
     ui.Size surface = const ui.Size(360, 640),
     bool appFonts = false,
-  }) async {
-    tester.view.physicalSize = surface;
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.reset);
-    if (appFonts) await loadAppFonts();
-    if (appFonts) stubNetworkImages();
-    await tester.pumpWidget(
-      UncontrolledProviderScope(
-        container: container,
-        child: ToastificationWrapper(
-          child: MaterialApp(
-            theme: appFonts ? appTheme : null,
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: const [Locale('en', 'US'), Locale('fr', 'FR')],
-            home: Scaffold(body: child),
-          ),
-        ),
-      ),
-    );
-    await settle(tester, frames: 4);
-  }
+
+    /// Pins the locale the widget resolves its strings in — the localization
+    /// round-trip mounts the same card under `en` and `fr` through this.
+    /// Null keeps the platform default.
+    Locale? locale,
+  }) => pumpWidgetAt(
+    tester,
+    child,
+    container: container,
+    surface: surface,
+    appFonts: appFonts,
+    locale: locale,
+  );
 
   Future<void> pumpApp(
     WidgetTester tester,
     ProviderContainer container, {
     String initialPath = AppRouter.root,
     bool pumpAndSettle = true,
+
+    /// The modules this test EXPECTS to end up on beyond its own — a gate
+    /// bounce, a redirect, a page under `lib/others`. Each needs its reason
+    /// in a comment beside it (convention 30); a third module still fails.
+    Set<String> allowedModules = const {},
   }) async {
     // The real app wires the navbar animation controller in main.dart;
     // NavigationTemplate unwraps it with `animation!` and only shows the
@@ -1211,6 +1497,20 @@ class IntegrationScaffold {
       for (var i = 0; i < 12; i++) {
         await tester.pump(const Duration(milliseconds: 60));
       }
+    }
+
+    // Convention 30: ask the tree whether the page on screen is the page
+    // this test asked for. It runs AFTER the settle (deferred routes are not
+    // in the tree before it) and stays inert when the stack shows no test
+    // module at all.
+    final moduleUnderTest = currentTestModule();
+    if (moduleUnderTest != null) {
+      assertNoForeignModulePages(
+        tester,
+        moduleUnderTest: moduleUnderTest,
+        allowedModules: allowedModules,
+        requestedPath: initialPath,
+      );
     }
   }
 
@@ -1461,6 +1761,12 @@ class FakeUrlLauncher extends UrlLauncherPlatform {
 
   final List<String> launched = [];
 
+  /// The launches with their full option set: `LaunchMode` never reaches the
+  /// platform — `launchUrl` decomposes it into these named flags, and
+  /// `useWebView` / `universalLinksOnly` are the only observable differences
+  /// between the modes (ledger #60).
+  final List<LaunchRecord> launches = [];
+
   @override
   LinkDelegate? get linkDelegate => null;
 
@@ -1482,8 +1788,37 @@ class FakeUrlLauncher extends UrlLauncherPlatform {
     String? webOnlyWindowName,
   }) async {
     launched.add(url);
+    launches.add(
+      LaunchRecord(
+        url: url,
+        useSafariVC: useSafariVC,
+        useWebView: useWebView,
+        enableJavaScript: enableJavaScript,
+        enableDomStorage: enableDomStorage,
+        universalLinksOnly: universalLinksOnly,
+      ),
+    );
     return launchSucceeds;
   }
+}
+
+/// What one launch was asked to do, recorded by [FakeUrlLauncher].
+class LaunchRecord {
+  const LaunchRecord({
+    required this.url,
+    required this.useSafariVC,
+    required this.useWebView,
+    required this.enableJavaScript,
+    required this.enableDomStorage,
+    required this.universalLinksOnly,
+  });
+
+  final String url;
+  final bool useSafariVC;
+  final bool useWebView;
+  final bool enableJavaScript;
+  final bool enableDomStorage;
+  final bool universalLinksOnly;
 }
 
 /// Installs [fake] as url_launcher's platform for the current test, and puts
