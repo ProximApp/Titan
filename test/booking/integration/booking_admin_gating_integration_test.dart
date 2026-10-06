@@ -21,6 +21,9 @@ void main() {
       tester,
       container,
       initialPath: '${BookingRouter.root}${BookingRouter.admin}',
+      // AdminMiddleware forwards non-admins to the feed, so the bounce IS this
+      // file's subject: the foreign-page guard needs to be told (convention 30).
+      allowedModules: const {'feed'},
       pumpAndSettle: false,
     );
     await settle(tester);
