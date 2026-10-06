@@ -37,6 +37,9 @@ void main() {
     await scaffold.pumpApp(
       tester,
       scaffold.makeContainer(user: CoreUser.empty().copyWith(id: 'user-1')),
+      // AdminMiddleware forwards non bank holders to the feed: the bounce
+      // is this file's subject (convention 30).
+      allowedModules: const {'feed'},
       initialPath: '/mypayment/invoicesAdmin',
       pumpAndSettle: false,
     );

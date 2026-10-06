@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -59,21 +61,48 @@ void main() {
     int cap = maxWalletBalance,
     bool tosAccepted = true,
     bool fundingUrlRefused = false,
-    List<TransferInfo> transfers = const [],
+    List<TransferInfo>? transfers,
     bool launchSucceeds = true,
+    bool walletFails = false,
+    bool tosFails = false,
+
+    /// The TOS fails ONCE and heals on the retry. A *permanently* failing
+    /// TOS cannot be tested through the UI at all — see the last test in this
+    /// file — so the outage has to end for the frame pipeline to come back.
+    bool tosFailsOnce = false,
   }) {
-    when(
-      () => scaffold.repository.mypaymentUsersMeWalletGet(),
-    ).thenAnswer((_) async => chopperResponse(walletWith(amount)));
-    when(() => scaffold.repository.mypaymentUsersMeTosGet()).thenAnswer(
-      (_) async => chopperResponse(
+    var tosCalls = 0;
+    when(() => scaffold.repository.mypaymentUsersMeWalletGet()).thenAnswer(
+      (_) async => walletFails
+          ? chopper.Response(
+              http.Response('{"detail": "wallet down"}', 500),
+              null,
+              error: 'wallet fetch failed',
+            )
+          : chopperResponse(walletWith(amount)),
+    );
+    when(() => scaffold.repository.mypaymentUsersMeTosGet()).thenAnswer((
+      _,
+    ) async {
+      final failing = tosFails || (tosFailsOnce && tosCalls++ == 0);
+      if (failing) {
+        return chopper.Response(
+          http.Response('{"detail": "tos down"}', 500),
+          null,
+          error: 'tos fetch failed',
+        );
+      }
+      return chopperResponse(
         TOSSignatureResponse.empty().copyWith(
           acceptedTosVersion: tosAccepted ? 1 : 0,
           latestTosVersion: 1,
           maxWalletBalance: cap,
         ),
-      ),
-    );
+      );
+    });
+    when(
+      () => scaffold.repository.mypaymentUsersMeRegisterPost(),
+    ).thenAnswer((_) async => chopper.Response(http.Response('', 200), null));
     when(
       () => scaffold.repository.mypaymentUsersMeStoresGet(),
     ).thenAnswer((_) async => chopperListResponse(<UserStore>[]));
@@ -86,12 +115,21 @@ void main() {
     when(
       () => scaffold.repository.mypaymentUsersMeWalletHistoryGet(),
     ).thenAnswer((_) async => chopperListResponse(<History>[]));
+    // `transfers` is nullable rather than defaulting to `const []` on
+    // purpose. A const list is UNMODIFIABLE, so `add` inside the stub threw
+    // `UnsupportedError`, which `SingleNotifierAPI.load` caught and turned
+    // into `AsyncError` — which the button renders as "the backend refused",
+    // with no launch and no exception. The result looked exactly like a
+    // working error-path test while nothing about the URL hand-off had been
+    // exercised. A test that does not care about the body now gets a
+    // throwaway growable list instead.
+    final posted = transfers ?? <TransferInfo>[];
     when(
       () => scaffold.repository.mypaymentTransferInitPost(
         body: any(named: 'body'),
       ),
     ).thenAnswer((invocation) async {
-      transfers.add(invocation.namedArguments[#body] as TransferInfo);
+      posted.add(invocation.namedArguments[#body] as TransferInfo);
       if (fundingUrlRefused) {
         return chopper.Response(
           http.Response('{"detail": "refused"}', 500),
@@ -148,6 +186,22 @@ void main() {
   Future<void> confirm(WidgetTester tester) async {
     await tester.tap(find.byType(ConfirmFundButton), warnIfMissed: false);
     await settle(tester, frames: 20);
+  }
+
+  /// Runs [body] in a zone it owns and returns the first error that escaped it.
+  ///
+  /// `ConfirmFundButton` calls `tryLaunchUrl(...)` without `await` inside
+  /// `value.when(data: ...)`, so a failed launch throws into the ZONE rather
+  /// than into any caller. `testWidgets` surfaces that as "_Exception was
+  /// thrown running a test" and fails the test outright; `tester.takeException`
+  /// is no help because the error never passes through `FlutterError` (it
+  /// returned null on every attempt, including immediately after the throw).
+  /// Owning the zone is the only way to observe it — and for a KNOWN BUG the
+  /// observation is the whole point.
+  Future<Object?> zoneErrors(Future<void> Function() body) async {
+    Object? caught;
+    await runZonedGuarded(body, (error, _) => caught ??= error);
+    return caught;
   }
 
   testWidgets('a declined TOS blocks the top-up sheet', (tester) async {
@@ -351,5 +405,201 @@ void main() {
     expect(digits('2'), findsOneWidget);
     expect((UrlLauncherPlatform.instance as FakeUrlLauncher).launched, isEmpty);
     await scaffold.drainToast(tester);
+  });
+
+  testWidgets('the hand-off asks for the EXTERNAL application, not a web view', (
+    tester,
+  ) async {
+    // The URL alone cannot tell these apart, so the mode is what matters
+    // here — and it is what makes the flow work at all. `externalApplication`
+    // is the only mode that actually LEAVES the app, which is the whole
+    // premise: the provider finishes the payment in a browser and bounces the
+    // user back through `titan://mypayment`. On `platformDefault` the button
+    // would open an in-app web view, the app would never background, and the
+    // deep link could never fire.
+    final transfers = <TransferInfo>[];
+    stubFundFlow(transfers: transfers);
+    await boot(tester);
+    await tapTopUp(tester);
+
+    for (final key in ['2', '0']) {
+      await press(tester, key);
+    }
+    await confirm(tester);
+
+    final launcher = UrlLauncherPlatform.instance as FakeUrlLauncher;
+    expect(launcher.launches, hasLength(1));
+    final launch = launcher.launches.single;
+    expect(launch.url, 'https://helloasso.example/pay');
+    // `platformDefault` would set `useWebView: true` for an http(s) URL; this
+    // must not, which is the only observable difference between the two modes.
+    expect(launch.useWebView, isFalse);
+    expect(launch.useSafariVC, isFalse);
+    // `universalLinksOnly` is `externalNonBrowserApplication`, a DIFFERENT
+    // mode again — HelloAsso's page is a browser page, so this must be off.
+    expect(launch.universalLinksOnly, isFalse);
+    // `enableJavaScript` comes from `WebViewConfiguration`'s DEFAULT (true)
+    // and is carried through regardless of mode. It is inert here because no
+    // web view was requested, which is why `useWebView` is the real assertion.
+    expect(launch.enableJavaScript, isTrue);
+  });
+
+  testWidgets('the redirect is the app scheme deep link, exactly', (
+    tester,
+  ) async {
+    // `getTitanURLScheme()` is `getTitanPackageName()`, which reads the
+    // APP_ID_PREFIX dart-define — `test` under the CI flags. Asserting the
+    // exact string matters because `endsWith('://mypayment')` would still pass
+    // if the scheme regressed to a web URL, and a web redirect is precisely
+    // the shape that cannot come back into the app on mobile.
+    final transfers = <TransferInfo>[];
+    stubFundFlow(transfers: transfers);
+    await boot(tester);
+    await tapTopUp(tester);
+
+    for (final key in ['3', '0']) {
+      await press(tester, key);
+    }
+    await confirm(tester);
+
+    expect(transfers.single.redirectUrl, 'test.titan://mypayment');
+    // 30,00 typed is 3000 cents, and the amount rides ALONGSIDE the redirect
+    // in the same body rather than being baked into the URL — the provider
+    // owns the amount, the app only supplies the destination.
+    expect(transfers.single.amount, 3000);
+  });
+
+  testWidgets('KNOWN BUG: a refused launch reports nothing to the user', (
+    tester,
+  ) async {
+    // `tryLaunchUrl` builds a localized "cannot open this url" message and
+    // then THROWS it — but the call site is `tryLaunchUrl(fundingUrl.url)`
+    // with no `await`, inside `value.when(data: ...)`. The exception therefore
+    // leaves an unhandled async zone and never reaches `displayToast`, so the
+    // message that was prepared for exactly this moment is never shown.
+    //
+    // Convention 25: a toast's copy is not assertable here, so this asserts
+    // the surrounding state instead. What it CAN show is that the launch was
+    // genuinely attempted and genuinely refused — so this is a platform
+    // failure the user was told nothing about, not a code path that quietly did
+    // nothing. (The exception itself is not captured: `testWidgets` reports
+    // uncaught async errors as "thrown running a test" rather than through
+    // `takeException`, which returns null for them.)
+    stubFundFlow(launchSucceeds: false);
+    await boot(tester);
+    await tapTopUp(tester);
+
+    for (final key in ['2', '0']) {
+      await press(tester, key);
+    }
+    final error = await zoneErrors(() async {
+      await tester.tap(find.byType(ConfirmFundButton), warnIfMissed: false);
+      await settle(tester, frames: 20);
+    });
+
+    final launcher = UrlLauncherPlatform.instance as FakeUrlLauncher;
+    expect(launcher.launched, ['https://helloasso.example/pay']);
+    expect(launcher.launches.single.useWebView, isFalse);
+
+    // The refusal the message was written for left the zone as an exception
+    // instead of going to `displayToast`. Its text is the localized
+    // "cannot open this url" copy, thrown rather than shown.
+    expect(error, isA<Exception>());
+    expect(error.toString(), contains('link'));
+
+    await scaffold.unmountApp(tester);
+  });
+
+  testWidgets('KNOWN BUG: a failed launch has already discarded the amount', (
+    tester,
+  ) async {
+    // The `data:` arm clears the amount and pops the sheet BEFORE it launches,
+    // because the POST already succeeded. So when the launch then fails the
+    // user is back on the card having lost the amount they typed — even
+    // though nothing was ever charged. The refused-POST path above keeps the
+    // amount for exactly this reason; the failed-LAUNCH path, which is one step
+    // further along and arguably worse, does not.
+    stubFundFlow(launchSucceeds: false);
+    await boot(tester);
+    await tapTopUp(tester);
+
+    for (final key in ['2', '0']) {
+      await press(tester, key);
+    }
+    await zoneErrors(() async {
+      await tester.tap(find.byType(ConfirmFundButton), warnIfMissed: false);
+      await settle(tester, frames: 20);
+    });
+
+    expect(find.byType(FundPage), findsNothing);
+    expect(find.byType(DigitFadeInAnimation), findsNothing);
+    await scaffold.unmountApp(tester);
+  });
+
+  testWidgets('a wallet that fails to load lets the cap be bypassed', (
+    tester,
+  ) async {
+    // `ConfirmFundButton` reads the balance through `maybeWhen(orElse: () => 0)`,
+    // and the cap check ADDS the balance to the typed amount
+    // (`amountToAdd + currentAmount <= maxBalanceAmount`). A wallet that never
+    // arrives therefore presents as a balance of ZERO, which makes the check
+    // compare against a cap the user is already at — so an amount that should
+    // be refused goes through. The pay sheet's equivalent (`pay_page.dart`)
+    // defaults the same way and is fail-CLOSED, because there the balance is
+    // an upper bound; here it is an ADDEND, and zeroing an addend opens the
+    // gate rather than closing it.
+    final transfers = <TransferInfo>[];
+    stubFundFlow(walletFails: true, transfers: transfers);
+    await boot(tester);
+    await tapTopUp(tester);
+
+    // 500,00 typed against a 1 000,00 cap is accepted even though the card
+    // could not load the balance at all.
+    for (final key in ['5', '0', '0']) {
+      await press(tester, key);
+    }
+    await confirm(tester);
+
+    expect(transfers, hasLength(1));
+    expect(transfers.single.amount, 50000);
+    await scaffold.drainToast(tester);
+    await scaffold.unmountApp(tester);
+  });
+
+  testWidgets('a failed TOS self-registers once, and the retry heals it', (
+    tester,
+  ) async {
+    // `MainPage` watches `tosProvider` with an `error:` arm that calls
+    // `registerNotifier.register()` and then re-fetches the TOS — a
+    // self-healing retry that no test had ever exercised. Without the
+    // `mypaymentUsersMeRegisterPost` stub in `stubFundFlow` the mocktail
+    // default returns null and the whole test dies with "Null is not a
+    // subtype of Future<Response<void>>", which reads like a harness bug and
+    // is really the app making a call nobody stubbed.
+    //
+    // The outage is therefore made TRANSIENT here, and not for convenience:
+    // `MainPage`'s retry arm is `tos.maybeWhen(error: ...)` inside `build`
+    // with no "already retried" flag, so a PERMANENT outage registers and
+    // re-fetches on every rebuild — an unbounded await loop inside the frame
+    // that never lets `tester.pump()` return. Measured, not guessed: this
+    // test file hung for nine minutes with a permanently failing TOS and the
+    // runner killed it with "Shell subprocess crashed with SIGTERM" before a
+    // single assertion ran. README bug #60.
+    final transfers = <TransferInfo>[];
+    stubFundFlow(tosFailsOnce: true, transfers: transfers);
+    await boot(tester);
+
+    // The retry fired exactly once, and once the TOS resolved the arm went
+    // quiet — `register()` returns `isSuccessful` and `getTOS()` set the state
+    // to data, so the error arm stopped re-entering.
+    verify(() => scaffold.repository.mypaymentUsersMeRegisterPost()).called(1);
+    verify(() => scaffold.repository.mypaymentUsersMeTosGet()).called(2);
+
+    // The healed card is a normal one: the cap is back, so the sheet opens.
+    await tapTopUp(tester);
+    expect(find.byType(FundPage), findsOneWidget);
+    expect(subtitle(tester), contains('000,00'));
+    expect(transfers, isEmpty);
+    await scaffold.unmountApp(tester);
   });
 }

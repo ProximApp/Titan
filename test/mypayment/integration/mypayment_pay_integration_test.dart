@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
+import 'package:qr_flutter/qr_flutter.dart' as qrf;
 import 'package:titan/generated/openapi.enums.swagger.dart' as enums;
 import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/mypayment/providers/barcode_provider.dart';
 import 'package:titan/mypayment/providers/key_service_provider.dart';
 import 'package:titan/mypayment/ui/components/digit_fade_in_animation.dart';
 import 'package:titan/mypayment/ui/pages/main_page/account_card/device_dialog_box.dart';
@@ -69,10 +73,17 @@ void main() {
     enums.WalletDeviceStatus deviceStatus = enums.WalletDeviceStatus.active,
     bool tosAccepted = true,
     bool deviceLookupFails = false,
+    bool walletFails = false,
   }) {
-    when(
-      () => scaffold.repository.mypaymentUsersMeWalletGet(),
-    ).thenAnswer((_) async => chopperResponse(walletWith(balance)));
+    when(() => scaffold.repository.mypaymentUsersMeWalletGet()).thenAnswer(
+      (_) async => walletFails
+          ? chopper.Response(
+              http.Response('{"detail": "wallet down"}', 500),
+              null,
+              error: 'wallet fetch failed',
+            )
+          : chopperResponse(walletWith(balance)),
+    );
     when(() => scaffold.repository.mypaymentUsersMeTosGet()).thenAnswer(
       (_) async => chopperResponse(
         TOSSignatureResponse.empty().copyWith(
@@ -150,6 +161,38 @@ void main() {
     // The device lookup is an await before the modal is pushed, so the sheet
     // arrives a frame or two after the tap.
     await settle(tester, frames: 12);
+  }
+
+  /// The whole hand-off in one call: the card's Pay tap, the three gates, the
+  /// keypad amount, the biometric, and the QR sheet. The amount is passed in
+  /// as a string because the keypad is typed character by character — "12,50"
+  /// reaches `payAmountProvider` exactly as typed, comma decimal separator
+  /// included, which is what the envelope's `tot` is derived from.
+  Future<void> openQrSheet(
+    WidgetTester tester,
+    ProviderContainer container,
+    String amount,
+  ) async {
+    await openPaySheet(tester, container);
+    for (final key in amount.split('')) {
+      await tester.tap(find.text(key).last, warnIfMissed: false);
+      await tester.pump();
+    }
+    await tester.tap(find.byType(ConfirmButton), warnIfMissed: false);
+    await settle(tester, frames: 20);
+  }
+
+  /// The bytes the flow asked the device key to sign. `getQRCodeContent`
+  /// signs exactly the string it base64s into the envelope, and
+  /// `QrImageView.data` is private, so this recording is the only place the
+  /// payload is observable from the widget tree.
+  Map<String, dynamic> lastSignedPayload(ProviderContainer container) {
+    final messages =
+        (container.read(keyServiceProvider) as FakeKeyService).signedMessages;
+    expect(messages, isNotEmpty, reason: 'the flow must sign the payload');
+    return Map<String, dynamic>.from(
+      jsonDecode(messages.last) as Map<String, dynamic>,
+    );
   }
 
   testWidgets('the pay button is refused after the TOS dialog is declined', (
@@ -503,5 +546,125 @@ void main() {
     expect(find.byType(DigitFadeInAnimation), findsNothing);
 
     await scaffold.unmountApp(tester);
+  });
+
+  testWidgets('the QR carries the amount the buyer typed, in whole cents', (
+    tester,
+  ) async {
+    // The sheet only ever asserted that a `QrCode` appeared. What a seller's
+    // phone actually reads is the payload, and the payload is derived from
+    // `payAmountProvider` by a float round: `(12.50 * 100).round()`. So the
+    // assertion that matters is the CENTS the buyer asked to pay, reached
+    // through the real consumer parser.
+    stubPayFlow(balance: 5000);
+    final auth = FakeLocalAuth(true);
+    stubLocalAuth(auth);
+    final container = boot(tester);
+
+    await openQrSheet(tester, container, '12,50');
+
+    final payload = lastSignedPayload(container);
+    expect(payload['tot'], 1250);
+    expect(payload['key'], 'key-1');
+    // The pay page is `getQRCodeContent`'s only caller and hard-codes
+    // `store: true`, which is what tells the backend this is a payment and
+    // not a store handover.
+    expect(payload['store'], isTrue);
+    expect(payload['id'], isNotEmpty);
+
+    // The code really painted: an over-long or invalid payload makes
+    // `QrImageView` render a bare `Container()` with no `CustomPaint` at all,
+    // and `find.byType(QrImageView)` would still pass.
+    expect(find.byType(qrf.QrImageView), findsOneWidget);
+    expect(
+      tester
+          .widgetList<CustomPaint>(find.byType(CustomPaint))
+          .where((p) => p.painter is qrf.QrPainter),
+      hasLength(1),
+    );
+
+    // Rebuild the envelope a seller receives and hand it to the real parser
+    // the scanner uses: `ScanInfo.fromJson(jsonDecode(barcode))`.
+    final scan = container
+        .read(barcodeProvider.notifier)
+        .updateBarcode(
+          jsonEncode({
+            ...payload,
+            'signature': base64Encode([0]),
+          }),
+        );
+    expect(scan.tot, 1250);
+    expect(scan.key, 'key-1');
+    expect(scan.store, isTrue);
+
+    await scaffold.unmountApp(tester);
+  });
+
+  testWidgets('closing the QR sheet refetches the wallet and the history', (
+    tester,
+  ) async {
+    // The sheet's `.then(...)` is the only thing that refreshes the balance
+    // the user is looking at after a sale, and it fires on the POP — not on
+    // the scan. Without it the card keeps showing the pre-payment balance.
+    stubPayFlow(balance: 5000);
+    final auth = FakeLocalAuth(true);
+    stubLocalAuth(auth);
+    final container = boot(tester);
+
+    await openQrSheet(tester, container, '12,50');
+    expect(find.byType(QrCode), findsOneWidget);
+
+    // Everything before this point was the initial page load; clear it so the
+    // counts below are only what closing the sheet triggered.
+    clearInteractions(scaffold.repository);
+
+    await tester.tap(find.text('Close'), warnIfMissed: false);
+    await settle(tester, frames: 20);
+
+    verify(() => scaffold.repository.mypaymentUsersMeWalletGet()).called(1);
+    verify(
+      () => scaffold.repository.mypaymentUsersMeWalletHistoryGet(),
+    ).called(1);
+    // And the amount is reset last, so the sheet is never rebuilt with a
+    // stale amount in flight.
+    expect(find.byType(DigitFadeInAnimation), findsNothing);
+
+    await scaffold.unmountApp(tester);
+  });
+
+  testWidgets('a wallet that fails to load leaves the sheet fail-closed', (
+    tester,
+  ) async {
+    // Both `PayPage` and `ConfirmButton` read the balance through
+    // `maybeWhen(orElse: () => 0)`, so a wallet that never arrives presents as
+    // a ZERO balance rather than an error. That is the safe direction, and it
+    // is the whole reason the branch is worth pinning: nothing here checks
+    // `isLoading`, so if the default ever became "unlimited" the sheet would
+    // happily hand out a payment larger than the wallet.
+    stubPayFlow(walletFails: true);
+    final auth = FakeLocalAuth(true);
+    stubLocalAuth(auth);
+    final container = boot(tester);
+
+    await openPaySheet(tester, container);
+
+    // The card reports the failure, and the sheet opens anyway.
+    expect(find.textContaining('balance'), findsWidgets);
+    expect(find.byType(PayPage), findsOneWidget);
+    // The promised balance is zero, not the real one.
+    expect(find.textContaining('Balance after payment'), findsOneWidget);
+
+    await tester.tap(find.text('1').last, warnIfMissed: false);
+    await tester.pump();
+
+    // A positive amount against a zero balance is refused, and the biometric
+    // is never reached.
+    await tester.tap(find.byType(ConfirmButton), warnIfMissed: false);
+    await settle(tester, frames: 8);
+
+    expect(find.text('Please enter a valid amount'), findsOneWidget);
+    expect(auth.authenticateCalls, 0);
+    expect(find.byType(QrCode), findsNothing);
+    await drain(tester);
   });
 }
