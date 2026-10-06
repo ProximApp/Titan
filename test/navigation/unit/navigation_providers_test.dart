@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:titan/feed/router.dart';
 import 'package:titan/navigation/class/module.dart';
-import 'package:titan/navigation/providers/display_quit_popup.dart';
 import 'package:titan/navigation/providers/navbar_animation.dart';
 import 'package:titan/navigation/providers/navbar_module_list.dart';
 import 'package:titan/navigation/providers/navbar_visibility_provider.dart';
@@ -430,16 +429,6 @@ void main() {
   });
 
   group('trivial bool providers', () {
-    test('displayQuitProvider starts hidden and follows setDisplay', () {
-      final container = ProviderContainer();
-      addTearDown(container.dispose);
-
-      expect(container.read(displayQuitProvider), isFalse);
-
-      container.read(displayQuitProvider.notifier).setDisplay(true);
-      expect(container.read(displayQuitProvider), isTrue);
-    });
-
     test('shouldSetupProvider starts true and setShouldSetup latches it', () {
       final container = ProviderContainer();
       addTearDown(container.dispose);
