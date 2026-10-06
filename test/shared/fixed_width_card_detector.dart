@@ -9,9 +9,20 @@ import 'dart:io';
 /// can fix — the row is exactly as wide as the hardcoded box, so a longer
 /// localized label overflows it.
 ///
-/// A card that only fixes a HEIGHT is deliberately excluded: that is a
-/// clipping question, not an overflow question, and mixing the two would
-/// bury the width bugs.
+/// The old reason this file excluded a card that only fixes a HEIGHT —
+/// "clipping is a different question from overflow" — turned out to be the
+/// same mistake convention 24 records for `ItemCardInLoan`: for a `RenderFlex`
+/// a pinned height compresses, but for a card a pinned height with an
+/// un-capped `Text` inside overflows vertically by exactly the same kind of
+/// amount. So the height half is no longer excluded, only SPLIT:
+/// [findFixedHeightCards] is the same scan with the height predicates, it has
+/// its own sweep (`tools/widget/fixed_height_cards_test.dart`), and the two
+/// families stay in separate files because mixing them buries the width bugs
+/// — the original objection, which was about reporting, not about coverage.
+///
+/// There is no longer a Python twin to keep in step: `tool/detect_fixed_width_
+/// cards.py` is gone and this file is the single implementation, which retires
+/// the "cross-checked only by count" debt convention 23 mentions.
 class FixedWidthCard {
   const FixedWidthCard(this.source, this.className);
 
@@ -21,6 +32,40 @@ class FixedWidthCard {
   /// The class name, without any leading underscore (privates are skipped:
   /// a library-private widget cannot be mounted from a test at all).
   final String className;
+
+  @override
+  String toString() => '$source $className';
+}
+
+/// A widget class that fixes its own HEIGHT and puts content inside that box.
+///
+/// The sibling of [FixedWidthCard], and the second half of what used to be one
+/// scan. The predicates differ in exactly one place, and deliberately:
+///
+/// * **width** needs **flex children** beside the literal width. A row is
+///   exactly as wide as the hardcoded box, so a longer localized label
+///   overflows it.
+/// * **height** needs **content that can outgrow the box** — `Text`,
+///   `Column`, `ListView`, … — because flex children do NOT overflow a pinned
+///   height, they compress. `Expanded` inside a fixed-height box shrinks to
+///   fit and the box simply clips whatever the text needed. So the height scan
+///   asks "can this grow past the box", not "is there a flex child".
+///
+/// Everything else is deliberately identical: same container-suffix filter,
+/// same skip of private classes (a library-private widget cannot be mounted
+/// from a test at all), same skip of `lib/generated`.
+class FixedHeightCard {
+  const FixedHeightCard(this.source, this.className, this.height);
+
+  /// `lib/…` path, repo-relative and forward-slashed.
+  final String source;
+
+  /// The class name, without any leading underscore.
+  final String className;
+
+  /// The literal height the class pins, for the failure message. There can be
+  /// more than one in a class; the first is reported.
+  final String height;
 
   @override
   String toString() => '$source $className';
@@ -91,6 +136,56 @@ List<FixedWidthCard> findFixedWidthCards({String root = '.'}) {
   }
   found.sort((a, b) => a.toString().compareTo(b.toString()));
   return found;
+}
+
+/// `height: 80` — a literal, not `double.infinity` or an expression.
+final _hardHeight = RegExp(r'\bheight\s*:\s*(\d+(?:\.\d+)?)');
+
+/// `BoxConstraints(minHeight: 40, …)`, the other way a box gets fixed.
+final _constrainedHeight = RegExp(r'\b(minHeight|maxHeight)\s*:\s*\d');
+
+/// Content that can outgrow a box. Flex children are NOT here on purpose:
+/// `Expanded`/`Spacer` compress inside a fixed height, so they cannot cause
+/// the vertical overflow this scan is looking for.
+final _grows = RegExp(
+  r'\b(Text|AutoSizeText|RichText|Column|ListView|GridView|Wrap|ListTile|'
+  r'Table|Flexible|Expanded|Spacer)\b',
+);
+
+/// Every fixed-height card candidate under [root]/lib.
+List<FixedHeightCard> findFixedHeightCards({String root = '.'}) {
+  final lib = Directory('$root/lib');
+  if (!lib.existsSync()) return const [];
+  final found = <FixedHeightCard>[];
+  for (final file in lib.listSync(recursive: true).whereType<File>()) {
+    final path = file.path
+        .replaceAll(r'\', '/')
+        .replaceFirst(RegExp(r'^\./'), '');
+    if (!path.endsWith('.dart')) continue;
+    if (path.contains('/generated/')) continue;
+    for (final match in _classDecl.allMatches(file.readAsStringSync())) {
+      final name = match.group(1)!;
+      if (name.startsWith('_')) continue;
+      if (!_containerSuffixes.any(name.endsWith)) continue;
+      final text = file.readAsStringSync();
+      final body = _bodyFrom(text, match.end);
+      final literal = _hardHeight.firstMatch(body)?.group(1);
+      if (literal == null && !_constrainedHeight.hasMatch(body)) continue;
+      if (!_grows.hasMatch(body)) continue;
+      found.add(FixedHeightCard(path, name, literal ?? '(constrained)'));
+    }
+  }
+  found.sort((a, b) => a.toString().compareTo(b.toString()));
+  return found;
+}
+
+/// The text of a class body: everything from [after] to the next top-level
+/// `class`/`mixin`/`enum`/`extension`, so one class's literal cannot be
+/// credited to the next one.
+String _bodyFrom(String text, int after) {
+  final rest = text.substring(after);
+  final next = _nextTopLevel.firstMatch(rest);
+  return next == null ? rest : rest.substring(0, next.start);
 }
 
 List<FixedWidthCard> _inFile(File file, String path) {
