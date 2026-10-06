@@ -20,6 +20,9 @@ void main() {
     await scaffold.pumpApp(
       tester,
       container,
+      // AdminMiddleware forwards plain users to the feed: the bounce is
+      // this file's subject (convention 30).
+      allowedModules: const {'feed'},
       initialPath: '${PhRouter.root}${PhRouter.admin}',
       pumpAndSettle: false,
     );
