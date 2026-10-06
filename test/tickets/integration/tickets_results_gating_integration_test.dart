@@ -20,6 +20,9 @@ void main() {
         tester,
         container,
         initialPath: '/tickets/results',
+        // AdminMiddleware forwards non-sellers to the feed, so the bounce IS
+        // this file's subject (convention 30).
+        allowedModules: const {'feed'},
         pumpAndSettle: false,
       );
       for (var i = 0; i < 12; i++) {

@@ -36,6 +36,9 @@ void main() {
       tester,
       container,
       initialPath: '/tickets/edit',
+      // AdminMiddleware forwards sellers without canManageEvents to the feed, so the bounce IS this
+      // file's subject: the foreign-page guard needs to be told (convention 30).
+      allowedModules: const {'feed'},
       pumpAndSettle: false,
     );
     for (var i = 0; i < 12; i++) {
