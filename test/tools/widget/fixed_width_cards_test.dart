@@ -79,6 +79,19 @@ import '../../shared/card_fixtures.dart';
 /// about what it covers.
 const _notMounted = notMountedExemptions;
 
+/// Cards that already overflow at 320px — the four that failed when this
+/// sweep was widened from 360-only. The 320 pass mounts them anyway and
+/// records their overflow at the source instead of failing on it, which is
+/// what keeps that pass a real green rather than a silent skip; when a fix
+/// makes one fit, nothing is recorded, the pinned branch fails, and dropping
+/// the pin is the change the failure asks for.
+const _320overflow = {
+  'lib/feed/ui/pages/main_page/time_line_item.dart TimelineItem',
+  'lib/ph/ui/pages/admin_page/admin_ph_card.dart AdminPhCard',
+  'lib/seed-library/ui/pages/species_page/species_card.dart SpeciesCard',
+  'lib/tickets/ui/components/user_ticket_card.dart UserTicketCard',
+};
+
 /// A 404 for every logo/picture the cards request: the image widgets render
 /// their error state, which is what a device shows for a missing asset, and
 /// nothing reaches the network.
@@ -142,8 +155,11 @@ void main() {
       isEmpty,
       reason:
           'these fixed-width cards are not mounted by this sweep. Add an entry '
-          'to cardFixtures in test/tools/widget/fixed_width_cards_test.dart, or run '
-          '`python3 tool/detect_fixed_width_cards.py` for their constructors.',
+          'to `cardFixtures` in test/shared/card_fixtures.dart, or a reason to '
+          '`notMountedExemptions` in test/shared/fixed_size_card_fixtures.dart; '
+          'the uncovered candidates are listed above, and '
+          '`findFixedWidthCards()` in test/shared/fixed_width_card_detector.dart '
+          'is what found them.',
     );
     // An exemption with no reason is a silent hole; make it a failure.
     expect(
@@ -228,6 +244,24 @@ void main() {
       );
       addTearDown(anim.dispose);
 
+      final cardId = '${card.source} ${card.className}';
+      final pinned = _320overflow.contains(cardId);
+      // A pinned overflow is recorded at the SOURCE: the binding's handler
+      // would dump the overflow, the dump's inspector follow-ups ("Looking up
+      // a deactivated widget's ancestor") become further exceptions, and
+      // `tester.takeException` collapses a second throw into an opaque
+      // "Multiple exceptions (2)" report — the trap
+      // login_web_panels_widget_test.dart documents. Capturing here keeps the
+      // pending list empty, so the pass stays green while the strings carry
+      // what actually happened.
+      final recorded = <String>[];
+      if (pinned) {
+        final previousOnError = FlutterError.onError;
+        FlutterError.onError = (details) =>
+            recorded.add(details.exceptionAsString());
+        addTearDown(() => FlutterError.onError = previousOnError);
+      }
+
       final cardWidget = card.build(container, anim);
       await scaffold.pumpWidgetApp(
         tester,
@@ -246,33 +280,52 @@ void main() {
         find.byType(card.type),
         findsOneWidget,
         reason:
-            '${card.source} ${card.className} did not mount at 320px: '
+            '$cardId did not mount at 320px: '
             'either it threw during build, or the fixture it needs is missing.',
       );
+
+      if (pinned) {
+        // The pin is a claim that this card overflows here. Recording the
+        // overflow is what keeps the 320 pass a real green rather than a
+        // silent skip; when a fix makes the card fit nothing is recorded,
+        // the expect below fails, and dropping the pin is the change the
+        // failure asks for.
+        expect(
+          recorded,
+          isNotEmpty,
+          reason:
+              '$cardId no longer overflows at 320px - drop it from '
+              '_320overflow',
+        );
+        expect(
+          recorded,
+          anyElement(contains('overflowed')),
+          reason:
+              '$cardId is pinned as a 320px overflow but reported something '
+              'that is not an overflow: $recorded',
+        );
+        // Anything the capture missed would otherwise fail this test at the
+        // end — clear it the way login_web_panels_widget_test.dart does.
+        tester.takeException();
+      }
 
       await scaffold.unmountApp(tester);
     });
   }
-
-  // 320px overflow ratchet: the four cards above that already overflowed at
-  // 320 when this file was widened are pinned here so the 320 pass is a real
-  // green rather than a silent skip, and so a later fix that makes them fit is
-  // the thing that removes them.
-  const _320overflow = {
-    'lib/feed/ui/pages/main_page/time_line_item.dart TimelineItem',
-    'lib/ph/ui/pages/admin_page/admin_ph_card.dart AdminPhCard',
-    'lib/seed-library/ui/pages/species_page/species_card.dart SpeciesCard',
-    'lib/tickets/ui/components/user_ticket_card.dart UserTicketCard',
-  };
 
   test('the 320px sweep records the cards that still overflow at 320px', () {
     final found = findFixedWidthCards();
     final mounted = cardFixtures
         .map((c) => '${c.source} ${c.className}')
         .toSet();
+    // `found` holds FixedWidthCard objects, so the string pins must be
+    // compared against its string forms — `found.contains(pin)` is always
+    // false against objects and would report every mounted pin as
+    // "no longer fixed-width".
+    final foundNames = found.map((f) => '$f').toSet();
     final missed = _320overflow
         .where((c) => mounted.contains(c))
-        .where((c) => !found.contains(c))
+        .where((c) => !foundNames.contains(c))
         .toList();
     expect(
       missed,

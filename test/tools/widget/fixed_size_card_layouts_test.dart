@@ -149,8 +149,9 @@ void main() {
             'file mounts them, so their layout has never been measured at 360px. '
             'Mount one, or add an entry to `notMounted` in '
             'test/tools/widget/fixed_size_card_layouts_test.dart saying why. '
-            'Run `python3 tool/detect_fixed_size_card_layouts.py` for the list '
-            'and its pinned dimensions.',
+            'The uncovered candidates are listed above; the full list with '
+            'pinned dimensions is `findFixedSizeCardLayouts()` in '
+            'test/shared/fixed_width_card_detector.dart.',
       );
     },
   );
@@ -181,14 +182,15 @@ void main() {
     );
   });
 
-  test('the detector and the Python tool agree on the candidate count', () {
-    // `tool/detect_fixed_size_card_layouts.py` is the human-facing lister
-    // (run it with no arguments to see the pinned dimensions). It is a
-    // separate implementation, so the two drifting apart is the failure mode
-    // that matters: the README's "keep the two in step" is only true if
-    // somebody checks. The counts are the cheap invariant — a divergence in
-    // parsing shows up here as a different total, and the Python tool's own
-    // output is the one to diff against.
+  test('the detector still finds the 25 candidates it was pinned to', () {
+    // The Python twin this once cross-checked against (`tool/detect_fixed_
+    // size_card_layouts.py`) was deleted in ledger #62, and the count pin
+    // stayed behind as the only guard in this direction: the mount ratchet
+    // above checks the candidates that come back, so a scan that silently
+    // started finding FEWER — a regex that stops matching, a class the
+    // declaration pattern no longer catches — would leave it green. A new
+    // pinned CardLayout lands here too; bump the number only together with
+    // mounting it or exempting it above.
     expect(findFixedSizeCardLayouts().length, 25);
   });
 }

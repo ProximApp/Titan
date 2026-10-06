@@ -29,6 +29,9 @@ void main() {
         tester,
         scaffold.makeContainerWithModules(),
         initialPath: '/all_modules',
+        // The all-modules page lives in lib/navigation, and the middleware
+        // forwards to /feed first — both landings are this file's subject.
+        allowedModules: const {'navigation', 'feed'},
       );
       await settle(tester);
       // The middleware forwards to /feed first and records the requested
@@ -47,6 +50,9 @@ void main() {
         tester,
         scaffold.makeContainerWithModules(),
         initialPath: '/all_modules',
+        // The all-modules page lives in lib/navigation, and the middleware
+        // forwards to /feed first — both landings are this file's subject.
+        allowedModules: const {'navigation', 'feed'},
       );
       await settle(tester);
       QR.to('/all_modules');
@@ -63,7 +69,13 @@ void main() {
       tester,
     ) async {
       final container = scaffold.makeContainerWithModules();
-      await scaffold.pumpApp(tester, container, initialPath: '/all_modules');
+      await scaffold.pumpApp(
+        tester,
+        container,
+        initialPath: '/all_modules',
+        // AllModulePage lives in lib/navigation (convention 30).
+        allowedModules: const {'navigation', 'feed'},
+      );
       await settle(tester);
       QR.to('/all_modules');
       await settle(tester);

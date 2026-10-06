@@ -53,6 +53,9 @@ void main() {
       tester,
       scaffold.makeContainer(user: CoreUser.empty().copyWith(id: 'user-1')),
       initialPath: '/tombola/detail',
+      // The gated-route bounce lands on /feed (with the raffle page behind
+      // it in the stack): both are this file's subject.
+      allowedModules: const {'feed', 'raffle'},
       pumpAndSettle: false,
     );
     await settle(tester, frames: 40);
