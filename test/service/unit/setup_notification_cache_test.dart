@@ -38,6 +38,9 @@ import '../../shared/app_scaffold.dart';
 ///  - an expired date re-registers (line 34's job),
 ///  - a null expiration re-registers instead of throwing
 ///    "Null check operator used on a null value" on `expiration!`,
+///  - a row poisoned with the literal string "null" - which the old
+///    `toJson` wrote for a null expiration - recovers instead of killing the
+///    launch (ledger #54),
 ///  - `ready` exists because build() cannot await its own prefs read: without
 ///    it the check saw the empty default and re-registered every launch.
 class ReadsExpiration extends ConsumerWidget {
@@ -201,6 +204,51 @@ void main() {
     final expiration = DateTime.parse(decoded['expiration'] as String);
     expect(expiration.difference(DateTime.now()).inDays, closeTo(30, 1));
     expect(topicsCalls, 2);
+  });
+
+  testWidgets('a row poisoned with the string "null" recovers on launch', (
+    tester,
+  ) async {
+    // ledger #54. `FirebaseTokenExpiration.toJson` used `expiration.toString()`,
+    // and `toString()` on a null is the STRING "null" - so the row was written
+    // with a value its own reader could not parse. `getSavedDate` then threw a
+    // FormatException inside `notifier.ready`, which `setUpNotification`
+    // awaits inside the `requestPermission().then` callback: the authorized
+    // branch died before it registered anything.
+    //
+    // Note the difference from the test above: that one seeds a real JSON null
+    // (`expiration?.toString()` in the helper is null-aware, so it encodes to
+    // `null`), which the old reader handled fine. The poisoned row needs the
+    // literal four characters.
+    SharedPreferences.setMockInitialValues({
+      'firebaseTokenExpiration': json.encode({
+        'token': 'user-1',
+        'expiration': 'null',
+      }),
+    });
+    final container = scaffold.makeContainer(
+      user: CoreUser.empty().copyWith(id: 'user-1'),
+    );
+    addTearDown(container.dispose);
+
+    await scaffold.pumpWidgetApp(
+      tester,
+      const CallsSetUpNotification(),
+      container,
+    );
+    await settle(tester, frames: 12);
+
+    // The launch survived, which is the whole point: no exception escaped the
+    // notifier's async prefs read.
+    expect(tester.takeException(), isNull);
+    // An unreadable date means "no date", so the token re-registers - the same
+    // branch a genuine null takes, not a skipped setup.
+    expect(topicsCalls, 2);
+    // ... and the poisoned row was replaced with a real one, so this is a
+    // one-time recovery rather than a crash on every launch.
+    final decoded = json.decode(await savedDate()) as Map<String, dynamic>;
+    final expiration = DateTime.parse(decoded['expiration'] as String);
+    expect(expiration.difference(DateTime.now()).inDays, closeTo(30, 1));
   });
 
   testWidgets('a cold boot still honours the cache (the ready await)', (
