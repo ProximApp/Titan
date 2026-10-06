@@ -88,7 +88,14 @@ void main() {
         () => scaffold.repository.associationsGet(),
       ).thenAnswer((_) async => chopperListResponse<Association>([]));
 
-      await scaffold.pumpApp(tester, container, initialPath: '/settings');
+      await scaffold.pumpApp(
+        tester,
+        container,
+        initialPath: '/settings',
+        // The notification under test opens the SETTINGS module's page:
+        // the module provider map is what this file is about.
+        allowedModules: const {'settings'},
+      );
       await settle(tester, frames: 8);
       expect(find.text('Account'), findsOneWidget);
 

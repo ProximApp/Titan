@@ -8,6 +8,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/navigation/providers/should_setup_provider.dart';
+import 'package:titan/service/providers/topic_provider.dart';
 
 import '../../shared/app_scaffold.dart';
 
@@ -57,20 +58,44 @@ void main() {
       tester,
       container,
       initialPath: '/feed',
+      // The notification setup runs from the shell on whatever page is
+      // mounted; /feed is just the cheapest host for it.
+      allowedModules: const {'feed'},
       pumpAndSettle: false,
     );
     await settle(tester, frames: 24);
 
     // init() runs before the prompt, so the plugin IS initialized.
     expect(channelCalls.map((c) => c.method), contains('initialize'));
-    // ... but nothing past the authorization check ran: no token date, and
-    // no topic REFRESH. One call still lands because setUpNotification
-    // watches topicsProvider.notifier unconditionally, and that notifier's
-    // build() calls getTopics() itself (the authorized file sees two).
+    // ... but nothing past the authorization check ran: no token date.
     final prefs = await SharedPreferences.getInstance();
     expect(prefs.getString('firebaseTokenExpiration'), isNull);
-    expect(topicCalls, 1);
     // The gate still closes: the user is not re-prompted on every build.
     expect(container.read(shouldSetupProvider), isFalse);
+
+    // Ledger #36's regression assertion. This was `1`, and the reason was
+    // that `setUpNotification` read `topicsProvider.notifier` before the
+    // prompt answered; reading a notifier instantiates it, and
+    // `TopicsProvider.build()` fetches the list itself. A user who has just
+    // denied notifications cannot subscribe to a single topic, so the request
+    // was pure waste on every launch - and it fired even on the very first
+    // frame, while the permission dialog was still open. Zero is the correct
+    // count, and the authorized file still sees two (its build call plus the
+    // explicit refresh after the token is saved).
+    expect(
+      topicCalls,
+      0,
+      reason:
+          'a denied launch must not hit notificationTopicsGet at all; if this '
+          'fails, something reads topicsProvider before the authorization '
+          'answer arrives',
+    );
+    // And the notifier is genuinely never instantiated, which is what makes
+    // the zero above honest rather than a race that happened to resolve.
+    expect(
+      container.exists(topicsProvider),
+      isFalse,
+      reason: 'reading the notifier is what triggers the fetch',
+    );
   });
 }

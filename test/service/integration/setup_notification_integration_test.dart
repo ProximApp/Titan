@@ -70,6 +70,9 @@ void main() {
         tester,
         container,
         initialPath: '/feed',
+        // The notification setup runs from the shell on whatever page is
+        // mounted; /feed is just the cheapest host for it.
+        allowedModules: const {'feed'},
         pumpAndSettle: false,
       );
       // The gate opens from a Future(() {...}) in the shell's build, so the
