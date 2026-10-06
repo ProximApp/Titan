@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../shared/fixed_size_card_fixtures.dart';
 import '../../shared/fixed_width_card_detector.dart';
 
 /// The mount ratchet for every card that pins its own size through
@@ -20,54 +21,11 @@ import '../../shared/fixed_width_card_detector.dart';
 /// the candidate rather than on the overflow, which means it catches the card
 /// the day it is written — long before the string that breaks it exists.
 void main() {
-  /// The candidates that cannot be mounted here, each with the reason. A page
-  /// is rendered by its module's integration test, not by a widget test, so
-  /// the page-shaped entries below are not debt — they are the boundary
-  /// between the two levels.
-  const notMounted = <String, String>{
-    'lib/amap/ui/pages/main_page/orders_section.dart OrderSection':
-        'renders the amap orders list, which needs the orders/associations '
-        'provider maps seeded; a bare OrderSection throws ProviderException. '
-        'Also exempted by the fixed-width sweep for the same reason.',
-    'lib/amap/ui/pages/detail_delivery_page/order_detail_ui.dart DetailOrderUI':
-        'BLOCKED by bug #3: its build watches userOrderListProvider, whose '
-        'notifier `return state` from build(), which throws "Tried to read the '
-        'state of an uninitialized provider" through Riverpod\'s provider '
-        'error channel — a channel the FlutterError.onError filter in '
-        'ignoreAmapKnownQuirks() cannot absorb, so the card never lays out. '
-        'The one-line fix is `return const AsyncValue.loading()` in '
-        'user_order_list_provider.dart, which is what every other '
-        'ListNotifierAPI subclass already does.',
-    'lib/amap/ui/pages/admin_page/account_handler.dart AccountHandler':
-        'an admin edit DIALOG opened by the accounts page, not a card: it '
-        'needs the accounts provider map and a route to dismiss back to.',
-    'lib/amap/ui/pages/admin_page/delivery_handler.dart DeliveryHandler':
-        'an admin edit DIALOG opened by the deliveries page, same reason as '
-        'AccountHandler.',
-    'lib/amap/ui/pages/admin_page/product_handler.dart ProductHandler':
-        'an admin edit DIALOG opened by the products page, same reason as '
-        'AccountHandler.',
-    'lib/loan/ui/pages/admin_page/loaners_items.dart LoanersItems':
-        'a list SECTION of the admin page, not a card: it composes '
-        'CheckItemCard rows out of the admin loan list and needs that map '
-        'seeded. Its own leaf is mounted by the sweep.',
-    'lib/loan/ui/pages/admin_page/on_going_loan.dart OnGoingLoan':
-        'a list SECTION of the admin page, same reason as LoanersItems.',
-    'lib/purchases/ui/pages/scan_page/scan_dialog.dart ScanDialog':
-        'a MODAL, covered end-to-end by '
-        'purchases/integration/purchases_scan_integration_test.dart (tag to '
-        'scan to confirm, with the stale-secret probe). A widget test could '
-        'mount it, but the page it navigates to is what makes it worth '
-        'testing, and that is the integration level\'s job.',
-    'lib/booking/ui/pages/main_page/main_page.dart BookingMainPage':
-        'a PAGE. Rendered by booking\'s integration tests.',
-    'lib/cinema/ui/pages/admin_page/admin_page.dart AdminPage':
-        'a PAGE. Rendered by cinema\'s integration tests.',
-    'lib/event/ui/pages/main_page/main_page.dart EventMainPage':
-        'a PAGE. Rendered by event/feed\'s integration tests.',
-    'lib/seed-library/ui/pages/species_page/species_page.dart SpeciesPage':
-        'a PAGE. Rendered by seed-library\'s integration tests.',
-  };
+  /// The candidates that cannot be mounted here, each with the reason —
+  /// the map itself lives in `test/shared/fixed_size_card_fixtures.dart`
+  /// (`cardLayoutNotMountedExemptions`) so the mount audit can attempt a
+  /// real mount of every entry; this alias keeps the ratchet local.
+  const notMounted = cardLayoutNotMountedExemptions;
 
   /// Every `test/**/widget/*.dart` file, plus the shared card-fixture
   /// registry, with comments and string literals removed.
@@ -179,6 +137,37 @@ void main() {
           'these exemptions do not match any candidate the detector '
           'finds; either the card moved or it stopped pinning a dimension, '
           'and the entry should go',
+    );
+  });
+
+  test('no exemption names a widget a widget test really mounts', () {
+    // The scan-side twin of mounted_but_exempted_ratchet_test.dart: that
+    // ratchet catches the REGISTRY overlap (cardFixtures entry + exemption),
+    // this one catches constructor evidence anywhere under test/**/widget/
+    // — a widget file that builds the class is a real mount, and an
+    // exemption claiming it cannot be mounted is then stale (the ModuleCard
+    // reason was simply false). Exemption reasons are prose; mounts are
+    // code, and code wins.
+    final sources = widgetTestSources();
+    String classNameOf(String key) => key.substring(key.lastIndexOf(' ') + 1);
+
+    final registeredAndExempted = <String>[
+      for (final key in notMounted.keys)
+        if (isMounted(classNameOf(key), sources))
+          'fixed_size_card_layouts notMounted: $key',
+      for (final key in notMountedExemptions.keys)
+        if (isMounted(classNameOf(key), sources)) 'notMountedExemptions: $key',
+    ];
+
+    expect(
+      registeredAndExempted,
+      isEmpty,
+      reason:
+          'these widgets are exempted as unmountable while a widget test '
+          'file really constructs or finds them — the exemption is stale, '
+          'and a stale reason is how ModuleCard hid at 37/37. Delete the '
+          'exemption (the mount already exists) or stop mounting it. '
+          'Offenders: $registeredAndExempted',
     );
   });
 

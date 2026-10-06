@@ -92,7 +92,11 @@ void main() {
       // findings is exactly what an empty unlisted-list would celebrate.
       // The two kinds pin the two branches of the family — ledger #47/#48's
       // label Column and the CustomButton-style Text.
-      expect(all, isNotEmpty, reason: 'the scan found nothing at all: it is broken');
+      expect(
+        all,
+        isNotEmpty,
+        reason: 'the scan found nothing at all: it is broken',
+      );
       expect(
         all.map((h) => h.child).toSet(),
         containsAll(<String>['Column', 'Text']),
@@ -123,60 +127,60 @@ const knownHazards = <String, String>{
   // ships is all it takes.
   'lib/admin/ui/pages/association_page/association_page.dart AssociationPage Text':
       'Header `adminAssociations` (24pt) + Spacer + add button; fits today, '
-          'unbounded by construction.',
+      'unbounded by construction.',
   'lib/admin/ui/pages/groups/groups_page/groups_page.dart GroupsPage Text':
       'Header `adminGroupsManagement` + Spacer + add button; same shape as '
-          'association_page.',
+      'association_page.',
   'lib/admin/ui/pages/membership/association_membership_detail_page/association_membership_detail_page.dart AssociationMembershipEditorPage Text':
       'Header `"Members (n)"` — the count grows with the filtered list, so '
-          'the unbounded side is also the moving side.',
+      'the unbounded side is also the moving side.',
   'lib/admin/ui/pages/membership/association_membership_page/association_membership_page.dart AssociationMembershipsPage Text':
       'Header `adminAssociationMembership` — one of the longest FR titles '
-          'in the admin family, + Spacer + add button.',
+      'in the admin family, + Spacer + add button.',
   'lib/admin/ui/pages/structure_page/structure_page.dart StructurePage Text':
       'Header `adminStructures` + Spacer + add button; same shape as '
-          'association_page.',
+      'association_page.',
   'lib/feed/ui/pages/main_page/main_page.dart FeedMainPage Text':
       'Header `feedNews` + Spacer + filter IconButton.',
   'lib/phonebook/ui/pages/admin_page/admin_page.dart AdminPage Text':
       'Header `phonebookAssociations` + Spacer + conditional add button.',
   'lib/tickets/ui/pages/tickets_main_page.dart TicketsMainPage Text':
       'Header `ticketsTitle` + Spacer + spread `if` action buttons; the '
-          'spread is skipped by the scan but does not bound the title.',
+      'spread is skipped by the scan but does not bound the title.',
   'lib/vote/ui/pages/admin_page/admin_page.dart AdminPage Text':
       'Section header `votePretendance` (18pt) + Spacer + conditional add '
-          'button.',
+      'button.',
   'lib/vote/ui/pages/list_pages/list_member.dart ListMember Text':
       'Members header `voteMembers` + Spacer + add button.',
   'lib/vote/ui/pages/main_page/main_page.dart VoteMainPage Text':
       'Collection-`if` admin title + Spacer + userGroup button — the title '
-          'is conditional but still unbounded.',
+      'is conditional but still unbounded.',
 
   // --- Cards and rows where the unbounded child is data, not a title.
   'lib/amap/ui/pages/main_page/delivery_ui.dart DeliveryUi Text':
       'Delivery row with TWO unbounded Texts (date + trailing label) around '
-          'a Spacer; dates and amounts are the adversarial strings.',
+      'a Spacer; dates and amounts are the adversarial strings.',
   'lib/mypayment/ui/pages/devices_page/add_device_button.dart AddDeviceButton Text':
       '20pt bold label flanked by TWO Spacers beside the icon Stack — the '
-          'label looks centred but nothing bounds it.',
+      'label looks centred but nothing bounds it.',
   'lib/mypayment/ui/pages/store_admin_page/search_result.dart SearchResult Text':
       'Search-result row: `getName()` + Spacer + WaitingButton. Names are '
-          'exactly the string ledger #47 overflowed on.',
+      'exactly the string ledger #47 overflowed on.',
   'lib/mypayment/ui/pages/store_admin_page/seller_right_card.dart SellerRightCard Text':
       'Rights row: icon + SizedBox(15) + label + Spacer + Checkbox; the '
-          'label is unbounded.',
+      'label is unbounded.',
   'lib/mypayment/ui/pages/structure_admin_page/admin_store_card.dart AdminStoreCard Text':
       'Store-name Text + Spacer + edit gesture; a long store name overflows '
-          'the card header.',
+      'the card header.',
   'lib/raffle/ui/pages/main_page/raffle_card.dart RaffleWidget Column':
       'Stats row leading with the Spacer, then an unbounded Column '
-          '(count + label) — same family with the roles reversed.',
+      '(count + label) — same family with the roles reversed.',
   'lib/seed-library/ui/pages/add_edit_species_page/add_edit_species_page.dart AddEditSpeciesPage Column':
       'Month-picker row: leading Spacer + Column whose DropdownButton makes '
-          'the column as wide as its widest month option.',
+      'the column as wide as its widest month option.',
   'lib/ph/ui/pages/admin_page/admin_ph_card.dart AdminPhCard Column':
       'The field Column is a direct Row child beside a Spacer — and this '
-          'card ALREADY overflows at 320px, pinned in '
-          'fixed_width_cards_test._320overflow. This detector reproduces '
-          'that pinned symptom\'s cause; the fix here is Expanded.',
+      'card ALREADY overflows at 320px, pinned in '
+      'fixed_width_cards_test._320overflow. This detector reproduces '
+      'that pinned symptom\'s cause; the fix here is Expanded.',
 };

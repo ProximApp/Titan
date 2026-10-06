@@ -100,6 +100,17 @@ void main() {
         listId: any(named: 'listId'),
       ),
     ).thenAnswer((_) async => _missingImage);
+    // The two endpoints the seed-library/vote cards fetch on build: their
+    // providers' build() calls them and OVERWRITE a state seed once the
+    // future lands, so the data has to come from the repository.
+    when(() => scaffold.repository.seedLibrarySpeciesGet()).thenAnswer(
+      (_) async => chopper.Response(http.Response('body', 200), speciesMap),
+    );
+    when(() => scaffold.repository.campaignSectionsGet()).thenAnswer(
+      (_) async => chopper.Response(http.Response('body', 200), [
+        SectionComplete.empty().copyWith(id: 'section-1', name: 'Section 1'),
+      ]),
+    );
   }
 
   /// The height candidates the width detector ALSO finds — cards that pin both
@@ -163,8 +174,11 @@ void main() {
       'lib/login/ui/components/sign_in_up_bar.dart',
       'SignInUpBar',
       SignInUpBar,
-      (c, _) =>
-          SignInUpBar(label: longTitle, onPressed: () async {}, isLoading: false),
+      (c, _) => SignInUpBar(
+        label: longTitle,
+        onPressed: () async {},
+        isLoading: false,
+      ),
     ),
     SweepCard(
       'lib/mypayment/ui/components/invoice_card.dart',
@@ -347,7 +361,10 @@ void main() {
       'ListCard',
       ListCard,
       (c, _) => ListCard(
-        list: ListReturn.empty().copyWith(name: longTitle, description: longName),
+        list: ListReturn.empty().copyWith(
+          name: longTitle,
+          description: longName,
+        ),
         onEdit: () {},
         onDelete: () async {},
         isAdmin: true,
@@ -398,23 +415,22 @@ void main() {
   });
 
   for (final card in cards) {
-    if (notMountedExemptions.containsKey('${card.source} ${card.className}')) continue;
+    if (notMountedExemptions.containsKey('${card.source} ${card.className}'))
+      continue;
     testWidgets('${card.source} ${card.className} fits a 640px-tall box', (
       tester,
     ) async {
       final container = scaffold.makeContainer(
         myStructures: [structure('structure-1', longName, 'user-1')],
       );
-      // Seed the two shared provider maps the exempted cards read, so a test
-      // that later decides to mount one of them (after stubbing the card's
-      // further providers) starts from a container that already has the first
-      // provider resolved. The sweep itself does not mount the exempted cards
-      // here — they stay in notMountedExemptions — but the seed is what makes
-      // deleting an exemption a matter of adding the card and one more stub,
-      // not of discovering two forgotten provider maps.
-      seedSharedMaps(container);
-
       stubCardImages();
+      // Seed AFTER the stubs: reading a provider's notifier fires its
+      // build()'s repository fetch on the spot, so a stub registered
+      // afterwards would miss that call — the provider would settle on an
+      // AsyncError and the card would mount against an empty list. The
+      // seed covers the shared maps (species, section); the one exemption
+      // left (OrderSection) reads page-scoped maps this seed does not touch.
+      seedSharedMaps(container);
       addTearDown(container.dispose);
 
       final anim = AnimationController(
