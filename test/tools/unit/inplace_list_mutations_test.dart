@@ -149,8 +149,10 @@ const verifiedSafe = <String, String>{
   'lib/home/providers/days_provider.dart:10':
       '`now` is a DateTime local, not a list. `DateTime.add` has nothing to do '
       'with list mutation.',
-  'lib/service/tools/setup.dart:45':
-      '`now` is a DateTime local: `now.add(const Duration(days: 30))`.',
+  'lib/service/tools/setup.dart:51':
+      '`now` is a DateTime local: `now.add(const Duration(days: 30))`. '
+      '(Ledger #36 moved this line: the topics notifier is now read inside '
+      'the authorized branch, so the comment explaining it sits above it.)',
   'lib/loan/ui/pages/admin_page/on_going_loan.dart:136':
       '`e.end` is a DateTime field of the loan model: `e.end.add(...)`.',
 

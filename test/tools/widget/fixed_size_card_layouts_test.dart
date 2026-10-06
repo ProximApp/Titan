@@ -69,8 +69,17 @@ void main() {
         'a PAGE. Rendered by seed-library\'s integration tests.',
   };
 
-  /// Every `test/**/widget/*.dart` file, with comments and string literals
-  /// removed.
+  /// Every `test/**/widget/*.dart` file, plus the shared card-fixture
+  /// registry, with comments and string literals removed.
+  ///
+  /// `test/shared/card_fixtures.dart` counts because it IS the widget level:
+  /// ledger #62 moved the two fixed-size sweeps' builders out of
+  /// `fixed_width_cards_test.dart` into that one registry so the width and
+  /// height families could not drift into two copies of the same fixture. The
+  /// sweeps still mount every card in it, at 360px, with overflows fatal — so
+  /// a card named there really is mounted, and the alternative (leaving the
+  /// registry out) would report eight real cards as unmounted and teach the
+  /// next person to distrust this ratchet.
   ///
   /// Stripping strings is what keeps the sweep's `_notMounted` map from
   /// counting as a mount: its keys and reasons are strings that quote class
@@ -85,11 +94,12 @@ void main() {
       isTrue,
       reason: 'run this from the package root: no test/ directory here',
     );
+    const sharedRegistry = 'test/shared/card_fixtures.dart';
     final out = <String>[];
     for (final file in testDir.listSync(recursive: true).whereType<File>()) {
       final path = file.path.replaceAll(r'\', '/');
       if (!path.endsWith('.dart')) continue;
-      if (!path.contains('/widget/')) continue;
+      if (!path.contains('/widget/') && path != sharedRegistry) continue;
       out.add(_stripped(file.readAsStringSync()));
     }
     return out;
