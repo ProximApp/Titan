@@ -28,7 +28,7 @@ class AssociationMembershipInformationEditor extends HookConsumerWidget {
       associationMembershipProvider.notifier,
     );
     final name = useTextEditingController(text: associationMembership.name);
-    final groups = ref.watch(allGroupList);
+    var groups = ref.watch(allGroupList);
     final groupIdController = useTextEditingController(
       text: associationMembership.managerGroupId,
     );
@@ -38,7 +38,8 @@ class AssociationMembershipInformationEditor extends HookConsumerWidget {
     final key = GlobalKey<FormState>();
     final localizeWithContext = AppLocalizations.of(context)!;
 
-    groups.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    groups = [...groups]
+      ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
     return Form(
       key: key,

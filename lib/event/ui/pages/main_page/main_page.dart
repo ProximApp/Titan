@@ -27,8 +27,9 @@ class EventMainPage extends HookConsumerWidget {
     return EventTemplate(
       child: AsyncChild(
         value: events,
-        builder: (context, eventList) {
-          eventList.sort((a, b) => b.start.compareTo(a.start));
+        builder: (context, eventListUnsorted) {
+          final eventList = [...eventListUnsorted]
+            ..sort((a, b) => b.start.compareTo(a.start));
           return ColumnRefresher(
             controller: ScrollController(),
             onRefresh: () async {

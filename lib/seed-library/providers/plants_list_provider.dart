@@ -34,7 +34,9 @@ class PlantListNotifier extends ListNotifierAPI<PlantSimple> {
   void deletePlantFromList(String id) {
     state = state.maybeWhen(
       orElse: () => state,
-      data: (plants) => AsyncValue.data(plants..removeWhere((i) => i.id == id)),
+      data: (plants) => AsyncValue.data(
+        plants.where((i) => i.id != id).toList(),
+      ),
     );
   }
 

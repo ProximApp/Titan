@@ -90,11 +90,12 @@ class StructurePage extends HookConsumerWidget {
               const SizedBox(height: 10),
               Async2Children(
                 values: Tuple2(structures, bankAccountHolder),
-                builder: (context, structures, bankAccountHolder) {
-                  structures.sort(
-                    (a, b) =>
-                        a.name.toLowerCase().compareTo(b.name.toLowerCase()),
-                  );
+                builder: (context, structuresUnsorted, bankAccountHolder) {
+                  final structures = [...structuresUnsorted]
+                    ..sort(
+                      (a, b) =>
+                          a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+                    );
                   return Column(
                     children: [
                       Column(

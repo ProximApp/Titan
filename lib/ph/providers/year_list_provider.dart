@@ -16,7 +16,7 @@ class YearListNotifier extends Notifier<List<int>> {
   }
 
   void addYear(int year) {
-    state.add(year);
+    state = [...state, year];
   }
 }
 
