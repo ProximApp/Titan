@@ -50,7 +50,7 @@ class AddEditEventPage extends HookConsumerWidget {
     final location = useTextEditingController(text: event.location);
 
     final recurrent = useState(
-          event.recurrenceRule != ""
+      event.recurrenceRule != null && event.recurrenceRule != ""
           ? (event.recurrenceRule as String).contains("BYDAY")
           : false,
     );
