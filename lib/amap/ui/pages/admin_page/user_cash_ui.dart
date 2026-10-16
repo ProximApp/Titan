@@ -71,7 +71,7 @@ class UserCashUi extends HookConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 4),
                         AutoSizeText(
                           cash.user.nickname ?? cash.user.firstname,
                           maxLines: 1,
