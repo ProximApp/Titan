@@ -73,8 +73,9 @@ class OrderSection extends HookConsumerWidget {
             ),
             AsyncChild(
               value: orders,
-              builder: (context, data) {
-                data.sort((a, b) => a.deliveryDate.compareTo(b.deliveryDate));
+              builder: (context, dataUnsorted) {
+                final data = [...dataUnsorted]
+                  ..sort((a, b) => a.deliveryDate.compareTo(b.deliveryDate));
                 return Row(
                   children: data.map((e) {
                     final canEdit = availableDeliveries.any(
