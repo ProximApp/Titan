@@ -49,9 +49,7 @@ class AddEditBookingPage extends HookConsumerWidget {
     final isEdit = booking.id != BookingReturnApplicant.empty().id;
     final room = useState(booking.room);
     final recurrent = useState(
-      booking.recurrenceRule != ""
-          ? (booking.recurrenceRule as String).contains("BYDAY")
-          : false,
+      (booking.recurrenceRule ?? "").contains("BYDAY"),
     );
     final allDay = useState(
       booking.start.hour == 0 &&
