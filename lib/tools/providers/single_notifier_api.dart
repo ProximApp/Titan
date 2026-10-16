@@ -13,17 +13,26 @@ abstract class SingleNotifierAPI<T> extends Notifier<AsyncValue<T>> {
       final response = await f();
       final data = response.body;
       if (response.isSuccessful && data != null) {
-        state = AsyncValue.data(data);
-        return state;
+        // The fetch runs across an await, so the provider may have been
+        // rebuilt or disposed while it was in flight: a late `state=`
+        // write must not resurrect a dead notifier.
+        final next = AsyncValue.data(data);
+        if (ref.mounted) {
+          state = next;
+        }
+        return next;
       } else {
         throw response.error!;
       }
     } catch (e) {
-      state = AsyncValue.error(e, StackTrace.current);
+      final next = AsyncValue<T>.error(e, StackTrace.current);
+      if (ref.mounted) {
+        state = next;
+      }
       if (e is AppException && e.type == ErrorType.tokenExpire) {
         rethrow;
       } else {
-        return state;
+        return next;
       }
     }
   }
