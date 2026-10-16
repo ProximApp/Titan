@@ -82,13 +82,14 @@ class _TicketEventContent extends HookConsumerWidget {
 
     // Hide navbar when page loads
     useEffect(() {
+      final navbarNotifier = ref.read(navbarVisibilityProvider.notifier);
       // Use a microtask to avoid modifying provider during build
       Future.microtask(() {
-        ref.read(navbarVisibilityProvider.notifier).hide();
+        navbarNotifier.hide();
       });
       return () {
         // Show navbar again when leaving the page
-        ref.read(navbarVisibilityProvider.notifier).show();
+        navbarNotifier.show();
       };
     }, []);
 
