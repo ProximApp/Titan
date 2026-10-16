@@ -69,12 +69,16 @@ class DeliveryUi extends HookConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        '${AppLocalizations.of(context)!.amapThe} ${DateFormat.yMd(locale).format(delivery.deliveryDate)}',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: AMAPColorConstants.textDark,
+                      Expanded(
+                        child: Text(
+                          '${AppLocalizations.of(context)!.amapThe} ${DateFormat.yMd(locale).format(delivery.deliveryDate)}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: AMAPColorConstants.textDark,
+                          ),
                         ),
                       ),
                       GestureDetector(
@@ -97,23 +101,23 @@ class DeliveryUi extends HookConsumerWidget {
                     ],
                   ),
                   AutoLoaderChild(
-                    group: deliveryOrders,
-                    notifier: deliveryOrdersNotifier,
-                    mapKey: delivery.id,
-                    listLoader: (deliveryId) => ordersByDeliveryListNotifier
-                        .loadDeliveryOrderList(deliveryId),
-                    dataBuilder: (context, orders) {
-                      return Text(
-                        orders.isEmpty
-                            ? AppLocalizations.of(context)!.amapNoCurrentOrder
-                            : '${orders.length} ${AppLocalizations.of(context)!.amapOneOrder}${orders.length != 1 ? "s" : ""}',
-                        style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: AMAPColorConstants.textDark,
-                        ),
-                      );
-                    },
+                      group: deliveryOrders,
+                      notifier: deliveryOrdersNotifier,
+                      mapKey: delivery.id,
+                      listLoader: (deliveryId) => ordersByDeliveryListNotifier
+                          .loadDeliveryOrderList(deliveryId),
+                      dataBuilder: (context, orders) {
+                        return Text(
+                          orders.isEmpty
+                              ? AppLocalizations.of(context)!.amapNoCurrentOrder
+                              : '${orders.length} ${AppLocalizations.of(context)!.amapOneOrder}${orders.length != 1 ? "s" : ""}',
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: AMAPColorConstants.textDark,
+                          ),
+                        );
+                      },
                   ),
                   Text(
                     "${delivery.products?.length ?? 0} ${AppLocalizations.of(context)!.amapProduct}${delivery.products?.length != 1 ? "s" : ""}",

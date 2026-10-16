@@ -55,11 +55,11 @@ class OrderUI extends HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '${AppLocalizations.of(context)!.amapThe} ${DateFormat.yMd(locale).format(order.deliveryDate)}',
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AMAPColorConstants.textDark,
+                  '${AppLocalizations.of(context)!.amapThe} ${DateFormat.yMd(locale).format(order.deliveryDate)}',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AMAPColorConstants.textDark,
                 ),
               ),
               if (!isDetail)
@@ -79,21 +79,25 @@ class OrderUI extends HookConsumerWidget {
           const SizedBox(height: 3),
           Row(
             children: [
-              Text(
-                "${order.productsdetail.length} ${AppLocalizations.of(context)!.amapProduct}${order.productsdetail.length != 1 ? "s" : ""}",
-                style: const TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
+              Expanded(
+                child: Text(
+                  "${order.productsdetail.length} ${AppLocalizations.of(context)!.amapProduct}${order.productsdetail.length != 1 ? "s" : ""}",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
                 ),
               ),
               const Spacer(),
               Text(
-                "${order.amount.toStringAsFixed(2)}€",
-                style: const TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
+                  "${order.amount.toStringAsFixed(2)}€",
+                  style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
                 ),
               ),
             ],

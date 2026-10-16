@@ -127,15 +127,17 @@ class UserCashUi extends HookConsumerWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                AutoSizeText(
-                                  '${cash.balance.toStringAsFixed(2)} €',
-                                  maxLines: 1,
-                                  minFontSize: 10,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
+                                Expanded(
+                                  child: AutoSizeText(
+                                    '${cash.balance.toStringAsFixed(2)} €',
+                                    maxLines: 1,
+                                    minFontSize: 10,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                                 const HeroIcon(
