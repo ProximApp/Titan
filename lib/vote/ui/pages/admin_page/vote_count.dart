@@ -25,11 +25,12 @@ class VoteCount extends HookConsumerWidget {
           (await sectionVoteNotifier.loadCount(section.id))
               .maybeWhen(data: (data) => data.count, orElse: () => -1),
       dataBuilder: (context, data) {
+        final count = data.isEmpty ? 0 : data.first;
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 50),
           child: Center(
             child: Text(
-              '$data ${AppLocalizations.of(context)!.voteVotes}',
+              '$count ${AppLocalizations.of(context)!.voteVotes}',
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20,
