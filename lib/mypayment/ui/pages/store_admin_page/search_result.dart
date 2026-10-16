@@ -53,34 +53,38 @@ class SearchResult extends HookConsumerWidget {
               final sellerRightsList = ref.watch(sellerRightsListProvider);
               return SellerRightDialog(
                 title: AppLocalizations.of(context)!.paiementSellerRigths,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    RightCheckBox(
-                      title: AppLocalizations.of(context)!.paiementCanBank,
-                      index: 0,
-                    ),
-                    RightCheckBox(
-                      title: AppLocalizations.of(context)!
-                          .paiementCanSeeHistory,
-                      index: 1,
-                    ),
-                    RightCheckBox(
-                      title: AppLocalizations.of(context)!
-                          .paiementCanCancelTransaction,
-                      index: 2,
-                    ),
-                    RightCheckBox(
-                      title: AppLocalizations.of(context)!
-                          .paiementCanManageSellers,
-                      index: 3,
-                    ),
-                    RightCheckBox(
-                      title: AppLocalizations.of(context)!
-                          .paiementCanManageEvents,
-                      index: 4,
-                    ),
-                  ],
+                child: Material(
+                  type: MaterialType.canvas,
+                  color: Colors.white,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      RightCheckBox(
+                        title: AppLocalizations.of(context)!.paiementCanBank,
+                        index: 0,
+                      ),
+                      RightCheckBox(
+                        title: AppLocalizations.of(context)!
+                            .paiementCanSeeHistory,
+                        index: 1,
+                      ),
+                      RightCheckBox(
+                        title: AppLocalizations.of(context)!
+                            .paiementCanCancelTransaction,
+                        index: 2,
+                      ),
+                      RightCheckBox(
+                        title: AppLocalizations.of(context)!
+                            .paiementCanManageSellers,
+                        index: 3,
+                      ),
+                      RightCheckBox(
+                        title: AppLocalizations.of(context)!
+                            .paiementCanManageEvents,
+                        index: 4,
+                      ),
+                    ],
+                  ),
                 ),
                 onYes: () async {
                   newAdminNotifier.updateNewAdmin(simpleUser);
