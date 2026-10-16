@@ -42,7 +42,7 @@ class Module {
     bool? liked,
   }) => Module(
     name: name ?? this.name,
-    description: description ?? this.name,
+    description: description ?? this.description,
     icon: icon ?? this.icon,
     url: url ?? this.url,
     liked: liked,
