@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/tools/class/path_forwarding.dart';
 
 class PathForwardingProvider extends Notifier<PathForwarding> {
@@ -8,7 +9,14 @@ class PathForwardingProvider extends Notifier<PathForwarding> {
   }
 
   void forward(String path, {Map<String, String>? queryParameters}) {
-    state = state.copyWith(path: path, queryParameters: queryParameters);
+    final preAuth = state.path == path
+        ? state.preAuth
+        : !ref.read(isLoggedInProvider);
+    state = state.copyWith(
+      path: path,
+      queryParameters: queryParameters,
+      preAuth: preAuth,
+    );
   }
 
   void clearParams() {
@@ -22,6 +30,7 @@ class PathForwardingProvider extends Notifier<PathForwarding> {
     state = PathForwarding(
       path: state.path,
       isLoggedIn: state.isLoggedIn,
+      preAuth: state.preAuth,
       queryParameters: newParams.isEmpty ? null : newParams,
     );
   }
