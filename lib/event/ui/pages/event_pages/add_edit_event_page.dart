@@ -38,7 +38,7 @@ class AddEditEventPage extends HookConsumerWidget {
     final event = ref.watch(eventProvider);
     final eventNotifier = ref.watch(eventProvider.notifier);
     final rooms = ref.watch(roomListProvider);
-    final isEdit = event.id != EventCompleteTicketUrl.fromJson({}).id;
+    final isEdit = event.id != EventCompleteTicketUrl.empty().id;
     final key = GlobalKey<FormState>();
     final eventListNotifier = ref.watch(eventEventListProvider.notifier);
     // final eventType = useState(event.type);
@@ -50,7 +50,7 @@ class AddEditEventPage extends HookConsumerWidget {
     final location = useTextEditingController(text: event.location);
 
     final recurrent = useState(
-      event.recurrenceRule != ""
+          event.recurrenceRule != ""
           ? (event.recurrenceRule as String).contains("BYDAY")
           : false,
     );
