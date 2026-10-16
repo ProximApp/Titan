@@ -179,7 +179,7 @@ class RightPanel extends HookConsumerWidget {
                     ),
                     onDotClicked: (index) {
                       pageController.animateToPage(
-                        index,
+                        initialPage + index,
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.easeInOut,
                       );
