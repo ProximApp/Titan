@@ -16,8 +16,15 @@ class EndNotifier extends Notifier<String> {
   }
 
   void setEndFromSelected(String start, List<Item> selected, String locale) {
+    if (start.isEmpty) return;
+    final DateTime base;
+    try {
+      base = DateTime.parse(processDateBack(start, locale));
+    } on FormatException {
+      return;
+    }
     state = DateFormat.yMd(locale).format(
-      DateTime.parse(processDateBack(start, locale)).add(
+      base.add(
         Duration(
           days: selected
               .map((item) => item.suggestedLendingDuration)
