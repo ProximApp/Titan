@@ -17,33 +17,42 @@ class QrCode extends ConsumerWidget {
     final payAmount = ref.watch(payAmountProvider);
     final id = const Uuid().v4();
     final keyService = ref.watch(keyServiceProvider);
-    return FutureBuilder(
-      future: getQRCodeContent(id, payAmount, keyService, true),
-      builder: (context, snapshot) {
-        if (snapshot.data == null) {
-          return SizedBox(
-            width: MediaQuery.of(context).size.width * 0.8,
-            height: MediaQuery.of(context).size.width * 0.8,
-            child: const Loader(),
-          );
-        }
-        return Center(
-          child: QrImageView(
-            data: snapshot.data!,
-            version: QrVersions.auto,
-            size: min(
-              MediaQuery.of(context).size.width * 0.8,
-              MediaQuery.of(context).size.height * 0.8,
-            ),
-            eyeStyle: const QrEyeStyle(
-              color: Colors.black,
-              eyeShape: QrEyeShape.square,
-            ),
-            dataModuleStyle: const QrDataModuleStyle(
-              dataModuleShape: QrDataModuleShape.square,
-              color: Colors.black,
-            ),
-          ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final screen = MediaQuery.of(context).size;
+        final width = constraints.hasBoundedWidth
+            ? constraints.maxWidth
+            : screen.width;
+        final height = constraints.hasBoundedHeight
+            ? constraints.maxHeight
+            : screen.height;
+        final qrSize = min(width, height) * 0.8;
+        return FutureBuilder(
+          future: getQRCodeContent(id, payAmount, keyService, true),
+          builder: (context, snapshot) {
+            if (snapshot.data == null) {
+              return SizedBox(
+                width: qrSize,
+                height: qrSize,
+                child: const Loader(),
+              );
+            }
+            return Center(
+              child: QrImageView(
+                data: snapshot.data!,
+                version: QrVersions.auto,
+                size: qrSize,
+                eyeStyle: const QrEyeStyle(
+                  color: Colors.black,
+                  eyeShape: QrEyeShape.square,
+                ),
+                dataModuleStyle: const QrDataModuleStyle(
+                  dataModuleShape: QrDataModuleShape.square,
+                  color: Colors.black,
+                ),
+              ),
+            );
+          },
         );
       },
     );
