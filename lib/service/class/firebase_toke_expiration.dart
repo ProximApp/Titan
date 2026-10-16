@@ -6,14 +6,15 @@ class FirebaseTokenExpiration {
 
   FirebaseTokenExpiration.fromJson(Map<String, dynamic> json) {
     userId = json['token'];
-    expiration = json['expiration'] != null
-        ? DateTime.parse(json['expiration'])
-        : null;
+    final rawExpiration = json['expiration'];
+    expiration = rawExpiration == null
+        ? null
+        : DateTime.tryParse(rawExpiration.toString());
   }
 
   Map<String, dynamic> toJson() => {
     'token': userId,
-    'expiration': expiration.toString(),
+    'expiration': expiration?.toString(),
   };
 
   FirebaseTokenExpiration.empty() {
