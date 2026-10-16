@@ -100,12 +100,23 @@ class DeliveryUi extends HookConsumerWidget {
                       ),
                     ],
                   ),
-                  AutoLoaderChild(
+                  Flexible(
+                    child: AutoLoaderChild(
                       group: deliveryOrders,
                       notifier: deliveryOrdersNotifier,
                       mapKey: delivery.id,
                       listLoader: (deliveryId) => ordersByDeliveryListNotifier
                           .loadDeliveryOrderList(deliveryId),
+                      errorBuilder: (error, stack) => Text(
+                        AppLocalizations.of(context)!.adminError,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: AMAPColorConstants.textDark,
+                        ),
+                      ),
                       dataBuilder: (context, orders) {
                         return Text(
                           orders.isEmpty
@@ -118,6 +129,7 @@ class DeliveryUi extends HookConsumerWidget {
                           ),
                         );
                       },
+                    ),
                   ),
                   Text(
                     "${delivery.products?.length ?? 0} ${AppLocalizations.of(context)!.amapProduct}${delivery.products?.length != 1 ? "s" : ""}",

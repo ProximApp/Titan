@@ -33,7 +33,7 @@ class ItemCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 15),
+          const SizedBox(height: 12),
           AutoSizeText(
             item.name,
             maxLines: 1,
@@ -49,6 +49,8 @@ class ItemCard extends StatelessWidget {
             availableQuantity > 0
                 ? '$availableQuantity ${availableQuantity <= 1 ? AppLocalizations.of(context)!.loanAvailable : AppLocalizations.of(context)!.loanAvailableMultiple}'
                 : AppLocalizations.of(context)!.loanUnavailable,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.bold,
