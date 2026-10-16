@@ -78,87 +78,88 @@ void main(List<String> args) {
           !_excludedPrefixes.any(currentPath.startsWith);
       if (included && found > 0) {
         files[currentPath] = [found, hit];
-        record
+        filtered
+          ..writeln(record.toString())
           ..writeln('LF:$found')
           ..writeln('LH:$hit')
-          ..writeln(rawLine);
-        filtered.write(record);
+          ..writeln('end_of_record');
       }
+      record.clear();
       currentPath = '';
+    } else {
+      record.writeln(rawLine);
     }
+  }
+
+  if (files.isEmpty) {
+    stderr.writeln('No included files in $lcovPath');
+    exitCode = 2;
+    return;
   }
 
   var totalFound = 0;
   var totalHit = 0;
-  // module -> [found, hit, fileCount]
-  final modules = <String, List<int>>{};
-  files.forEach((path, counts) {
-    totalFound += counts[0];
-    totalHit += counts[1];
-    final parts = path.split('/');
-    final module = parts.length > 2 ? parts[1] : '.';
-    final entry = modules.putIfAbsent(module, () => [0, 0, 0]);
-    entry[0] += counts[0];
-    entry[1] += counts[1];
-    entry[2]++;
-  });
-
-  final percentage = totalFound > 0 ? 100.0 * totalHit / totalFound : 0.0;
-
-  final lines = <String>[
-    '## Coverage report',
-    '',
-    '**Total: ${percentage.toStringAsFixed(1)}%** '
-        '(${_thousands(totalHit)}/${_thousands(totalFound)} executable lines '
-        'across ${files.length} files, generated code excluded)',
-    '',
-    '| Module | Coverage | Lines hit | Files |',
-    '|---|---|---|---|',
-  ];
-  final sortedModules = modules.keys.toList()
-    ..sort(
-      (a, b) => _moduleRate(modules[a]!).compareTo(_moduleRate(modules[b]!)),
-    );
-  for (final module in sortedModules) {
-    final m = modules[module]!;
-    final rate = m[0] > 0 ? 100.0 * m[1] / m[0] : 0.0;
-    lines.add(
-      '| $module | ${rate.toStringAsFixed(1)}% '
-      '| ${_thousands(m[1])}/${_thousands(m[0])} | ${m[2]} |',
-    );
-  }
-  final report = lines.join('\n');
-  stdout.writeln(report);
-
-  if (summaryPath != null) {
-    File(summaryPath)
-      ..createSync(recursive: true)
-      ..writeAsStringSync('$report\n');
-  }
-  if (lcovOutPath != null) {
-    File(lcovOutPath)
-      ..createSync(recursive: true)
-      ..writeAsStringSync(filtered.toString());
+  var underMin = false;
+  for (final entry in files.entries) {
+    final found = entry.value[0];
+    final hit = entry.value[1];
+    totalFound += found;
+    totalHit += hit;
   }
 
-  if (percentage < minimum) {
-    stderr.writeln(
-      'Coverage ${percentage.toStringAsFixed(1)}% is below the required '
-      '${minimum.toStringAsFixed(1)}% ratchet floor (COVERAGE_MIN / --min=).',
+  final overall = totalFound == 0 ? 100.0 : 100.0 * totalHit / totalFound;
+  // The ratchet floor gates the OVERALL percentage (COVERAGE_MIN / --min=),
+  // which is what this tool has always checked. The per-file rows in the
+  // summary below are informational: a single low-coverage file (flappybird
+  // pages, chart painters) must not redden CI at the overall baseline.
+  underMin = overall < minimum;
+  stdout.writeln('files: ${files.length}');
+  stdout.writeln('lines: $totalFound found, $totalHit hit');
+  stdout.writeln('coverage: ${overall.toStringAsFixed(2)}%');
+  if (underMin) {
+    stdout.writeln(
+      'MINIMUM NOT MET: ${overall.toStringAsFixed(2)}% is below the required '
+      '$minimum% ratchet floor.',
     );
     exitCode = 1;
+  } else {
+    exitCode = 0;
   }
-}
 
-double _moduleRate(List<int> m) => m[0] > 0 ? m[1] / m[0] : 0.0;
-
-String _thousands(int n) {
-  final s = n.toString();
-  final buffer = StringBuffer();
-  for (var i = 0; i < s.length; i++) {
-    final remaining = s.length - i;
-    buffer.write(s[i]);
-    if (remaining > 1 && remaining % 3 == 1) buffer.write(',');
+  if (summaryPath != null) {
+    final summary = File(summaryPath);
+    summary.parent.createSync(recursive: true);
+    final lines = <String>[];
+    lines.add('# Coverage summary');
+    lines.add('');
+    lines.add('- **files:** ${files.length}');
+    lines.add('- **lines:** $totalFound found, $totalHit hit');
+    lines.add('- **coverage:** ${overall.toStringAsFixed(2)}%');
+    if (underMin) {
+      lines.add('- **minimum not met:** $minimum%');
+    }
+    lines.add('');
+    lines.add('## Per-file coverage');
+    lines.add('');
+    lines.add('| file | found | hit | % |');
+    lines.add('| --- | --- | --- | --- |');
+    for (final entry
+        in files.entries.toList()..sort((a, b) => a.key.compareTo(b.key))) {
+      final found = entry.value[0];
+      final hit = entry.value[1];
+      final ratio = found == 0 ? 100.0 : 100.0 * hit / found;
+      lines.add(
+        '| `${entry.key}` | $found | $hit | ${ratio.toStringAsFixed(2)}% |',
+      );
+    }
+    summary.writeAsStringSync(lines.join('\n') + '\n');
+    stdout.writeln('summary: $summaryPath');
   }
-  return buffer.toString();
+
+  if (lcovOutPath != null) {
+    final out = File(lcovOutPath);
+    out.parent.createSync(recursive: true);
+    out.writeAsStringSync(filtered.toString());
+    stdout.writeln('filtered lcov: $lcovOutPath');
+  }
 }

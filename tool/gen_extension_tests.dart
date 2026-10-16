@@ -37,7 +37,9 @@ void main(List<String> args) {
     ..addFlag('skip-existing', abbr: 's', defaultsTo: true)
     ..addFlag('coverage', abbr: 'm', defaultsTo: false);
 
-  final skipExistingFromArgs = args.where((a) => a.startsWith('--skip-existing=')).firstOrNull;
+  final skipExistingFromArgs = args
+      .where((a) => a.startsWith('--skip-existing='))
+      .firstOrNull;
   args = args.where((a) => !a.startsWith('--skip-existing=')).toList();
 
   final parsed = parser.parse(args);
@@ -45,7 +47,9 @@ void main(List<String> args) {
   final skipExistingOverride = skipExistingFromArgs;
   final effectiveSkipExisting = skipExistingOverride == null
       ? parsed['skip-existing'] as bool
-      : skipExistingOverride.split('=').last == 'false' ? false : true;
+      : skipExistingOverride.split('=').last == 'false'
+      ? false
+      : true;
 
   if (skipExistingOverride != null) {
     final value = skipExistingOverride.split('=').last;
@@ -80,11 +84,9 @@ void main(List<String> args) {
     final body = generateTestForExtension(ext);
 
     final existing = existingTestFileFor(ext);
-    generated.add(GeneratedTest(
-      extension: ext,
-      group: body,
-      existingPath: existing,
-    ));
+    generated.add(
+      GeneratedTest(extension: ext, group: body, existingPath: existing),
+    );
   }
 
   final written = <GeneratedTest>[];
@@ -108,7 +110,9 @@ void main(List<String> args) {
 
     if (hasExisting && skipExisting && !overwrite) {
       skipped.add(g);
-      stdout.writeln('skip generated extension test for ${g.extension.key} (existing: $existing)');
+      stdout.writeln(
+        'skip generated extension test for ${g.extension.key} (existing: $existing)',
+      );
       continue;
     }
 
@@ -135,12 +139,17 @@ void main(List<String> args) {
 List<ExtensionInfo> discoverExtensions() {
   final root = p.fromUri(Platform.script);
   final scriptDir = p.dirname(Platform.script.toFilePath());
-  final repoRoot = p.join(scriptDir, '..', '..');  final libRoot = p.join(repoRoot, 'lib');
+  final repoRoot = p.join(scriptDir, '..', '..');
+  final libRoot = p.join(repoRoot, 'lib');
   final exts = <ExtensionInfo>[];
 
-  stdout.writeln('discoverExtensions root=$root scriptDir=$scriptDir repoRoot=$repoRoot libRoot=$libRoot');
+  stdout.writeln(
+    'discoverExtensions root=$root scriptDir=$scriptDir repoRoot=$repoRoot libRoot=$libRoot',
+  );
   stdout.writeln('libRoot.exists=${Directory(libRoot).existsSync()}');
-  stdout.writeln('script dir parent=${Directory(Platform.script.toFilePath()).parent.parent.path}');
+  stdout.writeln(
+    'script dir parent=${Directory(Platform.script.toFilePath()).parent.parent.path}',
+  );
   stdout.writeln('repoRoot absolute=${p.absolute(repoRoot)}');
   stdout.writeln('libRoot absolute=${p.absolute(libRoot)}');
 
@@ -154,8 +163,12 @@ List<ExtensionInfo> discoverExtensions() {
   stdout.writeln('resolvedToolDir=$resolvedToolDir');
   stdout.writeln('resolvedRepoRoot=$resolvedRepoRoot');
   stdout.writeln('resolvedLibRoot=$resolvedLibRoot');
-  stdout.writeln('Directory(resolvedLibRoot).existsSync()=${Directory(resolvedLibRoot).existsSync()}');
-  stdout.writeln('Directory(resolvedLibRoot).uri=${Directory(resolvedLibRoot).uri}');
+  stdout.writeln(
+    'Directory(resolvedLibRoot).existsSync()=${Directory(resolvedLibRoot).existsSync()}',
+  );
+  stdout.writeln(
+    'Directory(resolvedLibRoot).uri=${Directory(resolvedLibRoot).uri}',
+  );
 
   // Keep one normalized repo-root path so downstream helpers can compute
   // normalized output and skip-check keys without bouncing through `..` segments.
@@ -192,13 +205,15 @@ List<ExtensionInfo> discoverExtensions() {
     // test/extensions/applicants.dart/extension/).
     final dirSegments = parts.sublist(1, parts.length - 1);
 
-    exts.add(ExtensionInfo(
-      module: module,
-      subpath: dirSegments.join(p.separator),
-      name: name,
-      path: entity.path,
-      relative: relative,
-    ));
+    exts.add(
+      ExtensionInfo(
+        module: module,
+        subpath: dirSegments.join(p.separator),
+        name: name,
+        path: entity.path,
+        relative: relative,
+      ),
+    );
   }
 
   final withExtensions = <ExtensionInfo>[];
@@ -247,11 +262,13 @@ List<ExtensionParseResult> extensionDeclarationsInFile(String path) {
         if (depth > 0) bodyLines.add(lines[j]);
       }
       final members = _parseMembers(bodyLines.join('\n'));
-      results.add(ExtensionParseResult(
-        name: parsed.name,
-        onType: parsed.onType,
-        members: members,
-      ));
+      results.add(
+        ExtensionParseResult(
+          name: parsed.name,
+          onType: parsed.onType,
+          members: members,
+        ),
+      );
     }
 
     i += 1;
@@ -277,17 +294,21 @@ List<ExtMember> _parseMembers(String body) {
     multiLine: true,
   );
 
-  const reserved = {'copyWith', 'copyWithWrapped', 'toJson', 'fromJson', 'empty'};
+  const reserved = {
+    'copyWith',
+    'copyWithWrapped',
+    'toJson',
+    'fromJson',
+    'empty',
+  };
 
   for (final m in methodRe.allMatches(clean)) {
     final name = m.namedGroup('name')!;
     if (reserved.contains(name) || name.startsWith('_')) continue;
     final params = (m.namedGroup('params') ?? '').trim();
-    members.add(ExtMember(
-      name: name,
-      isGetter: false,
-      paramTypes: _paramTypes(params),
-    ));
+    members.add(
+      ExtMember(name: name, isGetter: false, paramTypes: _paramTypes(params)),
+    );
   }
   for (final m in getterRe.allMatches(clean)) {
     final name = m.namedGroup('name')!;
@@ -390,8 +411,8 @@ String _testBodyForExtension(
   final buffer = StringBuffer();
   // Imports are emitted based on what the body actually references so the
   // generated files stay analyzer-clean (unused_import fees otherwise).
-  final needsSourceImport = declarations.isNotEmpty &&
-      declarations.any((d) => d.members.isNotEmpty);
+  final needsSourceImport =
+      declarations.isNotEmpty && declarations.any((d) => d.members.isNotEmpty);
   final needsMockFactory = declarations.any(
     (d) => d.members.isNotEmpty && _receiverSetup(d.onType).contains('Mock'),
   );
@@ -408,12 +429,16 @@ String _testBodyForExtension(
         d.onType.replaceAll(RegExp(r'\{\s*$'), '').contains('chopper.'),
   );
 
-  buffer.writeln('// AUTO-GENERATED by tool/gen_extension_tests.dart — do not edit by hand.');
+  buffer.writeln(
+    '// AUTO-GENERATED by tool/gen_extension_tests.dart — do not edit by hand.',
+  );
   buffer.writeln('// Re-run the generator when the extension changes.');
   buffer.writeln();
   buffer.writeln("import 'package:flutter_test/flutter_test.dart';");
   if (needsMockFactory) {
-    buffer.writeln("import 'package:titan/generated/openapi.mock_factories.dart';");
+    buffer.writeln(
+      "import 'package:titan/generated/openapi.mock_factories.dart';",
+    );
   }
   if (needsModelsBarrel) {
     buffer.writeln(
@@ -470,7 +495,10 @@ String _testBodyForExtension(
     // the identifier Name, which does not exist in the test file and fails the
     // build with "Undefined name". Also drop any trailing '{' the one-line
     // header carries.
-    final safeName = d.name.replaceAll('\$', r'\$').replaceAll(RegExp(r'\{\s*$'), '').trim();
+    final safeName = d.name
+        .replaceAll('\$', r'\$')
+        .replaceAll(RegExp(r'\{\s*$'), '')
+        .trim();
     final safeOnType = d.onType.replaceAll(RegExp(r'\{\s*$'), '').trim();
     buffer.writeln("      '$safeName on $safeOnType compiles and runs', () {");
     if (d.members.isEmpty) {
@@ -519,9 +547,7 @@ String _testBodyForExtension(
         buffer.writeln(
           '      // Branch pass: populated receiver so the non-null arms execute too.',
         );
-        buffer.writeln(
-          "      final subject2 = Mock$t0.any.copyWith($kw);",
-        );
+        buffer.writeln("      final subject2 = Mock$t0.any.copyWith($kw);");
         for (final member in d.members) {
           final invocation = member.isGetter
               ? 'subject2.${member.name}'
@@ -545,7 +571,9 @@ String _testBodyForExtension(
       buffer.writeln(
         '      // Populated-id pass: non-empty id so the isNotEmpty arms run.',
       );
-      buffer.writeln("      final subject4 = $t0.empty().copyWith(id: 'x-id');");
+      buffer.writeln(
+        "      final subject4 = $t0.empty().copyWith(id: 'x-id');",
+      );
       for (final member in d.members) {
         final invocation = member.isGetter
             ? 'subject4.${member.name}'
@@ -559,7 +587,9 @@ String _testBodyForExtension(
 
   if (declarations.isEmpty) {
     buffer.writeln('    test(');
-    buffer.writeln("      '${ext.name} extension has no declarations yet', () {");
+    buffer.writeln(
+      "      '${ext.name} extension has no declarations yet', () {",
+    );
     buffer.writeln('      expect(true, isTrue);');
     buffer.writeln('    });');
     buffer.writeln();
@@ -616,7 +646,10 @@ Map<String, int> readLcovHits(String lcovText, List<String> paths) {
     final lf = int.tryParse(parts[3].trim()) ?? 0;
 
     for (final target in paths) {
-      final targetRelative = p.relative(target, from: p.fromUri(Platform.script));
+      final targetRelative = p.relative(
+        target,
+        from: p.fromUri(Platform.script),
+      );
       final targetNormalized = '/${p.posix.normalize(targetRelative)}';
       if (pathValue == targetNormalized) {
         hits[target] = lf;
@@ -760,10 +793,9 @@ List<String> _nullableStringFields(String t) {
     'class Mock${RegExp.escape(t)}\\s*\\{([\\s\\S]*?)\\n\\}',
   ).firstMatch(barrel);
   if (block == null) return const [];
-  return RegExp(r'String\?\s+(\w+)')
-      .allMatches(block.group(1)!)
-      .map((m) => m.group(1)!)
-      .toList();
+  return RegExp(
+    r'String\?\s+(\w+)',
+  ).allMatches(block.group(1)!).map((m) => m.group(1)!).toList();
 }
 
 String _argList(List<String> paramTypes) {
@@ -795,10 +827,7 @@ ExtensionParseResult? _parseExtensionHeader(String header) {
   if (rest.isEmpty) return null;
 
   final nameOnType = _splitNameOnType(rest);
-  return ExtensionParseResult(
-    name: nameOnType.$1,
-    onType: nameOnType.$2,
-  );
+  return ExtensionParseResult(name: nameOnType.$1, onType: nameOnType.$2);
 }
 
 /// Splits `Name on Type` / `on Type` into `(name, onType)`.
