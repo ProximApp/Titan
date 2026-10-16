@@ -7,15 +7,12 @@ import 'package:titan/tools/providers/map_provider.dart';
 class MemberPicturesNotifier extends MapNotifier<MemberComplete, Image> {
   @override
   Map<MemberComplete, AsyncValue<List<Image>>?> build() {
-    ref
-        .watch(associationMemberListProvider)
-        .maybeWhen(
-          data: (member) {
-            loadTList(member);
-          },
-          orElse: () {},
-        );
-    return state;
+    final members = ref.watch(associationMemberListProvider);
+    final loaded = members.maybeWhen(
+      data: (value) => value,
+      orElse: () => <MemberComplete>[],
+    );
+    return {for (final member in loaded) member: null};
   }
 }
 

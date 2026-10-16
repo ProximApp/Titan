@@ -16,58 +16,65 @@ class MapNotifier<T, E> extends Notifier<Map<T, AsyncValue<List<E>>?>> {
   }
 
   void addT(T t) async {
-    state[t] = null;
-    state = Map.of(state);
+    state = {...state, t: null};
   }
 
   void addE(T t, E e) {
-    return state[t]!.maybeWhen(
+    final current = state[t];
+    if (current == null) {
+      state = {
+        ...state,
+        t: AsyncValue.data([e]),
+      };
+      return;
+    }
+    current.maybeWhen(
       data: (eList) {
-        state[t] = AsyncValue.data(eList + [e]);
-        state = state;
+        state = {
+          ...state,
+          t: AsyncValue.data(eList + [e]),
+        };
       },
       orElse: () {
-        state[t] = AsyncValue.data([e]);
-        state = Map.of(state);
+        state = {
+          ...state,
+          t: AsyncValue.data([e]),
+        };
       },
     );
   }
 
   void deleteT(T t) {
     if (state.containsKey(t)) {
-      state.remove(t);
-      state = Map.of(state);
+      state = Map.of(state)..remove(t);
     }
   }
 
   void setTData(T t, AsyncValue<List<E>> asyncEList) async {
-    state[t] = asyncEList;
-    state = Map.of(state);
+    state = {...state, t: asyncEList};
   }
 
   void resetTData() async {
-    for (T l in state.keys) {
-      state[l] = null;
+    final next = Map.of(state);
+    for (T l in next.keys) {
+      next[l] = null;
     }
-    state = Map.of(state);
+    state = next;
   }
 
   bool deleteE(T t, int index) {
-    return state[t]!.maybeWhen(
+    final current = state[t]!;
+    return current.maybeWhen(
       data: (eList) {
-        eList.removeAt(index);
-        state[t] = AsyncValue.data(eList);
-        state = state;
+        final next = List<E>.of(eList)..removeAt(index);
+        state = {...state, t: AsyncValue.data(next)};
         return true;
       },
       orElse: () => false,
     );
   }
 
-  Future<void> autoLoad(
-    T t,
-    Future<E> Function(T t) loader,
-  ) async {
+  Future<void> autoLoad(T t, Future<E> Function(T t) loader) async {
     setTData(t, const AsyncLoading());
     loader(t).then((value) {
       setTData(t, AsyncData([value]));

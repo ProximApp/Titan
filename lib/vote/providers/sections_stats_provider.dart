@@ -7,10 +7,11 @@ class SectionsStatsNotifier extends MapNotifier<SectionComplete, int> {
   @override
   Map<SectionComplete, AsyncValue<List<int>>?> build() {
     final sections = ref.watch(sectionsProvider);
-    sections.whenData((value) {
-      loadTList(value);
-    });
-    return state;
+    final loaded = sections.maybeWhen(
+      data: (value) => value,
+      orElse: () => <SectionComplete>[],
+    );
+    return {for (final section in loaded) section: null};
   }
 }
 
