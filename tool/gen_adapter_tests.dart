@@ -13,8 +13,8 @@
 //   dart run tool/gen_adapter_tests.dart --overwrite  # rewrite every file
 //
 // The generator emits REAL execution bodies: every adapter file gets a
-// `MockX.any()` receiver (from `lib/generated/openapi.mock_factories.dart`,
-// itself excluded from coverage) and calls every extension member declared in
+// `MockX.any()` receiver (from the test-owned generated factories in
+// `test/generated/openapi_mock_factories.dart`) and calls every extension member declared in
 // the adapter source, asserting the converted object is none-null and the
 // scalar copy-through fields round-trip. That moves adapters off the zero-hit
 // list with assertions that could actually fail, not `expect(true, isTrue)`.
@@ -24,8 +24,7 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:path/path.dart' as p;
 
-const _mockFactoriesImport =
-    "package:titan/generated/openapi.mock_factories.dart";
+const _mockFactoriesImport = "../../generated/openapi_mock_factories.dart";
 
 void main(List<String> args) {
   final parser = ArgParser()

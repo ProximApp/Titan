@@ -18,9 +18,7 @@
 //                                 mutates build_runner's own output
 //   3. tool/gen_mock_openapi.dart rewrites test/shared/mock_openapi.dart
 //                                 from the freshly generated client (reads
-//                                 lib/generated/openapi.mock_factories.dart,
-//                                 which this repo consumes but does not
-//                                 generate)
+//                                 the checked-in test/generated model factories)
 //   4. dart format                steps 2 and 3 emit unformatted source (old
 //                                 indent style, over-long lines, a trailing
 //                                 blank line) while the committed files are
@@ -63,13 +61,11 @@ Future<void> main(List<String> args) async {
     '--delete-conflicting-outputs',
     ...args,
   ]);
-  // 2. The `empty()` factories (formatted together with the mock in step 4).
+  // 2. The `empty()` constructors, generated in the production models file.
   await _run('dart', ['run', 'tool/gen_empty_models.dart']);
   // 3. The shared mock of the client every test stubs through.
   await _run('dart', ['run', 'tool/gen_mock_openapi.dart']);
-  // 4. Format what steps 2 and 3 emitted: both generators write raw lines
-  // while the committed files are formatted, so skipping this leaves
-  // whitespace-only diffs on every run.
+  // 4. Format the generated models and shared client mock.
   await _run('dart', [
     'format',
     'lib/generated/openapi.models.swagger.dart',

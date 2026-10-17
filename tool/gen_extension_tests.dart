@@ -436,9 +436,7 @@ String _testBodyForExtension(
   buffer.writeln();
   buffer.writeln("import 'package:flutter_test/flutter_test.dart';");
   if (needsMockFactory) {
-    buffer.writeln(
-      "import 'package:titan/generated/openapi.mock_factories.dart';",
-    );
+    buffer.writeln("import '../../generated/openapi_mock_factories.dart';");
   }
   if (needsModelsBarrel) {
     buffer.writeln(
@@ -771,7 +769,7 @@ final String? _mockBarrel = () {
   final f = File(
     p.join(
       p.normalize(p.join(p.dirname(p.fromUri(Platform.script)), '..')),
-      'lib/generated/openapi.mock_factories.dart',
+      'test/generated/openapi_mock_factories.dart',
     ),
   );
   return f.existsSync() ? f.readAsStringSync() : null;
