@@ -73,7 +73,8 @@ class MemberEditionModal extends HookConsumerWidget {
             Button.danger(
               text: localizeWithContext.phonebookDeleteRole,
               onPressed: () {
-                Navigator.of(context).pop();
+                final navigator = Navigator.of(context);
+                navigator.pop();
                 showCustomBottomModal(
                   context: context,
                   ref: ref,
@@ -100,7 +101,7 @@ class MemberEditionModal extends HookConsumerWidget {
                         );
                       }
                     },
-                    onNo: () => Navigator.of(context).pop(),
+                    onNo: () => navigator.pop(),
                   ),
                 );
               },
