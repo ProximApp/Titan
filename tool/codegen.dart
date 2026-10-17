@@ -97,9 +97,7 @@ Future<void> main(List<String> args) async {
         if (Directory('${module.path}/$sub').existsSync())
           '${module.path}/$sub',
   ];
-  if (generatedTestDirs.isNotEmpty) {
-    await _run('dart', ['format', ...generatedTestDirs]);
-  }
+  await _run('dart', ['format', ...generatedTestDirs]);
 }
 
 /// The SVG checkout `tool/gen_heroicons.dart` itself reads from `source:` in
