@@ -104,8 +104,14 @@ class UserCashUi extends HookConsumerWidget {
                               cash.user.nickname ?? cash.user.firstname,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
+                              // Explicit line height: without it the style
+                              // inherits the theme's body height (~1.43) and
+                              // this fixed 100px face overflows by several
+                              // pixels whenever the text is short enough to
+                              // render at full size.
                               style: const TextStyle(
                                 fontSize: 18,
+                                height: 1.1,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
@@ -119,6 +125,7 @@ class UserCashUi extends HookConsumerWidget {
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
                                 fontSize: 13,
+                                height: 1.1,
                                 fontWeight: FontWeight.bold,
                                 color: RaffleColorConstants.textDark,
                               ),
@@ -135,6 +142,7 @@ class UserCashUi extends HookConsumerWidget {
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
                                       fontSize: 18,
+                                      height: 1.1,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,
                                     ),

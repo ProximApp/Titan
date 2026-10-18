@@ -74,7 +74,10 @@ class MemberEditionModal extends HookConsumerWidget {
               text: localizeWithContext.phonebookDeleteRole,
               onPressed: () {
                 final navigator = Navigator.of(context);
-                navigator.pop();
+                // Keep the edition sheet open UNDER the confirm sheet: its
+                // context must stay mounted until the async onYes result
+                // toast renders, and Cancel/Confirm each need one extra pop
+                // (this sheet) — ConfirmModal already pops itself.
                 showCustomBottomModal(
                   context: context,
                   ref: ref,
@@ -100,8 +103,10 @@ class MemberEditionModal extends HookConsumerWidget {
                           localizeWithContext.phonebookDeletingError,
                         );
                       }
+                      // Close the edition sheet once the toast has rendered.
+                      navigator.pop();
                     },
-                    onNo: () => navigator.pop(),
+                    onNo: navigator.pop,
                   ),
                 );
               },

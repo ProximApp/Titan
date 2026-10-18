@@ -97,11 +97,17 @@ void main() {
 
   group('the Dart port agrees with the Python tool', () {
     test('row for row', () {
-      final result = Process.runSync('python3', [
-        'tool/detect_inplace_list_mutations.py',
-        '--dump',
-      ]);
-      if (result.exitCode == -1 || result.stderr.toString().isNotEmpty) {
+      // Only a genuinely missing python3 may skip: a tool that RAN and then
+      // misbehaved is a broken cross-check, and a broken cross-check fails
+      // here rather than silently skipping (that is what hid the tool's
+      // absence for so long).
+      late final ProcessResult result;
+      try {
+        result = Process.runSync('python3', [
+          'tool/detect_inplace_list_mutations.py',
+          '--dump',
+        ]);
+      } on ProcessException {
         markTestSkipped(
           'python3 is unavailable here, so the two detectors cannot be '
           'cross-checked. The `still finds candidates` test above covers the '
@@ -109,6 +115,11 @@ void main() {
         );
         return;
       }
+      expect(
+        result.exitCode,
+        0,
+        reason: 'the Python tool must exit 0 in --dump mode:\n${result.stderr}',
+      );
 
       final python = (result.stdout as String)
           .split('\n')
@@ -149,15 +160,16 @@ const verifiedSafe = <String, String>{
   'lib/home/providers/days_provider.dart:10':
       '`now` is a DateTime local, not a list. `DateTime.add` has nothing to do '
       'with list mutation.',
-  'lib/service/tools/setup.dart:52':
+  'lib/service/tools/setup.dart:40':
       '`now` is a DateTime local: `now.add(const Duration(days: 30))`. '
       '(The authorized branch was rewritten — the topics notifier is now '
-      'read after the permission answer — and the call moved from line 38 '
-      'to line 52.)',
-  'lib/loan/providers/end_provider.dart:29':
+      'read after the permission answer — and the call sits at line 40 on '
+      'the current HEAD; the key follows the detector, which only cares '
+      'that the call is still this DateTime one.)',
+  'lib/loan/providers/end_provider.dart:27':
       '`base` is a DateTime local (`DateTime.parse` result); `base.add` adds '
       'a Duration to the date. (The ledger #34 guard hoisted it out of the '
-      'parse call, which is where the detector now sees it.)',
+      'parse call; the detector now sees it on line 27 of this file.)',
 
   // --- Platform objects, not Dart lists. The controller ones are the
   // TextEditingController behind each of the four date fields.
@@ -169,36 +181,41 @@ const verifiedSafe = <String, String>{
       '`endMaximal` is a useTextEditingController().',
   'lib/admin/ui/pages/membership/association_membership_detail_page/search_filters.dart:143':
       '`endMinimal` is a useTextEditingController().',
-  'lib/seed-library/ui/pages/plant_deposit_page/plant_deposit_page.dart:288':
+  'lib/seed-library/ui/pages/plant_deposit_page/plant_deposit_page.dart:283':
       '`seedQuantity` is a useTextEditingController(); `clear()` empties the '
-      'field, which is the point. (Moved 278 → 287 → 288: the success branch '
-      'grew the fresh-list read for the reference dialog, then the '
-      'repo-wide format pass reflowed the lines.)',
-  'lib/seed-library/ui/pages/plant_deposit_page/plant_deposit_page.dart:289':
+      'field, which is the point. (Key follows the detector: the call now '
+      'sits on line 283 of this file, one of five pins re-anchored after the '
+      'working tree landed back on a HEAD where the block is shorter.)',
+  'lib/seed-library/ui/pages/plant_deposit_page/plant_deposit_page.dart:284':
       '`notes` is a useTextEditingController(). (Moves with the '
       '`seedQuantity` entry above, one line below it.)',
 
   // --- A DateTime field of the loop element: `e.end.add(...)`.
-  'lib/loan/ui/pages/admin_page/on_going_loan.dart:135':
-      '`e.end` is a DateTime field of the loan model: `e.end.add(...)`. '
-      '(Site line shifts when formatting reflows the surrounding widget '
-      'tree; key on the current line.)',
+  'lib/loan/ui/pages/admin_page/on_going_loan.dart:134':
+      '`e.end` is a DateTime field of the loan model: `e.end.add(Duration)`. '
+      '(Key re-anchored to the current line: commit "fix: copying list '
+      'before updating state" dropped the `isNotEmpty` guard above this '
+      'dialog builder and the call moved from 136 to 134; the previous key '
+      '`135` matched neither.)',
 
-  // --- The sortedMembers copy made this site safe twice over: the receiver
-  // is now the `[...members]` copy inside the helper, and the parameter
-  // `list` that remains at line 45 is that helper's own local.
-  'lib/phonebook/tools/function.dart:43':
-      '`list` is a parameter that this function has already copied into a new '
-      'list before sorting; confirmed by reading the whole body when '
-      'ledger #12 fixed the other 21 sort sites.',
+  // --- A list this function built itself: `sortedAssociationByKind` creates
+  // every value list from its own map literal before the loop sorts it.
+  'lib/phonebook/tools/function.dart:42':
+      '`list` is the loop variable over `sortedByGroupement.values` — a map '
+      'literal declared four lines above in the SAME function (`{for '
+      '(groupement in groupements) groupement.id: []}`), so every list it '
+      'hands the loop was allocated here and is owned by this call. '
+      '(Key corrected 43 → 42: the exemption had drifted one line below '
+      'the call it accepts, which is exactly the staleness the twin '
+      'assertion above exists to catch.)',
 
   // --- Notifier-internal rename of its own local: modulesName is read from
   // prefs then re-sorted before assignment, never shared.
-  'lib/settings/providers/module_list_provider.dart:129':
+  'lib/settings/providers/module_list_provider.dart:124':
       '`modulesName` is a local built from `prefs.getStringList(dbModule)` in '
       'loadModules and sorted before being read; no external reader holds it. '
-      '(The site moved from line 122 when `getModuleByRoot` gained its '
-      'unknown-root fallback above this branch.)',
+      '(The site’s line tracks the code above it; it is at 124 on the '
+      'current HEAD and the key follows the detector.)',
   'lib/mypayment/ui/pages/devices_page/devices_page.dart:193':
       '`keyService` is the KeyService; `clear()` is its own method for '
       'unregistering the device, not a collection mutation.',

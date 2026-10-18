@@ -36,7 +36,7 @@ jobs:
 
       - name: Coverage report and threshold gate
         env:
-          COVERAGE_MIN: "28" # ratchet floor; raise as coverage grows
+          COVERAGE_MIN: "85" # ratchet floor at the honest 2026-10-18 measurement (85.32%, mypayment devices/invoices/store flows round); every coverage round must raise this, never lower it
         run: |
           dart run tool/coverage_report.dart \
             --min=$COVERAGE_MIN \

@@ -63,7 +63,7 @@ class Bird {
     return Bird(
       user: CoreUserSimple.empty(),
       color: MaterialColor(getColorValue(color), getSwatch(color)),
-      birdImage: Image.asset('images/bird.png'),
+      birdImage: Image.asset('assets/images/bird.png'),
     );
   }
 }

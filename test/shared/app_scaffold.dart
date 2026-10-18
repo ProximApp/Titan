@@ -691,6 +691,34 @@ class FakeKeyService extends Fake implements KeyService {
   /// produced needs this pair; minting a fresh one would prove nothing.
   SimpleKeyPair? get keyPairForTest => _keyPair;
 
+  /// The devices page's registration chain: generate → save pair → save id,
+  /// and `clear()` when the revoked device IS this one. Kept in memory so a
+  /// test can read the persisted id back through the public [keyId] field —
+  /// "did the flow actually save what it registered" without secure storage.
+  /// The pair is the same in-memory one [getKeyPair] lazily mints, so the
+  /// fake never claims a key nothing points at.
+  @override
+  Future<SimpleKeyPair> generateKeyPair() async {
+    return _keyPair = await _algorithm.newKeyPair();
+  }
+
+  @override
+  Future saveKeyPair(SimpleKeyPair keyPair) async {
+    _keyPair = keyPair;
+  }
+
+  @override
+  Future saveKeyId(String keyId) async {
+    this.keyId = keyId;
+  }
+
+  @override
+  Future<bool> clear() async {
+    keyId = null;
+    _keyPair = null;
+    return true;
+  }
+
   @override
   Future<Signature> signMessage(SimpleKeyPair keyPair, List<int> message) {
     signedMessages.add(utf8.decode(message, allowMalformed: true));
