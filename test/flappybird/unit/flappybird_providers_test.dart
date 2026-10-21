@@ -304,15 +304,17 @@ void main() {
     });
 
     test('getLeaderboard loads the scores, createScore appends one', () async {
-      when(() => repo.flappybirdScoresGet())
-          .thenAnswer((_) async => repo.okList<FlappyBirdScoreInDB>());
+      when(
+        () => repo.flappybirdScoresGet(),
+      ).thenAnswer((_) async => repo.okList<FlappyBirdScoreInDB>());
       final notifier = container.read(scoreListProvider.notifier);
       final state = await notifier.getLeaderboard();
       expect(state.value, isEmpty);
 
       final score = FlappyBirdScoreBase.empty().copyWith(value: 10);
-      when(() => repo.flappybirdScoresPost(body: any(named: 'body')))
-          .thenAnswer((_) async => repo.ok(FlappyBirdScoreInDB.empty()));
+      when(
+        () => repo.flappybirdScoresPost(body: any(named: 'body')),
+      ).thenAnswer((_) async => repo.ok(FlappyBirdScoreInDB.empty()));
       notifier.state = AsyncValue.data([FlappyBirdScoreInDB.empty()]);
       final ok = await notifier.createScore(score);
       expect(ok, isTrue);
@@ -322,14 +324,16 @@ void main() {
     test(
       'createScore reports false when the post fails or is not ready',
       () async {
-        when(() => repo.flappybirdScoresGet())
-            .thenAnswer((_) async => repo.okList<FlappyBirdScoreInDB>());
+        when(
+          () => repo.flappybirdScoresGet(),
+        ).thenAnswer((_) async => repo.okList<FlappyBirdScoreInDB>());
         final notifier = container.read(scoreListProvider.notifier);
         await notifier.getLeaderboard();
         final score = FlappyBirdScoreBase.empty().copyWith(value: 10);
 
-        when(() => repo.flappybirdScoresPost(body: any(named: 'body')))
-            .thenAnswer((_) async => repo.fail<FlappyBirdScoreInDB>(400));
+        when(
+          () => repo.flappybirdScoresPost(body: any(named: 'body')),
+        ).thenAnswer((_) async => repo.fail<FlappyBirdScoreInDB>(400));
         expect(await notifier.createScore(score), isFalse);
 
         notifier.state = const AsyncValue.loading();
