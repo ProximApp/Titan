@@ -2,18 +2,17 @@ import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
-import 'package:titan/loan/providers/loaner_list_provider.dart';
+import 'package:titan/loan/providers/user_loaner_list_provider.dart';
 import 'package:titan/tools/repository/repository.dart';
 
-class MockLoanerRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
-  group('LoanerListNotifier', () {
-    late MockLoanerRepository mockRepository;
+  group('UserLoanerListNotifier', () {
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
-    late LoanerListNotifier provider;
+    late UserLoanerListNotifier provider;
     final loaners = [
       Loaner.empty().copyWith(id: '1'),
       Loaner.empty().copyWith(id: '2'),
@@ -26,35 +25,35 @@ void main() {
     final updatedLoaner = loaners.first.copyWith(name: 'Updated Loaner');
 
     setUp(() async {
-      mockRepository = MockLoanerRepository();
+      mockRepository = MockOpenapi();
       // Default stub for the build()-time auto-load.
-      when(() => mockRepository.loansLoanersGet()).thenAnswer(
+      when(() => mockRepository.loansUsersMeLoanersGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('[]', 200), <Loaner>[]),
       );
       container = ProviderContainer(
         overrides: [repositoryProvider.overrideWithValue(mockRepository)],
       );
-      provider = container.read(loanerListProvider.notifier);
+      provider = container.read(userLoanerListProvider.notifier);
       await Future(() {});
     });
 
     tearDown(() => container.dispose());
 
-    test('loadLoanerList returns expected data', () async {
-      when(() => mockRepository.loansLoanersGet()).thenAnswer(
+    test('loadMyLoanerList returns expected data', () async {
+      when(() => mockRepository.loansUsersMeLoanersGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), loaners),
       );
 
-      final result = await provider.loadLoanerList();
+      final result = await provider.loadMyLoanerList();
 
       expect(result.maybeWhen(data: (data) => data, orElse: () => []), loaners);
     });
 
-    test('loadLoanerList handles error', () async {
-      when(() => mockRepository.loansLoanersGet())
+    test('loadMyLoanerList handles error', () async {
+      when(() => mockRepository.loansUsersMeLoanersGet())
           .thenThrow(Exception('Failed to load loaners'));
 
-      final result = await provider.loadLoanerList();
+      final result = await provider.loadMyLoanerList();
 
       expect(
         result.maybeWhen(error: (error, _) => error, orElse: () => null),
@@ -63,7 +62,7 @@ void main() {
     });
 
     test('addLoaner adds a loaner to the list', () async {
-      when(() => mockRepository.loansLoanersGet()).thenAnswer(
+      when(() => mockRepository.loansUsersMeLoanersGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), loaners),
       );
       when(() => mockRepository.loansLoanersPost(body: any(named: 'body')))
@@ -93,7 +92,7 @@ void main() {
     });
 
     test('updateLoaner updates a loaner in the list', () async {
-      when(() => mockRepository.loansLoanersGet()).thenAnswer(
+      when(() => mockRepository.loansUsersMeLoanersGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), loaners),
       );
       when(
@@ -131,7 +130,7 @@ void main() {
     });
 
     test('deleteLoaner removes a loaner from the list', () async {
-      when(() => mockRepository.loansLoanersGet()).thenAnswer(
+      when(() => mockRepository.loansUsersMeLoanersGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), loaners),
       );
       when(

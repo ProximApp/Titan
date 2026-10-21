@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/loan/adapters/loan.dart';
 import 'package:titan/loan/providers/loan_list_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
@@ -8,11 +7,11 @@ import 'package:chopper/chopper.dart' as chopper;
 import 'package:http/http.dart' as http;
 import 'package:titan/tools/repository/repository.dart';
 
-class MockLoanRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('LoanListNotifier', () {
-    late MockLoanRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late LoanListNotifier provider;
     final loans = [
@@ -23,7 +22,7 @@ void main() {
     final updatedLoan = loans.first.copyWith(notes: 'Updated');
 
     setUp(() async {
-      mockRepository = MockLoanRepository();
+      mockRepository = MockOpenapi();
       // Default stub for the build()-time auto-load.
       when(() => mockRepository.loansUsersMeGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('[]', 200), <Loan>[]),
