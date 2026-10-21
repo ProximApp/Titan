@@ -7,17 +7,17 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/vote/providers/votes_provider.dart';
 
-class MockVotesRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('VotesProvider', () {
-    late MockVotesRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late VotesProvider provider;
     final votes = VoteBase(listId: '1');
 
     setUp(() async {
-      mockRepository = MockVotesRepository();
+      mockRepository = MockOpenapi();
       container = ProviderContainer(
         overrides: [repositoryProvider.overrideWithValue(mockRepository)],
       );

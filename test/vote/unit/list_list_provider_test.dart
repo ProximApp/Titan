@@ -8,11 +8,11 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:http/http.dart' as http;
 
-class MockListRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('ListListNotifier', () {
-    late MockListRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late ListListNotifier provider;
     final lists = [
@@ -23,7 +23,7 @@ void main() {
     final updatedList = lists.first.copyWith(name: 'Updated List');
 
     setUp(() async {
-      mockRepository = MockListRepository();
+      mockRepository = MockOpenapi();
       when(() => mockRepository.campaignListsGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('[]', 200), <ListReturn>[]),
       );

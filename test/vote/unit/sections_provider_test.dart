@@ -7,11 +7,11 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/vote/providers/sections_provider.dart';
 
-class MockSectionRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('SectionNotifier', () {
-    late MockSectionRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late SectionNotifier provider;
     final sections = [
@@ -25,7 +25,7 @@ void main() {
     );
 
     setUp(() async {
-      mockRepository = MockSectionRepository();
+      mockRepository = MockOpenapi();
       when(() => mockRepository.campaignSectionsGet()).thenAnswer(
         (_) async =>
             chopper.Response(http.Response('[]', 200), <SectionComplete>[]),

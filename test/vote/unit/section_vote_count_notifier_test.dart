@@ -7,17 +7,17 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:http/http.dart' as http;
 
-class MockSectionVoteCountRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('SectionVoteCountNotifier', () {
-    late MockSectionVoteCountRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late SectionVoteCountNotifier provider;
     final voteStats = VoteStats(sectionId: '1', count: 0);
 
     setUp(() async {
-      mockRepository = MockSectionVoteCountRepository();
+      mockRepository = MockOpenapi();
       container = ProviderContainer(
         overrides: [repositoryProvider.overrideWithValue(mockRepository)],
       );
