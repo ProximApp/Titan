@@ -85,6 +85,7 @@ import 'package:titan/tools/ui/widgets/top_bar.dart';
 import 'package:titan/vote/ui/pages/main_page/list_card.dart';
 import 'package:titan/vote/ui/pages/main_page/list_list_card.dart';
 import 'package:titan/vote/ui/pages/main_page/side_item.dart';
+
 import 'fixtures.dart' show userStoreFixture;
 
 /// The card fixtures the fixed-SIZE sweeps share.

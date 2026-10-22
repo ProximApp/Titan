@@ -7,6 +7,7 @@ import 'package:titan/tools/repository/repository.dart';
 import 'mock_openapi.dart';
 
 export 'mock_openapi.dart' show MockOpenapi;
+
 export 'package:mocktail/mocktail.dart'
     show Mock, when, any, registerFallbackValue;
 

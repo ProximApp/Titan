@@ -7,19 +7,16 @@ import 'repository_test_support.dart';
 
 /// Stubs the shared connectivity endpoint used by the authenticated shell.
 void stubInformation(MockOpenapi repository) {
-  when(
-    () => repository.informationGet(),
-  ).thenAnswer((_) async => coreInformationResponse());
+  when(() => repository.informationGet())
+      .thenAnswer((_) async => coreInformationResponse());
 }
 
 /// Stubs the feed endpoints the boot redirect chain touches.
 void stubFeed(MockOpenapi repository) {
-  when(
-    () => repository.feedNewsGet(),
-  ).thenAnswer((_) async => chopperListResponse<News>(<News>[]));
-  when(
-    () => repository.feedNewsNewsIdImageGet(newsId: any(named: 'newsId')),
-  ).thenAnswer((_) async => fileNotFound());
+  when(() => repository.feedNewsGet())
+      .thenAnswer((_) async => chopperListResponse<News>(<News>[]));
+  when(() => repository.feedNewsNewsIdImageGet(newsId: any(named: 'newsId')))
+      .thenAnswer((_) async => fileNotFound());
 }
 
 /// The common "no image" response accepted by picture providers.
@@ -47,12 +44,10 @@ void stubAdminMainPage(MockOpenapi repository) {
   when(() => repository.groupsGet()).thenAnswer(
     (_) async => chopperListResponse<CoreGroupSimple>(<CoreGroupSimple>[]),
   );
-  when(
-    () => repository.mypaymentBankAccountHolderGet(),
-  ).thenAnswer((_) async => chopperResponse(Structure.empty()));
-  when(
-    () => repository.mypaymentStructuresGet(),
-  ).thenAnswer((_) async => chopperListResponse<Structure>(<Structure>[]));
+  when(() => repository.mypaymentBankAccountHolderGet())
+      .thenAnswer((_) async => chopperResponse(Structure.empty()));
+  when(() => repository.mypaymentStructuresGet())
+      .thenAnswer((_) async => chopperListResponse<Structure>(<Structure>[]));
   when(
     () => repository.associationsGet(),
   ).thenAnswer((_) async => chopperListResponse<Association>(<Association>[]));
