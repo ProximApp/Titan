@@ -138,9 +138,8 @@ class ReFundPage extends ConsumerWidget {
                       if (!isValid) {
                         displayToastWithContext(
                           TypeMsg.error,
-                          AppLocalizations.of(
-                            context,
-                          )!.paiementPleaseEnterValidAmount,
+                          AppLocalizations.of(context)!
+                              .paiementPleaseEnterValidAmount,
                         );
                         return;
                       }
