@@ -122,7 +122,7 @@ class MyApp extends HookConsumerWidget {
       themeMode: ThemeMode.light,
       theme: ThemeData(
         primarySwatch: Colors.red,
-        textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
+        fontFamily: GoogleFonts.lato().fontFamily,
         brightness: Brightness.light,
       ),
       routeInformationParser: const QRouteInformationParser(),
