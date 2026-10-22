@@ -1,4 +1,5 @@
 import 'dart:ui' as dart_typing;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -44,9 +45,8 @@ void stubSeedLibrary(IntegrationScaffold scaffold) {
       ),
     ),
   );
-  when(
-    () => scaffold.repository.seedLibraryPlantsUsersMeGet(),
-  ).thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
+  when(() => scaffold.repository.seedLibraryPlantsUsersMeGet())
+      .thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
 }
 
 void main() {

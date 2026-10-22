@@ -72,18 +72,14 @@ void main() {
       addTearDown(container.dispose);
       scaffold.setWideSurface(tester);
 
-      when(
-        () => scaffold.repository.seedLibraryInformationGet(),
-      ).thenAnswer((_) async => chopperResponse(information));
-      when(
-        () => scaffold.repository.seedLibraryPlantsUsersMeGet(),
-      ).thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
-      when(
-        () => scaffold.repository.seedLibraryPlantsWaitingGet(),
-      ).thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
-      when(
-        () => scaffold.repository.seedLibrarySpeciesGet(),
-      ).thenAnswer((_) async => chopperListResponse(<SpeciesComplete>[]));
+      when(() => scaffold.repository.seedLibraryInformationGet())
+          .thenAnswer((_) async => chopperResponse(information));
+      when(() => scaffold.repository.seedLibraryPlantsUsersMeGet())
+          .thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
+      when(() => scaffold.repository.seedLibraryPlantsWaitingGet())
+          .thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
+      when(() => scaffold.repository.seedLibrarySpeciesGet())
+          .thenAnswer((_) async => chopperListResponse(<SpeciesComplete>[]));
       when(() => scaffold.repository.seedLibrarySpeciesTypesGet()).thenAnswer(
         (_) async => chopperResponse(
           SpeciesTypesReturn(

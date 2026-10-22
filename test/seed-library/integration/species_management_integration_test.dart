@@ -66,15 +66,12 @@ void main() {
     when(
       () => scaffold.repository.seedLibraryInformationGet(),
     ).thenAnswer((_) async => chopperResponse(SeedLibraryInformation.empty()));
-    when(
-      () => scaffold.repository.seedLibraryPlantsUsersMeGet(),
-    ).thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
-    when(
-      () => scaffold.repository.seedLibraryPlantsWaitingGet(),
-    ).thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
-    when(
-      () => scaffold.repository.seedLibrarySpeciesGet(),
-    ).thenAnswer((_) async => chopperListResponse(list));
+    when(() => scaffold.repository.seedLibraryPlantsUsersMeGet())
+        .thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
+    when(() => scaffold.repository.seedLibraryPlantsWaitingGet())
+        .thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
+    when(() => scaffold.repository.seedLibrarySpeciesGet())
+        .thenAnswer((_) async => chopperListResponse(list));
     when(() => scaffold.repository.seedLibrarySpeciesTypesGet()).thenAnswer(
       (_) async => chopperResponse(
         SpeciesTypesReturn(

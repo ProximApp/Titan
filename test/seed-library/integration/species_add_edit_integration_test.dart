@@ -38,9 +38,8 @@ models.SpeciesComplete species() => models.SpeciesComplete.empty().copyWith(
 );
 
 void stubSpeciesData(IntegrationScaffold scaffold) {
-  when(
-    () => scaffold.repository.seedLibrarySpeciesGet(),
-  ).thenAnswer((_) async => chopperListResponse([species()]));
+  when(() => scaffold.repository.seedLibrarySpeciesGet())
+      .thenAnswer((_) async => chopperListResponse([species()]));
   when(() => scaffold.repository.seedLibrarySpeciesTypesGet()).thenAnswer(
     (_) async => chopperResponse(
       SpeciesTypesReturn(

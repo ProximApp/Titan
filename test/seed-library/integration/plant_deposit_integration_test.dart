@@ -39,12 +39,10 @@ PlantSimple waitingPlant(String id, String reference) =>
     );
 
 void stubSeedLibrary(IntegrationScaffold scaffold) {
-  when(
-    () => scaffold.repository.seedLibraryInformationGet(),
-  ).thenAnswer((_) async => chopperResponse(SeedLibraryInformation.empty()));
-  when(
-    () => scaffold.repository.seedLibrarySpeciesGet(),
-  ).thenAnswer((_) async => chopperListResponse([species()]));
+  when(() => scaffold.repository.seedLibraryInformationGet())
+      .thenAnswer((_) async => chopperResponse(SeedLibraryInformation.empty()));
+  when(() => scaffold.repository.seedLibrarySpeciesGet())
+      .thenAnswer((_) async => chopperListResponse([species()]));
   // syncMyPlantListProvider (the ancestor row + the not-available gate)
   // reads the users/me endpoint.
   when(() => scaffold.repository.seedLibraryPlantsUsersMeGet()).thenAnswer(
@@ -204,9 +202,8 @@ void main() {
     tester,
   ) async {
     stubSeedLibrary(scaffold);
-    when(
-      () => scaffold.repository.seedLibraryPlantsUsersMeGet(),
-    ).thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
+    when(() => scaffold.repository.seedLibraryPlantsUsersMeGet())
+        .thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
 
     await pumpDeposit(tester, scaffold.makeContainer());
 

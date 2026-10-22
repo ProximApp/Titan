@@ -62,15 +62,12 @@ void main() {
     when(
       () => scaffold.repository.seedLibraryInformationGet(),
     ).thenAnswer((_) async => chopperResponse(SeedLibraryInformation.empty()));
-    when(
-      () => scaffold.repository.seedLibraryPlantsUsersMeGet(),
-    ).thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
-    when(
-      () => scaffold.repository.seedLibrarySpeciesGet(),
-    ).thenAnswer((_) async => chopperListResponse([species]));
-    when(
-      () => scaffold.repository.seedLibraryPlantsWaitingGet(),
-    ).thenAnswer((_) async => chopperListResponse([stockPlant]));
+    when(() => scaffold.repository.seedLibraryPlantsUsersMeGet())
+        .thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
+    when(() => scaffold.repository.seedLibrarySpeciesGet())
+        .thenAnswer((_) async => chopperListResponse([species]));
+    when(() => scaffold.repository.seedLibraryPlantsWaitingGet())
+        .thenAnswer((_) async => chopperListResponse([stockPlant]));
     // The species-type dropdown prepends plantesAromatiques, so the server
     // list must carry every OTHER type (incl. the default filter `autre`)
     // or the DropdownButton value assertion fires.

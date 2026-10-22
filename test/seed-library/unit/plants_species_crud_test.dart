@@ -22,9 +22,8 @@ void main() {
 
   group('SpeciesListNotifier', () {
     setUp(() {
-      when(
-        () => repo.seedLibrarySpeciesGet(),
-      ).thenAnswer((_) async => repo.okList<SpeciesComplete>());
+      when(() => repo.seedLibrarySpeciesGet())
+          .thenAnswer((_) async => repo.okList<SpeciesComplete>());
     });
 
     test('loadSpecies resolves an empty waiting list', () async {
@@ -42,9 +41,8 @@ void main() {
         prefix: 'TOM',
       );
       notifier.state = AsyncValue.data([]);
-      when(
-        () => repo.seedLibrarySpeciesPost(body: any(named: 'body')),
-      ).thenAnswer((_) async => repo.ok(species));
+      when(() => repo.seedLibrarySpeciesPost(body: any(named: 'body')))
+          .thenAnswer((_) async => repo.ok(species));
 
       final ok = await notifier.createSpecies(species);
       expect(ok, isTrue);
@@ -98,9 +96,8 @@ void main() {
       await notifier.loadSpecies();
       final species = SpeciesComplete.empty().copyWith(id: 'sp-1');
       notifier.state = AsyncValue.data([species]);
-      when(
-        () => repo.seedLibrarySpeciesSpeciesIdDelete(speciesId: 'sp-1'),
-      ).thenAnswer((_) async => repo.okVoid());
+      when(() => repo.seedLibrarySpeciesSpeciesIdDelete(speciesId: 'sp-1'))
+          .thenAnswer((_) async => repo.okVoid());
 
       final ok = await notifier.deleteSpecie(species);
       expect(ok, isTrue);
@@ -112,9 +109,8 @@ void main() {
       await notifier.loadSpecies();
       final species = SpeciesComplete.empty().copyWith(id: 'sp-1');
       notifier.state = AsyncValue.data([species]);
-      when(
-        () => repo.seedLibrarySpeciesSpeciesIdDelete(speciesId: 'sp-1'),
-      ).thenAnswer((_) async => repo.fail<void>(404));
+      when(() => repo.seedLibrarySpeciesSpeciesIdDelete(speciesId: 'sp-1'))
+          .thenAnswer((_) async => repo.fail<void>(404));
 
       final ok = await notifier.deleteSpecie(species);
       expect(ok, isFalse);
@@ -124,9 +120,8 @@ void main() {
 
   group('PlantListNotifier', () {
     setUp(() {
-      when(
-        () => repo.seedLibraryPlantsWaitingGet(),
-      ).thenAnswer((_) async => repo.okList<PlantSimple>());
+      when(() => repo.seedLibraryPlantsWaitingGet())
+          .thenAnswer((_) async => repo.okList<PlantSimple>());
     });
 
     test('loadPlants resolves an empty waiting list', () async {
@@ -144,9 +139,8 @@ void main() {
         reference: 'NEW',
       );
       notifier.state = AsyncValue.data([]);
-      when(
-        () => repo.seedLibraryPlantsPost(body: any(named: 'body')),
-      ).thenAnswer((_) async => repo.ok(created));
+      when(() => repo.seedLibraryPlantsPost(body: any(named: 'body')))
+          .thenAnswer((_) async => repo.ok(created));
 
       final ok = await notifier.createPlant(creation);
       expect(ok, isTrue);
@@ -158,9 +152,8 @@ void main() {
       await notifier.loadPlants();
       final creation = PlantCreation.empty();
       notifier.state = AsyncValue.data([]);
-      when(
-        () => repo.seedLibraryPlantsPost(body: any(named: 'body')),
-      ).thenAnswer((_) async => repo.fail<PlantSimple>(400));
+      when(() => repo.seedLibraryPlantsPost(body: any(named: 'body')))
+          .thenAnswer((_) async => repo.fail<PlantSimple>(400));
 
       final ok = await notifier.createPlant(creation);
       expect(ok, isFalse);
@@ -172,9 +165,8 @@ void main() {
       await notifier.loadPlants();
       final plant = PlantSimple.empty().copyWith(id: 'pl-1');
       notifier.state = AsyncValue.data([plant]);
-      when(
-        () => repo.seedLibraryPlantsPlantIdDelete(plantId: 'pl-1'),
-      ).thenAnswer((_) async => repo.okVoid());
+      when(() => repo.seedLibraryPlantsPlantIdDelete(plantId: 'pl-1'))
+          .thenAnswer((_) async => repo.okVoid());
 
       final ok = await notifier.deletePlant(plant);
       expect(ok, isTrue);
@@ -186,9 +178,8 @@ void main() {
       await notifier.loadPlants();
       final plant = PlantSimple.empty().copyWith(id: 'pl-1');
       notifier.state = AsyncValue.data([plant]);
-      when(
-        () => repo.seedLibraryPlantsPlantIdDelete(plantId: 'pl-1'),
-      ).thenAnswer((_) async => repo.fail<void>(404));
+      when(() => repo.seedLibraryPlantsPlantIdDelete(plantId: 'pl-1'))
+          .thenAnswer((_) async => repo.fail<void>(404));
 
       final ok = await notifier.deletePlant(plant);
       expect(ok, isFalse);
