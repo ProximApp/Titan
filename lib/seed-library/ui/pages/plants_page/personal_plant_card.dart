@@ -67,9 +67,8 @@ class PersonalPlantCard extends HookConsumerWidget {
                                   : SeedLibraryTextConstants.plantingDate,
                             ),
                             Text(
-                              DateFormat.yMd(
-                                locale,
-                              ).format(plant.plantingDate!),
+                              DateFormat.yMd(locale)
+                                  .format(plant.plantingDate!),
                             ),
                             ...plantSpecies.timeMaturation != null &&
                                     plant.state != PlantState.consommE
