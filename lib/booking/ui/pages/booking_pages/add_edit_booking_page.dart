@@ -256,9 +256,8 @@ class AddEditBookingPage extends HookConsumerWidget {
                                 validator: (value) {
                                   final parsed = int.tryParse(value);
                                   return parsed == null || parsed < 1
-                                      ? AppLocalizations.of(
-                                          context,
-                                        )!.bookingInvalidIntervalError
+                                      ? AppLocalizations.of(context)!
+                                            .bookingInvalidIntervalError
                                       : null;
                                 },
                               ),
