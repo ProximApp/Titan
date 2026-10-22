@@ -13,7 +13,7 @@ environment:
 dependencies:
   app_links: ^7.0.0
   auto_size_text: ^3.0.0
-  badges: ^3.1.1
+  badges: ^4.0.1
   chopper: ^8.4.0
   collection: ^1.16.0
   crypto: ^3.0.2
