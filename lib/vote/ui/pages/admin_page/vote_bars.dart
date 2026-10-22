@@ -70,103 +70,102 @@ class VoteBars extends HookConsumerWidget {
       );
     }
 
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.only(top: 10),
-        child: BarChart(
-          BarChartData(
-            gridData: const FlGridData(show: false),
-            barTouchData: BarTouchData(
-              touchTooltipData: BarTouchTooltipData(
-                tooltipBorderRadius: BorderRadius.circular(20),
-                tooltipPadding: const EdgeInsets.only(
-                  left: 10,
-                  right: 10,
-                  top: 12,
-                  bottom: 5,
-                ),
-                tooltipMargin: 10,
-                getTooltipColor: (BarChartGroupData group) =>
-                    Colors.grey.shade200,
-                getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                  return BarTooltipItem(
-                    rod.toY.toInt().toString(),
-                    const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
+    return Container(
+      width: double.infinity,
+      height: 300,
+      padding: const EdgeInsets.only(top: 10),
+      child: BarChart(
+        BarChartData(
+          gridData: const FlGridData(show: false),
+          barTouchData: BarTouchData(
+            touchTooltipData: BarTouchTooltipData(
+              tooltipBorderRadius: BorderRadius.circular(20),
+              tooltipPadding: const EdgeInsets.only(
+                left: 10,
+                right: 10,
+                top: 12,
+                bottom: 5,
+              ),
+              tooltipMargin: 10,
+              getTooltipColor: (BarChartGroupData group) =>
+                  Colors.grey.shade200,
+              getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                return BarTooltipItem(
+                  rod.toY.toInt().toString(),
+                  const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                );
+              },
+            ),
+            touchCallback: (FlTouchEvent event, barTouchResponse) {
+              if (!event.isInterestedForInteractions ||
+                  barTouchResponse == null ||
+                  barTouchResponse.spot == null) {
+                touchedIndex.value = -1;
+                return;
+              }
+              touchedIndex.value = barTouchResponse.spot!.touchedBarGroupIndex;
+            },
+          ),
+          titlesData: FlTitlesData(
+            leftTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            topTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            rightTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            show: true,
+            bottomTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                getTitlesWidget: (value, meta) {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 12.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          sectionNames[value.toInt()],
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          '${((voteValue[sectionIds[value.toInt()]] ?? 0) / total * 100).toStringAsFixed(2)}%',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          '${voteValue[sectionIds[value.toInt()]] ?? 0} ${AppLocalizations.of(context)!.voteVotes}',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 },
-              ),
-              touchCallback: (FlTouchEvent event, barTouchResponse) {
-                if (!event.isInterestedForInteractions ||
-                    barTouchResponse == null ||
-                    barTouchResponse.spot == null) {
-                  touchedIndex.value = -1;
-                  return;
-                }
-                touchedIndex.value =
-                    barTouchResponse.spot!.touchedBarGroupIndex;
-              },
-            ),
-            titlesData: FlTitlesData(
-              leftTitles: const AxisTitles(
-                sideTitles: SideTitles(showTitles: false),
-              ),
-              topTitles: const AxisTitles(
-                sideTitles: SideTitles(showTitles: false),
-              ),
-              rightTitles: const AxisTitles(
-                sideTitles: SideTitles(showTitles: false),
-              ),
-              show: true,
-              bottomTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: true,
-                  getTitlesWidget: (value, meta) {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 12.0),
-                      child: Column(
-                        children: [
-                          Text(
-                            sectionNames[value.toInt()],
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 12,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            '${((voteValue[sectionIds[value.toInt()]] ?? 0) / total * 100).toStringAsFixed(2)}%',
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            '${voteValue[sectionIds[value.toInt()]] ?? 0} ${AppLocalizations.of(context)!.voteVotes}',
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  reservedSize: 75,
-                ),
+                reservedSize: 75,
               ),
             ),
-            borderData: FlBorderData(show: false),
-            barGroups: listBars,
           ),
-          duration: animDuration,
+          borderData: FlBorderData(show: false),
+          barGroups: listBars,
         ),
+        duration: animDuration,
       ),
     );
   }

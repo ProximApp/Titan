@@ -30,6 +30,9 @@ extension $BookingReturnApplicant on BookingReturnApplicant {
       decision: decision,
       applicantId: applicantId,
       room: room,
+      note: note,
+      recurrenceRule: recurrenceRule,
+      entity: entity,
     );
   }
 
@@ -41,6 +44,9 @@ extension $BookingReturnApplicant on BookingReturnApplicant {
       creation: creation,
       roomId: roomId,
       key: key,
+      note: note,
+      recurrenceRule: recurrenceRule,
+      entity: entity,
     );
   }
 

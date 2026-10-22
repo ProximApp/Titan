@@ -43,6 +43,8 @@ class CheckItemCard extends StatelessWidget {
             item.loanedQuantity < item.totalQuantity
                 ? '${item.totalQuantity - item.loanedQuantity} ${AppLocalizations.of(context)!.loanAvailable}'
                 : AppLocalizations.of(context)!.loanUnavailable,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.bold,
@@ -71,7 +73,7 @@ class CheckItemCard extends StatelessWidget {
               color: Colors.grey.shade400,
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 6),
         ],
       ),
     );

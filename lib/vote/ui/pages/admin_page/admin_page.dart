@@ -134,7 +134,7 @@ class AdminPage extends HookConsumerWidget {
                         color: ColorConstants.background,
                       ),
                       onPressed: () {
-                        listNotifier.setId(ListReturn.fromJson({}));
+                        listNotifier.setId(ListReturn.empty());
                         membersNotifier.setMembers([]);
                         QR.to(
                           VoteRouter.root +

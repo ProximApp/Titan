@@ -114,7 +114,7 @@ class AddEditPackTicketPage extends HookConsumerWidget {
                         );
                         if (ticketPrice != null && ticketPrice > 0) {
                           final newPackTicket = packTicket.copyWith(
-                            price: double.parse(price.text).round(),
+                            price: ticketPrice.round(),
                             packSize: int.parse(packSize.text),
                             raffleId: isEdit ? packTicket.raffleId : raffle.id,
                             id: isEdit ? packTicket.id : "",

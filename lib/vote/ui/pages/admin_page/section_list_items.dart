@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:titan/tools/functions.dart';
@@ -30,7 +31,7 @@ class SectionListItems extends HookConsumerWidget {
     }
 
     return AsyncChild(
-      value: sectionList[section]!,
+      value: sectionList[section] ?? const AsyncLoading<List<ListReturn>>(),
       builder: (context, data) => Column(
         children: data
             .map(

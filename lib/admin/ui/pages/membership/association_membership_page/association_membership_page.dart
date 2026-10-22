@@ -117,11 +117,12 @@ class AssociationMembershipsPage extends HookConsumerWidget {
               SizedBox(height: 10),
               AsyncChild(
                 value: associationsMemberships,
-                builder: (context, g) {
-                  g.sort(
-                    (a, b) =>
-                        a.name.toLowerCase().compareTo(b.name.toLowerCase()),
-                  );
+                builder: (context, gUnsorted) {
+                  final g = [...gUnsorted]
+                    ..sort(
+                      (a, b) =>
+                          a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+                    );
                   return Column(
                     children: [
                       Column(

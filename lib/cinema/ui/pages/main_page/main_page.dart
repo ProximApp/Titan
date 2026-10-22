@@ -86,8 +86,9 @@ class CinemaMainPage extends HookConsumerWidget {
               const SizedBox(height: 20),
               AsyncChild(
                 value: sessionList,
-                builder: (context, data) {
-                  data.sort((a, b) => a.start.compareTo(b.start));
+                builder: (context, dataUnsorted) {
+                  final data = [...dataUnsorted]
+                    ..sort((a, b) => a.start.compareTo(b.start));
                   if (data.isEmpty) {
                     return SizedBox(
                       height: 200,

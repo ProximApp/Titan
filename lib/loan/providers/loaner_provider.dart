@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/loan/providers/loaner_id_provider.dart';
@@ -8,7 +9,8 @@ final loanerProvider = Provider((ref) {
   final loanerList = ref.watch(userLoanerListProvider);
   return loanerList.maybeWhen(
     data: (loanerList) =>
-        loanerList.firstWhere((loaner) => loaner.id == loanerId),
+        loanerList.firstWhereOrNull((loaner) => loaner.id == loanerId) ??
+        Loaner.empty(),
     orElse: () => Loaner.empty(),
   );
 });

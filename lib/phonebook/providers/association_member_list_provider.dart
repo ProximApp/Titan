@@ -34,9 +34,11 @@ class AssociationMemberListNotifier extends ListNotifierAPI<MemberComplete> {
     final res = await associationMemberRepository
         .phonebookAssociationsMembershipsPost(body: membership);
     if (!res.isSuccessful || res.body == null) return false;
-    member.memberships.add(res.body!);
+    final storedMember = member.copyWith(
+      memberships: [...member.memberships, res.body!],
+    );
     state.whenData((members) {
-      state = AsyncValue.data([...members, member]);
+      state = AsyncValue.data([...members, storedMember]);
     });
     return true;
   }
@@ -77,6 +79,9 @@ class AssociationMemberListNotifier extends ListNotifierAPI<MemberComplete> {
         );
     if (!response.isSuccessful) return false;
     state.whenData((current) {
+      // Everything below works on copies: `current` and each member's
+      // `memberships` list belong to the state being replaced, and mutating
+      // them in place would leak half-applied reorders to other readers.
       final members = [...current];
       members.sort(
         (a, b) => a.memberships
@@ -101,21 +106,23 @@ class AssociationMemberListNotifier extends ListNotifierAPI<MemberComplete> {
       members.insert(newIndex, member);
 
       for (int i = 0; i < members.length; i++) {
-        List<MembershipComplete> memberships = members[i].memberships;
+        // Copy the memberships list before editing it: it is the list object
+        // the pre-reorder state (and every other reader) still holds.
+        final memberships = [...members[i].memberships];
         MembershipComplete oldMembership = memberships.firstWhere(
           (e) =>
               e.associationId == membership.associationId &&
               e.mandateYear == membership.mandateYear,
         );
-        memberships.remove(
-          memberships.firstWhere(
+        final reordered = [
+          ...memberships.where(
             (e) =>
-                e.associationId == membership.associationId &&
-                e.mandateYear == membership.mandateYear,
+                !(e.associationId == membership.associationId &&
+                    e.mandateYear == membership.mandateYear),
           ),
-        );
-        memberships.add(oldMembership.copyWith(memberOrder: i));
-        members[i].copyWith(memberships: memberships);
+          oldMembership.copyWith(memberOrder: i),
+        ];
+        members[i] = members[i].copyWith(memberships: reordered);
       }
       state = AsyncValue.data(members);
     });

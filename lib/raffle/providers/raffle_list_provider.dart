@@ -17,11 +17,28 @@ class RaffleListNotifier extends ListNotifierAPI<RaffleComplete> {
   }
 
   Future<bool> createRaffle(RaffleComplete raffle) async {
-    return await localAdd(raffle);
+    return await add(
+      () => raffleRepository.tombolaRafflesPost(
+        body: RaffleBase(
+          name: raffle.name,
+          status: raffle.status,
+          description: raffle.description,
+          groupId: raffle.groupId,
+        ),
+      ),
+      raffle,
+    );
   }
 
   Future<bool> updateRaffle(RaffleComplete raffle) async {
-    return await localUpdate((raffle) => raffle.id, raffle);
+    return await update(
+      () => raffleRepository.tombolaRafflesRaffleIdPatch(
+        raffleId: raffle.id,
+        body: RaffleEdit(name: raffle.name, description: raffle.description),
+      ),
+      (raffle) => raffle.id,
+      raffle,
+    );
   }
 
   Future<bool> deleteRaffle(RaffleComplete raffle) async {

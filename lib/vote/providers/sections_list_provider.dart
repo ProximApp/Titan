@@ -7,30 +7,18 @@ import 'package:titan/vote/providers/sections_provider.dart';
 class SectionList extends MapNotifier<SectionComplete, ListReturn> {
   @override
   Map<SectionComplete, AsyncValue<List<ListReturn>>?> build() {
-    final loaners = ref.watch(sectionList);
+    final sections = ref.watch(sectionList);
     final lists = ref.watch(listListProvider);
-    List<ListReturn> list = [];
-    lists.when(
-      data: (list) {
-        list = list;
-      },
-      error: (error, stackTrace) {
-        list = [];
-      },
-      loading: () {
-        list = [];
-      },
+    final loaded = lists.maybeWhen(
+      data: (value) => value,
+      orElse: () => <ListReturn>[],
     );
-    loadTList(loaners);
-    for (final l in loaners) {
-      setTData(
-        l,
-        AsyncValue.data(
-          list.where((element) => element.section.id == l.id).toList(),
+    return {
+      for (final section in sections)
+        section: AsyncValue.data(
+          loaded.where((element) => element.section.id == section.id).toList(),
         ),
-      );
-    }
-    return {};
+    };
   }
 }
 

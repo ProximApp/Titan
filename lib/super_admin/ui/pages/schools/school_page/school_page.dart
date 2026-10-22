@@ -54,11 +54,12 @@ class SchoolsPage extends HookConsumerWidget {
               const SizedBox(height: 30),
               AsyncChild(
                 value: schools,
-                builder: (context, g) {
-                  g.sort(
-                    (a, b) =>
-                        a.name.toLowerCase().compareTo(b.name.toLowerCase()),
-                  );
+                builder: (context, gUnsorted) {
+                  final g = [...gUnsorted]
+                    ..sort(
+                      (a, b) =>
+                          a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+                    );
                   return Column(
                     children: [
                       Column(

@@ -8,15 +8,22 @@ import 'package:titan/tools/logs/print_logger_output.dart';
 
 class Logger {
   LoggerOutput? loggerOutput;
-  Future<void>? _initFuture;
+  final List<Log> _pending = <Log>[];
   bool _initialized = false;
 
-  /// The log level of the logger
-  /// Only logs with a level equal to or higher than this level will be written
-  LogLevel minimalLogLevel = LogLevel.warning;
+  LogLevel minimalLogLevel = LogLevel.info;
 
   Logger() {
-    _initFuture = init();
+    init().whenComplete(_flushPending);
+  }
+
+  void _flushPending() {
+    _initialized = true;
+    final queued = List<Log>.of(_pending);
+    _pending.clear();
+    for (final log in queued) {
+      loggerOutput?.writeLog(log);
+    }
   }
 
   Future<void> init() async {
@@ -35,7 +42,7 @@ class Logger {
     }
 
     if (!_initialized) {
-      _initFuture?.then((_) => writeLog(log));
+      _pending.add(log);
       return;
     }
 
