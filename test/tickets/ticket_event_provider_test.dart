@@ -26,11 +26,10 @@ void main() {
     );
 
     void stubGet(String eventId, EventAdmin event) {
-      when(
-        () => mockRepository.ticketsAdminEventsEventIdGet(eventId: eventId),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('body', 200), event),
-      );
+      when(() => mockRepository.ticketsAdminEventsEventIdGet(eventId: eventId))
+          .thenAnswer(
+            (_) async => chopper.Response(http.Response('body', 200), event),
+          );
     }
 
     setUp(() {
@@ -56,9 +55,8 @@ void main() {
     });
 
     test('loadTicketEvent surfaces fetch errors', () async {
-      when(
-        () => mockRepository.ticketsAdminEventsEventIdGet(eventId: 'a'),
-      ).thenThrow(Exception('network down'));
+      when(() => mockRepository.ticketsAdminEventsEventIdGet(eventId: 'a'))
+          .thenThrow(Exception('network down'));
       final sub = container.listen(ticketEventProvider, (_, _) {});
       addTearDown(sub.close);
 

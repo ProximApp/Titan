@@ -138,9 +138,8 @@ void main() {
     });
 
     test('Should handle error when creating a group', () async {
-      when(
-        () => mockGroup.groupsPost(body: any(named: 'body')),
-      ).thenThrow(Exception('Error'));
+      when(() => mockGroup.groupsPost(body: any(named: 'body')))
+          .thenThrow(Exception('Error'));
       final result = await groupNotifier.createGroup(group);
       expect(result, false);
     });
@@ -182,19 +181,17 @@ void main() {
           returnedGroup,
         ]),
       );
-      when(
-        () => mockGroup.groupsGroupIdDelete(groupId: any(named: 'groupId')),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('[]', 200), true),
-      );
+      when(() => mockGroup.groupsGroupIdDelete(groupId: any(named: 'groupId')))
+          .thenAnswer(
+            (_) async => chopper.Response(http.Response('[]', 200), true),
+          );
       await groupNotifier.loadGroups();
       expect(await groupNotifier.deleteGroup(returnedGroup), true);
     });
 
     test('Should handle error when deleting a group', () async {
-      when(
-        () => mockGroup.groupsGroupIdDelete(groupId: any(named: 'groupId')),
-      ).thenThrow(Exception('Error'));
+      when(() => mockGroup.groupsGroupIdDelete(groupId: any(named: 'groupId')))
+          .thenThrow(Exception('Error'));
       final result = await groupNotifier.deleteGroup(returnedGroup);
       expect(result, false);
     });

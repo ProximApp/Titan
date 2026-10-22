@@ -131,21 +131,17 @@ class ConfirmButton extends ConsumerWidget {
           );
           return;
         }
-        final authentificationFailedMsg = AppLocalizations.of(
-          context,
-        )!.paiementAuthentificationFailed;
-        final pleaseAddDeviceMsg = AppLocalizations.of(
-          context,
-        )!.paiementPleaseAddDevice;
+        final authentificationFailedMsg = AppLocalizations.of(context)!
+            .paiementAuthentificationFailed;
+        final pleaseAddDeviceMsg = AppLocalizations.of(context)!
+            .paiementPleaseAddDevice;
         final bool didAuthenticate = await auth.authenticate(
-          localizedReason: AppLocalizations.of(
-            context,
-          )!.paiementPleaseAuthenticate,
+          localizedReason: AppLocalizations.of(context)!
+              .paiementPleaseAuthenticate,
           authMessages: [
             AndroidAuthMessages(
-              signInTitle: AppLocalizations.of(
-                context,
-              )!.paiementAuthenticationRequired,
+              signInTitle: AppLocalizations.of(context)!
+                  .paiementAuthenticationRequired,
               cancelButton: AppLocalizations.of(context)!.paiementNoThanks,
             ),
             IOSAuthMessages(

@@ -161,13 +161,11 @@ class SellerRightCard extends ConsumerWidget {
                                     ),
                                     onChanged: (value) async {
                                       final rightsUpdatedMsg =
-                                          AppLocalizations.of(
-                                            context,
-                                          )!.paiementRightsUpdated;
+                                          AppLocalizations.of(context)!
+                                              .paiementRightsUpdated;
                                       final rightsUpdateErrorMsg =
-                                          AppLocalizations.of(
-                                            context,
-                                          )!.paiementRightsUpdateError;
+                                          AppLocalizations.of(context)!
+                                              .paiementRightsUpdateError;
                                       final value = await sellerStoreNotifier
                                           .updateStoreSeller(
                                             storeSeller.copyWith(
@@ -214,20 +212,17 @@ class SellerRightCard extends ConsumerWidget {
                             await showDialog(
                               context: context,
                               builder: (context) => CustomDialogBox(
-                                title: AppLocalizations.of(
-                                  context,
-                                )!.paiementDeleteStore,
-                                descriptions: AppLocalizations.of(
-                                  context,
-                                )!.paiementDeleteSellerDescription,
+                                title: AppLocalizations.of(context)!
+                                    .paiementDeleteStore,
+                                descriptions: AppLocalizations.of(context)!
+                                    .paiementDeleteSellerDescription,
                                 onYes: () async {
                                   final deleteSellerMsg = AppLocalizations.of(
                                     context,
                                   )!.paiementDeletedSeller;
                                   final deletingSellerErrorMsg =
-                                      AppLocalizations.of(
-                                        context,
-                                      )!.paiementDeletingSellerError;
+                                      AppLocalizations.of(context)!
+                                          .paiementDeletingSellerError;
                                   final value = await sellerStoreNotifier
                                       .deleteStoreSeller(storeSeller);
                                   if (value) {
@@ -265,9 +260,8 @@ class SellerRightCard extends ConsumerWidget {
                                   ),
                                   const SizedBox(width: 15),
                                   Text(
-                                    AppLocalizations.of(
-                                      context,
-                                    )!.paiementDeleteSeller,
+                                    AppLocalizations.of(context)!
+                                        .paiementDeleteSeller,
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 14,

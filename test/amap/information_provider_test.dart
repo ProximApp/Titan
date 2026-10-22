@@ -72,9 +72,8 @@ void main() {
     );
 
     test('loadInformation should handle error', () async {
-      when(
-        () => informationRepository.amapInformationGet(),
-      ).thenThrow(Exception('Error'));
+      when(() => informationRepository.amapInformationGet())
+          .thenThrow(Exception('Error'));
 
       final result = await informationNotifier.loadInformation();
 

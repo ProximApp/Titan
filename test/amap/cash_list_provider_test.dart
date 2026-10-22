@@ -79,9 +79,8 @@ void main() {
     });
 
     test('Should handle error when loading cash list', () async {
-      when(
-        () => mockCashRepository.amapUsersCashGet(),
-      ).thenThrow(Exception('Error'));
+      when(() => mockCashRepository.amapUsersCashGet())
+          .thenThrow(Exception('Error'));
       final result = await notifier.loadCashList();
       expect(result, isA<AsyncError>());
     });

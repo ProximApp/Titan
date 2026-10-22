@@ -96,16 +96,13 @@ class LoanersItems extends HookConsumerWidget {
                     context: context,
                     builder: (BuildContext context) {
                       return CustomDialogBox(
-                        descriptions: AppLocalizations.of(
-                          context,
-                        )!.loanDeletingItem,
+                        descriptions: AppLocalizations.of(context)!
+                            .loanDeletingItem,
                         onYes: () async {
-                          final deletedItemMsg = AppLocalizations.of(
-                            context,
-                          )!.loanDeletedItem;
-                          final deletingErrorMsg = AppLocalizations.of(
-                            context,
-                          )!.loanDeletingError;
+                          final deletedItemMsg = AppLocalizations.of(context)!
+                              .loanDeletedItem;
+                          final deletingErrorMsg = AppLocalizations.of(context)!
+                              .loanDeletingError;
                           final value = await itemListNotifier.deleteItem(
                             e,
                             loaner.id,

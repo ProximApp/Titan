@@ -17,9 +17,8 @@ void main() {
 
     setUp(() async {
       mockRepository = MockBookingRepository();
-      when(
-        () => mockRepository.bookingBookingsConfirmedGet(),
-      ).thenThrow(Exception('Failed to load bookings'));
+      when(() => mockRepository.bookingBookingsConfirmedGet())
+          .thenThrow(Exception('Failed to load bookings'));
       container = ProviderContainer(
         overrides: [repositoryProvider.overrideWithValue(mockRepository)],
       );
@@ -47,9 +46,8 @@ void main() {
     });
 
     test('loadConfirmedBooking handles error', () async {
-      when(
-        () => mockRepository.bookingBookingsConfirmedGet(),
-      ).thenThrow(Exception('Failed to load bookings'));
+      when(() => mockRepository.bookingBookingsConfirmedGet())
+          .thenThrow(Exception('Failed to load bookings'));
 
       final result = await provider.loadConfirmedBooking();
 
@@ -60,9 +58,8 @@ void main() {
     });
 
     test('loadConfirmedBooking handles error', () async {
-      when(
-        () => mockRepository.bookingBookingsConfirmedGet(),
-      ).thenThrow(Exception('Failed to load bookings'));
+      when(() => mockRepository.bookingBookingsConfirmedGet())
+          .thenThrow(Exception('Failed to load bookings'));
 
       final result = await provider.loadConfirmedBooking();
 
@@ -87,11 +84,11 @@ void main() {
       when(() => mockRepository.bookingBookingsConfirmedGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), bookings),
       );
-      when(
-        () => mockRepository.bookingBookingsPost(body: any(named: 'body')),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('body', 200), newBooking),
-      );
+      when(() => mockRepository.bookingBookingsPost(body: any(named: 'body')))
+          .thenAnswer(
+            (_) async =>
+                chopper.Response(http.Response('body', 200), newBooking),
+          );
 
       provider.state = AsyncValue.data([...bookings]);
       final result = await provider.addBooking(newBookingSimple);
@@ -107,9 +104,8 @@ void main() {
       final newBookingSimple = BookingReturnSimpleApplicant.empty().copyWith(
         id: '3',
       );
-      when(
-        () => mockRepository.bookingBookingsPost(body: any(named: 'body')),
-      ).thenThrow(Exception('Failed to add booking'));
+      when(() => mockRepository.bookingBookingsPost(body: any(named: 'body')))
+          .thenThrow(Exception('Failed to add booking'));
 
       await provider.loadConfirmedBooking();
       final result = await provider.addBooking(newBookingSimple);
@@ -121,9 +117,8 @@ void main() {
       final newBookingSimple = BookingReturnSimpleApplicant.empty().copyWith(
         id: '3',
       );
-      when(
-        () => mockRepository.bookingBookingsPost(body: any(named: 'body')),
-      ).thenThrow(Exception('Failed to add booking'));
+      when(() => mockRepository.bookingBookingsPost(body: any(named: 'body')))
+          .thenThrow(Exception('Failed to add booking'));
 
       await provider.loadConfirmedBooking();
       final result = await provider.addBooking(newBookingSimple);
@@ -135,9 +130,8 @@ void main() {
       final newBookingSimple = BookingReturnSimpleApplicant.empty().copyWith(
         id: '3',
       );
-      when(
-        () => mockRepository.bookingBookingsPost(body: any(named: 'body')),
-      ).thenThrow(Exception('Failed to add booking'));
+      when(() => mockRepository.bookingBookingsPost(body: any(named: 'body')))
+          .thenThrow(Exception('Failed to add booking'));
 
       final result = await provider.addBooking(newBookingSimple);
 

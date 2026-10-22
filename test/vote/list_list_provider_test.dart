@@ -47,9 +47,8 @@ void main() {
     });
 
     test('loadListList handles error', () async {
-      when(
-        () => mockRepository.campaignListsGet(),
-      ).thenThrow(Exception('Failed to load lists'));
+      when(() => mockRepository.campaignListsGet())
+          .thenThrow(Exception('Failed to load lists'));
 
       final result = await provider.loadListList();
 
@@ -63,11 +62,10 @@ void main() {
       when(() => mockRepository.campaignListsGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), lists),
       );
-      when(
-        () => mockRepository.campaignListsPost(body: any(named: 'body')),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('body', 200), newList),
-      );
+      when(() => mockRepository.campaignListsPost(body: any(named: 'body')))
+          .thenAnswer(
+            (_) async => chopper.Response(http.Response('body', 200), newList),
+          );
 
       provider.state = AsyncValue.data([...lists]);
       final result = await provider.addList(newList.toListBase());
@@ -80,9 +78,8 @@ void main() {
     });
 
     test('addList handles error', () async {
-      when(
-        () => mockRepository.campaignListsPost(body: any(named: 'body')),
-      ).thenThrow(Exception('Failed to add list'));
+      when(() => mockRepository.campaignListsPost(body: any(named: 'body')))
+          .thenThrow(Exception('Failed to add list'));
 
       provider.state = AsyncValue.data([...lists]);
       final result = await provider.addList(newList.toListBase());

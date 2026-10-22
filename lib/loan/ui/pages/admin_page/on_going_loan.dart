@@ -121,12 +121,10 @@ class OnGoingLoan extends HookConsumerWidget {
                   loanersItemsNotifier.setTData(loaner, itemList);
                 },
                 onCalendar: () async {
-                  final extendedLoanMsg = AppLocalizations.of(
-                    context,
-                  )!.loanExtendedLoan;
-                  final extendedLoanErrorMsg = AppLocalizations.of(
-                    context,
-                  )!.loanExtendingError;
+                  final extendedLoanMsg = AppLocalizations.of(context)!
+                      .loanExtendedLoan;
+                  final extendedLoanErrorMsg = AppLocalizations.of(context)!
+                      .loanExtendingError;
                   await showDialog<int>(
                     context: context,
                     builder: (BuildContext context) {
@@ -165,13 +163,11 @@ class OnGoingLoan extends HookConsumerWidget {
                     context: context,
                     builder: (context) => CustomDialogBox(
                       title: AppLocalizations.of(context)!.loanReturnLoan,
-                      descriptions: AppLocalizations.of(
-                        context,
-                      )!.loanReturnLoanDescription,
+                      descriptions: AppLocalizations.of(context)!
+                          .loanReturnLoanDescription,
                       onYes: () async {
-                        final returningLoanMsg = AppLocalizations.of(
-                          context,
-                        )!.loanReturnedLoan;
+                        final returningLoanMsg = AppLocalizations.of(context)!
+                            .loanReturnedLoan;
                         final returningLoanErrorMsg = AppLocalizations.of(
                           context,
                         )!.loanReturningError;

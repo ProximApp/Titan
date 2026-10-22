@@ -53,9 +53,8 @@ void main() {
     });
 
     test('loadSectionList handles error', () async {
-      when(
-        () => mockRepository.campaignSectionsGet(),
-      ).thenThrow(Exception('Failed to load sections'));
+      when(() => mockRepository.campaignSectionsGet())
+          .thenThrow(Exception('Failed to load sections'));
 
       final result = await provider.loadSectionList();
 
@@ -69,11 +68,11 @@ void main() {
       when(() => mockRepository.campaignSectionsGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), sections),
       );
-      when(
-        () => mockRepository.campaignSectionsPost(body: any(named: 'body')),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('body', 200), newSection),
-      );
+      when(() => mockRepository.campaignSectionsPost(body: any(named: 'body')))
+          .thenAnswer(
+            (_) async =>
+                chopper.Response(http.Response('body', 200), newSection),
+          );
 
       provider.state = AsyncValue.data([...sections]);
       final result = await provider.addSection(newSectionBase);
@@ -86,9 +85,8 @@ void main() {
     });
 
     test('addSection handles error', () async {
-      when(
-        () => mockRepository.campaignSectionsPost(body: any(named: 'body')),
-      ).thenThrow(Exception('Failed to add section'));
+      when(() => mockRepository.campaignSectionsPost(body: any(named: 'body')))
+          .thenThrow(Exception('Failed to add section'));
 
       provider.state = AsyncValue.data([...sections]);
       final result = await provider.addSection(newSectionBase);

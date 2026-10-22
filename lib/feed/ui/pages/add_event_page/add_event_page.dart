@@ -82,9 +82,9 @@ class AddEditEventPage extends HookConsumerWidget {
     );
     final shotgunDateController = useTextEditingController(
       text: syncEvent.ticketUrlOpening != null
-          ? DateFormat.yMd(
-              locale.toString(),
-            ).add_Hm().format(syncEvent.ticketUrlOpening!)
+          ? DateFormat.yMd(locale.toString())
+                .add_Hm()
+                .format(syncEvent.ticketUrlOpening!)
           : "",
     );
     final externalLinkController = useTextEditingController(
@@ -125,18 +125,18 @@ class AddEditEventPage extends HookConsumerWidget {
       text: syncEvent.id != ""
           ? (allDay.value
                 ? DateFormat.yMd(locale.toString()).format(syncEvent.start)
-                : DateFormat.yMd(
-                    locale.toString(),
-                  ).add_Hm().format(syncEvent.start))
+                : DateFormat.yMd(locale.toString())
+                      .add_Hm()
+                      .format(syncEvent.start))
           : "",
     );
     final endDateController = useTextEditingController(
       text: syncEvent.id != ""
           ? (allDay.value
                 ? DateFormat.yMd(locale.toString()).format(syncEvent.end)
-                : DateFormat.yMd(
-                    locale.toString(),
-                  ).add_Hm().format(syncEvent.end))
+                : DateFormat.yMd(locale.toString())
+                      .add_Hm()
+                      .format(syncEvent.end))
           : "",
     );
     image.maybeWhen(

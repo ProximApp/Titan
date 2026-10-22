@@ -55,9 +55,8 @@ void main() {
     });
 
     test('stays false when the backend cannot be reached', () async {
-      when(
-        () => mockRepository.informationGet(),
-      ).thenThrow(Exception('No route to host'));
+      when(() => mockRepository.informationGet())
+          .thenThrow(Exception('No route to host'));
 
       container.read(isConnectedProvider);
       await container.read(isConnectedProvider.notifier).isInternet();
@@ -66,9 +65,8 @@ void main() {
     });
 
     test('recovers when a retry succeeds', () async {
-      when(
-        () => mockRepository.informationGet(),
-      ).thenThrow(Exception('No route to host'));
+      when(() => mockRepository.informationGet())
+          .thenThrow(Exception('No route to host'));
 
       container.read(isConnectedProvider);
       await container.read(isConnectedProvider.notifier).isInternet();

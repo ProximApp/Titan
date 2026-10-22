@@ -115,9 +115,8 @@ class CustomDialogBox extends StatelessWidget {
                               child: Center(
                                 child: Text(
                                   noText ??
-                                      AppLocalizations.of(
-                                        context,
-                                      )!.globalCancel,
+                                      AppLocalizations.of(context)!
+                                          .globalCancel,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,

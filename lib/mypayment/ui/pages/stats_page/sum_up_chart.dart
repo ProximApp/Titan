@@ -123,9 +123,8 @@ class SumUpChart extends HookConsumerWidget {
                                 );
                               },
                               child: MonthSectionSummary(
-                                title: AppLocalizations.of(
-                                  context,
-                                )!.paiementReceived,
+                                title: AppLocalizations.of(context)!
+                                    .paiementReceived,
                                 amount: formatter.format(transferTotal / 100),
                                 color: const Color.fromARGB(255, 255, 119, 7),
                                 darkColor: const Color.fromARGB(
@@ -156,9 +155,8 @@ class SumUpChart extends HookConsumerWidget {
                                 );
                               },
                               child: MonthSectionSummary(
-                                title: AppLocalizations.of(
-                                  context,
-                                )!.paiementSpent,
+                                title: AppLocalizations.of(context)!
+                                    .paiementSpent,
                                 amount: formatter.format(total / 100),
                                 color: const Color.fromARGB(255, 1, 127, 128),
                                 darkColor: const Color.fromARGB(
@@ -186,9 +184,8 @@ class SumUpChart extends HookConsumerWidget {
                 height: 300,
                 alignment: Alignment.center,
                 child: Text(
-                  AppLocalizations.of(
-                    context,
-                  )!.paiementNoTransactionForThisMonth,
+                  AppLocalizations.of(context)!
+                      .paiementNoTransactionForThisMonth,
                   style: TextStyle(fontSize: 18, color: Colors.grey),
                 ),
               );

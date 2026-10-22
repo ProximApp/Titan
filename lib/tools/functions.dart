@@ -410,9 +410,8 @@ Future getOnlyDayDate(
     lastDate,
   );
 
-  dateController.text = DateFormat.yMd(
-    locale,
-  ).format(date ?? initialDate ?? now);
+  dateController.text = DateFormat.yMd(locale)
+      .format(date ?? initialDate ?? now);
 }
 
 Future getOnlyDayDateFunction(
@@ -443,9 +442,8 @@ Future getOnlyHourDate(
   final DateTime now = DateTime.now();
   final TimeOfDay? time = await _getTime(context);
 
-  dateController.text = DateFormat.Hm(
-    locale,
-  ).format(DateTimeField.combine(now, time));
+  dateController.text = DateFormat.Hm(locale)
+      .format(DateTimeField.combine(now, time));
 }
 
 Future<DateTime?> pickFullDate(

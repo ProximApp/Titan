@@ -66,9 +66,8 @@ void main() {
     });
 
     test('getRequests should handle error', () async {
-      when(
-        () => mockRepository.mypaymentRequestsGet(),
-      ).thenThrow(Exception('Error'));
+      when(() => mockRepository.mypaymentRequestsGet())
+          .thenThrow(Exception('Error'));
       final result = await notifier.getRequests();
       expect(result, isA<AsyncError>());
     });

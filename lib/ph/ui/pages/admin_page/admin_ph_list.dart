@@ -42,9 +42,8 @@ class AdminPhList extends HookConsumerWidget {
                         builder: (context) {
                           return CustomDialogBox(
                             title: AppLocalizations.of(context)!.phDelete,
-                            descriptions: AppLocalizations.of(
-                              context,
-                            )!.phIrreversibleAction,
+                            descriptions: AppLocalizations.of(context)!
+                                .phIrreversibleAction,
                             onYes: () {
                               phListNotifier.deletePh(ph);
                             },

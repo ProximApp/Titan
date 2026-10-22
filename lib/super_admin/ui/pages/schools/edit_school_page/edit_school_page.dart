@@ -78,12 +78,10 @@ class EditSchoolPage extends HookConsumerWidget {
                       if (!key.currentState!.validate()) {
                         return;
                       }
-                      final updatedGroupMsg = AppLocalizations.of(
-                        context,
-                      )!.adminUpdatedGroup;
-                      final updatingErrorMsg = AppLocalizations.of(
-                        context,
-                      )!.adminUpdatingError;
+                      final updatedGroupMsg = AppLocalizations.of(context)!
+                          .adminUpdatedGroup;
+                      final updatingErrorMsg = AppLocalizations.of(context)!
+                          .adminUpdatingError;
                       CoreSchool newSchool = school.copyWith(
                         name: name.text,
                         emailRegex: emailRegex.text,

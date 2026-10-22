@@ -47,9 +47,8 @@ void main() {
     });
 
     test('loadResult handles error', () async {
-      when(
-        () => mockRepository.campaignResultsGet(),
-      ).thenThrow(Exception('Failed to load results'));
+      when(() => mockRepository.campaignResultsGet())
+          .thenThrow(Exception('Failed to load results'));
 
       final result = await provider.loadResult();
 

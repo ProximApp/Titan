@@ -156,9 +156,8 @@ class ScanPage extends HookConsumerWidget {
                                     child: Column(
                                       children: [
                                         Text(
-                                          AppLocalizations.of(
-                                            context,
-                                          )!.paiementAmount,
+                                          AppLocalizations.of(context)!
+                                              .paiementAmount,
                                           style: TextStyle(
                                             fontSize: 13,
                                             color: Colors.white,
@@ -233,9 +232,8 @@ class ScanPage extends HookConsumerWidget {
                                   return Opacity(
                                     opacity: opacity.value,
                                     child: Text(
-                                      AppLocalizations.of(
-                                        context,
-                                      )!.paiementScanCode,
+                                      AppLocalizations.of(context)!
+                                          .paiementScanCode,
                                       style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
@@ -297,9 +295,8 @@ class ScanPage extends HookConsumerWidget {
                                     context: context,
                                     builder: (context) {
                                       return CustomDialogBox(
-                                        title: AppLocalizations.of(
-                                          context,
-                                        )!.paiementCancelTransaction,
+                                        title: AppLocalizations.of(context)!
+                                            .paiementCancelTransaction,
                                         descriptions:
                                             "${AppLocalizations.of(context)!.paiementTransactionCancelledDescription} ${formatter.format(transaction.total / 100)} ?",
                                         onYes: () async {

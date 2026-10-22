@@ -161,9 +161,8 @@ class AddEditDeliveryPage extends HookConsumerWidget {
                                   context,
                                 )!.amapEditingError;
                                 final alreadyExistCommandMsg =
-                                    AppLocalizations.of(
-                                      context,
-                                    )!.amapAlreadyExistCommand;
+                                    AppLocalizations.of(context)!
+                                        .amapAlreadyExistCommand;
                                 final value = isEdit
                                     ? await deliveryNotifier.updateDelivery(del)
                                     : await deliveryNotifier.addDelivery(
@@ -216,12 +215,10 @@ class AddEditDeliveryPage extends HookConsumerWidget {
                             },
                             child: Text(
                               isEdit
-                                  ? AppLocalizations.of(
-                                      context,
-                                    )!.amapEditDelivery
-                                  : AppLocalizations.of(
-                                      context,
-                                    )!.amapAddDelivery,
+                                  ? AppLocalizations.of(context)!
+                                        .amapEditDelivery
+                                  : AppLocalizations.of(context)!
+                                        .amapAddDelivery,
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,

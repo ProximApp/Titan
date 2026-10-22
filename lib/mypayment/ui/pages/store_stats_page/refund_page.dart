@@ -149,9 +149,8 @@ class ReFundPage extends ConsumerWidget {
                         data: (value) {
                           displayToastWithContext(
                             TypeMsg.msg,
-                            AppLocalizations.of(
-                              context,
-                            )!.paiementDoneTransaction,
+                            AppLocalizations.of(context)!
+                                .paiementDoneTransaction,
                           );
                           ref.invalidate(sellerHistoryProvider);
                           Navigator.of(context).pop();

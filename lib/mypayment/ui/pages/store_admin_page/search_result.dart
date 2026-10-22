@@ -61,27 +61,23 @@ class SearchResult extends HookConsumerWidget {
                       index: 0,
                     ),
                     RightCheckBox(
-                      title: AppLocalizations.of(
-                        context,
-                      )!.paiementCanSeeHistory,
+                      title: AppLocalizations.of(context)!
+                          .paiementCanSeeHistory,
                       index: 1,
                     ),
                     RightCheckBox(
-                      title: AppLocalizations.of(
-                        context,
-                      )!.paiementCanCancelTransaction,
+                      title: AppLocalizations.of(context)!
+                          .paiementCanCancelTransaction,
                       index: 2,
                     ),
                     RightCheckBox(
-                      title: AppLocalizations.of(
-                        context,
-                      )!.paiementCanManageSellers,
+                      title: AppLocalizations.of(context)!
+                          .paiementCanManageSellers,
                       index: 3,
                     ),
                     RightCheckBox(
-                      title: AppLocalizations.of(
-                        context,
-                      )!.paiementCanManageEvents,
+                      title: AppLocalizations.of(context)!
+                          .paiementCanManageEvents,
                       index: 4,
                     ),
                   ],
@@ -99,12 +95,10 @@ class SearchResult extends HookConsumerWidget {
                     canManageSellers: sellerRightsList[3],
                     canManageEvents: sellerRightsList[4],
                   );
-                  final addedSellerMsg = AppLocalizations.of(
-                    context,
-                  )!.paiementAddedSeller;
-                  final addingSellerErrorMsg = AppLocalizations.of(
-                    context,
-                  )!.paiementAddingSellerError;
+                  final addedSellerMsg = AppLocalizations.of(context)!
+                      .paiementAddedSeller;
+                  final addingSellerErrorMsg = AppLocalizations.of(context)!
+                      .paiementAddingSellerError;
                   final value = await sellerStoreNotifier.createStoreSeller(
                     seller,
                   );

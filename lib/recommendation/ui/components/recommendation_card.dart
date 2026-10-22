@@ -94,9 +94,8 @@ class RecommendationCard extends HookConsumerWidget {
                         ),
                         IconButton(
                           onPressed: () async {
-                            final copiedCodeMsg = AppLocalizations.of(
-                              context,
-                            )!.recommendationCopiedCode;
+                            final copiedCodeMsg = AppLocalizations.of(context)!
+                                .recommendationCopiedCode;
                             await Clipboard.setData(
                               ClipboardData(text: recommendation.code!),
                             );
@@ -186,9 +185,8 @@ class RecommendationCard extends HookConsumerWidget {
                                           );
                                         }
                                       },
-                                      title: AppLocalizations.of(
-                                        context,
-                                      )!.recommendationDeleteRecommendation,
+                                      title: AppLocalizations.of(context)!
+                                          .recommendationDeleteRecommendation,
                                     ),
                                   );
                                 },

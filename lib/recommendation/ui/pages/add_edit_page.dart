@@ -79,9 +79,8 @@ class AddEditRecommendationPage extends HookConsumerWidget {
                 FormField<File>(
                   validator: (e) {
                     if (logoBytes.value == null && !isEdit) {
-                      return AppLocalizations.of(
-                        context,
-                      )!.recommendationAddImage;
+                      return AppLocalizations.of(context)!
+                          .recommendationAddImage;
                     }
                     return null;
                   },
@@ -131,9 +130,8 @@ class AddEditRecommendationPage extends HookConsumerWidget {
                   minLines: 5,
                   maxLines: 50,
                   keyboardType: TextInputType.multiline,
-                  label: AppLocalizations.of(
-                    context,
-                  )!.recommendationDescription,
+                  label: AppLocalizations.of(context)!
+                      .recommendationDescription,
                   controller: description,
                 ),
                 const SizedBox(height: 50),
@@ -159,19 +157,15 @@ class AddEditRecommendationPage extends HookConsumerWidget {
                         description: description.text,
                       );
                       final editedRecommendationMsg = isEdit
-                          ? AppLocalizations.of(
-                              context,
-                            )!.recommendationEditedRecommendation
-                          : AppLocalizations.of(
-                              context,
-                            )!.recommendationAddedRecommendation;
+                          ? AppLocalizations.of(context)!
+                                .recommendationEditedRecommendation
+                          : AppLocalizations.of(context)!
+                                .recommendationAddedRecommendation;
                       final editingErrorMsg = isEdit
-                          ? AppLocalizations.of(
-                              context,
-                            )!.recommendationEditingError
-                          : AppLocalizations.of(
-                              context,
-                            )!.recommendationAddingError;
+                          ? AppLocalizations.of(context)!
+                                .recommendationEditingError
+                          : AppLocalizations.of(context)!
+                                .recommendationAddingError;
                       final value = isEdit
                           ? await recommendationListNotifier
                                 .updateRecommendation(newRecommendation)
@@ -223,9 +217,8 @@ class AddEditRecommendationPage extends HookConsumerWidget {
                       displayToast(
                         context,
                         TypeMsg.error,
-                        AppLocalizations.of(
-                          context,
-                        )!.recommendationIncorrectOrMissingFields,
+                        AppLocalizations.of(context)!
+                            .recommendationIncorrectOrMissingFields,
                       );
                     }
                   },

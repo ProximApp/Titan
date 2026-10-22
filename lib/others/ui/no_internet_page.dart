@@ -28,9 +28,8 @@ class NoInternetPage extends HookConsumerWidget {
               const SizedBox(height: 20),
               Center(
                 child: Text(
-                  AppLocalizations.of(
-                    context,
-                  )!.othersUnableToConnectToServer(getTitanHost()),
+                  AppLocalizations.of(context)!
+                      .othersUnableToConnectToServer(getTitanHost()),
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontSize: 20),
                 ),

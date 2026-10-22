@@ -167,17 +167,14 @@ class PrizeHandler extends HookConsumerWidget {
                                       context: context,
                                       builder: (context) => CustomDialogBox(
                                         title: "Supprimer le lot",
-                                        descriptions:
-                                            "Voulez-vous vraiment supprimer ce lot?",
+                                        descriptions: "Voulez-vous vraiment supprimer ce lot?",
                                         onYes: () async {
                                           final deletePriceMsg =
-                                              AppLocalizations.of(
-                                                context,
-                                              )!.raffleDeletePrize;
+                                              AppLocalizations.of(context)!
+                                                  .raffleDeletePrize;
                                           final deletingErrorMsg =
-                                              AppLocalizations.of(
-                                                context,
-                                              )!.raffleDeletingError;
+                                              AppLocalizations.of(context)!
+                                                  .raffleDeletingError;
                                           final value = await prizesNotifier
                                               .deletePrize(e);
                                           if (value) {
@@ -231,9 +228,8 @@ class PrizeHandler extends HookConsumerWidget {
                                             error: (e, s) {
                                               displayToastWithContext(
                                                 TypeMsg.error,
-                                                AppLocalizations.of(
-                                                  context,
-                                                )!.raffleDrawingError,
+                                                AppLocalizations.of(context)!
+                                                    .raffleDrawingError,
                                               );
                                             },
                                             loading: () {},

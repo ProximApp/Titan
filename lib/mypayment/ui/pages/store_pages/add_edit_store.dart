@@ -59,9 +59,8 @@ class AddEditStorePage extends HookConsumerWidget {
               const SizedBox(height: 10),
               AlignLeftText(
                 isEdit
-                    ? AppLocalizations.of(
-                        context,
-                      )!.paiementEditStore(store.name)
+                    ? AppLocalizations.of(context)!
+                          .paiementEditStore(store.name)
                     : AppLocalizations.of(context)!.paiementAddStore,
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 color: Colors.grey,
@@ -76,20 +75,17 @@ class AddEditStorePage extends HookConsumerWidget {
                       children: [
                         TextEntry(
                           controller: name,
-                          label: AppLocalizations.of(
-                            context,
-                          )!.paiementStoreName,
+                          label: AppLocalizations.of(context)!
+                              .paiementStoreName,
                         ),
                         const SizedBox(height: 20),
                         ListItem(
                           title: association.value.id.isNotEmpty
                               ? association.value.name
-                              : AppLocalizations.of(
-                                  context,
-                                )!.paiementSelectAssociation,
-                          subtitle: AppLocalizations.of(
-                            context,
-                          )!.paiementLinkedAssociation,
+                              : AppLocalizations.of(context)!
+                                    .paiementSelectAssociation,
+                          subtitle: AppLocalizations.of(context)!
+                              .paiementLinkedAssociation,
                           onTap: () async {
                             await showCustomBottomModal(
                               context: context,
@@ -116,19 +112,15 @@ class AddEditStorePage extends HookConsumerWidget {
                               return;
                             }
                             final successfullyAddedStoreMsg = isEdit
-                                ? AppLocalizations.of(
-                                    context,
-                                  )!.paiementSuccessfullyModifiedStore
-                                : AppLocalizations.of(
-                                    context,
-                                  )!.paiementSuccessfullyAddedStore;
+                                ? AppLocalizations.of(context)!
+                                      .paiementSuccessfullyModifiedStore
+                                : AppLocalizations.of(context)!
+                                      .paiementSuccessfullyAddedStore;
                             final addingErrorMsg = isEdit
-                                ? AppLocalizations.of(
-                                    context,
-                                  )!.paiementModifyingStoreError
-                                : AppLocalizations.of(
-                                    context,
-                                  )!.paiementAddingStoreError;
+                                ? AppLocalizations.of(context)!
+                                      .paiementModifyingStoreError
+                                : AppLocalizations.of(context)!
+                                      .paiementAddingStoreError;
 
                             if (key.currentState!.validate()) {
                               UserStore newStore = store.copyWith(

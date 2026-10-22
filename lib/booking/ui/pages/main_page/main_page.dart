@@ -155,16 +155,13 @@ class BookingMainPage extends HookConsumerWidget {
                           await showDialog(
                             context: context,
                             builder: (context) => CustomDialogBox(
-                              descriptions: AppLocalizations.of(
-                                context,
-                              )!.bookingDeleteBookingConfirmation,
+                              descriptions: AppLocalizations.of(context)!
+                                  .bookingDeleteBookingConfirmation,
                               onYes: () async {
-                                final deleteMsg = AppLocalizations.of(
-                                  context,
-                                )!.bookingDeleteBooking;
-                                final errorMsg = AppLocalizations.of(
-                                  context,
-                                )!.bookingDeletingError;
+                                final deleteMsg = AppLocalizations.of(context)!
+                                    .bookingDeleteBooking;
+                                final errorMsg = AppLocalizations.of(context)!
+                                    .bookingDeletingError;
                                 final value = await bookingsNotifier
                                     .deleteBooking(e);
 
@@ -183,9 +180,8 @@ class BookingMainPage extends HookConsumerWidget {
                                   );
                                 }
                               },
-                              title: AppLocalizations.of(
-                                context,
-                              )!.bookingDeleteBooking,
+                              title: AppLocalizations.of(context)!
+                                  .bookingDeleteBooking,
                             ),
                           );
                         },

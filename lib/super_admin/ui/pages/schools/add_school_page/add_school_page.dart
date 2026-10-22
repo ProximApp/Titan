@@ -48,12 +48,10 @@ class AddSchoolPage extends HookConsumerWidget {
                 ),
                 WaitingButton(
                   onTap: () async {
-                    final addedSchoolMsg = AppLocalizations.of(
-                      context,
-                    )!.adminAddedSchool;
-                    final addingErrorMsg = AppLocalizations.of(
-                      context,
-                    )!.adminAddingError;
+                    final addedSchoolMsg = AppLocalizations.of(context)!
+                        .adminAddedSchool;
+                    final addingErrorMsg = AppLocalizations.of(context)!
+                        .adminAddingError;
                     final value = await schoolListNotifier.createSchool(
                       CoreSchool(
                         name: name.text,

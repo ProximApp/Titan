@@ -54,12 +54,10 @@ class VoteButton extends HookConsumerWidget {
                   title: AppLocalizations.of(context)!.voteVote,
                   descriptions: AppLocalizations.of(context)!.voteConfirmVote,
                   onYes: () async {
-                    final voteSuccessMsg = AppLocalizations.of(
-                      context,
-                    )!.voteVoteSuccess;
-                    final voteErrorMsg = AppLocalizations.of(
-                      context,
-                    )!.voteVoteError;
+                    final voteSuccessMsg = AppLocalizations.of(context)!
+                        .voteVoteSuccess;
+                    final voteErrorMsg = AppLocalizations.of(context)!
+                        .voteVoteError;
                     final result = await votesNotifier.addVote(
                       VoteBase(listId: selectedList.id),
                     );

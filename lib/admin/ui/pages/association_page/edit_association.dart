@@ -68,9 +68,8 @@ class EditAssociation extends HookConsumerWidget {
                         ),
                         child: CircleAvatar(
                           radius: 80,
-                          backgroundImage: Image(
-                            image: associationLogo.image,
-                          ).image,
+                          backgroundImage: Image(image: associationLogo.image)
+                              .image,
                         ),
                       ),
                       Positioned(

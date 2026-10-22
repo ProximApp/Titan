@@ -18,9 +18,9 @@ final associationFilteredListProvider = Provider<List<AssociationComplete>>((
     data: (associations) {
       List<AssociationComplete> filteredAssociations = associations
           .where(
-            (association) => removeDiacritics(
-              association.name.toLowerCase(),
-            ).contains(removeDiacritics(searchFilter.toLowerCase())),
+            (association) =>
+                removeDiacritics(association.name.toLowerCase())
+                    .contains(removeDiacritics(searchFilter.toLowerCase())),
           )
           .toList();
       if (associationGroupement.id != "") {

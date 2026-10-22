@@ -58,9 +58,8 @@ class PhCard extends HookConsumerWidget {
               child: Builder(
                 builder: (buttonContext) => GestureDetector(
                   onTap: () async {
-                    final successDownloadingMsg = AppLocalizations.of(
-                      context,
-                    )!.phSuccesDowloading;
+                    final successDownloadingMsg = AppLocalizations.of(context)!
+                        .phSuccesDowloading;
                     final shareOrigin = shareOriginOf(buttonContext);
                     late final Uint8List pdfBytes;
 

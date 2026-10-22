@@ -55,9 +55,8 @@ void main() {
     });
 
     test('loadRecommendation handles error', () async {
-      when(
-        () => mockRepository.recommendationRecommendationsGet(),
-      ).thenThrow(Exception('Failed to load recommendations'));
+      when(() => mockRepository.recommendationRecommendationsGet())
+          .thenThrow(Exception('Failed to load recommendations'));
 
       final result = await provider.loadRecommendation();
 
@@ -150,12 +149,11 @@ void main() {
     test(
       'deleteRecommendation removes a recommendation from the list',
       () async {
-        when(
-          () => mockRepository.recommendationRecommendationsGet(),
-        ).thenAnswer(
-          (_) async =>
-              chopper.Response(http.Response('body', 200), recommendations),
-        );
+        when(() => mockRepository.recommendationRecommendationsGet())
+            .thenAnswer(
+              (_) async =>
+                  chopper.Response(http.Response('body', 200), recommendations),
+            );
         when(
           () => mockRepository
               .recommendationRecommendationsRecommendationIdDelete(

@@ -32,9 +32,8 @@ class UserTicketCard extends ConsumerWidget {
                 width: 60,
                 height: 60,
                 decoration: BoxDecoration(
-                  color: _getStatusColor(
-                    ticket.scanned,
-                  ).withValues(alpha: 0.15),
+                  color: _getStatusColor(ticket.scanned)
+                      .withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Center(

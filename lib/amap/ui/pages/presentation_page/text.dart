@@ -61,9 +61,8 @@ class PresentationPage extends HookConsumerWidget {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () async {
-                            final errorLinkMsg = AppLocalizations.of(
-                              context,
-                            )!.amapErrorLink;
+                            final errorLinkMsg = AppLocalizations.of(context)!
+                                .amapErrorLink;
                             try {
                               await launchUrl(
                                 Uri.parse(info.link),

@@ -152,12 +152,10 @@ class AddEditUserMembershipPage extends HookConsumerWidget {
                     return;
                   }
                   if (isEdit) {
-                    final updatedMembershipMsg = AppLocalizations.of(
-                      context,
-                    )!.adminUpdatedMembership;
-                    final updatingErrorMsg = AppLocalizations.of(
-                      context,
-                    )!.adminMembershipUpdatingError;
+                    final updatedMembershipMsg = AppLocalizations.of(context)!
+                        .adminUpdatedMembership;
+                    final updatingErrorMsg = AppLocalizations.of(context)!
+                        .adminMembershipUpdatingError;
                     final value = await associationMembershipMembersNotifier
                         .updateMember(
                           membership.copyWith(
@@ -193,12 +191,10 @@ class AddEditUserMembershipPage extends HookConsumerWidget {
                       ),
                       user: membership.user,
                     );
-                    final addedMemberMsg = AppLocalizations.of(
-                      context,
-                    )!.adminAddedMember;
-                    final addingErrorMsg = AppLocalizations.of(
-                      context,
-                    )!.adminMembershipAddingError;
+                    final addedMemberMsg = AppLocalizations.of(context)!
+                        .adminAddedMember;
+                    final addingErrorMsg = AppLocalizations.of(context)!
+                        .adminMembershipAddingError;
                     final value = await associationMembershipMembersNotifier
                         .addMember(membershipAdd, membership.user);
                     if (value) {

@@ -38,12 +38,10 @@ class OpeningVote extends ConsumerWidget {
               child: child,
             ),
             onTap: () async {
-              final openVotesMsg = AppLocalizations.of(
-                context,
-              )!.voteVotesOpened;
-              final errorOpeningVotesMsg = AppLocalizations.of(
-                context,
-              )!.voteErrorOpeningVotes;
+              final openVotesMsg = AppLocalizations.of(context)!
+                  .voteVotesOpened;
+              final errorOpeningVotesMsg = AppLocalizations.of(context)!
+                  .voteErrorOpeningVotes;
               final value = await statusNotifier.openVote();
               ref.watch(listListProvider.notifier).loadListList();
               if (value) {
@@ -83,16 +81,13 @@ class OpeningVote extends ConsumerWidget {
                 context: context,
                 builder: (context) => CustomDialogBox(
                   title: AppLocalizations.of(context)!.voteDeleteAll,
-                  descriptions: AppLocalizations.of(
-                    context,
-                  )!.voteDeleteAllDescription,
+                  descriptions: AppLocalizations.of(context)!
+                      .voteDeleteAllDescription,
                   onYes: () async {
-                    final deleteAllVotesMsg = AppLocalizations.of(
-                      context,
-                    )!.voteDeletedAll;
-                    final errorDeletingVotesMsg = AppLocalizations.of(
-                      context,
-                    )!.voteDeletingError;
+                    final deleteAllVotesMsg = AppLocalizations.of(context)!
+                        .voteDeletedAll;
+                    final errorDeletingVotesMsg = AppLocalizations.of(context)!
+                        .voteDeletingError;
                     final value = await ref
                         .watch(listListProvider.notifier)
                         .deleteLists();
@@ -150,13 +145,11 @@ class OpeningVote extends ConsumerWidget {
                 context: context,
                 builder: (context) => CustomDialogBox(
                   title: AppLocalizations.of(context)!.voteDeletePipo,
-                  descriptions: AppLocalizations.of(
-                    context,
-                  )!.voteDeletePipoDescription,
+                  descriptions: AppLocalizations.of(context)!
+                      .voteDeletePipoDescription,
                   onYes: () async {
-                    final deletePipoVotesMsg = AppLocalizations.of(
-                      context,
-                    )!.voteDeletedPipo;
+                    final deletePipoVotesMsg = AppLocalizations.of(context)!
+                        .voteDeletedPipo;
                     final errorDeletingPipoVotesMsg = AppLocalizations.of(
                       context,
                     )!.voteDeletingError;

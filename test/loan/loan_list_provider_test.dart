@@ -48,9 +48,8 @@ void main() {
     });
 
     test('loadLoanList handles error', () async {
-      when(
-        () => mockRepository.loansUsersMeGet(),
-      ).thenThrow(Exception('Failed to load loans'));
+      when(() => mockRepository.loansUsersMeGet())
+          .thenThrow(Exception('Failed to load loans'));
 
       final result = await provider.loadLoanList();
 
@@ -79,9 +78,8 @@ void main() {
     });
 
     test('addLoan handles error', () async {
-      when(
-        () => mockRepository.loansPost(body: any(named: 'body')),
-      ).thenThrow(Exception('Failed to add loan'));
+      when(() => mockRepository.loansPost(body: any(named: 'body')))
+          .thenThrow(Exception('Failed to add loan'));
 
       provider.state = AsyncValue.data([...loans]);
       final result = await provider.addLoan(newLoan.toLoanCreation());
@@ -130,11 +128,10 @@ void main() {
       when(() => mockRepository.loansUsersMeGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), loans),
       );
-      when(
-        () => mockRepository.loansLoanIdDelete(loanId: any(named: 'loanId')),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('body', 200), null),
-      );
+      when(() => mockRepository.loansLoanIdDelete(loanId: any(named: 'loanId')))
+          .thenAnswer(
+            (_) async => chopper.Response(http.Response('body', 200), null),
+          );
 
       provider.state = AsyncValue.data([...loans]);
       final result = await provider.deleteLoan(loans.first);
@@ -147,9 +144,8 @@ void main() {
     });
 
     test('deleteLoan handles error', () async {
-      when(
-        () => mockRepository.loansLoanIdDelete(loanId: loans.first.id),
-      ).thenThrow(Exception('Failed to delete loan'));
+      when(() => mockRepository.loansLoanIdDelete(loanId: loans.first.id))
+          .thenThrow(Exception('Failed to delete loan'));
 
       provider.state = AsyncValue.data([...loans]);
       final result = await provider.deleteLoan(loans.first);
@@ -179,9 +175,8 @@ void main() {
     });
 
     test('returnLoan handles error', () async {
-      when(
-        () => mockRepository.loansLoanIdReturnPost(loanId: loans.first.id),
-      ).thenThrow(Exception('Failed to return loan'));
+      when(() => mockRepository.loansLoanIdReturnPost(loanId: loans.first.id))
+          .thenThrow(Exception('Failed to return loan'));
 
       provider.state = AsyncValue.data([...loans]);
       final result = await provider.returnLoan(loans.first);

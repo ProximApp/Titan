@@ -47,9 +47,8 @@ void main() {
     });
 
     test('loadStatus handles error', () async {
-      when(
-        () => mockRepository.campaignStatusGet(),
-      ).thenThrow(Exception('Failed to load status'));
+      when(() => mockRepository.campaignStatusGet())
+          .thenThrow(Exception('Failed to load status'));
 
       final result = await provider.loadStatus();
 

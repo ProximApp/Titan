@@ -38,12 +38,10 @@ class SearchResult extends HookConsumerWidget {
             descriptions:
                 '${AppLocalizations.of(context)!.paiementYouAreTransferingStructureTo} ${simpleUser.getName()}. ${AppLocalizations.of(context)!.paiementTransferStructureDescription}',
             onYes: () async {
-              final transferStructureSeccessMsg = AppLocalizations.of(
-                context,
-              )!.paiementTransferStructureSuccess;
-              final transferStructureErrorMsg = AppLocalizations.of(
-                context,
-              )!.paiementTransferStructureError;
+              final transferStructureSeccessMsg = AppLocalizations.of(context)!
+                  .paiementTransferStructureSuccess;
+              final transferStructureErrorMsg = AppLocalizations.of(context)!
+                  .paiementTransferStructureError;
               final value = await transferStructureNotifier.initTransfer(
                 selectedStore.structure,
                 simpleUser.id,

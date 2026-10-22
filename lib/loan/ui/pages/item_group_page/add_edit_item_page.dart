@@ -146,9 +146,8 @@ class AddEditItemPage extends HookConsumerWidget {
                           displayToast(
                             context,
                             TypeMsg.error,
-                            AppLocalizations.of(
-                              context,
-                            )!.loanIncorrectOrMissingFields,
+                            AppLocalizations.of(context)!
+                                .loanIncorrectOrMissingFields,
                           );
                         }
                       },

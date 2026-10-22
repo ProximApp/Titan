@@ -67,42 +67,33 @@ void main() {
       expect(notifier.state, AsyncValue.data(data));
     });
 
-    test(
-      'Should rethrow AppException for loadList when function throw AppException.tokenExpire',
-      () async {
-        final notifier = makeNotifier();
-        final error = AppException(ErrorType.tokenExpire, 'test');
-        try {
-          await notifier.testLoadList(() => Future.error(error));
-          expect(notifier.state, isA<AsyncData>()); // not reached
-        } catch (e) {
-          expect(e, error);
-          expect(notifier.state, isA<AsyncError>());
-        }
-      },
-    );
+    test('Should rethrow AppException for loadList when function throw AppException.tokenExpire', () async {
+      final notifier = makeNotifier();
+      final error = AppException(ErrorType.tokenExpire, 'test');
+      try {
+        await notifier.testLoadList(() => Future.error(error));
+        expect(notifier.state, isA<AsyncData>()); // not reached
+      } catch (e) {
+        expect(e, error);
+        expect(notifier.state, isA<AsyncError>());
+      }
+    });
 
-    test(
-      'Should return AppException.notFound for loadList when function throw AppException.notFound',
-      () async {
-        final notifier = makeNotifier();
-        final error = AppException(ErrorType.notFound, 'test');
-        final result = await notifier.testLoadList(() => Future.error(error));
-        expect(notifier.state, isA<AsyncError<List<MockData>>>());
-        expect(result, isA<AsyncError<List<MockData>>>());
-      },
-    );
+    test('Should return AppException.notFound for loadList when function throw AppException.notFound', () async {
+      final notifier = makeNotifier();
+      final error = AppException(ErrorType.notFound, 'test');
+      final result = await notifier.testLoadList(() => Future.error(error));
+      expect(notifier.state, isA<AsyncError<List<MockData>>>());
+      expect(result, isA<AsyncError<List<MockData>>>());
+    });
 
-    test(
-      'Should return Exception for loadList when function throw other Exception',
-      () async {
-        final notifier = makeNotifier();
-        final error = Exception('test');
-        final result = await notifier.testLoadList(() => throw error);
-        expect(notifier.state, isA<AsyncError<List<MockData>>>());
-        expect(result, isA<AsyncError<List<MockData>>>());
-      },
-    );
+    test('Should return Exception for loadList when function throw other Exception', () async {
+      final notifier = makeNotifier();
+      final error = Exception('test');
+      final result = await notifier.testLoadList(() => throw error);
+      expect(notifier.state, isA<AsyncError<List<MockData>>>());
+      expect(result, isA<AsyncError<List<MockData>>>());
+    });
   });
 
   group('Testing ListNotifier : add', () {
@@ -128,45 +119,17 @@ void main() {
       );
     });
 
-    test(
-      'Should throw AppException.tokenExpire and restores state on previous data when add fails with AppException.tokenExpire',
-      () async {
-        final notifier = makeNotifier();
-        final data = [MockData(), MockData()];
-        notifier.state = AsyncValue.data(data);
-        final newData = MockData();
-        final error = AppException(ErrorType.tokenExpire, 'test');
-        try {
-          await notifier.testAdd((t) => throw error, newData);
-          expect(
-            notifier.state,
-            isA<AsyncData<List<MockData>>>(),
-          ); // not reached
-        } catch (e) {
-          expect(e, error);
-          expect(notifier.state, isA<AsyncData<List<MockData>>>());
-          expect(
-            notifier.state.when(
-              data: (d) => d,
-              error: (e, s) => [],
-              loading: () => [],
-            ),
-            data,
-          );
-        }
-      },
-    );
-
-    test(
-      'Should return false and restores state on previous data when add fails with AppException.notFound',
-      () async {
-        final notifier = makeNotifier();
-        final data = [MockData(), MockData()];
-        notifier.state = AsyncValue.data(data);
-        final newData = MockData();
-        final error = AppException(ErrorType.notFound, 'test');
-        final result = await notifier.testAdd((t) => throw error, newData);
-        expect(result, isFalse);
+    test('Should throw AppException.tokenExpire and restores state on previous data when add fails with AppException.tokenExpire', () async {
+      final notifier = makeNotifier();
+      final data = [MockData(), MockData()];
+      notifier.state = AsyncValue.data(data);
+      final newData = MockData();
+      final error = AppException(ErrorType.tokenExpire, 'test');
+      try {
+        await notifier.testAdd((t) => throw error, newData);
+        expect(notifier.state, isA<AsyncData<List<MockData>>>()); // not reached
+      } catch (e) {
+        expect(e, error);
         expect(notifier.state, isA<AsyncData<List<MockData>>>());
         expect(
           notifier.state.when(
@@ -176,20 +139,36 @@ void main() {
           ),
           data,
         );
-      },
-    );
+      }
+    });
 
-    test(
-      'Should return false sets state on error when start state is AsyncLoading',
-      () async {
-        final notifier = makeNotifier();
-        final newData = MockData();
-        final result = await notifier.testAdd((t) => Future.value(t), newData);
-        expect(result, isFalse);
-        expect(notifier.state, isA<AsyncError>());
-        expect(notifier.state.error, "Cannot add while loading");
-      },
-    );
+    test('Should return false and restores state on previous data when add fails with AppException.notFound', () async {
+      final notifier = makeNotifier();
+      final data = [MockData(), MockData()];
+      notifier.state = AsyncValue.data(data);
+      final newData = MockData();
+      final error = AppException(ErrorType.notFound, 'test');
+      final result = await notifier.testAdd((t) => throw error, newData);
+      expect(result, isFalse);
+      expect(notifier.state, isA<AsyncData<List<MockData>>>());
+      expect(
+        notifier.state.when(
+          data: (d) => d,
+          error: (e, s) => [],
+          loading: () => [],
+        ),
+        data,
+      );
+    });
+
+    test('Should return false sets state on error when start state is AsyncLoading', () async {
+      final notifier = makeNotifier();
+      final newData = MockData();
+      final result = await notifier.testAdd((t) => Future.value(t), newData);
+      expect(result, isFalse);
+      expect(notifier.state, isA<AsyncError>());
+      expect(notifier.state.error, "Cannot add while loading");
+    });
 
     test(
       'Should return false sets state on error when start state is AsyncError',
@@ -230,89 +209,44 @@ void main() {
       );
     });
 
-    test(
-      'Should return false and restores state on previous data when update function return false',
-      () async {
-        final notifier = makeNotifier();
-        final data = [MockData(), MockData()];
-        notifier.state = AsyncValue.data(data);
-        final newData = MockData();
-        final result = await notifier.testUpdate(
-          (t) => Future.value(false),
-          (listT, t) => [t, ...listT.skip(1)],
-          newData,
-        );
-        expect(result, isFalse);
-        expect(notifier.state, isA<AsyncData<List<MockData>>>());
-        expect(
-          notifier.state.when(
-            data: (d) => d,
-            error: (e, s) => [],
-            loading: () => [],
-          ),
-          data,
-        );
-      },
-    );
+    test('Should return false and restores state on previous data when update function return false', () async {
+      final notifier = makeNotifier();
+      final data = [MockData(), MockData()];
+      notifier.state = AsyncValue.data(data);
+      final newData = MockData();
+      final result = await notifier.testUpdate(
+        (t) => Future.value(false),
+        (listT, t) => [t, ...listT.skip(1)],
+        newData,
+      );
+      expect(result, isFalse);
+      expect(notifier.state, isA<AsyncData<List<MockData>>>());
+      expect(
+        notifier.state.when(
+          data: (d) => d,
+          error: (e, s) => [],
+          loading: () => [],
+        ),
+        data,
+      );
+    });
 
-    test(
-      'Should throw AppException.tokenExpire and restores state on previous data when add fails with AppException.tokenExpire',
-      () async {
-        final notifier = makeNotifier();
-        final data = [MockData(), MockData()];
-        notifier.state = AsyncValue.data(data);
-        final newData = MockData();
-        final newDataList = [newData, ...data.skip(1)];
-        final error = AppException(ErrorType.tokenExpire, 'test');
-        try {
-          await notifier.testUpdate(
-            (t) => throw error,
-            (listT, t) => [t, ...listT.skip(1)],
-            newData,
-          );
-          expect(
-            notifier.state,
-            isA<AsyncData<List<MockData>>>(),
-          ); // not reached
-        } catch (e) {
-          expect(e, error);
-          expect(notifier.state, isA<AsyncData<List<MockData>>>());
-          expect(
-            notifier.state.when(
-              data: (d) => d,
-              error: (e, s) => [],
-              loading: () => [],
-            ),
-            data,
-          );
-          expect(
-            notifier.state.when(
-                  data: (d) => d,
-                  error: (e, s) => [],
-                  loading: () => [],
-                ) ==
-                newDataList,
-            isFalse,
-          );
-        }
-      },
-    );
-
-    test(
-      'Should return false and restores state on previous data when add fails with AppException.notFound',
-      () async {
-        final notifier = makeNotifier();
-        final data = [MockData(), MockData()];
-        notifier.state = AsyncValue.data(data);
-        final newData = MockData();
-        final newDataList = [newData, ...data.skip(1)];
-        final error = AppException(ErrorType.notFound, 'test');
-        final result = await notifier.testUpdate(
+    test('Should throw AppException.tokenExpire and restores state on previous data when add fails with AppException.tokenExpire', () async {
+      final notifier = makeNotifier();
+      final data = [MockData(), MockData()];
+      notifier.state = AsyncValue.data(data);
+      final newData = MockData();
+      final newDataList = [newData, ...data.skip(1)];
+      final error = AppException(ErrorType.tokenExpire, 'test');
+      try {
+        await notifier.testUpdate(
           (t) => throw error,
           (listT, t) => [t, ...listT.skip(1)],
           newData,
         );
-        expect(result, isFalse);
+        expect(notifier.state, isA<AsyncData<List<MockData>>>()); // not reached
+      } catch (e) {
+        expect(e, error);
         expect(notifier.state, isA<AsyncData<List<MockData>>>());
         expect(
           notifier.state.when(
@@ -331,24 +265,54 @@ void main() {
               newDataList,
           isFalse,
         );
-      },
-    );
+      }
+    });
 
-    test(
-      'Should return false sets state on error when start state is AsyncLoading',
-      () async {
-        final notifier = makeNotifier();
-        final newData = MockData();
-        final result = await notifier.testUpdate(
-          (t) => Future.value(true),
-          (listT, t) => [t, ...listT.skip(1)],
-          newData,
-        );
-        expect(result, isFalse);
-        expect(notifier.state, isA<AsyncError>());
-        expect(notifier.state.error, "Cannot update while loading");
-      },
-    );
+    test('Should return false and restores state on previous data when add fails with AppException.notFound', () async {
+      final notifier = makeNotifier();
+      final data = [MockData(), MockData()];
+      notifier.state = AsyncValue.data(data);
+      final newData = MockData();
+      final newDataList = [newData, ...data.skip(1)];
+      final error = AppException(ErrorType.notFound, 'test');
+      final result = await notifier.testUpdate(
+        (t) => throw error,
+        (listT, t) => [t, ...listT.skip(1)],
+        newData,
+      );
+      expect(result, isFalse);
+      expect(notifier.state, isA<AsyncData<List<MockData>>>());
+      expect(
+        notifier.state.when(
+          data: (d) => d,
+          error: (e, s) => [],
+          loading: () => [],
+        ),
+        data,
+      );
+      expect(
+        notifier.state.when(
+              data: (d) => d,
+              error: (e, s) => [],
+              loading: () => [],
+            ) ==
+            newDataList,
+        isFalse,
+      );
+    });
+
+    test('Should return false sets state on error when start state is AsyncLoading', () async {
+      final notifier = makeNotifier();
+      final newData = MockData();
+      final result = await notifier.testUpdate(
+        (t) => Future.value(true),
+        (listT, t) => [t, ...listT.skip(1)],
+        newData,
+      );
+      expect(result, isFalse);
+      expect(notifier.state, isA<AsyncError>());
+      expect(notifier.state.error, "Cannot update while loading");
+    });
 
     test(
       'Should return false sets state on error when start state is AsyncError',
@@ -393,92 +357,46 @@ void main() {
       );
     });
 
-    test(
-      'Should return false and restores state on previous data when update function return false',
-      () async {
-        final notifier = makeNotifier();
-        final data = [MockData(), MockData()];
-        notifier.state = AsyncValue.data(data);
-        final oldData = data.first;
-        final result = await notifier.testDelete(
-          (id) => Future.value(false),
-          (listT, t) => listT.skip(1).toList(),
-          'id',
-          oldData,
-        );
-        expect(result, isFalse);
-        expect(notifier.state, isA<AsyncData<List<MockData>>>());
-        expect(
-          notifier.state.when(
-            data: (d) => d,
-            error: (e, s) => [],
-            loading: () => [],
-          ),
-          data,
-        );
-      },
-    );
+    test('Should return false and restores state on previous data when update function return false', () async {
+      final notifier = makeNotifier();
+      final data = [MockData(), MockData()];
+      notifier.state = AsyncValue.data(data);
+      final oldData = data.first;
+      final result = await notifier.testDelete(
+        (id) => Future.value(false),
+        (listT, t) => listT.skip(1).toList(),
+        'id',
+        oldData,
+      );
+      expect(result, isFalse);
+      expect(notifier.state, isA<AsyncData<List<MockData>>>());
+      expect(
+        notifier.state.when(
+          data: (d) => d,
+          error: (e, s) => [],
+          loading: () => [],
+        ),
+        data,
+      );
+    });
 
-    test(
-      'Should throw AppException.tokenExpire and restores state on previous data when add fails with AppException.tokenExpire',
-      () async {
-        final notifier = makeNotifier();
-        final data = [MockData(), MockData()];
-        notifier.state = AsyncValue.data(data);
-        final oldData = data.first;
-        final newDataList = data.skip(1).toList();
-        final error = AppException(ErrorType.tokenExpire, 'test');
-        try {
-          await notifier.testDelete(
-            (t) => throw error,
-            (listT, t) => listT.skip(1).toList(),
-            'id',
-            oldData,
-          );
-          expect(
-            notifier.state,
-            isA<AsyncData<List<MockData>>>(),
-          ); // not reached
-        } catch (e) {
-          expect(e, error);
-          expect(notifier.state, isA<AsyncData<List<MockData>>>());
-          expect(
-            notifier.state.when(
-              data: (d) => d,
-              error: (e, s) => [],
-              loading: () => [],
-            ),
-            data,
-          );
-          expect(
-            notifier.state.when(
-                  data: (d) => d,
-                  error: (e, s) => [],
-                  loading: () => [],
-                ) ==
-                newDataList,
-            isFalse,
-          );
-        }
-      },
-    );
-
-    test(
-      'Should return false and restores state on previous data when add fails with AppException.notFound',
-      () async {
-        final notifier = makeNotifier();
-        final data = [MockData(), MockData()];
-        notifier.state = AsyncValue.data(data);
-        final oldData = data.first;
-        final newDataList = data.skip(1).toList();
-        final error = AppException(ErrorType.notFound, 'test');
-        final result = await notifier.testDelete(
+    test('Should throw AppException.tokenExpire and restores state on previous data when add fails with AppException.tokenExpire', () async {
+      final notifier = makeNotifier();
+      final data = [MockData(), MockData()];
+      notifier.state = AsyncValue.data(data);
+      final oldData = data.first;
+      final newDataList = data.skip(1).toList();
+      final error = AppException(ErrorType.tokenExpire, 'test');
+      try {
+        await notifier.testDelete(
           (t) => throw error,
           (listT, t) => listT.skip(1).toList(),
           'id',
           oldData,
         );
-        expect(result, isFalse);
+        expect(notifier.state, isA<AsyncData<List<MockData>>>()); // not reached
+      } catch (e) {
+        expect(e, error);
         expect(notifier.state, isA<AsyncData<List<MockData>>>());
         expect(
           notifier.state.when(
@@ -497,26 +415,57 @@ void main() {
               newDataList,
           isFalse,
         );
-      },
-    );
+      }
+    });
 
-    test(
-      'Should return false sets state on error when start state is AsyncLoading',
-      () async {
-        final notifier = makeNotifier();
-        final data = [MockData(), MockData()];
-        final oldData = data.first;
-        final result = await notifier.testDelete(
-          (id) => Future.value(true),
-          (listT, t) => listT.skip(1).toList(),
-          'id',
-          oldData,
-        );
-        expect(result, isFalse);
-        expect(notifier.state, isA<AsyncError>());
-        expect(notifier.state.error, "Cannot delete while loading");
-      },
-    );
+    test('Should return false and restores state on previous data when add fails with AppException.notFound', () async {
+      final notifier = makeNotifier();
+      final data = [MockData(), MockData()];
+      notifier.state = AsyncValue.data(data);
+      final oldData = data.first;
+      final newDataList = data.skip(1).toList();
+      final error = AppException(ErrorType.notFound, 'test');
+      final result = await notifier.testDelete(
+        (t) => throw error,
+        (listT, t) => listT.skip(1).toList(),
+        'id',
+        oldData,
+      );
+      expect(result, isFalse);
+      expect(notifier.state, isA<AsyncData<List<MockData>>>());
+      expect(
+        notifier.state.when(
+          data: (d) => d,
+          error: (e, s) => [],
+          loading: () => [],
+        ),
+        data,
+      );
+      expect(
+        notifier.state.when(
+              data: (d) => d,
+              error: (e, s) => [],
+              loading: () => [],
+            ) ==
+            newDataList,
+        isFalse,
+      );
+    });
+
+    test('Should return false sets state on error when start state is AsyncLoading', () async {
+      final notifier = makeNotifier();
+      final data = [MockData(), MockData()];
+      final oldData = data.first;
+      final result = await notifier.testDelete(
+        (id) => Future.value(true),
+        (listT, t) => listT.skip(1).toList(),
+        'id',
+        oldData,
+      );
+      expect(result, isFalse);
+      expect(notifier.state, isA<AsyncError>());
+      expect(notifier.state.error, "Cannot delete while loading");
+    });
 
     test(
       'Should return false sets state on error when start state is AsyncError',
@@ -537,29 +486,26 @@ void main() {
       },
     );
 
-    test(
-      'Should return false sets state on error when start state is AsyncError with AppException.tokenExpire',
-      () async {
-        final notifier = makeNotifier();
-        notifier.state = AsyncValue.error(
-          AppException(ErrorType.tokenExpire, "test"),
-          StackTrace.current,
+    test('Should return false sets state on error when start state is AsyncError with AppException.tokenExpire', () async {
+      final notifier = makeNotifier();
+      notifier.state = AsyncValue.error(
+        AppException(ErrorType.tokenExpire, "test"),
+        StackTrace.current,
+      );
+      final data = [MockData(), MockData()];
+      final oldData = data.first;
+      try {
+        await notifier.testDelete(
+          (id) => Future.value(true),
+          (listT, t) => listT.skip(1).toList(),
+          'id',
+          oldData,
         );
-        final data = [MockData(), MockData()];
-        final oldData = data.first;
-        try {
-          await notifier.testDelete(
-            (id) => Future.value(true),
-            (listT, t) => listT.skip(1).toList(),
-            'id',
-            oldData,
-          );
-          expect(notifier.state, isA<AsyncError>()); // not reached
-        } catch (e) {
-          expect(notifier.state, isA<AsyncError>());
-          expect(notifier.state.error, isA<AppException>());
-        }
-      },
-    );
+        expect(notifier.state, isA<AsyncError>()); // not reached
+      } catch (e) {
+        expect(notifier.state, isA<AsyncError>());
+        expect(notifier.state.error, isA<AppException>());
+      }
+    });
   });
 }

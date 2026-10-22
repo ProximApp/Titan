@@ -185,12 +185,10 @@ class AdminPage extends HookConsumerWidget {
                                 await showDialog(
                                   context: context,
                                   builder: (context) => CustomDialogBox(
-                                    title: AppLocalizations.of(
-                                      context,
-                                    )!.votePublish,
-                                    descriptions: AppLocalizations.of(
-                                      context,
-                                    )!.votePublishVoteDescription,
+                                    title: AppLocalizations.of(context)!
+                                        .votePublish,
+                                    descriptions: AppLocalizations.of(context)!
+                                        .votePublishVoteDescription,
                                     onYes: () {
                                       statusNotifier.publishVote();
                                       ref
@@ -221,20 +219,17 @@ class AdminPage extends HookConsumerWidget {
                             context: context,
                             builder: (context) {
                               return CustomDialogBox(
-                                title: AppLocalizations.of(
-                                  context,
-                                )!.voteResetVote,
-                                descriptions: AppLocalizations.of(
-                                  context,
-                                )!.voteResetVoteDescription,
+                                title: AppLocalizations.of(context)!
+                                    .voteResetVote,
+                                descriptions: AppLocalizations.of(context)!
+                                    .voteResetVoteDescription,
                                 onYes: () async {
                                   final resetedVotesMsg = AppLocalizations.of(
                                     context,
                                   )!.voteResetedVotes;
                                   final resetedVotesErrorMsg =
-                                      AppLocalizations.of(
-                                        context,
-                                      )!.voteErrorResetingVotes;
+                                      AppLocalizations.of(context)!
+                                          .voteErrorResetingVotes;
                                   final value = await statusNotifier
                                       .resetVote();
                                   ref
@@ -324,9 +319,8 @@ class AdminPage extends HookConsumerWidget {
                         child: child,
                       ),
                       onTap: () async {
-                        final votesCountedMsg = AppLocalizations.of(
-                          context,
-                        )!.voteVotesCounted;
+                        final votesCountedMsg = AppLocalizations.of(context)!
+                            .voteVotesCounted;
                         final errorCountingVotesMsg = AppLocalizations.of(
                           context,
                         )!.voteErrorCountingVotes;
@@ -376,9 +370,8 @@ class AdminPage extends HookConsumerWidget {
                         child: child,
                       ),
                       onTap: () async {
-                        final closeVotesMsg = AppLocalizations.of(
-                          context,
-                        )!.voteVotesClosed;
+                        final closeVotesMsg = AppLocalizations.of(context)!
+                            .voteVotesClosed;
                         final errorClosingVotesMsg = AppLocalizations.of(
                           context,
                         )!.voteErrorClosingVotes;

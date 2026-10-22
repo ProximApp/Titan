@@ -132,9 +132,8 @@ class AddEditRoomPage extends HookConsumerWidget {
                         await showDialog(
                           context: context,
                           builder: (context) => CustomDialogBox(
-                            descriptions: AppLocalizations.of(
-                              context,
-                            )!.bookingDeleteRoomConfirmation,
+                            descriptions: AppLocalizations.of(context)!
+                                .bookingDeleteRoomConfirmation,
                             onYes: () async {
                               final deletedRoomMsg = AppLocalizations.of(
                                 context,
@@ -158,9 +157,8 @@ class AddEditRoomPage extends HookConsumerWidget {
                                 );
                               }
                             },
-                            title: AppLocalizations.of(
-                              context,
-                            )!.bookingDeleteBooking,
+                            title: AppLocalizations.of(context)!
+                                .bookingDeleteBooking,
                           ),
                         );
                       },

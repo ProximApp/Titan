@@ -56,9 +56,8 @@ class TimelineItem extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                DateFormat.d(
-                                  locale.toString(),
-                                ).format(item.start),
+                                DateFormat.d(locale.toString())
+                                    .format(item.start),
                                 style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -66,9 +65,9 @@ class TimelineItem extends ConsumerWidget {
                                 ),
                               ),
                               Text(
-                                DateFormat.MMM(
-                                  locale.toString(),
-                                ).format(item.start).toUpperCase(),
+                                DateFormat.MMM(locale.toString())
+                                    .format(item.start)
+                                    .toUpperCase(),
                                 style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,

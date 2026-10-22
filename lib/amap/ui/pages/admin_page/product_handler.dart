@@ -89,21 +89,17 @@ class ProductHandler extends HookConsumerWidget {
                               await showDialog(
                                 context: context,
                                 builder: (context) => CustomDialogBox(
-                                  title: AppLocalizations.of(
-                                    context,
-                                  )!.amapDeleteProduct,
-                                  descriptions: AppLocalizations.of(
-                                    context,
-                                  )!.amapDeleteProductDescription,
+                                  title: AppLocalizations.of(context)!
+                                      .amapDeleteProduct,
+                                  descriptions: AppLocalizations.of(context)!
+                                      .amapDeleteProductDescription,
                                   onYes: () async {
                                     final deletedProductMsg =
-                                        AppLocalizations.of(
-                                          context,
-                                        )!.amapDeletedProduct;
+                                        AppLocalizations.of(context)!
+                                            .amapDeletedProduct;
                                     final deletingErrorMsg =
-                                        AppLocalizations.of(
-                                          context,
-                                        )!.amapDeletingError;
+                                        AppLocalizations.of(context)!
+                                            .amapDeletingError;
                                     final value = await productsNotifier
                                         .deleteProduct(e);
                                     if (value) {

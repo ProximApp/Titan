@@ -68,9 +68,8 @@ class DevicesPage extends HookConsumerWidget {
                   ..sort((a, b) {
                     if (a.id == snapshot.data) return -1;
                     if (b.id == snapshot.data) return 1;
-                    return statusOrder(
-                      a.status,
-                    ).compareTo(statusOrder(b.status));
+                    return statusOrder(a.status)
+                        .compareTo(statusOrder(b.status));
                   });
 
                 final firstDevice =
@@ -100,9 +99,8 @@ class DevicesPage extends HookConsumerWidget {
                           if (!hasAcceptedToS) {
                             displayToastWithContext(
                               TypeMsg.error,
-                              AppLocalizations.of(
-                                context,
-                              )!.paiementPleaseAcceptTOS,
+                              AppLocalizations.of(context)!
+                                  .paiementPleaseAcceptTOS,
                             );
                             return;
                           }
@@ -128,12 +126,10 @@ class DevicesPage extends HookConsumerWidget {
                                 context: context,
                                 builder: (context) {
                                   return DeviceDialogBox(
-                                    title: AppLocalizations.of(
-                                      context,
-                                    )!.paiementAskDeviceActivation,
-                                    descriptions: AppLocalizations.of(
-                                      context,
-                                    )!.paiementDeviceActivationReceived,
+                                    title: AppLocalizations.of(context)!
+                                        .paiementAskDeviceActivation,
+                                    descriptions: AppLocalizations.of(context)!
+                                        .paiementDeviceActivationReceived,
                                     buttonText: "Ok",
                                     onClick: () {
                                       Navigator.of(context).pop();
@@ -153,9 +149,8 @@ class DevicesPage extends HookConsumerWidget {
                           if (!hasAcceptedToS) {
                             displayToastWithContext(
                               TypeMsg.error,
-                              AppLocalizations.of(
-                                context,
-                              )!.paiementPleaseAcceptTOS,
+                              AppLocalizations.of(context)!
+                                  .paiementPleaseAcceptTOS,
                             );
                             return;
                           }
@@ -163,20 +158,17 @@ class DevicesPage extends HookConsumerWidget {
                             context: context,
                             builder: (context) {
                               return CustomDialogBox(
-                                title: AppLocalizations.of(
-                                  context,
-                                )!.paiementRevokeDevice,
-                                descriptions: AppLocalizations.of(
-                                  context,
-                                )!.paiementRevokeDeviceDescription,
+                                title: AppLocalizations.of(context)!
+                                    .paiementRevokeDevice,
+                                descriptions: AppLocalizations.of(context)!
+                                    .paiementRevokeDeviceDescription,
                                 onYes: () async {
                                   final deviceRevokedMsg = AppLocalizations.of(
                                     context,
                                   )!.paiementDeviceRevoked;
                                   final deviceRevokingErrorMsg =
-                                      AppLocalizations.of(
-                                        context,
-                                      )!.paiementDeviceRevokingError;
+                                      AppLocalizations.of(context)!
+                                          .paiementDeviceRevokingError;
                                   final value = await devicesNotifier
                                       .revokeDevice(
                                         device.copyWith(

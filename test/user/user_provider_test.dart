@@ -43,11 +43,10 @@ void main() {
     tearDown(() => container.dispose());
 
     test('loadUser returns expected data', () async {
-      when(
-        () => mockRepository.usersUserIdGet(userId: any(named: 'userId')),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('body', 200), user),
-      );
+      when(() => mockRepository.usersUserIdGet(userId: any(named: 'userId')))
+          .thenAnswer(
+            (_) async => chopper.Response(http.Response('body', 200), user),
+          );
 
       final result = await provider.loadUser('1');
 
@@ -55,9 +54,8 @@ void main() {
     });
 
     test('loadUser handles error', () async {
-      when(
-        () => mockRepository.usersUserIdGet(userId: any(named: 'userId')),
-      ).thenThrow(Exception('Failed to load user'));
+      when(() => mockRepository.usersUserIdGet(userId: any(named: 'userId')))
+          .thenThrow(Exception('Failed to load user'));
 
       final result = await provider.loadUser('1');
 
@@ -78,9 +76,8 @@ void main() {
     });
 
     test('loadMe handles error', () async {
-      when(
-        () => mockRepository.usersMeGet(),
-      ).thenThrow(Exception('Failed to load user'));
+      when(() => mockRepository.usersMeGet())
+          .thenThrow(Exception('Failed to load user'));
 
       final result = await provider.loadMe();
 
@@ -121,11 +118,10 @@ void main() {
     });
 
     test('updateMe updates user data', () async {
-      when(
-        () => mockRepository.usersMePatch(body: any(named: 'body')),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('body', 200), user),
-      );
+      when(() => mockRepository.usersMePatch(body: any(named: 'body')))
+          .thenAnswer(
+            (_) async => chopper.Response(http.Response('body', 200), user),
+          );
 
       provider.state = AsyncValue.data(user);
       final result = await provider.updateMe(user);
@@ -134,9 +130,8 @@ void main() {
     });
 
     test('updateMe handles error', () async {
-      when(
-        () => mockRepository.usersMePatch(body: any(named: 'body')),
-      ).thenThrow(Exception('Failed to update user'));
+      when(() => mockRepository.usersMePatch(body: any(named: 'body')))
+          .thenThrow(Exception('Failed to update user'));
 
       provider.state = AsyncValue.data(user);
       final result = await provider.updateMe(user);
@@ -189,9 +184,8 @@ void main() {
     });
 
     test('deletePersonal handles error', () async {
-      when(
-        () => mockRepository.usersMeAskDeletionPost(),
-      ).thenThrow(Exception('Failed to delete personal data'));
+      when(() => mockRepository.usersMeAskDeletionPost())
+          .thenThrow(Exception('Failed to delete personal data'));
 
       provider.state = AsyncValue.data(user);
       final result = await provider.deletePersonal();
@@ -200,11 +194,10 @@ void main() {
     });
 
     test('askMailMigration requests mail migration', () async {
-      when(
-        () => mockRepository.usersMigrateMailPost(body: any(named: 'body')),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('body', 200), null),
-      );
+      when(() => mockRepository.usersMigrateMailPost(body: any(named: 'body')))
+          .thenAnswer(
+            (_) async => chopper.Response(http.Response('body', 200), null),
+          );
 
       provider.state = AsyncValue.data(user);
       final result = await provider.askMailMigration('newmail@example.com');
@@ -213,11 +206,10 @@ void main() {
     });
 
     test('askMailMigration handles error', () async {
-      when(
-        () => mockRepository.usersMigrateMailPost(body: any(named: 'body')),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('error', 400), null),
-      );
+      when(() => mockRepository.usersMigrateMailPost(body: any(named: 'body')))
+          .thenAnswer(
+            (_) async => chopper.Response(http.Response('error', 400), null),
+          );
 
       final result = await provider.askMailMigration('newmail@example.com');
 

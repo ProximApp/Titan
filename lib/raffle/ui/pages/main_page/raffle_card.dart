@@ -87,12 +87,11 @@ class RaffleWidget extends HookConsumerWidget {
                   notifier: rafflesStatsNotifier,
                   mapKey: raffle.id,
                   loader: (raffleId) async =>
-                      (await singleRaffleStats.loadRaffleStats(
-                        raffleId,
-                      )).maybeWhen(
-                        data: (value) => value,
-                        orElse: () => RaffleStats.empty(),
-                      ),
+                      (await singleRaffleStats.loadRaffleStats(raffleId))
+                          .maybeWhen(
+                            data: (value) => value,
+                            orElse: () => RaffleStats.empty(),
+                          ),
                   dataBuilder: (context, stats) {
                     final stat = stats.first;
                     return Row(

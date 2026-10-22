@@ -56,20 +56,17 @@ class SectionListItems extends HookConsumerWidget {
                       context: context,
                       builder: (context) {
                         return CustomDialogBox(
-                          title: AppLocalizations.of(
-                            context,
-                          )!.voteDeletePretendance,
-                          descriptions: AppLocalizations.of(
-                            context,
-                          )!.voteDeletePretendanceDesc,
+                          title: AppLocalizations.of(context)!
+                              .voteDeletePretendance,
+                          descriptions: AppLocalizations.of(context)!
+                              .voteDeletePretendanceDesc,
                           onYes: () async {
                             final pretendanceDeletedMsg = AppLocalizations.of(
                               context,
                             )!.votePretendanceDeleted;
                             final pretendanceNotDeletedMsg =
-                                AppLocalizations.of(
-                                  context,
-                                )!.votePretendanceNotDeleted;
+                                AppLocalizations.of(context)!
+                                    .votePretendanceNotDeleted;
                             final value = await listListNotifier.deleteList(e);
                             if (value) {
                               displayVoteToastWithContext(

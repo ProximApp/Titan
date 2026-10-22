@@ -52,9 +52,8 @@ void main() {
     });
 
     test('loadSessions handles error', () async {
-      when(
-        () => mockRepository.cinemaSessionsGet(),
-      ).thenThrow(Exception('Failed to load sessions'));
+      when(() => mockRepository.cinemaSessionsGet())
+          .thenThrow(Exception('Failed to load sessions'));
 
       final result = await provider.loadSessions();
 
@@ -68,11 +67,11 @@ void main() {
       when(() => mockRepository.cinemaSessionsGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), sessions),
       );
-      when(
-        () => mockRepository.cinemaSessionsPost(body: any(named: 'body')),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('body', 200), newSession),
-      );
+      when(() => mockRepository.cinemaSessionsPost(body: any(named: 'body')))
+          .thenAnswer(
+            (_) async =>
+                chopper.Response(http.Response('body', 200), newSession),
+          );
 
       provider.state = AsyncValue.data([...sessions]);
       final result = await provider.addSession(newSession.toCineSessionBase());
@@ -85,9 +84,8 @@ void main() {
     });
 
     test('addSession handles error', () async {
-      when(
-        () => mockRepository.cinemaSessionsPost(body: any(named: 'body')),
-      ).thenThrow(Exception('Failed to add session'));
+      when(() => mockRepository.cinemaSessionsPost(body: any(named: 'body')))
+          .thenThrow(Exception('Failed to add session'));
 
       provider.state = AsyncValue.data([...sessions]);
       final result = await provider.addSession(newSession.toCineSessionBase());

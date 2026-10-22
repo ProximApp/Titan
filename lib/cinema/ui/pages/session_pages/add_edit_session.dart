@@ -85,9 +85,8 @@ class AddEditSessionPage extends HookConsumerWidget {
                   controller: tmdbUrl,
                   cursorColor: Colors.black,
                   decoration: InputDecoration(
-                    labelText: AppLocalizations.of(
-                      context,
-                    )!.cinemaImportFromTMDB,
+                    labelText: AppLocalizations.of(context)!
+                        .cinemaImportFromTMDB,
                     labelStyle: const TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -235,18 +234,14 @@ class AddEditSessionPage extends HookConsumerWidget {
                     if (key.currentState == null) {
                       return;
                     }
-                    final editedSessionMsg = AppLocalizations.of(
-                      context,
-                    )!.cinemaEditedSession;
-                    final addedSessionMsg = AppLocalizations.of(
-                      context,
-                    )!.cinemaAddedSession;
-                    final editingErrorMsg = AppLocalizations.of(
-                      context,
-                    )!.cinemaEditingError;
-                    final addingErrorMsg = AppLocalizations.of(
-                      context,
-                    )!.cinemaAddingError;
+                    final editedSessionMsg = AppLocalizations.of(context)!
+                        .cinemaEditedSession;
+                    final addedSessionMsg = AppLocalizations.of(context)!
+                        .cinemaAddedSession;
+                    final editingErrorMsg = AppLocalizations.of(context)!
+                        .cinemaEditingError;
+                    final addingErrorMsg = AppLocalizations.of(context)!
+                        .cinemaAddingError;
                     if (key.currentState!.validate()) {
                       if (logo.value == null && logoFile.value == null) {
                         displayToastWithContext(
@@ -338,9 +333,8 @@ class AddEditSessionPage extends HookConsumerWidget {
                       displayToast(
                         context,
                         TypeMsg.error,
-                        AppLocalizations.of(
-                          context,
-                        )!.cinemaIncorrectOrMissingFields,
+                        AppLocalizations.of(context)!
+                            .cinemaIncorrectOrMissingFields,
                       );
                     }
                   },

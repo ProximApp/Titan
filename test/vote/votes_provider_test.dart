@@ -28,11 +28,10 @@ void main() {
     tearDown(() => container.dispose());
 
     test('addVote returns true when successful', () async {
-      when(
-        () => mockRepository.campaignVotesPost(body: any(named: 'body')),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('body', 200), votes),
-      );
+      when(() => mockRepository.campaignVotesPost(body: any(named: 'body')))
+          .thenAnswer(
+            (_) async => chopper.Response(http.Response('body', 200), votes),
+          );
 
       final result = await provider.addVote(votes);
 
@@ -40,9 +39,8 @@ void main() {
     });
 
     test('addVote handles error', () async {
-      when(
-        () => mockRepository.campaignVotesPost(body: any(named: 'body')),
-      ).thenThrow(Exception('Failed to add vote'));
+      when(() => mockRepository.campaignVotesPost(body: any(named: 'body')))
+          .thenThrow(Exception('Failed to add vote'));
 
       expect(() => provider.addVote(votes), throwsA(isA<Exception>()));
     });

@@ -106,9 +106,8 @@ class CalendarDialog extends StatelessWidget {
                     Flexible(
                       child: Text(
                         booking.applicant.phone ??
-                            AppLocalizations.of(
-                              context,
-                            )!.bookingNoPhoneRegistered,
+                            AppLocalizations.of(context)!
+                                .bookingNoPhoneRegistered,
                         style: const TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 15,

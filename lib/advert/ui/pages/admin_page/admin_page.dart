@@ -146,12 +146,10 @@ class AdvertAdminPage extends HookConsumerWidget {
                               context: context,
                               builder: (context) {
                                 return CustomDialogBox(
-                                  title: AppLocalizations.of(
-                                    context,
-                                  )!.advertDeleting,
-                                  descriptions: AppLocalizations.of(
-                                    context,
-                                  )!.advertDeleteAdvert,
+                                  title: AppLocalizations.of(context)!
+                                      .advertDeleting,
+                                  descriptions: AppLocalizations.of(context)!
+                                      .advertDeleteAdvert,
                                   onYes: () async {
                                     if (isAdmin) {
                                       await ref

@@ -34,9 +34,8 @@ class LogTab extends HookConsumerWidget {
                   context: context,
                   builder: ((context) => CustomDialogBox(
                     title: AppLocalizations.of(context)!.settingsDeleting,
-                    descriptions: AppLocalizations.of(
-                      context,
-                    )!.settingsDeleteLogs,
+                    descriptions: AppLocalizations.of(context)!
+                        .settingsDeleteLogs,
                     onYes: () {
                       logsNotifier.deleteLogs();
                     },

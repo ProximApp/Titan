@@ -67,15 +67,13 @@ class MemberEditableCard extends HookConsumerWidget {
             child: Column(
               children: [
                 Text(
-                  DateFormat.yMd(
-                    locale.toString(),
-                  ).format(associationMembership.startDate),
+                  DateFormat.yMd(locale.toString())
+                      .format(associationMembership.startDate),
                   style: const TextStyle(fontSize: 12),
                 ),
                 Text(
-                  DateFormat.yMd(
-                    locale.toString(),
-                  ).format(associationMembership.endDate),
+                  DateFormat.yMd(locale.toString())
+                      .format(associationMembership.endDate),
                   style: const TextStyle(fontSize: 12),
                 ),
               ],

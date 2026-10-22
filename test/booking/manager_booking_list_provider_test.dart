@@ -23,9 +23,8 @@ void main() {
 
     setUp(() async {
       mockRepository = MockBookingRepository();
-      when(
-        () => mockRepository.bookingBookingsUsersMeManageGet(),
-      ).thenThrow(Exception('Failed to load bookings'));
+      when(() => mockRepository.bookingBookingsUsersMeManageGet())
+          .thenThrow(Exception('Failed to load bookings'));
       container = ProviderContainer(
         overrides: [repositoryProvider.overrideWithValue(mockRepository)],
       );
@@ -49,9 +48,8 @@ void main() {
     });
 
     test('loadUserManageBookings handles error', () async {
-      when(
-        () => mockRepository.bookingBookingsUsersMeManageGet(),
-      ).thenThrow(Exception('Failed to load bookings'));
+      when(() => mockRepository.bookingBookingsUsersMeManageGet())
+          .thenThrow(Exception('Failed to load bookings'));
 
       final result = await provider.loadUserManageBookings();
 

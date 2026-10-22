@@ -100,11 +100,10 @@ void main() {
     tearDown(() => container.dispose());
 
     test('loadOrderList should return the list of orders for a user', () async {
-      when(
-        () => mockRepository.amapUsersUserIdOrdersGet(userId: userId),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('[]', 200), orders),
-      );
+      when(() => mockRepository.amapUsersUserIdOrdersGet(userId: userId))
+          .thenAnswer(
+            (_) async => chopper.Response(http.Response('[]', 200), orders),
+          );
 
       final result = await notifier.loadOrderList(userId);
 
@@ -119,9 +118,8 @@ void main() {
     });
 
     test('loadOrderList should handle error', () async {
-      when(
-        () => mockRepository.amapUsersUserIdOrdersGet(userId: userId),
-      ).thenThrow(Exception('Error'));
+      when(() => mockRepository.amapUsersUserIdOrdersGet(userId: userId))
+          .thenThrow(Exception('Error'));
 
       final result = await notifier.loadOrderList(userId);
 
@@ -129,11 +127,10 @@ void main() {
     });
 
     test('addOrder should add a new order to the list', () async {
-      when(
-        () => mockRepository.amapOrdersPost(body: any(named: 'body')),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('[]', 200), order),
-      );
+      when(() => mockRepository.amapOrdersPost(body: any(named: 'body')))
+          .thenAnswer(
+            (_) async => chopper.Response(http.Response('[]', 200), order),
+          );
       notifier.state = AsyncValue.data([]);
 
       final result = await notifier.addOrder(orderToAdd);
@@ -150,9 +147,8 @@ void main() {
     });
 
     test('addOrder should handle error', () async {
-      when(
-        () => mockRepository.amapOrdersPost(body: any(named: 'body')),
-      ).thenThrow(Exception('Error'));
+      when(() => mockRepository.amapOrdersPost(body: any(named: 'body')))
+          .thenThrow(Exception('Error'));
 
       final result = await notifier.addOrder(orderToAdd);
 
