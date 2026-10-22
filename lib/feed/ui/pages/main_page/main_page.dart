@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:titan/tools/ui/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/admin/providers/my_association_list_provider.dart';
@@ -13,6 +11,7 @@ import 'package:titan/feed/router.dart';
 import 'package:titan/feed/ui/feed.dart';
 import 'package:titan/feed/ui/pages/main_page/feed_timeline.dart';
 import 'package:titan/feed/ui/pages/main_page/filter_news.dart';
+import 'package:titan/feed/ui/pages/main_page/pagination_scroll_hook.dart';
 import 'package:titan/feed/ui/pages/main_page/scroll_with_refresh_button.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
@@ -21,6 +20,7 @@ import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 import 'package:titan/tools/ui/styleguide/button.dart';
 import 'package:titan/tools/ui/styleguide/icon_button.dart';
+import 'package:titan/tools/ui/heroicons.dart';
 
 class FeedMainPage extends HookConsumerWidget {
   const FeedMainPage({super.key});
@@ -28,13 +28,14 @@ class FeedMainPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final news = ref.watch(newsListProvider);
+    final pagination = ref.watch(newsPaginationProvider);
     final newsListNotifier = ref.watch(newsListProvider.notifier);
     final eventNotifier = ref.watch(eventProvider.notifier);
     final isUserAMemberOfAnAssociation = ref.watch(
       isUserAMemberOfAnAssociationProvider,
     );
     final isFeedAdmin = ref.watch(isFeedAdminProvider);
-    final scrollController = useScrollController();
+    final scrollController = useFeedPagination(ref);
     final associationEventsListNotifier = ref.watch(
       associationEventsListProvider.notifier,
     );
@@ -45,52 +46,6 @@ class FeedMainPage extends HookConsumerWidget {
     Future<void> onRefresh() async {
       await newsListNotifier.loadNewsList();
     }
-
-    useEffect(() {
-      if (news.hasValue && news.value!.isNotEmpty) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          final now = DateTime.now();
-          final newsList = news.value!;
-
-          newsList.sort((a, b) {
-            if (a.start == b.start) {
-              if (a.end == null && b.end == null) return 0;
-              if (a.end == null) return -1;
-              if (b.end == null) return 1;
-              return a.end!.compareTo(b.end!);
-            }
-            return a.start.compareTo(b.start);
-          });
-
-          final upcomingIndex = newsList.indexWhere(
-            (item) =>
-                item.start.isAfter(now) ||
-                (item.end != null && item.end!.isAfter(now)),
-          );
-
-          final targetIndex = upcomingIndex != -1
-              ? upcomingIndex
-              : newsList.length - 1;
-
-          if (scrollController.hasClients) {
-            double scrollPosition = 0.0;
-            for (int i = 0; i < targetIndex; i++) {
-              final currentItem = newsList[i];
-
-              final itemHeight =
-                  (currentItem.actionStart != null ||
-                      isUserAMemberOfAnAssociation)
-                  ? 200.0
-                  : 160.0;
-              scrollPosition += itemHeight;
-            }
-
-            scrollController.jumpTo(scrollPosition);
-          }
-        });
-      }
-      return null;
-    }, [news]);
 
     return FeedTemplate(
       child: Stack(
@@ -236,9 +191,17 @@ class FeedMainPage extends HookConsumerWidget {
                               ),
                             )
                           : FeedTimeline(
-                              isAdmin: isFeedAdmin,
                               items: news,
                               onItemTap: (item) {},
+                              isLoadingNextPage: pagination.isLoadingNext,
+                              nextPageFailed: pagination.nextFailed,
+                              onLoadNextPage: () =>
+                                  newsListNotifier.loadNextPage(),
+                              isLoadingPreviousPage:
+                                  pagination.isLoadingPrevious,
+                              previousPageFailed: pagination.previousFailed,
+                              onLoadPreviousPage: () =>
+                                  newsListNotifier.loadPreviousPage(),
                             ),
                     ),
                   ),

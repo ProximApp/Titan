@@ -159,6 +159,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get feedRefresh => 'Actualiser';
 
   @override
+  String get retry => 'Réessayer';
+
+  @override
   String get feedPleaseProvideASGExternalLink =>
       'Veuillez entrer un lien externe pour le SG';
 
