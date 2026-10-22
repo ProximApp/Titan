@@ -28,9 +28,8 @@ import 'dart:collection';
 
 void main() {
   final swagger = File('lib/generated/openapi.swagger.dart').readAsStringSync();
-  final factories = File(
-    'test/generated/openapi_mock_factories.dart',
-  ).readAsStringSync();
+  final factories = File('test/generated/openapi_mock_factories.dart')
+      .readAsStringSync();
 
   // Every MockX factory name the mock_factories file declares.
   final mockClasses = SplayTreeSet<String>();

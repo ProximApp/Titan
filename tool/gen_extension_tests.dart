@@ -787,13 +787,13 @@ bool _isGeneratedModel(String t) {
 List<String> _nullableStringFields(String t) {
   final barrel = _mockBarrel;
   if (barrel == null) return const [];
-  final block = RegExp(
-    'class Mock${RegExp.escape(t)}\\s*\\{([\\s\\S]*?)\\n\\}',
-  ).firstMatch(barrel);
+  final block = RegExp('class Mock${RegExp.escape(t)}\\s*\\{([\\s\\S]*?)\\n\\}')
+      .firstMatch(barrel);
   if (block == null) return const [];
-  return RegExp(
-    r'String\?\s+(\w+)',
-  ).allMatches(block.group(1)!).map((m) => m.group(1)!).toList();
+  return RegExp(r'String\?\s+(\w+)')
+      .allMatches(block.group(1)!)
+      .map((m) => m.group(1)!)
+      .toList();
 }
 
 String _argList(List<String> paramTypes) {
