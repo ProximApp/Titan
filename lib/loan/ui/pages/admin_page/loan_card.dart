@@ -151,9 +151,8 @@ class LoanCard extends StatelessWidget {
                   child: Text(
                     (loan.returned)
                         ? loan.returnedDate != null
-                              ? DateFormat.yMd(
-                                  locale,
-                                ).format(loan.returnedDate!)
+                              ? DateFormat.yMd(locale)
+                                    .format(loan.returnedDate!)
                               : AppLocalizations.of(context)!.loanNoReturnedDate
                         : DateFormat.yMd(locale).format(loan.end),
                     maxLines: 1,
