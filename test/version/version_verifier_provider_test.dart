@@ -55,9 +55,8 @@ void main() {
     });
 
     test('loadVersion handles error', () async {
-      when(
-        () => mockRepository.informationGet(),
-      ).thenThrow(Exception('Failed to load version'));
+      when(() => mockRepository.informationGet())
+          .thenThrow(Exception('Failed to load version'));
 
       final result = await provider.loadVersion();
 

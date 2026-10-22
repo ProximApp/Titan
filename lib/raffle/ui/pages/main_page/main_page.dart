@@ -170,9 +170,8 @@ class RaffleMainPage extends HookConsumerWidget {
                             left: 5,
                           ),
                           child: SectionTitle(
-                            text: AppLocalizations.of(
-                              context,
-                            )!.raffleActualRaffles,
+                            text: AppLocalizations.of(context)!
+                                .raffleActualRaffles,
                           ),
                         ),
                       ...onGoingRaffles.map((e) => RaffleWidget(raffle: e)),
@@ -184,9 +183,8 @@ class RaffleMainPage extends HookConsumerWidget {
                             left: 5,
                           ),
                           child: SectionTitle(
-                            text: AppLocalizations.of(
-                              context,
-                            )!.raffleNextRaffles,
+                            text: AppLocalizations.of(context)!
+                                .raffleNextRaffles,
                           ),
                         ),
                       ...incomingRaffles.map((e) => RaffleWidget(raffle: e)),
@@ -198,9 +196,8 @@ class RaffleMainPage extends HookConsumerWidget {
                             left: 5,
                           ),
                           child: SectionTitle(
-                            text: AppLocalizations.of(
-                              context,
-                            )!.rafflePastRaffles,
+                            text: AppLocalizations.of(context)!
+                                .rafflePastRaffles,
                           ),
                         ),
                       ...pastRaffles.map((e) => RaffleWidget(raffle: e)),
@@ -211,9 +208,8 @@ class RaffleMainPage extends HookConsumerWidget {
                           height: 100,
                           child: Center(
                             child: Text(
-                              AppLocalizations.of(
-                                context,
-                              )!.raffleNoCurrentRaffle,
+                              AppLocalizations.of(context)!
+                                  .raffleNoCurrentRaffle,
                               style: const TextStyle(fontSize: 20),
                             ),
                           ),

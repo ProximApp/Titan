@@ -135,9 +135,8 @@ class AddEditManagerPage extends HookConsumerWidget {
                         await showDialog(
                           context: context,
                           builder: (context) => CustomDialogBox(
-                            descriptions: AppLocalizations.of(
-                              context,
-                            )!.bookingDeleteManagerConfirmation,
+                            descriptions: AppLocalizations.of(context)!
+                                .bookingDeleteManagerConfirmation,
                             onYes: () async {
                               final deletedManagerMsg = AppLocalizations.of(
                                 context,
@@ -160,9 +159,8 @@ class AddEditManagerPage extends HookConsumerWidget {
                                 );
                               }
                             },
-                            title: AppLocalizations.of(
-                              context,
-                            )!.bookingDeleting,
+                            title: AppLocalizations.of(context)!
+                                .bookingDeleting,
                           ),
                         );
                       },

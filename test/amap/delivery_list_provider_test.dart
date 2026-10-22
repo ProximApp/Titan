@@ -52,28 +52,25 @@ void main() {
 
     tearDown(() => container.dispose());
 
-    test(
-      'loadDeliveriesList should return the list of deliveries from the repository',
-      () async {
-        // Arrange
-        when(() => mockRepository.amapDeliveriesGet()).thenAnswer(
-          (_) async => chopper.Response(http.Response('[]', 200), deliveries),
-        );
+    test('loadDeliveriesList should return the list of deliveries from the repository', () async {
+      // Arrange
+      when(() => mockRepository.amapDeliveriesGet()).thenAnswer(
+        (_) async => chopper.Response(http.Response('[]', 200), deliveries),
+      );
 
-        // Act
-        final result = await notifier.loadDeliveriesList();
+      // Act
+      final result = await notifier.loadDeliveriesList();
 
-        // Assert
-        expect(
-          result.when(
-            data: (data) => data,
-            error: (e, s) => [],
-            loading: () => [],
-          ),
-          deliveries,
-        );
-      },
-    );
+      // Assert
+      expect(
+        result.when(
+          data: (data) => data,
+          error: (e, s) => [],
+          loading: () => [],
+        ),
+        deliveries,
+      );
+    });
 
     test('addDelivery should add a new delivery to the list', () async {
       // Arrange
@@ -81,11 +78,10 @@ void main() {
         name: 'Delivery',
         deliveryDate: DateTime.now(),
       );
-      when(
-        () => mockRepository.amapDeliveriesPost(body: any(named: 'body')),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('[]', 200), delivery),
-      );
+      when(() => mockRepository.amapDeliveriesPost(body: any(named: 'body')))
+          .thenAnswer(
+            (_) async => chopper.Response(http.Response('[]', 200), delivery),
+          );
       notifier.state = AsyncValue.data(deliveries);
 
       // Act

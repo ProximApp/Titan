@@ -122,9 +122,8 @@ void main() {
     });
 
     test('loadProductList should handle error', () async {
-      when(
-        () => mockProductListRepository.amapProductsGet(),
-      ).thenThrow(Exception('Error'));
+      when(() => mockProductListRepository.amapProductsGet())
+          .thenThrow(Exception('Error'));
       final result = await notifier.loadProductList();
       expect(result, isA<AsyncError>());
     });

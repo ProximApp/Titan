@@ -40,11 +40,10 @@ void main() {
     tearDown(() => container.dispose());
 
     test('Should load a group', () async {
-      when(
-        () => mockGroup.groupsGroupIdGet(groupId: any(named: 'groupId')),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('[]', 200), group),
-      );
+      when(() => mockGroup.groupsGroupIdGet(groupId: any(named: 'groupId')))
+          .thenAnswer(
+            (_) async => chopper.Response(http.Response('[]', 200), group),
+          );
       final result = await groupNotifier.loadGroup("1");
       expect(result, isA<AsyncData<CoreGroup>>());
       expect(
@@ -58,48 +57,43 @@ void main() {
     });
 
     test('Should handle error when loading a group', () async {
-      when(
-        () => mockGroup.groupsGroupIdGet(groupId: any(named: 'groupId')),
-      ).thenThrow(Exception('Error'));
+      when(() => mockGroup.groupsGroupIdGet(groupId: any(named: 'groupId')))
+          .thenThrow(Exception('Error'));
       final result = await groupNotifier.loadGroup("1");
       expect(result, isA<AsyncError>());
     });
 
     test('Should add a member to the group', () async {
-      when(
-        () => mockGroup.groupsMembershipPost(body: any(named: 'body')),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('[]', 200), group),
-      );
+      when(() => mockGroup.groupsMembershipPost(body: any(named: 'body')))
+          .thenAnswer(
+            (_) async => chopper.Response(http.Response('[]', 200), group),
+          );
       groupNotifier.setGroup(group);
       final result = await groupNotifier.addMember(group, user);
       expect(result, true);
     });
 
     test('Should handle error when adding a member to the group', () async {
-      when(
-        () => mockGroup.groupsMembershipPost(body: any(named: 'body')),
-      ).thenThrow(Exception('Error'));
+      when(() => mockGroup.groupsMembershipPost(body: any(named: 'body')))
+          .thenThrow(Exception('Error'));
       groupNotifier.setGroup(group);
       final result = await groupNotifier.addMember(group, user);
       expect(result, false);
     });
 
     test('Should delete a member from the group', () async {
-      when(
-        () => mockGroup.groupsMembershipDelete(body: any(named: 'body')),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('[]', 200), true),
-      );
+      when(() => mockGroup.groupsMembershipDelete(body: any(named: 'body')))
+          .thenAnswer(
+            (_) async => chopper.Response(http.Response('[]', 200), true),
+          );
       groupNotifier.setGroup(group);
       final result = await groupNotifier.deleteMember(group, user);
       expect(result, true);
     });
 
     test('Should handle error when deleting a member from the group', () async {
-      when(
-        () => mockGroup.groupsMembershipDelete(body: any(named: 'body')),
-      ).thenThrow(Exception('Error'));
+      when(() => mockGroup.groupsMembershipDelete(body: any(named: 'body')))
+          .thenThrow(Exception('Error'));
       groupNotifier.setGroup(group);
       final result = await groupNotifier.deleteMember(group, user);
       expect(result, false);

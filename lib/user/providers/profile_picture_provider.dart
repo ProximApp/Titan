@@ -26,17 +26,17 @@ class ProfilePictureNotifier extends SingleNotifier<Uint8List> {
 
   Future<AsyncValue<Uint8List>> getProfilePicture(String userId) async {
     return await load(
-      () async => (await repository.usersUserIdProfilePictureGet(
-        userId: userId,
-      )).fileBytes,
+      () async =>
+          (await repository.usersUserIdProfilePictureGet(userId: userId))
+              .fileBytes,
     );
   }
 
   Future<AsyncValue<Uint8List>> getMyProfilePicture() async {
     return await load(
-      () async => (await repository.usersUserIdProfilePictureGet(
-        userId: "me",
-      )).fileBytes,
+      () async =>
+          (await repository.usersUserIdProfilePictureGet(userId: "me"))
+              .fileBytes,
     );
   }
 

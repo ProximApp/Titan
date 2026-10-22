@@ -73,9 +73,8 @@ class AssociationMembershipInformationEditor extends HookConsumerWidget {
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return AppLocalizations.of(
-                          context,
-                        )!.adminEmptyFieldError;
+                        return AppLocalizations.of(context)!
+                            .adminEmptyFieldError;
                       }
                       return null;
                     },

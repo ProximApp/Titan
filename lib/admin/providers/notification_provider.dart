@@ -11,9 +11,8 @@ class NotificationNotifier extends SingleNotifierAPI<bool> {
   }
 
   Future<bool> sendNotification(GroupNotificationRequest mailList) async {
-    return (await notificationRepository.notificationSendPost(
-      body: mailList,
-    )).isSuccessful;
+    return (await notificationRepository.notificationSendPost(body: mailList))
+        .isSuccessful;
   }
 }
 

@@ -5,8 +5,11 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:json_annotation/json_annotation.dart' as json;
 
 import 'package:collection/collection.dart';
+
 import 'dart:convert';
+
 import 'package:titan/tools/date_time_json.dart';
+
 import 'openapi.enums.swagger.dart' as enums;
 
 part 'openapi.models.swagger.g.dart';
@@ -38250,8 +38253,7 @@ class AppModulesSportCompetitionSchemasSportCompetitionProductVariantComplete {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other
-                is AppModulesSportCompetitionSchemasSportCompetitionProductVariantComplete &&
+        (other is AppModulesSportCompetitionSchemasSportCompetitionProductVariantComplete &&
             (identical(other.productId, productId) ||
                 const DeepCollectionEquality().equals(
                   other.productId,

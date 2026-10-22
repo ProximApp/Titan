@@ -134,9 +134,8 @@ class EditablePlantDetail extends HookConsumerWidget {
                   plantNotifier.updatePlant(
                     plant.copyWith(plantingDate: DateTime.now()),
                   );
-                  plantationDate.text = DateFormat.yMd(
-                    locale,
-                  ).format(DateTime.now());
+                  plantationDate.text = DateFormat.yMd(locale)
+                      .format(DateTime.now());
                   myPlantsNotifier.updatePlantInList(
                     plant
                         .copyWith(plantingDate: DateTime.now())
@@ -189,9 +188,8 @@ class EditablePlantDetail extends HookConsumerWidget {
                                   )
                                   .toPlantSimple(),
                             );
-                            plantationDate.text = DateFormat.yMd(
-                              locale,
-                            ).format(DateTime.now());
+                            plantationDate.text = DateFormat.yMd(locale)
+                                .format(DateTime.now());
                           } else {
                             displayToastWithContext(
                               TypeMsg.error,

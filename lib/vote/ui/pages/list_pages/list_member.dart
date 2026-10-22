@@ -94,9 +94,8 @@ class ListMember extends HookConsumerWidget {
                                   return;
                                 }
                                 final alreadyAddedMemberMsg =
-                                    AppLocalizations.of(
-                                      context,
-                                    )!.voteAlreadyAddedMember;
+                                    AppLocalizations.of(context)!
+                                        .voteAlreadyAddedMember;
                                 if (addMemberKey.currentState!.validate()) {
                                   final value = await membersNotifier.addMember(
                                     ListMemberComplete(

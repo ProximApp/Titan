@@ -45,9 +45,8 @@ class ListSideItem extends HookConsumerWidget {
                   context: context,
                   builder: (context) => CustomDialogBox(
                     title: AppLocalizations.of(context)!.voteWarning,
-                    descriptions: AppLocalizations.of(
-                      context,
-                    )!.voteWarningMessage,
+                    descriptions: AppLocalizations.of(context)!
+                        .voteWarningMessage,
                     onYes: () {
                       selectedListNotifier.clear();
                       animation.forward(from: 0);

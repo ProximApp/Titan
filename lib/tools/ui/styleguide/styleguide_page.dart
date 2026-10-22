@@ -471,8 +471,7 @@ class StyleGuidePage extends HookConsumerWidget {
                                 builder: (context) {
                                   return BottomModalTemplate(
                                     title: "Example Modal",
-                                    description:
-                                        "This is a customizable bottom modal template that can contain any content.",
+                                    description: "This is a customizable bottom modal template that can contain any content.",
                                     actions: [
                                       Button(
                                         text: "Close Modal",
@@ -507,8 +506,7 @@ class StyleGuidePage extends HookConsumerWidget {
                                 builder: (context) {
                                   return BottomModalTemplate.danger(
                                     title: "Confirm Deletion",
-                                    description:
-                                        "This action cannot be undone. All data will be permanently deleted.",
+                                    description: "This action cannot be undone. All data will be permanently deleted.",
                                     actions: [
                                       Button.onDanger(
                                         text: "Delete Permanently",
@@ -571,15 +569,14 @@ class StyleGuidePage extends HookConsumerWidget {
                                           ),
                                           onTap: () {
                                             Navigator.pop(context);
-                                            ScaffoldMessenger.of(
-                                              context,
-                                            ).showSnackBar(
-                                              const SnackBar(
-                                                content: Text(
-                                                  'Add member tapped',
-                                                ),
-                                              ),
-                                            );
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                                  const SnackBar(
+                                                    content: Text(
+                                                      'Add member tapped',
+                                                    ),
+                                                  ),
+                                                );
                                           },
                                         ),
 

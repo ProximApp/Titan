@@ -177,9 +177,8 @@ class AddEditEventPage extends HookConsumerWidget {
                                   Column(
                                     children: [
                                       Text(
-                                        AppLocalizations.of(
-                                          context,
-                                        )!.eventRecurrenceDays,
+                                        AppLocalizations.of(context)!
+                                            .eventRecurrenceDays,
                                         style: const TextStyle(
                                           color: Colors.black,
                                         ),
@@ -236,25 +235,21 @@ class AddEditEventPage extends HookConsumerWidget {
                                       ),
                                       const SizedBox(height: 20),
                                       Text(
-                                        AppLocalizations.of(
-                                          context,
-                                        )!.eventInterval,
+                                        AppLocalizations.of(context)!
+                                            .eventInterval,
                                         style: const TextStyle(
                                           color: Colors.black,
                                         ),
                                       ),
                                       const SizedBox(height: 10),
                                       TextEntry(
-                                        label: AppLocalizations.of(
-                                          context,
-                                        )!.eventInterval,
+                                        label: AppLocalizations.of(context)!
+                                            .eventInterval,
                                         controller: interval,
-                                        prefix: AppLocalizations.of(
-                                          context,
-                                        )!.eventEventEvery,
-                                        suffix: AppLocalizations.of(
-                                          context,
-                                        )!.eventWeeks,
+                                        prefix: AppLocalizations.of(context)!
+                                            .eventEventEvery,
+                                        suffix: AppLocalizations.of(context)!
+                                            .eventWeeks,
                                         isInt: true,
                                         keyboardType: TextInputType.number,
                                       ),
@@ -290,9 +285,8 @@ class AddEditEventPage extends HookConsumerWidget {
                                           recurrenceEndDate,
                                         ),
                                         controller: recurrenceEndDate,
-                                        label: AppLocalizations.of(
-                                          context,
-                                        )!.eventRecurrenceEndDate,
+                                        label: AppLocalizations.of(context)!
+                                            .eventRecurrenceEndDate,
                                       ),
                                     ],
                                   ),
@@ -305,9 +299,8 @@ class AddEditEventPage extends HookConsumerWidget {
                                         ? getOnlyDayDate(context, start)
                                         : getFullDate(context, start),
                                     controller: start,
-                                    label: AppLocalizations.of(
-                                      context,
-                                    )!.eventStartDate,
+                                    label: AppLocalizations.of(context)!
+                                        .eventStartDate,
                                   ),
                                   const SizedBox(height: 30),
                                   DateEntry(
@@ -315,9 +308,8 @@ class AddEditEventPage extends HookConsumerWidget {
                                         ? getOnlyDayDate(context, end)
                                         : getFullDate(context, end),
                                     controller: end,
-                                    label: AppLocalizations.of(
-                                      context,
-                                    )!.eventEndDate,
+                                    label: AppLocalizations.of(context)!
+                                        .eventEndDate,
                                   ),
                                 ],
                               ),
@@ -414,18 +406,15 @@ class AddEditEventPage extends HookConsumerWidget {
                             if (key.currentState == null) {
                               return;
                             }
-                            final editedEventMsg = AppLocalizations.of(
-                              context,
-                            )!.eventEditedEvent;
-                            final addedEventMsg = AppLocalizations.of(
-                              context,
-                            )!.eventAddedEvent;
+                            final editedEventMsg = AppLocalizations.of(context)!
+                                .eventEditedEvent;
+                            final addedEventMsg = AppLocalizations.of(context)!
+                                .eventAddedEvent;
                             final editingErrorMsg = AppLocalizations.of(
                               context,
                             )!.eventEditingError;
-                            final addingErrorMsg = AppLocalizations.of(
-                              context,
-                            )!.eventAddingError;
+                            final addingErrorMsg = AppLocalizations.of(context)!
+                                .eventAddingError;
                             if (key.currentState!.validate()) {
                               if (allDay.value) {
                                 start.text =
@@ -447,9 +436,8 @@ class AddEditEventPage extends HookConsumerWidget {
                                 displayToast(
                                   context,
                                   TypeMsg.error,
-                                  AppLocalizations.of(
-                                    context,
-                                  )!.eventInvalidDates,
+                                  AppLocalizations.of(context)!
+                                      .eventInvalidDates,
                                 );
                               } else if (recurrent.value &&
                                   selectedDays
@@ -458,9 +446,8 @@ class AddEditEventPage extends HookConsumerWidget {
                                 displayToast(
                                   context,
                                   TypeMsg.error,
-                                  AppLocalizations.of(
-                                    context,
-                                  )!.eventNoDaySelected,
+                                  AppLocalizations.of(context)!
+                                      .eventNoDaySelected,
                                 );
                               } else {
                                 String recurrenceRule = "";

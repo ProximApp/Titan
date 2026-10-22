@@ -70,9 +70,8 @@ class AdvertAddEditAdvertPage extends HookConsumerWidget {
               FormField<List<Association>>(
                 validator: (e) {
                   if (selectedAssociation.isEmpty) {
-                    return AppLocalizations.of(
-                      context,
-                    )!.advertChoosingAnnouncer;
+                    return AppLocalizations.of(context)!
+                        .advertChoosingAnnouncer;
                   }
                   return null;
                 },
@@ -112,9 +111,8 @@ class AdvertAddEditAdvertPage extends HookConsumerWidget {
                     FormField<File>(
                       validator: (e) {
                         if (poster.value == null && !isEdit) {
-                          return AppLocalizations.of(
-                            context,
-                          )!.advertChoosingPoster;
+                          return AppLocalizations.of(context)!
+                              .advertChoosingPoster;
                         }
                         return null;
                       },
@@ -274,15 +272,12 @@ class AdvertAddEditAdvertPage extends HookConsumerWidget {
                             postToFeed: postToFeed.value,
                             notification: notification.value,
                           );
-                          final editedAdvertMsg = AppLocalizations.of(
-                            context,
-                          )!.advertEditedAdvert;
-                          final addedAdvertMsg = AppLocalizations.of(
-                            context,
-                          )!.advertAddedAdvert;
-                          final editingErrorMsg = AppLocalizations.of(
-                            context,
-                          )!.advertEditingError;
+                          final editedAdvertMsg = AppLocalizations.of(context)!
+                              .advertEditedAdvert;
+                          final addedAdvertMsg = AppLocalizations.of(context)!
+                              .advertAddedAdvert;
+                          final editingErrorMsg = AppLocalizations.of(context)!
+                              .advertEditingError;
                           final value = isEdit
                               ? await advertListNotifier.updateAdvert(newAdvert)
                               : await advertListNotifier.addAdvert(
@@ -332,9 +327,8 @@ class AdvertAddEditAdvertPage extends HookConsumerWidget {
                           displayToast(
                             context,
                             TypeMsg.error,
-                            AppLocalizations.of(
-                              context,
-                            )!.advertIncorrectOrMissingFields,
+                            AppLocalizations.of(context)!
+                                .advertIncorrectOrMissingFields,
                           );
                         }
                       },

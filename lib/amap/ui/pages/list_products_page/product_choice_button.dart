@@ -79,18 +79,14 @@ class ProductChoiceButton extends HookConsumerWidget {
                     user: me.toCoreUserSimple(),
                     amount: order.amount,
                   );
-                  final updatedOrderMsg = AppLocalizations.of(
-                    context,
-                  )!.amapUpdatedOrder;
-                  final addedOrderMsg = AppLocalizations.of(
-                    context,
-                  )!.amapAddedOrder;
-                  final updatingErrorMsg = AppLocalizations.of(
-                    context,
-                  )!.amapUpdatingError;
-                  final addingErrorMsg = AppLocalizations.of(
-                    context,
-                  )!.amapAddingError;
+                  final updatedOrderMsg = AppLocalizations.of(context)!
+                      .amapUpdatedOrder;
+                  final addedOrderMsg = AppLocalizations.of(context)!
+                      .amapAddedOrder;
+                  final updatingErrorMsg = AppLocalizations.of(context)!
+                      .amapUpdatingError;
+                  final addingErrorMsg = AppLocalizations.of(context)!
+                      .amapAddingError;
                   final value = isEdit
                       ? await orderListNotifier.updateOrder(newOrder)
                       : await orderListNotifier.addOrder(
@@ -162,9 +158,8 @@ class ProductChoiceButton extends HookConsumerWidget {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) => CustomDialogBox(
-                    descriptions: AppLocalizations.of(
-                      context,
-                    )!.amapDeletingOrder,
+                    descriptions: AppLocalizations.of(context)!
+                        .amapDeletingOrder,
                     title: AppLocalizations.of(context)!.amapDeleting,
                     onYes: () {
                       orderNotifier.setOrder(OrderReturn.empty());

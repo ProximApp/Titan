@@ -235,18 +235,15 @@ class EventUi extends ConsumerWidget {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return CustomDialogBox(
-                                    descriptions: AppLocalizations.of(
-                                      context,
-                                    )!.eventDeletingEvent,
+                                    descriptions: AppLocalizations.of(context)!
+                                        .eventDeletingEvent,
                                     onYes: () async {
                                       final deletedEventMsg =
-                                          AppLocalizations.of(
-                                            context,
-                                          )!.eventDeletedEvent;
+                                          AppLocalizations.of(context)!
+                                              .eventDeletedEvent;
                                       final deletingErrorMsg =
-                                          AppLocalizations.of(
-                                            context,
-                                          )!.eventDeletingError;
+                                          AppLocalizations.of(context)!
+                                              .eventDeletingError;
                                       final value = await eventListNotifier
                                           .deleteEvent(event);
                                       if (value) {
@@ -261,9 +258,8 @@ class EventUi extends ConsumerWidget {
                                         );
                                       }
                                     },
-                                    title: AppLocalizations.of(
-                                      context,
-                                    )!.eventDeleting,
+                                    title: AppLocalizations.of(context)!
+                                        .eventDeleting,
                                   );
                                 },
                               );

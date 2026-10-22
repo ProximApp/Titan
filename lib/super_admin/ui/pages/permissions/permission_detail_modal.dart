@@ -40,9 +40,8 @@ class PermissionDetailModal extends HookConsumerWidget {
     Future<void> runPermissionUpdate(Future<bool> Function() action) async {
       final success = await action();
       if (!success && context.mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(l10n.adminError)));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(l10n.adminError)));
       }
     }
 

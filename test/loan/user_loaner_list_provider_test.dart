@@ -51,9 +51,8 @@ void main() {
     });
 
     test('loadMyLoanerList handles error', () async {
-      when(
-        () => mockRepository.loansUsersMeLoanersGet(),
-      ).thenThrow(Exception('Failed to load loaners'));
+      when(() => mockRepository.loansUsersMeLoanersGet())
+          .thenThrow(Exception('Failed to load loaners'));
 
       final result = await provider.loadMyLoanerList();
 
@@ -67,11 +66,11 @@ void main() {
       when(() => mockRepository.loansUsersMeLoanersGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), loaners),
       );
-      when(
-        () => mockRepository.loansLoanersPost(body: any(named: 'body')),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('body', 200), newLoaner),
-      );
+      when(() => mockRepository.loansLoanersPost(body: any(named: 'body')))
+          .thenAnswer(
+            (_) async =>
+                chopper.Response(http.Response('body', 200), newLoaner),
+          );
 
       provider.state = AsyncValue.data([...loaners]);
       final result = await provider.addLoaner(newLoanerBase);
@@ -84,9 +83,8 @@ void main() {
     });
 
     test('addLoaner handles error', () async {
-      when(
-        () => mockRepository.loansLoanersPost(body: any(named: 'body')),
-      ).thenThrow(Exception('Failed to add loaner'));
+      when(() => mockRepository.loansLoanersPost(body: any(named: 'body')))
+          .thenThrow(Exception('Failed to add loaner'));
 
       provider.state = AsyncValue.data([...loaners]);
       final result = await provider.addLoaner(newLoanerBase);

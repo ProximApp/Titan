@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'dart:async';
 import 'dart:ui' as ui;
+
 import 'package:titan/tools/constants.dart';
 
 /// Determines if a color is considered dark or light

@@ -104,9 +104,8 @@ class SearchUser extends HookConsumerWidget {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) => CustomDialogBox(
-                          descriptions: AppLocalizations.of(
-                            context,
-                          )!.adminRemoveGroupMember,
+                          descriptions: AppLocalizations.of(context)!
+                              .adminRemoveGroupMember,
                           title: AppLocalizations.of(context)!.adminDeleting,
                           onYes: () async {
                             final updatedGroupMsg = AppLocalizations.of(

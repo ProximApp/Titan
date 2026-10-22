@@ -24,9 +24,8 @@ void main() {
 
     setUp(() async {
       mockRepository = MockBookingRepository();
-      when(
-        () => mockRepository.bookingBookingsUsersMeGet(),
-      ).thenThrow(Exception('Failed to load bookings'));
+      when(() => mockRepository.bookingBookingsUsersMeGet())
+          .thenThrow(Exception('Failed to load bookings'));
       container = ProviderContainer(
         overrides: [repositoryProvider.overrideWithValue(mockRepository)],
       );
@@ -50,9 +49,8 @@ void main() {
     });
 
     test('loadUserBookings handles error', () async {
-      when(
-        () => mockRepository.bookingBookingsUsersMeGet(),
-      ).thenThrow(Exception('Failed to load bookings'));
+      when(() => mockRepository.bookingBookingsUsersMeGet())
+          .thenThrow(Exception('Failed to load bookings'));
 
       final result = await provider.loadUserBookings();
 
@@ -66,11 +64,11 @@ void main() {
       when(() => mockRepository.bookingBookingsUsersMeGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), bookings),
       );
-      when(
-        () => mockRepository.bookingBookingsPost(body: any(named: 'body')),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('body', 200), newBooking),
-      );
+      when(() => mockRepository.bookingBookingsPost(body: any(named: 'body')))
+          .thenAnswer(
+            (_) async =>
+                chopper.Response(http.Response('body', 200), newBooking),
+          );
 
       provider.state = AsyncValue.data([...bookings]);
       final result = await provider.addBooking(newBooking.toBookingBase());
@@ -83,9 +81,8 @@ void main() {
     });
 
     test('addBooking handles error', () async {
-      when(
-        () => mockRepository.bookingBookingsPost(body: any(named: 'body')),
-      ).thenThrow(Exception('Failed to add booking'));
+      when(() => mockRepository.bookingBookingsPost(body: any(named: 'body')))
+          .thenThrow(Exception('Failed to add booking'));
 
       provider.state = AsyncValue.data([...bookings]);
       final result = await provider.addBooking(newBooking.toBookingBase());

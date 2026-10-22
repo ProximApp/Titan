@@ -99,9 +99,8 @@ class SchoolsPage extends HookConsumerWidget {
                                   context: context,
                                   builder: (context) {
                                     return CustomDialogBox(
-                                      title: AppLocalizations.of(
-                                        context,
-                                      )!.adminDeleting,
+                                      title: AppLocalizations.of(context)!
+                                          .adminDeleting,
                                       descriptions: AppLocalizations.of(
                                         context,
                                       )!.adminDeleteSchool,

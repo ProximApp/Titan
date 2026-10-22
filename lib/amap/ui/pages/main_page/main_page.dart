@@ -238,9 +238,8 @@ class AmapMainPage extends HookConsumerWidget {
                             } else {
                               displayToastWithoutContext(
                                 TypeMsg.error,
-                                AppLocalizations.of(
-                                  context,
-                                )!.amapNoSelectedDelivery,
+                                AppLocalizations.of(context)!
+                                    .amapNoSelectedDelivery,
                               );
                             }
                           },

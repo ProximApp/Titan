@@ -52,9 +52,8 @@ class ConfirmFundButton extends ConsumerWidget {
     }
 
     Future<void> tryLaunchUrl(url) async {
-      final cantLaunchUrlMsg = AppLocalizations.of(
-        context,
-      )!.paiementCantLaunchURL;
+      final cantLaunchUrlMsg = AppLocalizations.of(context)!
+          .paiementCantLaunchURL;
       if (!await launchUrl(
         Uri.parse(url),
         mode: LaunchMode.externalApplication,

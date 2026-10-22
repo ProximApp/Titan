@@ -37,11 +37,11 @@ void main() {
 
     setUp(() {
       mockRepository = MockRequestHistoryRepository();
-      when(
-        () => mockRepository.mypaymentRequestsGet(used: any(named: 'used')),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('[]', 200), <Request$>[]),
-      );
+      when(() => mockRepository.mypaymentRequestsGet(used: any(named: 'used')))
+          .thenAnswer(
+            (_) async =>
+                chopper.Response(http.Response('[]', 200), <Request$>[]),
+          );
       container = ProviderContainer(
         overrides: [repositoryProvider.overrideWithValue(mockRepository)],
       );
@@ -75,9 +75,8 @@ void main() {
     );
 
     test('getRequestHistory should handle error', () async {
-      when(
-        () => mockRepository.mypaymentRequestsGet(used: any(named: 'used')),
-      ).thenThrow(Exception('Error'));
+      when(() => mockRepository.mypaymentRequestsGet(used: any(named: 'used')))
+          .thenThrow(Exception('Error'));
       final result = await notifier.getRequestHistory();
       expect(result, isA<AsyncError>());
     });

@@ -139,9 +139,8 @@ class RaffleInfoPage extends HookConsumerWidget {
                           AlignLeftText(
                             prizes.isEmpty
                                 ? AppLocalizations.of(context)!.raffleNoPrize
-                                : AppLocalizations.of(
-                                    context,
-                                  )!.raffleActualPrize,
+                                : AppLocalizations.of(context)!
+                                      .raffleActualPrize,
                             padding: const EdgeInsets.symmetric(
                               vertical: 10,
                               horizontal: 30,

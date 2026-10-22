@@ -602,9 +602,8 @@ class _TicketEventContent extends HookConsumerWidget {
                   children: [
                     Text(
                       l10n.ticketsTotal,
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: ColorConstants.onTertiary,
-                      ),
+                      style: Theme.of(context).textTheme.bodyLarge
+                          ?.copyWith(color: ColorConstants.onTertiary),
                     ),
                     Text(
                       '${selectedCategory.value!.priceInEuros}€',
@@ -620,9 +619,8 @@ class _TicketEventContent extends HookConsumerWidget {
                 if (selectedCategory.value!.priceInEuros > 0) ...[
                   Text(
                     l10n.ticketsPaymentMethod,
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: ColorConstants.secondary,
-                    ),
+                    style: Theme.of(context).textTheme.labelLarge
+                        ?.copyWith(color: ColorConstants.secondary),
                   ),
                   const SizedBox(height: 12),
                   IntrinsicHeight(

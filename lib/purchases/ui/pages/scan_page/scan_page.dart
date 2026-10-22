@@ -71,9 +71,8 @@ class ScanPage extends HookConsumerWidget {
                     const SizedBox(height: 10),
                     seller.id == ""
                         ? Text(
-                            AppLocalizations.of(
-                              context,
-                            )!.purchasesPleaseSelectSeller,
+                            AppLocalizations.of(context)!
+                                .purchasesPleaseSelectSeller,
                           )
                         : AsyncChild(
                             value: products,
@@ -83,9 +82,8 @@ class ScanPage extends HookConsumerWidget {
                               );
                               if (scannableProducts.isEmpty) {
                                 return Text(
-                                  AppLocalizations.of(
-                                    context,
-                                  )!.purchasesNoScannableProducts,
+                                  AppLocalizations.of(context)!
+                                      .purchasesNoScannableProducts,
                                 );
                               }
                               return Column(

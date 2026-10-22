@@ -151,9 +151,9 @@ class AddEditListPage extends HookConsumerWidget {
                 const SizedBox(height: 20),
                 HorizontalListView.builder(
                   height: 50,
-                  items: getEnumValues(
-                    ListType.values,
-                  ).where((e) => e != ListType.blank).toList(),
+                  items: getEnumValues(ListType.values)
+                      .where((e) => e != ListType.blank)
+                      .toList(),
                   itemBuilder: (context, e, i) => SectionChip(
                     label: capitalize(e.name),
                     selected: listType.value == e,
@@ -244,12 +244,10 @@ class AddEditListPage extends HookConsumerWidget {
                           program: program.text,
                         );
                         final editedPretendanceMsg = isEdit
-                            ? AppLocalizations.of(
-                                context,
-                              )!.voteEditedPretendance
-                            : AppLocalizations.of(
-                                context,
-                              )!.voteAddedPretendance;
+                            ? AppLocalizations.of(context)!
+                                  .voteEditedPretendance
+                            : AppLocalizations.of(context)!
+                                  .voteAddedPretendance;
                         final editingPretendanceErrorMsg = AppLocalizations.of(
                           context,
                         )!.voteEditingError;
@@ -315,9 +313,8 @@ class AddEditListPage extends HookConsumerWidget {
                         displayToast(
                           context,
                           TypeMsg.error,
-                          AppLocalizations.of(
-                            context,
-                          )!.voteIncorrectOrMissingFields,
+                          AppLocalizations.of(context)!
+                              .voteIncorrectOrMissingFields,
                         );
                       }
                     },

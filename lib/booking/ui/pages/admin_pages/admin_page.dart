@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:titan/generated/openapi.swagger.dart';
 
 import 'package:flutter/material.dart';

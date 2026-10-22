@@ -5,16 +5,21 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:json_annotation/json_annotation.dart' as json;
 import 'package:collection/collection.dart';
+
 import 'dart:convert';
 
 import 'openapi.models.swagger.dart';
+
 import 'package:chopper/chopper.dart';
 
 import 'client_mapping.dart';
+
 import 'dart:async';
+
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart' show MultipartFile;
 import 'package:chopper/chopper.dart' as chopper;
+
 import 'openapi.enums.swagger.dart' as enums;
 import 'openapi.enums.swagger.dart'
     show
@@ -56,7 +61,9 @@ import 'openapi.enums.swagger.dart'
         WalletDeviceStatus,
         WalletType;
 import 'openapi.metadata.swagger.dart';
+
 import 'package:titan/tools/date_time_json.dart';
+
 export 'openapi.enums.swagger.dart';
 export 'openapi.models.swagger.dart';
 
@@ -108,8 +115,7 @@ abstract class Openapi extends ChopperService {
   Future<chopper.Response<List<SpeciesComplete>>> _seedLibrarySpeciesGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Return all species from database as a list of SpeciesComplete schemas',
+      description: 'Return all species from database as a list of SpeciesComplete schemas',
       summary: 'Get All Species',
       operationId: 'get_seed_library_species_',
       consumes: [],
@@ -248,8 +254,7 @@ abstract class Openapi extends ChopperService {
   Future<chopper.Response<List<PlantSimple>>> _seedLibraryPlantsWaitingGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Return all plants where state=waiting from database as a list of PlantsComplete schemas',
+      description: 'Return all plants where state=waiting from database as a list of PlantsComplete schemas',
       summary: 'Get Waiting Plants',
       operationId: 'get_seed_library_plants_waiting',
       consumes: [],
@@ -275,8 +280,7 @@ abstract class Openapi extends ChopperService {
   Future<chopper.Response<List<PlantSimple>>> _seedLibraryPlantsUsersMeGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Return all plants where user ={user_id} from database as a list of PlantsComplete schemas',
+      description: 'Return all plants where user ={user_id} from database as a list of PlantsComplete schemas',
       summary: 'Get My Plants',
       operationId: 'get_seed_library_plants_users_me',
       consumes: [],
@@ -307,8 +311,7 @@ abstract class Openapi extends ChopperService {
     @Path('user_id') required String? userId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Return all plants where borrower_id = {user_id} from database as a list of PlantsComplete schemas',
+      description: 'Return all plants where borrower_id = {user_id} from database as a list of PlantsComplete schemas',
       summary: 'Get Plants By User Id',
       operationId: 'get_seed_library_plants_users_{user_id}',
       consumes: [],
@@ -339,8 +342,7 @@ abstract class Openapi extends ChopperService {
     @Path('plant_id') required String? plantId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Return the plants where plant ={plant_id} from database as a PlantsComplete schemas',
+      description: 'Return the plants where plant ={plant_id} from database as a PlantsComplete schemas',
       summary: 'Get Plant By Id',
       operationId: 'get_seed_library_plants_{plant_id}',
       consumes: [],
@@ -481,8 +483,7 @@ abstract class Openapi extends ChopperService {
     @Path('plant_id') required String? plantId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Plant borrowed by the user (modify borrowing date, borrower and state)',
+      description: 'Plant borrowed by the user (modify borrowing date, borrower and state)',
       summary: 'Borrow Plant',
       operationId: 'patch_seed_library_plants_{plant_id}_borrow',
       consumes: [],
@@ -680,8 +681,7 @@ abstract class Openapi extends ChopperService {
     @Path('product_id') required String? productId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Delete a product. A product can not be deleted if it is already used in a delivery.
+      description: '''Delete a product. A product can not be deleted if it is already used in a delivery.
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Delete Product',
@@ -829,8 +829,7 @@ abstract class Openapi extends ChopperService {
     @Body() required DeliveryProductsUpdate? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Add `product_id` product to `delivery_id` delivery. This endpoint will only add a membership between the two objects.
+      description: '''Add `product_id` product to `delivery_id` delivery. This endpoint will only add a membership between the two objects.
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Add Product To Delivery',
@@ -863,8 +862,7 @@ abstract class Openapi extends ChopperService {
     @Body() required DeliveryProductsUpdate? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Remove a given product from a delivery. This won\'t delete the product nor the delivery.
+      description: '''Remove a given product from a delivery. This won\'t delete the product nor the delivery.
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
       summary: 'Remove Product From Delivery',
@@ -1250,8 +1248,7 @@ abstract class Openapi extends ChopperService {
     @Body() required CashEdit? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Edit cash for an user. This will add the balance to the current balance.
+      description: '''Edit cash for an user. This will add the balance to the current balance.
 A negative value can be provided to remove money from the user.
 
 **The user must be a member of a group authorized to use manage AMAP to use this endpoint**''',
@@ -1420,8 +1417,7 @@ A negative value can be provided to remove money from the user.
     @Body() required ManagerUpdate? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Update a manager, the request should contain a JSON with the fields to change (not necessarily all fields) and their new value.
+      description: '''Update a manager, the request should contain a JSON with the fields to change (not necessarily all fields) and their new value.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update Manager',
@@ -1836,8 +1832,7 @@ A negative value can be provided to remove money from the user.
     @Path('room_id') required String? roomId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Delete a room only if there are not future or ongoing bookings of this room
+      description: '''Delete a room only if there are not future or ongoing bookings of this room
 
 **This endpoint is only usable by admins**''',
       summary: 'Delete Room',
@@ -1865,8 +1860,7 @@ A negative value can be provided to remove money from the user.
   Future<chopper.Response<List<SectionComplete>>> _campaignSectionsGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Return sections in the database as a list of `schemas_campaign.SectionBase`
+      description: '''Return sections in the database as a list of `schemas_campaign.SectionBase`
 
 **The user must be a member of a group authorized to vote or to manage the campaign to use this endpoint**''',
       summary: 'Get Sections',
@@ -2204,8 +2198,7 @@ This endpoint can only be used in \'waiting\' status.
   Future<chopper.Response<void>> _campaignStatusOpenPost({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''If the status is \'waiting\', change it to \'voting\' and create the blank lists.
+      description: '''If the status is \'waiting\', change it to \'voting\' and create the blank lists.
 
 > WARNING: this operation can not be reversed.
 > When the status is \'open\', all users can vote and sections and lists can no longer be edited.
@@ -2309,8 +2302,7 @@ This endpoint can only be used in \'waiting\' status.
   Future<chopper.Response<void>> _campaignStatusResetPost({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Reset the vote. Can only be used if the current status is counting ou published.
+      description: '''Reset the vote. Can only be used if the current status is counting ou published.
 
 > WARNING: This will delete all votes then put the module to Waiting status. This will also delete blank lists.
 
@@ -2717,8 +2709,7 @@ An email will be send to the user, to confirm its new address.
   Future<chopper.Response<List<SellerComplete>>> _cdrUsersMeSellersGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Get sellers user is part of the group. If user is adminCDR, returns all sellers.
+      description: '''Get sellers user is part of the group. If user is adminCDR, returns all sellers.
 
 **User must be authenticated to use this endpoint**''',
       summary: 'Get Sellers By User Id',
@@ -3173,8 +3164,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Update Product Variant',
-      operationId:
-          'patch_cdr_sellers_{seller_id}_products_{product_id}_variants_{variant_id}_',
+      operationId: 'patch_cdr_sellers_{seller_id}_products_{product_id}_variants_{variant_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -3219,8 +3209,7 @@ An email will be send to the user, to confirm its new address.
 
 **User must be part of the seller\'s group to use this endpoint**''',
       summary: 'Delete Product Variant',
-      operationId:
-          'delete_cdr_sellers_{seller_id}_products_{product_id}_variants_{variant_id}_',
+      operationId: 'delete_cdr_sellers_{seller_id}_products_{product_id}_variants_{variant_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4362,8 +4351,7 @@ An email will be send to the user, to confirm its new address.
   ///@param generator_id
   ///@param secret
   @GET(
-    path:
-        '/cdr/sellers/{seller_id}/products/{product_id}/tickets/{generator_id}/{secret}/',
+    path: '/cdr/sellers/{seller_id}/products/{product_id}/tickets/{generator_id}/{secret}/',
   )
   Future<chopper.Response<AppModulesCdrSchemasCdrTicket>>
   _cdrSellersSellerIdProductsProductIdTicketsGeneratorIdSecretGet({
@@ -4375,8 +4363,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Ticket By Secret',
-      operationId:
-          'get_cdr_sellers_{seller_id}_products_{product_id}_tickets_{generator_id}_{secret}_',
+      operationId: 'get_cdr_sellers_{seller_id}_products_{product_id}_tickets_{generator_id}_{secret}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4413,8 +4400,7 @@ An email will be send to the user, to confirm its new address.
   ///@param generator_id
   ///@param secret
   @PATCH(
-    path:
-        '/cdr/sellers/{seller_id}/products/{product_id}/tickets/{generator_id}/{secret}/',
+    path: '/cdr/sellers/{seller_id}/products/{product_id}/tickets/{generator_id}/{secret}/',
     optionalBody: true,
   )
   Future<chopper.Response<void>>
@@ -4428,8 +4414,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Scan Ticket',
-      operationId:
-          'patch_cdr_sellers_{seller_id}_products_{product_id}_tickets_{generator_id}_{secret}_',
+      operationId: 'patch_cdr_sellers_{seller_id}_products_{product_id}_tickets_{generator_id}_{secret}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4469,8 +4454,7 @@ An email will be send to the user, to confirm its new address.
   ///@param generator_id
   ///@param tag
   @GET(
-    path:
-        '/cdr/sellers/{seller_id}/products/{product_id}/tickets/{generator_id}/lists/{tag}/',
+    path: '/cdr/sellers/{seller_id}/products/{product_id}/tickets/{generator_id}/lists/{tag}/',
   )
   Future<chopper.Response<List<CoreUserSimple>>>
   _cdrSellersSellerIdProductsProductIdTicketsGeneratorIdListsTagGet({
@@ -4482,8 +4466,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Users By Tag',
-      operationId:
-          'get_cdr_sellers_{seller_id}_products_{product_id}_tickets_{generator_id}_lists_{tag}_',
+      operationId: 'get_cdr_sellers_{seller_id}_products_{product_id}_tickets_{generator_id}_lists_{tag}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4525,8 +4508,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Tags Of Ticket',
-      operationId:
-          'get_cdr_sellers_{seller_id}_products_{product_id}_tags_{generator_id}_',
+      operationId: 'get_cdr_sellers_{seller_id}_products_{product_id}_tags_{generator_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4604,8 +4586,7 @@ An email will be send to the user, to confirm its new address.
   ///@param product_id
   ///@param ticket_generator_id
   @DELETE(
-    path:
-        '/cdr/sellers/{seller_id}/products/{product_id}/tickets/{ticket_generator_id}',
+    path: '/cdr/sellers/{seller_id}/products/{product_id}/tickets/{ticket_generator_id}',
   )
   Future<chopper.Response<void>>
   _cdrSellersSellerIdProductsProductIdTicketsTicketGeneratorIdDelete({
@@ -4616,8 +4597,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Ticket Generator For Product',
-      operationId:
-          'delete_cdr_sellers_{seller_id}_products_{product_id}_tickets_{ticket_generator_id}',
+      operationId: 'delete_cdr_sellers_{seller_id}_products_{product_id}_tickets_{ticket_generator_id}',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4749,8 +4729,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Update Custom Data Field',
-      operationId:
-          'patch_cdr_sellers_{seller_id}_products_{product_id}_data_{field_id}_',
+      operationId: 'patch_cdr_sellers_{seller_id}_products_{product_id}_data_{field_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4792,8 +4771,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Customdata Field',
-      operationId:
-          'delete_cdr_sellers_{seller_id}_products_{product_id}_data_{field_id}_',
+      operationId: 'delete_cdr_sellers_{seller_id}_products_{product_id}_data_{field_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4833,8 +4811,7 @@ An email will be send to the user, to confirm its new address.
   ///@param user_id
   ///@param field_id
   @GET(
-    path:
-        '/cdr/sellers/{seller_id}/products/{product_id}/users/{user_id}/data/{field_id}/',
+    path: '/cdr/sellers/{seller_id}/products/{product_id}/users/{user_id}/data/{field_id}/',
   )
   Future<chopper.Response<CustomDataComplete>>
   _cdrSellersSellerIdProductsProductIdUsersUserIdDataFieldIdGet({
@@ -4846,8 +4823,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Get Customdata',
-      operationId:
-          'get_cdr_sellers_{seller_id}_products_{product_id}_users_{user_id}_data_{field_id}_',
+      operationId: 'get_cdr_sellers_{seller_id}_products_{product_id}_users_{user_id}_data_{field_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4889,8 +4865,7 @@ An email will be send to the user, to confirm its new address.
   ///@param user_id
   ///@param field_id
   @POST(
-    path:
-        '/cdr/sellers/{seller_id}/products/{product_id}/users/{user_id}/data/{field_id}/',
+    path: '/cdr/sellers/{seller_id}/products/{product_id}/users/{user_id}/data/{field_id}/',
     optionalBody: true,
   )
   Future<chopper.Response<CustomDataComplete>>
@@ -4904,8 +4879,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Create Custom Data',
-      operationId:
-          'post_cdr_sellers_{seller_id}_products_{product_id}_users_{user_id}_data_{field_id}_',
+      operationId: 'post_cdr_sellers_{seller_id}_products_{product_id}_users_{user_id}_data_{field_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4942,8 +4916,7 @@ An email will be send to the user, to confirm its new address.
   ///@param user_id
   ///@param field_id
   @PATCH(
-    path:
-        '/cdr/sellers/{seller_id}/products/{product_id}/users/{user_id}/data/{field_id}/',
+    path: '/cdr/sellers/{seller_id}/products/{product_id}/users/{user_id}/data/{field_id}/',
     optionalBody: true,
   )
   Future<chopper.Response<void>>
@@ -4957,8 +4930,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Update Custom Data',
-      operationId:
-          'patch_cdr_sellers_{seller_id}_products_{product_id}_users_{user_id}_data_{field_id}_',
+      operationId: 'patch_cdr_sellers_{seller_id}_products_{product_id}_users_{user_id}_data_{field_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -4993,8 +4965,7 @@ An email will be send to the user, to confirm its new address.
   ///@param user_id
   ///@param field_id
   @DELETE(
-    path:
-        '/cdr/sellers/{seller_id}/products/{product_id}/users/{user_id}/data/{field_id}/',
+    path: '/cdr/sellers/{seller_id}/products/{product_id}/users/{user_id}/data/{field_id}/',
   )
   Future<chopper.Response<void>>
   _cdrSellersSellerIdProductsProductIdUsersUserIdDataFieldIdDelete({
@@ -5006,8 +4977,7 @@ An email will be send to the user, to confirm its new address.
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Delete Customdata',
-      operationId:
-          'delete_cdr_sellers_{seller_id}_products_{product_id}_users_{user_id}_data_{field_id}_',
+      operationId: 'delete_cdr_sellers_{seller_id}_products_{product_id}_users_{user_id}_data_{field_id}_',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -5388,8 +5358,7 @@ using an API key and returns a TheMovieDB object
     @Path('raffle_id') required String? raffleId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Return the number of ticket sold and the total amount recollected for a raffle',
+      description: 'Return the number of ticket sold and the total amount recollected for a raffle',
       summary: 'Get Raffle Stats',
       operationId: 'get_tombola_raffles_{raffle_id}_stats',
       consumes: [],
@@ -6065,8 +6034,7 @@ using an API key and returns a TheMovieDB object
     @Body() required CashEdit? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Edit cash for an user. This will add the balance to the current balance.
+      description: '''Edit cash for an user. This will add the balance to the current balance.
 A negative value can be provided to remove money from the user.
 
 **The user must be a member of the group admin to use this endpoint**''',
@@ -6657,8 +6625,7 @@ Each loaner is associated with a `manager_group`. Users belonging to this group 
     @Path('loaner_id') required String? loanerId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Delete a loaner. All items and loans associated with the loaner will also be deleted from the database.
+      description: '''Delete a loaner. All items and loans associated with the loaner will also be deleted from the database.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Delete Loaner',
@@ -6688,8 +6655,7 @@ Each loaner is associated with a `manager_group`. Users belonging to this group 
     @Body() required LoanerUpdate? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Update a loaner, the request should contain a JSON with the fields to change (not necessarily all fields) and their new value.
+      description: '''Update a loaner, the request should contain a JSON with the fields to change (not necessarily all fields) and their new value.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update Loaner',
@@ -6792,8 +6758,7 @@ The query string `returned` can be used to get only return or non returned loans
     @Body() required ItemBase? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Create a new item for a loaner. A given loaner can not have more than one item with the same `name`.
+      description: '''Create a new item for a loaner. A given loaner can not have more than one item with the same `name`.
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Create Items For Loaner',
@@ -7067,8 +7032,7 @@ This will remove the loan but won\'t delete any loaner items.
     @Body() required LoanExtend? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''A new `end` date or an extended `duration` can be provided. If the two are provided, only `end` will be used.
+      description: '''A new `end` date or an extended `duration` can be provided. If the two are provided, only `end` will be used.
 
 **The user must be a member of the loaner group_manager to use this endpoint**''',
       summary: 'Extend Loan',
@@ -7762,8 +7726,7 @@ The user must exist in the core users database.''',
     @Path('group') required String? group,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Get all users in a specific competition group for the current edition.',
+      description: 'Get all users in a specific competition group for the current edition.',
       summary: 'Get Group Members',
       operationId: 'get_competition_groups_{group}',
       consumes: [],
@@ -7791,8 +7754,7 @@ The user must exist in the core users database.''',
   _competitionUsersMeGroupsGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Get all groups the current user is a member of in the current edition.
+      description: '''Get all groups the current user is a member of in the current edition.
 This is the user making the request.''',
       summary: 'Get Current User Groups',
       operationId: 'get_competition_users_me_groups',
@@ -9008,8 +8970,7 @@ This is the user making the request.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
       summary: 'Mark Participant License As Valid',
-      operationId:
-          'patch_competition_participants_sports_{sport_id}_users_{user_id}_license',
+      operationId: 'patch_competition_participants_sports_{sport_id}_users_{user_id}_license',
       consumes: [],
       produces: [],
       security: ["AuthorizationCodeAuthentication"],
@@ -9472,8 +9433,7 @@ This is the user making the request.''',
     @Body() required SportPodiumRankings? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Create or update the podium for a specific sport in the current edition.',
+      description: 'Create or update the podium for a specific sport in the current edition.',
       summary: 'Create Sport Podium',
       operationId: 'post_competition_podiums_sports_{sport_id}',
       consumes: [],
@@ -9788,8 +9748,7 @@ This is the user making the request.''',
   _competitionProductsAvailableGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Get all available product variants of the current edition for this user.',
+      description: 'Get all available product variants of the current edition for this user.',
       summary: 'Get Available Product Variants',
       operationId: 'get_competition_products_available',
       consumes: [],
@@ -10542,8 +10501,7 @@ This is the user making the request.''',
     @Query('exclude_non_validated') bool? excludeNonValidated,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Export competition users data for the current edition as a CSV file.',
+      description: 'Export competition users data for the current edition as a CSV file.',
       summary: 'Export Competition Users Data',
       operationId: 'get_competition_data-export_users',
       consumes: [],
@@ -10583,8 +10541,7 @@ This is the user making the request.''',
     @Query('exclude_non_validated') bool? excludeNonValidated,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Export competition users data for the current edition as a CSV file.',
+      description: 'Export competition users data for the current edition as a CSV file.',
       summary: 'Export School Competition Users Data',
       operationId: 'get_competition_data-export_schools_{school_id}_users',
       consumes: [],
@@ -10607,8 +10564,7 @@ This is the user making the request.''',
   _competitionDataExportParticipantsCaptainsGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Export participants captains data for the current edition as an Excel file.',
+      description: 'Export participants captains data for the current edition as an Excel file.',
       summary: 'Export Participants Captains Data',
       operationId: 'get_competition_data-export_participants_captains',
       consumes: [],
@@ -10722,8 +10678,7 @@ This is the user making the request.''',
     @Query('advertisers') List<String>? advertisers,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Get existing adverts. If advertisers optional parameter is used, search adverts by advertisers
+      description: '''Get existing adverts. If advertisers optional parameter is used, search adverts by advertisers
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Read Adverts',
@@ -10934,8 +10889,7 @@ This is the user making the request.''',
   _phonebookAssociationsGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Return all associations from database as a list of AssociationComplete schemas',
+      description: 'Return all associations from database as a list of AssociationComplete schemas',
       summary: 'Get All Associations',
       operationId: 'get_phonebook_associations_',
       consumes: [],
@@ -11019,8 +10973,7 @@ This is the user making the request.''',
   _phonebookGroupementsGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Return all groupements from database as a list of AssociationGroupement schemas',
+      description: 'Return all groupements from database as a list of AssociationGroupement schemas',
       summary: 'Get All Groupements',
       operationId: 'get_phonebook_groupements_',
       consumes: [],
@@ -11310,8 +11263,7 @@ This is the user making the request.''',
     @Path('mandate_year') required int? mandateYear,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Return the list of MemberComplete of an Association with given mandate_year.',
+      description: 'Return the list of MemberComplete of an Association with given mandate_year.',
       summary: 'Get Association Members By Mandate Year',
       operationId:
           'get_phonebook_associations_{association_id}_members_{mandate_year}',
@@ -13394,8 +13346,7 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
     @Body() required CoreUserUpdate? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Update the current user, the request should contain a JSON with the fields to change (not necessarily all fields) and their new value
+      description: '''Update the current user, the request should contain a JSON with the fields to change (not necessarily all fields) and their new value
 
 **The user must be authenticated to use this endpoint**''',
       summary: 'Update Current User',
@@ -13426,8 +13377,7 @@ Assume that `query` is the beginning of a name, so we can capitalize words to im
     @Body() required CoreUserCreateRequest? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Start the user account creation process. The user will be sent an email with a link to activate his account.
+      description: '''Start the user account creation process. The user will be sent an email with a link to activate his account.
 > The received token needs to be sent to the `/users/activate` endpoint to activate the account.
 
 If the **password** is not provided, it will be required during the activation process. Don\'t submit a password if you are creating an account for someone else.
@@ -13462,8 +13412,7 @@ Only admin users can create other **account types**, contact ÉCLAIR for more in
     @Body() required List<CoreBatchUserCreateRequest>? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Batch user account creation process. All users will be sent an email with a link to activate their account.
+      description: '''Batch user account creation process. All users will be sent an email with a link to activate their account.
 > The received token needs to be send to `/users/activate` endpoint to activate the account.
 
 Even for creating **student** or **staff** account a valid ECL email is not required but should preferably be used.
@@ -13501,8 +13450,7 @@ NOTE: the activation link will only be valid for a limited time. You should prob
     @Body() required List<CoreBatchUserCreateRequest>? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Batch user account invitation process. All users will be sent an email encouraging them to create an account.
+      description: '''Batch user account invitation process. All users will be sent an email encouraging them to create an account.
 These emails will be whitelisted in Hyperion. If self registration is disabled only whitelisted emails will be able to create an account.
 
 The endpoint return a dictionary of unsuccessful user creation: `{email: error message}`.
@@ -13625,8 +13573,7 @@ Using this token, the password can be changed with `/users/reset-password` endpo
     @Body() required ResetPasswordRequest? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Reset the user password, using a **reset_token** provided by `/users/recover` endpoint.',
+      description: 'Reset the user password, using a **reset_token** provided by `/users/recover` endpoint.',
       summary: 'Reset Password',
       operationId: 'post_users_reset-password',
       consumes: [],
@@ -13650,8 +13597,7 @@ Using this token, the password can be changed with `/users/reset-password` endpo
     @Body() required MailMigrationRequest? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'This endpoint will send a confirmation code to the user\'s new email address. He will need to use this code to confirm the change with `/users/confirm-mail-migration` endpoint.',
+      description: 'This endpoint will send a confirmation code to the user\'s new email address. He will need to use this code to confirm the change with `/users/confirm-mail-migration` endpoint.',
       summary: 'Migrate Mail',
       operationId: 'post_users_migrate-mail',
       consumes: [],
@@ -13765,8 +13711,7 @@ This endpoint will check the **old_password**, see also the `/users/reset-passwo
     @Body() required CoreUserUpdateAdmin? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Update an user, the request should contain a JSON with the fields to change (not necessarily all fields) and their new value
+      description: '''Update an user, the request should contain a JSON with the fields to change (not necessarily all fields) and their new value
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update User',
@@ -13789,8 +13734,7 @@ This endpoint will check the **old_password**, see also the `/users/reset-passwo
   Future<chopper.Response<void>> _usersMeAskDeletionPost({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''This endpoint will ask administrators to process to the user deletion.
+      description: '''This endpoint will ask administrators to process to the user deletion.
 This manual verification is needed to prevent data from being deleting for other users''',
       summary: 'Delete User',
       operationId: 'post_users_me_ask-deletion',
@@ -13815,8 +13759,7 @@ This manual verification is needed to prevent data from being deleting for other
     @Body() required CoreUserFusionRequest? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Fusion two users into one. The first user will be deleted and its data will be transferred to the second user.',
+      description: 'Fusion two users into one. The first user will be deleted and its data will be transferred to the second user.',
       summary: 'Merge Users',
       operationId: 'post_users_merge',
       consumes: [],
@@ -13842,8 +13785,7 @@ This manual verification is needed to prevent data from being deleting for other
     @Path('user_id') required String? userId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Update an user, the request should contain a JSON with the fields to change (not necessarily all fields) and their new value
+      description: '''Update an user, the request should contain a JSON with the fields to change (not necessarily all fields) and their new value
 
 **This endpoint is only usable by administrators**''',
       summary: 'Update User As Super Admin',
@@ -14231,8 +14173,7 @@ Unauthenticated users can use this endpoint (needed for some OIDC services)''',
     @Path('association_membership_id') required String? associationMembershipId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Return all user memberships for a specific association membership for a user.
+      description: '''Return all user memberships for a specific association membership for a user.
 
 **This endpoint is only usable by administrators and membership managers**''',
       summary: 'Read User Association Membership History',
@@ -14467,8 +14408,7 @@ Return the list of unknown users whose email is not in the database.
     @Path('group_id') required String? groupId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Return group with id from database as a dictionary. This includes a list of users being members of the group.
+      description: '''Return group with id from database as a dictionary. This includes a list of users being members of the group.
 
 **This endpoint is only usable by administrators**''',
       summary: 'Read Group',
@@ -14557,8 +14497,7 @@ This will remove the group from all users but won\'t delete any user.
     @Body() required CoreMembership? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Create a new membership in database and return the group. This allows to "add a user to a group".
+      description: '''Create a new membership in database and return the group. This allows to "add a user to a group".
 
 **This endpoint is only usable by administrators**''',
       summary: 'Create Membership',
@@ -14724,8 +14663,7 @@ If an user does not exist it will be ignored.
   Future<chopper.Response<CoreInformation>> _informationGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Return information about Hyperion. This endpoint can be used to check if the API is up.',
+      description: 'Return information about Hyperion. This endpoint can be used to check if the API is up.',
       summary: 'Read Information',
       operationId: 'get_information',
       consumes: [],
@@ -15040,8 +14978,7 @@ Note: the request body needs to use **form-data** and not json.''',
     @Query('code_challenge_method') String? codeChallengeMethod,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''This endpoint is the one the user is redirected to when they begin the Oauth or Openid connect (*oidc*) *Authorization code* process.
+      description: '''This endpoint is the one the user is redirected to when they begin the Oauth or Openid connect (*oidc*) *Authorization code* process.
 The page allows the user to login and may let the user choose what type of data they want to authorize the client for.
 
 This is the endpoint that should be set in the client OAuth or OIDC configuration page. It can be called by a GET or a POST request.
@@ -15077,8 +15014,7 @@ See `/auth/authorization-flow/authorize-validation` endpoint for information abo
     @Body() required Map<String, String> body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''This endpoint is the one the user is redirected to when they begin the OAuth or Openid connect (*oidc*) *Authorization code* process with or without PKCE.
+      description: '''This endpoint is the one the user is redirected to when they begin the OAuth or Openid connect (*oidc*) *Authorization code* process with or without PKCE.
 The page allows the user to login and may let the user choose what type of data they want to authorize the client for.
 
 This is the endpoint that should be set in the client OAuth or OIDC configuration page. It can be called by a GET or a POST request.
@@ -15231,8 +15167,7 @@ https://openid.net/specs/openid-connect-core-1_0.html#TokenRequestValidation''',
     @Body() required Map<String, String> body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Some clients requires an endpoint to check if an access token or a refresh token is valid.
+      description: '''Some clients requires an endpoint to check if an access token or a refresh token is valid.
 This endpoint should not be publicly accessible, and is thus restricted to some AuthClient.
 
 * parameters:
@@ -15266,8 +15201,7 @@ https://datatracker.ietf.org/doc/html/rfc7662''',
   Future<chopper.Response<Object>> _authUserinfoGet({
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Openid connect specify an endpoint the client can use to get information about the user.
+      description: '''Openid connect specify an endpoint the client can use to get information about the user.
 The oidc client will provide the access_token it got previously in the request.
 
 The information expected depends on the client and may include the user identifier, name, email, phone...
@@ -15365,8 +15299,7 @@ https://openid.net/specs/openid-connect-core-1_0.html#UserInfo''',
     @Body() required BodyPostNotificationDevices? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Register a firebase device for the user, if the device already exists, this will update the creation date.
+      description: '''Register a firebase device for the user, if the device already exists, this will update the creation date.
 This endpoint should be called once a month to ensure that the token is still valide.
 
 **The user must be authenticated to use this endpoint**''',
@@ -15846,8 +15779,7 @@ A structure contains:
     @Body() required StructureTranfert? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Initiate the transfer of a structure to a new manager. The current manager will receive an email with a link to confirm the transfer.
+      description: '''Initiate the transfer of a structure to a new manager. The current manager will receive an email with a link to confirm the transfer.
 The link will only be valid for a limited time.
 
 **The user must be the manager for this structure**''',
@@ -15912,8 +15844,7 @@ The user must have initiated the update of the manager with `init_update_structu
     @Body() required StoreBase? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Create a store. The structure manager will be added as a seller for the store.
+      description: '''Create a store. The structure manager will be added as a seller for the store.
 
 Stores name should be unique, as an user need to be able to identify a store by its name.
 
@@ -16564,8 +16495,7 @@ The user will need to activate it using a token sent by email.
     @Body() required TransferInfo? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Initiate HelloAsso transfer, return a payment url to complete the transaction on HelloAsso website.',
+      description: 'Initiate HelloAsso transfer, return a payment url to complete the transaction on HelloAsso website.',
       summary: 'Init Ha Transfer',
       operationId: 'post_mypayment_transfer_init',
       consumes: [],
@@ -16751,8 +16681,7 @@ The provided content is checked to ensure:
     @Body() required RefundInfo? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Refund a transaction. Only transactions made in the last 30 days can be refunded.
+      description: '''Refund a transaction. Only transactions made in the last 30 days can be refunded.
 
 Currently transactions between users are forbidden and can thus not be refunded.
 
@@ -17362,8 +17291,7 @@ Only enabled sessions and categories are returned''',
     @Body() required TicketChangeOverInvitation? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          '''Give its ticket to another user. The other user will receive an email with a link to accept the transfer.
+      description: '''Give its ticket to another user. The other user will receive an email with a link to accept the transfer.
 
 Using this endpoint will invalidate existing transfer invitations.''',
       summary: 'Ticket Request Change Over',
@@ -17391,8 +17319,7 @@ Using this endpoint will invalidate existing transfer invitations.''',
     @Query('token') required String? token,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Accept a ticket transfer invitation. The user will become the new owner of the ticket.',
+      description: 'Accept a ticket transfer invitation. The user will become the new owner of the ticket.',
       summary: 'Ticket Accept Change Over',
       operationId: 'get_tickets_user_me_tickets_change-over_accept',
       consumes: [],
@@ -18249,9 +18176,9 @@ class $JsonSerializableConverter extends chopper.JsonConverter {
 
     if (ResultType == DateTime) {
       return response.copyWith(
-        body:
-            DateTime.parse((response.body as String).replaceAll('"', ''))
-                as ResultType,
+        body: DateTime.parse(
+          (response.body as String).replaceAll('"', ''),
+        ) as ResultType,
       );
     }
 

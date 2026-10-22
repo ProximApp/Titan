@@ -155,9 +155,8 @@ class PhAddEditPhPage extends HookConsumerWidget {
                           displayToast(
                             context,
                             TypeMsg.error,
-                            AppLocalizations.of(
-                              context,
-                            )!.phMissingInformatonsOrPdf,
+                            AppLocalizations.of(context)!
+                                .phMissingInformatonsOrPdf,
                           );
                         }
                       },

@@ -95,9 +95,8 @@ class IntervalSelector extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(
-                    DateFormat.yMd(
-                      locale.toString(),
-                    ).format(selectedInterval.start),
+                    DateFormat.yMd(locale.toString())
+                        .format(selectedInterval.start),
                     style: TextStyle(
                       color: const Color(0xff204550),
                       fontWeight: FontWeight.bold,
@@ -129,9 +128,8 @@ class IntervalSelector extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(
-                    DateFormat.Hm(
-                      locale.toString(),
-                    ).format(selectedInterval.start),
+                    DateFormat.Hm(locale.toString())
+                        .format(selectedInterval.start),
                     style: TextStyle(
                       color: const Color(0xff204550),
                       fontWeight: FontWeight.bold,
@@ -180,9 +178,8 @@ class IntervalSelector extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(
-                    DateFormat.yMd(
-                      locale.toString(),
-                    ).format(selectedInterval.end),
+                    DateFormat.yMd(locale.toString())
+                        .format(selectedInterval.end),
                     style: TextStyle(
                       color: const Color(0xff204550),
                       fontWeight: FontWeight.bold,
@@ -214,9 +211,8 @@ class IntervalSelector extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(
-                    DateFormat.Hm(
-                      locale.toString(),
-                    ).format(selectedInterval.end),
+                    DateFormat.Hm(locale.toString())
+                        .format(selectedInterval.end),
                     style: TextStyle(
                       color: const Color(0xff204550),
                       fontWeight: FontWeight.bold,

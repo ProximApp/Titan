@@ -50,11 +50,10 @@ void main() {
 
   group('loadCashByUser', () {
     test('returns cash for valid user id', () async {
-      when(
-        () => mockRepository.amapUsersUserIdCashGet(userId: '123'),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('[]', 200), cash),
-      );
+      when(() => mockRepository.amapUsersUserIdCashGet(userId: '123'))
+          .thenAnswer(
+            (_) async => chopper.Response(http.Response('[]', 200), cash),
+          );
 
       final result = await notifier.loadCashByUser(user.id);
 
@@ -66,23 +65,20 @@ void main() {
         ),
         equals(100.0),
       );
-      verify(
-        () => mockRepository.amapUsersUserIdCashGet(userId: '123'),
-      ).called(1);
+      verify(() => mockRepository.amapUsersUserIdCashGet(userId: '123'))
+          .called(1);
     });
 
     test('returns error for invalid user id', () async {
       const error = 'User not found';
-      when(
-        () => mockRepository.amapUsersUserIdCashGet(userId: '123'),
-      ).thenThrow(Exception(error));
+      when(() => mockRepository.amapUsersUserIdCashGet(userId: '123'))
+          .thenThrow(Exception(error));
 
       final result = await notifier.loadCashByUser('123');
 
       expect(result, isA<AsyncError>());
-      verify(
-        () => mockRepository.amapUsersUserIdCashGet(userId: '123'),
-      ).called(1);
+      verify(() => mockRepository.amapUsersUserIdCashGet(userId: '123'))
+          .called(1);
     });
   });
 

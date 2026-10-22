@@ -252,17 +252,14 @@ class CreationPage extends HookConsumerWidget {
                           builder: (context) => CustomDialogBox(
                             title: raffle.status == RaffleStatusType.creation
                                 ? AppLocalizations.of(context)!.raffleOpenRaffle
-                                : AppLocalizations.of(
-                                    context,
-                                  )!.raffleCloseRaffle,
+                                : AppLocalizations.of(context)!
+                                      .raffleCloseRaffle,
                             descriptions:
                                 raffle.status == RaffleStatusType.creation
-                                ? AppLocalizations.of(
-                                    context,
-                                  )!.raffleOpenRaffleDescription
-                                : AppLocalizations.of(
-                                    context,
-                                  )!.raffleCloseRaffleDescription,
+                                ? AppLocalizations.of(context)!
+                                      .raffleOpenRaffleDescription
+                                : AppLocalizations.of(context)!
+                                      .raffleCloseRaffleDescription,
                             onYes: () async {
                               switch (raffle.status) {
                                 case RaffleStatusType.creation:

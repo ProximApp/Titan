@@ -76,9 +76,8 @@ class AddEditPackTicketPage extends HookConsumerWidget {
                     isInt: true,
                     validator: (value) {
                       if (int.parse(value) < 1) {
-                        return AppLocalizations.of(
-                          context,
-                        )!.raffleMustBePositive;
+                        return AppLocalizations.of(context)!
+                            .raffleMustBePositive;
                       }
                       return null;
                     },
@@ -165,12 +164,10 @@ class AddEditPackTicketPage extends HookConsumerWidget {
                     },
                     child: Text(
                       isEdit
-                          ? AppLocalizations.of(
-                              context,
-                            )!.raffleEditTypeTicketSimple
-                          : AppLocalizations.of(
-                              context,
-                            )!.raffleAddTypeTicketSimple,
+                          ? AppLocalizations.of(context)!
+                                .raffleEditTypeTicketSimple
+                          : AppLocalizations.of(context)!
+                                .raffleAddTypeTicketSimple,
                     ),
                   ),
                   const SizedBox(height: 40),

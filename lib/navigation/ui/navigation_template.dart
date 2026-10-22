@@ -109,13 +109,11 @@ class NavigationTemplate extends HookConsumerWidget {
                                       FloatingNavbarItem(
                                         module: Module(
                                           getName: (context) =>
-                                              AppLocalizations.of(
-                                                context,
-                                              )!.moduleOthers,
+                                              AppLocalizations.of(context)!
+                                                  .moduleOthers,
                                           getDescription: (context) =>
-                                              AppLocalizations.of(
-                                                context,
-                                              )!.moduleOthersDescription,
+                                              AppLocalizations.of(context)!
+                                                  .moduleOthersDescription,
                                           root: AppRouter.allModules,
                                         ),
                                         onTap: () {

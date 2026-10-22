@@ -137,9 +137,8 @@ class AppSignIn extends HookConsumerWidget {
                                     displayToast(
                                       context,
                                       TypeMsg.error,
-                                      AppLocalizations.of(
-                                        context,
-                                      )!.loginLoginFailed,
+                                      AppLocalizations.of(context)!
+                                          .loginLoginFailed,
                                     );
                                   },
                                   loading: () {},

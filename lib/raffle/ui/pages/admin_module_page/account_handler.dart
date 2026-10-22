@@ -115,9 +115,8 @@ class AccountHandler extends HookConsumerWidget {
                                 GestureDetector(
                                   onTap: () {
                                     searchingAmapUserNotifier.setProduct(true);
-                                    FocusScope.of(
-                                      context,
-                                    ).requestFocus(FocusNode());
+                                    FocusScope.of(context)
+                                        .requestFocus(FocusNode());
                                     focusNotifier.setFocus(false);
                                     editingController.clear();
                                   },
@@ -135,9 +134,8 @@ class AccountHandler extends HookConsumerWidget {
                                 AddingUserContainer(
                                   onAdd: () async {
                                     searchingAmapUserNotifier.setProduct(true);
-                                    FocusScope.of(
-                                      context,
-                                    ).requestFocus(FocusNode());
+                                    FocusScope.of(context)
+                                        .requestFocus(FocusNode());
                                     focusNotifier.setFocus(false);
                                     await cashNotifier.filterCashList(
                                       editingController.text,

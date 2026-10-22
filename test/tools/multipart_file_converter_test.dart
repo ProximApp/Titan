@@ -105,11 +105,8 @@ void main() {
     });
 
     test('keeps non-file parts untouched', () {
-      final request = multipartRequest(const [
-        0xFF,
-        0xD8,
-        0xFF,
-      ]).copyWith(parts: const [chopper.PartValue<bool>('flag', true)]);
+      final request = multipartRequest(const [0xFF, 0xD8, 0xFF])
+          .copyWith(parts: const [chopper.PartValue<bool>('flag', true)]);
       final converted = MultipartFileConverter().convertRequest(request);
       expect(converted.parts, hasLength(1));
       expect(converted.parts.single, isA<chopper.PartValue<bool>>());

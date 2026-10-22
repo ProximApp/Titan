@@ -78,13 +78,11 @@ class AdminStoreCard extends ConsumerWidget {
                     context: context,
                     builder: (context) => CustomDialogBox(
                       title: AppLocalizations.of(context)!.paiementDeleteStore,
-                      descriptions: AppLocalizations.of(
-                        context,
-                      )!.paiementDeleteStoreDescription,
+                      descriptions: AppLocalizations.of(context)!
+                          .paiementDeleteStoreDescription,
                       onYes: () async {
-                        final storeDeletedMsg = AppLocalizations.of(
-                          context,
-                        )!.paiementStoreDeleted;
+                        final storeDeletedMsg = AppLocalizations.of(context)!
+                            .paiementStoreDeleted;
                         final storeDeleteErrorMsg = AppLocalizations.of(
                           context,
                         )!.paiementDeleteStoreError;

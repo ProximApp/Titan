@@ -44,9 +44,8 @@ class ScannerState extends ConsumerState<Scanner> with WidgetsBindingObserver {
       builder: (context) {
         return CustomDialogBox(
           title: AppLocalizations.of(context)!.paiementScanNoMembership,
-          descriptions: AppLocalizations.of(
-            context,
-          )!.paiementScanNoMembershipConfirmation,
+          descriptions: AppLocalizations.of(context)!
+              .paiementScanNoMembershipConfirmation,
           onYes: () async {
             onYes.call();
           },
@@ -124,9 +123,8 @@ class ScannerState extends ConsumerState<Scanner> with WidgetsBindingObserver {
       context: context,
       builder: (context) => CustomDialogBox(
         title: AppLocalizations.of(context)!.paiementCameraPermissionRequired,
-        descriptions: AppLocalizations.of(
-          context,
-        )!.paiementCameraPerssionRequiredDescription,
+        descriptions: AppLocalizations.of(context)!
+            .paiementCameraPerssionRequiredDescription,
         onYes: () async {
           Navigator.of(context).pop();
           await openAppSettings();

@@ -130,9 +130,8 @@ class DetailBookingPage extends HookConsumerWidget {
                               const SizedBox(height: 50),
                               Text(
                                 booking.applicant.phone ??
-                                    AppLocalizations.of(
-                                      context,
-                                    )!.bookingNoPhoneRegistered,
+                                    AppLocalizations.of(context)!
+                                        .bookingNoPhoneRegistered,
                                 style: const TextStyle(fontSize: 25),
                               ),
                               const SizedBox(height: 50),

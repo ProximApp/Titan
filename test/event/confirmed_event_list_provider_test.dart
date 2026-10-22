@@ -48,9 +48,8 @@ void main() {
     });
 
     test('loadConfirmedEvent handles error', () async {
-      when(
-        () => mockRepository.calendarEventsConfirmedGet(),
-      ).thenThrow(Exception('Failed to load events'));
+      when(() => mockRepository.calendarEventsConfirmedGet())
+          .thenThrow(Exception('Failed to load events'));
 
       final result = await provider.loadConfirmedEvent();
 

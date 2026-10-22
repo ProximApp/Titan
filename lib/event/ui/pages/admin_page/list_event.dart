@@ -102,9 +102,8 @@ class ListEvent extends HookConsumerWidget {
                     builder: (context) {
                       return CustomDialogBox(
                         title: AppLocalizations.of(context)!.eventConfirm,
-                        descriptions: AppLocalizations.of(
-                          context,
-                        )!.eventConfirmEvent,
+                        descriptions: AppLocalizations.of(context)!
+                            .eventConfirmEvent,
                         onYes: () async {
                           eventListNotifier
                               .toggleConfirmed(
@@ -126,9 +125,8 @@ class ListEvent extends HookConsumerWidget {
                     builder: (context) {
                       return CustomDialogBox(
                         title: AppLocalizations.of(context)!.eventDecline,
-                        descriptions: AppLocalizations.of(
-                          context,
-                        )!.eventDeclineEvent,
+                        descriptions: AppLocalizations.of(context)!
+                            .eventDeclineEvent,
                         onYes: () async {
                           eventListNotifier
                               .toggleConfirmed(

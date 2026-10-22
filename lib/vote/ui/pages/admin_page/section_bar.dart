@@ -58,16 +58,13 @@ class SectionBar extends HookConsumerWidget {
             context: context,
             builder: (context) => CustomDialogBox(
               title: AppLocalizations.of(context)!.voteDeleteSection,
-              descriptions: AppLocalizations.of(
-                context,
-              )!.voteDeleteSectionDescription,
+              descriptions: AppLocalizations.of(context)!
+                  .voteDeleteSectionDescription,
               onYes: () async {
-                final deleteSectionSuccessMsg = AppLocalizations.of(
-                  context,
-                )!.voteDeletedSection;
-                final deleteSectionErrorMsg = AppLocalizations.of(
-                  context,
-                )!.voteDeletingError;
+                final deleteSectionSuccessMsg = AppLocalizations.of(context)!
+                    .voteDeletedSection;
+                final deleteSectionErrorMsg = AppLocalizations.of(context)!
+                    .voteDeletingError;
                 final result = await sectionsNotifier.deleteSection(key);
                 if (result) {
                   sectionListListNotifier.deleteT(key);

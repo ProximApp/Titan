@@ -183,12 +183,10 @@ class DeliveryUi extends HookConsumerWidget {
                       await showDialog(
                         context: context,
                         builder: ((context) => CustomDialogBox(
-                          title: AppLocalizations.of(
-                            context,
-                          )!.amapDeleteDelivery,
-                          descriptions: AppLocalizations.of(
-                            context,
-                          )!.amapDeleteDeliveryDescription,
+                          title: AppLocalizations.of(context)!
+                              .amapDeleteDelivery,
+                          descriptions: AppLocalizations.of(context)!
+                              .amapDeleteDeliveryDescription,
                           onYes: () async {
                             final deletedDeliveryMsg = AppLocalizations.of(
                               context,
@@ -246,12 +244,10 @@ class DeliveryUi extends HookConsumerWidget {
                             : delivery.status == DeliveryStatusType.orderable
                             ? AppLocalizations.of(context)!.amapLockingDelivery
                             : delivery.status == DeliveryStatusType.locked
-                            ? AppLocalizations.of(
-                                context,
-                              )!.amapDeliveringDelivery
-                            : AppLocalizations.of(
-                                context,
-                              )!.amapArchivingDelivery,
+                            ? AppLocalizations.of(context)!
+                                  .amapDeliveringDelivery
+                            : AppLocalizations.of(context)!
+                                  .amapArchivingDelivery,
                         onYes: () async {
                           final openedDeliveryMsg = AppLocalizations.of(
                             context,
@@ -396,9 +392,8 @@ class DeliveryUi extends HookConsumerWidget {
                               ? AppLocalizations.of(context)!.amapCloseDelivery
                               : delivery.status == DeliveryStatusType.locked
                               ? AppLocalizations.of(context)!.amapEndingDelivery
-                              : AppLocalizations.of(
-                                  context,
-                                )!.amapArchiveDelivery,
+                              : AppLocalizations.of(context)!
+                                    .amapArchiveDelivery,
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 20,

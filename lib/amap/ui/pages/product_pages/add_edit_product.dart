@@ -125,9 +125,8 @@ class AddEditProduct extends HookConsumerWidget {
                         onChanged: (value) {
                           categoryNotifier.setText(
                             value ??
-                                AppLocalizations.of(
-                                  context,
-                                )!.amapCreateCategory,
+                                AppLocalizations.of(context)!
+                                    .amapCreateCategory,
                           );
                           newCategory.text = "";
                         },
@@ -138,12 +137,10 @@ class AddEditProduct extends HookConsumerWidget {
                       const SizedBox(height: 30),
                       Center(
                         child: TextEntry(
-                          label: AppLocalizations.of(
-                            context,
-                          )!.amapCreateCategory,
-                          noValueError: AppLocalizations.of(
-                            context,
-                          )!.amapPickChooseCategory,
+                          label: AppLocalizations.of(context)!
+                              .amapCreateCategory,
+                          noValueError: AppLocalizations.of(context)!
+                              .amapPickChooseCategory,
                           enabled:
                               categoryController ==
                               AppLocalizations.of(context)!.amapCreateCategory,
@@ -173,9 +170,8 @@ class AddEditProduct extends HookConsumerWidget {
                         if (formKey.currentState!.validate()) {
                           String cate =
                               categoryController ==
-                                  AppLocalizations.of(
-                                    context,
-                                  )!.amapCreateCategory
+                                  AppLocalizations.of(context)!
+                                      .amapCreateCategory
                               ? newCategory.text
                               : categoryController;
                           AppModulesAmapSchemasAmapProductComplete newProduct =

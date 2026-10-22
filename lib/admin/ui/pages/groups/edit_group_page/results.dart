@@ -43,12 +43,10 @@ class MemberResults extends HookConsumerWidget {
                       CoreGroup newGroup = group.value!.copyWith(
                         members: (group.value!.members ?? []) + [e],
                       );
-                      final addedMemberMsg = AppLocalizations.of(
-                        context,
-                      )!.adminAddedMember;
-                      final addingErrorMsg = AppLocalizations.of(
-                        context,
-                      )!.adminAddingError;
+                      final addedMemberMsg = AppLocalizations.of(context)!
+                          .adminAddedMember;
+                      final addingErrorMsg = AppLocalizations.of(context)!
+                          .adminAddingError;
                       groupNotifier.addMember(newGroup, e).then((result) {
                         if (result) {
                           simpleGroupGroupsNotifier.setTData(

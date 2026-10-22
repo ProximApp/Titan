@@ -135,9 +135,8 @@ class OrderUI extends HookConsumerWidget {
                             context: context,
                             builder: ((context) => CustomDialogBox(
                               title: AppLocalizations.of(context)!.amapDelete,
-                              descriptions: AppLocalizations.of(
-                                context,
-                              )!.amapDeletingOrder,
+                              descriptions: AppLocalizations.of(context)!
+                                  .amapDeletingOrder,
                               onYes: () async {
                                 final deletedOrderMsg = AppLocalizations.of(
                                   context,

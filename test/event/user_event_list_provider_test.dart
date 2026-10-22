@@ -58,9 +58,8 @@ void main() {
     });
 
     test('loadConfirmedEvent handles error', () async {
-      when(
-        () => mockRepository.calendarEventsConfirmedGet(),
-      ).thenThrow(Exception('Failed to load events'));
+      when(() => mockRepository.calendarEventsConfirmedGet())
+          .thenThrow(Exception('Failed to load events'));
 
       final result = await provider.loadConfirmedEvent();
 
@@ -74,11 +73,10 @@ void main() {
       when(() => mockRepository.calendarEventsGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), events),
       );
-      when(
-        () => mockRepository.calendarEventsPost(body: any(named: 'body')),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('body', 200), newEvent),
-      );
+      when(() => mockRepository.calendarEventsPost(body: any(named: 'body')))
+          .thenAnswer(
+            (_) async => chopper.Response(http.Response('body', 200), newEvent),
+          );
 
       provider.state = AsyncValue.data([...events]);
       final result = await provider.addEvent(newEvent.toEventBaseCreation());
@@ -91,9 +89,8 @@ void main() {
     });
 
     test('addEvent handles error', () async {
-      when(
-        () => mockRepository.calendarEventsPost(body: any(named: 'body')),
-      ).thenThrow(Exception('Failed to add event'));
+      when(() => mockRepository.calendarEventsPost(body: any(named: 'body')))
+          .thenThrow(Exception('Failed to add event'));
 
       provider.state = AsyncValue.data([...events]);
       final result = await provider.addEvent(newEvent.toEventBaseCreation());

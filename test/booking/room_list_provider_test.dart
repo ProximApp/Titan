@@ -24,9 +24,8 @@ void main() {
 
     setUp(() async {
       mockRepository = MockRoomRepository();
-      when(
-        () => mockRepository.bookingRoomsGet(),
-      ).thenThrow(Exception('Failed to load rooms'));
+      when(() => mockRepository.bookingRoomsGet())
+          .thenThrow(Exception('Failed to load rooms'));
       container = ProviderContainer(
         overrides: [repositoryProvider.overrideWithValue(mockRepository)],
       );
@@ -47,9 +46,8 @@ void main() {
     });
 
     test('loadRooms handles error', () async {
-      when(
-        () => mockRepository.bookingRoomsGet(),
-      ).thenThrow(Exception('Failed to load rooms'));
+      when(() => mockRepository.bookingRoomsGet())
+          .thenThrow(Exception('Failed to load rooms'));
 
       final result = await provider.loadRooms();
 
@@ -63,11 +61,10 @@ void main() {
       when(() => mockRepository.bookingRoomsGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), rooms),
       );
-      when(
-        () => mockRepository.bookingRoomsPost(body: any(named: 'body')),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('body', 200), newRoom),
-      );
+      when(() => mockRepository.bookingRoomsPost(body: any(named: 'body')))
+          .thenAnswer(
+            (_) async => chopper.Response(http.Response('body', 200), newRoom),
+          );
 
       provider.state = AsyncValue.data([...rooms]);
       final result = await provider.addRoom(newRoom.toRoomBase());
@@ -80,9 +77,8 @@ void main() {
     });
 
     test('addRoom handles error', () async {
-      when(
-        () => mockRepository.bookingRoomsPost(body: any(named: 'body')),
-      ).thenThrow(Exception('Failed to add room'));
+      when(() => mockRepository.bookingRoomsPost(body: any(named: 'body')))
+          .thenThrow(Exception('Failed to add room'));
 
       provider.state = AsyncValue.data([...rooms]);
       final result = await provider.addRoom(newRoom.toRoomBase());

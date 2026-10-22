@@ -195,9 +195,8 @@ class UserCashUi extends HookConsumerWidget {
                                     controller: amount,
                                     keyboardType: TextInputType.number,
                                     validator: (value) => value!.isEmpty
-                                        ? AppLocalizations.of(
-                                            context,
-                                          )!.raffleAdd
+                                        ? AppLocalizations.of(context)!
+                                              .raffleAdd
                                         : null,
                                     cursorColor: RaffleColorConstants.textDark,
                                     decoration: const InputDecoration(
@@ -232,13 +231,11 @@ class UserCashUi extends HookConsumerWidget {
                                     }
                                     if (key.currentState!.validate()) {
                                       final raffleUpdatedAmountMsg =
-                                          AppLocalizations.of(
-                                            context,
-                                          )!.raffleUpdatedAmount;
+                                          AppLocalizations.of(context)!
+                                              .raffleUpdatedAmount;
                                       final raffleUpdatingErrorMsg =
-                                          AppLocalizations.of(
-                                            context,
-                                          )!.raffleUpdatingError;
+                                          AppLocalizations.of(context)!
+                                              .raffleUpdatingError;
                                       await ref
                                           .read(cashProvider.notifier)
                                           .updateCash(

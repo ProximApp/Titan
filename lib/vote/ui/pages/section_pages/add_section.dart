@@ -56,12 +56,10 @@ class AddSectionPage extends HookConsumerWidget {
                   WaitingButton(
                     builder: (child) => AddEditButtonLayout(child: child),
                     onTap: () async {
-                      final addedSectionMsg = AppLocalizations.of(
-                        context,
-                      )!.voteAddedSection;
-                      final addingErrorMsg = AppLocalizations.of(
-                        context,
-                      )!.voteAddingError;
+                      final addedSectionMsg = AppLocalizations.of(context)!
+                          .voteAddedSection;
+                      final addingErrorMsg = AppLocalizations.of(context)!
+                          .voteAddingError;
                       final value = await sectionsNotifier.addSection(
                         SectionBase(
                           name: name.text,
