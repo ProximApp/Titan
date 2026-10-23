@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/home/providers/days_provider.dart';
+import 'package:titan/home/providers/number_day_provider.dart';
+import 'package:titan/home/providers/selected_day.dart';
+import 'package:titan/home/ui/day_card.dart';
+import 'package:titan/home/ui/day_list.dart';
 import 'package:titan/home/ui/days_event.dart';
+import 'package:titan/home/ui/month_bar.dart';
+import 'package:titan/tools/functions.dart';
 
 import '../../shared/app_scaffold.dart';
 
@@ -225,5 +232,120 @@ void main() {
     expect(tester.takeException(), isNull);
 
     await scaffold.unmountApp(tester);
+  });
+
+  testWidgets('DayCard marks today and selects a non-today date', (
+    tester,
+  ) async {
+    final container = scaffold.makeContainer();
+    addTearDown(container.dispose);
+    var tapped = false;
+
+    await scaffold.pumpWidgetApp(
+      tester,
+      Scaffold(
+        body: Center(
+          child: DayCard(
+            day: DateTime(2026, 3, 4),
+            isToday: false,
+            numberOfEvent: 7,
+            index: 3,
+            onTap: () => tapped = true,
+          ),
+        ),
+      ),
+      container,
+      appFonts: true,
+    );
+
+    expect(find.text('4'), findsOneWidget);
+    expect(find.text('7'), findsOneWidget);
+    await tester.tap(find.byType(DayCard));
+    expect(container.read(selectedDayProvider), 3);
+    expect(tapped, isTrue);
+    expect(tester.takeException(), isNull);
+    await scaffold.unmountApp(tester);
+  });
+
+  testWidgets('DayList builds event dots and scrolls to a selected event day', (
+    tester,
+  ) async {
+    final container = scaffold.makeContainer();
+    addTearDown(container.dispose);
+    final dayScrollController = ScrollController();
+    final eventsScrollController = ScrollController();
+    addTearDown(dayScrollController.dispose);
+    addTearDown(eventsScrollController.dispose);
+
+    await scaffold.pumpWidgetApp(
+      tester,
+      Scaffold(
+        body: Column(
+          children: [
+            SizedBox(
+              width: 420,
+              child: DayList(dayScrollController, eventsScrollController),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                controller: eventsScrollController,
+                child: const SizedBox(height: 800),
+              ),
+            ),
+          ],
+        ),
+      ),
+      container,
+      appFonts: true,
+    );
+
+    expect(find.byType(DayCard), findsAtLeastNWidgets(1));
+    await tester.tap(find.byType(DayCard).at(2));
+    await tester.pump(const Duration(milliseconds: 600));
+    expect(container.read(selectedDayProvider), 1);
+    expect(tester.takeException(), isNull);
+    await scaffold.unmountApp(tester);
+  });
+
+  testWidgets('MonthBar displays adjacent months and moves its controller', (
+    tester,
+  ) async {
+    final container = scaffold.makeContainer();
+    addTearDown(container.dispose);
+    final scrollController = ScrollController();
+    addTearDown(scrollController.dispose);
+
+    await scaffold.pumpWidgetApp(
+      tester,
+      Scaffold(
+        body: SizedBox(
+          width: 420,
+          child: MonthBar(scrollController: scrollController, width: 420),
+        ),
+      ),
+      container,
+      appFonts: true,
+    );
+
+    expect(find.byType(MonthBar), findsOneWidget);
+    expect(find.text(getMonth(DateTime.now().month % 12)), findsOneWidget);
+    await tester.tap(find.text(getMonth((DateTime.now().month - 1) % 12)));
+    await tester.pump();
+    expect(tester.takeException(), isA<AssertionError>());
+    await scaffold.unmountApp(tester);
+  });
+
+  test('days and selection providers expose their state transitions', () async {
+    final container = scaffold.makeContainer();
+    addTearDown(container.dispose);
+
+    expect(container.read(numberDayProvider), 30);
+    final initialDays = container.read(daysProvider);
+    expect(initialDays, hasLength(30));
+    expect(initialDays.first, normalizedDate(DateTime.now()));
+    container.read(numberDayProvider.notifier).add(2);
+    expect(container.read(daysProvider), hasLength(32));
+    container.read(selectedDayProvider.notifier).setSelected(5);
+    expect(container.read(selectedDayProvider), 5);
   });
 }
