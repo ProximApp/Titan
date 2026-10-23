@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/generated/openapi.enums.swagger.dart' as enums;
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/path_forwarding_provider.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../../shared/fixtures.dart';
 
 /// The booking page (`/tickets/book`, 285 executable lines): event render,
 /// category/session selection, question forms, and the checkout round-trip.
@@ -267,5 +269,100 @@ void main() {
         body: any(named: 'body'),
       ),
     );
+  });
+
+  /// Selects the category and confirms the checkout through the Book button.
+  Future<void> book(WidgetTester tester) async {
+    await tester.tap(find.text('Normal'));
+    for (var i = 0; i < 6; i++) {
+      await tester.pump(const Duration(milliseconds: 60));
+    }
+    await tester.scrollUntilVisible(
+      find.text('Book'),
+      400,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.ensureVisible(find.text('Book'));
+    await tester.tap(find.text('Book'));
+    for (var i = 0; i < 12; i++) {
+      await tester.pump(const Duration(milliseconds: 60));
+    }
+  }
+
+  testWidgets('a checkout with a payment URL launches it and returns to '
+      '/tickets', (tester) async {
+    final launcher = FakeUrlLauncher();
+    stubUrlLauncher(launcher);
+    await pumpBook(tester);
+
+    when(
+      () => scaffold.repository.ticketsEventsEventIdCheckoutPost(
+        eventId: 'evt-1',
+        body: any(named: 'body'),
+      ),
+    ).thenAnswer(
+      (_) async => chopperResponse(
+        CheckoutResponse.empty()
+            .copyWith(paymentUrl: 'https://pay.example/checkout', price: 500),
+      ),
+    );
+    await book(tester);
+
+    // The success effect resets, navigates back to the module root and
+    // opens the external payment URL on a non-web target.
+    expect(QR.currentPath, '/tickets');
+    expect(launcher.launched, ['https://pay.example/checkout']);
+  });
+
+  testWidgets('a paid checkout without URL forwards to /mypayment', (
+    tester,
+  ) async {
+    await pumpBook(tester);
+
+    when(
+      () => scaffold.repository.ticketsEventsEventIdCheckoutPost(
+        eventId: 'evt-1',
+        body: any(named: 'body'),
+      ),
+    ).thenAnswer(
+      (_) async => chopperResponse(
+        CheckoutResponse.empty().copyWith(price: 500),
+      ),
+    );
+    await book(tester);
+
+    // The myempay branch forwards the path and navigates there.
+    expect(QR.currentPath, '/mypayment');
+  });
+
+  testWidgets('a failing checkout toasts the error and the sold-out '
+      'mapping', (tester) async {
+    await pumpBook(tester);
+
+    when(
+      () => scaffold.repository.ticketsEventsEventIdCheckoutPost(
+        eventId: 'evt-1',
+        body: any(named: 'body'),
+      ),
+    ).thenAnswer((_) async => chopperError(400, error: 'payment declined'));
+    await book(tester);
+    expect(find.textContaining('payment declined'), findsOneWidget);
+    await tester.pump(const Duration(seconds: 3));
+    await tester.pump();
+
+    // The sold-out exception maps to its own localized message.
+    when(
+      () => scaffold.repository.ticketsEventsEventIdCheckoutPost(
+        eventId: 'evt-1',
+        body: any(named: 'body'),
+      ),
+    ).thenAnswer(
+      (_) async => chopperError(409, error: 'Session is sold out'),
+    );
+    await book(tester);
+    expect(find.text('This session is sold out'), findsOneWidget);
+    await tester.pump(const Duration(seconds: 3));
+    await tester.pump();
+    expect(tester.takeException(), isNull);
   });
 }
