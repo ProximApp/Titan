@@ -1,4 +1,5 @@
 import 'package:chopper/chopper.dart' as chopper;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -70,7 +71,7 @@ void main() {
 
   AuthRepository repository() => AuthRepository(openIdRepository: endpoint);
 
-  group('AuthRepository web refresh-token grant', () {
+  group('AuthRepository web refresh-token grant', skip: !kIsWeb, () {
     test(
       'sends the stored refresh token and persists token rotation',
       () async {
