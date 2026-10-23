@@ -12,8 +12,7 @@ import 'package:titan/tools/logs/logger.dart';
 import 'package:titan/tools/repository/repository.dart';
 
 import '../../shared/mock_openapi.dart';
-
-class MockLogger extends Mock implements Logger {}
+import '../settings_test_doubles.dart';
 
 Log log(String message, {LogLevel level = LogLevel.info}) =>
     Log(message: message, level: level);

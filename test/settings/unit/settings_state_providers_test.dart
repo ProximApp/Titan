@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:titan/admin/providers/is_admin_provider.dart';
 import 'package:titan/settings/providers/logs_tab_provider.dart';
@@ -12,7 +11,7 @@ import 'package:titan/super_admin/providers/module_root_list_provider.dart';
 import 'package:titan/tools/logs/logger.dart';
 import 'package:titan/user/providers/user_provider.dart';
 
-class MockLogger extends Mock implements Logger {}
+import '../settings_test_doubles.dart';
 
 class FakeModulesNotifier extends ModulesNotifier {
   @override

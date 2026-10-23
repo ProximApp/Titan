@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:titan/admin/providers/is_admin_provider.dart';
 import 'package:titan/generated/openapi.enums.swagger.dart' as enums;
@@ -13,7 +12,7 @@ import 'package:titan/super_admin/providers/permissions_list_provider.dart';
 import 'package:titan/tools/logs/logger.dart';
 import 'package:titan/user/providers/user_provider.dart';
 
-class MockLogger extends Mock implements Logger {}
+import '../settings_test_doubles.dart';
 
 /// Where the user is in the app when a permission arrives: `permissionsPost`
 /// adds a GROUP permission, and the group id is what `userHasPermission`
