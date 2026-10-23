@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../booking_fixtures.dart';
 
 /// The booking add-edit page (`/booking/add_edit`, 184 executable lines —
 /// the booking module's biggest file), reached on the plain user branch
@@ -22,55 +22,13 @@ void main() {
     scaffold.shellSetUp();
   });
 
-  Future<void> pumpAddEdit(
-    WidgetTester tester,
-    ProviderContainer container,
-  ) async {
-    scaffold.setWideSurface(tester);
-    await scaffold.pumpApp(
-      tester,
-      container,
-      initialPath: '/booking/add_edit',
-      pumpAndSettle: false,
-    );
-    for (var i = 0; i < 12; i++) {
-      await tester.pump(const Duration(milliseconds: 60));
-    }
-  }
-
-  void stubBookingEndpoints() {
-    when(() => scaffold.repository.bookingRoomsGet()).thenAnswer(
-      (_) async => chopperListResponse<RoomComplete>([
-        RoomComplete.empty().copyWith(id: 'room-1', name: 'Amphi A'),
-        RoomComplete.empty().copyWith(id: 'room-2', name: 'Salle B'),
-      ]),
-    );
-    // UserBookingListProvider.build() loads the user's bookings; its data
-    // state is what allows add() to run. The success path reloads three
-    // more lists (user, confirmed, manager ones).
-    when(() => scaffold.repository.bookingBookingsUsersMeGet()).thenAnswer(
-      (_) async => chopperListResponse<BookingReturn>(<BookingReturn>[]),
-    );
-    when(() => scaffold.repository.bookingBookingsConfirmedGet()).thenAnswer(
-      (_) async => chopperListResponse<BookingReturnSimpleApplicant>(
-        <BookingReturnSimpleApplicant>[],
-      ),
-    );
-    when(() => scaffold.repository.bookingBookingsUsersMeManageGet())
-        .thenAnswer(
-          (_) async => chopperListResponse<BookingReturnApplicant>(
-            <BookingReturnApplicant>[],
-          ),
-        );
-  }
-
   testWidgets('the create form renders fields, chips and the room row', (
     tester,
   ) async {
     final container = scaffold.makeContainer();
-    stubBookingEndpoints();
+    stubBookingEndpoints(scaffold);
 
-    await pumpAddEdit(tester, container);
+    await pumpAddEdit(scaffold, tester, container);
 
     expect(find.text('Add booking'), findsOneWidget);
     expect(find.text('For whom?'), findsOneWidget);
@@ -92,9 +50,9 @@ void main() {
     tester,
   ) async {
     final container = scaffold.makeContainer();
-    stubBookingEndpoints();
+    stubBookingEndpoints(scaffold);
 
-    await pumpAddEdit(tester, container);
+    await pumpAddEdit(scaffold, tester, container);
 
     final fields = find.byType(TextFormField);
     await tester.enterText(fields.at(0), 'Club des élèves');
@@ -128,12 +86,12 @@ void main() {
   // router wedged breaks the next deep link in the same file.
   testWidgets('a filled form books a room and toasts success', (tester) async {
     final container = scaffold.makeContainer();
-    stubBookingEndpoints();
+    stubBookingEndpoints(scaffold);
     when(
       () => scaffold.repository.bookingBookingsPost(body: any(named: 'body')),
     ).thenAnswer((_) async => chopperResponse(BookingReturn.empty()));
 
-    await pumpAddEdit(tester, container);
+    await pumpAddEdit(scaffold, tester, container);
 
     // Select the room chip, then fill the text fields.
     await tester.tap(find.text('Amphi A'));

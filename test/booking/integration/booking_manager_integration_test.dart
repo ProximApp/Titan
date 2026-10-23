@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -11,9 +10,7 @@ import 'package:titan/tools/ui/heroicons.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 
 import '../../shared/app_scaffold.dart';
-
-Finder heroIcon(HeroIcons icon) =>
-    find.byWidgetPredicate((w) => w is HeroIcon && w.icon == icon);
+import '../booking_fixtures.dart';
 
 BookingReturnApplicant booking(
   String id,
@@ -146,12 +143,6 @@ void main() {
     await settle(tester, frames: 2);
   }
 
-  Future<void> pumpFrames(WidgetTester tester, {int frames = 6}) async {
-    for (var i = 0; i < frames; i++) {
-      await tester.pump(const Duration(milliseconds: 60));
-    }
-  }
-
   testWidgets('every decision bucket renders, declined and unknown too', (
     tester,
   ) async {
@@ -185,7 +176,7 @@ void main() {
     final pencil = heroIcon(HeroIcons.pencil);
     expect(pencil, findsOneWidget);
     await scrollIn(tester, pencil);
-    final navigation = _RecordingRouteMock();
+    final navigation = RecordingRouteMock();
     QR.settings.mockRoute = navigation;
     addTearDown(() => QR.settings.mockRoute = null);
     await tester.tap(pencil);
@@ -213,7 +204,7 @@ void main() {
     final info = heroIcon(HeroIcons.informationCircle);
     expect(info, findsOneWidget);
     await scrollIn(tester, info);
-    final navigation = _RecordingRouteMock();
+    final navigation = RecordingRouteMock();
     QR.settings.mockRoute = navigation;
     addTearDown(() => QR.settings.mockRoute = null);
     await tester.tap(info);
@@ -323,7 +314,7 @@ void main() {
     final copy = heroIcon(HeroIcons.documentDuplicate);
     expect(copy, findsOneWidget);
     await scrollIn(tester, copy);
-    final navigation = _RecordingRouteMock();
+    final navigation = RecordingRouteMock();
     QR.settings.mockRoute = navigation;
     addTearDown(() => QR.settings.mockRoute = null);
     await tester.tap(copy);
@@ -373,15 +364,3 @@ void main() {
 
 /// Records QR.to destinations so callback tests don't depend on loading a
 /// second deferred route library in the same widget-test isolate.
-class _RecordingRouteMock extends RouteMock {
-  final navigated = <String>[];
-
-  @override
-  String? mockName(String name) => name;
-
-  @override
-  QRoute? mockPath(String path) {
-    navigated.add(path);
-    return QRoute(path: path, builder: () => const SizedBox.shrink());
-  }
-}

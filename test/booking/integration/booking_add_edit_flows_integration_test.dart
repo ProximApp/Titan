@@ -1,6 +1,5 @@
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
@@ -8,6 +7,7 @@ import 'package:titan/booking/providers/booking_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../booking_fixtures.dart';
 
 /// Residual add-edit flows the other two files do not reach
 /// (booking_add_edit_integration_test covers the plain CREATE happy path,
@@ -30,44 +30,6 @@ void main() {
     scaffold = IntegrationScaffold();
     scaffold.shellSetUp();
   });
-
-  Future<void> pumpAddEdit(
-    WidgetTester tester,
-    ProviderContainer container,
-  ) async {
-    scaffold.setWideSurface(tester);
-    await scaffold.pumpApp(
-      tester,
-      container,
-      initialPath: '/booking/add_edit',
-      pumpAndSettle: false,
-    );
-    for (var i = 0; i < 12; i++) {
-      await tester.pump(const Duration(milliseconds: 60));
-    }
-  }
-
-  void stubBookingEndpoints({List<BookingReturn> mine = const []}) {
-    when(() => scaffold.repository.bookingRoomsGet()).thenAnswer(
-      (_) async => chopperListResponse<RoomComplete>([
-        RoomComplete.empty().copyWith(id: 'room-1', name: 'Amphi A'),
-        RoomComplete.empty().copyWith(id: 'room-2', name: 'Salle B'),
-      ]),
-    );
-    when(() => scaffold.repository.bookingBookingsUsersMeGet())
-        .thenAnswer((_) async => chopperListResponse<BookingReturn>(mine));
-    when(() => scaffold.repository.bookingBookingsConfirmedGet()).thenAnswer(
-      (_) async => chopperListResponse<BookingReturnSimpleApplicant>(
-        <BookingReturnSimpleApplicant>[],
-      ),
-    );
-    when(() => scaffold.repository.bookingBookingsUsersMeManageGet())
-        .thenAnswer(
-          (_) async => chopperListResponse<BookingReturnApplicant>(
-            <BookingReturnApplicant>[],
-          ),
-        );
-  }
 
   /// Shared preamble: entity/reason/note plus the room chip.
   Future<void> fillCommonFields(WidgetTester tester) async {
@@ -106,9 +68,9 @@ void main() {
     tester,
   ) async {
     final container = scaffold.makeContainer();
-    stubBookingEndpoints();
+    stubBookingEndpoints(scaffold);
 
-    await pumpAddEdit(tester, container);
+    await pumpAddEdit(scaffold, tester, container);
 
     // Ticking "All day" wipes the date texts first, so toggle before typing.
     await tester.ensureVisible(find.byType(Checkbox).at(2));
@@ -137,7 +99,7 @@ void main() {
 
   testWidgets('a failed create POST toasts the adding error', (tester) async {
     final container = scaffold.makeContainer();
-    stubBookingEndpoints();
+    stubBookingEndpoints(scaffold);
     when(
       () => scaffold.repository.bookingBookingsPost(body: any(named: 'body')),
     ).thenAnswer(
@@ -145,7 +107,7 @@ void main() {
           chopper.Response<BookingReturn>(http.Response('body', 500), null),
     );
 
-    await pumpAddEdit(tester, container);
+    await pumpAddEdit(scaffold, tester, container);
 
     await fillCommonFields(tester);
     final fields = find.byType(TextFormField);
@@ -170,9 +132,9 @@ void main() {
     tester,
   ) async {
     final container = scaffold.makeContainer();
-    stubBookingEndpoints();
+    stubBookingEndpoints(scaffold);
 
-    await pumpAddEdit(tester, container);
+    await pumpAddEdit(scaffold, tester, container);
 
     Future<void> confirmDatePicker() async {
       expect(find.byType(DatePickerDialog), findsOneWidget);
@@ -253,9 +215,9 @@ void main() {
     tester,
   ) async {
     final container = scaffold.makeContainer();
-    stubBookingEndpoints();
+    stubBookingEndpoints(scaffold);
 
-    await pumpAddEdit(tester, container);
+    await pumpAddEdit(scaffold, tester, container);
 
     await tester.ensureVisible(find.byType(Checkbox).at(1));
     await tester.pump();
@@ -332,6 +294,7 @@ void main() {
         'FREQ=WEEKLY;BYDAY=MO,WE;UNTIL=2027-06-01T00:00:00Z;INTERVAL=3';
     final container = scaffold.makeContainer();
     stubBookingEndpoints(
+      scaffold,
       mine: [
         BookingReturn.empty().copyWith(
           id: 'b-9',
@@ -374,7 +337,7 @@ void main() {
           ),
         );
 
-    await pumpAddEdit(tester, container);
+    await pumpAddEdit(scaffold, tester, container);
 
     // Mount-time prefill: hour fields from the stored start/end, interval
     // and recurrence-end parsed straight out of the RRULE (lines 84-91).

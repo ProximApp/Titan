@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/admin/providers/group_id_provider.dart';
 import 'package:titan/booking/providers/manager_provider.dart';
-import 'package:titan/booking/router.dart';
-import 'package:titan/booking/ui/pages/admin_pages/admin_shrink_button.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../booking_fixtures.dart';
 
 /// AddEditManagerPage's twin of booking_admin_room_flows, in its OWN file:
 /// qlevar caches the matched route subtree globally, so a deep link to this
@@ -39,68 +37,20 @@ void main() {
     groupId: 'grp-1',
   );
 
-  ProviderContainer makeAdminContainer() {
-    final container = scaffold.makeContainer(
-      user: CoreUser.empty().copyWith(
-        groups: [
-          CoreGroupSimple.empty().copyWith(
-            id: bookingAdminGroupId,
-            name: 'admin',
-          ),
-        ],
-      ),
-    );
-    addTearDown(container.dispose);
-    return container;
-  }
-
-  void stubLoads({List<CoreGroupSimple> groups = const []}) {
-    when(() => scaffold.repository.bookingRoomsGet())
-        .thenAnswer((_) async => chopperListResponse(<RoomComplete>[]));
-    when(() => scaffold.repository.bookingManagersGet())
-        .thenAnswer((_) async => chopperListResponse([manager]));
-    when(() => scaffold.repository.groupsGet())
-        .thenAnswer((_) async => chopperListResponse(groups));
-  }
-
-  Future<void> pumpAdmin(
-    WidgetTester tester,
-    ProviderContainer container,
-  ) async {
-    scaffold.setWideSurface(tester);
-    await scaffold.pumpApp(
-      tester,
-      container,
-      initialPath:
-          '${BookingRouter.root}${BookingRouter.admin}${BookingRouter.manager}',
-      pumpAndSettle: false,
-    );
-    await settle(tester);
-  }
-
-  Finder shrinkButton(String label) => find.descendant(
-    of: find.byType(AdminShrinkButton),
-    matching: find.text(label),
-  );
-
-  Future<void> expectToast(WidgetTester tester, String text) async {
-    expect(find.text(text, skipOffstage: false), findsOneWidget);
-    await tester.pump(const Duration(seconds: 3));
-    await tester.pump();
-  }
-
   testWidgets('picking a group chip and adding toasts the success', (
     tester,
   ) async {
     stubLoads(
+      scaffold,
+      managers: [manager],
       groups: [CoreGroupSimple.empty().copyWith(id: 'grp-1', name: 'Admins')],
     );
     when(
       () => scaffold.repository.bookingManagersPost(body: any(named: 'body')),
     ).thenAnswer((_) async => chopperResponse(manager));
-    final container = makeAdminContainer();
+    final container = makeAdminContainer(scaffold);
 
-    await pumpAdmin(tester, container);
+    await pumpAdmin(scaffold, tester, container);
 
     expect(find.text('Add manager'), findsOneWidget);
     await tester.enterText(find.byType(TextField), 'Respo Amphi');
@@ -117,13 +67,13 @@ void main() {
   });
 
   testWidgets('a failed add toasts the adding error', (tester) async {
-    stubLoads();
+    stubLoads(scaffold, managers: [manager]);
     when(
       () => scaffold.repository.bookingManagersPost(body: any(named: 'body')),
     ).thenThrow(Exception('post failed'));
-    final container = makeAdminContainer();
+    final container = makeAdminContainer(scaffold);
 
-    await pumpAdmin(tester, container);
+    await pumpAdmin(scaffold, tester, container);
 
     await tester.enterText(find.byType(TextField), 'Respo Amphi');
     await tester.ensureVisible(shrinkButton('Add'));
@@ -135,18 +85,18 @@ void main() {
   });
 
   testWidgets('editing PATCHes, toasts and goes back', (tester) async {
-    stubLoads();
+    stubLoads(scaffold, managers: [manager]);
     when(
       () => scaffold.repository.bookingManagersManagerIdPatch(
         managerId: any(named: 'managerId'),
         body: any(named: 'body'),
       ),
     ).thenAnswer((_) async => chopperResponseVoid());
-    final container = makeAdminContainer();
+    final container = makeAdminContainer(scaffold);
     container.read(managerProvider.notifier).setManager(manager);
     container.read(groupIdProvider.notifier).setId('grp-1');
 
-    await pumpAdmin(tester, container);
+    await pumpAdmin(scaffold, tester, container);
 
     expect(find.text('Edit or delete a manager'), findsOneWidget);
     await tester.enterText(find.byType(TextField), 'Respo Amphi 2');
@@ -167,7 +117,7 @@ void main() {
   testWidgets('a failed edit toasts, and the delete dialog drives the DELETE', (
     tester,
   ) async {
-    stubLoads();
+    stubLoads(scaffold, managers: [manager]);
     when(
       () => scaffold.repository.bookingManagersManagerIdPatch(
         managerId: any(named: 'managerId'),
@@ -179,11 +129,11 @@ void main() {
         managerId: any(named: 'managerId'),
       ),
     ).thenAnswer((_) async => chopperResponseVoid());
-    final container = makeAdminContainer();
+    final container = makeAdminContainer(scaffold);
     container.read(managerProvider.notifier).setManager(manager);
     container.read(groupIdProvider.notifier).setId('grp-1');
 
-    await pumpAdmin(tester, container);
+    await pumpAdmin(scaffold, tester, container);
 
     // Failed PATCH: the error toast, still on the form.
     await tester.enterText(find.byType(TextField), 'Respo Amphi 2');
@@ -240,17 +190,17 @@ void main() {
   });
 
   testWidgets('a failed delete toasts the deleting error', (tester) async {
-    stubLoads();
+    stubLoads(scaffold, managers: [manager]);
     when(
       () => scaffold.repository.bookingManagersManagerIdDelete(
         managerId: any(named: 'managerId'),
       ),
     ).thenThrow(Exception('delete failed'));
-    final container = makeAdminContainer();
+    final container = makeAdminContainer(scaffold);
     container.read(managerProvider.notifier).setManager(manager);
     container.read(groupIdProvider.notifier).setId('grp-1');
 
-    await pumpAdmin(tester, container);
+    await pumpAdmin(scaffold, tester, container);
 
     await tester.ensureVisible(shrinkButton('Delete'));
     await tester.tap(shrinkButton('Delete'));
@@ -268,15 +218,15 @@ void main() {
   });
 
   testWidgets('a failed group list shows the error branch', (tester) async {
-    stubLoads();
+    stubLoads(scaffold, managers: [manager]);
     // The page's `when` sits on allGroupListProvider (the chip source) —
     // its error arm renders 'Error $error'. After stubLoads so the
     // throwing stub wins.
     when(() => scaffold.repository.groupsGet())
         .thenThrow(Exception('groups failed'));
-    final container = makeAdminContainer();
+    final container = makeAdminContainer(scaffold);
 
-    await pumpAdmin(tester, container);
+    await pumpAdmin(scaffold, tester, container);
 
     expect(find.text('Error Exception: groups failed'), findsOneWidget);
     expect(tester.takeException(), isNull);

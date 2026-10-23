@@ -13,6 +13,7 @@ import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 
 import '../../shared/app_scaffold.dart';
 import '../../shared/repository_test_support.dart' show chopperError;
+import '../booking_fixtures.dart';
 
 /// BookingMainPage's residual paths, none of which the deep-link tests walk
 /// (they all mount the page underneath with EMPTY lists and default
@@ -24,12 +25,6 @@ import '../../shared/repository_test_support.dart' show chopperError;
 ///   (displayToastWithContext only exists for that flow).
 const bookingAdminGroupId = '0a25cb76-4b63-4fd3-b939-da6d9feabf28';
 
-CoreUser adminUser() => CoreUser.empty().copyWith(
-  groups: [
-    CoreGroupSimple.empty().copyWith(id: bookingAdminGroupId, name: 'admin'),
-  ],
-);
-
 BookingReturn userBooking() => BookingReturn.empty().copyWith(
   id: 'u-1',
   reason: 'Robotics weekly u-1',
@@ -39,9 +34,6 @@ BookingReturn userBooking() => BookingReturn.empty().copyWith(
   end: DateTime(2027, 3, 2, 16),
   room: RoomComplete.empty().copyWith(id: 'room-1', name: 'Amphi A'),
 );
-
-Finder heroIcon(HeroIcons icon) =>
-    find.byWidgetPredicate((w) => w is HeroIcon && w.icon == icon);
 
 void main() {
   late IntegrationScaffold scaffold;
@@ -94,12 +86,6 @@ void main() {
     await settle(tester);
   }
 
-  Future<void> pumpFrames(WidgetTester tester, {int frames = 6}) async {
-    for (var i = 0; i < frames; i++) {
-      await tester.pump(const Duration(milliseconds: 60));
-    }
-  }
-
   testWidgets('the management button routes a manager to the manager page', (
     tester,
   ) async {
@@ -149,7 +135,7 @@ void main() {
     // qlevar's mock records the real callback destination without waiting
     // for a second deferred library load in this widget-test isolate. The
     // admin page itself is exercised by booking_admin_integration_test.
-    final navigation = _RecordingRouteMock();
+    final navigation = RecordingRouteMock();
     QR.settings.mockRoute = navigation;
     addTearDown(() => QR.settings.mockRoute = null);
     await tester.tap(adminButton);
@@ -192,7 +178,7 @@ void main() {
     expect(plus, findsOneWidget);
     await tester.ensureVisible(plus);
     await settle(tester, frames: 2);
-    final navigation = _RecordingRouteMock();
+    final navigation = RecordingRouteMock();
     QR.settings.mockRoute = navigation;
     addTearDown(() => QR.settings.mockRoute = null);
     await tester.tap(plus);
@@ -217,7 +203,7 @@ void main() {
     expect(pencil, findsOneWidget);
     await tester.ensureVisible(pencil);
     await settle(tester, frames: 2);
-    final navigation = _RecordingRouteMock();
+    final navigation = RecordingRouteMock();
     QR.settings.mockRoute = navigation;
     addTearDown(() => QR.settings.mockRoute = null);
     await tester.tap(pencil);
@@ -241,7 +227,7 @@ void main() {
     expect(info, findsOneWidget);
     await tester.ensureVisible(info);
     await settle(tester, frames: 2);
-    final navigation = _RecordingRouteMock();
+    final navigation = RecordingRouteMock();
     QR.settings.mockRoute = navigation;
     addTearDown(() => QR.settings.mockRoute = null);
     await tester.tap(info);
@@ -265,7 +251,7 @@ void main() {
     expect(copy, findsOneWidget);
     await tester.ensureVisible(copy);
     await settle(tester, frames: 2);
-    final navigation = _RecordingRouteMock();
+    final navigation = RecordingRouteMock();
     QR.settings.mockRoute = navigation;
     addTearDown(() => QR.settings.mockRoute = null);
     await tester.tap(copy);
@@ -345,15 +331,3 @@ void main() {
 
 /// Records QR.to destinations without forcing qlevar to load another deferred
 /// page in this widget-test isolate.
-class _RecordingRouteMock extends RouteMock {
-  final navigated = <String>[];
-
-  @override
-  String? mockName(String name) => name;
-
-  @override
-  QRoute? mockPath(String path) {
-    navigated.add(path);
-    return QRoute(path: path, builder: () => const SizedBox.shrink());
-  }
-}

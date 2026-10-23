@@ -7,6 +7,7 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/booking/providers/booking_provider.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../booking_fixtures.dart';
 
 /// add_edit_booking_page's RESIDUAL uncovered paths — the existing
 /// booking_add_edit_integration_test.dart covers the CREATE flow (render,
@@ -37,29 +38,6 @@ void main() {
     scaffold = IntegrationScaffold();
     scaffold.shellSetUp();
   });
-
-  void stubBookingEndpoints() {
-    when(() => scaffold.repository.bookingRoomsGet()).thenAnswer(
-      (_) async => chopperListResponse<models.RoomComplete>([
-        models.RoomComplete.empty().copyWith(id: 'room-1', name: 'Amphi A'),
-        models.RoomComplete.empty().copyWith(id: 'room-2', name: 'Salle B'),
-      ]),
-    );
-    when(() => scaffold.repository.bookingBookingsUsersMeGet()).thenAnswer(
-      (_) async => chopperListResponse<BookingReturn>(<BookingReturn>[]),
-    );
-    when(() => scaffold.repository.bookingBookingsConfirmedGet()).thenAnswer(
-      (_) async => chopperListResponse<BookingReturnSimpleApplicant>(
-        <BookingReturnSimpleApplicant>[],
-      ),
-    );
-    when(() => scaffold.repository.bookingBookingsUsersMeManageGet())
-        .thenAnswer(
-          (_) async => chopperListResponse<BookingReturnApplicant>(
-            <BookingReturnApplicant>[],
-          ),
-        );
-  }
 
   /// Pumps the edit form with the preset booking already in bookingProvider
   /// (the page derives its edit state from that provider, not the route).
@@ -96,7 +74,7 @@ void main() {
 
   testWidgets('edit mode pre-fills and the recurrence branch reshapes the '
       'form', (tester) async {
-    stubBookingEndpoints();
+    stubBookingEndpoints(scaffold);
     final container = scaffold.makeContainer();
     container.read(bookingProvider.notifier).setBooking(presetBooking());
 
@@ -160,7 +138,7 @@ void main() {
   testWidgets('a recurrence without any day is refused before the call', (
     tester,
   ) async {
-    stubBookingEndpoints();
+    stubBookingEndpoints(scaffold);
     final container = scaffold.makeContainer();
     container.read(bookingProvider.notifier).setBooking(presetBooking());
 
@@ -196,7 +174,7 @@ void main() {
 
   testWidgets('an interval below 1 is refused before syncfusion ever sees '
       'it', (tester) async {
-    stubBookingEndpoints();
+    stubBookingEndpoints(scaffold);
     final container = scaffold.makeContainer();
     container.read(bookingProvider.notifier).setBooking(presetBooking());
 
@@ -252,7 +230,7 @@ void main() {
   testWidgets('the recurrence form round-trips an RRULE through the PATCH', (
     tester,
   ) async {
-    stubBookingEndpoints();
+    stubBookingEndpoints(scaffold);
     when(
       () => scaffold.repository.bookingBookingsBookingIdPatch(
         bookingId: any(named: 'bookingId'),
@@ -326,7 +304,7 @@ void main() {
   testWidgets('cleared date fields fail validation with the fields toast', (
     tester,
   ) async {
-    stubBookingEndpoints();
+    stubBookingEndpoints(scaffold);
     final container = scaffold.makeContainer();
     container.read(bookingProvider.notifier).setBooking(presetBooking());
 
@@ -360,7 +338,7 @@ void main() {
 
   testWidgets('a recurrence window that misses every selected day is '
       'refused before syncfusion hands back a rule', (tester) async {
-    stubBookingEndpoints();
+    stubBookingEndpoints(scaffold);
     final container = scaffold.makeContainer();
     container.read(bookingProvider.notifier).setBooking(presetBooking());
 

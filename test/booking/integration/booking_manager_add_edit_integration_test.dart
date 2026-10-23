@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/booking/providers/booking_provider.dart';
@@ -7,6 +6,7 @@ import 'package:titan/booking/providers/manager_booking_list_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../booking_fixtures.dart';
 
 /// The manager edit branch of add_edit_booking_page, reached on the gated
 /// route `/booking/manager/add_edit` (AdminMiddleware lets isManagerProvider
@@ -28,43 +28,6 @@ void main() {
     scaffold = IntegrationScaffold();
     scaffold.shellSetUp();
   });
-
-  Future<void> pumpAddEdit(
-    WidgetTester tester,
-    ProviderContainer container,
-  ) async {
-    scaffold.setWideSurface(tester);
-    await scaffold.pumpApp(
-      tester,
-      container,
-      initialPath: '/booking/manager/add_edit',
-      pumpAndSettle: false,
-    );
-    for (var i = 0; i < 12; i++) {
-      await tester.pump(const Duration(milliseconds: 60));
-    }
-  }
-
-  void stubBookingEndpoints({required List<BookingReturnApplicant> managed}) {
-    when(() => scaffold.repository.bookingRoomsGet()).thenAnswer(
-      (_) async => chopperListResponse<RoomComplete>([
-        RoomComplete.empty().copyWith(id: 'room-1', name: 'Amphi A'),
-        RoomComplete.empty().copyWith(id: 'room-2', name: 'Salle B'),
-      ]),
-    );
-    when(() => scaffold.repository.bookingBookingsUsersMeGet()).thenAnswer(
-      (_) async => chopperListResponse<BookingReturn>(<BookingReturn>[]),
-    );
-    when(() => scaffold.repository.bookingBookingsConfirmedGet()).thenAnswer(
-      (_) async => chopperListResponse<BookingReturnSimpleApplicant>(
-        <BookingReturnSimpleApplicant>[],
-      ),
-    );
-    when(() => scaffold.repository.bookingBookingsUsersMeManageGet())
-        .thenAnswer(
-          (_) async => chopperListResponse<BookingReturnApplicant>(managed),
-        );
-  }
 
   testWidgets('the manager edit branch saves for the manager\'s own '
       'applicant', (tester) async {
@@ -89,7 +52,7 @@ void main() {
       applicant: Applicant.empty(),
       recurrenceRule: '',
     );
-    stubBookingEndpoints(managed: [seed]);
+    stubBookingEndpoints(scaffold, managed: [seed]);
     when(
       () => scaffold.repository.bookingBookingsBookingIdPatch(
         bookingId: any(named: 'bookingId'),
@@ -101,7 +64,12 @@ void main() {
     // handleState refuses to PATCH while the notifier is still loading.
     container.read(managerBookingListProvider);
 
-    await pumpAddEdit(tester, container);
+    await pumpAddEdit(
+      scaffold,
+      tester,
+      container,
+      path: '/booking/manager/add_edit',
+    );
 
     // All-day derive ran off the seeded 00:00/23:59 times.
     final boxes = tester.widgetList<Checkbox>(find.byType(Checkbox)).toList();

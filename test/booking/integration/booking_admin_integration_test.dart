@@ -4,15 +4,10 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/booking/router.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../booking_fixtures.dart';
 
 /// The booking admin gate is a plain Provider over userProvider.groups.
 const bookingAdminGroupId = '0a25cb76-4b63-4fd3-b939-da6d9feabf28';
-
-CoreUser adminUser() => CoreUser.empty().copyWith(
-  groups: [
-    CoreGroupSimple.empty().copyWith(id: bookingAdminGroupId, name: 'admin'),
-  ],
-);
 
 Manager manager(String id, String name) =>
     Manager.empty().copyWith(id: id, name: name, groupId: 'grp-1');

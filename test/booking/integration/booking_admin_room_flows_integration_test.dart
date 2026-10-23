@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/booking/providers/room_provider.dart';
 import 'package:titan/booking/router.dart';
-import 'package:titan/booking/ui/pages/admin_pages/admin_shrink_button.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../booking_fixtures.dart';
 
 /// AddEditRoomPage's uncovered handlers: every AdminShrinkButton onTap was
 /// never driven — manager chip selection, add POST / update PATCH, the
@@ -45,73 +44,18 @@ void main() {
     groupId: 'grp-1',
   );
 
-  ProviderContainer makeAdminContainer() {
-    final container = scaffold.makeContainer(
-      user: CoreUser.empty().copyWith(
-        groups: [
-          CoreGroupSimple.empty().copyWith(
-            id: bookingAdminGroupId,
-            name: 'admin',
-          ),
-        ],
-      ),
-    );
-    addTearDown(container.dispose);
-    return container;
-  }
-
-  /// Both forms plus the admin parent they QR.back() onto.
-  void stubLoads({
-    List<RoomComplete> rooms = const [],
-    List<Manager> managers = const [],
-    List<CoreGroupSimple> groups = const [],
-  }) {
-    when(() => scaffold.repository.bookingRoomsGet())
-        .thenAnswer((_) async => chopperListResponse(rooms));
-    when(() => scaffold.repository.bookingManagersGet())
-        .thenAnswer((_) async => chopperListResponse(managers));
-    when(() => scaffold.repository.groupsGet())
-        .thenAnswer((_) async => chopperListResponse(groups));
-  }
-
-  Future<void> pumpAdmin(
-    WidgetTester tester,
-    ProviderContainer container,
-    String path,
-  ) async {
-    scaffold.setWideSurface(tester);
-    await scaffold.pumpApp(
-      tester,
-      container,
-      initialPath: path,
-      pumpAndSettle: false,
-    );
-    await settle(tester);
-  }
-
-  Finder shrinkButton(String label) => find.descendant(
-    of: find.byType(AdminShrinkButton),
-    matching: find.text(label),
-  );
-
-  Future<void> expectToast(WidgetTester tester, String text) async {
-    expect(find.text(text, skipOffstage: false), findsOneWidget);
-    await tester.pump(const Duration(seconds: 3));
-    await tester.pump();
-  }
-
   final path =
       '${BookingRouter.root}${BookingRouter.admin}${BookingRouter.room}';
 
   testWidgets('picking a manager chip and adding toasts the success', (
     tester,
   ) async {
-    stubLoads(managers: [manager]);
+    stubLoads(scaffold, managers: [manager]);
     when(() => scaffold.repository.bookingRoomsPost(body: any(named: 'body')))
         .thenAnswer((_) async => chopperResponse(room));
-    final container = makeAdminContainer();
+    final container = makeAdminContainer(scaffold);
 
-    await pumpAdmin(tester, container, path);
+    await pumpAdmin(scaffold, tester, container, path: path);
 
     expect(find.text('Add room'), findsOneWidget);
     // The name lives in the AdminEntry TextField's controller.
@@ -128,12 +72,12 @@ void main() {
   });
 
   testWidgets('a failed add toasts the adding error', (tester) async {
-    stubLoads(managers: [manager]);
+    stubLoads(scaffold, managers: [manager]);
     when(() => scaffold.repository.bookingRoomsPost(body: any(named: 'body')))
         .thenThrow(Exception('post failed'));
-    final container = makeAdminContainer();
+    final container = makeAdminContainer(scaffold);
 
-    await pumpAdmin(tester, container, path);
+    await pumpAdmin(scaffold, tester, container, path: path);
 
     await tester.enterText(find.byType(TextField), 'Salle C');
     await tester.ensureVisible(shrinkButton('Add'));
@@ -145,17 +89,17 @@ void main() {
   });
 
   testWidgets('editing PATCHes, toasts and goes back', (tester) async {
-    stubLoads(rooms: [room], managers: [manager]);
+    stubLoads(scaffold, rooms: [room], managers: [manager]);
     when(
       () => scaffold.repository.bookingRoomsRoomIdPatch(
         roomId: any(named: 'roomId'),
         body: any(named: 'body'),
       ),
     ).thenAnswer((_) async => chopperResponseVoid());
-    final container = makeAdminContainer();
+    final container = makeAdminContainer(scaffold);
     container.read(roomProvider.notifier).setRoom(room);
 
-    await pumpAdmin(tester, container, path);
+    await pumpAdmin(scaffold, tester, container, path: path);
 
     expect(find.text('Edit or delete a room'), findsOneWidget);
     await tester.enterText(find.byType(TextField), 'Amphi B');
@@ -176,7 +120,7 @@ void main() {
   testWidgets('a failed edit toasts, and the delete dialog drives the DELETE', (
     tester,
   ) async {
-    stubLoads(rooms: [room], managers: [manager]);
+    stubLoads(scaffold, rooms: [room], managers: [manager]);
     when(
       () => scaffold.repository.bookingRoomsRoomIdPatch(
         roomId: any(named: 'roomId'),
@@ -188,10 +132,10 @@ void main() {
         roomId: any(named: 'roomId'),
       ),
     ).thenAnswer((_) async => chopperResponseVoid());
-    final container = makeAdminContainer();
+    final container = makeAdminContainer(scaffold);
     container.read(roomProvider.notifier).setRoom(room);
 
-    await pumpAdmin(tester, container, path);
+    await pumpAdmin(scaffold, tester, container, path: path);
 
     // Failed PATCH: the error toast, still on the form (so the delete
     // buttons below are still there).
@@ -246,16 +190,16 @@ void main() {
   });
 
   testWidgets('a failed delete toasts the deleting error', (tester) async {
-    stubLoads(rooms: [room], managers: [manager]);
+    stubLoads(scaffold, rooms: [room], managers: [manager]);
     when(
       () => scaffold.repository.bookingRoomsRoomIdDelete(
         roomId: any(named: 'roomId'),
       ),
     ).thenThrow(Exception('delete failed'));
-    final container = makeAdminContainer();
+    final container = makeAdminContainer(scaffold);
     container.read(roomProvider.notifier).setRoom(room);
 
-    await pumpAdmin(tester, container, path);
+    await pumpAdmin(scaffold, tester, container, path: path);
 
     await tester.ensureVisible(shrinkButton('Delete'));
     await tester.tap(shrinkButton('Delete'));
