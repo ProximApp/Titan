@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:titan/auth/providers/is_connected_provider.dart';
 import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/auth/repository/auth_repository.dart';
+import 'package:titan/generated/openapi.models.swagger.dart' as models;
 import 'package:titan/tools/repository/repository.dart';
 
 import '../../shared/mock_openapi.dart';
@@ -39,6 +40,22 @@ class _FixedIsCaching extends IsCachingProvider {
 
   @override
   bool build() => value;
+}
+
+class _FixedAuthRepository extends AuthRepository {
+  _FixedAuthRepository(MockOpenapi repository, {required this.tokenResponse})
+    : super(openIdRepository: repository);
+
+  final models.TokenResponse tokenResponse;
+
+  @override
+  Future<models.TokenResponse> getTokenFromRequest() async => tokenResponse;
+
+  @override
+  Future<models.TokenResponse> getTokenFromStorage() async => tokenResponse;
+
+  @override
+  Future<models.TokenResponse> refreshToken() async => tokenResponse;
 }
 
 ProviderContainer _container(
@@ -290,6 +307,84 @@ void main() {
       // channel call throws — the provider must land on the error branch.
       await provider.getTokenFromRequest();
 
+      expect(container.read(authTokenProvider).hasError, isTrue);
+    },
+  );
+
+  test(
+    'an empty response from the storage grant becomes an error state',
+    () async {
+      stored['my_ecl_auth_token'] = 'stored-refresh';
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(appAuthChannel, (call) async {
+            expect(call.method, 'token');
+            return <String, dynamic>{
+              'accessToken': '',
+              'refreshToken': 'rotated-refresh',
+            };
+          });
+      addTearDown(
+        () => TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .setMockMethodCallHandler(appAuthChannel, null),
+      );
+
+      final authRepository = AuthRepository(openIdRepository: repository);
+      final container = ProviderContainer(
+        overrides: [
+          repositoryProvider.overrideWithValue(repository),
+          authRepositoryProvider.overrideWithValue(authRepository),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      await container.read(authTokenProvider.notifier).getTokenFromStorage();
+
+      final token = container.read(authTokenProvider);
+      expect(token.hasError, isTrue);
+      expect(stored['my_ecl_auth_token'], 'stored-refresh');
+      expect(deleted, isEmpty);
+    },
+  );
+
+  test('an empty authorization response becomes an error state', () async {
+    final container = ProviderContainer(
+      overrides: [
+        repositoryProvider.overrideWithValue(repository),
+        authRepositoryProvider.overrideWithValue(
+          _FixedAuthRepository(
+            repository,
+            tokenResponse: models.TokenResponse.empty(),
+          ),
+        ),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    await container.read(authTokenProvider.notifier).getTokenFromRequest();
+
+    expect(container.read(authTokenProvider).hasError, isTrue);
+  });
+
+  test(
+    'an empty refresh response is rejected and stored as an error',
+    () async {
+      final container = ProviderContainer(
+        overrides: [
+          repositoryProvider.overrideWithValue(repository),
+          authRepositoryProvider.overrideWithValue(
+            _FixedAuthRepository(
+              repository,
+              tokenResponse: models.TokenResponse.empty(),
+            ),
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      await expectLater(
+        container.read(authTokenProvider.notifier).refreshAccessToken(),
+        throwsA(isA<Exception>()),
+      );
       expect(container.read(authTokenProvider).hasError, isTrue);
     },
   );

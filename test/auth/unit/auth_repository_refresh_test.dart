@@ -88,6 +88,12 @@ void main() {
       );
     });
 
+    test('generates an empty verifier when the requested length is zero', () {
+      final repo = AuthRepository(openIdRepository: repository);
+
+      expect(repo.generateRandomString(0), isEmpty);
+    });
+
     test('stores a valid token response in secure storage', () async {
       final repo = AuthRepository(openIdRepository: repository);
 
@@ -278,6 +284,26 @@ void main() {
   });
 
   group('AuthRepository.refreshToken native failure branches', () {
+    test(
+      'wipes the stored token when the grant is invalid (invalid_request)',
+      () async {
+        final repo = AuthRepository(openIdRepository: repository);
+        stored['my_ecl_auth_token'] = 'malformed-refresh';
+        stubAppAuthToken((call) async {
+          throw PlatformException(
+            code: 'authorize_failed',
+            details: {
+              'type': 'oauth_error',
+              'error': FlutterAppAuthOAuthError.invalidRequest,
+            },
+          );
+        });
+
+        await expectLater(repo.refreshToken(), throwsA(isA<Exception>()));
+        expect(deleted, contains('my_ecl_auth_token'));
+        expect(stored.containsKey('my_ecl_auth_token'), isFalse);
+      },
+    );
     test('throws when the shell returns no access token', () async {
       final repo = AuthRepository(openIdRepository: repository);
       stored['my_ecl_auth_token'] = 'stored-refresh';
