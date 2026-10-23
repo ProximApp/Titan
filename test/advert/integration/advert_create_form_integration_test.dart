@@ -1,11 +1,9 @@
 import 'dart:typed_data';
-import 'dart:ui' as ui;
 
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 // image_picker's own export uses a `show` list without the platform types.
 import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
 import 'package:mocktail/mocktail.dart';
@@ -15,26 +13,7 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
 import '../../shared/app_scaffold.dart';
-
-/// The CREATE branch of the add-edit form as its own router session
-/// (convention 19 — one router-pushing test per file): three association
-/// names exercising every AssociationBar avatar fallback, the single-select
-/// select/deselect closures, BOTH FormField validators' red states with the
-/// "Incorrect or missing fields" gate, the two checkbox toggles, and the
-/// template TopBar's onBack closure.
-/// A genuinely decodable PNG — `fileBytes` feeds `Image.memory`, and raw
-/// text throws `Invalid image data` on paint.
-Future<Uint8List> solidPng() async {
-  final recorder = ui.PictureRecorder();
-  final canvas = Canvas(recorder);
-  canvas.drawRect(
-    const Rect.fromLTWH(0, 0, 8, 8),
-    Paint()..color = const Color(0xFF00FF00),
-  );
-  final image = await recorder.endRecording().toImage(8, 8);
-  final data = await image.toByteData(format: ui.ImageByteFormat.png);
-  return data!.buffer.asUint8List();
-}
+import '../advert_fixtures.dart';
 
 final associations = [
   // length ≤ 3 → uppercased whole name.

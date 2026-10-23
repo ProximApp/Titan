@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'dart:ui' as ui;
 
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter/material.dart';
@@ -17,26 +16,7 @@ import 'package:titan/tools/ui/heroicons.dart';
 // HeroIcon predicate finders below.
 
 import '../../shared/app_scaffold.dart';
-
-/// The admin PAGE session, chained in one test (convention 19 — qlevar
-/// keeps the active route branch in process-global state, so only one
-/// router-pushing session per file):
-/// multi-select chip filter → card edit (PATCH 400 then 200) → pull to
-/// refresh → delete dialog → the Post button's single-association
-/// auto-select into the CREATE form → the template TopBar's onBack.
-/// A genuinely decodable PNG — `fileBytes` feeds `Image.memory`, and any
-/// hand-typed base64 or raw text throws `Invalid image data` on paint.
-Future<Uint8List> solidPng() async {
-  final recorder = ui.PictureRecorder();
-  final canvas = Canvas(recorder);
-  canvas.drawRect(
-    const Rect.fromLTWH(0, 0, 8, 8),
-    Paint()..color = const Color(0xFF00FF00),
-  );
-  final image = await recorder.endRecording().toImage(8, 8);
-  final data = await image.toByteData(format: ui.ImageByteFormat.png);
-  return data!.buffer.asUint8List();
-}
+import '../advert_fixtures.dart';
 
 final myAssociation = Association.empty().copyWith(
   id: 'asso-1',

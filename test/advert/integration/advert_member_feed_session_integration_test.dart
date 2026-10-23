@@ -1,8 +1,4 @@
-import 'dart:typed_data';
-import 'dart:ui' as ui;
-
 import 'package:chopper/chopper.dart' as chopper;
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
@@ -10,26 +6,7 @@ import 'package:titan/advert/router.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 
 import '../../shared/app_scaffold.dart';
-
-/// The member FEED session in one test (convention 19 — one router-pushing
-/// test per file): both AdvertCard logo paths (real bytes → CircleAvatar,
-/// 404 → placeholder image, initials avatar in the loading window), both
-/// poster paths, the long-text expand/collapse with
-/// its tappable link recognizer, the pull-to-refresh closure, and the
-/// Admin button that chains into the admin page.
-/// A genuinely decodable PNG — `fileBytes` feeds `Image.memory`, and raw
-/// text (or hand-typed base64) throws `Invalid image data` on paint.
-Future<Uint8List> solidPng() async {
-  final recorder = ui.PictureRecorder();
-  final canvas = Canvas(recorder);
-  canvas.drawRect(
-    const Rect.fromLTWH(0, 0, 8, 8),
-    Paint()..color = const Color(0xFF00FF00),
-  );
-  final image = await recorder.endRecording().toImage(8, 8);
-  final data = await image.toByteData(format: ui.ImageByteFormat.png);
-  return data!.buffer.asUint8List();
-}
+import '../advert_fixtures.dart';
 
 final bde = Association.empty().copyWith(id: 'asso-1', name: 'BDE');
 final coop = Association.empty().copyWith(id: 'asso-2', name: 'La Coop');
