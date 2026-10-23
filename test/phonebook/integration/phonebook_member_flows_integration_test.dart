@@ -9,7 +9,7 @@ import 'package:titan/phonebook/providers/association_provider.dart';
 import 'package:titan/phonebook/router.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../phonebook_fixtures.dart';
 
 /// The full add-member flow on the members admin page, driven through the
 /// real UI: page → "Add a member" list item → editor page → user-search

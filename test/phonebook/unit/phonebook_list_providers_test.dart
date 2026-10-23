@@ -12,7 +12,7 @@ import 'package:titan/tools/exception.dart';
 import 'package:titan/tools/repository/repository.dart';
 
 import '../../shared/mock_openapi.dart';
-import '../../shared/fixtures.dart' as fixtures;
+import '../phonebook_fixtures.dart' as fixtures;
 
 AssociationComplete association(String id, String name) =>
     fixtures.association(id, name, groupementId: '');

@@ -12,6 +12,7 @@ import 'package:titan/phonebook/router.dart';
 
 import '../../shared/app_scaffold.dart';
 import '../../shared/fixtures.dart';
+import '../phonebook_fixtures.dart';
 
 /// The membership editor's submit paths no other file drives (the member
 /// flows file covers the two success round-trips only): the empty-member

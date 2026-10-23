@@ -8,6 +8,7 @@ import 'package:titan/phonebook/router.dart';
 
 import '../../shared/app_scaffold.dart';
 import '../../shared/fixtures.dart';
+import '../phonebook_fixtures.dart';
 
 /// AssociationAdminEditionModal — the bottom sheet EditableAssociationCard
 /// opens on /phonebook/admin (102 uncovered lines). The journey: card tap →

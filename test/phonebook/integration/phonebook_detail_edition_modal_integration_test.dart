@@ -16,6 +16,7 @@ import 'package:titan/tools/ui/heroicons.dart';
 
 import '../../shared/app_scaffold.dart';
 import '../../shared/fixtures.dart';
+import '../phonebook_fixtures.dart';
 
 /// AssociationEditionModal — the bottom sheet the PRESIDENT sees behind the
 /// pencil icon on /phonebook/association_detail (36 lines at 0%: the admin

@@ -6,6 +6,7 @@ import 'package:titan/phonebook/router.dart';
 
 import '../../shared/app_scaffold.dart';
 import '../../shared/fixtures.dart';
+import '../phonebook_fixtures.dart';
 
 /// The groups page's AdminMiddleware gates on isAdminProvider (plain admin).
 

@@ -14,6 +14,7 @@ import 'package:titan/phonebook/ui/pages/member_detail_page/membership_card.dart
 
 import '../../shared/app_scaffold.dart';
 import '../../shared/fixtures.dart';
+import '../phonebook_fixtures.dart';
 
 /// Widget-level tests for the phonebook rows — the module's first widget
 /// level, and the one fixed-width sweep found nothing in.

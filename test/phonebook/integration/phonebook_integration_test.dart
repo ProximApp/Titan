@@ -7,6 +7,8 @@ import '../../shared/fixtures.dart';
 
 import 'package:titan/phonebook/router.dart';
 
+import '../phonebook_fixtures.dart';
+
 void main() {
   late IntegrationScaffold scaffold;
 

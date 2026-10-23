@@ -10,6 +10,7 @@ import 'package:titan/phonebook/router.dart';
 
 import '../../shared/app_scaffold.dart';
 import '../../shared/fixtures.dart';
+import '../phonebook_fixtures.dart';
 
 /// The membership editor's role-tag toggles, on the PRESIDENT side: not a
 /// phonebook admin, so the first tag's role is locked to the mandate

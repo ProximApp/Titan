@@ -10,6 +10,7 @@ import 'package:titan/phonebook/router.dart';
 
 import '../../shared/app_scaffold.dart';
 import '../../shared/fixtures.dart';
+import '../phonebook_fixtures.dart';
 
 /// The members admin page's non-navigating flows (deep link only — the
 /// route journeys live in phonebook_member_flows and

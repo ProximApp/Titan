@@ -14,7 +14,8 @@ import 'package:titan/phonebook/providers/roles_tags_provider.dart';
 import 'package:titan/phonebook/tools/function.dart';
 import 'package:titan/user/providers/user_provider.dart';
 
-import '../../shared/fixtures.dart' as fixtures;
+import '../../shared/fixtures.dart';
+import '../phonebook_fixtures.dart' as fixtures;
 
 AssociationComplete association(
   String id,
@@ -134,11 +135,11 @@ void main() {
       ];
       container = ProviderContainer(
         overrides: [
-          fixtures.notifierBuildOverride(
+          notifierBuildOverride(
             associationListProvider,
             AsyncValue.data(associations),
           ),
-          fixtures.notifierBuildOverride(
+          notifierBuildOverride(
             associationGroupementListProvider,
             AsyncValue.data([groupement('g1'), groupement('g2')]),
           ),
@@ -208,9 +209,7 @@ void main() {
     test('hasPhonebookAdminAccessProvider also accepts a plain admin', () {
       final container = ProviderContainer(
         overrides: [
-          userProvider.overrideWithValue(
-            userWithGroups([fixtures.adminGroupId]),
-          ),
+          userProvider.overrideWithValue(userWithGroups([adminGroupId])),
         ],
       );
       addTearDown(container.dispose);
@@ -244,15 +243,12 @@ void main() {
       final container = ProviderContainer(
         overrides: [
           userProvider.overrideWithValue(me),
-          fixtures.notifierBuildOverride(
-            associationProvider,
-            association('a1', 'BDE'),
-          ),
-          fixtures.notifierBuildOverride(
+          notifierBuildOverride(associationProvider, association('a1', 'BDE')),
+          notifierBuildOverride(
             associationMemberListProvider,
             AsyncValue.data(members),
           ),
-          fixtures.notifierBuildOverride(
+          notifierBuildOverride(
             rolesTagsProvider,
             AsyncValue.data(RoleTagsReturn(tags: const [presidentTag])),
           ),
@@ -275,15 +271,12 @@ void main() {
       final containerWithAssociation = ProviderContainer(
         overrides: [
           userProvider.overrideWithValue(me),
-          fixtures.notifierBuildOverride(
-            associationProvider,
-            association('a1', 'BDE'),
-          ),
-          fixtures.notifierBuildOverride(
+          notifierBuildOverride(associationProvider, association('a1', 'BDE')),
+          notifierBuildOverride(
             associationMemberListProvider,
             AsyncValue.data(members),
           ),
-          fixtures.notifierBuildOverride(
+          notifierBuildOverride(
             rolesTagsProvider,
             AsyncValue.data(RoleTagsReturn(tags: const [presidentTag])),
           ),
@@ -313,7 +306,7 @@ void main() {
       ];
       final container = ProviderContainer(
         overrides: [
-          fixtures.notifierBuildOverride(
+          notifierBuildOverride(
             associationMemberListProvider,
             AsyncValue.data(members),
           ),

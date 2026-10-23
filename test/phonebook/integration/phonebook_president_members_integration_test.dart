@@ -10,6 +10,7 @@ import 'package:titan/tools/ui/heroicons.dart';
 
 import '../../shared/app_scaffold.dart';
 import '../../shared/fixtures.dart';
+import '../phonebook_fixtures.dart';
 
 /// The PRESIDENT side of the members tree: AssociationEditionModal's
 /// "Manage members" button routes to /phonebook/association_detail

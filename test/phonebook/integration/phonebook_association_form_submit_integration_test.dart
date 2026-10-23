@@ -20,6 +20,7 @@ import 'package:titan/tools/ui/styleguide/button.dart';
 
 import '../../shared/app_scaffold.dart';
 import '../../shared/fixtures.dart';
+import '../phonebook_fixtures.dart';
 
 /// `AssociationAddEditPage`'s save handler and its two picture buttons were
 /// both at ZERO lines: the existing add_edit tests only render the form.
