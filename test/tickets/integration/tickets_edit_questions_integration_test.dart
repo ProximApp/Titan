@@ -1,15 +1,14 @@
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.models.swagger.dart' as models;
 import 'package:titan/generated/openapi.swagger.dart';
-import 'package:titan/tickets/providers/selected_ticket_event_provider.dart';
 import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../tickets_fixtures.dart';
 
 /// The questions section internals (edit_ticket_event_page's
 /// _EditQuestionsSection/_QuestionRow) plus the unlocked-row staging the
@@ -64,59 +63,15 @@ void main() {
     scaffold.shellSetUp();
   });
 
-  ProviderContainer sellerContainer() {
-    return scaffold.makeContainer(
-      user: models.CoreUser.empty().copyWith(id: 'me'),
-      myStores: [models.UserStore.empty().copyWith(id: 'store-1', name: 'BDE')],
-      storeSellers: {
-        'store-1': [
-          Seller.empty().copyWith(userId: 'me', canManageEvents: true),
-        ],
-      },
-    );
-  }
-
-  Future<void> pumpEdit(
-    WidgetTester tester,
-    ProviderContainer container,
-    EventAdmin fixture,
-  ) async {
-    container.read(selectedTicketEventIdProvider.notifier).setId('evt-1');
-    when(
-      () => scaffold.repository.ticketsAdminEventsEventIdGet(eventId: 'evt-1'),
-    ).thenAnswer((_) async => chopperResponse(fixture));
-
-    scaffold.setWideSurface(tester);
-    await scaffold.pumpApp(
-      tester,
-      container,
-      initialPath: '/tickets/edit',
-      pumpAndSettle: false,
-    );
-    for (var i = 0; i < 12; i++) {
-      await tester.pump(const Duration(milliseconds: 60));
-    }
-  }
-
-  Future<void> pumpFrames(WidgetTester tester, [int frames = 12]) async {
-    for (var i = 0; i < frames; i++) {
-      await tester.pump(const Duration(milliseconds: 60));
-    }
-  }
-
-  Future<void> scrollTo(WidgetTester tester, Finder finder) async {
-    await tester.scrollUntilVisible(
-      finder,
-      400,
-      scrollable: find.byType(Scrollable).first,
-    );
-    await tester.ensureVisible(finder);
-  }
-
   testWidgets('the add-question modal creates a required paid question', (
     tester,
   ) async {
-    await pumpEdit(tester, sellerContainer(), ticketEventFixture());
+    await pumpEdit(
+      scaffold,
+      tester,
+      sellerContainer(scaffold),
+      ticketEventFixture(),
+    );
     when(
       () => scaffold.repository.ticketsAdminEventsEventIdQuestionsPost(
         eventId: any(named: 'eventId'),
@@ -171,7 +126,12 @@ void main() {
   testWidgets('question rows stage text, price, type and switches', (
     tester,
   ) async {
-    await pumpEdit(tester, sellerContainer(), ticketEventFixture());
+    await pumpEdit(
+      scaffold,
+      tester,
+      sellerContainer(scaffold),
+      ticketEventFixture(),
+    );
 
     await scrollTo(tester, find.text('Allergies?'));
     // Staged text + price edits fire the row's onChanged closures.
@@ -209,7 +169,12 @@ void main() {
   testWidgets('unlocked category and session rows stage their fields', (
     tester,
   ) async {
-    await pumpEdit(tester, sellerContainer(), ticketEventFixture());
+    await pumpEdit(
+      scaffold,
+      tester,
+      sellerContainer(scaffold),
+      ticketEventFixture(),
+    );
 
     await scrollTo(tester, find.text('Normal'));
     // The category name field carries the current name; editing it fires the
@@ -236,7 +201,12 @@ void main() {
   testWidgets('deleting a question confirms, DELETEs and toasts', (
     tester,
   ) async {
-    await pumpEdit(tester, sellerContainer(), ticketEventFixture());
+    await pumpEdit(
+      scaffold,
+      tester,
+      sellerContainer(scaffold),
+      ticketEventFixture(),
+    );
     when(
       () => scaffold.repository
           .ticketsAdminEventsEventIdQuestionsQuestionIdDelete(
@@ -266,7 +236,12 @@ void main() {
   testWidgets('a refused question delete names the answers guard', (
     tester,
   ) async {
-    await pumpEdit(tester, sellerContainer(), ticketEventFixture());
+    await pumpEdit(
+      scaffold,
+      tester,
+      sellerContainer(scaffold),
+      ticketEventFixture(),
+    );
     when(
       // ignore: void_checks
       () => scaffold.repository
@@ -294,7 +269,12 @@ void main() {
   testWidgets('failed question/category creations surface the update error', (
     tester,
   ) async {
-    await pumpEdit(tester, sellerContainer(), ticketEventFixture());
+    await pumpEdit(
+      scaffold,
+      tester,
+      sellerContainer(scaffold),
+      ticketEventFixture(),
+    );
     when(
       // ignore: void_checks
       () => scaffold.repository.ticketsAdminEventsEventIdQuestionsPost(
@@ -351,8 +331,9 @@ void main() {
 
   testWidgets('locked rows are inert: taps change nothing', (tester) async {
     await pumpEdit(
+      scaffold,
       tester,
-      sellerContainer(),
+      sellerContainer(scaffold),
       ticketEventFixture(withSales: true),
     );
 

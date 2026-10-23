@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.models.swagger.dart' as models;
 import 'package:titan/generated/openapi.swagger.dart';
-import 'package:titan/tickets/providers/selected_ticket_event_provider.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../tickets_fixtures.dart';
 
 /// edit_ticket_event_page's RESIDUAL uncovered paths — everything the other
 /// edit files deliberately skipped:
@@ -55,50 +54,6 @@ void main() {
     scaffold = IntegrationScaffold();
     scaffold.shellSetUp();
   });
-
-  ProviderContainer sellerContainer() {
-    return scaffold.makeContainer(
-      user: models.CoreUser.empty().copyWith(id: 'me'),
-      myStores: [models.UserStore.empty().copyWith(id: 'store-1', name: 'BDE')],
-      storeSellers: {
-        'store-1': [
-          Seller.empty().copyWith(userId: 'me', canManageEvents: true),
-        ],
-      },
-    );
-  }
-
-  /// Pumps the edit page with [fixture] answering the event GET.
-  Future<void> pumpEdit(
-    WidgetTester tester,
-    ProviderContainer container,
-    EventAdmin fixture,
-  ) async {
-    container.read(selectedTicketEventIdProvider.notifier).setId('evt-1');
-    when(
-      () => scaffold.repository.ticketsAdminEventsEventIdGet(eventId: 'evt-1'),
-    ).thenAnswer((_) async => chopperResponse(fixture));
-
-    scaffold.setWideSurface(tester);
-    await scaffold.pumpApp(
-      tester,
-      container,
-      initialPath: '/tickets/edit',
-      pumpAndSettle: false,
-    );
-    for (var i = 0; i < 12; i++) {
-      await tester.pump(const Duration(milliseconds: 60));
-    }
-  }
-
-  Future<void> scrollTo(WidgetTester tester, Finder finder) async {
-    await tester.scrollUntilVisible(
-      finder,
-      400,
-      scrollable: find.byType(Scrollable).first,
-    );
-    await tester.ensureVisible(finder);
-  }
 
   void stubSaveChain() {
     when(
@@ -150,7 +105,12 @@ void main() {
   testWidgets('the stats card breaks sales down against the quota', (
     tester,
   ) async {
-    await pumpEdit(tester, sellerContainer(), ticketEventFixture());
+    await pumpEdit(
+      scaffold,
+      tester,
+      sellerContainer(scaffold),
+      ticketEventFixture(),
+    );
 
     // StatTile renders value/total as a RichText: sold vs quota.
     expect(find.text('Statistics'), findsOneWidget);
@@ -163,7 +123,12 @@ void main() {
   testWidgets('saving without a title is refused before any call', (
     tester,
   ) async {
-    await pumpEdit(tester, sellerContainer(), ticketEventFixture());
+    await pumpEdit(
+      scaffold,
+      tester,
+      sellerContainer(scaffold),
+      ticketEventFixture(),
+    );
 
     // Clear the pre-filled title: the trim-empty guard fires first.
     await tester.enterText(find.byType(TextFormField).first, '');
@@ -186,7 +151,12 @@ void main() {
   testWidgets('saving an unparseable quota reports the parse error', (
     tester,
   ) async {
-    await pumpEdit(tester, sellerContainer(), ticketEventFixture());
+    await pumpEdit(
+      scaffold,
+      tester,
+      sellerContainer(scaffold),
+      ticketEventFixture(),
+    );
 
     // Title field is .first, places field is .at(1) in the tree.
     await tester.enterText(find.byType(TextFormField).at(1), 'not-a-number');
@@ -210,7 +180,12 @@ void main() {
   testWidgets('a staged category edit PATCHes only the category endpoint', (
     tester,
   ) async {
-    await pumpEdit(tester, sellerContainer(), ticketEventFixture());
+    await pumpEdit(
+      scaffold,
+      tester,
+      sellerContainer(scaffold),
+      ticketEventFixture(),
+    );
     stubSaveChain();
 
     // The row label is numbered per section; the modal fields are numbered
@@ -255,7 +230,12 @@ void main() {
   testWidgets('a staged session edit PATCHes the session endpoint', (
     tester,
   ) async {
-    await pumpEdit(tester, sellerContainer(), ticketEventFixture());
+    await pumpEdit(
+      scaffold,
+      tester,
+      sellerContainer(scaffold),
+      ticketEventFixture(),
+    );
     stubSaveChain();
 
     await tester.enterText(
@@ -294,8 +274,9 @@ void main() {
     // Questions are frozen while sales exist (locked rows ignore edits),
     // so this path needs a sale-free event.
     await pumpEdit(
+      scaffold,
       tester,
-      sellerContainer(),
+      sellerContainer(scaffold),
       ticketEventFixture(withSales: false),
     );
     stubSaveChain();

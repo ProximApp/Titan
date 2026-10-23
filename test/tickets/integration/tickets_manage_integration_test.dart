@@ -6,6 +6,7 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/ui/layouts/refresher.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../tickets_fixtures.dart';
 
 /// The manage page (`/tickets/manage`, 60 executable lines) with its store
 /// chips, its event-card list and its empty state — plus `TicketEventCard`
@@ -23,17 +24,10 @@ void main() {
     scaffold.shellSetUp();
   });
 
-  ProviderContainer sellerContainer() => scaffold.makeContainer(
-    user: models.CoreUser.empty().copyWith(id: 'me'),
-    myStores: [
-      models.UserStore.empty().copyWith(id: 'store-1', name: 'BDE'),
-      models.UserStore.empty().copyWith(id: 'store-2', name: 'Kfet'),
-    ],
-    storeSellers: {
-      'store-1': [Seller.empty().copyWith(userId: 'me', canManageEvents: true)],
-      'store-2': [Seller.empty().copyWith(userId: 'me', canManageEvents: true)],
-    },
-  );
+  final _twoStores = [
+    UserStore.empty().copyWith(id: 'store-1', name: 'BDE'),
+    UserStore.empty().copyWith(id: 'store-2', name: 'Kfet'),
+  ];
 
   EventSimple event(String id, String name, {DateTime? openDatetime}) =>
       EventSimple.empty().copyWith(
@@ -71,7 +65,7 @@ void main() {
   testWidgets('the manage page lists the stores as chips and their events', (
     tester,
   ) async {
-    final container = sellerContainer();
+    final container = sellerContainer(scaffold, stores: _twoStores);
     addTearDown(container.dispose);
 
     await pumpManage(
@@ -102,7 +96,7 @@ void main() {
 
   testWidgets('selecting the other store reloads its events and shows the '
       'empty state', (tester) async {
-    final container = sellerContainer();
+    final container = sellerContainer(scaffold, stores: _twoStores);
     addTearDown(container.dispose);
 
     await pumpManage(tester, container, storeOneEvents: [event('e-1', 'Gala')]);
@@ -127,7 +121,7 @@ void main() {
   testWidgets('pulling the list down reloads the selected store', (
     tester,
   ) async {
-    final container = sellerContainer();
+    final container = sellerContainer(scaffold, stores: _twoStores);
     addTearDown(container.dispose);
 
     await pumpManage(tester, container, storeOneEvents: [event('e-1', 'Gala')]);
@@ -156,7 +150,7 @@ void main() {
   });
 
   testWidgets('tapping an event card opens its actions sheet', (tester) async {
-    final container = sellerContainer();
+    final container = sellerContainer(scaffold, stores: _twoStores);
     addTearDown(container.dispose);
 
     await pumpManage(tester, container, storeOneEvents: [event('e-1', 'Gala')]);

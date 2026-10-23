@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:chopper/chopper.dart' as chopper;
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.models.swagger.dart' as models;
 import 'package:titan/generated/openapi.swagger.dart';
-import 'package:titan/tickets/providers/selected_ticket_event_provider.dart';
 import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../tickets_fixtures.dart';
 
 /// The edit page's item-management sections (edit_ticket_event_page's
 /// ~200 uncovered section lines): per-row fields, locked branches, the
@@ -60,64 +59,13 @@ void main() {
     scaffold.shellSetUp();
   });
 
-  ProviderContainer sellerContainer() {
-    return scaffold.makeContainer(
-      user: models.CoreUser.empty().copyWith(id: 'me'),
-      myStores: [models.UserStore.empty().copyWith(id: 'store-1', name: 'BDE')],
-      storeSellers: {
-        'store-1': [
-          Seller.empty().copyWith(userId: 'me', canManageEvents: true),
-        ],
-      },
-    );
-  }
-
-  /// Pumps the edit page with [fixture] answering the event GET.
-  Future<void> pumpEdit(
-    WidgetTester tester,
-    ProviderContainer container,
-    EventAdmin fixture,
-  ) async {
-    container.read(selectedTicketEventIdProvider.notifier).setId('evt-1');
-    when(
-      () => scaffold.repository.ticketsAdminEventsEventIdGet(eventId: 'evt-1'),
-    ).thenAnswer((_) async => chopperResponse(fixture));
-
-    scaffold.setWideSurface(tester);
-    await scaffold.pumpApp(
-      tester,
-      container,
-      initialPath: '/tickets/edit',
-      pumpAndSettle: false,
-    );
-    for (var i = 0; i < 12; i++) {
-      await tester.pump(const Duration(milliseconds: 60));
-    }
-  }
-
-  Future<void> pumpFrames(WidgetTester tester, [int frames = 12]) async {
-    for (var i = 0; i < frames; i++) {
-      await tester.pump(const Duration(milliseconds: 60));
-    }
-  }
-
-  /// Scrolls the section's add/delete row into view. Everything below the
-  /// stats card sits under the fold, and dropped taps fail silently.
-  Future<void> scrollTo(WidgetTester tester, Finder finder) async {
-    await tester.scrollUntilVisible(
-      finder,
-      400,
-      scrollable: find.byType(Scrollable).first,
-    );
-    await tester.ensureVisible(finder);
-  }
-
   testWidgets('sold rows render locked: banner, disabled fields, sold counts', (
     tester,
   ) async {
     await pumpEdit(
+      scaffold,
       tester,
-      sellerContainer(),
+      sellerContainer(scaffold),
       ticketEventFixture(withSales: true),
     );
 
@@ -154,7 +102,12 @@ void main() {
   testWidgets('the add-category modal creates a category with cents price', (
     tester,
   ) async {
-    await pumpEdit(tester, sellerContainer(), ticketEventFixture());
+    await pumpEdit(
+      scaffold,
+      tester,
+      sellerContainer(scaffold),
+      ticketEventFixture(),
+    );
     when(
       // ignore: void_checks
       () => scaffold.repository.ticketsAdminEventsEventIdCategoriesPost(
@@ -197,7 +150,12 @@ void main() {
   testWidgets('the add-session modal creates a session through the API', (
     tester,
   ) async {
-    await pumpEdit(tester, sellerContainer(), ticketEventFixture());
+    await pumpEdit(
+      scaffold,
+      tester,
+      sellerContainer(scaffold),
+      ticketEventFixture(),
+    );
     when(
       // ignore: void_checks
       () => scaffold.repository.ticketsAdminEventsEventIdSessionsPost(
@@ -253,7 +211,12 @@ void main() {
   testWidgets('deleting a category confirms through the modal then DELETEs', (
     tester,
   ) async {
-    await pumpEdit(tester, sellerContainer(), ticketEventFixture());
+    await pumpEdit(
+      scaffold,
+      tester,
+      sellerContainer(scaffold),
+      ticketEventFixture(),
+    );
     when(
       // ignore: void_checks
       () => scaffold.repository
@@ -284,7 +247,12 @@ void main() {
   testWidgets('cancel event reports the unavailable-endpoint toast', (
     tester,
   ) async {
-    await pumpEdit(tester, sellerContainer(), ticketEventFixture());
+    await pumpEdit(
+      scaffold,
+      tester,
+      sellerContainer(scaffold),
+      ticketEventFixture(),
+    );
 
     await scrollTo(tester, find.text('Cancel event'));
     await tester.tap(find.text('Cancel event'));
@@ -301,8 +269,9 @@ void main() {
 
   testWidgets('delete event is disabled while sales exist', (tester) async {
     await pumpEdit(
+      scaffold,
       tester,
-      sellerContainer(),
+      sellerContainer(scaffold),
       ticketEventFixture(withSales: true),
     );
 
@@ -321,7 +290,12 @@ void main() {
   testWidgets('delete event round-trips the DELETE and reports refusals', (
     tester,
   ) async {
-    await pumpEdit(tester, sellerContainer(), ticketEventFixture());
+    await pumpEdit(
+      scaffold,
+      tester,
+      sellerContainer(scaffold),
+      ticketEventFixture(),
+    );
     when(
       // ignore: void_checks
       () => scaffold.repository.ticketsAdminEventsEventIdDelete(
@@ -358,7 +332,12 @@ void main() {
   testWidgets('delete event success toasts and pops through the navigator', (
     tester,
   ) async {
-    await pumpEdit(tester, sellerContainer(), ticketEventFixture());
+    await pumpEdit(
+      scaffold,
+      tester,
+      sellerContainer(scaffold),
+      ticketEventFixture(),
+    );
     // The form is unmounted by its own pop before the success toast fires,
     // so the page toasts through the navigator's context captured at
     // delete time — it resolves the app-level ToastificationWrapper.

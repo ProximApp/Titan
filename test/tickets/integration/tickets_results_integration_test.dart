@@ -1,5 +1,4 @@
 import 'package:chopper/chopper.dart' as chopper;
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
@@ -9,6 +8,7 @@ import 'package:titan/tickets/providers/selected_ticket_event_provider.dart';
 import 'package:titan/tools/ui/layouts/refresher.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../tickets_fixtures.dart';
 
 /// The results page (`/tickets/results`, 68 executable lines) with its
 /// not-found state, its StatsCard and ticket rows, and its CSV error path.
@@ -30,14 +30,6 @@ void main() {
     scaffold = IntegrationScaffold();
     scaffold.shellSetUp();
   });
-
-  ProviderContainer sellerContainer() => scaffold.makeContainer(
-    user: models.CoreUser.empty().copyWith(id: 'me'),
-    myStores: [models.UserStore.empty().copyWith(id: 'store-1', name: 'BDE')],
-    storeSellers: {
-      'store-1': [Seller.empty().copyWith(userId: 'me', canManageEvents: true)],
-    },
-  );
 
   void stubResults(WidgetTester tester) {
     when(() => scaffold.repository.ticketsAdminEventsEventIdGet(eventId: 'e-1'))
@@ -75,7 +67,7 @@ void main() {
   testWidgets('without a selected event the page shows the not-found state', (
     tester,
   ) async {
-    final container = sellerContainer();
+    final container = sellerContainer(scaffold);
     addTearDown(container.dispose);
     scaffold.setWideSurface(tester);
 
@@ -104,7 +96,7 @@ void main() {
   testWidgets('the results page renders stats and rows, and reloads on pull', (
     tester,
   ) async {
-    final container = sellerContainer();
+    final container = sellerContainer(scaffold);
     addTearDown(container.dispose);
     stubResults(tester);
     container.read(selectedTicketEventIdProvider.notifier).setId('e-1');
@@ -153,7 +145,7 @@ void main() {
   testWidgets('a failing CSV download toasts the download error', (
     tester,
   ) async {
-    final container = sellerContainer();
+    final container = sellerContainer(scaffold);
     addTearDown(container.dispose);
     stubResults(tester);
     container.read(selectedTicketEventIdProvider.notifier).setId('e-1');
