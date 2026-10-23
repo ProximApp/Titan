@@ -12,7 +12,7 @@ import 'package:titan/vote/providers/selected_list_provider.dart';
 import 'package:titan/vote/router.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../vote_fixtures.dart';
 
 /// The vote MAIN page (`/vote`) with its ListListCard host and ListCard
 /// cards (95 + 89 uncovered lines) — no test touched `/vote` before. The

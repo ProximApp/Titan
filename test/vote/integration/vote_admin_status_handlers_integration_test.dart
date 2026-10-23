@@ -6,7 +6,6 @@ import 'package:titan/vote/router.dart';
 
 import '../../shared/app_scaffold.dart';
 import '../vote_fixtures.dart';
-import '../../shared/fixtures.dart';
 
 /// The vote admin page's status-machine handler paths (97 uncovered
 /// lines). The existing vote tests cover the waiting-status RENDER (shell,

@@ -6,7 +6,6 @@ import 'package:titan/vote/router.dart';
 
 import '../../shared/app_scaffold.dart';
 import '../vote_fixtures.dart';
-import '../../shared/fixtures.dart';
 
 /// The vote admin gate is a plain Provider over userProvider.groups, so the
 /// signed-in user carries the admin_vote group id.

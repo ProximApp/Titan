@@ -3,7 +3,7 @@ import 'package:titan/generated/openapi.enums.swagger.dart' as enums;
 import 'package:titan/generated/openapi.models.swagger.dart';
 
 import '../shared/app_scaffold.dart';
-import '../shared/fixtures.dart';
+import '../shared/repository_stubs.dart';
 
 /// Stubs the four reads every vote admin shell fans out to on mount: the
 /// status switch, the section catalog, the list catalog and the voter
@@ -55,3 +55,41 @@ void stubVoteAdmin(
     ).thenAnswer((_) async => fileNotFound());
   }
 }
+
+/// The vote admin gate group.
+const voteAdminGroupId = '2ca57402-605b-4389-a471-f2fea7b27db5';
+
+/// A vote administrator carrying the module-admin group the `/vote/admin`
+/// gate checks.
+CoreUser voteAdminUserFixture() => CoreUser.empty().copyWith(
+  groups: [
+    CoreGroupSimple.empty().copyWith(id: voteAdminGroupId, name: 'admin_vote'),
+  ],
+);
+
+/// Build the default section used by voting and campaign test fixtures.
+SectionComplete sectionFixture(
+  String id,
+  String name, {
+  String description = '',
+}) => SectionComplete.empty().copyWith(
+  id: id,
+  name: name,
+  description: description,
+);
+
+/// Build a campaign list with predictable vote-admin defaults.
+ListReturn voteListFixture(
+  String id,
+  String name, {
+  enums.ListType type = enums.ListType.serio,
+  String description = 'Our program',
+  SectionComplete? section,
+}) => ListReturn.empty().copyWith(
+  id: id,
+  name: name,
+  description: description,
+  type: type,
+  section: section ?? sectionFixture('s-1', 'Bureau des Sports'),
+  members: const [],
+);

@@ -7,7 +7,6 @@ import 'package:titan/vote/router.dart';
 
 import '../../shared/app_scaffold.dart';
 import '../vote_fixtures.dart';
-import '../../shared/fixtures.dart';
 
 void main() {
   late IntegrationScaffold scaffold;
