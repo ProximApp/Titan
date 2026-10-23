@@ -3,7 +3,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../mypayment_fixtures.dart';
 
 void stubMyPayment(IntegrationScaffold scaffold, {List<Seller>? sellers}) {
   when(() => scaffold.repository.mypaymentUsersMeStoresGet())

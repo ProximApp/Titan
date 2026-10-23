@@ -2,16 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 
+import '../mypayment_fixtures.dart';
 import '../../shared/app_scaffold.dart';
-
-WalletDevice device(String id, String name, WalletDeviceStatus status) =>
-    WalletDevice.empty().copyWith(
-      id: id,
-      name: name,
-      walletId: 'wallet-1',
-      creation: DateTime(2026, 1, 5),
-      status: status,
-    );
 
 void stubMyPayment(
   IntegrationScaffold scaffold, {
@@ -33,10 +25,7 @@ void main() {
   testWidgets('devices page lists the registered devices with their status', (
     tester,
   ) async {
-    stubMyPayment(
-      scaffold,
-      devices: [device('dev-1', 'iPhone 15', WalletDeviceStatus.active)],
-    );
+    stubMyPayment(scaffold, devices: [device('dev-1', 'iPhone 15')]);
 
     await scaffold.pumpApp(
       tester,

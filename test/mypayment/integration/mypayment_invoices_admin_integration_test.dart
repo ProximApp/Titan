@@ -1,23 +1,8 @@
-import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 
+import '../mypayment_fixtures.dart';
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
-
-void stubMyPayment(IntegrationScaffold scaffold) {
-  // InvoiceCard previews the invoice PDF on build.
-  when(
-    () => scaffold.repository.mypaymentInvoicesInvoiceIdGet(
-      invoiceId: any(named: 'invoiceId'),
-    ),
-  ).thenAnswer(
-    (_) async =>
-        chopper.Response(http.Response.bytes([1, 2, 3], 200), [1, 2, 3]),
-  );
-}
 
 void main() {
   late IntegrationScaffold scaffold;
@@ -30,7 +15,7 @@ void main() {
   testWidgets('invoices admin page lists the invoices for the bank holder', (
     tester,
   ) async {
-    stubMyPayment(scaffold);
+    stubInvoicePreviews(scaffold);
 
     // isBankAccountHolderProvider requires the holder structure to be among
     // the structures the user manages; pre-seeded so the async middleware

@@ -7,7 +7,7 @@ import 'package:titan/mypayment/providers/has_accepted_tos_provider.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../mypayment_fixtures.dart';
 
 Wallet wallet(int balance) => Wallet.empty().copyWith(balance: balance);
 

@@ -11,7 +11,7 @@ import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../mypayment_fixtures.dart';
 
 /// The store-stats refund sheet — `refund_page.dart` was 76 lines with ZERO
 /// coverage.

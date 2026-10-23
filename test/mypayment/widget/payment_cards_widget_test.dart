@@ -13,6 +13,7 @@ import 'package:titan/mypayment/ui/components/transaction_card.dart';
 import 'package:titan/mypayment/ui/pages/main_page/account_card/account_card.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
+import '../mypayment_fixtures.dart';
 import '../../shared/app_scaffold.dart';
 
 /// Widget-level coverage for mypayment's three main-page cards:
@@ -94,14 +95,6 @@ void main() {
       surface: const ui.Size(360, 640),
     );
     await settle(tester, frames: 8);
-  }
-
-  void stubWallet(int balance) {
-    when(() => scaffold.repository.mypaymentUsersMeWalletGet()).thenAnswer(
-      (_) async => chopperResponse(
-        Wallet.empty().copyWith(id: 'wallet-1', balance: balance),
-      ),
-    );
   }
 
   void stubWalletError() {
@@ -374,7 +367,7 @@ void main() {
     testWidgets('a nine-figure balance renders without overflow', (
       tester,
     ) async {
-      stubWallet(999999999); // 9,999,999.99 ʍ
+      stubWallet(scaffold, 999999999); // 9,999,999.99 ʍ
       stubTos();
       await pumpCard(
         tester,
@@ -414,7 +407,7 @@ void main() {
     });
 
     testWidgets('the action button row fits at 360px', (tester) async {
-      stubWallet(5000);
+      stubWallet(scaffold, 5000);
       stubTos();
       await pumpCard(
         tester,

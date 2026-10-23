@@ -7,7 +7,7 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../mypayment_fixtures.dart';
 
 /// The invoices-admin page's action block, which the page-shell test never
 /// reaches: the pagination row (page back/forward + the page-size dropdown)

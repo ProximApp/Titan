@@ -18,6 +18,7 @@ import 'package:titan/mypayment/ui/components/paiment_delegate/wallet_balance_ca
 import 'package:titan/mypayment/ui/components/request_detail_modal.dart';
 import 'package:titan/mypayment/ui/components/show_request_modal.dart';
 
+import '../mypayment_fixtures.dart';
 import '../../shared/app_scaffold.dart';
 
 /// The payment-delegation family — the whole `paiment_delegate/` directory plus
@@ -88,14 +89,6 @@ void main() {
     status: status,
   );
 
-  void stubWallet(int balance) {
-    when(() => scaffold.repository.mypaymentUsersMeWalletGet()).thenAnswer(
-      (_) async => chopperResponse(
-        Wallet.empty().copyWith(id: 'wallet-1', balance: balance),
-      ),
-    );
-  }
-
   group('ProductCard', () {
     testWidgets('prints the title, the note and the price in units', (
       tester,
@@ -143,7 +136,7 @@ void main() {
 
   group('WalletBalanceCard', () {
     testWidgets('shows the balance once the wallet resolves', (tester) async {
-      stubWallet(5000);
+      stubWallet(scaffold, 5000);
       final container = await pumpModal(tester, const WalletBalanceCard());
 
       expect(find.text('Your balance'), findsOneWidget);
@@ -398,7 +391,7 @@ void main() {
     testWidgets('the idle sheet stacks product, timer, balance and button', (
       tester,
     ) async {
-      stubWallet(5000);
+      stubWallet(scaffold, 5000);
       await pumpModal(
         tester,
         PaimentDelegateModal(
@@ -424,7 +417,7 @@ void main() {
     ) async {
       // `secondsLeft <= 0` drops the timer entirely rather than rendering a
       // stuck 00:00, so the delegate sees no false deadline.
-      stubWallet(5000);
+      stubWallet(scaffold, 5000);
       await pumpModal(
         tester,
         PaimentDelegateModal(
@@ -446,7 +439,7 @@ void main() {
     testWidgets('confirming runs loading then success then pops', (
       tester,
     ) async {
-      stubWallet(5000);
+      stubWallet(scaffold, 5000);
       var confirmed = 0;
       await pumpModal(
         tester,
@@ -485,7 +478,7 @@ void main() {
     testWidgets(
       'cancelling without a refuse callback shows the cancel overlay',
       (tester) async {
-        stubWallet(5000);
+        stubWallet(scaffold, 5000);
         await pumpModal(
           tester,
           PaimentDelegateModal(
@@ -515,7 +508,7 @@ void main() {
       // With a delegate present, "Refuse" is a server action, not a local
       // dismissal: the modal shows NO overlay and never pops itself, leaving
       // the caller to close it once the request has actually been refused.
-      stubWallet(5000);
+      stubWallet(scaffold, 5000);
       var refused = 0;
       await pumpModal(
         tester,

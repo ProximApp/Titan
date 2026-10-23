@@ -5,7 +5,7 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../mypayment_fixtures.dart';
 
 void stubMyPayment(IntegrationScaffold scaffold, {List<UserStore>? stores}) {
   when(() => scaffold.repository.mypaymentUsersMeStoresGet())

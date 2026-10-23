@@ -8,7 +8,7 @@ import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../mypayment_fixtures.dart';
 
 /// Store-admin seller rights — the module's biggest uncovered cluster.
 ///

@@ -4,7 +4,7 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/mypayment/ui/pages/store_stats_page/interval_selector.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../mypayment_fixtures.dart';
 
 void stubMyPayment(IntegrationScaffold scaffold, {List<History>? historyList}) {
   when(() => scaffold.repository.mypaymentUsersMeStoresGet())

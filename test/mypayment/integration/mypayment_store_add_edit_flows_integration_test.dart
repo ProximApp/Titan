@@ -7,7 +7,7 @@ import 'package:titan/tools/ui/heroicons.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../mypayment_fixtures.dart';
 
 /// The add/edit store round trips, which the structure-stores shell only
 /// walks up to the form: the association picker modal, the create POST with

@@ -8,6 +8,7 @@ import 'package:titan/mypayment/providers/key_service_provider.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 import 'package:titan/tools/ui/layouts/refresher.dart';
 
+import '../mypayment_fixtures.dart';
 import '../../shared/app_scaffold.dart';
 
 /// The devices page's two action chains, which the page-shell test never
@@ -22,18 +23,6 @@ import '../../shared/app_scaffold.dart';
 /// is the localized "Unknown device" (linux override, no channel).
 const _deviceInfoChannel = MethodChannel(
   'dev.fluttercommunity.plus/device_info',
-);
-
-WalletDevice device(
-  String id,
-  String name, {
-  WalletDeviceStatus status = WalletDeviceStatus.active,
-}) => WalletDevice.empty().copyWith(
-  id: id,
-  name: name,
-  walletId: 'wallet-1',
-  creation: DateTime(2026, 1, 5),
-  status: status,
 );
 
 void stubTos(IntegrationScaffold scaffold, {required bool accepted}) {

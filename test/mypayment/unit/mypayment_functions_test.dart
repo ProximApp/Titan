@@ -8,7 +8,7 @@ import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/mypayment/tools/functions.dart';
 import 'package:titan/mypayment/tools/key_service.dart';
 
-import '../../shared/fixtures.dart';
+import '../mypayment_fixtures.dart';
 
 /// Unit coverage for `lib/mypayment/tools/functions.dart` (its largest
 /// uncovered block): device status tags/ordering, transfer-type mapping,
