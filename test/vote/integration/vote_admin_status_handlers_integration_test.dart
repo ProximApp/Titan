@@ -1,13 +1,11 @@
-import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.enums.swagger.dart' as enums;
-import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/ui/styleguide/icon_button.dart';
 import 'package:titan/vote/router.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../vote_fixtures.dart';
 import '../../shared/fixtures.dart';
 
 /// The vote admin page's status-machine handler paths (97 uncovered
@@ -20,51 +18,6 @@ import '../../shared/fixtures.dart';
 /// campaignStatusGet stub — the status alone decides which controls
 /// render. Same-path deep links per test (the page remounts, as verified
 /// in the booking/phonebook rounds).
-
-void stubVoteAdmin(
-  IntegrationScaffold scaffold, {
-  required enums.StatusType status,
-  bool withLists = false,
-}) {
-  when(() => scaffold.repository.campaignStatusGet())
-      .thenAnswer((_) async => chopperResponse(VoteStatus(status: status)));
-  when(() => scaffold.repository.campaignSectionsGet()).thenAnswer(
-    (_) async =>
-        chopperListResponse([sectionFixture('s-1', 'Bureau des Sports')]),
-  );
-  when(() => scaffold.repository.campaignListsGet()).thenAnswer(
-    (_) async =>
-        chopperListResponse([if (withLists) voteListFixture('l-1', 'BDE')]),
-  );
-  when(() => scaffold.repository.campaignVotersGet())
-      .thenAnswer((_) async => chopperResponse(CorePermission.empty()));
-  // VoteBars reads the results (auto-loaded by resultProvider).
-  when(() => scaffold.repository.campaignResultsGet()).thenAnswer(
-    (_) async => chopperListResponse([
-      AppModulesCampaignSchemasCampaignResult(listId: 'l-1', count: 12),
-    ]),
-  );
-  // VoteCount's AutoLoaderChild fetches the selected section's count.
-  when(
-    () => scaffold.repository.campaignStatsSectionIdGet(
-      sectionId: any(named: 'sectionId'),
-    ),
-  ).thenAnswer(
-    (_) async => chopperResponse(VoteStats(sectionId: 's-1', count: 7)),
-  );
-  // Each list card auto-loads its logo.
-  when(
-    () => scaffold.repository.campaignListsListIdLogoGet(
-      listId: any(named: 'listId'),
-    ),
-  ).thenAnswer(
-    (_) async => chopper.Response<List<int>>(
-      http.Response('{"detail": "File does not exist"}', 404),
-      [],
-      error: 'File does not exist',
-    ),
-  );
-}
 
 void main() {
   late IntegrationScaffold scaffold;
@@ -79,17 +32,13 @@ void main() {
     required enums.StatusType status,
     bool withLists = false,
   }) async {
-    stubVoteAdmin(scaffold, status: status, withLists: withLists);
-    final container = scaffold.makeContainer(
-      user: CoreUser.empty().copyWith(
-        groups: [
-          CoreGroupSimple.empty().copyWith(
-            id: voteAdminGroupId,
-            name: 'admin_vote',
-          ),
-        ],
-      ),
+    stubVoteAdmin(
+      scaffold,
+      status: status,
+      lists: [if (withLists) voteListFixture('l-1', 'BDE')],
+      withResults: true,
     );
+    final container = scaffold.makeContainer(user: voteAdminUserFixture());
     addTearDown(container.dispose);
     scaffold.setWideSurface(tester);
     await scaffold.pumpApp(

@@ -5,6 +5,7 @@ import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/vote/router.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../vote_fixtures.dart';
 import '../../shared/fixtures.dart';
 
 /// The vote admin gate is a plain Provider over userProvider.groups, so the
@@ -12,22 +13,6 @@ import '../../shared/fixtures.dart';
 
 /// Stubs the four endpoints the admin page loads on mount, with a
 /// configurable campaign status — the status drives which controls render.
-void stubVoteAdmin(
-  IntegrationScaffold scaffold, {
-  required enums.StatusType status,
-}) {
-  when(() => scaffold.repository.campaignStatusGet())
-      .thenAnswer((_) async => chopperResponse(VoteStatus(status: status)));
-  when(() => scaffold.repository.campaignSectionsGet()).thenAnswer(
-    (_) async =>
-        chopperListResponse([sectionFixture('s-1', 'Bureau des Sports')]),
-  );
-  when(() => scaffold.repository.campaignListsGet())
-      .thenAnswer((_) async => chopperListResponse(<ListReturn>[]));
-  when(() => scaffold.repository.campaignVotersGet())
-      .thenAnswer((_) async => chopperResponse(CorePermission.empty()));
-}
-
 void main() {
   late IntegrationScaffold scaffold;
 
@@ -39,16 +24,7 @@ void main() {
   testWidgets(
     'the open-votes flow posts the real endpoint and the admin page switches to the open state',
     (tester) async {
-      final container = scaffold.makeContainer(
-        user: CoreUser.empty().copyWith(
-          groups: [
-            CoreGroupSimple.empty().copyWith(
-              id: voteAdminGroupId,
-              name: 'admin_vote',
-            ),
-          ],
-        ),
-      );
+      final container = scaffold.makeContainer(user: voteAdminUserFixture());
       addTearDown(container.dispose);
       scaffold.setWideSurface(tester);
       stubVoteAdmin(scaffold, status: enums.StatusType.waiting);

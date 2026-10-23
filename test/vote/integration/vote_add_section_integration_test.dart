@@ -6,6 +6,7 @@ import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/vote/router.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../vote_fixtures.dart';
 import '../../shared/fixtures.dart';
 
 void main() {
@@ -19,28 +20,14 @@ void main() {
   testWidgets(
     'the add-section form mounts from /vote/admin and creates a section',
     (tester) async {
-      final container = scaffold.makeContainer(
-        user: CoreUser.empty().copyWith(
-          groups: [
-            CoreGroupSimple.empty().copyWith(
-              id: voteAdminGroupId,
-              name: 'admin_vote',
-            ),
-          ],
-        ),
-      );
+      final container = scaffold.makeContainer(user: voteAdminUserFixture());
       addTearDown(container.dispose);
       scaffold.setWideSurface(tester);
-      when(() => scaffold.repository.campaignStatusGet()).thenAnswer(
-        (_) async =>
-            chopperResponse(VoteStatus(status: enums.StatusType.waiting)),
+      stubVoteAdmin(
+        scaffold,
+        status: enums.StatusType.waiting,
+        sections: const [],
       );
-      when(() => scaffold.repository.campaignSectionsGet())
-          .thenAnswer((_) async => chopperListResponse(<SectionComplete>[]));
-      when(() => scaffold.repository.campaignListsGet())
-          .thenAnswer((_) async => chopperListResponse(<ListReturn>[]));
-      when(() => scaffold.repository.campaignVotersGet())
-          .thenAnswer((_) async => chopperResponse(CorePermission.empty()));
 
       await scaffold.pumpApp(
         tester,

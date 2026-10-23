@@ -1,7 +1,5 @@
-import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.enums.swagger.dart' as enums;
 import 'package:titan/generated/openapi.models.swagger.dart';
@@ -9,6 +7,7 @@ import 'package:titan/tools/ui/styleguide/icon_button.dart';
 import 'package:titan/vote/router.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../../shared/vote_fixtures.dart';
 import '../../shared/fixtures.dart';
 
 void main() {
@@ -22,43 +21,17 @@ void main() {
   testWidgets(
     'the + button opens the add-list form and creates a list through the real campaignListsPost',
     (tester) async {
-      final container = scaffold.makeContainer(
-        user: CoreUser.empty().copyWith(
-          groups: [
-            CoreGroupSimple.empty().copyWith(
-              id: voteAdminGroupId,
-              name: 'admin_vote',
-            ),
-          ],
-        ),
-      );
+      final container = scaffold.makeContainer(user: voteAdminUserFixture());
       addTearDown(container.dispose);
       scaffold.setWideSurface(tester);
-      when(() => scaffold.repository.campaignStatusGet()).thenAnswer(
-        (_) async =>
-            chopperResponse(VoteStatus(status: enums.StatusType.waiting)),
-      );
-      when(() => scaffold.repository.campaignSectionsGet()).thenAnswer(
-        (_) async =>
-            chopperListResponse([sectionFixture('s-1', 'Bureau des Sports')]),
-      );
-      when(() => scaffold.repository.campaignListsGet())
-          .thenAnswer((_) async => chopperListResponse(<ListReturn>[]));
-      when(() => scaffold.repository.campaignVotersGet())
-          .thenAnswer((_) async => chopperResponse(CorePermission.empty()));
+      stubVoteAdmin(scaffold, status: enums.StatusType.waiting);
       // ListCard mounts fetch each list's logo; the 404 reads as "no bytes"
       // and falls back to the placeholder icon.
       when(
         () => scaffold.repository.campaignListsListIdLogoGet(
           listId: any(named: 'listId'),
         ),
-      ).thenAnswer(
-        (_) async => chopper.Response<List<int>>(
-          http.Response('{"detail": "File does not exist"}', 404),
-          [],
-          error: 'File does not exist',
-        ),
-      );
+      ).thenAnswer((_) async => fileNotFound());
 
       ListBase? capturedList;
       when(
