@@ -302,8 +302,10 @@ void main() {
       ),
     ).thenAnswer(
       (_) async => chopperResponse(
-        CheckoutResponse.empty()
-            .copyWith(paymentUrl: 'https://pay.example/checkout', price: 500),
+        CheckoutResponse.empty().copyWith(
+          paymentUrl: 'https://pay.example/checkout',
+          price: 500,
+        ),
       ),
     );
     await book(tester);
@@ -325,9 +327,8 @@ void main() {
         body: any(named: 'body'),
       ),
     ).thenAnswer(
-      (_) async => chopperResponse(
-        CheckoutResponse.empty().copyWith(price: 500),
-      ),
+      (_) async =>
+          chopperResponse(CheckoutResponse.empty().copyWith(price: 500)),
     );
     await book(tester);
 
@@ -356,9 +357,7 @@ void main() {
         eventId: 'evt-1',
         body: any(named: 'body'),
       ),
-    ).thenAnswer(
-      (_) async => chopperError(409, error: 'Session is sold out'),
-    );
+    ).thenAnswer((_) async => chopperError(409, error: 'Session is sold out'));
     await book(tester);
     expect(find.text('This session is sold out'), findsOneWidget);
     await tester.pump(const Duration(seconds: 3));

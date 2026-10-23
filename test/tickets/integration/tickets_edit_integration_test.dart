@@ -239,7 +239,144 @@ void main() {
     await scaffold.drainToast(tester);
   });
 
-  testWidgets('save reports a failure for each staged row phase, then succeeds', (
+  testWidgets(
+    'save reports a failure for each staged row phase, then succeeds',
+    (tester) async {
+      final container = sellerContainer();
+      container.read(selectedTicketEventIdProvider.notifier).setId('evt-1');
+      when(
+        () =>
+            scaffold.repository.ticketsAdminEventsEventIdGet(eventId: 'evt-1'),
+      ).thenAnswer((_) async => chopperResponse(ticketEventFixture()));
+      stubSaveChain();
+
+      await pumpEdit(tester, container);
+
+      // The ancestor scope keeps value-based finds off the stats card and
+      // label-based finds on the exact field: a TextFormField is the only
+      // ancestor a label or an EditableText value can have.
+      Finder fieldOf(Finder labelOrValue) => find
+          .ancestor(of: labelOrValue, matching: find.byType(TextFormField))
+          .first;
+
+      // Stage one edit on every editable row plus the header fields.
+      await tester.enterText(find.byType(TextFormField).first, 'Gala renamed');
+      await tester.enterText(fieldOf(find.text('Quota')), '150'); // places
+      await scrollTo(tester, find.text('Normal'));
+      await tester.enterText(fieldOf(find.text('Normal')), 'VIP');
+      await tester.enterText(fieldOf(find.text('10.0')), '7'); // category price
+      await tester.enterText(fieldOf(find.text('Quota (Optional)')), '25');
+      await tester.tap(find.byType(Switch).at(1)); // category deactivated
+      await pumpFrames(tester, 4);
+      await scrollTo(tester, find.text('Saturday'));
+      await tester.enterText(fieldOf(find.text('Saturday')), 'Saturday night');
+      await tester.enterText(
+        fieldOf(find.text('Quota (Optional)').at(1)),
+        '60',
+      );
+      await tester.tap(find.byType(Switch).at(2)); // session deactivated
+      await pumpFrames(tester, 4);
+      await scrollTo(tester, find.text('Allergies?'));
+      await tester.enterText(fieldOf(find.text('Allergies?')), 'Peanuts?');
+      await tester.tap(find.byType(DropdownButtonFormField<AnswerType>).first);
+      await pumpFrames(tester, 8);
+      await tester.tap(find.text('Yes/No'));
+      await pumpFrames(tester, 8);
+
+      Future<void> saveExpecting(String toast) async {
+        await scrollTo(tester, find.text('Save changes'));
+        await tester.tap(find.text('Save changes'));
+        await pumpFrames(tester, 12);
+        expect(find.text(toast), findsOneWidget);
+        await scaffold.drainToast(tester);
+      }
+
+      // Phase failures run in order: event, category, session, question.
+      when(
+        () => scaffold.repository.ticketsAdminEventsEventIdPatch(
+          eventId: any(named: 'eventId'),
+          body: any(named: 'body'),
+        ),
+      ).thenAnswer((_) async => chopperError<EventAdmin>(500));
+      await saveExpecting('Cannot update this item');
+
+      when(
+        () => scaffold.repository.ticketsAdminEventsEventIdPatch(
+          eventId: any(named: 'eventId'),
+          body: any(named: 'body'),
+        ),
+      ).thenAnswer((_) async => chopperResponse(EventAdmin.empty()));
+      when(
+        // ignore: void_checks
+        () => scaffold.repository
+            .ticketsAdminEventsEventIdCategoriesCategoryIdPatch(
+              eventId: any(named: 'eventId'),
+              categoryId: any(named: 'categoryId'),
+              body: any(named: 'body'),
+            ),
+      ).thenAnswer((_) async => chopperError<CategoryAdmin>(500));
+      await saveExpecting('Cannot update this item');
+
+      when(
+        // ignore: void_checks
+        () => scaffold.repository
+            .ticketsAdminEventsEventIdCategoriesCategoryIdPatch(
+              eventId: any(named: 'eventId'),
+              categoryId: any(named: 'categoryId'),
+              body: any(named: 'body'),
+            ),
+      ).thenAnswer((_) async => chopperResponse(CategoryAdmin.empty()));
+      when(
+        // ignore: void_checks
+        () =>
+            scaffold.repository.ticketsAdminEventsEventIdSessionsSessionIdPatch(
+              eventId: any(named: 'eventId'),
+              sessionId: any(named: 'sessionId'),
+              body: any(named: 'body'),
+            ),
+      ).thenAnswer((_) async => chopperError<SessionAdmin>(500));
+      await saveExpecting('Cannot update this item');
+
+      when(
+        // ignore: void_checks
+        () =>
+            scaffold.repository.ticketsAdminEventsEventIdSessionsSessionIdPatch(
+              eventId: any(named: 'eventId'),
+              sessionId: any(named: 'sessionId'),
+              body: any(named: 'body'),
+            ),
+      ).thenAnswer((_) async => chopperResponse(SessionAdmin.empty()));
+      when(
+        // ignore: void_checks
+        () => scaffold.repository
+            .ticketsAdminEventsEventIdQuestionsQuestionIdPatch(
+              eventId: any(named: 'eventId'),
+              questionId: any(named: 'questionId'),
+              body: any(named: 'body'),
+            ),
+      ).thenAnswer((_) async => chopperError<Question>(500));
+      await saveExpecting('Read-only (answers have already been recorded)');
+
+      // Everything answers: the staged rows PATCH in turn and the page pops.
+      when(
+        // ignore: void_checks
+        () => scaffold.repository
+            .ticketsAdminEventsEventIdQuestionsQuestionIdPatch(
+              eventId: any(named: 'eventId'),
+              questionId: any(named: 'questionId'),
+              body: any(named: 'body'),
+            ),
+      ).thenAnswer((_) async => chopperResponse(Question.empty()));
+      await scrollTo(tester, find.text('Save changes'));
+      await tester.tap(find.text('Save changes'));
+      await pumpFrames(tester, 16);
+      expect(find.text('Ticketing updated successfully'), findsOneWidget);
+      expect(find.text('Edit ticketing'), findsNothing); // the form popped
+      await scaffold.drainToast(tester);
+    },
+  );
+
+  testWidgets('session and category deletes surface API failures', (
     tester,
   ) async {
     final container = sellerContainer();
@@ -247,153 +384,22 @@ void main() {
     when(
       () => scaffold.repository.ticketsAdminEventsEventIdGet(eventId: 'evt-1'),
     ).thenAnswer((_) async => chopperResponse(ticketEventFixture()));
-    stubSaveChain();
-
-    await pumpEdit(tester, container);
-
-    // The ancestor scope keeps value-based finds off the stats card and
-    // label-based finds on the exact field: a TextFormField is the only
-    // ancestor a label or an EditableText value can have.
-    Finder fieldOf(Finder labelOrValue) =>
-        find
-            .ancestor(
-              of: labelOrValue,
-              matching: find.byType(TextFormField),
-            )
-            .first;
-
-    // Stage one edit on every editable row plus the header fields.
-    await tester.enterText(find.byType(TextFormField).first, 'Gala renamed');
-    await tester.enterText(fieldOf(find.text('Quota')), '150'); // places
-    await scrollTo(tester, find.text('Normal'));
-    await tester.enterText(fieldOf(find.text('Normal')), 'VIP');
-    await tester.enterText(fieldOf(find.text('10.0')), '7'); // category price
-    await tester.enterText(fieldOf(find.text('Quota (Optional)')), '25');
-    await tester.tap(find.byType(Switch).at(1)); // category deactivated
-    await pumpFrames(tester, 4);
-    await scrollTo(tester, find.text('Saturday'));
-    await tester.enterText(fieldOf(find.text('Saturday')), 'Saturday night');
-    await tester.enterText(
-      fieldOf(find.text('Quota (Optional)').at(1)),
-      '60',
-    );
-    await tester.tap(find.byType(Switch).at(2)); // session deactivated
-    await pumpFrames(tester, 4);
-    await scrollTo(tester, find.text('Allergies?'));
-    await tester.enterText(fieldOf(find.text('Allergies?')), 'Peanuts?');
-    await tester.tap(find.byType(DropdownButtonFormField<AnswerType>).first);
-    await pumpFrames(tester, 8);
-    await tester.tap(find.text('Yes/No'));
-    await pumpFrames(tester, 8);
-
-    Future<void> saveExpecting(String toast) async {
-      await scrollTo(tester, find.text('Save changes'));
-      await tester.tap(find.text('Save changes'));
-      await pumpFrames(tester, 12);
-      expect(find.text(toast), findsOneWidget);
-      await scaffold.drainToast(tester);
-    }
-
-    // Phase failures run in order: event, category, session, question.
-    when(
-      () => scaffold.repository.ticketsAdminEventsEventIdPatch(
-        eventId: any(named: 'eventId'),
-        body: any(named: 'body'),
-      ),
-    ).thenAnswer((_) async => chopperError<EventAdmin>(500));
-    await saveExpecting('Cannot update this item');
-
-    when(
-      () => scaffold.repository.ticketsAdminEventsEventIdPatch(
-        eventId: any(named: 'eventId'),
-        body: any(named: 'body'),
-      ),
-    ).thenAnswer((_) async => chopperResponse(EventAdmin.empty()));
-    when(
-      // ignore: void_checks
-      () => scaffold.repository
-          .ticketsAdminEventsEventIdCategoriesCategoryIdPatch(
-            eventId: any(named: 'eventId'),
-            categoryId: any(named: 'categoryId'),
-            body: any(named: 'body'),
-          ),
-    ).thenAnswer((_) async => chopperError<CategoryAdmin>(500));
-    await saveExpecting('Cannot update this item');
-
-    when(
-      // ignore: void_checks
-      () => scaffold.repository
-          .ticketsAdminEventsEventIdCategoriesCategoryIdPatch(
-            eventId: any(named: 'eventId'),
-            categoryId: any(named: 'categoryId'),
-            body: any(named: 'body'),
-          ),
-    ).thenAnswer((_) async => chopperResponse(CategoryAdmin.empty()));
-    when(
-      // ignore: void_checks
-      () => scaffold.repository.ticketsAdminEventsEventIdSessionsSessionIdPatch(
-        eventId: any(named: 'eventId'),
-        sessionId: any(named: 'sessionId'),
-        body: any(named: 'body'),
-      ),
-    ).thenAnswer((_) async => chopperError<SessionAdmin>(500));
-    await saveExpecting('Cannot update this item');
-
-    when(
-      // ignore: void_checks
-      () => scaffold.repository.ticketsAdminEventsEventIdSessionsSessionIdPatch(
-        eventId: any(named: 'eventId'),
-        sessionId: any(named: 'sessionId'),
-        body: any(named: 'body'),
-      ),
-    ).thenAnswer((_) async => chopperResponse(SessionAdmin.empty()));
-    when(
-      // ignore: void_checks
-      () => scaffold.repository.ticketsAdminEventsEventIdQuestionsQuestionIdPatch(
-        eventId: any(named: 'eventId'),
-        questionId: any(named: 'questionId'),
-        body: any(named: 'body'),
-      ),
-    ).thenAnswer((_) async => chopperError<Question>(500));
-    await saveExpecting('Read-only (answers have already been recorded)');
-
-    // Everything answers: the staged rows PATCH in turn and the page pops.
-    when(
-      // ignore: void_checks
-      () => scaffold.repository.ticketsAdminEventsEventIdQuestionsQuestionIdPatch(
-        eventId: any(named: 'eventId'),
-        questionId: any(named: 'questionId'),
-        body: any(named: 'body'),
-      ),
-    ).thenAnswer((_) async => chopperResponse(Question.empty()));
-    await scrollTo(tester, find.text('Save changes'));
-    await tester.tap(find.text('Save changes'));
-    await pumpFrames(tester, 16);
-    expect(find.text('Ticketing updated successfully'), findsOneWidget);
-    expect(find.text('Edit ticketing'), findsNothing); // the form popped
-    await scaffold.drainToast(tester);
-  });
-
-  testWidgets('session and category deletes surface API failures', (tester) async {
-    final container = sellerContainer();
-    container.read(selectedTicketEventIdProvider.notifier).setId('evt-1');
-    when(
-      () => scaffold.repository.ticketsAdminEventsEventIdGet(eventId: 'evt-1'),
-    ).thenAnswer((_) async => chopperResponse(ticketEventFixture()));
 
     await pumpEdit(tester, container);
 
     when(
-      () => scaffold.repository.ticketsAdminEventsEventIdCategoriesCategoryIdDelete(
-        eventId: any(named: 'eventId'),
-        categoryId: any(named: 'categoryId'),
-      ),
+      () => scaffold.repository
+          .ticketsAdminEventsEventIdCategoriesCategoryIdDelete(
+            eventId: any(named: 'eventId'),
+            categoryId: any(named: 'categoryId'),
+          ),
     ).thenAnswer((_) async => chopperError<void>(500));
     when(
-      () => scaffold.repository.ticketsAdminEventsEventIdSessionsSessionIdDelete(
-        eventId: any(named: 'eventId'),
-        sessionId: any(named: 'sessionId'),
-      ),
+      () =>
+          scaffold.repository.ticketsAdminEventsEventIdSessionsSessionIdDelete(
+            eventId: any(named: 'eventId'),
+            sessionId: any(named: 'sessionId'),
+          ),
     ).thenAnswer((_) async => chopperError<void>(500));
 
     await scrollTo(tester, find.byTooltip('Delete category'));
@@ -420,10 +426,11 @@ void main() {
 
     // The same session delete succeeds once the API answers.
     when(
-      () => scaffold.repository.ticketsAdminEventsEventIdSessionsSessionIdDelete(
-        eventId: any(named: 'eventId'),
-        sessionId: any(named: 'sessionId'),
-      ),
+      () =>
+          scaffold.repository.ticketsAdminEventsEventIdSessionsSessionIdDelete(
+            eventId: any(named: 'eventId'),
+            sessionId: any(named: 'sessionId'),
+          ),
     ).thenAnswer((_) async => chopperResponseVoid());
     await scrollTo(tester, find.byTooltip('Delete session'));
     await tester.tap(find.byTooltip('Delete session'));
@@ -450,129 +457,131 @@ void main() {
     expect(find.text('Statistics'), findsNothing);
   });
 
-  testWidgets('the add-category modal rejects negative prices and sends a typed quota', (
-    tester,
-  ) async {
-    final container = sellerContainer();
-    container.read(selectedTicketEventIdProvider.notifier).setId('evt-1');
-    when(
-      () => scaffold.repository.ticketsAdminEventsEventIdGet(eventId: 'evt-1'),
-    ).thenAnswer((_) async => chopperResponse(ticketEventFixture()));
-    when(
-      // ignore: void_checks
-      () => scaffold.repository.ticketsAdminEventsEventIdCategoriesPost(
-        eventId: any(named: 'eventId'),
-        body: any(named: 'body'),
-      ),
-    ).thenAnswer((_) async => chopperResponse(CategoryComplete.empty()));
+  testWidgets(
+    'the add-category modal rejects negative prices and sends a typed quota',
+    (tester) async {
+      final container = sellerContainer();
+      container.read(selectedTicketEventIdProvider.notifier).setId('evt-1');
+      when(
+        () =>
+            scaffold.repository.ticketsAdminEventsEventIdGet(eventId: 'evt-1'),
+      ).thenAnswer((_) async => chopperResponse(ticketEventFixture()));
+      when(
+        // ignore: void_checks
+        () => scaffold.repository.ticketsAdminEventsEventIdCategoriesPost(
+          eventId: any(named: 'eventId'),
+          body: any(named: 'body'),
+        ),
+      ).thenAnswer((_) async => chopperResponse(CategoryComplete.empty()));
 
-    await pumpEdit(tester, container);
-    await scrollTo(tester, find.text('Add category'));
-    await tester.tap(find.text('Add category'));
-    await pumpFrames(tester, 14);
+      await pumpEdit(tester, container);
+      await scrollTo(tester, find.text('Add category'));
+      await tester.tap(find.text('Add category'));
+      await pumpFrames(tester, 14);
 
-    // Scope to the modal: the page's own fields appear earlier in the tree.
-    final modalFields = find.descendant(
-      of: find.byType(BottomModalTemplate),
-      matching: find.byType(TextFormField),
-    );
-    await tester.enterText(modalFields.first, 'Gold');
-    await tester.enterText(modalFields.at(1), '-5');
-    await tester.tap(find.text('Add category').last);
-    await pumpFrames(tester, 16);
-
-    expect(
-      find.text('Price must be 0€ or greater than 1€'),
-      findsOneWidget,
-    );
-    verifyNever(
-      () => scaffold.repository.ticketsAdminEventsEventIdCategoriesPost(
-        eventId: any(named: 'eventId'),
-        body: any(named: 'body'),
-      ),
-    );
-    await scaffold.drainToast(tester);
-
-    // A valid price plus a typed quota round-trips through the POST.
-    await tester.tap(find.text('Add category'));
-    await pumpFrames(tester, 14);
-    await tester.enterText(modalFields.first, 'Gold');
-    await tester.enterText(modalFields.at(1), '25');
-    await tester.enterText(modalFields.at(2), '10');
-    await tester.tap(find.text('Add category').last);
-    await pumpFrames(tester, 16);
-
-    final captured =
-        verify(
-              () => scaffold.repository.ticketsAdminEventsEventIdCategoriesPost(
-                eventId: 'evt-1',
-                body: captureAny(named: 'body'),
-              ),
-            ).captured.single
-            as CategoryCreate;
-    expect(captured.name, 'Gold');
-    expect(captured.quota, 10);
-    await scaffold.drainToast(tester);
-  });
-
-  testWidgets('the add-session modal reports create failures with its typed quota', (
-    tester,
-  ) async {
-    final container = sellerContainer();
-    container.read(selectedTicketEventIdProvider.notifier).setId('evt-1');
-    when(
-      () => scaffold.repository.ticketsAdminEventsEventIdGet(eventId: 'evt-1'),
-    ).thenAnswer((_) async => chopperResponse(ticketEventFixture()));
-    when(
-      // ignore: void_checks
-      () => scaffold.repository.ticketsAdminEventsEventIdSessionsPost(
-        eventId: any(named: 'eventId'),
-        body: any(named: 'body'),
-      ),
-    ).thenAnswer((_) async => chopperError<SessionComplete>(500));
-
-    await pumpEdit(tester, container);
-    await scrollTo(tester, find.text('Add session'));
-    await tester.tap(find.text('Add session'));
-    await pumpFrames(tester, 14);
-
-    final modalFields = find.descendant(
-      of: find.byType(BottomModalTemplate),
-      matching: find.byType(TextFormField),
-    );
-    await tester.enterText(modalFields.first, 'Sunday');
-    // The modal quota field's onChanged fires on the typed value.
-    await tester.enterText(modalFields.at(1), '10');
-    // The date row goes through the real showDatePicker/showTimePicker.
-    await tester.tap(
-      find.descendant(
+      // Scope to the modal: the page's own fields appear earlier in the tree.
+      final modalFields = find.descendant(
         of: find.byType(BottomModalTemplate),
-        matching: find.text('Date'),
-      ),
-    );
-    await pumpFrames(tester, 8);
-    await tester.tap(find.text('OK').first);
-    await pumpFrames(tester, 8);
-    await tester.tap(find.text('OK').first);
-    await pumpFrames(tester, 8);
+        matching: find.byType(TextFormField),
+      );
+      await tester.enterText(modalFields.first, 'Gold');
+      await tester.enterText(modalFields.at(1), '-5');
+      await tester.tap(find.text('Add category').last);
+      await pumpFrames(tester, 16);
 
-    await tester.tap(find.text('Add session').last);
-    await pumpFrames(tester, 16);
+      expect(find.text('Price must be 0€ or greater than 1€'), findsOneWidget);
+      verifyNever(
+        () => scaffold.repository.ticketsAdminEventsEventIdCategoriesPost(
+          eventId: any(named: 'eventId'),
+          body: any(named: 'body'),
+        ),
+      );
+      await scaffold.drainToast(tester);
 
-    expect(find.text('Cannot update this item'), findsOneWidget);
-    // The typed quota rode along on the create payload despite the failure.
-    final captured =
-        verify(
-              () => scaffold.repository.ticketsAdminEventsEventIdSessionsPost(
-                eventId: 'evt-1',
-                body: captureAny(named: 'body'),
-              ),
-            ).captured.single
-            as SessionCreate;
-    expect(captured.name, 'Sunday');
-    expect(captured.quota, 10);
-    await scaffold.drainToast(tester);
-  });
+      // A valid price plus a typed quota round-trips through the POST.
+      await tester.tap(find.text('Add category'));
+      await pumpFrames(tester, 14);
+      await tester.enterText(modalFields.first, 'Gold');
+      await tester.enterText(modalFields.at(1), '25');
+      await tester.enterText(modalFields.at(2), '10');
+      await tester.tap(find.text('Add category').last);
+      await pumpFrames(tester, 16);
+
+      final captured =
+          verify(
+                () =>
+                    scaffold.repository.ticketsAdminEventsEventIdCategoriesPost(
+                      eventId: 'evt-1',
+                      body: captureAny(named: 'body'),
+                    ),
+              ).captured.single
+              as CategoryCreate;
+      expect(captured.name, 'Gold');
+      expect(captured.quota, 10);
+      await scaffold.drainToast(tester);
+    },
+  );
+
+  testWidgets(
+    'the add-session modal reports create failures with its typed quota',
+    (tester) async {
+      final container = sellerContainer();
+      container.read(selectedTicketEventIdProvider.notifier).setId('evt-1');
+      when(
+        () =>
+            scaffold.repository.ticketsAdminEventsEventIdGet(eventId: 'evt-1'),
+      ).thenAnswer((_) async => chopperResponse(ticketEventFixture()));
+      when(
+        // ignore: void_checks
+        () => scaffold.repository.ticketsAdminEventsEventIdSessionsPost(
+          eventId: any(named: 'eventId'),
+          body: any(named: 'body'),
+        ),
+      ).thenAnswer((_) async => chopperError<SessionComplete>(500));
+
+      await pumpEdit(tester, container);
+      await scrollTo(tester, find.text('Add session'));
+      await tester.tap(find.text('Add session'));
+      await pumpFrames(tester, 14);
+
+      final modalFields = find.descendant(
+        of: find.byType(BottomModalTemplate),
+        matching: find.byType(TextFormField),
+      );
+      await tester.enterText(modalFields.first, 'Sunday');
+      // The modal quota field's onChanged fires on the typed value.
+      await tester.enterText(modalFields.at(1), '10');
+      // The date row goes through the real showDatePicker/showTimePicker.
+      await tester.tap(
+        find.descendant(
+          of: find.byType(BottomModalTemplate),
+          matching: find.text('Date'),
+        ),
+      );
+      await pumpFrames(tester, 8);
+      await tester.tap(find.text('OK').first);
+      await pumpFrames(tester, 8);
+      await tester.tap(find.text('OK').first);
+      await pumpFrames(tester, 8);
+
+      await tester.tap(find.text('Add session').last);
+      await pumpFrames(tester, 16);
+
+      expect(find.text('Cannot update this item'), findsOneWidget);
+      // The typed quota rode along on the create payload despite the failure.
+      final captured =
+          verify(
+                () => scaffold.repository.ticketsAdminEventsEventIdSessionsPost(
+                  eventId: 'evt-1',
+                  body: captureAny(named: 'body'),
+                ),
+              ).captured.single
+              as SessionCreate;
+      expect(captured.name, 'Sunday');
+      expect(captured.quota, 10);
+      await scaffold.drainToast(tester);
+    },
+  );
 
   testWidgets('the add-question modal records the picked answer type', (
     tester,
