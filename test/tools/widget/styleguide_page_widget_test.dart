@@ -90,15 +90,17 @@ void main() {
     // The second bar opens the filter dialog; every option pops with its
     // own snackbar.
     final secondBar = find.byType(CustomSearchBar).at(1);
-    Finder filterButton() => find
-        .descendant(of: secondBar, matching: find.byType(IconButton))
-        .first;
+    Finder filterButton() =>
+        find.descendant(of: secondBar, matching: find.byType(IconButton)).first;
     for (final option in ['Name', 'Role', 'Age']) {
       await tester.tap(filterButton());
       await settle(tester, frames: 4);
       expect(find.text('Filter Options'), findsOneWidget);
       await tester.tap(
-        find.descendant(of: find.byType(AlertDialog), matching: find.text(option)),
+        find.descendant(
+          of: find.byType(AlertDialog),
+          matching: find.text(option),
+        ),
       );
       await drainSnackbars(tester);
     }
