@@ -3,9 +3,35 @@ import 'package:titan/generated/openapi.enums.swagger.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 
 import '../shared/app_scaffold.dart';
-import '../shared/fixtures.dart';
+import '../shared/fixtures.dart' show adminGroupId;
 
-export '../shared/fixtures.dart' show raffleFixture;
+/// The raffle admin gate group — the shared main admin group.
+const raffleAdminGroupId = adminGroupId;
+
+/// Create a raffle with predictable defaults for raffle-module tests.
+RaffleComplete raffleFixture(
+  String id,
+  String name,
+  RaffleStatusType? status,
+) => RaffleComplete.empty().copyWith(
+  id: id,
+  name: name,
+  groupId: 'group-1',
+  description: 'A good cause',
+  status: status,
+);
+
+/// Build a raffle administrator with predictable raffle-admin membership.
+CoreUser raffleAdminUserFixture({String id = 'user-1'}) =>
+    CoreUser.empty().copyWith(
+      id: id,
+      groups: [
+        CoreGroupSimple.empty().copyWith(
+          id: raffleAdminGroupId,
+          name: 'admin_raffle',
+        ),
+      ],
+    );
 
 /// Build a user-owned raffle ticket with its nested pack ticket; the shape
 /// every raffle card and ticket strip renders.
