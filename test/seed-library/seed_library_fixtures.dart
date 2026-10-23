@@ -5,10 +5,23 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
 import '../shared/app_scaffold.dart';
-import '../shared/fixtures.dart';
 
 /// The admin user the seed-library shells mount as: `user-1` carrying the
-/// admin_seed_library group (fixtures owns the group id and the build).
+/// admin_seed_library group (the group id and the build live here).
+const seedLibraryAdminGroupId = '09153d2a-14f4-49a4-be57-5d0f265261b9';
+
+/// Build a seed-library administrator with the module-admin group.
+CoreUser seedLibraryAdminUserFixture({String id = 'user-1'}) =>
+    CoreUser.empty().copyWith(
+      id: id,
+      groups: [
+        CoreGroupSimple.empty().copyWith(
+          id: seedLibraryAdminGroupId,
+          name: 'admin_seed_library',
+        ),
+      ],
+    );
+
 final seedLibraryAdminUser = seedLibraryAdminUserFixture();
 
 /// Stubs the five read endpoints every seed-library page fans out to on
