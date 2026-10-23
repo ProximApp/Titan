@@ -118,13 +118,6 @@ void main() {
     );
   }
 
-  /// toastification's auto-close is a 2500ms timer; let it fire so the test
-  /// does not end with a pending timer.
-  Future<void> drainToast(WidgetTester tester) async {
-    await tester.pump(const Duration(milliseconds: 3000));
-    await tester.pumpAndSettle();
-  }
-
   testWidgets('Add swaps the management sheet for the invite form', (
     tester,
   ) async {
@@ -257,7 +250,7 @@ void main() {
     expect(find.text('Success'), findsOneWidget);
     expect(find.text('Invite users'), findsNothing);
 
-    await drainToast(tester);
+    await scaffold.drainToast(tester);
     expect(tester.takeException(), isNull);
   });
 
