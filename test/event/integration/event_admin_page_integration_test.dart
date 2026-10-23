@@ -14,6 +14,7 @@ import 'package:titan/tools/ui/heroicons.dart';
 import 'package:titan/tools/ui/widgets/calendar.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../event_test_doubles.dart';
 
 /// Page-level coverage for the event `AdminPage` and its `ListEvent`
 /// sections — both 0%-covered before this file. `EventRouter` is not
@@ -29,12 +30,12 @@ import '../../shared/app_scaffold.dart';
 /// completion and record their destination for assertion.
 void main() {
   late IntegrationScaffold scaffold;
-  late _RecordingRouteMock mock;
+  late RecordingRouteMock mock;
 
   setUp(() {
     scaffold = IntegrationScaffold();
     scaffold.shellSetUp();
-    mock = _RecordingRouteMock();
+    mock = RecordingRouteMock();
     QR.settings.mockRoute = mock;
     // ListEvent watches the confirmed-list notifier, whose build triggers a
     // load; answering keeps that async load from throwing.
@@ -305,15 +306,3 @@ void main() {
 /// qlevar's test hook: with `QR.settings.mockRoute` set, every QR.to
 /// resolves against this mock instead of a real navigator — no exception,
 /// and each destination path is recorded for assertion.
-class _RecordingRouteMock extends RouteMock {
-  final navigated = <String>[];
-
-  @override
-  String? mockName(String name) => name;
-
-  @override
-  QRoute? mockPath(String path) {
-    navigated.add(path);
-    return QRoute(path: path, builder: () => const SizedBox());
-  }
-}

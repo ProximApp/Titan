@@ -11,6 +11,7 @@ import 'package:titan/tools/ui/heroicons.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../event_test_doubles.dart';
 
 /// The event card's branch matrix. `EventUi` renders three gradient states
 /// (upcoming / started / ended), two layouts (member with Edit+Delete, admin
@@ -18,7 +19,7 @@ import '../../shared/app_scaffold.dart';
 /// the '...' suffix — none of which a page mount asserts one by one.
 void main() {
   late IntegrationScaffold scaffold;
-  late _RecordingRouteMock mock;
+  late RecordingRouteMock mock;
 
   setUp(() {
     scaffold = IntegrationScaffold();
@@ -30,7 +31,7 @@ void main() {
     ).thenAnswer((_) async => chopperListResponse(<EventCompleteTicketUrl>[]));
     // qlevar's test hook: QR.to resolves against the mock instead of a real
     // navigator, so the card's navigation callbacks run to completion.
-    mock = _RecordingRouteMock();
+    mock = RecordingRouteMock();
     QR.settings.mockRoute = mock;
   });
 
@@ -251,18 +252,4 @@ void main() {
     expect(mock.navigated, contains('/event/add_edit'));
     expect(tester.takeException(), isNull);
   });
-}
-
-/// qlevar's test hook target: records every QR.to destination.
-class _RecordingRouteMock extends RouteMock {
-  final navigated = <String>[];
-
-  @override
-  String? mockName(String name) => name;
-
-  @override
-  QRoute? mockPath(String path) {
-    navigated.add(path);
-    return QRoute(path: path, builder: () => const SizedBox());
-  }
 }

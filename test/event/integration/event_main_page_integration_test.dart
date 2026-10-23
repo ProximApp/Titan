@@ -15,6 +15,7 @@ import 'package:titan/tools/ui/widgets/admin_button.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../event_test_doubles.dart';
 
 /// Page-level coverage for `EventMainPage` — a 0%-covered file before this
 /// test. `EventRouter` is NOT registered in `AppRouter`, so there is no
@@ -27,12 +28,12 @@ import '../../shared/app_scaffold.dart';
 /// navigation — run to completion and the destination is recorded.
 void main() {
   late IntegrationScaffold scaffold;
-  late _RecordingRouteMock mock;
+  late RecordingRouteMock mock;
 
   setUp(() {
     scaffold = IntegrationScaffold();
     scaffold.shellSetUp();
-    mock = _RecordingRouteMock();
+    mock = RecordingRouteMock();
     QR.settings.mockRoute = mock;
   });
 
@@ -207,20 +208,4 @@ void main() {
       expect(tester.takeException(), isNull);
     },
   );
-}
-
-/// qlevar's test hook: with `QR.settings.mockRoute` set, every QR.to
-/// resolves against this mock instead of a real navigator — no exception,
-/// and each destination path is recorded for assertion.
-class _RecordingRouteMock extends RouteMock {
-  final navigated = <String>[];
-
-  @override
-  String? mockName(String name) => name;
-
-  @override
-  QRoute? mockPath(String path) {
-    navigated.add(path);
-    return QRoute(path: path, builder: () => const SizedBox());
-  }
 }
