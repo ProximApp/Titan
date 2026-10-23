@@ -16,7 +16,7 @@ import 'package:titan/ph/tools/functions.dart';
 import 'package:titan/tools/repository/repository.dart';
 
 import '../../shared/mock_openapi.dart';
-import '../../shared/fixtures.dart';
+import '../ph_fixtures.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

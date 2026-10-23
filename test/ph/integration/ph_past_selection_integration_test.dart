@@ -9,7 +9,7 @@ import 'package:titan/ph/router.dart';
 import 'package:titan/ph/ui/pages/past_ph_selection_page/ph_card.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../ph_fixtures.dart';
 
 /// A valid 1x1 PNG: PhCard renders the cover bytes as an Image.memory, and
 /// invalid image data crashes the codec.

@@ -12,7 +12,7 @@ import 'package:titan/tools/ui/heroicons.dart';
 import 'package:titan/tools/ui/layouts/card_button.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../ph_fixtures.dart';
 
 /// The card's download button against a pdf that cannot be fetched: the
 /// `await phPdf` inside the tap throws into the catch, which toasts instead

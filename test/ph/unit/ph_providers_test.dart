@@ -9,7 +9,7 @@ import 'package:titan/ph/providers/selected_year_list_provider.dart';
 import 'package:titan/ph/providers/year_list_provider.dart';
 import 'package:titan/ph/tools/functions.dart';
 
-import '../../shared/fixtures.dart';
+import '../ph_fixtures.dart';
 
 /// Fake of the ph list so the year derivation runs without a repository.
 class FakePhListNotifier extends PhListNotifier {

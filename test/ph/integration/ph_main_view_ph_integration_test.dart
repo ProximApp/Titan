@@ -11,7 +11,7 @@ import 'package:titan/ph/ui/pages/view_ph/view_ph.dart';
 import 'package:pdfx/pdfx.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../ph_fixtures.dart';
 
 /// One journey from the ph main page: the last journal's pdf branch renders
 /// (the list is non-empty), "See previous journals" opens the grid, and a

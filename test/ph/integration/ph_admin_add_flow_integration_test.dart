@@ -7,8 +7,8 @@ import 'package:titan/ph/providers/ph_list_provider.dart';
 import 'package:titan/ph/router.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
 import '../../shared/file_picker_stub.dart';
+import '../ph_fixtures.dart';
 
 /// The add-journal journey through `/ph/admin`: the parent admin page's
 /// "Add a new journal" tap opens the form (a deferred route — this file's one

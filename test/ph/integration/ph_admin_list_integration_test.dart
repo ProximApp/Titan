@@ -11,7 +11,7 @@ import 'package:titan/tools/ui/heroicons.dart';
 import 'package:titan/tools/ui/layouts/card_button.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../ph_fixtures.dart';
 
 /// The admin journal list: year chips toggle the filter, the card body tap
 /// and the two card buttons drive the list callbacks, and the trash button

@@ -6,7 +6,7 @@ import 'package:titan/ph/router.dart';
 import 'package:titan/tools/ui/widgets/admin_button.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../ph_fixtures.dart';
 
 /// The admin gate button on the ph main page: its tap is the journey of this
 /// file (conventions 2/10 — nothing else navigates here), and the empty

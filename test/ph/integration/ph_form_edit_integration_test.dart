@@ -11,8 +11,8 @@ import 'package:titan/ph/providers/ph_provider.dart';
 import 'package:titan/ph/router.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
 import '../../shared/file_picker_stub.dart';
+import '../ph_fixtures.dart';
 
 /// The edit arm of `/ph/admin/add_ph`: the selected journal comes from
 /// phProvider (the pencil on the admin list does `setPh` before navigating),

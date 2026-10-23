@@ -4,7 +4,7 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/ph/router.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../ph_fixtures.dart';
 
 /// The ph admin gate is a plain Provider over userProvider.groups, so the
 /// signed-in user carries the admin_ph group id.
