@@ -6,17 +6,11 @@ import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/ui/layouts/refresher.dart';
 
+import '../purchases_fixtures.dart';
 import '../../shared/app_scaffold.dart';
 
 SellerComplete adminSeller(String id, String name) =>
     SellerComplete.empty().copyWith(id: id, name: name);
-
-GenerateTicketComplete generator() => GenerateTicketComplete.empty().copyWith(
-  id: 'gen-1',
-  name: 'Soirée des clubs',
-  maxUse: 10,
-  expiration: DateTime(2100),
-);
 
 AppModulesCdrSchemasCdrProductComplete scannableProduct() =>
     AppModulesCdrSchemasCdrProductComplete.empty().copyWith(
@@ -32,14 +26,6 @@ AppModulesCdrSchemasCdrProductComplete unscannableProduct() =>
       nameFr: 'Merch',
       sellerId: 'seller-2',
       tickets: <GenerateTicketComplete>[],
-    );
-
-AppModulesCdrSchemasCdrTicket myTicket() =>
-    AppModulesCdrSchemasCdrTicket.empty().copyWith(
-      id: 't-1',
-      name: 'Soirée des clubs',
-      scanLeft: 1,
-      expiration: DateTime(2100),
     );
 
 /// The purchases-admin path in one router-pushing test (convention 19): a
@@ -60,8 +46,9 @@ void main() {
     'the Scan button opens the scan page, refresh reloads, and both product branches render',
     (tester) async {
       when(() => scaffold.repository.cdrUsersMeTicketsGet()).thenAnswer(
-        (_) async =>
-            chopperListResponse<AppModulesCdrSchemasCdrTicket>([myTicket()]),
+        (_) async => chopperListResponse<AppModulesCdrSchemasCdrTicket>([
+          myTicket(scanLeft: 1),
+        ]),
       );
       // The scan-page refresh reloads the seller list through the API; the
       // same two sellers come back so the chips survive the reload.

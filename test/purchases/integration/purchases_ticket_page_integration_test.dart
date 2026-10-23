@@ -7,6 +7,7 @@ import 'package:titan/purchases/providers/scanner_provider.dart';
 import 'package:titan/purchases/providers/ticket_provider.dart';
 import 'package:titan/tools/ui/layouts/refresher.dart';
 
+import '../purchases_fixtures.dart';
 import '../../shared/app_scaffold.dart';
 
 AppModulesCdrSchemasCdrProductVariantComplete variant() =>
@@ -16,15 +17,6 @@ AppModulesCdrSchemasCdrProductVariantComplete variant() =>
       nameFr: 'Demo',
       descriptionFr: 'Description FR',
       descriptionEn: 'Description EN',
-    );
-
-AppModulesCdrSchemasCdrTicket myTicket() =>
-    AppModulesCdrSchemasCdrTicket.empty().copyWith(
-      id: 't-1',
-      name: 'Soirée des clubs',
-      scanLeft: 9,
-      expiration: DateTime(2100),
-      productVariant: variant(),
     );
 
 /// The member ticket page in one router-pushing test (convention 19): with
@@ -55,7 +47,9 @@ void main() {
       );
 
       final container = scaffold.makeContainer();
-      container.read(ticketProvider.notifier).setTicket(myTicket());
+      container
+          .read(ticketProvider.notifier)
+          .setTicket(myTicket(productVariant: variant()));
       // Known before mount: the page watches the notifier object, so the
       // first build is the only moment the secret can show up.
       container.read(scannerProvider.notifier).setSecret('secret-abc');

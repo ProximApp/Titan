@@ -10,17 +10,11 @@ import 'package:titan/purchases/ui/pages/scan_page/ticket_card.dart'
 import 'package:titan/tools/exception.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
+import '../purchases_fixtures.dart';
 import '../../shared/app_scaffold.dart';
 
 SellerComplete seller() =>
     SellerComplete.empty().copyWith(id: 'seller-1', name: 'BDE Bar');
-
-GenerateTicketComplete generator() => GenerateTicketComplete.empty().copyWith(
-  id: 'gen-1',
-  name: 'Soirée des clubs',
-  maxUse: 10,
-  expiration: DateTime(2100),
-);
 
 AppModulesCdrSchemasCdrProductVariantComplete variant() =>
     AppModulesCdrSchemasCdrProductVariantComplete.empty().copyWith(
