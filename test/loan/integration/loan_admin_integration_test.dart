@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart' show TextField;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
@@ -125,8 +126,20 @@ void main() {
       pumpAndSettle: false,
     );
     await settle(tester, frames: 20);
-
     expect(find.textContaining('Tente 2 places'), findsOneWidget);
+
+    // Exercise the populated item list in the real admin route, including
+    // search filtering and restoring the original list.
+    final search = find.byType(TextField).last;
+    await tester.enterText(search, 'tente');
+    await settle(tester, frames: 4);
+    expect(find.textContaining('Tente 2 places'), findsOneWidget);
+    expect(find.textContaining('Perceuse'), findsNothing);
+    await tester.enterText(search, '');
+    await settle(tester, frames: 4);
+    expect(find.textContaining('Tente 2 places'), findsOneWidget);
+    expect(find.textContaining('Perceuse'), findsNothing);
+
     await tester.ensureVisible(find.text('Atelier'));
     await tester.tap(find.text('Atelier'));
     await settle(tester, frames: 20);

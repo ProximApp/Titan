@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart' show TextFormField;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
@@ -73,12 +74,21 @@ void main() {
       // the pipeline enough frames for all of them.
       await settle(tester, frames: 40);
 
-      // Edit mode title; the form labels (Name, Quantity, Deposit) all
-      // render (TextEntry labels come via InputDecoration).
+      // Edit mode title; assert the controller values as well as the labels
+      // so the edit branch's four prefilled fields are actually verified.
       expect(find.text('Edit the object'), findsOneWidget);
       expect(find.text('Name'), findsOneWidget);
       expect(find.text('Quantity'), findsOneWidget);
       expect(find.text('Deposit'), findsOneWidget);
+      final fields = tester.widgetList<TextFormField>(
+        find.byType(TextFormField),
+      );
+      expect(fields.map((field) => field.controller?.text), [
+        'Tente 2 places',
+        '4',
+        '3000',
+        '3',
+      ]);
     },
   );
 }
