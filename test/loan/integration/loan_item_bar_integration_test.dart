@@ -13,7 +13,7 @@ import 'package:titan/loan/router.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../loan_fixtures.dart';
 
 /// ItemBar — the add-edit-loan page's item selection strip (96 uncovered
 /// lines): the per-loaner item map, the quantity steppers and their

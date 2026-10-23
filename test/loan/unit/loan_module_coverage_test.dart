@@ -29,6 +29,7 @@ import 'package:titan/tools/repository/repository.dart' show repositoryProvider;
 
 import '../../shared/fixtures.dart';
 import '../../shared/repository_test_support.dart';
+import '../loan_fixtures.dart';
 
 void main() {
   registerTestFallbackValues();

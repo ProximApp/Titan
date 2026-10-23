@@ -6,7 +6,7 @@ import 'package:titan/loan/providers/item_provider.dart';
 import 'package:titan/loan/providers/loaner_id_provider.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../loan_fixtures.dart';
 
 /// The add_edit_item edit-mode shell. Own file: the one-deep-link-per-file
 /// rule (README convention 1), and the three stacked deferred libraries

@@ -5,7 +5,7 @@ import 'package:titan/loan/providers/loaner_id_provider.dart';
 import 'package:titan/loan/router.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../loan_fixtures.dart';
 
 /// The loan admin gate derives from the user's loaner list: a non-empty
 /// list means admin. Pre-seeding the provider is the same async-gate trap
