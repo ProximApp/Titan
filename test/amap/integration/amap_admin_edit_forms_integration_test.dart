@@ -6,7 +6,7 @@ import 'package:titan/amap/providers/product_list_provider.dart';
 import 'package:titan/amap/providers/product_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 
-import 'amap_integration_test.dart';
+import '../amap_fixtures.dart';
 import '../../shared/app_scaffold.dart';
 
 /// The product edit form, driven by a deep link with the selected product
@@ -30,33 +30,6 @@ void main() {
     scaffold.shellSetUp();
   });
 
-  /// Stubs everything the admin page loads on mount. Nullable params so the
-  /// defaults can be const: DeliveryHandler sorts a copy of the provider's
-  /// list (ledger #12), so an unmodifiable fixture is now the honest one and
-  /// guards the fix.
-  void stubAdminLoads({
-    List<AppModulesAmapSchemasAmapProductComplete>? products,
-    List<DeliveryReturn>? deliveries,
-  }) {
-    when(() => scaffold.repository.amapUsersCashGet()).thenAnswer(
-      (_) async =>
-          chopperListResponse(<AppModulesAmapSchemasAmapCashComplete>[]),
-    );
-    when(() => scaffold.repository.amapDeliveriesGet()).thenAnswer(
-      (_) async => chopperListResponse(deliveries ?? const <DeliveryReturn>[]),
-    );
-    // The admin page's delivery cards auto-load their orders per delivery;
-    // an un-stubbed call would read as a null Future<Response> and kill the
-    // whole child-route mount with a type error.
-    when(
-      () => scaffold.repository.amapDeliveriesDeliveryIdOrdersGet(
-        deliveryId: any(named: 'deliveryId'),
-      ),
-    ).thenAnswer((_) async => chopperListResponse(<OrderReturn>[]));
-    when(() => scaffold.repository.amapProductsGet())
-        .thenAnswer((_) async => chopperListResponse(products ?? []));
-  }
-
   testWidgets(
     'the product form edits a pre-seeded product through the real PATCH',
     (tester) async {
@@ -66,7 +39,7 @@ void main() {
         price: 350,
         category: 'Grocery',
       );
-      stubAdminLoads(products: [editing]);
+      stubAdminLoads(scaffold, products: [editing], withDeliveryOrders: true);
 
       AppModulesAmapSchemasAmapProductEdit? capturedEdit;
       String? patchedProductId;

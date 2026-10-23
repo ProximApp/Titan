@@ -3,19 +3,10 @@ import 'package:mocktail/mocktail.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 
+import '../amap_fixtures.dart';
 import '../../shared/app_scaffold.dart';
 
 export '../../shared/app_scaffold.dart' show ignoreAmapKnownQuirks;
-
-final amapAdminUser = CoreUser.empty().copyWith(
-  id: 'user-1',
-  groups: [
-    CoreGroupSimple(
-      name: 'admin_amap',
-      id: '70db65ee-d533-4f6b-9ffa-a4d70a17b7ef',
-    ),
-  ],
-);
 
 AppModulesAmapSchemasAmapCashComplete cash(int balance) =>
     AppModulesAmapSchemasAmapCashComplete.empty().copyWith(

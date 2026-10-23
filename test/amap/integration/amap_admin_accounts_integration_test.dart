@@ -6,7 +6,7 @@ import 'package:titan/generated/openapi.enums.swagger.dart' as enums;
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
-import 'amap_integration_test.dart';
+import '../amap_fixtures.dart';
 import '../../shared/app_scaffold.dart';
 
 /// The admin page's top handler (AccountHandler): the Accounts search bar
@@ -46,27 +46,6 @@ void main() {
     user: user(userId, firstname, name, nickname: nickname),
   );
 
-  /// Stubs everything the admin page loads on mount (its Refresher and the
-  /// main page's routes both read cash/deliveries/products).
-  ///
-  /// Nullable params so the defaults can be const: DeliveryHandler sorts a
-  /// copy of the provider's list (ledger #12), so an unmodifiable fixture is
-  /// now the honest one and guards the fix.
-  void stubAdminLoads({
-    List<AppModulesAmapSchemasAmapCashComplete>? cashes,
-    List<DeliveryReturn>? deliveries,
-  }) {
-    when(() => scaffold.repository.amapUsersCashGet())
-        .thenAnswer((_) async => chopperListResponse(cashes ?? []));
-    when(() => scaffold.repository.amapDeliveriesGet()).thenAnswer(
-      (_) async => chopperListResponse(deliveries ?? const <DeliveryReturn>[]),
-    );
-    when(() => scaffold.repository.amapProductsGet()).thenAnswer(
-      (_) async =>
-          chopperListResponse(<AppModulesAmapSchemasAmapProductComplete>[]),
-    );
-  }
-
   Future<void> pumpAdmin(
     WidgetTester tester,
     ProviderContainer container,
@@ -85,6 +64,7 @@ void main() {
     tester,
   ) async {
     stubAdminLoads(
+      scaffold,
       cashes: [
         cashOf('u-1', 'Ada', 'Lovelace', nickname: 'Ada', balance: 1250),
         cashOf('u-2', 'Grace', 'Hopper', balance: -250),
@@ -114,6 +94,7 @@ void main() {
     tester,
   ) async {
     stubAdminLoads(
+      scaffold,
       cashes: [
         cashOf('u-1', 'Ada', 'Lovelace', nickname: 'Ada'),
         cashOf('u-2', 'Grace', 'Hopper'),
@@ -147,7 +128,7 @@ void main() {
   testWidgets('the + card switches to user search and adds a cash account', (
     tester,
   ) async {
-    stubAdminLoads();
+    stubAdminLoads(scaffold);
     // The user-search endpoint backs the users mode of the search bar.
     when(() => scaffold.repository.usersSearchGet(query: any(named: 'query')))
         .thenAnswer(
@@ -231,6 +212,7 @@ void main() {
     tester,
   ) async {
     stubAdminLoads(
+      scaffold,
       cashes: [cashOf('u-1', 'Ada', 'Lovelace', nickname: 'Ada', balance: 0)],
     );
 

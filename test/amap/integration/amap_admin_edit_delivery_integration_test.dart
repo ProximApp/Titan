@@ -4,7 +4,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
-import 'amap_integration_test.dart';
+import '../amap_fixtures.dart';
 import '../../shared/app_scaffold.dart';
 
 /// The delivery form's EDIT journey, in its own file because it needs a

@@ -5,6 +5,7 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
 import 'amap_integration_test.dart';
+import '../amap_fixtures.dart';
 import '../../shared/app_scaffold.dart';
 
 /// The admin page's middle handler (DeliveryHandler): delivery cards with
@@ -41,36 +42,6 @@ void main() {
     ),
   );
 
-  /// Stubs everything the admin page loads on mount. Nullable params so the
-  /// defaults can be const: DeliveryHandler sorts a copy of the provider's
-  /// list (ledger #12), so an unmodifiable fixture is now the honest one and
-  /// guards the fix.
-  void stubAdminLoads({
-    List<DeliveryReturn>? deliveries,
-    Map<String, List<OrderReturn>>? ordersByDelivery,
-  }) {
-    when(() => scaffold.repository.amapUsersCashGet()).thenAnswer(
-      (_) async =>
-          chopperListResponse(<AppModulesAmapSchemasAmapCashComplete>[]),
-    );
-    when(() => scaffold.repository.amapDeliveriesGet()).thenAnswer(
-      (_) async => chopperListResponse(deliveries ?? const <DeliveryReturn>[]),
-    );
-    when(() => scaffold.repository.amapProductsGet()).thenAnswer(
-      (_) async =>
-          chopperListResponse(<AppModulesAmapSchemasAmapProductComplete>[]),
-    );
-    when(
-      () => scaffold.repository.amapDeliveriesDeliveryIdOrdersGet(
-        deliveryId: any(named: 'deliveryId'),
-      ),
-    ).thenAnswer(
-      (inv) async => chopperListResponse(
-        ordersByDelivery?[inv.namedArguments[#deliveryId] as String] ?? [],
-      ),
-    );
-  }
-
   Future<void> pumpAdmin(
     WidgetTester tester,
     ProviderContainer container,
@@ -86,7 +57,7 @@ void main() {
   }
 
   testWidgets('the + card opens the add-delivery form', (tester) async {
-    stubAdminLoads();
+    stubAdminLoads(scaffold, withDeliveryOrders: true);
 
     final container = scaffold.makeContainer(
       user: amapAdminUser,
@@ -120,6 +91,7 @@ void main() {
     tester,
   ) async {
     stubAdminLoads(
+      scaffold,
       deliveries: [
         // creation sorts before orderable (earlier date).
         delivery(
@@ -134,6 +106,7 @@ void main() {
         'd-1': [],
         'd-2': [order('o-1', 'd-2', 500), order('o-2', 'd-2', 1200)],
       },
+      withDeliveryOrders: true,
     );
 
     final container = scaffold.makeContainer(
@@ -170,7 +143,11 @@ void main() {
   });
 
   testWidgets('the trash dialog deletes a creation delivery', (tester) async {
-    stubAdminLoads(deliveries: [delivery('d-1', DeliveryStatusType.creation)]);
+    stubAdminLoads(
+      scaffold,
+      deliveries: [delivery('d-1', DeliveryStatusType.creation)],
+      withDeliveryOrders: true,
+    );
 
     String? deletedDeliveryId;
     when(
@@ -219,7 +196,11 @@ void main() {
   testWidgets('the Open button opens a creation delivery for ordering', (
     tester,
   ) async {
-    stubAdminLoads(deliveries: [delivery('d-1', DeliveryStatusType.creation)]);
+    stubAdminLoads(
+      scaffold,
+      deliveries: [delivery('d-1', DeliveryStatusType.creation)],
+      withDeliveryOrders: true,
+    );
 
     String? openedDeliveryId;
     when(

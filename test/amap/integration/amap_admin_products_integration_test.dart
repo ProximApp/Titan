@@ -4,7 +4,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
-import 'amap_integration_test.dart';
+import '../amap_fixtures.dart';
 import '../../shared/app_scaffold.dart';
 
 /// The admin page's bottom handler (ProductHandler): product cards grouped
@@ -32,23 +32,6 @@ void main() {
     category: category,
   );
 
-  /// Stubs everything the admin page loads on mount. Nullable params so the
-  /// defaults can be const: DeliveryHandler sorts a copy of the provider's
-  /// list (ledger #12), so an unmodifiable fixture is now the honest one and
-  /// guards the fix.
-  void stubAdminLoads({
-    List<AppModulesAmapSchemasAmapProductComplete>? products,
-  }) {
-    when(() => scaffold.repository.amapUsersCashGet()).thenAnswer(
-      (_) async =>
-          chopperListResponse(<AppModulesAmapSchemasAmapCashComplete>[]),
-    );
-    when(() => scaffold.repository.amapDeliveriesGet())
-        .thenAnswer((_) async => chopperListResponse(const <DeliveryReturn>[]));
-    when(() => scaffold.repository.amapProductsGet())
-        .thenAnswer((_) async => chopperListResponse(products ?? []));
-  }
-
   Future<void> pumpAdmin(
     WidgetTester tester,
     ProviderContainer container,
@@ -64,7 +47,7 @@ void main() {
   }
 
   testWidgets('the products + card opens the add-product form', (tester) async {
-    stubAdminLoads();
+    stubAdminLoads(scaffold);
 
     final container = scaffold.makeContainer(
       user: amapAdminUser,
@@ -99,6 +82,7 @@ void main() {
 
   testWidgets('renders product cards grouped by category', (tester) async {
     stubAdminLoads(
+      scaffold,
       products: [
         product('p-1', 'Honey jar', 350, 'Grocery'),
         product('p-2', 'Wholemeal bread', 120, 'Bakery'),
@@ -138,7 +122,10 @@ void main() {
   });
 
   testWidgets('the trash dialog deletes a product', (tester) async {
-    stubAdminLoads(products: [product('p-1', 'Honey jar', 350, 'Grocery')]);
+    stubAdminLoads(
+      scaffold,
+      products: [product('p-1', 'Honey jar', 350, 'Grocery')],
+    );
 
     String? deletedProductId;
     when(
