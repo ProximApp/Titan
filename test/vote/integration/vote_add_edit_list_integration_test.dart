@@ -7,7 +7,7 @@ import 'package:titan/tools/ui/styleguide/icon_button.dart';
 import 'package:titan/vote/router.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/vote_fixtures.dart';
+import '../vote_fixtures.dart';
 import '../../shared/fixtures.dart';
 
 void main() {
