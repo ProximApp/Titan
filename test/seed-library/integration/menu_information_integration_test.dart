@@ -10,6 +10,7 @@ import 'package:titan/seed-library/tools/constants.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../seed_library_fixtures.dart';
 
 /// The admin root menu (`/seed_library`) and the information branch: every
 /// MenuCardUi closure that opens a link or the information icon, the
@@ -19,43 +20,12 @@ import '../../shared/app_scaffold.dart';
 /// a second router-driven test in this file would render this session's
 /// leftover page instead. The species/stock/deposit card navigations live
 /// in their own single-test files.
-const seedLibraryAdminGroupId = '09153d2a-14f4-49a4-be57-5d0f265261b9';
-
-final adminUser = CoreUser.empty().copyWith(
-  id: 'user-1',
-  groups: [
-    CoreGroupSimple.empty().copyWith(
-      name: 'admin_seed_library',
-      id: seedLibraryAdminGroupId,
-    ),
-  ],
-);
-
 final information = SeedLibraryInformation.empty().copyWith(
   description: 'Le potager partagé',
   contact: 'potager@asso.fr',
   facebookUrl: 'https://fb.example/potager',
   forumUrl: 'https://forum.example/potager',
 );
-
-/// Tap target for a menu card: its label. Every card wraps its label in a
-/// GestureDetector, so a hit at the text center reaches the handler; the
-/// label is unique among the root's menu entries.
-Finder menuCard(WidgetTester tester, String text) => find.text(text);
-
-/// The root menu is a sliver GridView: rows below the viewport are neither
-/// mounted nor hittable. Scroll until the label materialises, then bring it
-/// into the viewport before asserting/tapping.
-Future<void> revealMenu(WidgetTester tester, Finder label) async {
-  for (var i = 0; i < 8 && tester.elementList(label).isEmpty; i++) {
-    await tester.drag(find.byType(GridView).first, const Offset(0, -260));
-    await tester.pump(const Duration(milliseconds: 120));
-  }
-  if (tester.elementList(label).isNotEmpty) {
-    await tester.ensureVisible(label);
-    await settle(tester, frames: 2);
-  }
-}
 
 void main() {
   late IntegrationScaffold scaffold;
@@ -68,27 +38,11 @@ void main() {
   testWidgets(
     'the help cards launch their links and the info icon opens informations',
     (tester) async {
-      final container = scaffold.makeContainer(user: adminUser);
+      final container = scaffold.makeContainer(user: seedLibraryAdminUser);
       addTearDown(container.dispose);
       scaffold.setWideSurface(tester);
 
-      when(() => scaffold.repository.seedLibraryInformationGet())
-          .thenAnswer((_) async => chopperResponse(information));
-      when(() => scaffold.repository.seedLibraryPlantsUsersMeGet())
-          .thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
-      when(() => scaffold.repository.seedLibraryPlantsWaitingGet())
-          .thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
-      when(() => scaffold.repository.seedLibrarySpeciesGet())
-          .thenAnswer((_) async => chopperListResponse(<SpeciesComplete>[]));
-      when(() => scaffold.repository.seedLibrarySpeciesTypesGet()).thenAnswer(
-        (_) async => chopperResponse(
-          SpeciesTypesReturn(
-            speciesType: SpeciesType.values
-                .where((t) => t != SpeciesType.plantesAromatiques)
-                .toList(),
-          ),
-        ),
-      );
+      stubSeedLibrary(scaffold, information: information);
       final fake = FakeUrlLauncher(launchSucceeds: true);
       stubUrlLauncher(fake);
 
@@ -108,43 +62,22 @@ void main() {
       // the viewport are neither mounted nor hittable).
       await revealMenu(
         tester,
-        menuCard(tester, SeedLibraryTextConstants.speciesSimple),
+        menuCard(SeedLibraryTextConstants.speciesSimple),
       );
-      expect(
-        menuCard(tester, SeedLibraryTextConstants.speciesSimple),
-        findsOneWidget,
-      );
-      expect(
-        menuCard(tester, SeedLibraryTextConstants.myPlants),
-        findsOneWidget,
-      );
-      expect(menuCard(tester, SeedLibraryTextConstants.stock), findsOneWidget);
-      expect(
-        menuCard(tester, SeedLibraryTextConstants.seedDeposit),
-        findsOneWidget,
-      );
-      await revealMenu(
-        tester,
-        menuCard(tester, SeedLibraryTextConstants.helpSheets),
-      );
-      expect(
-        menuCard(tester, SeedLibraryTextConstants.helpSheets),
-        findsOneWidget,
-      );
-      expect(menuCard(tester, SeedLibraryTextConstants.forum), findsOneWidget);
+      expect(menuCard(SeedLibraryTextConstants.speciesSimple), findsOneWidget);
+      expect(menuCard(SeedLibraryTextConstants.myPlants), findsOneWidget);
+      expect(menuCard(SeedLibraryTextConstants.stock), findsOneWidget);
+      expect(menuCard(SeedLibraryTextConstants.seedDeposit), findsOneWidget);
+      await revealMenu(tester, menuCard(SeedLibraryTextConstants.helpSheets));
+      expect(menuCard(SeedLibraryTextConstants.helpSheets), findsOneWidget);
+      expect(menuCard(SeedLibraryTextConstants.forum), findsOneWidget);
 
       // The two link cards route through openLink, not the router.
-      await revealMenu(
-        tester,
-        menuCard(tester, SeedLibraryTextConstants.helpSheets),
-      );
-      await tester.tap(menuCard(tester, SeedLibraryTextConstants.helpSheets));
+      await revealMenu(tester, menuCard(SeedLibraryTextConstants.helpSheets));
+      await tester.tap(menuCard(SeedLibraryTextConstants.helpSheets));
       await settle(tester);
-      await revealMenu(
-        tester,
-        menuCard(tester, SeedLibraryTextConstants.forum),
-      );
-      await tester.tap(menuCard(tester, SeedLibraryTextConstants.forum));
+      await revealMenu(tester, menuCard(SeedLibraryTextConstants.forum));
+      await tester.tap(menuCard(SeedLibraryTextConstants.forum));
       await settle(tester);
       expect(fake.launched, [
         'https://fb.example/potager',

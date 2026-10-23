@@ -10,6 +10,7 @@ import 'package:titan/seed-library/providers/species_type_list_provider.dart';
 import 'package:titan/seed-library/tools/constants.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../seed_library_fixtures.dart';
 
 /// MY PLANTS (`/seed_library/plants`): the three PersonalPlantCard states
 /// (planted + maturation countdown, dead behind the checkbox, waiting
@@ -25,37 +26,6 @@ final species = SpeciesComplete.empty().copyWith(
   startSeason: DateTime(2026, 4, 1),
   timeMaturation: 40,
   card: 'https://fiche.example/help',
-);
-
-final alivePlant = PlantSimple.empty().copyWith(
-  id: 'p-alive',
-  reference: 'BAS-0200',
-  nickname: 'Basilic vivant',
-  speciesId: 'sp-1',
-  state: PlantState.rCupRE,
-  propagationMethod: PropagationMethod.graine,
-  nbSeedsEnvelope: 8,
-  plantingDate: DateTime(2026, 1, 10),
-);
-
-final deadPlant = PlantSimple.empty().copyWith(
-  id: 'p-dead',
-  reference: 'BAS-0300',
-  nickname: 'Basilic mort',
-  speciesId: 'sp-1',
-  state: PlantState.consommE,
-  propagationMethod: PropagationMethod.graine,
-  nbSeedsEnvelope: 4,
-  plantingDate: DateTime(2026, 1, 20),
-);
-
-final waitingPlant = PlantSimple.empty().copyWith(
-  id: 'p-wait',
-  reference: 'BAS-0400',
-  nickname: 'Basilic en attente',
-  speciesId: 'sp-1',
-  state: PlantState.enAttente,
-  propagationMethod: PropagationMethod.bouture,
 );
 
 PlantComplete detailPlant({PlantState? state, DateTime? plantingDate}) =>
@@ -80,33 +50,6 @@ void main() {
     scaffold.shellSetUp();
   });
 
-  void stubPlants(
-    IntegrationScaffold scaffold, {
-    List<PlantSimple> mine = const [],
-  }) {
-    when(
-      () => scaffold.repository.seedLibraryInformationGet(),
-    ).thenAnswer((_) async => chopperResponse(SeedLibraryInformation.empty()));
-    when(() => scaffold.repository.seedLibrarySpeciesGet())
-        .thenAnswer((_) async => chopperListResponse([species]));
-    when(() => scaffold.repository.seedLibraryPlantsWaitingGet())
-        .thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
-    when(() => scaffold.repository.seedLibraryPlantsUsersMeGet())
-        .thenAnswer((_) async => chopperListResponse(mine));
-    when(() => scaffold.repository.seedLibrarySpeciesTypesGet()).thenAnswer(
-      (_) async => chopperResponse(
-        // FiltersBar prepends plantesAromatiques — the rest must come from
-        // the server (with the default `autre` filter among them) or the
-        // SpeciesType dropdown's value assertion fires.
-        SpeciesTypesReturn(
-          speciesType: SpeciesType.values
-              .where((t) => t != SpeciesType.plantesAromatiques)
-              .toList(),
-        ),
-      ),
-    );
-  }
-
   Future<void> pumpMyPlants(WidgetTester tester) async {
     final container = scaffold.makeContainer();
     addTearDown(container.dispose);
@@ -130,7 +73,11 @@ void main() {
   testWidgets(
     'renders the three card states, toggles death and filters the list',
     (tester) async {
-      stubPlants(scaffold, mine: [alivePlant, deadPlant, waitingPlant]);
+      stubSeedLibrary(
+        scaffold,
+        species: [species],
+        mine: [alivePlant, deadPlant, waitingPlant],
+      );
       when(
         () => scaffold.repository.seedLibraryPlantsPlantIdGet(
           plantId: any(named: 'plantId'),
@@ -208,7 +155,7 @@ void main() {
   testWidgets('an empty my-plants list shows the no-plants message', (
     tester,
   ) async {
-    stubPlants(scaffold, mine: []);
+    stubSeedLibrary(scaffold, species: [species]);
     await pumpMyPlants(tester);
 
     expect(
@@ -223,7 +170,7 @@ void main() {
   ) async {
     final fake = FakeUrlLauncher(launchSucceeds: true);
     stubUrlLauncher(fake);
-    stubPlants(scaffold, mine: [alivePlant]);
+    stubSeedLibrary(scaffold, species: [species], mine: [alivePlant]);
     when(
       () => scaffold.repository.seedLibraryPlantsPlantIdPatch(
         plantId: any(named: 'plantId'),

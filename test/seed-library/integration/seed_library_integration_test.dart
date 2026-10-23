@@ -2,21 +2,18 @@ import 'dart:ui' as dart_typing;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../seed_library_fixtures.dart';
 
-final seedLibraryAdminUser = CoreUser.empty().copyWith(
-  id: 'user-1',
-  groups: [
-    CoreGroupSimple(
-      name: 'admin_seed_library',
-      id: '09153d2a-14f4-49a4-be57-5d0f265261b9',
-    ),
-  ],
+/// Auto-loaded by informationProvider on the main page; the menu cards
+/// open the facebook/forum URLs only when they are set.
+final information = SeedLibraryInformation.empty().copyWith(
+  facebookUrl: 'https://facebook.com/test',
+  forumUrl: 'https://forum.test',
 );
 
 /// The plants destination page wraps ListTiles in a white ColoredBox, a
@@ -34,21 +31,6 @@ void ignoreListTileInkWarning() {
   addTearDown(() => FlutterError.onError = previous);
 }
 
-void stubSeedLibrary(IntegrationScaffold scaffold) {
-  // Auto-loaded by informationProvider on the main page; the menu cards
-  // open the facebook/forum URLs only when they are set.
-  when(() => scaffold.repository.seedLibraryInformationGet()).thenAnswer(
-    (_) async => chopperResponse(
-      SeedLibraryInformation.empty().copyWith(
-        facebookUrl: 'https://facebook.com/test',
-        forumUrl: 'https://forum.test',
-      ),
-    ),
-  );
-  when(() => scaffold.repository.seedLibraryPlantsUsersMeGet())
-      .thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
-}
-
 void main() {
   late IntegrationScaffold scaffold;
 
@@ -63,7 +45,7 @@ void main() {
     // test already ran in the same isolate. The navigation test is kept
     // first; the remaining tests only assert on already-mounted routes.
     testWidgets('menu card navigates to the plants page', (tester) async {
-      stubSeedLibrary(scaffold);
+      stubSeedLibrary(scaffold, information: information);
       ignoreListTileInkWarning();
 
       await scaffold.pumpApp(
@@ -82,7 +64,7 @@ void main() {
     testWidgets('renders the menu grid with the admin species card', (
       tester,
     ) async {
-      stubSeedLibrary(scaffold);
+      stubSeedLibrary(scaffold, information: information);
       // The menu is a lazy GridView whose cards are ~500px tall; enlarge
       // the surface so every row is built.
       tester.view.physicalSize = const dart_typing.Size(800, 2400);
@@ -111,7 +93,7 @@ void main() {
     testWidgets('hides the admin species card for regular users', (
       tester,
     ) async {
-      stubSeedLibrary(scaffold);
+      stubSeedLibrary(scaffold, information: information);
 
       await scaffold.pumpApp(
         tester,

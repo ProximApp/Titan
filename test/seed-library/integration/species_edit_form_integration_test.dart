@@ -5,27 +5,15 @@ import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/seed-library/tools/constants.dart';
-import 'package:titan/tools/ui/heroicons.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../seed_library_fixtures.dart';
 
 /// The species EDIT form: pencil → prefilled add-edit page, end-month
 /// selection (the update branch's DateTime(2021, …) arms), the success
 /// toast + QR.back, and the 400 failure arm that stays on the form.
 /// One test per file (convention 19 — qlevar's process-global route branch
 /// would render this session's page for any later router-driven test).
-const seedLibraryAdminGroupId = '09153d2a-14f4-49a4-be57-5d0f265261b9';
-
-final adminUser = CoreUser.empty().copyWith(
-  id: 'user-1',
-  groups: [
-    CoreGroupSimple.empty().copyWith(
-      name: 'admin_seed_library',
-      id: seedLibraryAdminGroupId,
-    ),
-  ],
-);
-
 SpeciesComplete species() => SpeciesComplete.empty().copyWith(
   id: 'sp-1',
   name: 'Basilic',
@@ -38,9 +26,6 @@ SpeciesComplete species() => SpeciesComplete.empty().copyWith(
   card: 'https://fiche.example/help',
 );
 
-Finder pencil() =>
-    find.byWidgetPredicate((w) => w is HeroIcon && w.icon == HeroIcons.pencil);
-
 void main() {
   late IntegrationScaffold scaffold;
 
@@ -52,27 +37,10 @@ void main() {
   testWidgets('the pencil opens the prefilled form and PATCHes, then fails', (
     tester,
   ) async {
-    final container = scaffold.makeContainer(user: adminUser);
+    final container = scaffold.makeContainer(user: seedLibraryAdminUser);
     addTearDown(container.dispose);
     scaffold.setWideSurface(tester);
-    when(
-      () => scaffold.repository.seedLibraryInformationGet(),
-    ).thenAnswer((_) async => chopperResponse(SeedLibraryInformation.empty()));
-    when(() => scaffold.repository.seedLibraryPlantsUsersMeGet())
-        .thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
-    when(() => scaffold.repository.seedLibraryPlantsWaitingGet())
-        .thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
-    when(() => scaffold.repository.seedLibrarySpeciesGet())
-        .thenAnswer((_) async => chopperListResponse([species()]));
-    when(() => scaffold.repository.seedLibrarySpeciesTypesGet()).thenAnswer(
-      (_) async => chopperResponse(
-        SpeciesTypesReturn(
-          speciesType: SpeciesType.values
-              .where((t) => t != SpeciesType.plantesAromatiques)
-              .toList(),
-        ),
-      ),
-    );
+    stubSeedLibrary(scaffold, species: [species()]);
     when(
       () => scaffold.repository.seedLibrarySpeciesSpeciesIdPatch(
         speciesId: any(named: 'speciesId'),

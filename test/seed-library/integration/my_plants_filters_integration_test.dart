@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/seed-library/providers/species_type_list_provider.dart';
 import 'package:titan/seed-library/tools/constants.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../seed_library_fixtures.dart';
 
 /// My-plants FiltersBar interactions as their own router-pushing session
 /// (convention 19 — qlevar's process-global route branch would render
@@ -22,37 +22,6 @@ final species = SpeciesComplete.empty().copyWith(
   card: 'https://fiche.example/help',
 );
 
-final alivePlant = PlantSimple.empty().copyWith(
-  id: 'p-alive',
-  reference: 'BAS-0200',
-  nickname: 'Basilic vivant',
-  speciesId: 'sp-1',
-  state: PlantState.rCupRE,
-  propagationMethod: PropagationMethod.graine,
-  nbSeedsEnvelope: 8,
-  plantingDate: DateTime(2026, 1, 10),
-);
-
-final deadPlant = PlantSimple.empty().copyWith(
-  id: 'p-dead',
-  reference: 'BAS-0300',
-  nickname: 'Basilic mort',
-  speciesId: 'sp-1',
-  state: PlantState.consommE,
-  propagationMethod: PropagationMethod.graine,
-  nbSeedsEnvelope: 4,
-  plantingDate: DateTime(2026, 1, 20),
-);
-
-final waitingPlant = PlantSimple.empty().copyWith(
-  id: 'p-wait',
-  reference: 'BAS-0400',
-  nickname: 'Basilic en attente',
-  speciesId: 'sp-1',
-  state: PlantState.enAttente,
-  propagationMethod: PropagationMethod.bouture,
-);
-
 void main() {
   late IntegrationScaffold scaffold;
 
@@ -67,24 +36,10 @@ void main() {
     final container = scaffold.makeContainer();
     addTearDown(container.dispose);
     scaffold.setWideSurface(tester);
-    when(
-      () => scaffold.repository.seedLibraryInformationGet(),
-    ).thenAnswer((_) async => chopperResponse(SeedLibraryInformation.empty()));
-    when(() => scaffold.repository.seedLibrarySpeciesGet())
-        .thenAnswer((_) async => chopperListResponse([species]));
-    when(() => scaffold.repository.seedLibraryPlantsWaitingGet())
-        .thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
-    when(() => scaffold.repository.seedLibraryPlantsUsersMeGet()).thenAnswer(
-      (_) async => chopperListResponse([alivePlant, deadPlant, waitingPlant]),
-    );
-    when(() => scaffold.repository.seedLibrarySpeciesTypesGet()).thenAnswer(
-      (_) async => chopperResponse(
-        SpeciesTypesReturn(
-          speciesType: SpeciesType.values
-              .where((t) => t != SpeciesType.plantesAromatiques)
-              .toList(),
-        ),
-      ),
+    stubSeedLibrary(
+      scaffold,
+      species: [species],
+      mine: [alivePlant, deadPlant, waitingPlant],
     );
 
     // Pre-warm before the first frame: FiltersBar builds its expanded

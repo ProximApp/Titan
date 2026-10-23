@@ -9,6 +9,7 @@ import 'package:titan/seed-library/providers/plant_complete_provider.dart';
 import 'package:titan/seed-library/providers/species_list_provider.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../seed_library_fixtures.dart';
 
 const speciesId = 'sp-1';
 
@@ -37,15 +38,6 @@ PlantComplete plant({PlantState? state, DateTime? plantingDate}) =>
       plantingDate: plantingDate,
       currentNote: 'Arrosage le lundi',
     );
-
-void stubSeedLibrary(IntegrationScaffold scaffold) {
-  when(() => scaffold.repository.seedLibraryInformationGet())
-      .thenAnswer((_) async => chopperResponse(SeedLibraryInformation.empty()));
-  when(() => scaffold.repository.seedLibraryPlantsUsersMeGet())
-      .thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
-  when(() => scaffold.repository.seedLibrarySpeciesGet())
-      .thenAnswer((_) async => chopperListResponse([species()]));
-}
 
 void main() {
   late IntegrationScaffold scaffold;
@@ -81,7 +73,7 @@ void main() {
     testWidgets('renders the borrowed-plant detail with its species info', (
       tester,
     ) async {
-      stubSeedLibrary(scaffold);
+      stubSeedLibrary(scaffold, species: [species()]);
 
       await pumpPlantDetail(tester, currentPlant: plant());
 
@@ -113,7 +105,7 @@ void main() {
     testWidgets('planting now PATCHes today and flips the page state', (
       tester,
     ) async {
-      stubSeedLibrary(scaffold);
+      stubSeedLibrary(scaffold, species: [species()]);
       when(
         () => scaffold.repository.seedLibraryPlantsPlantIdPatch(
           plantId: any(named: 'plantId'),
@@ -145,7 +137,7 @@ void main() {
     testWidgets('the save button PATCHes nickname + note changes', (
       tester,
     ) async {
-      stubSeedLibrary(scaffold);
+      stubSeedLibrary(scaffold, species: [species()]);
       when(
         () => scaffold.repository.seedLibraryPlantsPlantIdPatch(
           plantId: any(named: 'plantId'),
@@ -191,7 +183,7 @@ void main() {
     testWidgets('the death flow confirms and PATCHes the consommée state', (
       tester,
     ) async {
-      stubSeedLibrary(scaffold);
+      stubSeedLibrary(scaffold, species: [species()]);
       final planted = plant(
         state: PlantState.rCupRE,
         plantingDate: DateTime(2026, 2, 1),
@@ -243,7 +235,7 @@ void main() {
     });
 
     testWidgets('a failed save shows the error toast', (tester) async {
-      stubSeedLibrary(scaffold);
+      stubSeedLibrary(scaffold, species: [species()]);
       when(
         () => scaffold.repository.seedLibraryPlantsPlantIdPatch(
           plantId: any(named: 'plantId'),

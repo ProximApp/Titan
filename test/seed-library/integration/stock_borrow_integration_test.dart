@@ -7,6 +7,7 @@ import 'package:titan/seed-library/providers/species_type_list_provider.dart';
 import 'package:titan/seed-library/tools/constants.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../seed_library_fixtures.dart';
 
 /// The STOCK half of seed-library: `/seed_library/stock` (stocks_page, its
 /// PlantCard, the research/filters bar) and its child
@@ -59,27 +60,10 @@ void main() {
   });
 
   void stubStock(IntegrationScaffold scaffold) {
-    when(
-      () => scaffold.repository.seedLibraryInformationGet(),
-    ).thenAnswer((_) async => chopperResponse(SeedLibraryInformation.empty()));
-    when(() => scaffold.repository.seedLibraryPlantsUsersMeGet())
-        .thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
-    when(() => scaffold.repository.seedLibrarySpeciesGet())
-        .thenAnswer((_) async => chopperListResponse([species]));
-    when(() => scaffold.repository.seedLibraryPlantsWaitingGet())
-        .thenAnswer((_) async => chopperListResponse([stockPlant]));
-    // The species-type dropdown prepends plantesAromatiques, so the server
-    // list must carry every OTHER type (incl. the default filter `autre`)
-    // or the DropdownButton value assertion fires.
-    when(() => scaffold.repository.seedLibrarySpeciesTypesGet()).thenAnswer(
-      (_) async => chopperResponse(
-        SpeciesTypesReturn(
-          speciesType: SpeciesType.values
-              .where((t) => t != SpeciesType.plantesAromatiques)
-              .toList(),
-        ),
-      ),
-    );
+    // The shared stub's species-type default (every type EXCEPT
+    // plantesAromatiques) is what the dropdown wants: it prepends that one
+    // itself, and a server list carrying it trips the value assertion.
+    stubSeedLibrary(scaffold, species: [species], waiting: [stockPlant]);
     when(
       () => scaffold.repository.seedLibraryPlantsPlantIdGet(
         plantId: any(named: 'plantId'),

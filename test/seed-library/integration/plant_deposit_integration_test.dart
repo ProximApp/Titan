@@ -5,20 +5,12 @@ import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../seed_library_fixtures.dart';
 
 /// The plant deposit page (`/seed_library/seed_deposit`, 119 executable
 /// lines): the seed-library admin form to add a stock plant from an
 /// ancestor plant or directly from a species. The seed-library admin group
 /// id matches the existing shells (see isSeedLibraryAdminProvider).
-const seedLibraryAdminGroupId = '09153d2a-14f4-49a4-be57-5d0f265261b9';
-
-final adminUser = CoreUser.empty().copyWith(
-  id: 'user-1',
-  groups: [
-    CoreGroupSimple(name: 'admin_seed_library', id: seedLibraryAdminGroupId),
-  ],
-);
-
 SpeciesComplete species({String id = 'sp-1', String name = 'Basilic'}) =>
     SpeciesComplete.empty().copyWith(
       id: id,
@@ -37,27 +29,6 @@ PlantSimple waitingPlant(String id, String reference) =>
       state: PlantState.enAttente,
       propagationMethod: PropagationMethod.bouture,
     );
-
-void stubSeedLibrary(IntegrationScaffold scaffold) {
-  when(() => scaffold.repository.seedLibraryInformationGet())
-      .thenAnswer((_) async => chopperResponse(SeedLibraryInformation.empty()));
-  when(() => scaffold.repository.seedLibrarySpeciesGet())
-      .thenAnswer((_) async => chopperListResponse([species()]));
-  // syncMyPlantListProvider (the ancestor row + the not-available gate)
-  // reads the users/me endpoint.
-  when(() => scaffold.repository.seedLibraryPlantsUsersMeGet()).thenAnswer(
-    (_) async => chopperListResponse([
-      waitingPlant('mine-1', 'BAS-0100'),
-      waitingPlant('mine-2', 'BAS-0101'),
-    ]),
-  );
-  // plantListProvider (the ancestor/stock list the deposit adds to). Its
-  // success path builds the reference dialog from plantList.last, so the
-  // list must be non-empty.
-  when(() => scaffold.repository.seedLibraryPlantsWaitingGet()).thenAnswer(
-    (_) async => chopperListResponse([waitingPlant('wait-1', 'BAS-0200')]),
-  );
-}
 
 void main() {
   late IntegrationScaffold scaffold;
@@ -86,9 +57,20 @@ void main() {
   testWidgets('the deposit form renders the waiting plants and species', (
     tester,
   ) async {
-    stubSeedLibrary(scaffold);
+    stubSeedLibrary(
+      scaffold,
+      species: [species()],
+      mine: [
+        waitingPlant('mine-1', 'BAS-0100'),
+        waitingPlant('mine-2', 'BAS-0101'),
+      ],
+      waiting: [waitingPlant('wait-1', 'BAS-0200')],
+    );
 
-    await pumpDeposit(tester, scaffold.makeContainer(user: adminUser));
+    await pumpDeposit(
+      tester,
+      scaffold.makeContainer(user: seedLibraryAdminUser),
+    );
 
     expect(find.text('Déposer une plante'), findsOneWidget);
     expect(find.text('Ancêtre'), findsOneWidget);
@@ -108,7 +90,15 @@ void main() {
   });
 
   testWidgets('a deposit from a species round-trips the POST', (tester) async {
-    stubSeedLibrary(scaffold);
+    stubSeedLibrary(
+      scaffold,
+      species: [species()],
+      mine: [
+        waitingPlant('mine-1', 'BAS-0100'),
+        waitingPlant('mine-2', 'BAS-0101'),
+      ],
+      waiting: [waitingPlant('wait-1', 'BAS-0200')],
+    );
     // The POST answer carries the NEW stock reference the backend assigns;
     // the dialog must show it, not the stale pre-add last (ledger #28).
     when(
@@ -119,7 +109,7 @@ void main() {
       ),
     );
 
-    final container = scaffold.makeContainer(user: adminUser);
+    final container = scaffold.makeContainer(user: seedLibraryAdminUser);
     await pumpDeposit(tester, container);
 
     // Select the species card, fill the seed quantity, save.
@@ -175,9 +165,20 @@ void main() {
   testWidgets(
     'the empty required field blocks the submit with an inline error',
     (tester) async {
-      stubSeedLibrary(scaffold);
+      stubSeedLibrary(
+        scaffold,
+        species: [species()],
+        mine: [
+          waitingPlant('mine-1', 'BAS-0100'),
+          waitingPlant('mine-2', 'BAS-0101'),
+        ],
+        waiting: [waitingPlant('wait-1', 'BAS-0200')],
+      );
 
-      await pumpDeposit(tester, scaffold.makeContainer(user: adminUser));
+      await pumpDeposit(
+        tester,
+        scaffold.makeContainer(user: seedLibraryAdminUser),
+      );
 
       // No ancestor, no species: the guard fires with the choosing toast.
       await scaffold.unfocus(tester);
@@ -201,7 +202,15 @@ void main() {
   testWidgets('a user without plants sees the not-available message', (
     tester,
   ) async {
-    stubSeedLibrary(scaffold);
+    stubSeedLibrary(
+      scaffold,
+      species: [species()],
+      mine: [
+        waitingPlant('mine-1', 'BAS-0100'),
+        waitingPlant('mine-2', 'BAS-0101'),
+      ],
+      waiting: [waitingPlant('wait-1', 'BAS-0200')],
+    );
     when(() => scaffold.repository.seedLibraryPlantsUsersMeGet())
         .thenAnswer((_) async => chopperListResponse(<PlantSimple>[]));
 

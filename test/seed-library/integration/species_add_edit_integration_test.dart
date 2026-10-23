@@ -11,6 +11,7 @@ import 'package:titan/seed-library/providers/difficulty_filter_provider.dart';
 import 'package:titan/seed-library/tools/constants.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../seed_library_fixtures.dart';
 
 /// The species add-edit form (`/seed_library/species/add_edit_species`,
 /// 132 uncovered lines): its validators (3-char unique prefix, integer
@@ -20,37 +21,12 @@ import '../../shared/app_scaffold.dart';
 /// Own file for the deep-link rule; the admin gate uses the real
 /// admin_seed_library group id. The UI strings are French constants, so
 /// assertions quote them verbatim.
-final adminUser = models.CoreUser.empty().copyWith(
-  id: 'user-1',
-  groups: [
-    models.CoreGroupSimple.empty().copyWith(
-      name: 'admin_seed_library',
-      id: '09153d2a-14f4-49a4-be57-5d0f265261b9',
-    ),
-  ],
-);
-
 models.SpeciesComplete species() => models.SpeciesComplete.empty().copyWith(
   id: 'sp-1',
   name: 'Basilic',
   prefix: 'BAS',
   difficulty: 2,
 );
-
-void stubSpeciesData(IntegrationScaffold scaffold) {
-  when(() => scaffold.repository.seedLibrarySpeciesGet())
-      .thenAnswer((_) async => chopperListResponse([species()]));
-  when(() => scaffold.repository.seedLibrarySpeciesTypesGet()).thenAnswer(
-    (_) async => chopperResponse(
-      SpeciesTypesReturn(
-        speciesType: [
-          SpeciesType.plantesAromatiques,
-          SpeciesType.plantesPotagRes,
-        ],
-      ),
-    ),
-  );
-}
 
 void main() {
   late IntegrationScaffold scaffold;
@@ -61,9 +37,16 @@ void main() {
   });
 
   Future<void> pumpAddSpecies(WidgetTester tester) async {
-    stubSpeciesData(scaffold);
+    stubSeedLibrary(
+      scaffold,
+      species: [species()],
+      speciesTypes: [
+        SpeciesType.plantesAromatiques,
+        SpeciesType.plantesPotagRes,
+      ],
+    );
     scaffold.setWideSurface(tester);
-    final container = scaffold.makeContainer(user: adminUser);
+    final container = scaffold.makeContainer(user: seedLibraryAdminUser);
     await scaffold.pumpApp(
       tester,
       container,
