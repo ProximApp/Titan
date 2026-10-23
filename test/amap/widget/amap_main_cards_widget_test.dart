@@ -8,7 +8,7 @@ import 'package:titan/amap/ui/pages/main_page/orders_section.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixed_size_card_fixtures.dart' show seedSharedMaps;
+import '../../tools/fixed_size_card_fixtures.dart' show seedSharedMaps;
 
 /// WIDGET level: `OrderSection` and `DetailOrderUI`.
 ///

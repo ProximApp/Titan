@@ -8,7 +8,7 @@ import 'package:titan/amap/ui/pages/admin_page/product_handler.dart';
 import 'package:chopper/chopper.dart' as chopper;
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixed_size_card_fixtures.dart' show seedSharedMaps;
+import '../../tools/fixed_size_card_fixtures.dart' show seedSharedMaps;
 
 /// WIDGET level: the three amap admin edit HANDLERS.
 ///
