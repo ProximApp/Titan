@@ -6,6 +6,7 @@ import 'package:titan/raffle/providers/raffle_id_provider.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../../shared/fixtures.dart';
 
 /// The raffle creation/edit page (`/tombola/detail/creation`, 141
 /// uncovered lines) plus the add-edit prize page it links to (93 more):
@@ -25,49 +26,6 @@ final adminUser = CoreUser.empty().copyWith(
   ],
 );
 
-RaffleComplete raffle(String id, String name, RaffleStatusType? status) =>
-    RaffleComplete.empty().copyWith(
-      id: id,
-      name: name,
-      groupId: 'group-1',
-      description: 'A good cause',
-      status: status,
-    );
-
-void stubCreationData(IntegrationScaffold scaffold) {
-  when(() => scaffold.repository.tombolaRafflesGet()).thenAnswer(
-    (_) async =>
-        chopperListResponse([raffle('r-1', 'Gala', RaffleStatusType.creation)]),
-  );
-  when(
-    () => scaffold.repository.tombolaRafflesRaffleIdPrizesGet(
-      raffleId: any(named: 'raffleId'),
-    ),
-  ).thenAnswer(
-    (_) async => chopperListResponse([
-      PrizeSimple.empty().copyWith(
-        id: 'prize-1',
-        name: 'PS5',
-        raffleId: 'r-1',
-        quantity: 2,
-      ),
-    ]),
-  );
-  when(
-    () => scaffold.repository.tombolaRafflesRaffleIdPackTicketsGet(
-      raffleId: any(named: 'raffleId'),
-    ),
-  ).thenAnswer((_) async => chopperListResponse(<PackTicketSimple>[]));
-  when(
-    () => scaffold.repository.tombolaUsersUserIdTicketsGet(
-      userId: any(named: 'userId'),
-    ),
-  ).thenAnswer(
-    (_) async =>
-        chopperListResponse(<AppModulesRaffleSchemasRaffleTicketComplete>[]),
-  );
-}
-
 void main() {
   late IntegrationScaffold scaffold;
 
@@ -84,10 +42,20 @@ void main() {
     RaffleStatusType status = RaffleStatusType.creation,
     String path = '/tombola/detail/creation',
   }) async {
-    stubCreationData(scaffold);
+    stubCreationData(
+      scaffold,
+      prizes: [
+        PrizeSimple.empty().copyWith(
+          id: 'prize-1',
+          name: 'PS5',
+          raffleId: 'r-1',
+          quantity: 2,
+        ),
+      ],
+    );
     // Override AFTER stubCreationData, which stubs a creation-status list.
     when(() => scaffold.repository.tombolaRafflesGet()).thenAnswer(
-      (_) async => chopperListResponse([raffle('r-1', 'Gala', status)]),
+      (_) async => chopperListResponse([raffleFixture('r-1', 'Gala', status)]),
     );
     final container = scaffold.makeContainer(user: adminUser);
     container.read(raffleIdProvider.notifier).setId('r-1');

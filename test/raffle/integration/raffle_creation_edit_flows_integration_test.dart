@@ -8,6 +8,7 @@ import 'package:titan/raffle/ui/pages/creation_edit_page/ticket_ui.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../../shared/fixtures.dart';
 
 /// The creation page's edit half (`/tombola/detail/creation`): the raffle
 /// NAME save (which never reached the wire — `updateRaffle` was a local
@@ -29,15 +30,6 @@ final adminUser = CoreUser.empty().copyWith(
   ],
 );
 
-RaffleComplete raffle(String id, String name, RaffleStatusType? status) =>
-    RaffleComplete.empty().copyWith(
-      id: id,
-      name: name,
-      groupId: 'group-1',
-      description: 'A good cause',
-      status: status,
-    );
-
 void main() {
   late IntegrationScaffold scaffold;
 
@@ -46,47 +38,17 @@ void main() {
     scaffold.shellSetUp();
   });
 
-  void stubCreationData({
-    RaffleStatusType status = RaffleStatusType.creation,
-    List<PackTicketSimple> packTickets = const [],
-  }) {
-    when(() => scaffold.repository.tombolaRafflesGet()).thenAnswer(
-      (_) async => chopperListResponse([raffle('r-1', 'Gala', status)]),
-    );
-    when(
-      () => scaffold.repository.tombolaRafflesRaffleIdPrizesGet(
-        raffleId: any(named: 'raffleId'),
-      ),
-    ).thenAnswer((_) async => chopperListResponse(<PrizeSimple>[]));
-    when(
-      () => scaffold.repository.tombolaRafflesRaffleIdPackTicketsGet(
-        raffleId: any(named: 'raffleId'),
-      ),
-    ).thenAnswer((_) async => chopperListResponse(packTickets));
-    when(
-      () => scaffold.repository.tombolaRafflesRaffleIdTicketsGet(
-        raffleId: any(named: 'raffleId'),
-      ),
-    ).thenAnswer(
-      (_) async =>
-          chopperListResponse(<AppModulesRaffleSchemasRaffleTicketComplete>[]),
-    );
-    when(
-      () => scaffold.repository.tombolaUsersUserIdTicketsGet(
-        userId: any(named: 'userId'),
-      ),
-    ).thenAnswer(
-      (_) async =>
-          chopperListResponse(<AppModulesRaffleSchemasRaffleTicketComplete>[]),
-    );
-  }
-
   Future<void> pumpCreation(
     WidgetTester tester, {
     RaffleStatusType status = RaffleStatusType.creation,
     List<PackTicketSimple> packTickets = const [],
   }) async {
-    stubCreationData(status: status, packTickets: packTickets);
+    stubCreationData(
+      scaffold,
+      status: status,
+      packTickets: packTickets,
+      withRaffleTickets: true,
+    );
     scaffold.setWideSurface(tester);
     final container = scaffold.makeContainer(user: adminUser);
     addTearDown(container.dispose);
@@ -168,7 +130,11 @@ void main() {
         packSize: 10,
         raffleId: 'r-1',
       );
-      stubCreationData(packTickets: [ticket]);
+      stubCreationData(
+        scaffold,
+        packTickets: [ticket],
+        withRaffleTickets: true,
+      );
       when(
         // ignore: void_checks
         () => scaffold.repository.tombolaPackTicketsPackticketIdDelete(

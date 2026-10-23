@@ -8,6 +8,8 @@ import 'package:titan/raffle/providers/raffle_id_provider.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../../shared/fixtures.dart';
+import '../../shared/repository_stubs.dart';
 
 /// The confirm-payment dialog (`ConfirmPaymentDialog`, 99 uncovered lines)
 /// through its only entry point: the BuyPackTicket card on
@@ -32,15 +34,6 @@ final adminUser = CoreUser.empty().copyWith(
   ],
 );
 
-RaffleComplete raffleFixture(RaffleStatusType status) =>
-    RaffleComplete.empty().copyWith(
-      id: 'r-1',
-      name: 'Gala',
-      groupId: 'group-1',
-      description: 'A good cause',
-      status: status,
-    );
-
 PackTicketSimple packFixture() => PackTicketSimple.empty().copyWith(
   id: 'pack-1',
   price: 5,
@@ -48,15 +41,11 @@ PackTicketSimple packFixture() => PackTicketSimple.empty().copyWith(
   raffleId: 'r-1',
 );
 
-chopper.Response<List<int>> logo404() => chopper.Response<List<int>>(
-  http.Response('{"detail": "File does not exist"}', 404),
-  [],
-  error: 'File does not exist',
-);
-
 void stubRaffleOpen(IntegrationScaffold scaffold, {int balance = 500}) {
   when(() => scaffold.repository.tombolaRafflesGet()).thenAnswer(
-    (_) async => chopperListResponse([raffleFixture(RaffleStatusType.open)]),
+    (_) async => chopperListResponse([
+      raffleFixture('r-1', 'Gala', RaffleStatusType.open),
+    ]),
   );
   when(
     () => scaffold.repository.tombolaUsersUserIdCashGet(
@@ -83,7 +72,7 @@ void stubRaffleOpen(IntegrationScaffold scaffold, {int balance = 500}) {
     () => scaffold.repository.tombolaRafflesRaffleIdLogoGet(
       raffleId: any(named: 'raffleId'),
     ),
-  ).thenAnswer((_) async => logo404());
+  ).thenAnswer((_) async => fileNotFound());
   when(
     () => scaffold.repository.tombolaRafflesRaffleIdPrizesGet(
       raffleId: any(named: 'raffleId'),
@@ -117,8 +106,9 @@ void main() {
   }) async {
     stubRaffleOpen(scaffold, balance: balance);
     // Override AFTER stubRaffleOpen for the non-open variant.
-    when(() => scaffold.repository.tombolaRafflesGet())
-        .thenAnswer((_) async => chopperListResponse([raffleFixture(status)]));
+    when(() => scaffold.repository.tombolaRafflesGet()).thenAnswer(
+      (_) async => chopperListResponse([raffleFixture('r-1', 'Gala', status)]),
+    );
     final container = scaffold.makeContainer(user: adminUser);
     container.read(raffleIdProvider.notifier).setId('r-1');
     container.read(packTicketListProvider.notifier).loadPackTicketList('r-1');

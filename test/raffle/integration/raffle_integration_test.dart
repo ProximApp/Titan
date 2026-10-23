@@ -16,6 +16,7 @@ import 'package:titan/raffle/ui/pages/raffle_page/prize_dialog.dart';
 import 'package:titan/raffle/ui/pages/raffle_page/raffle_page.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../../shared/fixtures.dart';
 
 final adminUser = CoreUser.empty().copyWith(
   id: 'user-1',
@@ -27,41 +28,13 @@ final adminUser = CoreUser.empty().copyWith(
   ],
 );
 
-RaffleComplete raffle(String id, String name, RaffleStatusType? status) =>
-    RaffleComplete.empty().copyWith(
-      id: id,
-      name: name,
-      groupId: 'group-1',
-      description: 'A good cause',
-      status: status,
-    );
-
-AppModulesRaffleSchemasRaffleTicketComplete ticket(
-  String id,
-  String raffleId, {
-  int packSize = 1,
-  int price = 200,
-  PrizeSimple? prize,
-}) => AppModulesRaffleSchemasRaffleTicketComplete.empty().copyWith(
-  id: id,
-  packId: 'pack-$id',
-  userId: 'user-1',
-  prize: prize,
-  packTicket: PackTicketSimple.empty().copyWith(
-    id: 'pack-$id',
-    raffleId: raffleId,
-    packSize: packSize,
-    price: price,
-  ),
-);
-
 void stubRaffleList(IntegrationScaffold scaffold) {
   // The main page loads the raffle list plus the user tickets (through the
   // JWT-derived idProvider, overridden on the container), and each raffle
   // card then pulls its own stats and logo.
   when(() => scaffold.repository.tombolaRafflesGet()).thenAnswer(
     (_) async => chopperListResponse([
-      raffle('r-open', 'Gala(open)', RaffleStatusType.open),
+      raffleFixture('r-open', 'Gala(open)', RaffleStatusType.open),
     ]),
   );
   when(
@@ -197,7 +170,7 @@ void main() {
     ) async {
       when(() => scaffold.repository.tombolaRafflesGet()).thenAnswer(
         (_) async => chopperListResponse([
-          raffle('r-1', 'Gala(open)', RaffleStatusType.open),
+          raffleFixture('r-1', 'Gala(open)', RaffleStatusType.open),
         ]),
       );
       when(
@@ -263,7 +236,7 @@ void main() {
     testWidgets('tapping a prize card opens its dialog', (tester) async {
       when(() => scaffold.repository.tombolaRafflesGet()).thenAnswer(
         (_) async => chopperListResponse([
-          raffle('r-1', 'Gala(open)', RaffleStatusType.open),
+          raffleFixture('r-1', 'Gala(open)', RaffleStatusType.open),
         ]),
       );
       when(
@@ -356,7 +329,7 @@ void main() {
       (tester) async {
         when(() => scaffold.repository.tombolaRafflesGet()).thenAnswer(
           (_) async => chopperListResponse([
-            raffle('r-1', 'Soirée des clubs', RaffleStatusType.open),
+            raffleFixture('r-1', 'Soirée des clubs', RaffleStatusType.open),
           ]),
         );
 
@@ -380,7 +353,10 @@ void main() {
                     SizedBox(
                       height: 200,
                       child: TicketWidget(
-                        ticket: [ticket('t-1', 'r-1'), ticket('t-2', 'r-1')],
+                        ticket: [
+                          raffleTicketFixture('t-1', 'r-1'),
+                          raffleTicketFixture('t-2', 'r-1'),
+                        ],
                         price: 2.0,
                       ),
                     ),
@@ -388,7 +364,7 @@ void main() {
                       height: 200,
                       child: TicketWidget(
                         ticket: [
-                          ticket(
+                          raffleTicketFixture(
                             't-3',
                             'r-1',
                             prize: PrizeSimple.empty().copyWith(name: 'PS5'),

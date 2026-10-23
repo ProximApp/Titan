@@ -7,6 +7,7 @@ import 'package:titan/raffle/providers/pack_ticket_provider.dart';
 import 'package:titan/raffle/providers/raffle_id_provider.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../../shared/fixtures.dart';
 
 /// The add-edit pack-ticket page (`/tombola/detail/creation/
 /// add_edit_pack_ticket`, 61 lines at 0%): the LAST of the creation page's
@@ -47,39 +48,6 @@ void main() {
     scaffold.shellSetUp();
   });
 
-  /// The cold deep link: nothing pre-seeds the pack list, because the page
-  /// must work from a bare URL — that is the path this file exists to prove.
-  void stubCreationData({List<PackTicketSimple> packTickets = const []}) {
-    when(() => scaffold.repository.tombolaRafflesGet()).thenAnswer(
-      (_) async => chopperListResponse([
-        RaffleComplete.empty().copyWith(
-          id: 'r-1',
-          name: 'Gala',
-          groupId: 'group-1',
-          status: RaffleStatusType.creation,
-        ),
-      ]),
-    );
-    when(
-      () => scaffold.repository.tombolaRafflesRaffleIdPrizesGet(
-        raffleId: any(named: 'raffleId'),
-      ),
-    ).thenAnswer((_) async => chopperListResponse(<PrizeSimple>[]));
-    when(
-      () => scaffold.repository.tombolaRafflesRaffleIdPackTicketsGet(
-        raffleId: any(named: 'raffleId'),
-      ),
-    ).thenAnswer((_) async => chopperListResponse(packTickets));
-    when(
-      () => scaffold.repository.tombolaUsersUserIdTicketsGet(
-        userId: any(named: 'userId'),
-      ),
-    ).thenAnswer(
-      (_) async =>
-          chopperListResponse(<AppModulesRaffleSchemasRaffleTicketComplete>[]),
-    );
-  }
-
   Future<void> pumpPackPage(WidgetTester tester) async {
     scaffold.setWideSurface(tester);
     final container = scaffold.makeContainer(user: adminUser);
@@ -111,7 +79,9 @@ void main() {
   }
 
   testWidgets('the add form posts a new pack ticket', (tester) async {
-    stubCreationData();
+    // The cold deep link: nothing pre-seeds the pack list, because the page
+    // must work from a bare URL — that is the path this file exists to prove.
+    stubCreationData(scaffold);
     when(
       () =>
           scaffold.repository.tombolaPackTicketsPost(body: any(named: 'body')),
@@ -154,7 +124,9 @@ void main() {
   testWidgets('a zero pack size and a zero price are both refused', (
     tester,
   ) async {
-    stubCreationData();
+    // The cold deep link: nothing pre-seeds the pack list, because the page
+    // must work from a bare URL — that is the path this file exists to prove.
+    stubCreationData(scaffold);
     when(
       () =>
           scaffold.repository.tombolaPackTicketsPost(body: any(named: 'body')),
@@ -193,7 +165,9 @@ void main() {
   });
 
   testWidgets('a decimal price typed with a comma still posts', (tester) async {
-    stubCreationData();
+    // The cold deep link: nothing pre-seeds the pack list, because the page
+    // must work from a bare URL — that is the path this file exists to prove.
+    stubCreationData(scaffold);
     when(
       () =>
           scaffold.repository.tombolaPackTicketsPost(body: any(named: 'body')),
@@ -237,7 +211,7 @@ void main() {
   ) async {
     // Edit mode is decided by the provider the ticket strip seeds before
     // navigating; the page itself never reads a route argument.
-    stubCreationData(packTickets: [packTicket()]);
+    stubCreationData(scaffold, packTickets: [packTicket()]);
     when(
       // ignore: void_checks
       () => scaffold.repository.tombolaPackTicketsPackticketIdPatch(

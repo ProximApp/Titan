@@ -9,6 +9,7 @@ import 'package:titan/raffle/ui/pages/main_page/raffle_card.dart';
 import 'package:titan/raffle/ui/pages/main_page/ticket_card.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../../shared/fixtures.dart';
 
 /// The raffle main page WITH raffles mounted — the shell test in
 /// raffle_integration_test only ever seeded an empty list, because
@@ -27,34 +28,6 @@ final adminUser = CoreUser.empty().copyWith(
       id: '0a25cb76-4b63-4fd3-b939-da6d9feabf28',
     ),
   ],
-);
-
-RaffleComplete raffle(String id, String name, RaffleStatusType? status) =>
-    RaffleComplete.empty().copyWith(
-      id: id,
-      name: name,
-      groupId: 'group-1',
-      description: 'A good cause',
-      status: status,
-    );
-
-AppModulesRaffleSchemasRaffleTicketComplete ticket(
-  String id,
-  String raffleId, {
-  int packSize = 1,
-  int price = 200,
-  PrizeSimple? prize,
-}) => AppModulesRaffleSchemasRaffleTicketComplete.empty().copyWith(
-  id: id,
-  packId: 'pack-$id',
-  userId: 'user-1',
-  prize: prize,
-  packTicket: PackTicketSimple.empty().copyWith(
-    id: 'pack-$id',
-    raffleId: raffleId,
-    packSize: packSize,
-    price: price,
-  ),
 );
 
 /// Everything the page and its cards touch: the raffle list, the user
@@ -153,7 +126,7 @@ void main() {
   ) async {
     stubMainPageData(
       scaffold,
-      raffles: [raffle('r-1', 'Gala', RaffleStatusType.open)],
+      raffles: [raffleFixture('r-1', 'Gala', RaffleStatusType.open)],
     );
 
     // /tombola/detail sits behind AdminMiddleware(isRaffleAdminProvider).
@@ -189,9 +162,9 @@ void main() {
     stubMainPageData(
       scaffold,
       raffles: [
-        raffle('r-open', 'Gala now', RaffleStatusType.open),
-        raffle('r-soon', 'Gala soon', RaffleStatusType.creation),
-        raffle('r-past', 'Gala past', RaffleStatusType.lock),
+        raffleFixture('r-open', 'Gala now', RaffleStatusType.open),
+        raffleFixture('r-soon', 'Gala soon', RaffleStatusType.creation),
+        raffleFixture('r-past', 'Gala past', RaffleStatusType.lock),
       ],
     );
 
@@ -227,17 +200,21 @@ void main() {
     stubMainPageData(
       scaffold,
       raffles: [
-        raffle('r-1', 'Soirée des clubs', RaffleStatusType.open),
-        raffle('r-lock', 'Old gala', RaffleStatusType.lock),
+        raffleFixture('r-1', 'Soirée des clubs', RaffleStatusType.open),
+        raffleFixture('r-lock', 'Old gala', RaffleStatusType.lock),
       ],
       tickets: [
         // Two plain tickets of the SAME raffle: the sum + price branch.
-        ticket('t-1', 'r-1', packSize: 2, price: 400),
-        ticket('t-2', 'r-1', packSize: 2, price: 400),
+        raffleTicketFixture('t-1', 'r-1', packSize: 2, price: 400),
+        raffleTicketFixture('t-2', 'r-1', packSize: 2, price: 400),
         // A winning ticket: kept and keyed separately (prize != null).
-        ticket('t-3', 'r-1', prize: PrizeSimple.empty().copyWith(name: 'PS5')),
+        raffleTicketFixture(
+          't-3',
+          'r-1',
+          prize: PrizeSimple.empty().copyWith(name: 'PS5'),
+        ),
         // A plain ticket for a LOCKED raffle: filtered out entirely.
-        ticket('t-4', 'r-lock'),
+        raffleTicketFixture('t-4', 'r-lock'),
       ],
     );
 
@@ -273,12 +250,12 @@ void main() {
     var ticketGetCalls = 0;
     stubMainPageData(
       scaffold,
-      raffles: [raffle('r-1', 'Gala', RaffleStatusType.open)],
+      raffles: [raffleFixture('r-1', 'Gala', RaffleStatusType.open)],
     );
     when(() => scaffold.repository.tombolaRafflesGet()).thenAnswer((_) async {
       raffleGetCalls++;
       return chopperListResponse([
-        raffle('r-1', 'Gala', RaffleStatusType.open),
+        raffleFixture('r-1', 'Gala', RaffleStatusType.open),
       ]);
     });
     when(
