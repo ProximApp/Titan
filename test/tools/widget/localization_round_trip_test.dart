@@ -7,9 +7,9 @@ import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
-import '../../shared/card_fixtures.dart';
-import '../../shared/fixed_size_card_fixtures.dart';
+import '../card_fixtures.dart';
+import '../fixed_size_card_fixtures.dart';
+import '../../mypayment/mypayment_fixtures.dart';
 
 /// The localization round-trip: every card the fixed-size sweeps mount,
 /// rendered TWICE at 360px — once against the English arb, once against the

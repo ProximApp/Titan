@@ -6,10 +6,10 @@ import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
-import '../../shared/fixed_size_card_fixtures.dart';
+import '../fixed_size_card_fixtures.dart';
 import '../../shared/fixed_width_card_detector.dart';
-import '../../shared/card_fixtures.dart';
+import '../card_fixtures.dart';
+import '../../mypayment/mypayment_fixtures.dart';
 
 // The MODELS barrel on purpose: the umbrella `openapi.swagger.dart` also
 // exports a `Size` ENUM, which shadows dart:ui's Size for every measurement
@@ -194,8 +194,8 @@ void main() {
       isEmpty,
       reason:
           'these fixed-width cards are not mounted by this sweep. Add an entry '
-          'to `cardFixtures` in test/shared/card_fixtures.dart, or a reason to '
-          '`notMountedExemptions` in test/shared/fixed_size_card_fixtures.dart; '
+          'to `cardFixtures` in test/tools/card_fixtures.dart, or a reason to '
+          '`notMountedExemptions` in test/tools/fixed_size_card_fixtures.dart; '
           'the uncovered candidates are listed above, and '
           '`findFixedWidthCards()` in test/shared/fixed_width_card_detector.dart '
           'is what found them.',

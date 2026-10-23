@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../shared/card_fixtures.dart';
-import '../../shared/fixed_size_card_fixtures.dart';
+import '../card_fixtures.dart';
+import '../fixed_size_card_fixtures.dart';
 
 /// The registry-vs-exemption ratchet: a widget may be registered as mounted
 /// OR exempted from mounting, never both at once.

@@ -34,10 +34,10 @@ import 'package:titan/vote/ui/components/member_card.dart';
 import 'package:titan/vote/ui/pages/admin_page/list_card.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
-import '../../shared/card_fixtures.dart';
-import '../../shared/fixed_size_card_fixtures.dart';
+import '../card_fixtures.dart';
+import '../fixed_size_card_fixtures.dart';
 import '../../shared/fixed_width_card_detector.dart';
+import '../../mypayment/mypayment_fixtures.dart';
 
 /// The height half of the fixed-size sweep (ledger #62).
 ///

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../shared/fixed_size_card_fixtures.dart';
+import '../fixed_size_card_fixtures.dart';
 import '../../shared/fixed_width_card_detector.dart';
 
 /// The mount ratchet for every card that pins its own size through
@@ -22,7 +22,7 @@ import '../../shared/fixed_width_card_detector.dart';
 /// the day it is written — long before the string that breaks it exists.
 void main() {
   /// The candidates that cannot be mounted here, each with the reason —
-  /// the map itself lives in `test/shared/fixed_size_card_fixtures.dart`
+  /// the map itself lives in `test/tools/fixed_size_card_fixtures.dart`
   /// (`cardLayoutNotMountedExemptions`) so the mount audit can attempt a
   /// real mount of every entry; this alias keeps the ratchet local.
   const notMounted = cardLayoutNotMountedExemptions;
@@ -30,7 +30,7 @@ void main() {
   /// Every `test/**/widget/*.dart` file, plus the shared card-fixture
   /// registry, with comments and string literals removed.
   ///
-  /// `test/shared/card_fixtures.dart` counts because it IS the widget level:
+  /// `test/tools/card_fixtures.dart` counts because it IS the widget level:
   /// ledger #62 moved the two fixed-size sweeps' builders out of
   /// `fixed_width_cards_test.dart` into that one registry so the width and
   /// height families could not drift into two copies of the same fixture. The
@@ -52,7 +52,7 @@ void main() {
       isTrue,
       reason: 'run this from the package root: no test/ directory here',
     );
-    const sharedRegistry = 'test/shared/card_fixtures.dart';
+    const sharedRegistry = 'test/tools/card_fixtures.dart';
     final out = <String>[];
     for (final file in testDir.listSync(recursive: true).whereType<File>()) {
       final path = file.path.replaceAll(r'\', '/');

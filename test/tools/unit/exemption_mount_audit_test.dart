@@ -14,7 +14,7 @@ import 'package:titan/purchases/ui/pages/scan_page/scan_dialog.dart';
 import 'package:titan/seed-library/ui/pages/species_page/species_page.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixed_size_card_fixtures.dart';
+import '../fixed_size_card_fixtures.dart';
 
 /// The exemption MOUNT AUDIT: every card the suites exempt from mounting
 /// gets an actual mount attempt here, and each exemption's CLAIM has to
