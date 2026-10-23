@@ -7,7 +7,7 @@ import 'package:titan/raffle/providers/pack_ticket_provider.dart';
 import 'package:titan/raffle/providers/raffle_id_provider.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../raffle_fixtures.dart';
 
 /// The add-edit pack-ticket page (`/tombola/detail/creation/
 /// add_edit_pack_ticket`, 61 lines at 0%): the LAST of the creation page's

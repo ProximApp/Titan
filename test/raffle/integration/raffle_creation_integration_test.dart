@@ -6,7 +6,7 @@ import 'package:titan/raffle/providers/raffle_id_provider.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../raffle_fixtures.dart';
 
 /// The raffle creation/edit page (`/tombola/detail/creation`, 141
 /// uncovered lines) plus the add-edit prize page it links to (93 more):

@@ -8,7 +8,7 @@ import 'package:titan/raffle/providers/raffle_id_provider.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../raffle_fixtures.dart';
 import '../../shared/repository_stubs.dart';
 
 /// The confirm-payment dialog (`ConfirmPaymentDialog`, 99 uncovered lines)

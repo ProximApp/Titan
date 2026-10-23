@@ -8,7 +8,7 @@ import 'package:titan/raffle/ui/pages/creation_edit_page/ticket_ui.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../raffle_fixtures.dart';
 
 /// The creation page's edit half (`/tombola/detail/creation`): the raffle
 /// NAME save (which never reached the wire — `updateRaffle` was a local

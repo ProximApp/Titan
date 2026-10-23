@@ -16,7 +16,7 @@ import 'package:titan/raffle/ui/pages/raffle_page/prize_dialog.dart';
 import 'package:titan/raffle/ui/pages/raffle_page/raffle_page.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../raffle_fixtures.dart';
 
 final adminUser = CoreUser.empty().copyWith(
   id: 'user-1',

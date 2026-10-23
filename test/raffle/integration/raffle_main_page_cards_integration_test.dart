@@ -9,7 +9,7 @@ import 'package:titan/raffle/ui/pages/main_page/raffle_card.dart';
 import 'package:titan/raffle/ui/pages/main_page/ticket_card.dart';
 
 import '../../shared/app_scaffold.dart';
-import '../../shared/fixtures.dart';
+import '../raffle_fixtures.dart';
 
 /// The raffle main page WITH raffles mounted — the shell test in
 /// raffle_integration_test only ever seeded an empty list, because
