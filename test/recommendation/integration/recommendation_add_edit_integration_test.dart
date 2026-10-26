@@ -87,14 +87,18 @@ void main() {
         ),
       );
       RecommendationBase? capturedDeal;
-      when(
-        () => scaffold.repository.recommendationRecommendationsPost(
-          body: any(named: 'body'),
-        ),
-      ).thenAnswer((inv) async {
-        capturedDeal = inv.namedArguments[#body] as RecommendationBase;
-        return chopperResponse(deal('r-new', 'Pizza tuesdays'));
-      });
+      void stubPostSuccess() {
+        when(
+          () => scaffold.repository.recommendationRecommendationsPost(
+            body: any(named: 'body'),
+          ),
+        ).thenAnswer((inv) async {
+          capturedDeal = inv.namedArguments[#body] as RecommendationBase;
+          return chopperResponse(deal('r-new', 'Pizza tuesdays'));
+        });
+      }
+
+      stubPostSuccess();
       // The picked logo uploads right after the POST succeeds.
       when(
         () => scaffold.repository
@@ -143,6 +147,24 @@ void main() {
         '',
       );
 
+      // Submit it empty first: validate() runs the FormField validator,
+      // which returns the missing-image message (its return is the line the
+      // fill-and-submit path skips), and the failed validate() takes the
+      // error-toast arm instead of the POST.
+      await tester.dragUntilVisible(
+        find.text('Add'),
+        find.byType(SingleChildScrollView).last,
+        const Offset(0, -200),
+      );
+      await settle(tester, frames: 2);
+      await tester.tap(find.text('Add'));
+      await settle(tester, frames: 12);
+      expect(find.text('Incorrect or missing fields'), findsOneWidget);
+      expect(capturedDeal, isNull);
+      // Drain the toast so it cannot swallow the taps below.
+      await tester.pump(const Duration(seconds: 3));
+      await tester.pump();
+
       // Tap the image placeholder: the real ImagePicker (through the fake
       // platform above) "picks" the PNG, runs it through the real compress-
       // and-preview path and fills the form's logo state — the thing the
@@ -168,6 +190,31 @@ void main() {
         'Every tuesday at Partneria, on presentation of the card.',
       );
       await settle(tester, frames: 4);
+
+      // A POST that fails keeps the form mounted on the error toast (the
+      // shared `else` of the value check); errorWrapper leaves the list
+      // state untouched, so re-stubbing lets the same button succeed next.
+      when(
+        () => scaffold.repository.recommendationRecommendationsPost(
+          body: any(named: 'body'),
+        ),
+      ).thenThrow(Exception('backend said no'));
+      await tester.dragUntilVisible(
+        find.text('Add'),
+        find.byType(SingleChildScrollView).last,
+        const Offset(0, -200),
+      );
+      await settle(tester, frames: 2);
+      await tester.tap(find.text('Add'));
+      await settle(tester, frames: 12);
+      expect(find.text('Add failed'), findsOneWidget);
+      expect(find.text('Deal added'), findsNothing);
+      expect(find.text('Title'), findsOneWidget); // still on the form
+      expect(capturedDeal, isNull);
+      // Drain the toast so it cannot swallow the retry's tap.
+      await tester.pump(const Duration(seconds: 3));
+      await tester.pump();
+      stubPostSuccess();
 
       // Submit: the real POST fires with the form values, the page pops back
       // and the success toast shows. The submit sits below the fold.

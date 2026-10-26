@@ -1,18 +1,49 @@
+import 'dart:convert';
+
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+// Not re-exported by image_picker; transitive of image_picker.
+// ignore: depend_on_referenced_packages
+import 'package:image_picker_platform_interface/image_picker_platform_interface.dart'
+    as platform;
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/recommendation/providers/recommendation_provider.dart';
 import 'package:titan/recommendation/router.dart';
 import 'package:titan/tools/ui/heroicons.dart';
+import 'package:titan/tools/ui/widgets/image_picker_on_tap.dart';
 
 import '../../shared/app_scaffold.dart';
 
 /// The recommendation admin gate is a plain Provider over userProvider.groups
 /// (admin_recommandation).
 const adminRecommendationGroupId = '389215b2-ea45-4991-adc1-4d3e471541cf';
+
+/// A valid 1x1 PNG: the codec crashes on invalid image bytes.
+final _posterPng = base64Decode(
+  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
+);
+
+/// The edit form's own image pick (the add test file carries its own copy —
+/// test files do not import each other): picking fills `logoBytes`, which is
+/// the `isEdit && logoBytes != null` arm that uploads the new logo right
+/// after the PATCH.
+class _FakeImagePickerPlatform extends platform.ImagePickerPlatform {
+  @override
+  Future<XFile?> getImageFromSource({
+    required ImageSource source,
+    platform.ImagePickerOptions options = const platform.ImagePickerOptions(),
+  }) async {
+    return XFile.fromData(
+      _posterPng,
+      name: 'poster.png',
+      mimeType: 'image/png',
+    );
+  }
+}
 
 /// The edit journey in its own file: navigation to the deferred add-edit
 /// route after another journey wedges the router stack in the same process
@@ -68,6 +99,16 @@ void main() {
           [],
           error: 'File does not exist',
         ),
+      );
+      // The picked logo uploads right after a successful PATCH.
+      when(
+        () => scaffold.repository
+            .recommendationRecommendationsRecommendationIdPicturePost(
+              recommendationId: any(named: 'recommendationId'),
+              image: any(named: 'image'),
+            ),
+      ).thenAnswer(
+        (_) async => chopperResponse(AppTypesStandardResponsesResult.empty()),
       );
       RecommendationEdit? capturedEdit;
       String? capturedId;
@@ -129,6 +170,14 @@ void main() {
         'Perfect Blue',
       );
 
+      // Pick a logo so the save path reaches updateRecommendationLogo
+      // (the isEdit && logoBytes != null arm). The tap target is the
+      // ImagePickerOnTap wrapper itself: edit mode renders the CURRENT logo
+      // preview (logo.value from the card's auto-load), not the photo icon.
+      platform.ImagePickerPlatform.instance = _FakeImagePickerPlatform();
+      await tester.tap(find.byType(ImagePickerOnTap));
+      await settle(tester, frames: 6);
+
       // Rename and submit (button below the fold — scroll to it).
       await tester.enterText(
         find.widgetWithText(TextField, 'Title').first,
@@ -149,6 +198,14 @@ void main() {
       expect(capturedEdit!.title, 'Perfect Blue — extended');
       expect(capturedEdit!.summary, 'Animated psychological thriller');
       expect(capturedId, 'r-1');
+      // The logo upload fired for the edited deal.
+      verify(
+        () => scaffold.repository
+            .recommendationRecommendationsRecommendationIdPicturePost(
+              recommendationId: 'r-1',
+              image: any(named: 'image'),
+            ),
+      ).called(1);
       // Back on the information page with the success toast; drain it.
       expect(find.text('Deal updated'), findsOneWidget);
       await tester.pump(const Duration(seconds: 3));

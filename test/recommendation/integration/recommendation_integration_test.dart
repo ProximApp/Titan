@@ -1,4 +1,5 @@
 import 'package:chopper/chopper.dart' as chopper;
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
@@ -30,17 +31,19 @@ void main() {
     final container = scaffold.makeContainer();
     addTearDown(container.dispose);
     scaffold.setWideSurface(tester);
+    var loads = 0;
     when(() => scaffold.repository.recommendationRecommendationsGet())
-        .thenAnswer(
-          (_) async => chopperListResponse([
+        .thenAnswer((_) async {
+          loads++;
+          return chopperListResponse([
             recommendation(
               'r-1',
               'Perfect Blue',
               'Animated psychological thriller',
             ),
             recommendation('r-2', 'Paprika', 'Dream-entering detective story'),
-          ]),
-        );
+          ]);
+        });
     // Logos auto-load; a 404 falls back to the placeholder asset.
     when(
       () => scaffold.repository
@@ -69,5 +72,19 @@ void main() {
       find.textContaining('Animated psychological thriller'),
       findsOneWidget,
     );
+
+    // Pull-to-refresh: the host takes Refresher's iOS branch
+    // (CupertinoSliverRefreshControl), whose onRefresh is the list's reload.
+    final loadsBefore = loads;
+    await tester.fling(
+      find.byType(CustomScrollView).first,
+      const Offset(0, 300),
+      1000,
+    );
+    await tester.pump(); // release the drag
+    await tester.pump(const Duration(seconds: 1)); // control asks for data
+    await tester.pump(const Duration(seconds: 1)); // reload settles
+    expect(loads, loadsBefore + 1);
+    expect(find.text('Perfect Blue'), findsOneWidget);
   });
 }
