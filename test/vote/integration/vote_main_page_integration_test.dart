@@ -9,6 +9,7 @@ import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/ui/styleguide/icon_button.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 import 'package:titan/vote/providers/selected_list_provider.dart';
+import 'package:titan/vote/providers/status_provider.dart';
 import 'package:titan/vote/providers/voted_section_provider.dart';
 import 'package:titan/vote/router.dart';
 import 'package:titan/vote/ui/pages/main_page/vote_button.dart';
@@ -167,6 +168,50 @@ void main() {
           .pixels,
       greaterThan(100),
     );
+  });
+
+  testWidgets('pull-to-refresh reloads the status, sections and lists', (
+    tester,
+  ) async {
+    final container = await pumpMain(
+      tester,
+      status: enums.StatusType.open,
+      lists: [voteListFixture('l-1', 'BDE')],
+    );
+    expect(find.text('BDE'), findsOneWidget);
+
+    // Count the reloads the refresh callback makes: onRefresh re-reads the
+    // status (and, while open, the voted sections), the list catalog and
+    // the section catalog — the body of Refresher's onRefresh, which only
+    // a pull can reach.
+    var statusCalls = 0;
+    var sectionsCalls = 0;
+    when(() => scaffold.repository.campaignStatusGet()).thenAnswer((_) async {
+      statusCalls++;
+      return chopperResponse(VoteStatus(status: enums.StatusType.open));
+    });
+    when(() => scaffold.repository.campaignSectionsGet()).thenAnswer((_) async {
+      sectionsCalls++;
+      return chopperListResponse([sectionFixture('s-1', 'Bureau des Sports')]);
+    });
+
+    // The host takes Refresher's iOS branch (CupertinoSliverRefreshControl);
+    // .first is the outer scroll view, not the cards' inner one.
+    await tester.fling(
+      find.byType(CustomScrollView).first,
+      const Offset(0, 300),
+      1000,
+    );
+    await tester.pump(); // release the drag
+    await tester.pump(const Duration(seconds: 1)); // control asks for data
+    await tester.pump(const Duration(seconds: 1)); // reloads settle
+    await settle(tester, frames: 6);
+
+    expect(statusCalls, 1);
+    expect(sectionsCalls, 1);
+    // The page rebuilt from the fresh reads instead of falling apart.
+    expect(container.read(statusProvider).value?.status, enums.StatusType.open);
+    expect(find.text('BDE'), findsOneWidget);
   });
 
   testWidgets('the envelope select button selects a list', (tester) async {
