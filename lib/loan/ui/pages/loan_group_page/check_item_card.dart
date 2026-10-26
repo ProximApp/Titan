@@ -17,7 +17,7 @@ class CheckItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CardLayout(
-      id: item.id,
+      id: 'check-${item.id}',
       width: 140,
       height: 130,
       borderColor: isSelected ? Colors.black : Colors.transparent,
