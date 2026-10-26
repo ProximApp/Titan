@@ -9,7 +9,9 @@ import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/ui/styleguide/icon_button.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 import 'package:titan/vote/providers/selected_list_provider.dart';
+import 'package:titan/vote/providers/voted_section_provider.dart';
 import 'package:titan/vote/router.dart';
+import 'package:titan/vote/ui/pages/main_page/vote_button.dart';
 
 import '../../shared/app_scaffold.dart';
 import '../vote_fixtures.dart';
@@ -264,5 +266,87 @@ void main() {
     expect(find.text('BDE'), findsNothing);
     // The admin shortcut is still there for admins-to-be.
     expect(find.byType(CustomIconButton), findsOneWidget);
+  });
+
+  testWidgets('the confirm dialog records the vote, clears the selection and '
+      'marks the section voted', (tester) async {
+    // The confirm dialog VoteButton opens (its whole onYes body was
+    // uncovered): the real `campaignVotesPost` with the selected list, the
+    // voted-section write, the selection clear and the success toast.
+    // VoteBase has value equality, so the stub answers only for l-1.
+    when(
+      () =>
+          scaffold.repository.campaignVotesPost(body: VoteBase(listId: 'l-1')),
+    ).thenAnswer((_) async => chopperResponseVoid());
+    final container = await pumpMain(
+      tester,
+      status: enums.StatusType.open,
+      lists: [voteListFixture('l-1', 'BDE')],
+    );
+
+    // No list selected yet: the tap is a no-op, no dialog opens.
+    expect(find.text('Choose a list'), findsOneWidget);
+    await tester.tap(find.text('Choose a list'));
+    await settle(tester, frames: 6);
+    expect(find.text('Confirm vote'), findsNothing);
+
+    // Select the only list, which flips the button to its "vote for"
+    // label, then open the dialog from it.
+    await tester.tap(
+      find.byWidgetPredicate(
+        (w) => w is HeroIcon && w.icon == HeroIcons.envelopeOpen,
+      ),
+    );
+    await settle(tester, frames: 6);
+    expect(find.text('Selected'), findsOneWidget);
+    expect(find.text('Vote for BDE'), findsOneWidget);
+
+    await tester.tap(find.text('Vote for BDE'));
+    await settle(tester, frames: 6);
+    // The dialog's title (scoped to the Dialog — the page chrome also has
+    // a bare "Vote" label).
+    expect(
+      find.descendant(of: find.byType(Dialog), matching: find.text('Vote')),
+      findsOneWidget,
+    );
+    expect(find.text('Confirm vote'), findsOneWidget);
+    expect(find.text('Cancel'), findsOneWidget);
+
+    // Confirm: the dialog pops itself first, then onYes posts the vote.
+    await tester.tap(find.text('Confirm'));
+    await settle(tester, frames: 12);
+
+    verify(
+      () =>
+          scaffold.repository.campaignVotesPost(body: VoteBase(listId: 'l-1')),
+    ).called(1);
+    expect(find.text('Confirm vote'), findsNothing); // dialog gone
+
+    // Success branch: the section is recorded, the selection cleared, and
+    // the cards drop their select buttons while the button itself reads
+    // "Vote recorded" — the toast body repeats that same string, so it is
+    // on screen twice; its "Success" title pins the toast itself.
+    expect(container.read(votedSectionProvider).value, ['s-1']);
+    expect(container.read(selectedListProvider).id, '');
+    expect(find.text('Selected'), findsNothing);
+    expect(
+      find.byWidgetPredicate(
+        (w) => w is HeroIcon && w.icon == HeroIcons.envelopeOpen,
+      ),
+      findsNothing,
+    );
+    expect(
+      find.descendant(
+        of: find.byType(VoteButton),
+        matching: find.text('Vote recorded'),
+      ),
+      findsOneWidget,
+    );
+    expect(find.text('Vote recorded'), findsNWidgets(2));
+    expect(find.text('Success'), findsOneWidget);
+
+    // Drain the toast's 2.5s auto-close timer.
+    await tester.pump(const Duration(seconds: 3));
+    await tester.pump();
   });
 }
