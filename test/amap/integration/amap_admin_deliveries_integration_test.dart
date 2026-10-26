@@ -238,4 +238,160 @@ void main() {
     await tester.pump(const Duration(seconds: 3));
     await tester.pump();
   });
+
+  /// Drives the status-advance button for [status]: the dialog's title and
+  /// description are per-status ternaries only that status's confirm can
+  /// build, and each arm toasts a different pair. The first confirm fails
+  /// (the card keeps its status, so the button is still tappable), the
+  /// second succeeds.
+  Future<void> driveAdvance(
+    WidgetTester tester,
+    DeliveryStatusType status, {
+    required String button,
+    required String dialogDescription,
+    required String failureToast,
+    required String successToast,
+  }) async {
+    stubAdminLoads(
+      scaffold,
+      deliveries: [delivery('d-1', status, products: 1)],
+      withDeliveryOrders: true,
+    );
+    var calls = 0;
+    when(
+      () => scaffold.repository.amapDeliveriesDeliveryIdLockPost(
+        deliveryId: any(named: 'deliveryId'),
+      ),
+    ).thenAnswer((_) async {
+      calls++;
+      if (calls == 1) throw Exception('advance failed');
+      return chopperResponseVoid();
+    });
+    when(
+      () => scaffold.repository.amapDeliveriesDeliveryIdDeliveredPost(
+        deliveryId: any(named: 'deliveryId'),
+      ),
+    ).thenAnswer((_) async {
+      calls++;
+      if (calls == 1) throw Exception('advance failed');
+      return chopperResponseVoid();
+    });
+    when(
+      () => scaffold.repository.amapDeliveriesDeliveryIdArchivePost(
+        deliveryId: any(named: 'deliveryId'),
+      ),
+    ).thenAnswer((_) async {
+      calls++;
+      if (calls == 1) throw Exception('advance failed');
+      return chopperResponseVoid();
+    });
+
+    final container = scaffold.makeContainer(
+      user: amapAdminUser,
+      userId: 'user-1',
+    );
+    addTearDown(container.dispose);
+    scaffold.setWideSurface(tester);
+    await pumpAdmin(tester, container);
+
+    expect(find.text(button), findsOneWidget);
+    await tester.tap(find.text(button));
+    await tester.pump();
+    await settle(tester, frames: 8);
+    // The per-status description branch of the dialog's ternary.
+    expect(find.text(dialogDescription), findsOneWidget);
+    await tester.tap(find.text('Confirm'));
+    await settle(tester, frames: 12);
+    expect(calls, 1);
+    expect(find.text(failureToast), findsOneWidget);
+    await tester.pump(const Duration(seconds: 3));
+    await tester.pump();
+
+    // Failed arm left the status untouched: the same button advances for
+    // real on the second confirm.
+    await tester.tap(find.text(button));
+    await tester.pump();
+    await settle(tester, frames: 8);
+    expect(find.text(dialogDescription), findsOneWidget);
+    await tester.tap(find.text('Confirm'));
+    await settle(tester, frames: 12);
+    expect(calls, 2);
+    expect(find.text(successToast), findsOneWidget);
+    await tester.pump(const Duration(seconds: 3));
+    await tester.pump();
+  }
+
+  testWidgets('the Lock button locks an orderable delivery in both outcomes', (
+    tester,
+  ) async {
+    await driveAdvance(
+      tester,
+      DeliveryStatusType.orderable,
+      button: 'Lock',
+      dialogDescription: 'Lock delivery?',
+      failureToast: 'Delivery not locked',
+      successToast: 'Delivery locked',
+    );
+  });
+
+  testWidgets('the End button completes a locked delivery in both outcomes', (
+    tester,
+  ) async {
+    await driveAdvance(
+      tester,
+      DeliveryStatusType.locked,
+      button: 'End of delivery',
+      dialogDescription: 'Are all orders delivered?',
+      failureToast: 'Delivery not completed',
+      successToast: 'Delivery completed',
+    );
+  });
+
+  testWidgets('the Archive button archives a delivered delivery in both '
+      'outcomes', (tester) async {
+    await driveAdvance(
+      tester,
+      DeliveryStatusType.delivered,
+      button: 'Archive',
+      dialogDescription: 'Archiving delivery',
+      failureToast: 'Delivery not archived',
+      successToast: 'Delivery archived',
+    );
+  });
+
+  testWidgets('the trash dialog reports a failed delete', (tester) async {
+    stubAdminLoads(
+      scaffold,
+      deliveries: [delivery('d-1', DeliveryStatusType.creation)],
+      withDeliveryOrders: true,
+    );
+    when(
+      () => scaffold.repository.amapDeliveriesDeliveryIdDelete(
+        deliveryId: any(named: 'deliveryId'),
+      ),
+    ).thenThrow(Exception('delete failed'));
+
+    final container = scaffold.makeContainer(
+      user: amapAdminUser,
+      userId: 'user-1',
+    );
+    addTearDown(container.dispose);
+    scaffold.setWideSurface(tester);
+    await pumpAdmin(tester, container);
+
+    await tester.tap(
+      find.byWidgetPredicate((w) => w is HeroIcon && w.icon == HeroIcons.trash),
+    );
+    await tester.pump();
+    await settle(tester, frames: 8);
+    await tester.tap(find.text('Confirm'));
+    await settle(tester, frames: 12);
+
+    // The error arm toasts and keeps the card on screen.
+    expect(find.text('Error while deleting'), findsOneWidget);
+    expect(find.text('The 12/31/2100'), findsOneWidget);
+    // Drain the toast timer.
+    await tester.pump(const Duration(seconds: 3));
+    await tester.pump();
+  });
 }
