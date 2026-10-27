@@ -7,6 +7,7 @@ import 'package:titan/admin/providers/association_membership_members_list_provid
 import 'package:titan/admin/providers/association_membership_provider.dart';
 import 'package:titan/admin/providers/user_association_membership_provider.dart';
 import 'package:titan/admin/ui/pages/membership/association_membership_detail_page/association_membership_detail_page.dart';
+import 'package:titan/admin/ui/pages/membership/association_membership_detail_page/association_membership_information_editor.dart';
 import 'package:titan/admin/ui/pages/membership/association_membership_detail_page/association_membership_member_editable_card.dart';
 import 'package:titan/generated/openapi.models.swagger.dart' as models;
 import 'package:titan/generated/openapi.swagger.dart';
@@ -313,4 +314,215 @@ void main() {
     await scaffold.unmountApp(tester);
     container.dispose();
   });
+
+  void stubMemberGet() {
+    when(
+      () => scaffold.repository.membershipsAssociationMembershipIdMembersGet(
+        associationMembershipId: any(named: 'associationMembershipId'),
+        minimalStartDate: any(named: 'minimalStartDate'),
+        maximalStartDate: any(named: 'maximalStartDate'),
+        minimalEndDate: any(named: 'minimalEndDate'),
+        maximalEndDate: any(named: 'maximalEndDate'),
+      ),
+    ).thenAnswer(
+      (_) async => chopperListResponse([
+        member(id: '3', firstname: 'Katherine', name: 'Johnson'),
+      ]),
+    );
+  }
+
+  testWidgets('pull-to-refresh reloads the member list', (tester) async {
+    await pumpDetail(
+      tester,
+      members: [member(id: '1', firstname: 'Ada', name: 'Lovelace')],
+    );
+    stubMemberGet();
+
+    // Nothing has queried the members endpoint yet: the list came from
+    // loadFromList. A held downward drag pulls the Cupertino refresh control
+    // past its threshold and runs the page's onRefresh (a fast fling does
+    // not: the control only arms while the pointer is still down).
+    // Start the drag in the page-header region, not the scroll view's
+    // centre: with members present the centre lands on the inner
+    // ListView.builder (fixed 400px), whose own scrollable wins the gesture,
+    // exactly as it would under a real finger starting on a member card.
+    await tester.dragFrom(
+      tester.getTopLeft(
+            find.descendant(
+              of: find.byType(AssociationMembershipEditorPage),
+              matching: find.byType(CustomScrollView),
+            ),
+          ) +
+          const Offset(200, 60),
+      const Offset(0, 300),
+    );
+    await tester.pump();
+    for (var i = 0; i < 30; i++) {
+      await tester.pump(const Duration(milliseconds: 60));
+    }
+
+    verify(
+      () => scaffold.repository.membershipsAssociationMembershipIdMembersGet(
+        associationMembershipId: any(named: 'associationMembershipId'),
+        minimalStartDate: any(named: 'minimalStartDate'),
+        maximalStartDate: any(named: 'maximalStartDate'),
+        minimalEndDate: any(named: 'minimalEndDate'),
+        maximalEndDate: any(named: 'maximalEndDate'),
+      ),
+    );
+    await scaffold.unmountApp(tester);
+  });
+
+  testWidgets('the + button seeds an empty member and hops to the add route', (
+    tester,
+  ) async {
+    final container = await pumpDetail(tester);
+
+    final plus = find.descendant(
+      of: find.byType(AssociationMembershipEditorPage),
+      matching: find.byType(CustomIconButton),
+    );
+    expect(plus, findsOneWidget);
+    await tester.tap(plus);
+    for (var i = 0; i < 20; i++) {
+      await tester.pump(const Duration(milliseconds: 60));
+    }
+
+    expect(
+      QR.currentPath,
+      '/admin/association_memberships/detail_association_membership/add_edit_member',
+    );
+    expect(
+      container.read(userAssociationMembershipProvider).associationMembershipId,
+      'am-1',
+    );
+    expect(tester.takeException(), isNull);
+    await scaffold.unmountApp(tester);
+    container.dispose();
+  });
+
+  testWidgets(
+    'the information editor refuses an empty name and saves the rest',
+    (tester) async {
+      final container = await pumpDetail(tester);
+      when(
+        () => scaffold.repository.membershipsAssociationMembershipIdPatch(
+          associationMembershipId: any(named: 'associationMembershipId'),
+          body: any(named: 'body'),
+        ),
+      ).thenAnswer((_) async => chopperResponseVoid());
+
+      final nameField = find.descendant(
+        of: find.byType(AssociationMembershipInformationEditor),
+        matching: find.byType(TextFormField),
+      );
+      expect(nameField, findsOneWidget);
+      final save = find.text('Edit');
+
+      // Empty name: the form refuses before any API call.
+      await tester.enterText(nameField, '');
+      await scaffold.unfocus(tester);
+      await scaffold.ensureOnScreen(tester, save);
+      await tester.tap(save);
+      for (var i = 0; i < 10; i++) {
+        await tester.pump(const Duration(milliseconds: 60));
+      }
+      expect(find.text('Name cannot be empty'), findsOneWidget);
+      verifyNever(
+        () => scaffold.repository.membershipsAssociationMembershipIdPatch(
+          associationMembershipId: any(named: 'associationMembershipId'),
+          body: any(named: 'body'),
+        ),
+      );
+
+      // A refused update reports its toast and keeps the page.
+      when(
+        () => scaffold.repository.membershipsAssociationMembershipIdPatch(
+          associationMembershipId: any(named: 'associationMembershipId'),
+          body: any(named: 'body'),
+        ),
+      ).thenAnswer((_) async => scaffold.repository.fail<void>(500));
+      await tester.enterText(nameField, 'New mandate');
+      await scaffold.unfocus(tester);
+      await scaffold.ensureOnScreen(tester, save);
+      await tester.tap(save);
+      for (var i = 0; i < 10; i++) {
+        await tester.pump(const Duration(milliseconds: 60));
+      }
+      expect(find.text('Error while updating'), findsOneWidget);
+      await scaffold.drainToast(tester);
+
+      // The success arm reports and writes the membership back to its provider.
+      when(
+        () => scaffold.repository.membershipsAssociationMembershipIdPatch(
+          associationMembershipId: any(named: 'associationMembershipId'),
+          body: any(named: 'body'),
+        ),
+      ).thenAnswer((_) async => chopperResponseVoid());
+      await scaffold.ensureOnScreen(tester, save);
+      await tester.tap(save);
+      for (var i = 0; i < 10; i++) {
+        await tester.pump(const Duration(milliseconds: 60));
+      }
+      expect(find.text('Membership updated'), findsOneWidget);
+      expect(container.read(associationMembershipProvider).name, 'New mandate');
+      await scaffold.drainToast(tester);
+      expect(tester.takeException(), isNull);
+      await scaffold.unmountApp(tester);
+      container.dispose();
+    },
+  );
+
+  testWidgets(
+    'every date filter opens the picker and the max end date is sent',
+    (tester) async {
+      await pumpDetail(
+        tester,
+        members: [member(id: '3', firstname: 'Katherine', name: 'Johnson')],
+      );
+      stubMemberGet();
+
+      final filterButton = find.descendant(
+        of: find.byType(AssociationMembershipEditorPage),
+        matching: find.text('Filters'),
+      );
+      await tester.ensureVisible(filterButton);
+      await settle(tester, frames: 2);
+      await tester.tap(filterButton);
+      await settle(tester, frames: 12);
+      expect(find.text('Minimum start date'), findsOneWidget);
+
+      final entries = find.byType(DateEntry);
+      expect(entries, findsNWidgets(4));
+      for (var i = 0; i < 4; i++) {
+        final field = find.descendant(
+          of: entries.at(i),
+          matching: find.byType(TextField),
+        );
+        await tester.ensureVisible(field);
+        await settle(tester, frames: 2);
+        await tester.tap(field);
+        await settle(tester, frames: 14);
+        expect(find.text('OK'), findsOneWidget);
+        await tester.tap(find.text('OK'));
+        await settle(tester, frames: 14);
+      }
+
+      await tester.tap(find.text('Apply filters'));
+      await settle(tester, frames: 12);
+
+      // All four controllers hold a date now, so the maximal-end parse runs.
+      verify(
+        () => scaffold.repository.membershipsAssociationMembershipIdMembersGet(
+          associationMembershipId: 'am-1',
+          minimalStartDate: any(named: 'minimalStartDate'),
+          maximalStartDate: any(named: 'maximalStartDate'),
+          minimalEndDate: any(named: 'minimalEndDate'),
+          maximalEndDate: any(named: 'maximalEndDate'),
+        ),
+      );
+      expect(tester.takeException(), isNull);
+      await scaffold.unmountApp(tester);
+    },
+  );
 }

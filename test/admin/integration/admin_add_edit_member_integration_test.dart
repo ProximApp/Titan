@@ -229,4 +229,266 @@ void main() {
     await scaffold.unmountApp(tester);
     container.dispose();
   });
+
+  testWidgets('saving without dates shows the empty-date toast', (
+    tester,
+  ) async {
+    final container = scaffold.makeContainer(
+      user: models.CoreUser.empty().copyWith(
+        id: 'me',
+        groups: [
+          models.CoreGroupSimple.empty().copyWith(
+            id: adminGroupId,
+            name: 'admin',
+          ),
+        ],
+      ),
+    );
+    await pumpAddMember(tester, container: container);
+
+    container
+        .read(userAssociationMembershipProvider.notifier)
+        .setUserAssociationMembership(
+          models.UserMembershipComplete.empty().copyWith(
+            associationMembershipId: 'am-1',
+            user: models.CoreUserSimple.empty().copyWith(id: 'u-9'),
+          ),
+        );
+    await tester.pump();
+
+    // The user check passes, both date fields are still empty.
+    await scaffold.ensureOnScreen(tester, find.text('Add'));
+    await tester.tap(find.text('Add'));
+    for (var i = 0; i < 10; i++) {
+      await tester.pump(const Duration(milliseconds: 60));
+    }
+
+    expect(find.text('Empty date'), findsOneWidget);
+    verifyNever(
+      () => scaffold.repository.membershipsUsersUserIdPost(
+        userId: any(named: 'userId'),
+        body: any(named: 'body'),
+      ),
+    );
+    await scaffold.drainToast(tester);
+    await scaffold.unmountApp(tester);
+    container.dispose();
+  });
+
+  testWidgets('a start date after the end date is refused', (tester) async {
+    final container = scaffold.makeContainer(
+      user: models.CoreUser.empty().copyWith(
+        id: 'me',
+        groups: [
+          models.CoreGroupSimple.empty().copyWith(
+            id: adminGroupId,
+            name: 'admin',
+          ),
+        ],
+      ),
+    );
+    await pumpAddMember(tester, container: container);
+
+    container
+        .read(userAssociationMembershipProvider.notifier)
+        .setUserAssociationMembership(
+          models.UserMembershipComplete.empty().copyWith(
+            associationMembershipId: 'am-1',
+            user: models.CoreUserSimple.empty().copyWith(id: 'u-9'),
+          ),
+        );
+    await tester.pump();
+
+    final fields = find.byType(TextFormField);
+    await tester.enterText(fields.at(0), '31/12/2026');
+    await tester.enterText(fields.at(1), '01/01/2026');
+    await scaffold.unfocus(tester);
+    await scaffold.ensureOnScreen(tester, find.text('Add'));
+    await tester.tap(find.text('Add'));
+    for (var i = 0; i < 10; i++) {
+      await tester.pump(const Duration(milliseconds: 60));
+    }
+
+    expect(find.text('Start date must be before end date'), findsOneWidget);
+    await scaffold.drainToast(tester);
+    await scaffold.unmountApp(tester);
+    container.dispose();
+  });
+
+  testWidgets('a refused add reports the membership error toast', (
+    tester,
+  ) async {
+    final container = scaffold.makeContainer(
+      user: models.CoreUser.empty().copyWith(
+        id: 'me',
+        groups: [
+          models.CoreGroupSimple.empty().copyWith(
+            id: adminGroupId,
+            name: 'admin',
+          ),
+        ],
+      ),
+    );
+    when(
+      () => scaffold.repository.membershipsUsersUserIdPost(
+        userId: 'u-9',
+        body: any(named: 'body'),
+      ),
+    ).thenAnswer(
+      (_) async => scaffold.repository.fail<models.UserMembershipComplete>(500),
+    );
+    await pumpAddMember(tester, container: container);
+
+    container
+        .read(userAssociationMembershipProvider.notifier)
+        .setUserAssociationMembership(
+          models.UserMembershipComplete.empty().copyWith(
+            associationMembershipId: 'am-1',
+            user: models.CoreUserSimple.empty().copyWith(id: 'u-9'),
+          ),
+        );
+    await tester.pump();
+
+    final fields = find.byType(TextFormField);
+    await tester.enterText(fields.at(0), '01/01/2026');
+    await tester.enterText(fields.at(1), '31/12/2026');
+    await scaffold.unfocus(tester);
+    await scaffold.ensureOnScreen(tester, find.text('Add'));
+    await tester.tap(find.text('Add'));
+    for (var i = 0; i < 12; i++) {
+      await tester.pump(const Duration(milliseconds: 60));
+    }
+
+    expect(
+      find.text('Error while adding (likely due to overlapping dates)'),
+      findsOneWidget,
+    );
+    await scaffold.drainToast(tester);
+    await scaffold.unmountApp(tester);
+    container.dispose();
+  });
+
+  testWidgets('edit mode pre-fills the form and round-trips the update', (
+    tester,
+  ) async {
+    final container = scaffold.makeContainer(
+      user: models.CoreUser.empty().copyWith(
+        id: 'me',
+        groups: [
+          models.CoreGroupSimple.empty().copyWith(
+            id: adminGroupId,
+            name: 'admin',
+          ),
+        ],
+      ),
+    );
+    // Seed BEFORE the first build: a non-empty membership id flips the page
+    // into edit mode, which pre-fills both date controllers.
+    container
+        .read(userAssociationMembershipProvider.notifier)
+        .setUserAssociationMembership(
+          models.UserMembershipComplete.empty().copyWith(
+            id: 'm-1',
+            associationMembershipId: 'am-1',
+            user: models.CoreUserSimple.empty().copyWith(
+              id: 'u-9',
+              firstname: 'Ada',
+              name: 'Lovelace',
+            ),
+            startDate: DateTime(2026, 1, 1),
+            endDate: DateTime(2026, 12, 31),
+          ),
+        );
+    // Pop-back target of a successful update: the detail page's editor
+    // looks the manager group up in the group list with a bare firstWhere,
+    // so both are seeded AFTER the initial mount — the way the parent detail
+    // page does it when it forwards here (see the create-flow test above).
+    // First submit is refused, the second one goes through.
+    when(
+      () => scaffold.repository.membershipsUsersMembershipIdPatch(
+        membershipId: any(named: 'membershipId'),
+        body: any(named: 'body'),
+      ),
+    ).thenAnswer((_) async => scaffold.repository.fail<void>(500));
+
+    await pumpAddMember(tester, container: container);
+
+    // pumpAddMember's stubAdminMainPage re-stubs groupsGet to [] — re-stub
+    // over it, then run the loader, exactly like the create-flow test.
+    when(() => scaffold.repository.groupsGet()).thenAnswer(
+      (_) async => chopperListResponse([
+        models.CoreGroupSimple.empty().copyWith(id: 'g-1', name: 'Admins'),
+      ]),
+    );
+    container
+        .read(associationMembershipProvider.notifier)
+        .setAssociationMembership(
+          models.MembershipSimple(
+            name: 'Mandate 2026',
+            managerGroupId: 'g-1',
+            id: 'am-1',
+          ),
+        );
+    await container.read(allGroupListProvider.notifier).loadGroups();
+    await tester.pump();
+
+    expect(find.text('Edit membership'), findsOneWidget);
+    expect(find.text('Ada Lovelace'), findsOneWidget);
+    expect(find.text('Edit'), findsOneWidget);
+    final prefilled = tester
+        .widgetList<TextFormField>(find.byType(TextFormField))
+        .map((f) => f.controller?.text ?? '')
+        .toList();
+    expect(prefilled[0], isNotEmpty);
+    expect(prefilled[1], isNotEmpty);
+
+    // Both date entries open the real picker.
+    await scaffold.ensureOnScreen(tester, find.text('Start date'));
+    await tester.tap(find.byType(TextFormField).at(0));
+    await settle(tester, frames: 14);
+    expect(find.text('OK'), findsOneWidget);
+    await tester.tap(find.text('OK'));
+    await settle(tester, frames: 14);
+
+    await scaffold.ensureOnScreen(tester, find.text('End date'));
+    await tester.tap(find.byType(TextFormField).at(1));
+    await settle(tester, frames: 14);
+    expect(find.text('OK'), findsOneWidget);
+    await tester.tap(find.text('OK'));
+    await settle(tester, frames: 14);
+
+    // Re-enter exact dates after the pickers rewrote the controllers, then
+    // submit: the failure arm keeps the page up with its toast.
+    final fields = find.byType(TextFormField);
+    await tester.enterText(fields.at(0), '01/01/2026');
+    await tester.enterText(fields.at(1), '31/12/2026');
+    await scaffold.unfocus(tester);
+    await scaffold.ensureOnScreen(tester, find.text('Edit'));
+    await tester.tap(find.text('Edit'));
+    for (var i = 0; i < 12; i++) {
+      await tester.pump(const Duration(milliseconds: 60));
+    }
+    expect(
+      find.text('Error while updating (likely due to overlapping dates)'),
+      findsOneWidget,
+    );
+    await scaffold.drainToast(tester);
+
+    // The success arm reports and pops back to the detail page.
+    when(
+      () => scaffold.repository.membershipsUsersMembershipIdPatch(
+        membershipId: any(named: 'membershipId'),
+        body: any(named: 'body'),
+      ),
+    ).thenAnswer((_) async => scaffold.repository.okVoid());
+    await scaffold.ensureOnScreen(tester, find.text('Edit'));
+    await tester.tap(find.text('Edit'));
+    for (var i = 0; i < 12; i++) {
+      await tester.pump(const Duration(milliseconds: 60));
+    }
+    expect(find.text('Membership updated'), findsOneWidget);
+    await scaffold.drainToast(tester);
+    await scaffold.unmountApp(tester);
+    container.dispose();
+  });
 }
