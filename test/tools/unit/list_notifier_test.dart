@@ -605,4 +605,49 @@ void main() {
       expect(seen, [1]);
     });
   });
+
+  group('Testing ListNotifier : addAll', () {
+    test('appends every returned item on success', () async {
+      final notifier = makeNotifier();
+      notifier.state = AsyncValue.data([MockData()]);
+      final extra = [MockData(), MockData()];
+
+      expect(await notifier.testAddAll((_) async => extra, extra), isTrue);
+
+      expect(notifier.state.value, hasLength(3));
+    });
+
+    test('restores the previous list when the call throws', () async {
+      final notifier = makeNotifier();
+      final previous = [MockData()];
+      notifier.state = AsyncValue.data(previous);
+
+      expect(
+        await notifier.testAddAll((_) async {
+          throw Exception('nope');
+        }, []),
+        isFalse,
+      );
+
+      // The catch arm reassigns the SAME list instance it was handed.
+      expect(notifier.state.value, same(previous));
+    });
+
+    test('refuses to run in an error state', () async {
+      final notifier = makeNotifier();
+      notifier.state = AsyncValue.error(StateError('boom'), StackTrace.empty);
+
+      expect(await notifier.testAddAll((_) async => [MockData()], []), isFalse);
+
+      expect(notifier.state.hasError, isTrue);
+    });
+
+    test('refuses to run while still loading', () async {
+      final notifier = makeNotifier();
+
+      expect(await notifier.testAddAll((_) async => [MockData()], []), isFalse);
+
+      expect(notifier.state.hasError, isTrue);
+    });
+  });
 }

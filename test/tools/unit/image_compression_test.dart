@@ -1,59 +1,92 @@
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
 import 'package:titan/tools/image_compression.dart';
 
-Uint8List _jpegBytes({int width = 300, int height = 200}) {
-  final image = img.Image(width: width, height: height);
-  img.fill(image, color: img.ColorRgb8(120, 30, 90));
-  return Uint8List.fromList(img.encodeJpg(image, quality: 90));
-}
-
-/// Pseudo-random noise compresses poorly, so the JPEG stays over the limit.
-Uint8List _noisyJpeg({required int width, required int height}) {
-  final image = img.Image(width: width, height: height);
-  var seed = 42;
+/// A random-noise image: noise barely compresses, which is exactly what
+/// pushes an encoded picture over the multipart limit the uploader guards.
+Uint8List noiseImage(
+  int width,
+  int height, {
+  bool alpha = false,
+  int seed = 7,
+}) {
+  final rnd = Random(seed);
+  final image = img.Image(
+    width: width,
+    height: height,
+    numChannels: alpha ? 4 : 3,
+  );
   for (final pixel in image) {
-    seed = (seed * 1103515245 + 12345) & 0x7fffffff;
-    pixel.r = seed & 0xff;
-    pixel.g = (seed >> 8) & 0xff;
-    pixel.b = (seed >> 16) & 0xff;
+    pixel.r = rnd.nextInt(256);
+    pixel.g = rnd.nextInt(256);
+    pixel.b = rnd.nextInt(256);
+    if (alpha) pixel.a = rnd.nextInt(256);
   }
-  return Uint8List.fromList(img.encodeJpg(image, quality: 100));
+  return Uint8List.fromList(img.encodePng(image));
 }
 
 void main() {
-  group('compressImageForUpload', () {
-    test('returns small images untouched', () async {
-      final bytes = _jpegBytes();
+  test('images already under the limit are returned untouched', () async {
+    final small = Uint8List.fromList(List.filled(1024, 1));
+    final result = await compressImageForUpload(small);
+    expect(identical(result, small), isTrue);
+  });
 
-      expect(bytes.length, lessThanOrEqualTo(maxUploadedImageSize));
+  test('over-limit bytes that decode to nothing compress to null', () async {
+    // Bigger than the cap but not an image any decoder understands: the
+    // decode-failure arm of _compress.
+    final garbage = Uint8List(maxUploadedImageSize + 1);
+    expect(await compressImageForUpload(garbage), isNull);
+  });
 
-      final result = await compressImageForUpload(bytes);
+  test(
+    'an opaque over-limit photo comes back as a JPEG under the cap',
+    () async {
+      final noisy = noiseImage(800, 800);
+      expect(noisy.length, greaterThan(maxUploadedImageSize));
 
-      expect(result, same(bytes));
-    });
-
-    test('shrinks a huge opaque image under the upload limit', () async {
-      // A noise-filled image barely compresses; encode at high quality until
-      // the source is over the limit.
-      final Uint8List bytes = _noisyJpeg(width: 3000, height: 3000);
-
-      expect(bytes.length, greaterThan(maxUploadedImageSize));
-
-      final result = await compressImageForUpload(bytes);
-
+      final result = await compressImageForUpload(noisy);
       expect(result, isNotNull);
       expect(result!.length, lessThanOrEqualTo(maxUploadedImageSize));
-    });
 
-    test('returns null for bytes no decoder understands', () async {
-      final bytes = Uint8List.fromList(List.filled(2 * 1024 * 1024, 7));
+      // The opaque path encodes JPEG — decodable, no alpha channel left.
+      final decoded = img.decodeImage(result);
+      expect(decoded, isNotNull);
+      expect(decoded!.hasAlpha, isFalse);
+    },
+  );
 
-      final result = await compressImageForUpload(bytes);
+  test('a wide opaque image is resized along its longest side', () async {
+    // Width over every step dimension: the resize (not early-return) arm
+    // of _resize runs for every attempt.
+    final wide = noiseImage(2600, 700);
+    expect(wide.length, greaterThan(maxUploadedImageSize));
 
-      expect(result, null);
-    });
+    final result = await compressImageForUpload(wide);
+    expect(result, isNotNull);
+    expect(result!.length, lessThanOrEqualTo(maxUploadedImageSize));
+
+    final decoded = img.decodeImage(result);
+    expect(decoded, isNotNull);
+    expect(decoded!.width, lessThanOrEqualTo(2048));
   });
+
+  test(
+    'a transparent over-limit image survives as a decodable picture',
+    () async {
+      // Random alpha always finds a translucent pixel: the transparency walk
+      // runs, every PNG step stays over the target on noise, and the
+      // flatten-on-white fallback carries it the rest of the way.
+      final transparent = noiseImage(700, 700, alpha: true);
+      expect(transparent.length, greaterThan(maxUploadedImageSize));
+
+      final result = await compressImageForUpload(transparent);
+      expect(result, isNotNull);
+      expect(result!.length, lessThanOrEqualTo(maxUploadedImageSize));
+      expect(img.decodeImage(result), isNotNull);
+    },
+  );
 }

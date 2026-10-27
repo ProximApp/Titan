@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 import 'package:titan/tools/ui/styleguide/horizontal_multi_select.dart';
+import 'package:titan/tools/ui/styleguide/icon_button.dart';
+import 'package:titan/tools/ui/styleguide/item_chip.dart';
 import 'package:titan/tools/ui/styleguide/searchbar.dart';
 import 'package:titan/tools/ui/styleguide/styleguide_page.dart';
 
@@ -183,5 +185,105 @@ void main() {
     await tester.tap(find.text('John'));
     await settle(tester, frames: 4);
     expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('the member-management modal search bar answers its '
+      'callbacks', (tester) async {
+    await mountPage(tester);
+
+    await tester.ensureVisible(find.text('Show Member Management Modal'));
+    await settle(tester, frames: 4);
+    await tester.tap(find.text('Show Member Management Modal'));
+    await settle(tester, frames: 6);
+    expect(find.text('Member Management'), findsOneWidget);
+
+    // The modal's bar lives in the overlay: the LAST CustomSearchBar in the
+    // tree, above the page's own two in section 4.
+    final modalBar = find.byType(CustomSearchBar).last;
+    expect(
+      find.descendant(of: modalBar, matching: find.text('Search members...')),
+      findsOneWidget,
+    );
+
+    // Typing fires this demo's empty-bodied onSearch callback, and the
+    // clear button that appears with the text works.
+    final field = find.descendant(
+      of: modalBar,
+      matching: find.byType(TextField),
+    );
+    await tester.enterText(field, 'ada');
+    await settle(tester, frames: 4);
+    expect(tester.widget<TextField>(field).controller!.text, 'ada');
+
+    // The filter icon fires onFilter.
+    final filterIcon = find
+        .descendant(
+          of: modalBar,
+          matching: find.byWidgetPredicate((w) => w is GestureDetector),
+        )
+        .last;
+    await tester.tap(filterIcon);
+    await settle(tester, frames: 6);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('the color picker chip reports its selection', (tester) async {
+    await mountPage(tester);
+
+    final colorStrip = find.byType(HorizontalMultiSelect<Color>);
+    final chips = find.descendant(
+      of: colorStrip,
+      matching: find.byType(ItemChip),
+    );
+    // Index 0 is the leading + chip; the first color chip is red — its
+    // selection runs the demo's color-name ternary and toasts it.
+    expect(chips, findsNWidgets(7));
+    await tester.ensureVisible(chips.at(1));
+    await settle(tester, frames: 4);
+    await tester.tap(chips.at(1));
+    await settle(tester, frames: 6);
+
+    expect(find.text('Selected: Red'), findsOneWidget);
+    // Full drain with tail frames: the snackbar's exit animation needs
+    // frames AFTER the time jump, or the next selection queues behind it.
+    await tester.pump(const Duration(seconds: 5));
+    await settle(tester, frames: 6);
+
+    // Walk the color-name ternary down: each deeper condition only runs
+    // once every earlier color has failed to match.
+    for (final (index, name) in [
+      (2, 'Orange'),
+      (3, 'Yellow'),
+      (4, 'Green'),
+      (5, 'Blue'),
+    ]) {
+      await tester.tap(chips.at(index));
+      await settle(tester, frames: 6);
+      expect(find.text('Selected: $name'), findsOneWidget);
+      await tester.pump(const Duration(seconds: 5));
+      await settle(tester, frames: 6);
+    }
+  });
+
+  testWidgets('the secondary icon button fires its snackbar', (tester) async {
+    await mountPage(tester);
+
+    // The pencil CustomIconButton of section 7 — scoped by icon so the
+    // toggle list's own secondary buttons cannot satisfy the finder.
+    final secondary = find.byWidgetPredicate(
+      (w) =>
+          w is CustomIconButton &&
+          w.type == CustomIconButtonType.secondary &&
+          w.icon is HeroIcon &&
+          (w.icon as HeroIcon).icon == HeroIcons.pencil,
+    );
+    expect(secondary, findsOneWidget);
+    await tester.ensureVisible(secondary);
+    await settle(tester, frames: 4);
+    await tester.tap(secondary);
+    await settle(tester, frames: 6);
+
+    expect(find.text('Secondary icon button pressed'), findsOneWidget);
+    await drainSnackbars(tester);
   });
 }

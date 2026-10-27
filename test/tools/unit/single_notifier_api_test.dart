@@ -147,6 +147,16 @@ void main() {
         throwsA(isA<AppException>()),
       );
     });
+
+    test('a plain error state returns false and stays an error', () async {
+      final n = notifier();
+      n.state = AsyncValue.error(StateError('boom'), StackTrace.empty);
+
+      expect(await n.update(() async => repo.okVoid(), 'new'), isFalse);
+
+      expect(n.state.hasError, isTrue);
+      expect(n.state.value, isNull);
+    });
   });
 
   group('SingleNotifierAPI.delete', () {
@@ -168,6 +178,28 @@ void main() {
       final n = notifier();
       expect(await n.delete(() async => repo.okVoid()), isFalse);
       expect(n.state.hasError, isTrue);
+    });
+
+    test('a plain error state returns false and stays an error', () async {
+      final n = notifier();
+      n.state = AsyncValue.error(StateError('boom'), StackTrace.empty);
+
+      expect(await n.delete(() async => repo.okVoid()), isFalse);
+
+      expect(n.state.hasError, isTrue);
+      expect(n.state.value, isNull);
+    });
+
+    test('rethrows a token expiration from an error state', () async {
+      final n = notifier();
+      n.state = AsyncValue.error(
+        AppException(ErrorType.tokenExpire, 'expired'),
+        StackTrace.empty,
+      );
+      await expectLater(
+        n.delete(() async => repo.okVoid()),
+        throwsA(isA<AppException>()),
+      );
     });
   });
 }

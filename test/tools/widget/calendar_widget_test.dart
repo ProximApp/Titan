@@ -105,6 +105,13 @@ void main() {
       matching: find.byType(IconButton),
     );
     expect(arrows, findsNWidgets(2));
+
+    // Both arrows drive the calendar's forward/backward controller
+    // callbacks — the only lines of this file that need a press.
+    await tester.tap(arrows.at(0));
+    await tester.pump();
+    await tester.tap(arrows.at(1));
+    await tester.pump();
     expect(tester.takeException(), isNull);
   });
 

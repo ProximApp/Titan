@@ -60,6 +60,27 @@ void main() {
         'Bearer abc',
       );
     });
+
+    test(
+      'an empty token lets the original request through untouched',
+      () async {
+        final interceptor = AuthInterceptor(token: '');
+        final chain = _Chain<String>(
+          request(),
+          chopper.Response<String>(http.Response('ok', 200), 'ok'),
+        );
+
+        await interceptor.intercept<String>(chain);
+
+        // The no-token arm proceeds with chain.request itself — no copy,
+        // no header added.
+        expect(identical(chain.lastRequest, chain.request), isTrue);
+        expect(
+          chain.lastRequest!.headers.containsKey('Authorization'),
+          isFalse,
+        );
+      },
+    );
   });
 
   group('LogInterceptor', () {
@@ -91,6 +112,25 @@ void main() {
 
       expect(result.statusCode, 200);
       expect(logger.errors, isEmpty);
+    });
+
+    test('truncates a failing body over 500 characters', () async {
+      final logger = RecordingLogger();
+      final interceptor = LogInterceptor(logger: logger);
+      final body = 'x' * 600;
+      final chain = _Chain<String>(
+        request(),
+        chopper.Response<String>(http.Response(body, 500), ''),
+      );
+
+      await interceptor.intercept<String>(chain);
+
+      expect(logger.errors, hasLength(1));
+      final logged = logger.errors.single;
+      expect(logged, contains('Response: 500 '));
+      expect(logged, endsWith('...'));
+      // 500 kept + the marker, nothing of the tail.
+      expect(logged.length, 'Response: 500 '.length + 500 + 3);
     });
   });
 }

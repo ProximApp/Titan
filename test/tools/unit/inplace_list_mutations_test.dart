@@ -191,12 +191,11 @@ const verifiedSafe = <String, String>{
       '`seedQuantity` entry above, one line below it.)',
 
   // --- A DateTime field of the loop element: `e.end.add(...)`.
-  'lib/loan/ui/pages/admin_page/on_going_loan.dart:134':
+  'lib/loan/ui/pages/admin_page/on_going_loan.dart:132':
       '`e.end` is a DateTime field of the loan model: `e.end.add(Duration)`. '
-      '(Key re-anchored to the current line: commit "fix: copying list '
-      'before updating state" dropped the `isNotEmpty` guard above this '
-      'dialog builder and the call moved from 136 to 134; the previous key '
-      '`135` matched neither.)',
+      '(Key re-anchored to the detector\'s current line: the call sits at '
+      '132 on this HEAD and the previous key `134` matched no site, which is '
+      'exactly what the staleness assertion exists to catch.)',
 
   // --- A list this function built itself: `sortedAssociationByKind` creates
   // every value list from its own map literal before the loop sorts it.
@@ -216,9 +215,11 @@ const verifiedSafe = <String, String>{
       'loadModules and sorted before being read; no external reader holds it. '
       '(The site’s line tracks the code above it; it is at 124 on the '
       'current HEAD and the key follows the detector.)',
-  'lib/mypayment/ui/pages/devices_page/devices_page.dart:193':
+  'lib/mypayment/ui/pages/devices_page/devices_page.dart:185':
       '`keyService` is the KeyService; `clear()` is its own method for '
-      'unregistering the device, not a collection mutation.',
+      'unregistering the device, not a collection mutation. (Key re-anchored '
+      "193 → 185: the key follows the detector's current line for the call, "
+      'after the surrounding block was rewritten by the formatting pass.)',
   'lib/service/local_notification_service.dart:223':
       '`onNotificationClick` is a StreamController; `add` feeds the stream.',
 
@@ -230,9 +231,11 @@ const verifiedSafe = <String, String>{
   'lib/event/ui/pages/admin_page/list_event.dart:41':
       '`filteredEvents` is `events.where(...).toList()` in both arms of the '
       '`isHistory` ternary, so the sort mutates a copy.',
-  'lib/purchases/ui/pages/scan_page/scan_page.dart:115':
+  'lib/purchases/ui/pages/scan_page/scan_page.dart:113':
       '`a` is the accumulator of `fold([], (a, b) => a..addAll(b))`; the seed '
-      'is a fresh literal.',
+      'is a fresh literal. (Key re-anchored 115 → 113: the key follows the '
+      "detector's current line for the call, which is what both ratchet "
+      'assertions compare against.)',
 
   // --- A local whose declaration is a literal on the same statement, but whose
   // type argument contains a `>` that the `<...>[]` pattern cannot span.

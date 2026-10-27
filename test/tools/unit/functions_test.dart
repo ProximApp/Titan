@@ -320,5 +320,9 @@ void main() {
       expect(getTitanLogo(), 'assets/images/logo_prod.webp');
       expect(getTitanURLScheme(), 'test.titan');
     });
+
+    test('getPaymentName falls back to the shipped default', () {
+      expect(getPaymentName(), 'ProxiPay');
+    });
   });
 }
