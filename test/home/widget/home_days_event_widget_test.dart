@@ -4,6 +4,7 @@ import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/home/providers/days_provider.dart';
 import 'package:titan/home/providers/number_day_provider.dart';
 import 'package:titan/home/providers/selected_day.dart';
+import 'package:titan/home/router.dart';
 import 'package:titan/home/ui/day_card.dart';
 import 'package:titan/home/ui/day_list.dart';
 import 'package:titan/home/ui/days_event.dart';
@@ -382,5 +383,30 @@ void main() {
     expect(container.read(daysProvider), hasLength(32));
     container.read(selectedDayProvider.notifier).setSelected(5);
     expect(container.read(selectedDayProvider), 5);
+  });
+
+  testWidgets('HomeRouter.module names the module through l10n', (
+    tester,
+  ) async {
+    // The module's getName/getDescription closures are only ever evaluated
+    // where the catalog renders them (all-modules list, navbar tooltips),
+    // which no home test mounts — resolving them here through the real
+    // delegates is the cheapest way to execute them.
+    late String name;
+    late String description;
+    await pumpWidgetAt(
+      tester,
+      Builder(
+        builder: (context) {
+          name = HomeRouter.module.getName(context);
+          description = HomeRouter.module.getDescription(context);
+          return const SizedBox();
+        },
+      ),
+    );
+
+    expect(name, 'Calendar');
+    expect(description, 'View the calendar of events');
+    expect(tester.takeException(), isNull);
   });
 }
