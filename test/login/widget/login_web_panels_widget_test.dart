@@ -2,11 +2,14 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:titan/auth/repository/auth_repository.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/login/ui/web/left_panel.dart';
 import 'package:titan/login/ui/web/right_panel.dart';
+import 'package:titan/login/ui/web/web_sign_in.dart';
 import 'package:titan/tools/functions.dart';
 
 import '../../shared/app_scaffold.dart';
@@ -215,6 +218,137 @@ void main() {
       expect(tester.takeException(), isNull);
 
       await scaffold.unmountApp(tester);
+    });
+  });
+
+  group('WebSignIn', () {
+    /// The whole web login page: `WebSignIn` is the route body the router
+    /// picks on desktop web, and neither panel test above builds it, so its
+    /// own build (the `getBaseSchoolName()` backdrop behind the two-panel
+    /// Row) was never executed at all.
+    Future<void> pumpWebSignIn(WidgetTester tester) async {
+      final container = scaffold.makeLoggedOutContainer(
+        // The real repository, so the sign-in button below runs the actual
+        // `authorizeAndExchangeCode` path against the stubbed channel.
+        authRepository: AuthRepository(openIdRepository: scaffold.repository),
+      );
+      addTearDown(container.dispose);
+      await scaffold.pumpWidgetApp(
+        tester,
+        const WebSignIn(),
+        container,
+        surface: const ui.Size(1400, 900),
+        appFonts: true,
+      );
+      await settle(tester, frames: 6);
+    }
+
+    testWidgets('mounts the two panels side by side over the backdrop', (
+      tester,
+    ) async {
+      await pumpWebSignIn(tester);
+
+      expect(find.byType(WebSignIn), findsOneWidget);
+      expect(find.byType(LeftPanel), findsOneWidget);
+      expect(find.byType(RightPanel), findsOneWidget);
+      // The backdrop is a Container's DecorationImage (not an Image widget),
+      // so it is asserted through the decoration rather than the asset list
+      // the panels' own pictures appear in.
+      final backdrop = tester
+          .widgetList<Container>(
+            find.descendant(
+              of: find.byType(WebSignIn),
+              matching: find.byType(Container),
+            ),
+          )
+          .map((container) => container.decoration)
+          .whereType<BoxDecoration>()
+          .map((decoration) => decoration.image)
+          .whereType<DecorationImage>()
+          .map((image) => image.image)
+          .whereType<AssetImage>()
+          .map((image) => image.assetName);
+      expect(backdrop, contains('assets/${getBaseSchoolName()}/back.webp'));
+      expect(tester.takeException(), isNull);
+
+      await scaffold.unmountApp(tester);
+    });
+
+    testWidgets('the left panel links launch their calypsso URLs', (
+      tester,
+    ) async {
+      final launched = <String>[];
+      final binding = TestDefaultBinaryMessengerBinding.instance;
+      binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        const MethodChannel('plugins.flutter.io/url_launcher'),
+        (call) async {
+          if (call.method == 'launch') {
+            final args = Map<String, Object?>.from(call.arguments as Map);
+            launched.add(args['url'] as String);
+            return true;
+          }
+          return false;
+        },
+      );
+      addTearDown(
+        () => binding.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('plugins.flutter.io/url_launcher'),
+          null,
+        ),
+      );
+
+      await pumpWebSignIn(tester);
+
+      await tester.tap(find.text('Create an account'));
+      await settle(tester, frames: 6);
+      await tester.tap(find.text('Forgot password?'));
+      await settle(tester, frames: 6);
+
+      expect(launched, hasLength(2));
+      expect(launched.first, endsWith('/calypsso/register'));
+      expect(launched.last, endsWith('/calypsso/recover'));
+
+      await scaffold.unmountApp(tester);
+    });
+
+    testWidgets('the left panel sign-in button fails in place with a toast', (
+      tester,
+    ) async {
+      // Empty reply from the appauth channel → the repository's
+      // `Wrong credentials`, which the provider records as an error and the
+      // button's `when(error:)` arm turns into a toast.
+      const appAuthChannel = MethodChannel(
+        'crossingthestreams.io/flutter_appauth',
+      );
+      final binding = TestDefaultBinaryMessengerBinding.instance;
+      binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        appAuthChannel,
+        (call) async => <String, dynamic>{},
+      );
+      addTearDown(
+        () => binding.defaultBinaryMessenger.setMockMethodCallHandler(
+          appAuthChannel,
+          null,
+        ),
+      );
+
+      await pumpWebSignIn(tester);
+
+      await tester.tap(find.text('Sign in'));
+      await settle(tester, frames: 20);
+
+      expect(
+        find.descendant(
+          of: find.byType(LeftPanel),
+          matching: find.text('Sign in'),
+        ),
+        findsOneWidget,
+      );
+      expect(tester.takeException(), isNull);
+
+      // The failure toast arms an auto-close timer (convention 21).
+      await scaffold.unmountApp(tester);
+      await scaffold.drainToast(tester);
     });
   });
 
