@@ -115,11 +115,13 @@ void main() {
   testWidgets('tapping a session card opens its detail page', (tester) async {
     await pumpPhoneMain(tester);
 
-    await tester.tap(find.text('Akira'));
+    // Page 0 is the only card under the finger: the PageView keeps the rest
+    // in the tree but off-screen, so `tap` would warn about a missed hit.
+    await tester.tap(find.text('Blade Runner'));
     await settle(tester, frames: 15);
 
     expect(QR.currentPath, '${CinemaRouter.root}${CinemaRouter.detail}');
-    expect(find.text('Akira'), findsOneWidget);
+    expect(find.text('Blade Runner'), findsOneWidget);
     expect(tester.takeException(), isNull);
 
     await scaffold.unmountApp(tester);
