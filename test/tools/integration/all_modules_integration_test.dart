@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/providers/prefered_module_root_list_provider.dart';
 import 'package:titan/tools/ui/heroicons.dart';
+import 'package:titan/tools/ui/styleguide/navbar.dart';
 
 import '../../shared/app_scaffold.dart';
 
@@ -129,6 +130,43 @@ void main() {
       await settle(tester);
 
       expect(QR.currentPath, '/all_modules');
+    });
+
+    testWidgets('the feed entry and a granted module entry both forward', (
+      tester,
+    ) async {
+      // The Feed entry's own onTap (forward + post-frame QR.to) and the
+      // generic per-module onTap in the navbar's item loop were the two
+      // blocks of NavigationTemplate nothing had ever pressed — the first
+      // because every test either stayed put or pressed Others, the second
+      // because it needs a non-empty navbar list.
+      final container = scaffold.makeContainerWithModules(
+        user: CoreUser.empty().copyWith(id: 'me'),
+      );
+      await scaffold.pumpApp(tester, container, initialPath: '/feed');
+      await settle(tester);
+
+      // 1. The Feed entry: it forwards to the path already on screen.
+      //    Scoped to the navbar — the same word heads the timeline itself.
+      final feedEntry = find.descendant(
+        of: find.byType(FloatingNavbar),
+        matching: find.text('Events'),
+      );
+      expect(feedEntry, findsOneWidget);
+      await tester.tap(feedEntry);
+      await settle(tester);
+      expect(QR.currentPath, '/feed');
+
+      // 2. A granted module entry: settings is the plain user's only grant.
+      final settingsEntry = find.descendant(
+        of: find.byType(FloatingNavbar),
+        matching: find.text('Settings'),
+      );
+      expect(settingsEntry, findsOneWidget);
+      await tester.tap(settingsEntry);
+      await settle(tester);
+
+      expect(QR.currentPath, '/settings');
     });
   });
 }
