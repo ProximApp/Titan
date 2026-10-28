@@ -78,6 +78,10 @@ const _androidInfo = <String, Object?>{
   'product': 'sdk_gphone64_x86_64',
   'name': 'sdk_gphone64_x86_64',
   'tags': 'test-keys',
+  // device_info_plus 13.3 added a non-nullable `time` (epoch millis) to
+  // AndroidDeviceInfo.fromMap: a partial map is `Null is not a subtype of
+  // int` before the flow ever reaches the POST (convention in test/README).
+  'time': 1730000000000,
   'type': 'eng',
   'isPhysicalDevice': false,
   'freeDiskSize': 6442450944,
