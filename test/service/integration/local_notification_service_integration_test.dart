@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart'
     hide Message;
@@ -339,6 +340,35 @@ void main() {
     expect(QR.currentPath, '/');
   });
 
+  testWidgets('the background response handler routes a mapped action', (
+    tester,
+  ) async {
+    final mock = _RecordingRouteMock();
+    QR.settings.mockRoute = mock;
+    addTearDown(() => QR.settings.mockRoute = null);
+
+    // The full arm the null test cannot reach: decode → the provider map
+    // (`advert` → `advert` resolves to `/advert`) → QR.to with the app-scheme
+    // URL, whose scheme qlevar strips before matching.
+    onDidReceiveBackgroundNotificationResponse(
+      NotificationResponse(
+        notificationResponseType: NotificationResponseType.selectedNotification,
+        payload: jsonEncode({
+          'title': 'Ad',
+          'content': 'New deal',
+          'action_module': 'advert',
+          'action_table': 'advert',
+        }),
+      ),
+    );
+    await tester.pump();
+
+    expect(mock.navigated, hasLength(1));
+    expect(mock.navigated.single, contains('/advert'));
+    // The handler hands QR.to the app-scheme URL, not the bare path.
+    expect(mock.navigated.single, startsWith('${getTitanPackageName()}://'));
+  });
+
   group('handleAction', () {
     test(
       'unknown module and unknown table both resolve to an empty path',
@@ -354,4 +384,19 @@ void main() {
       expect(await service.handleAction('advert', 'advert'), AdvertRouter.root);
     });
   });
+}
+
+/// qlevar's test hook target: records every `QR.to` destination so the
+/// background handler can be asserted on without booting a router.
+class _RecordingRouteMock extends RouteMock {
+  final navigated = <String>[];
+
+  @override
+  String? mockName(String name) => name;
+
+  @override
+  QRoute? mockPath(String path) {
+    navigated.add(path);
+    return QRoute(path: path, builder: () => const SizedBox());
+  }
 }
