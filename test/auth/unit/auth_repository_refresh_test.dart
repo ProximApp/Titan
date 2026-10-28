@@ -1,10 +1,17 @@
+import 'dart:async';
+
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter/services.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
+// Not re-exported by flutter_appauth's barrel (its `show` list omits the
+// platform class), and only reachable through this package.
+import 'package:flutter_appauth_platform_interface/flutter_appauth_platform_interface.dart'
+    show FlutterAppAuthPlatform;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:titan/auth/repository/auth_repository.dart';
 import 'package:titan/generated/openapi.models.swagger.dart' as models;
 
@@ -25,6 +32,20 @@ const platformInterfaceChannel = MethodChannel(
 const secureStorageChannel = MethodChannel(
   'plugins.it_nomads.com/flutter_secure_storage',
 );
+
+/// The platform interface answering `token()` with a stall, which is the only
+/// shape of failure the method-channel path cannot produce (its envelope
+/// decoder turns every handler error into a PlatformException).
+class _StalledAppAuth extends FlutterAppAuthPlatform
+    with MockPlatformInterfaceMixin {
+  @override
+  Future<TokenResponse> token(TokenRequest request) => Future.error(
+    TimeoutException(
+      'no response from the token endpoint',
+      const Duration(seconds: 30),
+    ),
+  );
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -314,6 +335,34 @@ void main() {
 
       await expectLater(repo.refreshToken(), throwsA(isA<Exception>()));
       // A dead-end reply must not be mistaken for an invalid grant.
+      expect(deleted, isEmpty);
+      expect(stored['my_ecl_auth_token'], 'stored-refresh');
+    });
+
+    test('maps a hung token exchange to a no-response failure', () async {
+      final repo = AuthRepository(openIdRepository: repository);
+      stored['my_ecl_auth_token'] = 'stored-refresh';
+      // The method channel can only ever hand back a PlatformException —
+      // the envelope decoder wraps every handler error — so the one place a
+      // TimeoutException reaches the repository is the platform interface
+      // itself (a stalled grant). Swap it for a fake that stalls: the
+      // repository's `on TimeoutException` arm must answer 'No response from
+      // server' and must NOT wipe the stored refresh token, unlike an
+      // invalid_grant.
+      final original = FlutterAppAuthPlatform.instance;
+      FlutterAppAuthPlatform.instance = _StalledAppAuth();
+      addTearDown(() => FlutterAppAuthPlatform.instance = original);
+
+      await expectLater(
+        repo.refreshToken(),
+        throwsA(
+          isA<Exception>().having(
+            (e) => e.toString(),
+            'message',
+            contains('No response from server'),
+          ),
+        ),
+      );
       expect(deleted, isEmpty);
       expect(stored['my_ecl_auth_token'], 'stored-refresh');
     });
