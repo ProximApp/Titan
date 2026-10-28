@@ -888,6 +888,15 @@ class FakeAsyncUserNotifier extends UserNotifier {
   AsyncValue<CoreUser> build() => AsyncValue.data(user);
 }
 
+/// asyncUserProvider in its error state — the arm LoadingPage answers with
+/// `QR.to(LoginRouter.root)`. The real notifier only lands there through an
+/// unstubbed usersMeGet, and no shipped fake could hold it there.
+class FailingAsyncUserNotifier extends UserNotifier {
+  @override
+  AsyncValue<CoreUser> build() =>
+      AsyncValue.error('user unavailable in tests', StackTrace.empty);
+}
+
 /// The real notifiers fetch the permission catalog; the module catalog only
 /// needs the loading state resolved.
 class FakePermissionsNamesListNotifier extends PermissionsNamesListNotifier {
@@ -1083,6 +1092,11 @@ class IntegrationScaffold {
     List<Association> myAssociations = const [],
     List<Manager> myManagerRoles = const [],
     bool seedAsyncUser = false,
+
+    /// Puts `asyncUserProvider` in its `error:` state — the arm LoadingPage
+    /// answers by routing to `/login`, which the real notifier only reaches
+    /// through an unstubbed usersMeGet.
+    bool failAsyncUser = false,
     List<models.UserStore> myStores = const [],
     Map<String, List<Seller>> storeSellers = const {},
     List<CoreGroupSimple> groups = const [],
@@ -1163,7 +1177,9 @@ class IntegrationScaffold {
           ),
         isLoggedInProvider.overrideWithBuild((_, _) => true),
         userProvider.overrideWithValue(user ?? CoreUser.empty()),
-        if (seedAsyncUser && user != null)
+        if (failAsyncUser)
+          asyncUserProvider.overrideWith(() => FailingAsyncUserNotifier())
+        else if (seedAsyncUser && user != null)
           asyncUserProvider.overrideWith(() => FakeAsyncUserNotifier(user)),
         keyServiceProvider.overrideWith((ref) => FakeKeyService(deviceKeyId)),
         if (myAssociations.isNotEmpty)
