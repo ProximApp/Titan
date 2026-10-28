@@ -1,10 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:chopper/chopper.dart' as chopper;
+import 'package:flutter_riverpod/flutter_riverpod.dart'
+    show AsyncData, ProviderContainer;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/raffle/providers/tombola_logos_provider.dart';
 import 'package:titan/raffle/ui/pages/main_page/raffle_card.dart';
 import 'package:titan/raffle/ui/pages/main_page/ticket_card.dart';
 
@@ -20,6 +23,18 @@ import '../raffle_fixtures.dart';
 /// load, the three status sections (current/upcoming/past), the ticket
 /// grouping branches (plain vs winning vs locked-raffle filter), the
 /// card-tap navigation, and the pull-to-refresh reload.
+/// Seeds the logo map as loaded-but-EMPTY: every card's `when(data:)` arm
+/// then runs its empty branch (the logo fetch), and the reload that fetch
+/// schedules lands in the non-empty branch on the next build — one seed
+/// covers both sides of the `data.isNotEmpty` split.
+void seedEmptyLogos(ProviderContainer container, Iterable<String> ids) {
+  for (final id in ids) {
+    container
+        .read(tombolaLogosProvider.notifier)
+        .setTData(id, AsyncData(const []));
+  }
+}
+
 final adminUser = CoreUser.empty().copyWith(
   id: 'user-1',
   groups: [
@@ -130,11 +145,9 @@ void main() {
     );
 
     // /tombola/detail sits behind AdminMiddleware(isRaffleAdminProvider).
-    await scaffold.pumpApp(
-      tester,
-      scaffold.makeContainer(user: adminUser, userId: 'user-1'),
-      initialPath: '/tombola',
-    );
+    final container = scaffold.makeContainer(user: adminUser, userId: 'user-1');
+    seedEmptyLogos(container, const ['r-1']);
+    await scaffold.pumpApp(tester, container, initialPath: '/tombola');
     await settle(tester);
 
     autoSizeText(tester, 'Gala');
@@ -220,12 +233,17 @@ void main() {
 
     // TicketCardBackground runs a repeat() animation: pumpAndSettle would
     // never return with the ticket strip on screen.
+    final container = scaffold.makeContainer(
+      user: CoreUser.empty().copyWith(id: 'user-1'),
+      userId: 'user-1',
+    );
+    // This is the file's only test with TICKETS on the strip, so it is also
+    // the only one whose cards reach the logo map: seeded empty, the data
+    // arm runs, fetches, and lands in the non-empty branch on rebuild.
+    seedEmptyLogos(container, const ['r-1', 'r-lock']);
     await scaffold.pumpApp(
       tester,
-      scaffold.makeContainer(
-        user: CoreUser.empty().copyWith(id: 'user-1'),
-        userId: 'user-1',
-      ),
+      container,
       initialPath: '/tombola',
       pumpAndSettle: false,
     );
