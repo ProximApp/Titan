@@ -1,10 +1,15 @@
 import 'package:chopper/chopper.dart' as chopper;
+import 'package:flutter/widgets.dart' show Image;
+import 'package:flutter_riverpod/flutter_riverpod.dart'
+    show AsyncData, AsyncError, ProviderContainer;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/raffle/providers/pack_ticket_list_provider.dart';
 import 'package:titan/raffle/providers/raffle_id_provider.dart';
+import 'package:titan/raffle/providers/tombola_logos_provider.dart';
+import 'package:titan/tools/functions.dart' show getTitanLogo;
 import 'package:titan/tools/ui/heroicons.dart';
 
 import '../../shared/app_scaffold.dart';
@@ -99,7 +104,7 @@ void main() {
   /// fetches on pull-to-refresh (same not-built-in-build shape as the
   /// invoices pages, ledger #8): the notifier call seeds the exact state a
   /// refresh would produce.
-  Future<void> pumpDetail(
+  Future<ProviderContainer> pumpDetail(
     WidgetTester tester, {
     RaffleStatusType status = RaffleStatusType.open,
     int balance = 500,
@@ -111,6 +116,14 @@ void main() {
     );
     final container = scaffold.makeContainer(user: adminUser);
     container.read(raffleIdProvider.notifier).setId('r-1');
+    // Seed the logo map as loaded-but-EMPTY (same trick as
+    // raffle_main_page_cards): the buy card's and the dialog's logo builders
+    // then run their empty branch — the real fetch, stubbed above to
+    // fileNotFound — and the rebuild lands in the non-empty branch with the
+    // placeholder asset, so one seed covers both sides of the split.
+    container
+        .read(tombolaLogosProvider.notifier)
+        .setTData('r-1', AsyncData(const []));
     container.read(packTicketListProvider.notifier).loadPackTicketList('r-1');
     // The card row fits since the ledger #31 FittedBox fix; no layout
     // absorbing needed.
@@ -122,6 +135,7 @@ void main() {
       pumpAndSettle: false,
     );
     await settle(tester, frames: 24);
+    return container;
   }
 
   Future<void> pumpFrames(WidgetTester tester, [int frames = 10]) async {
@@ -168,6 +182,60 @@ void main() {
         packId: any(named: 'packId'),
       ),
     );
+  });
+
+  testWidgets('the dialog and buy card walk every logo state', (tester) async {
+    final container = await pumpDetail(tester);
+    // The boot seed above lets the CARD run its empty branch first (kick +
+    // loading). Each step below re-seeds the map before opening the dialog,
+    // because the card's 1ms delayed `setTData(AsyncLoading)` otherwise
+    // overwrites the fetch result and every dialog open would only ever see
+    // the loading arm.
+
+    // 1. NON-EMPTY: the dialog's data arm renders the logo directly.
+    container
+        .read(tombolaLogosProvider.notifier)
+        .setTData('r-1', AsyncData([Image.asset(getTitanLogo())]));
+    await pumpFrames(tester, 4);
+    await tester.tap(find.text('Buy this ticket'));
+    await pumpFrames(tester, 6);
+    expect(find.text('5 €'), findsOneWidget);
+    await tester.tap(
+      find.byWidgetPredicate((w) => w is HeroIcon && w.icon == HeroIcons.xMark),
+    );
+    await pumpFrames(tester, 6);
+
+    // 2. EMPTY: the data arm's empty branch kicks the real fetch — the
+    // dialog's own copy of lines confirm_payment.dart:126-140.
+    container
+        .read(tombolaLogosProvider.notifier)
+        .setTData('r-1', AsyncData(const []));
+    await pumpFrames(tester, 4);
+    await tester.tap(find.text('Buy this ticket'));
+    await pumpFrames(tester, 6);
+    expect(find.text('5 €'), findsOneWidget);
+    await tester.tap(
+      find.byWidgetPredicate((w) => w is HeroIcon && w.icon == HeroIcons.xMark),
+    );
+    await pumpFrames(tester, 6);
+
+    // 3. ERROR: the error arm's placeholder icon — the one branch neither
+    // the fetch (404 → placeholder asset) nor the empty seed ever reaches.
+    container
+        .read(tombolaLogosProvider.notifier)
+        .setTData(
+          'r-1',
+          AsyncError<List<Image>>(StateError('logo boom'), StackTrace.empty),
+        );
+    await pumpFrames(tester, 4);
+    await tester.tap(find.text('Buy this ticket'));
+    await pumpFrames(tester, 6);
+    expect(find.text('5 €'), findsOneWidget);
+    await tester.tap(
+      find.byWidgetPredicate((w) => w is HeroIcon && w.icon == HeroIcons.xMark),
+    );
+    await pumpFrames(tester, 6);
+    expect(find.text('Buy this ticket'), findsOneWidget);
   });
 
   testWidgets('an insufficient balance refuses the purchase before the wire', (

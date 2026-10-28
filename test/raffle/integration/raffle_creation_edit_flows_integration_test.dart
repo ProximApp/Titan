@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' show AsyncData;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/raffle/providers/raffle_id_provider.dart';
+import 'package:titan/raffle/providers/tombola_logos_provider.dart';
+import 'package:titan/tools/functions.dart' show getTitanLogo;
 import 'package:titan/raffle/ui/pages/creation_edit_page/ticket_ui.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../../shared/repository_stubs.dart';
 import '../raffle_fixtures.dart';
 
 /// The creation page's edit half (`/tombola/detail/creation`): the raffle
@@ -53,6 +57,19 @@ void main() {
     final container = scaffold.makeContainer(user: adminUser);
     addTearDown(container.dispose);
     container.read(raffleIdProvider.notifier).setId('r-1');
+    // Seed the logo map as loaded with a logo: the edit page's build-time
+    // `whenData` then assigns `logoFile` and its logo display runs the
+    // non-null branch (the empty seed would leave logoFile null — the
+    // page itself never kicks the fetch, only the cards do). The logo GET
+    // is stubbed below in case a card on the page kicks it anyway.
+    when(
+      () => scaffold.repository.tombolaRafflesRaffleIdLogoGet(
+        raffleId: any(named: 'raffleId'),
+      ),
+    ).thenAnswer((_) async => fileNotFound());
+    container
+        .read(tombolaLogosProvider.notifier)
+        .setTData('r-1', AsyncData([Image.asset(getTitanLogo())]));
     await scaffold.pumpApp(
       tester,
       container,
