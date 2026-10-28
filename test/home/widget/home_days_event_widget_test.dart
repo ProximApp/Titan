@@ -7,8 +7,10 @@ import 'package:titan/home/providers/selected_day.dart';
 import 'package:titan/home/ui/day_card.dart';
 import 'package:titan/home/ui/day_list.dart';
 import 'package:titan/home/ui/days_event.dart';
+import 'package:titan/home/ui/home.dart';
 import 'package:titan/home/ui/month_bar.dart';
 import 'package:titan/tools/functions.dart';
+import 'package:titan/tools/ui/layouts/horizontal_list_view.dart';
 
 import '../../shared/app_scaffold.dart';
 
@@ -54,6 +56,24 @@ void main() {
     end: end ?? DateTime(2100, 3, 4, 22, 0),
     association: Association.empty().copyWith(id: 'a-1', name: associationName),
   );
+
+  testWidgets('HomePage shows the empty list when there are no events', (
+    tester,
+  ) async {
+    final container = scaffold.makeContainer();
+    addTearDown(container.dispose);
+
+    await scaffold.pumpWidgetApp(
+      tester,
+      const HomePage(),
+      container,
+      appFonts: true,
+    );
+    await settle(tester, frames: 12);
+    expect(find.text('No events'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    await scaffold.unmountApp(tester);
+  });
 
   testWidgets(
     'a day with one event fits a long name, location and association',
@@ -320,7 +340,20 @@ void main() {
       Scaffold(
         body: SizedBox(
           width: 420,
-          child: MonthBar(scrollController: scrollController, width: 420),
+          child: Column(
+            children: [
+              MonthBar(scrollController: scrollController, width: 420),
+              HorizontalListView<DateTime>.builder(
+                height: 125,
+                items: container.read(daysProvider),
+                scrollController: scrollController,
+                itemBuilder: (context, day, index) => SizedBox(
+                  width: 86,
+                  child: Center(child: Text('${day.day}')),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       container,
@@ -330,8 +363,10 @@ void main() {
     expect(find.byType(MonthBar), findsOneWidget);
     expect(find.text(getMonth(DateTime.now().month % 12)), findsOneWidget);
     await tester.tap(find.text(getMonth((DateTime.now().month - 1) % 12)));
-    await tester.pump();
-    expect(tester.takeException(), isA<AssertionError>());
+    await tester.pump(const Duration(milliseconds: 600));
+    await tester.tap(find.text(getMonth((DateTime.now().month + 1) % 12)));
+    await tester.pump(const Duration(milliseconds: 600));
+    expect(tester.takeException(), isNull);
     await scaffold.unmountApp(tester);
   });
 
