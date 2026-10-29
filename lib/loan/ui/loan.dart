@@ -33,6 +33,7 @@ class LoanTemplate extends HookConsumerWidget {
                   final itemList = ref.watch(itemListProvider);
                   loanersItemsNotifier.setTData(loaner, itemList);
                 }
+                QR.back();
               },
             ),
             Expanded(child: child),

@@ -12,7 +12,7 @@ class UserCashNotifier
   AsyncValue<AppModulesAmapSchemasAmapCashComplete> build() {
     final userId = ref.watch(idProvider);
     userId.whenData((value) async => await loadCashByUser(value));
-    return state;
+    return const AsyncValue.loading();
   }
 
   Future<AsyncValue<AppModulesAmapSchemasAmapCashComplete>> loadCashByUser(

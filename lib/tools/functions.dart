@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:titan/l10n/app_localizations.dart';
+import 'package:titan/tools/config_env.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/plausible/plausible.dart';
 import 'package:toastification/toastification.dart';
@@ -517,7 +518,12 @@ String getAppFlavor() {
   );
 
   if (flavor.isEmpty) {
-    throw StateError("App flavor not set");
+    if (!isFlutterTestEnv) {
+      throw StateError("App flavor not set");
+    }
+    // `flutter test` passes no --flavor/--dart-define: fall back to the flavor
+    // CI runs the suite with (tool/ci_test_session.sh) so a bare run matches.
+    return "prod";
   }
 
   return flavor.toLowerCase();
@@ -539,7 +545,11 @@ Plausible? getPlausible() {
 }
 
 String getTitanHost() {
-  const backendHost = String.fromEnvironment("BACKEND_HOST");
+  const definedHost = String.fromEnvironment("BACKEND_HOST");
+  // Under `flutter test` (no dart-defines) fall back to the host CI pins.
+  final backendHost = definedHost.isEmpty && isFlutterTestEnv
+      ? "https://myemapp.com/"
+      : definedHost;
   if (backendHost.isEmpty) {
     throw StateError("Could not find BACKEND_HOST in config.json");
   }
@@ -567,7 +577,12 @@ String getCentralisationHost() {
 }
 
 String getBaseSchoolName() {
-  const schoolName = String.fromEnvironment("SCHOOL_NAME");
+  const definedSchool = String.fromEnvironment("SCHOOL_NAME");
+  // The suite passes no SCHOOL_NAME: fall back to the school folder shipped
+  // in assets/, so the school-specific images still resolve in tests.
+  final schoolName = definedSchool.isEmpty && isFlutterTestEnv
+      ? "emlyon"
+      : definedSchool;
   if (schoolName.isEmpty) {
     throw StateError("Could not find SCHOOL_NAME in config.json");
   }
@@ -575,7 +590,11 @@ String getBaseSchoolName() {
 }
 
 String getTitanURL() {
-  const titanUrl = String.fromEnvironment("TITAN_URL");
+  const definedUrl = String.fromEnvironment("TITAN_URL");
+  // Under `flutter test` (no dart-defines) fall back to the host CI pins.
+  final titanUrl = definedUrl.isEmpty && isFlutterTestEnv
+      ? "https://myemapp.com/"
+      : definedUrl;
   if (titanUrl.isEmpty) {
     throw StateError("Could not find TITAN_URL in config.json");
   }
@@ -599,7 +618,11 @@ String getTitanPackageSuffix() {
 }
 
 String getTitanPackageName() {
-  const appIdPrefix = String.fromEnvironment("APP_ID_PREFIX");
+  const definedPrefix = String.fromEnvironment("APP_ID_PREFIX");
+  // Under `flutter test` fall back to the prefix CI pins (…`test.titan`).
+  final appIdPrefix = definedPrefix.isEmpty && isFlutterTestEnv
+      ? "test"
+      : definedPrefix;
   if (appIdPrefix.isEmpty) {
     throw StateError("Could not find APP_ID_PREFIX in config.json");
   }
@@ -611,7 +634,11 @@ String getTitanURLScheme() {
 }
 
 String getAppName() {
-  const appName = String.fromEnvironment("APP_NAME");
+  const definedName = String.fromEnvironment("APP_NAME");
+  // Under `flutter test` fall back to the app name CI pins.
+  final appName = definedName.isEmpty && isFlutterTestEnv
+      ? "MyEMApp"
+      : definedName;
   if (appName.isEmpty) {
     throw StateError("Could not find APP_NAME in config.json");
   }

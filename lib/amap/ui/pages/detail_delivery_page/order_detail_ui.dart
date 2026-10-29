@@ -104,15 +104,16 @@ class DetailOrderUI extends HookConsumerWidget {
           ),
           Row(
             children: [
-              Text(
-                "${order.productsdetail.fold<int>(0, (value, product) => value + product.quantity)} ${AppLocalizations.of(context)!.amapProduct}${order.productsdetail.fold<int>(0, (value, product) => value + product.quantity) != 1 ? "s" : ""}",
-                style: const TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
+              Expanded(
+                child: Text(
+                  "${order.productsdetail.fold<int>(0, (value, product) => value + product.quantity)} ${AppLocalizations.of(context)!.amapProduct}${order.productsdetail.fold<int>(0, (value, product) => value + product.quantity) != 1 ? "s" : ""}",
+                  style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
                 ),
               ),
-              const Spacer(),
               Text(
                 "${order.amount.toStringAsFixed(2)}€",
                 style: const TextStyle(
@@ -126,12 +127,14 @@ class DetailOrderUI extends HookConsumerWidget {
           const Spacer(),
           Row(
             children: [
-              Text(
-                "${AppLocalizations.of(context)!.amapAmount} : ${userCash.balance.toStringAsFixed(2)}€",
-                style: const TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                  color: AMAPColorConstants.textDark,
+              Expanded(
+                child: Text(
+                  "${AppLocalizations.of(context)!.amapAmount} : ${userCash.balance.toStringAsFixed(2)}€",
+                  style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                    color: AMAPColorConstants.textDark,
+                  ),
                 ),
               ),
               const Spacer(),

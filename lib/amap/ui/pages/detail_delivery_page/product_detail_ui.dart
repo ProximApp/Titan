@@ -63,7 +63,7 @@ class ProductDetailCard extends StatelessWidget {
               color: AMAPColorConstants.darkGreen,
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 4),
         ],
       ),
     );

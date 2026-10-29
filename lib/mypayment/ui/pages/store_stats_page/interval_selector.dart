@@ -79,169 +79,172 @@ class IntervalSelector extends ConsumerWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Row(
-            children: [
-              GestureDetector(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 5,
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Color(0xff017f80).withAlpha(50),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    DateFormat.yMd(locale.toString())
-                        .format(selectedInterval.start),
-                    style: TextStyle(
-                      color: const Color(0xff204550),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Row(
+              children: [
+                GestureDetector(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 5,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Color(0xff017f80).withAlpha(50),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      DateFormat.yMd(locale.toString())
+                          .format(selectedInterval.start),
+                      style: TextStyle(
+                        color: const Color(0xff204550),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
                     ),
                   ),
+                  onTap: () async {
+                    final date = await getDate(selectedInterval.start);
+                    if (date != null) {
+                      selectedIntervalNotifier.updateStart(date);
+                      await _updateHistory(
+                        selectedStore.id,
+                        date,
+                        selectedInterval.end,
+                      );
+                    }
+                  },
                 ),
-                onTap: () async {
-                  final date = await getDate(selectedInterval.start);
-                  if (date != null) {
-                    selectedIntervalNotifier.updateStart(date);
-                    await _updateHistory(
-                      selectedStore.id,
-                      date,
-                      selectedInterval.end,
-                    );
-                  }
-                },
-              ),
-              SizedBox(width: 5),
-              GestureDetector(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 5,
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Color(0xff017f80).withAlpha(50),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    DateFormat.Hm(locale.toString())
-                        .format(selectedInterval.start),
-                    style: TextStyle(
-                      color: const Color(0xff204550),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
+                SizedBox(width: 5),
+                GestureDetector(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 5,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Color(0xff017f80).withAlpha(50),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      DateFormat.Hm(locale.toString())
+                          .format(selectedInterval.start),
+                      style: TextStyle(
+                        color: const Color(0xff204550),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
                     ),
                   ),
+                  onTap: () async {
+                    final time = await getTime(selectedInterval.start);
+                    if (time != null) {
+                      final date = DateTime(
+                        selectedInterval.start.year,
+                        selectedInterval.start.month,
+                        selectedInterval.start.day,
+                        time.hour,
+                        time.minute,
+                      );
+                      selectedIntervalNotifier.updateStart(date);
+                      await _updateHistory(
+                        selectedStore.id,
+                        date,
+                        selectedInterval.end,
+                      );
+                    }
+                  },
                 ),
-                onTap: () async {
-                  final time = await getTime(selectedInterval.start);
-                  if (time != null) {
-                    final date = DateTime(
-                      selectedInterval.start.year,
-                      selectedInterval.start.month,
-                      selectedInterval.start.day,
-                      time.hour,
-                      time.minute,
-                    );
-                    selectedIntervalNotifier.updateStart(date);
-                    await _updateHistory(
-                      selectedStore.id,
-                      date,
-                      selectedInterval.end,
-                    );
-                  }
-                },
-              ),
-            ],
-          ),
-          SizedBox(width: 5),
-          HeroIcon(
-            HeroIcons.arrowRight,
-            color: const Color(0xff204550),
-            size: 20,
-          ),
-          SizedBox(width: 5),
-          Row(
-            children: [
-              GestureDetector(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 5,
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Color(0xff017f80).withAlpha(50),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    DateFormat.yMd(locale.toString())
-                        .format(selectedInterval.end),
-                    style: TextStyle(
-                      color: const Color(0xff204550),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
+              ],
+            ),
+            SizedBox(width: 5),
+            HeroIcon(
+              HeroIcons.arrowRight,
+              color: const Color(0xff204550),
+              size: 20,
+            ),
+            SizedBox(width: 5),
+            Row(
+              children: [
+                GestureDetector(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 5,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Color(0xff017f80).withAlpha(50),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      DateFormat.yMd(locale.toString())
+                          .format(selectedInterval.end),
+                      style: TextStyle(
+                        color: const Color(0xff204550),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
                     ),
                   ),
+                  onTap: () async {
+                    final date = await getDate(selectedInterval.end);
+                    if (date != null) {
+                      selectedIntervalNotifier.updateEnd(date);
+                      await _updateHistory(
+                        selectedStore.id,
+                        selectedInterval.start,
+                        date,
+                      );
+                    }
+                  },
                 ),
-                onTap: () async {
-                  final date = await getDate(selectedInterval.end);
-                  if (date != null) {
-                    selectedIntervalNotifier.updateEnd(date);
-                    await _updateHistory(
-                      selectedStore.id,
-                      selectedInterval.start,
-                      date,
-                    );
-                  }
-                },
-              ),
-              SizedBox(width: 5),
-              GestureDetector(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 5,
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Color(0xff017f80).withAlpha(50),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    DateFormat.Hm(locale.toString())
-                        .format(selectedInterval.end),
-                    style: TextStyle(
-                      color: const Color(0xff204550),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
+                SizedBox(width: 5),
+                GestureDetector(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 5,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Color(0xff017f80).withAlpha(50),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      DateFormat.Hm(locale.toString())
+                          .format(selectedInterval.end),
+                      style: TextStyle(
+                        color: const Color(0xff204550),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
                     ),
                   ),
+                  onTap: () async {
+                    final time = await getTime(selectedInterval.end);
+                    if (time != null) {
+                      final date = DateTime(
+                        selectedInterval.end.year,
+                        selectedInterval.end.month,
+                        selectedInterval.end.day,
+                        time.hour,
+                        time.minute,
+                      );
+                      selectedIntervalNotifier.updateEnd(date);
+                      await _updateHistory(
+                        selectedStore.id,
+                        selectedInterval.start,
+                        date,
+                      );
+                    }
+                  },
                 ),
-                onTap: () async {
-                  final time = await getTime(selectedInterval.end);
-                  if (time != null) {
-                    final date = DateTime(
-                      selectedInterval.end.year,
-                      selectedInterval.end.month,
-                      selectedInterval.end.day,
-                      time.hour,
-                      time.minute,
-                    );
-                    selectedIntervalNotifier.updateEnd(date);
-                    await _updateHistory(
-                      selectedStore.id,
-                      selectedInterval.start,
-                      date,
-                    );
-                  }
-                },
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

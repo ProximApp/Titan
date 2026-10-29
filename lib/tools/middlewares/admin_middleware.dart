@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:titan/router.dart';
+import 'package:titan/feed/router.dart';
+import 'package:titan/tools/providers/path_forwarding_provider.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 
 class AdminMiddleware extends QMiddleware {
@@ -10,6 +11,8 @@ class AdminMiddleware extends QMiddleware {
 
   @override
   Future<String?> redirectGuard(String path) async {
-    return ref.watch(isAdminProvider) ? null : AppRouter.root;
+    if (ref.watch(isAdminProvider)) return null;
+    ref.read(pathForwardingProvider.notifier).forward(FeedRouter.root);
+    return FeedRouter.root;
   }
 }

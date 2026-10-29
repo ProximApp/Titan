@@ -24091,6 +24091,18 @@ extension $RefundInfoExtension on RefundInfo {
 
 @JsonSerializable(explicitToJson: true)
 class Request$ {
+  static Request$ empty() => Request$(
+    id: '',
+    walletId: '',
+    creation: DateTime(2000),
+    expirationDate: DateTime(2000),
+    total: 0,
+    storeId: '',
+    name: '',
+    module: '',
+    objectId: '',
+    status: enums.RequestStatus.proposed,
+  );
   const Request$({
     required this.id,
     required this.walletId,

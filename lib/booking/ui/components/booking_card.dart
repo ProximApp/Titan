@@ -158,24 +158,30 @@ class BookingCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                booking.decision == Decision.pending
-                    ? AppLocalizations.of(context)!.bookingPending
-                    : booking.decision == Decision.approved
-                    ? AppLocalizations.of(context)!.bookingConfirmed
-                    : AppLocalizations.of(context)!.bookingDeclined,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold,
-                  color: smallTextColor,
+              Flexible(
+                child: Text(
+                  booking.decision == Decision.pending
+                      ? AppLocalizations.of(context)!.bookingPending
+                      : booking.decision == Decision.approved
+                      ? AppLocalizations.of(context)!.bookingConfirmed
+                      : AppLocalizations.of(context)!.bookingDeclined,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: smallTextColor,
+                  ),
                 ),
               ),
-              Text(
-                '${AppLocalizations.of(context)!.bookingKeysRequested}: ${booking.key ? AppLocalizations.of(context)!.bookingYes : AppLocalizations.of(context)!.bookingNo}',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold,
-                  color: smallTextColor,
+              Flexible(
+                child: Text(
+                  '${AppLocalizations.of(context)!.bookingKeysRequested}: ${booking.key ? AppLocalizations.of(context)!.bookingYes : AppLocalizations.of(context)!.bookingNo}',
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: smallTextColor,
+                  ),
                 ),
               ),
             ],

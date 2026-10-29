@@ -78,7 +78,9 @@ class AdvertCard extends HookConsumerWidget {
                       ),
                       child: Text(
                         associationName
+                            .toString()
                             .split(' ')
+                            .where((s) => s.isNotEmpty)
                             .take(2)
                             .map((s) => s[0].toUpperCase())
                             .join(),

@@ -58,12 +58,19 @@ class ConfirmCreationDialog extends HookConsumerWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  child: Text(
-                    "Voulez vous vraiment créer la tombola : ${group.name}",
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(color: Colors.white, fontSize: 30),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      child: Text(
+                        "Voulez vous vraiment créer la tombola : ${group.name}",
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 30,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 Row(

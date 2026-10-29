@@ -38,15 +38,20 @@ class OrderUI extends HookConsumerWidget {
       displayToast(context, type, msg);
     }
 
+    final textScale = MediaQuery.textScalerOf(context).scale(1.0);
+
     return CardLayout(
       id: order.orderId,
       width: 195,
-      height: isDetail ? 100 : 150,
+      height: (isDetail ? 100 : 150) * textScale,
       colors: const [
         AMAPColorConstants.lightGradient1,
         AMAPColorConstants.greenGradient1,
       ],
-      padding: const EdgeInsets.symmetric(horizontal: 17.0, vertical: 12),
+      padding: EdgeInsets.symmetric(
+        horizontal: 17.0,
+        vertical: isDetail ? 8 : 12,
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,12 +59,16 @@ class OrderUI extends HookConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                '${AppLocalizations.of(context)!.amapThe} ${DateFormat.yMd(locale).format(order.deliveryDate)}',
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AMAPColorConstants.textDark,
+              Flexible(
+                child: Text(
+                  '${AppLocalizations.of(context)!.amapThe} ${DateFormat.yMd(locale).format(order.deliveryDate)}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AMAPColorConstants.textDark,
+                  ),
                 ),
               ),
               if (!isDetail)
@@ -79,21 +88,28 @@ class OrderUI extends HookConsumerWidget {
           const SizedBox(height: 3),
           Row(
             children: [
-              Text(
-                "${order.productsdetail.length} ${AppLocalizations.of(context)!.amapProduct}${order.productsdetail.length != 1 ? "s" : ""}",
-                style: const TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
+              Expanded(
+                child: Text(
+                  "${order.productsdetail.length} ${AppLocalizations.of(context)!.amapProduct}${order.productsdetail.length != 1 ? "s" : ""}",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
                 ),
               ),
-              const Spacer(),
-              Text(
-                "${order.amount.toStringAsFixed(2)}€",
-                style: const TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
+              Flexible(
+                child: Text(
+                  "${order.amount.toStringAsFixed(2)}€",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ],
@@ -101,6 +117,8 @@ class OrderUI extends HookConsumerWidget {
           const SizedBox(height: 3),
           Text(
             capitalize(order.collectionSlot.name),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w700,

@@ -75,21 +75,23 @@ class PlantCard extends HookConsumerWidget {
                 ),
               ),
               const Spacer(),
-              SizedBox(
-                width: 100,
-                child: Column(
-                  children: [
-                    Text(
-                      "${SeedLibraryTextConstants.type} ${plant.propagationMethod.name}",
-                      textAlign: TextAlign.center,
-                    ),
-                    plant.propagationMethod == PropagationMethod.graine
-                        ? Text(
-                            "(${plant.nbSeedsEnvelope.toString()} ${(plant.nbSeedsEnvelope ?? 0) > 1 ? SeedLibraryTextConstants.seeds : SeedLibraryTextConstants.seed})",
-                            textAlign: TextAlign.center,
-                          )
-                        : const SizedBox(),
-                  ],
+              Flexible(
+                child: SizedBox(
+                  width: 100,
+                  child: Column(
+                    children: [
+                      Text(
+                        "${SeedLibraryTextConstants.type} ${plant.propagationMethod.name}",
+                        textAlign: TextAlign.center,
+                      ),
+                      plant.propagationMethod == PropagationMethod.graine
+                          ? Text(
+                              "(${plant.nbSeedsEnvelope.toString()} ${(plant.nbSeedsEnvelope ?? 0) > 1 ? SeedLibraryTextConstants.seeds : SeedLibraryTextConstants.seed})",
+                              textAlign: TextAlign.center,
+                            )
+                          : const SizedBox(),
+                    ],
+                  ),
                 ),
               ),
             ],

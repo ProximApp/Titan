@@ -26,16 +26,27 @@ abstract class ListNotifierAPI<T> extends Notifier<AsyncValue<List<T>>> {
   Future<AsyncValue<List<T>>> loadList(
     Future<Response<List<T>>> Function() f,
   ) async {
-    return errorWrapper(() async {
-      final response = await f();
-      final data = response.body;
-      if (response.isSuccessful && data != null) {
-        state = AsyncValue.data(data);
-        return state;
-      } else {
-        throw response.error!;
-      }
-    }, (error) => state = AsyncValue.error(error, StackTrace.current));
+    return errorWrapper<AsyncValue<List<T>>>(
+      () async {
+        final response = await f();
+        final data = response.body;
+        if (response.isSuccessful && data != null) {
+          final next = AsyncValue.data(data);
+          if (ref.mounted) {
+            state = next;
+          }
+          return next;
+        } else {
+          throw response.error!;
+        }
+      },
+      (error) {
+        if (ref.mounted) {
+          state = AsyncValue.error(error, StackTrace.current);
+        }
+        return AsyncValue.error(error, StackTrace.current);
+      },
+    );
   }
 
   Future<AsyncValue<List<T>>> loadFromList(List<T>? listT) async {

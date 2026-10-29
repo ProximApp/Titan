@@ -1,0 +1,210 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:titan/loan/adapters/item.dart';
+import 'package:titan/loan/providers/item_list_provider.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+import 'package:chopper/chopper.dart' as chopper;
+import 'package:http/http.dart' as http;
+import 'package:titan/tools/repository/repository.dart';
+
+import '../../shared/mock_openapi.dart';
+
+void main() {
+  group('ItemListNotifier', () {
+    late MockOpenapi mockRepository;
+    late ProviderContainer container;
+    late ItemListNotifier provider;
+    final items = [
+      Item.empty().copyWith(id: '1', name: 'Item 1'),
+      Item.empty().copyWith(id: '2', name: 'Item 2'),
+    ];
+    final newItem = Item.empty().copyWith(id: '3', name: 'New Item');
+    final updatedItem = items.first.copyWith(name: 'Updated Item');
+
+    setUp(() async {
+      mockRepository = MockOpenapi();
+      // Default stub for the build()-time auto-load chain.
+      when(() => mockRepository.loansUsersMeLoanersGet()).thenAnswer(
+        (_) async => chopper.Response(http.Response('[]', 200), <Loaner>[]),
+      );
+      container = ProviderContainer(
+        overrides: [repositoryProvider.overrideWithValue(mockRepository)],
+      );
+      provider = container.read(itemListProvider.notifier);
+      await Future(() {});
+    });
+
+    tearDown(() => container.dispose());
+
+    test('loadItemList returns expected data', () async {
+      when(
+        () => mockRepository.loansLoanersLoanerIdItemsGet(
+          loanerId: any(named: 'loanerId'),
+        ),
+      ).thenAnswer(
+        (_) async => chopper.Response(http.Response('body', 200), items),
+      );
+
+      final result = await provider.loadItemList('123');
+
+      expect(result.maybeWhen(data: (data) => data, orElse: () => []), items);
+    });
+
+    test('loadItemList handles error', () async {
+      when(
+        () => mockRepository.loansLoanersLoanerIdItemsGet(
+          loanerId: any(named: 'loanerId'),
+        ),
+      ).thenThrow(Exception('Failed to load items'));
+
+      final result = await provider.loadItemList('123');
+
+      expect(
+        result.maybeWhen(error: (error, _) => error, orElse: () => null),
+        isA<Exception>(),
+      );
+    });
+
+    test('addItem adds an item to the list', () async {
+      when(
+        () => mockRepository.loansLoanersLoanerIdItemsGet(
+          loanerId: any(named: 'loanerId'),
+        ),
+      ).thenAnswer(
+        (_) async => chopper.Response(http.Response('body', 200), items),
+      );
+      when(
+        () => mockRepository.loansLoanersLoanerIdItemsPost(
+          loanerId: any(named: 'loanerId'),
+          body: any(named: 'body'),
+        ),
+      ).thenAnswer(
+        (_) async => chopper.Response(http.Response('body', 200), newItem),
+      );
+
+      provider.state = AsyncValue.data([...items]);
+      final result = await provider.addItem(newItem.toItemBase(), '123');
+
+      expect(result, true);
+      expect(provider.state.maybeWhen(data: (data) => data, orElse: () => []), [
+        ...items,
+        newItem,
+      ]);
+    });
+
+    test('addItem handles error', () async {
+      when(
+        () => mockRepository.loansLoanersLoanerIdItemsPost(
+          loanerId: any(named: 'loanerId'),
+          body: any(named: 'body'),
+        ),
+      ).thenThrow(Exception('Failed to add item'));
+
+      provider.state = AsyncValue.data([...items]);
+      final result = await provider.addItem(newItem.toItemBase(), '123');
+
+      expect(result, false);
+    });
+
+    test('updateItem updates an item in the list', () async {
+      when(
+        () => mockRepository.loansLoanersLoanerIdItemsGet(
+          loanerId: any(named: 'loanerId'),
+        ),
+      ).thenAnswer(
+        (_) async => chopper.Response(http.Response('body', 200), items),
+      );
+      when(
+        () => mockRepository.loansLoanersLoanerIdItemsItemIdPatch(
+          loanerId: any(named: 'loanerId'),
+          itemId: any(named: 'itemId'),
+          body: any(named: 'body'),
+        ),
+      ).thenAnswer(
+        (_) async => chopper.Response(http.Response('body', 200), updatedItem),
+      );
+
+      provider.state = AsyncValue.data([...items]);
+      final result = await provider.updateItem(updatedItem, '123');
+
+      expect(result, true);
+      expect(provider.state.maybeWhen(data: (data) => data, orElse: () => []), [
+        updatedItem,
+        ...items.skip(1),
+      ]);
+    });
+
+    test('updateItem handles error', () async {
+      when(
+        () => mockRepository.loansLoanersLoanerIdItemsItemIdPatch(
+          loanerId: any(named: 'loanerId'),
+          itemId: any(named: 'itemId'),
+          body: any(named: 'body'),
+        ),
+      ).thenThrow(Exception('Failed to update item'));
+
+      provider.state = AsyncValue.data([...items]);
+      final result = await provider.updateItem(updatedItem, '123');
+
+      expect(result, false);
+    });
+
+    test('deleteItem removes an item from the list', () async {
+      when(
+        () => mockRepository.loansLoanersLoanerIdItemsGet(
+          loanerId: any(named: 'loanerId'),
+        ),
+      ).thenAnswer(
+        (_) async => chopper.Response(http.Response('body', 200), items),
+      );
+      when(
+        () => mockRepository.loansLoanersLoanerIdItemsItemIdDelete(
+          loanerId: any(named: 'loanerId'),
+          itemId: any(named: 'itemId'),
+        ),
+      ).thenAnswer(
+        (_) async => chopper.Response(http.Response('body', 200), null),
+      );
+
+      provider.state = AsyncValue.data([...items]);
+      final result = await provider.deleteItem(items.first, '123');
+
+      expect(result, true);
+      expect(
+        provider.state.maybeWhen(data: (data) => data, orElse: () => []),
+        items.skip(1).toList(),
+      );
+    });
+
+    test('deleteItem handles error', () async {
+      when(
+        () => mockRepository.loansLoanersLoanerIdItemsItemIdDelete(
+          loanerId: any(named: 'loanerId'),
+          itemId: items.first.id,
+        ),
+      ).thenThrow(Exception('Failed to delete item'));
+
+      provider.state = AsyncValue.data([...items]);
+      final result = await provider.deleteItem(items.first, '123');
+
+      expect(result, false);
+    });
+
+    test('filterItems filters items based on query', () async {
+      provider.state = AsyncValue.data([...items]);
+      final result = await provider.filterItems('1');
+
+      expect(result.maybeWhen(data: (data) => data, orElse: () => []), [
+        items.first,
+      ]);
+    });
+
+    test('copy returns a copy of the current state', () async {
+      provider.state = AsyncValue.data([...items]);
+
+      final result = await provider.copy();
+
+      expect(result.maybeWhen(data: (data) => data, orElse: () => []), items);
+    });
+  });
+}

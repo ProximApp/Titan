@@ -22,7 +22,7 @@ List<MemberComplete> sortedMembers(
   List<MemberComplete> members,
   AssociationComplete association,
 ) {
-  return members..sort(
+  return [...members]..sort(
     (a, b) =>
         getPosition(a, association).compareTo(getPosition(b, association)),
   );

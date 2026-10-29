@@ -95,11 +95,14 @@ class AssociationGroupementBar extends HookConsumerWidget {
     useEffect(() {
       Future(() {
         if (associationGroupement.id != "") {
-          Scrollable.ensureVisible(
-            dataKey.currentContext!,
-            duration: const Duration(milliseconds: 500),
-            alignment: 0.5,
-          );
+          final target = dataKey.currentContext;
+          if (target != null) {
+            Scrollable.ensureVisible(
+              target,
+              duration: const Duration(milliseconds: 500),
+              alignment: 0.5,
+            );
+          }
         }
       });
       return;

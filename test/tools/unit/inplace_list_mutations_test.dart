@@ -1,0 +1,258 @@
+import 'dart:io';
+
+import 'package:flutter_test/flutter_test.dart';
+
+import '../../shared/inplace_list_mutation_detector.dart';
+
+/// The ratchet for ledger #12's family, generalised.
+///
+/// `tools/widget/fixed_width_cards_test.dart` is the standing sweep for a
+/// card that hardcodes a width beside flex children. `tool/detect_inplace_sorts.py`
+/// is a manual command for the `.sort(` half of ledger #12. Neither guards
+/// anything automatically. This does: it fails when a mutating list/set call in
+/// `lib/` has a receiver the detector cannot resolve to a copy, to a class's own
+/// field, to a notifier's API or to a platform object.
+///
+/// [verifiedSafe] is the whole of the accepted remainder, each entry with the
+/// reason it was read and accepted. A site that is not in it is a finding, so
+/// the list has to be re-read every time it changes — that is the cost, and
+/// it is the point: the alternative is the status quo, where 12 defects sat
+/// across 6 files and four of them never notified a listener at all.
+void main() {
+  group('in-place list mutation ratchet', () {
+    late List<InplaceMutation> all;
+
+    setUpAll(() {
+      all = findInplaceListMutations();
+    });
+
+    List<InplaceMutation> review() =>
+        all.where((m) => m.bucket == Bucket.review).toList();
+
+    test('every unresolved receiver is a known, justified site', () {
+      final unlisted = review()
+          .where((m) => !verifiedSafe.containsKey(m.id))
+          .map((m) => '  ${m.id}  receiver=${m.receiver}')
+          .toList();
+
+      expect(
+        unlisted,
+        isEmpty,
+        reason:
+            'these sites mutate a collection the surrounding code does not own.\n'
+            'Copy the receiver first (`List.of(x)`, `[...x]`, `x.toList()`), or\n'
+            'if it is genuinely safe, add it to `verifiedSafe` in\n'
+            'test/tools/unit/inplace_list_mutations_test.dart with a reason.\n'
+            '${unlisted.join('\n')}',
+      );
+    });
+
+    test('every accepted site carries a reason', () {
+      final unreasoned = verifiedSafe.entries
+          .where((e) => e.value.trim().isEmpty)
+          .map((e) => '  ${e.key}')
+          .toList();
+
+      expect(
+        unreasoned,
+        isEmpty,
+        reason:
+            'an exemption with no reason is indistinguishable from a finding '
+            'nobody got round to reading',
+      );
+    });
+
+    test('no accepted site has gone stale', () {
+      final found = {for (final m in review()) m.id};
+      final stale = verifiedSafe.keys
+          .where((id) => !found.contains(id))
+          .map((id) => '  $id')
+          .toList();
+
+      expect(
+        stale,
+        isEmpty,
+        reason:
+            'these entries name sites the detector no longer finds — the call '
+            'was fixed, renamed or deleted, so the exemption is just dead '
+            'weight that hides a future regression at the same place',
+      );
+    });
+
+    test('the detector still finds candidates at all', () {
+      // The guard against the detector itself rotting. Two of its regexes were
+      // once spliced with `r'...$_fragment...'` — and a Dart RAW string does
+      // NOT interpolate, so both compiled to patterns containing the literal
+      // text `$fragment`, matched nothing, and took the findings from 21 to
+      // 115 with no error anywhere. A silently-dead regex is worse than no
+      // regex, so the total is pinned.
+      expect(all.length, greaterThan(100));
+      expect(
+        all.map((m) => m.bucket).toSet(),
+        containsAll(Bucket.values),
+        reason: 'a bucket with no members means its classifier is dead',
+      );
+    });
+  });
+
+  group('the Dart port agrees with the Python tool', () {
+    test('row for row', () {
+      // Only a genuinely missing python3 may skip: a tool that RAN and then
+      // misbehaved is a broken cross-check, and a broken cross-check fails
+      // here rather than silently skipping (that is what hid the tool's
+      // absence for so long).
+      late final ProcessResult result;
+      try {
+        result = Process.runSync('python3', [
+          'tool/detect_inplace_list_mutations.py',
+          '--dump',
+        ]);
+      } on ProcessException {
+        markTestSkipped(
+          'python3 is unavailable here, so the two detectors cannot be '
+          'cross-checked. The `still finds candidates` test above covers the '
+          'same failure mode (a dead regex) without needing Python.',
+        );
+        return;
+      }
+      expect(
+        result.exitCode,
+        0,
+        reason: 'the Python tool must exit 0 in --dump mode:\n${result.stderr}',
+      );
+
+      final python = (result.stdout as String)
+          .split('\n')
+          .where((l) => l.trim().isNotEmpty)
+          .map((l) => l.trim().split(RegExp(r'\s+')).take(2).join(' '))
+          .toSet();
+      final dart = findInplaceListMutations()
+          .map((m) => '${m.bucket.name} ${m.id}')
+          .toSet();
+
+      final onlyPython = python.difference(dart).toList()..sort();
+      final onlyDart = dart.difference(python).toList()..sort();
+
+      expect(
+        onlyPython,
+        isEmpty,
+        reason: 'the Python tool finds sites the Dart port does not',
+      );
+      expect(
+        onlyDart,
+        isEmpty,
+        reason: 'the Dart port finds sites the Python tool does not',
+      );
+      expect(dart.length, greaterThan(100));
+    });
+  });
+}
+
+/// The accepted remainder: every REVIEW site, with why it is safe.
+///
+/// Grouped by shape rather than by file, because the shapes are the lesson —
+/// four different files each had "a local named something the declaration
+/// scan could not see".
+const verifiedSafe = <String, String>{
+  // --- Not a collection at all: a DateTime. `now.add(Duration(...))` is the
+  // single most common false positive in the codebase, and it is why the
+  // detector has a NONLIST bucket rather than relying on names.
+  'lib/home/providers/days_provider.dart:10':
+      '`now` is a DateTime local, not a list. `DateTime.add` has nothing to do '
+      'with list mutation.',
+  'lib/service/tools/setup.dart:40':
+      '`now` is a DateTime local: `now.add(const Duration(days: 30))`. '
+      '(The authorized branch was rewritten — the topics notifier is now '
+      'read after the permission answer — and the call sits at line 40 on '
+      'the current HEAD; the key follows the detector, which only cares '
+      'that the call is still this DateTime one.)',
+  'lib/loan/providers/end_provider.dart:27':
+      '`base` is a DateTime local (`DateTime.parse` result); `base.add` adds '
+      'a Duration to the date. (The ledger #34 guard hoisted it out of the '
+      'parse call; the detector now sees it on line 27 of this file.)',
+
+  // --- Platform objects, not Dart lists. The controller ones are the
+  // TextEditingController behind each of the four date fields.
+  'lib/admin/ui/pages/membership/association_membership_detail_page/search_filters.dart:140':
+      '`startMaximal` is a useTextEditingController(); `clear()` is its API.',
+  'lib/admin/ui/pages/membership/association_membership_detail_page/search_filters.dart:141':
+      '`startMinimal` is a useTextEditingController().',
+  'lib/admin/ui/pages/membership/association_membership_detail_page/search_filters.dart:142':
+      '`endMaximal` is a useTextEditingController().',
+  'lib/admin/ui/pages/membership/association_membership_detail_page/search_filters.dart:143':
+      '`endMinimal` is a useTextEditingController().',
+  'lib/seed-library/ui/pages/plant_deposit_page/plant_deposit_page.dart:283':
+      '`seedQuantity` is a useTextEditingController(); `clear()` empties the '
+      'field, which is the point. (Key follows the detector: the call now '
+      'sits on line 283 of this file, one of five pins re-anchored after the '
+      'working tree landed back on a HEAD where the block is shorter.)',
+  'lib/seed-library/ui/pages/plant_deposit_page/plant_deposit_page.dart:284':
+      '`notes` is a useTextEditingController(). (Moves with the '
+      '`seedQuantity` entry above, one line below it.)',
+
+  // --- A DateTime field of the loop element: `e.end.add(...)`.
+  'lib/loan/ui/pages/admin_page/on_going_loan.dart:132':
+      '`e.end` is a DateTime field of the loan model: `e.end.add(Duration)`. '
+      '(Key re-anchored to the detector\'s current line: the call sits at '
+      '132 on this HEAD and the previous key `134` matched no site, which is '
+      'exactly what the staleness assertion exists to catch.)',
+
+  // --- A list this function built itself: `sortedAssociationByKind` creates
+  // every value list from its own map literal before the loop sorts it.
+  'lib/phonebook/tools/function.dart:42':
+      '`list` is the loop variable over `sortedByGroupement.values` — a map '
+      'literal declared four lines above in the SAME function (`{for '
+      '(groupement in groupements) groupement.id: []}`), so every list it '
+      'hands the loop was allocated here and is owned by this call. '
+      '(Key corrected 43 → 42: the exemption had drifted one line below '
+      'the call it accepts, which is exactly the staleness the twin '
+      'assertion above exists to catch.)',
+
+  // --- Notifier-internal rename of its own local: modulesName is read from
+  // prefs then re-sorted before assignment, never shared.
+  'lib/settings/providers/module_list_provider.dart:124':
+      '`modulesName` is a local built from `prefs.getStringList(dbModule)` in '
+      'loadModules and sorted before being read; no external reader holds it. '
+      '(The site’s line tracks the code above it; it is at 124 on the '
+      'current HEAD and the key follows the detector.)',
+  'lib/mypayment/ui/pages/devices_page/devices_page.dart:185':
+      '`keyService` is the KeyService; `clear()` is its own method for '
+      'unregistering the device, not a collection mutation. (Key re-anchored '
+      "193 → 185: the key follows the detector's current line for the call, "
+      'after the surrounding block was rewritten by the formatting pass.)',
+  'lib/service/local_notification_service.dart:223':
+      '`onNotificationClick` is a StreamController; `add` feeds the stream.',
+
+  // --- A fresh copy the declaration scan cannot see, because the RHS is a
+  // ternary or spans lines.
+  'lib/admin/ui/components/association_picker_modal.dart:53':
+      '`filtered` is `query.isEmpty ? [...associations] : '
+      'associations.where(...).toList()` — both arms are copies.',
+  'lib/event/ui/pages/admin_page/list_event.dart:41':
+      '`filteredEvents` is `events.where(...).toList()` in both arms of the '
+      '`isHistory` ternary, so the sort mutates a copy.',
+  'lib/purchases/ui/pages/scan_page/scan_page.dart:113':
+      '`a` is the accumulator of `fold([], (a, b) => a..addAll(b))`; the seed '
+      'is a fresh literal. (Key re-anchored 115 → 113: the key follows the '
+      "detector's current line for the call, which is what both ratchet "
+      'assertions compare against.)',
+
+  // --- A local whose declaration is a literal on the same statement, but whose
+  // type argument contains a `>` that the `<...>[]` pattern cannot span.
+  'lib/super_admin/ui/pages/permissions/permissions.dart:127':
+      '`result` is `final result = <MapEntry<String, List<String>>>[];` — a '
+      'local list. The nested `>>` defeats the declaration pattern, which '
+      'is a known gap rather than a reason to accept a risk.',
+  'lib/super_admin/ui/pages/permissions/permissions.dart:129':
+      'Same `result` local as line 127.',
+
+  // --- Flutter's own diagnostics builder, which is an argument parameter.
+  'lib/tools/ui/heroicons.dart:95':
+      '`properties` is the DiagnosticPropertiesBuilder parameter Flutter '
+      'hands debugFillProperties; adding to it is its whole contract.',
+  'lib/tools/ui/heroicons.dart:96': 'Same `properties` builder parameter.',
+  'lib/tools/ui/heroicons.dart:99': 'Same `properties` builder parameter.',
+  'lib/tools/ui/heroicons.dart:100': 'Same `properties` builder parameter.',
+
+  // --- Verified in ledger #12 alongside the 21 sort fixes, re-confirmed here.
+};
