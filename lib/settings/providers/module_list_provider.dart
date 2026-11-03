@@ -90,11 +90,13 @@ class ModulesNotifier extends Notifier<List<Module>> {
   }
 
   Module getModuleByRoot(String root) {
-    try {
-      return allModules.firstWhere((m) => m.root.toString() == root);
-    } catch (e) {
-      return allModules.first;
+    for (final module in allModules) {
+      if (module.root.toString() == root) return module;
     }
+    for (final module in state) {
+      if (module.root.toString() == root) return module;
+    }
+    return state.isNotEmpty ? state.first : allModules.first;
   }
 
   Future loadModules(List<String> roots) async {
@@ -126,30 +128,24 @@ class ModulesNotifier extends Notifier<List<Module>> {
       );
     }
     List<Module> modules = [];
-    List<Module> toDelete = [];
     for (String name in modulesName) {
       if (allModulesName.contains(name)) {
         Module module = allModules[allSavedModulesName.indexOf(name)];
         if (roots.contains(module.root)) {
           modules.add(module);
-        } else {
-          toDelete.add(module);
         }
       }
-    }
-    for (Module module in toDelete) {
-      allModules.remove(module);
     }
     for (final module in [
       SettingsRouter.module,
       if (isAdmin) AdminRouter.module,
       if (isSuperAdmin) SuperAdminRouter.module,
     ]) {
-      if (!allModules.contains(module)) {
-        allModules.add(module);
+      if (!modules.contains(module)) {
+        modules.add(module);
       }
     }
-    state = allModules;
+    state = modules;
   }
 
   void sortModules() {
@@ -168,11 +164,22 @@ class ModulesNotifier extends Notifier<List<Module>> {
     if (newIndex > oldIndex) {
       newIndex -= 1;
     }
-    allModules.insert(newIndex, allModules.removeAt(oldIndex));
-    final modulesIds = state.map((e) => e.root.toString()).toList();
-    state = allModules
-        .where((e) => modulesIds.contains(e.root.toString()))
-        .toList();
+    final visible = List<Module>.of(state);
+    final moved = visible.removeAt(oldIndex);
+    visible.insert(newIndex, moved);
+    if (allModules.contains(moved)) {
+      allModules.remove(moved);
+      Module? anchor;
+      for (var i = newIndex - 1; i >= 0; i--) {
+        if (allModules.contains(visible[i])) {
+          anchor = visible[i];
+          break;
+        }
+      }
+      final insertAt = anchor == null ? 0 : allModules.indexOf(anchor) + 1;
+      allModules.insert(insertAt, moved);
+    }
+    state = visible;
     saveAllModules();
   }
 
