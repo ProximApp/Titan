@@ -300,46 +300,44 @@ class ScanPage extends HookConsumerWidget {
                                         descriptions:
                                             "${AppLocalizations.of(context)!.paiementTransactionCancelledDescription} ${formatter.format(transaction.total / 100)} ?",
                                         onYes: () async {
-                                          final value =
-                                              await transactionNotifier
-                                                  .cancelTransaction(
-                                                    transaction.id,
-                                                  );
-                                          value.when(
-                                            data: (value) {
-                                              if (value) {
-                                                displayToastWithContext(
-                                                  TypeMsg.msg,
-                                                  AppLocalizations.of(
-                                                    context,
-                                                  )!.paiementTransactionCancelled,
-                                                );
-                                                ref
-                                                    .read(
-                                                      ongoingTransactionProvider
-                                                          .notifier,
-                                                    )
-                                                    .clearOngoingTransaction();
-                                              } else {
-                                                displayToastWithContext(
-                                                  TypeMsg.error,
-                                                  AppLocalizations.of(
-                                                    context,
-                                                  )!.paiementTransactionCancelledError,
-                                                );
-                                              }
-                                              ongoingTransactionNotifier
-                                                  .clearOngoingTransaction();
-                                              barcodeNotifier.clearBarcode();
-                                            },
-                                            error: (error, stack) {
-                                              displayToastWithContext(
-                                                TypeMsg.error,
-                                                error.toString(),
-                                              );
-                                            },
-                                            loading: () {},
-                                          );
+                                          // `cancelTransaction` awaits the POST
+                                          // before it builds an AsyncValue, so a
+                                          // throwing call reached neither `when`
+                                          // arm: the exception escaped this
+                                          // dialog and the barcode stayed set,
+                                          // which gates every later scan behind
+                                          // "Next". Every outcome therefore
+                                          // clears the surface explicitly.
+                                          var cancelled = false;
+                                          try {
+                                            final value =
+                                                await transactionNotifier
+                                                    .cancelTransaction(
+                                                      transaction.id,
+                                                    );
+                                            cancelled = value.maybeWhen(
+                                              data: (value) => value,
+                                              orElse: () => false,
+                                            );
+                                          } catch (_) {
+                                            cancelled = false;
+                                          }
+                                          if (context.mounted) {
+                                            final l10n = AppLocalizations.of(
+                                              context,
+                                            )!;
+                                            displayToastWithContext(
+                                              cancelled
+                                                  ? TypeMsg.msg
+                                                  : TypeMsg.error,
+                                              cancelled
+                                                  ? l10n.paiementTransactionCancelled
+                                                  : l10n.paiementTransactionCancelledError,
+                                            );
+                                          }
+                                          ongoingTransactionNotifier
+                                              .clearOngoingTransaction();
+                                          barcodeNotifier.clearBarcode();
                                           scannerKey.currentState
                                               ?.resetScanner();
                                         },
