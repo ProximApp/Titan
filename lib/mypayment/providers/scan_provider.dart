@@ -12,7 +12,10 @@ class ScanNotifier extends SingleNotifierAPI<History> {
     return const AsyncValue.loading();
   }
 
-  Future<AsyncValue<History>?> scan(
+  /// Non-nullable on purpose: `load` answers an AsyncValue for every outcome
+  /// (data or error), so a null return never existed. The nullable signature
+  /// invited two unreachable `value == null` branches in the scanner.
+  Future<AsyncValue<History>> scan(
     String storeId,
     ScanInfo data, {
     bool? bypass,

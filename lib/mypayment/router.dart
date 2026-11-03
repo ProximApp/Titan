@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/navigation/class/module.dart';
+import 'package:titan/mypayment/providers/bank_account_holder_provider.dart';
 import 'package:titan/mypayment/providers/is_payment_admin.dart';
+import 'package:titan/mypayment/providers/structure_list_provider.dart';
 import 'package:titan/mypayment/ui/pages/structure_admin_page/structure_admin_page.dart'
     deferred as structure_stores_page;
 import 'package:titan/mypayment/ui/pages/fund_page/web_view_modal.dart'
@@ -88,7 +90,16 @@ class PaymentRouter {
         builder: () => invoices_admin_page.InvoicesAdminPage(),
         middleware: [
           DeferredLoadingMiddleware(invoices_admin_page.loadLibrary),
-          AdminMiddleware(ref, isBankAccountHolderProvider),
+          AdminMiddleware(
+            ref,
+            isBankAccountHolderProvider,
+            // The gate reads the structures list AND the bank account
+            // holder, neither of which a cold deep link has loaded yet.
+            isLoading: [
+              () => ref.read(structureListProvider).isLoading,
+              () => ref.read(bankAccountHolderProvider).isLoading,
+            ],
+          ),
         ],
       ),
       QRoute(
@@ -96,7 +107,11 @@ class PaymentRouter {
         builder: () => structure_invoices_page.StructureInvoicesPage(),
         middleware: [
           DeferredLoadingMiddleware(structure_invoices_page.loadLibrary),
-          AdminMiddleware(ref, isStructureAdminProvider),
+          AdminMiddleware(
+            ref,
+            isStructureAdminProvider,
+            isLoading: [() => ref.read(structureListProvider).isLoading],
+          ),
         ],
       ),
       QRoute(
@@ -104,7 +119,11 @@ class PaymentRouter {
         builder: () => structure_stores_page.StructureStoresPage(),
         middleware: [
           DeferredLoadingMiddleware(structure_stores_page.loadLibrary),
-          AdminMiddleware(ref, isStructureAdminProvider),
+          AdminMiddleware(
+            ref,
+            isStructureAdminProvider,
+            isLoading: [() => ref.read(structureListProvider).isLoading],
+          ),
         ],
         children: [
           QRoute(

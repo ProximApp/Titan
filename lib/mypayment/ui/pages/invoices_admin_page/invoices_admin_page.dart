@@ -39,6 +39,11 @@ class InvoicesAdminPage extends HookConsumerWidget {
       invoicesNotifier.getInvoices(page: page.value, pageLimit: pageSize.value);
     }
 
+    useEffect(() {
+      Future.microtask(refreshInvoices);
+      return null;
+    }, const []);
+
     void displayToastWithContext(TypeMsg type, String msg) {
       displayToast(context, type, msg);
     }
