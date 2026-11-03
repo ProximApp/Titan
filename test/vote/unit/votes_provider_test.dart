@@ -2,22 +2,21 @@ import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/vote/providers/votes_provider.dart';
 
-class MockVotesRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('VotesProvider', () {
-    late MockVotesRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late VotesProvider provider;
     final votes = VoteBase(listId: '1');
 
     setUp(() async {
-      mockRepository = MockVotesRepository();
+      mockRepository = MockOpenapi();
       container = ProviderContainer(
         overrides: [repositoryProvider.overrideWithValue(mockRepository)],
       );
@@ -30,7 +29,7 @@ void main() {
     test('addVote returns true when successful', () async {
       when(() => mockRepository.campaignVotesPost(body: any(named: 'body')))
           .thenAnswer(
-            (_) async => chopper.Response(http.Response('body', 200), votes),
+            (_) async => chopper.Response(http.Response('body', 200), null),
           );
 
       final result = await provider.addVote(votes);

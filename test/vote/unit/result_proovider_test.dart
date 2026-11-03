@@ -2,16 +2,15 @@ import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/vote/providers/result_provider.dart';
 
-class MockResultRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('ResultNotifier', () {
-    late MockResultRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late ResultNotifier provider;
     final results = [
@@ -20,7 +19,7 @@ void main() {
     ];
 
     setUp(() async {
-      mockRepository = MockResultRepository();
+      mockRepository = MockOpenapi();
       when(() => mockRepository.campaignResultsGet()).thenAnswer(
         (_) async => chopper.Response(
           http.Response('[]', 200),

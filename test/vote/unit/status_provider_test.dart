@@ -1,23 +1,22 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/vote/providers/status_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:http/http.dart' as http;
 
-class MockStatusRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('StatusNotifier', () {
-    late MockStatusRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late StatusNotifier provider;
     final status = VoteStatus(status: StatusType.open);
 
     setUp(() async {
-      mockRepository = MockStatusRepository();
+      mockRepository = MockOpenapi();
       when(() => mockRepository.campaignStatusGet()).thenAnswer(
         (_) async => chopper.Response(
           http.Response('{}', 200),
