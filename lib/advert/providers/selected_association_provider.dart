@@ -8,8 +8,7 @@ class AssociationNotifier extends Notifier<List<Association>> {
   }
 
   void addAssociation(Association i) {
-    state.add(i);
-    state = state.sublist(0);
+    state = [...state, i];
   }
 
   void removeAssociation(Association i) {
