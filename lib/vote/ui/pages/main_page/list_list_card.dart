@@ -46,7 +46,7 @@ class ListListCard extends HookConsumerWidget {
     Map<String, double> votesPercent = {};
 
     double h = 0;
-    sectionsList[section]!.whenData((listList) {
+    sectionsList[section]?.whenData((listList) {
       h =
           listList.length *
               ((s == StatusType.open || s == StatusType.published)
@@ -58,7 +58,7 @@ class ListListCard extends HookConsumerWidget {
       for (var i = 0; i < listList.length; i++) {
         numberVotes.add(results[listList[i].id] ?? 0);
       }
-      totalVotes = numberVotes.reduce((value, element) => value + element);
+      totalVotes = numberVotes.fold(0, (value, element) => value + element);
       for (var i = 0; i < numberVotes.length; i++) {
         votesPercent[listList[i].id] = totalVotes == 0
             ? 0
@@ -87,7 +87,7 @@ class ListListCard extends HookConsumerWidget {
         SingleChildScrollView(
           controller: scrollController,
           physics: const BouncingScrollPhysics(),
-          child: sectionsList.isNotEmpty
+          child: sectionsList[section] != null
               ? AsyncChild(
                   value: sectionsList[section]!,
                   builder: (context, listList) => Column(
