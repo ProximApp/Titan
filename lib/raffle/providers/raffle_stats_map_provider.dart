@@ -7,10 +7,11 @@ class RaffleStatsMapNotifier extends MapNotifier<String, RaffleStats> {
   @override
   Map<String, AsyncValue<List<RaffleStats>>?> build() {
     final raffles = ref.watch(raffleListProvider);
-    raffles.whenData((value) {
-      loadTList(value.map((e) => e.id).toList());
-    });
-    return state;
+    final loaded = raffles.maybeWhen(
+      data: (value) => value,
+      orElse: () => <RaffleComplete>[],
+    );
+    return {for (final raffle in loaded) raffle.id: null};
   }
 }
 
