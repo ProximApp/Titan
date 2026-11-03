@@ -35,8 +35,12 @@ class EditProfile extends HookConsumerWidget {
           ? "${me.birthday!.day.toString().padLeft(2, '0')}/${me.birthday!.month.toString().padLeft(2, '0')}/${me.birthday!.year}"
           : '',
     );
-
-    MediaQuery.of(context).viewInsets.bottom;
+    // The save button's `disabled` flag is derived from these controllers'
+    // text, so the widget must rebuild whenever they change: text edits do
+    // not invalidate ancestors on their own, and the button would otherwise
+    // stay latched in its initial (disabled) state.
+    useListenable(phoneController);
+    useListenable(birthdayController);
 
     final localizeWithContext = AppLocalizations.of(context)!;
     final navigatorWithContext = Navigator.of(context);
@@ -69,6 +73,11 @@ class EditProfile extends HookConsumerWidget {
                           backgroundImage: profile.isEmpty
                               ? const AssetImage('assets/images/profile.png')
                               : Image.memory(profile).image,
+                          // The placeholder asset is not shipped: without an
+                          // error listener the failed decode throws a
+                          // RESOURCE SERVICE exception (and fails widget
+                          // tests); the avatar simply stays empty.
+                          onBackgroundImageError: (error, stackTrace) {},
                         ),
                       ),
                       Positioned(
