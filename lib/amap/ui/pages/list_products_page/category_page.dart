@@ -111,7 +111,7 @@ class CategoryPage extends HookConsumerWidget {
                       ),
                       Positioned(
                         top: MediaQuery.of(context).size.height - 350,
-                        left: (MediaQuery.of(context).size.width - 150) / 2,
+                        left: (MediaQuery.of(context).size.width - 180) / 2,
                         child: FadeTransition(
                           opacity: hideAnimation,
                           child: ScaleTransition(
@@ -127,7 +127,7 @@ class CategoryPage extends HookConsumerWidget {
                                 );
                               },
                               child: Container(
-                                width: 150,
+                                width: 180,
                                 height: 50,
                                 decoration: BoxDecoration(
                                   gradient: const LinearGradient(
