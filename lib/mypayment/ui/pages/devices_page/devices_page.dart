@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -72,12 +73,13 @@ class DevicesPage extends HookConsumerWidget {
                         .compareTo(statusOrder(b.status));
                   });
 
-                final firstDevice =
-                    devices.map((e) => e.id).contains(snapshot.data)
-                    ? devices
-                          .where((element) => element.id == snapshot.data)
-                          .first
-                    : null;
+                // `where(...).first` on a list that merely CONTAINS the id
+                // reads as guarded but is not: the filter can still be empty
+                // (an id that matched nothing), and `first` threw `Bad state:
+                // No element`. The optional lookup says what was meant.
+                final firstDevice = devices.firstWhereOrNull(
+                  (element) => element.id == snapshot.data,
+                );
 
                 final shouldDisplayAddDevice =
                     (snapshot.data == null ||

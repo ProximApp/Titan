@@ -16,11 +16,18 @@ class TicketWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // An empty pack has no first ticket: `ticket[0]` threw a RangeError
+    // before the card could draw its empty state.
+    if (ticket.isEmpty) return const SizedBox.shrink();
     final isWinningTicket = ticket[0].prize != null;
     final raffleList = ref.watch(raffleListProvider);
+    // The pack's raffle can be absent from the loaded list (deleted, or a
+    // page-filtered list): the bare `firstWhere` threw `Bad state: No
+    // element` on it.
     final raffle = raffleList.maybeWhen(
       data: (data) => data.firstWhere(
         (element) => element.id == ticket[0].packTicket.raffleId,
+        orElse: () => RaffleComplete.empty(),
       ),
       orElse: () => RaffleComplete.empty(),
     );

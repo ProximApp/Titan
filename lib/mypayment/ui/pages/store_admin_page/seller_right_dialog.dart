@@ -75,7 +75,7 @@ class SellerRightDialog extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 12.0),
-                      if (child != null) child!,
+                      ?child,
                       const SizedBox(height: 30.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

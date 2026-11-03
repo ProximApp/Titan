@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/generated/openapi.enums.swagger.dart';
@@ -65,12 +66,21 @@ class PermissionDetailModal extends HookConsumerWidget {
                     final isAuthorized = authorizedAccountTypes
                         .map((item) => item.name)
                         .contains(snakeToCamelCase(accountType));
+                    // A label the enum does not cover (a renamed account
+                    // type, a locale-specific string) has no row to render:
+                    // the bare `firstWhere` threw `Bad state: No element`
+                    // and took the whole modal down.
+                    final accountTypeValue = AccountType.values
+                        .firstWhereOrNull(
+                          (type) =>
+                              type.name.contains(snakeToCamelCase(accountType)),
+                        );
+                    if (accountTypeValue == null) {
+                      return const SizedBox.shrink();
+                    }
                     final model = CoreAccountTypePermission(
                       permissionName: actionPermissionName,
-                      accountType: AccountType.values.firstWhere(
-                        (type) =>
-                            type.name.contains(snakeToCamelCase(accountType)),
-                      ),
+                      accountType: accountTypeValue,
                     );
                     return PermissionRow(
                       label: accountType,
