@@ -8,12 +8,14 @@ class MainPageIndexNotifier extends Notifier<int> {
   int build() {
     final sessionList = ref.watch(sessionListProvider);
     return sessionList.maybeWhen(
-      data: (data) {
-        if (data.isEmpty) {
+      data: (sessionData) {
+        if (sessionData.isEmpty) {
           startPage = 0;
           return 0;
         }
-        data.sort((a, b) => a.start.compareTo(b.start));
+        // Copy before sorting: `sessionList`'s data belongs to the provider.
+        final data = [...sessionData]
+          ..sort((a, b) => a.start.compareTo(b.start));
         final now = DateTime.now();
         final centralElement =
             data.indexWhere((element) => element.start.isAfter(now)) %
