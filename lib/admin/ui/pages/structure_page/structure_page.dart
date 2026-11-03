@@ -60,15 +60,18 @@ class StructurePage extends HookConsumerWidget {
               const SizedBox(height: 20),
               Row(
                 children: [
-                  Text(
-                    localizeWithContext.adminStructures,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: ColorConstants.title,
+                  Expanded(
+                    child: Text(
+                      localizeWithContext.adminStructures,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: ColorConstants.title,
+                      ),
                     ),
                   ),
-                  const Spacer(),
                   CustomIconButton(
                     icon: HeroIcon(
                       HeroIcons.plus,
@@ -90,11 +93,12 @@ class StructurePage extends HookConsumerWidget {
               const SizedBox(height: 10),
               Async2Children(
                 values: Tuple2(structures, bankAccountHolder),
-                builder: (context, structures, bankAccountHolder) {
-                  structures.sort(
-                    (a, b) =>
-                        a.name.toLowerCase().compareTo(b.name.toLowerCase()),
-                  );
+                builder: (context, structuresUnsorted, bankAccountHolder) {
+                  final structures = [...structuresUnsorted]
+                    ..sort(
+                      (a, b) =>
+                          a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+                    );
                   return Column(
                     children: [
                       Column(

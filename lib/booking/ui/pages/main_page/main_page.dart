@@ -115,8 +115,9 @@ class BookingMainPage extends HookConsumerWidget {
                 const SizedBox(height: 10),
                 AsyncChild(
                   value: bookings,
-                  builder: (context, data) {
-                    data.sort((a, b) => b.creation.compareTo(a.creation));
+                  builder: (context, dataUnsorted) {
+                    final data = [...dataUnsorted]
+                      ..sort((a, b) => b.creation.compareTo(a.creation));
                     return HorizontalListView.builder(
                       height: 210,
                       firstChild: GestureDetector(

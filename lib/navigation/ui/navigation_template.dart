@@ -40,9 +40,9 @@ class NavigationTemplate extends HookConsumerWidget {
     final pathForwarding = ref.watch(pathForwardingProvider);
     final pathForwardingNotifier = ref.read(pathForwardingProvider.notifier);
 
-    Future(() {
+    Future(() async {
       if (!kIsWeb && user.id != "" && shouldSetup) {
-        setUpNotification(ref);
+        await setUpNotification(ref);
         shouldSetupNotifier.setShouldSetup();
       }
     });

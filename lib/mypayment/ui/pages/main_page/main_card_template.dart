@@ -52,12 +52,14 @@ class MainCardTemplate extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Text(
-                        title,
-                        textAlign: TextAlign.left,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
+                      Expanded(
+                        child: Text(
+                          title,
+                          textAlign: TextAlign.left,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                       const Spacer(),

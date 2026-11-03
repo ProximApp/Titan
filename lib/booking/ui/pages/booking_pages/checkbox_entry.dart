@@ -16,6 +16,11 @@ class CheckBoxEntry extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         valueNotifier.value = !valueNotifier.value;
+        // The row and the box are one control to a user, so they run the same
+        // callback. The row used to flip only, which meant the booking form's
+        // date-clearing callback (start/end/recurrence end) never ran when the
+        // mode was toggled by its label.
+        onChanged?.call();
       },
       behavior: HitTestBehavior.opaque,
       child: Row(

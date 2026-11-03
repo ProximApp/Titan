@@ -45,6 +45,8 @@ class TicketUI extends HookConsumerWidget {
                 children: [
                   Text(
                     "${packTicket.price} €",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 20,
@@ -54,6 +56,8 @@ class TicketUI extends HookConsumerWidget {
                   SizedBox(height: showButton ? 5 : 10),
                   Text(
                     "${packTicket.packSize} tickets",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: Colors.white.withValues(alpha: 0.8),
                       fontSize: 18,

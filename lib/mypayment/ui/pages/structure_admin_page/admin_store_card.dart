@@ -45,15 +45,18 @@ class AdminStoreCard extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-                store.name,
-                style: const TextStyle(
-                  fontSize: 20,
-                  color: Color.fromARGB(255, 0, 29, 29),
-                  fontWeight: FontWeight.bold,
+              Expanded(
+                child: Text(
+                  store.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    color: Color.fromARGB(255, 0, 29, 29),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-              const Spacer(),
               GestureDetector(
                 onTap: () {
                   storeNotifier.updateStore(store);

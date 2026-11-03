@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/raffle/providers/raffle_id_provider.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
 
@@ -8,6 +9,10 @@ class PackTicketsListNotifier extends ListNotifierAPI<PackTicketSimple> {
 
   @override
   AsyncValue<List<PackTicketSimple>> build() {
+    final raffleIdValue = ref.watch(raffleIdProvider);
+    if (raffleIdValue != PackTicketSimple.empty().id) {
+      loadPackTicketList(raffleIdValue);
+    }
     return const AsyncValue.loading();
   }
 

@@ -9,7 +9,12 @@ class RaffleIdProvider extends Notifier<String> {
   @override
   String build() {
     final raffles = ref.watch(raffleListProvider);
-    return raffles.maybeWhen(data: (data) => data.first.id, orElse: () => "");
+    // An empty list has no first raffle: `data.first` threw `Bad state: No
+    // element` on a fresh account, before the first raffle ever loaded.
+    return raffles.maybeWhen(
+      data: (data) => data.isEmpty ? "" : data.first.id,
+      orElse: () => "",
+    );
   }
 
   void setId(String i) {

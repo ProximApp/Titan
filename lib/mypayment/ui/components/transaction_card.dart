@@ -142,8 +142,16 @@ class TransactionCard extends ConsumerWidget {
                     ],
                   ),
                   if (transaction.refund == null) const SizedBox(height: 5),
+                  // 70px of card, nothing flexible: the title row takes ~18,
+                  // so the date gets three lines on its own and two once the
+                  // refund line below claims its share (the two conditions
+                  // are the same one that adds the 5px gap above). Left to
+                  // wrap the column ran 19px past the card bottom at a 280px
+                  // viewport, where the amount leaves this column ~46px.
                   Text(
                     "${AppLocalizations.of(context)!.paiementThe} ${DateFormat.yMMMMEEEEd(locale.toString()).format(transaction.creation)} ${AppLocalizations.of(context)!.paiementAt} ${DateFormat.Hm(locale.toString()).format(transaction.creation)}",
+                    maxLines: transaction.refund == null ? 3 : 2,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: Color(0xff204550),
                       fontSize: 12,
@@ -152,6 +160,8 @@ class TransactionCard extends ConsumerWidget {
                   if (transaction.refund != null)
                     Text(
                       "${AppLocalizations.of(context)!.paiementRefundedThe} ${DateFormat.yMMMMEEEEd(locale.toString()).format(transaction.refund!.creation)} +  ${AppLocalizations.of(context)!.paiementAt} ${DateFormat.Hm(locale.toString()).format(transaction.refund!.creation)} ${AppLocalizations.of(context)!.paiementOf} ${formatter.format(transaction.refund!.total / 100)}",
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: Color.fromARGB(255, 16, 46, 55),
                         fontSize: 9,

@@ -109,20 +109,32 @@ class MemberDetailPage extends HookConsumerWidget {
               const SizedBox(height: 10),
               AsyncChild(
                 value: associationList,
-                builder: (context, associations) => Column(
-                  children: [
-                    ...sortedMemberships.map((membership) {
-                      final membershipAssociation = associations.firstWhere(
-                        (association) =>
-                            association.id == membership.associationId,
-                      );
-                      return MembershipCard(
-                        association: membershipAssociation,
-                        membership: membership,
-                      );
-                    }),
-                  ],
-                ),
+                builder: (context, associations) {
+                  // A membership can outlive its association (deleted
+                  // server-side, or a mandate left behind). There is no card
+                  // to build without the association, so the orphan is
+                  // skipped: the bare `firstWhere` that used to run here
+                  // threw `Bad state: No element` out of build and killed
+                  // the page — the same orphan shape as the groupement
+                  // lookup on the association cards.
+                  final associationById = {
+                    for (final association in associations)
+                      association.id: association,
+                  };
+                  return Column(
+                    children: [
+                      for (final membership in sortedMemberships)
+                        if (associationById.containsKey(
+                          membership.associationId,
+                        ))
+                          MembershipCard(
+                            association:
+                                associationById[membership.associationId]!,
+                            membership: membership,
+                          ),
+                    ],
+                  );
+                },
               ),
               const SizedBox(height: 20),
             ],

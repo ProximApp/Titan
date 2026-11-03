@@ -63,15 +63,18 @@ class AssociationMembershipsPage extends HookConsumerWidget {
               const SizedBox(height: 20),
               Row(
                 children: [
-                  Text(
-                    AppLocalizations.of(context)!.adminAssociationMembership,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: ColorConstants.title,
+                  Expanded(
+                    child: Text(
+                      AppLocalizations.of(context)!.adminAssociationMembership,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: ColorConstants.title,
+                      ),
                     ),
                   ),
-                  const Spacer(),
                   CustomIconButton(
                     icon: HeroIcon(
                       HeroIcons.plus,
@@ -117,11 +120,12 @@ class AssociationMembershipsPage extends HookConsumerWidget {
               SizedBox(height: 10),
               AsyncChild(
                 value: associationsMemberships,
-                builder: (context, g) {
-                  g.sort(
-                    (a, b) =>
-                        a.name.toLowerCase().compareTo(b.name.toLowerCase()),
-                  );
+                builder: (context, gUnsorted) {
+                  final g = [...gUnsorted]
+                    ..sort(
+                      (a, b) =>
+                          a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+                    );
                   return Column(
                     children: [
                       Column(

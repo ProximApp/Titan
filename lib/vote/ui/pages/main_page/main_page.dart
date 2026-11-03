@@ -65,15 +65,20 @@ class VoteMainPage extends HookConsumerWidget {
               Row(
                 children: [
                   if (isAdmin)
-                    Text(
-                      AppLocalizations.of(context)!.voteVote,
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: ColorConstants.title,
+                    Expanded(
+                      child: Text(
+                        AppLocalizations.of(context)!.voteVote,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: ColorConstants.title,
+                        ),
                       ),
-                    ),
-                  const Spacer(),
+                    )
+                  else
+                    const Spacer(),
                   CustomIconButton(
                     icon: HeroIcon(
                       HeroIcons.userGroup,

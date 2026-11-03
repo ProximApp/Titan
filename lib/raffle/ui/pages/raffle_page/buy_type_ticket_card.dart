@@ -40,7 +40,11 @@ class BuyPackTicket extends HookConsumerWidget {
       child: Container(
         width: 160,
         margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-        padding: const EdgeInsets.symmetric(vertical: 12),
+        // Compact paddings: the pack list pins this card to 160px and the
+        // content (50px logo + gap + pack size + buy button) measured ~143
+        // inside the 106px the old padding left — a 37px vertical overflow
+        // on every card.
+        padding: const EdgeInsets.symmetric(vertical: 6),
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -68,8 +72,8 @@ class BuyPackTicket extends HookConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    width: 50,
-                    height: 50,
+                    width: 40,
+                    height: 40,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       boxShadow: [
@@ -124,18 +128,23 @@ class BuyPackTicket extends HookConsumerWidget {
                       },
                     ),
                   ),
-                  Text(
-                    "${packTicket.price.toStringAsFixed(2)}€",
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                  Flexible(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        "${packTicket.price.toStringAsFixed(2)}€",
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 2),
             Text(
               "${packTicket.packSize} ${AppLocalizations.of(context)!.raffleTicket}${packTicket.packSize > 1 ? "s" : ""}",
               style: TextStyle(
@@ -147,7 +156,7 @@ class BuyPackTicket extends HookConsumerWidget {
             const Spacer(),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 12),
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
               width: 150,
               decoration: BoxDecoration(
                 gradient: LinearGradient(

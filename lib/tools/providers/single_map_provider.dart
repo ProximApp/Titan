@@ -36,11 +36,7 @@ class SingleMapNotifier<T, E> extends Notifier<Map<T, AsyncValue<E>?>> {
     state = state.map((key, _) => MapEntry(key, null));
   }
 
-  Future<void> autoLoad(
-    WidgetRef ref,
-    T t,
-    Future<AsyncValue<E>> Function(T t) loader,
-  ) async {
+  Future<void> autoLoad(T t, Future<AsyncValue<E>> Function(T t) loader) async {
     setTData(t, const AsyncLoading());
     loader(t).then((value) {
       setTData(t, value);

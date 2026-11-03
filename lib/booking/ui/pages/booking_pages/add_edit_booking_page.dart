@@ -49,9 +49,7 @@ class AddEditBookingPage extends HookConsumerWidget {
     final isEdit = booking.id != BookingReturnApplicant.empty().id;
     final room = useState(booking.room);
     final recurrent = useState(
-      booking.recurrenceRule != ""
-          ? (booking.recurrenceRule as String).contains("BYDAY")
-          : false,
+      (booking.recurrenceRule ?? "").contains("BYDAY"),
     );
     final allDay = useState(
       booking.start.hour == 0 &&
@@ -255,6 +253,13 @@ class AddEditBookingPage extends HookConsumerWidget {
                                     .bookingWeeks,
                                 controller: interval,
                                 isInt: true,
+                                validator: (value) {
+                                  final parsed = int.tryParse(value);
+                                  return parsed == null || parsed < 1
+                                      ? AppLocalizations.of(context)!
+                                            .bookingInvalidIntervalError
+                                      : null;
+                                },
                               ),
                               const SizedBox(height: 30),
                               if (!allDay.value)
@@ -328,11 +333,11 @@ class AddEditBookingPage extends HookConsumerWidget {
                             start.text = "${start.text} 00:00";
                             end.text = "${end.text} 23:59";
                           }
-                          if (end.text.contains("/") &&
-                              isDateBefore(
-                                processDateBack(end.text, locale.toString()),
-                                processDateBack(start.text, locale.toString()),
-                              )) {
+                          if (hasInvalidBookingRange(
+                            start.text,
+                            end.text,
+                            locale.toString(),
+                          )) {
                             displayToast(
                               context,
                               TypeMsg.error,

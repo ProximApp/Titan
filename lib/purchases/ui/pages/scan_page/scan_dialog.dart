@@ -138,15 +138,14 @@ class ScanDialog extends HookConsumerWidget {
                       child: QRCodeScannerScreen(
                         scanner: scanner,
                         onScan: (secret) async {
-                          await scannerNotifier.scanTicket(
+                          scannerNotifier.setSecret(secret);
+                          final scanned = await scannerNotifier.scanTicket(
                             sellerId,
                             productId,
                             ticket.id,
                           );
-                          scanner.when(
-                            data: (data) {
-                              scannerNotifier.setSecret(secret);
-                            },
+                          scanned.when(
+                            data: (data) {},
                             error: (error, stack) {
                               displayToastWithContext(
                                 TypeMsg.error,

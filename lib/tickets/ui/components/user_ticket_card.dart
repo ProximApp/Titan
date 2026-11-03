@@ -78,41 +78,45 @@ class UserTicketCard extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    // Date and time
-                    Row(
-                      children: [
-                        HeroIcon(
-                          HeroIcons.calendar,
-                          size: 14,
-                          color: ColorConstants.onTertiary,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          dateOnlyFormatter.format(
-                            ticket.session.startDatetime,
-                          ),
-                          style: TextStyle(
-                            fontSize: 12,
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          HeroIcon(
+                            HeroIcons.calendar,
+                            size: 14,
                             color: ColorConstants.onTertiary,
                           ),
-                        ),
-                        const SizedBox(width: 12),
-                        HeroIcon(
-                          HeroIcons.clock,
-                          size: 14,
-                          color: ColorConstants.onTertiary,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          timeOnlyFormatter.format(
-                            ticket.session.startDatetime,
+                          const SizedBox(width: 4),
+                          Text(
+                            dateOnlyFormatter.format(
+                              ticket.session.startDatetime,
+                            ),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: ColorConstants.onTertiary,
+                            ),
                           ),
-                          style: TextStyle(
-                            fontSize: 12,
+                          const SizedBox(width: 12),
+                          HeroIcon(
+                            HeroIcons.clock,
+                            size: 14,
                             color: ColorConstants.onTertiary,
                           ),
-                        ),
-                      ],
+                          const SizedBox(width: 4),
+                          Text(
+                            timeOnlyFormatter.format(
+                              ticket.session.startDatetime,
+                            ),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: ColorConstants.onTertiary,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

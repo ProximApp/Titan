@@ -62,7 +62,7 @@ class ProductCard extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           AutoSizeText(
-            '${product.price.toStringAsFixed(2)} €',
+            '${(product.price / 100).toStringAsFixed(2)} €',
             maxLines: 1,
             minFontSize: 10,
             overflow: TextOverflow.ellipsis,
@@ -105,8 +105,11 @@ class ProductCard extends StatelessWidget {
                 )
               : Container(
                   margin: const EdgeInsets.only(bottom: 5),
-                  child: Text(
+                  child: AutoSizeText(
                     "${AppLocalizations.of(context)!.amapQuantity} : $quantity",
+                    maxLines: 1,
+                    minFontSize: 10,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,

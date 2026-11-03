@@ -23,6 +23,7 @@ class PersonalPlantCard extends HookConsumerWidget {
     final species = ref.watch(syncSpeciesListProvider);
     final plantSpecies = species.firstWhere(
       (element) => element.id == plant.speciesId,
+      orElse: SpeciesComplete.empty,
     );
 
     return GestureDetector(
@@ -56,43 +57,46 @@ class PersonalPlantCard extends HookConsumerWidget {
               ),
               const Spacer(),
               plant.plantingDate != null
-                  ? SizedBox(
-                      width: 200,
-                      child: Column(
-                        children: [
-                          Text(
-                            plant.state == PlantState.consommE
-                                ? SeedLibraryTextConstants.deathDate
-                                : SeedLibraryTextConstants.plantingDate,
-                          ),
-                          Text(
-                            DateFormat.yMd(locale).format(plant.plantingDate!),
-                          ),
-                          ...plantSpecies.timeMaturation != null &&
-                                  plant.state != PlantState.consommE
-                              ? [
-                                  Text(
-                                    SeedLibraryTextConstants
-                                        .timeUntilMaturation,
-                                  ),
-                                  Text(
-                                    "${(plantSpecies.timeMaturation! - DateTime.now().difference(plant.plantingDate!).inDays).toString()} ${SeedLibraryTextConstants.days}",
-                                    style: TextStyle(
-                                      color:
-                                          plantSpecies.timeMaturation! -
-                                                  DateTime.now()
-                                                      .difference(
-                                                        plant.plantingDate!,
-                                                      )
-                                                      .inDays <=
-                                              0
-                                          ? Colors.red
-                                          : Colors.green,
+                  ? Flexible(
+                      child: SizedBox(
+                        width: 200,
+                        child: Column(
+                          children: [
+                            Text(
+                              plant.state == PlantState.consommE
+                                  ? SeedLibraryTextConstants.deathDate
+                                  : SeedLibraryTextConstants.plantingDate,
+                            ),
+                            Text(
+                              DateFormat.yMd(locale)
+                                  .format(plant.plantingDate!),
+                            ),
+                            ...plantSpecies.timeMaturation != null &&
+                                    plant.state != PlantState.consommE
+                                ? [
+                                    Text(
+                                      SeedLibraryTextConstants
+                                          .timeUntilMaturation,
                                     ),
-                                  ),
-                                ]
-                              : [],
-                        ],
+                                    Text(
+                                      "${(plantSpecies.timeMaturation! - DateTime.now().difference(plant.plantingDate!).inDays).toString()} ${SeedLibraryTextConstants.days}",
+                                      style: TextStyle(
+                                        color:
+                                            plantSpecies.timeMaturation! -
+                                                    DateTime.now()
+                                                        .difference(
+                                                          plant.plantingDate!,
+                                                        )
+                                                        .inDays <=
+                                                0
+                                            ? Colors.red
+                                            : Colors.green,
+                                      ),
+                                    ),
+                                  ]
+                                : [],
+                          ],
+                        ),
                       ),
                     )
                   : const SizedBox(),

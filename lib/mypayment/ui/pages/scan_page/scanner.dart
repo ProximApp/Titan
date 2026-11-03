@@ -13,7 +13,6 @@ import 'package:titan/mypayment/providers/ongoing_transaction.dart';
 import 'package:titan/mypayment/providers/scan_provider.dart';
 import 'package:titan/mypayment/providers/selected_store_provider.dart';
 import 'package:titan/mypayment/ui/pages/scan_page/scan_overlay_shape.dart';
-import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -54,11 +53,14 @@ class ScannerState extends ConsumerState<Scanner> with WidgetsBindingObserver {
     );
   }
 
-  void displayToastWithContext(TypeMsg type, String msg) {
-    displayToast(context, type, msg);
-  }
-
   void _handleBarcode(BarcodeCapture barcodes) async {
+    // A frame can carry no decoded payload at all: `firstOrNull!.rawValue!`
+    // turned that ordinary frame into a null-check crash inside the stream
+    // listener, and — because the anti-double-scan stamp was written before
+    // the payload was read — it also armed the 5s gate and swallowed the next
+    // real code. Neither is a scan, so neither may reach the gate.
+    final rawValue = barcodes.barcodes.firstOrNull?.rawValue;
+    if (rawValue == null) return;
     final lastTimeScanned = ref.watch(lastTimeScannedProvider);
     final lastTimeScannedNotifier = ref.read(lastTimeScannedProvider.notifier);
     if (lastTimeScanned != null &&
@@ -76,45 +78,30 @@ class ScannerState extends ConsumerState<Scanner> with WidgetsBindingObserver {
       ongoingTransactionProvider.notifier,
     );
 
-    final localizeWithContext = AppLocalizations.of(context)!;
-    if (mounted && barcodes.barcodes.isNotEmpty && barcode == null) {
-      final data = barcodeNotifier.updateBarcode(
-        barcodes.barcodes.firstOrNull!.rawValue!,
-      );
+    if (mounted && barcode == null) {
+      final data = barcodeNotifier.updateBarcode(rawValue);
       if (!bypass) {
         final canScan = await scanNotifier.canScan(store.id, data);
         if (!canScan) {
           showWithoutMembershipDialog(() async {
+            // `scan` always answers an AsyncValue — a failure is an AsyncError,
+            // which the amount card renders. There is no null outcome, so the
+            // "QR Code already used" branch that used to live here could
+            // never run (it was dead code, not a safety net).
             final value = await scanNotifier.scan(store.id, data, bypass: true);
-            if (value == null) {
-              displayToastWithContext(
-                TypeMsg.error,
-                localizeWithContext.paiementScanAlreadyUsedQRCode,
-              );
-              barcodeNotifier.clearBarcode();
-              ongoingTransactionNotifier.clearOngoingTransaction();
-              return;
-            }
             ongoingTransactionNotifier.updateOngoingTransaction(value);
           });
           return;
         }
       }
       final value = await scanNotifier.scan(store.id, data);
-      if (value == null) {
-        displayToastWithContext(
-          TypeMsg.error,
-          localizeWithContext.paiementScanAlreadyUsedQRCode,
-        );
-        barcodeNotifier.clearBarcode();
-        ongoingTransactionNotifier.clearOngoingTransaction();
-        return;
-      } else {
-        setState(() {
-          scannedValue = barcodes.barcodes.firstOrNull?.rawValue;
-        });
-        ongoingTransactionNotifier.updateOngoingTransaction(value);
-      }
+      ongoingTransactionNotifier.updateOngoingTransaction(value);
+      // The scan POST outlives the sheet: a seller who closes the modal while
+      // the backend answers used to hit setState() on a disposed state.
+      if (!mounted) return;
+      setState(() {
+        scannedValue = rawValue;
+      });
     }
   }
 

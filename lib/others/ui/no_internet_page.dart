@@ -13,7 +13,6 @@ class NoInternetPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isConnected = ref.watch(isConnectedProvider);
     final isConnectedNotifier = ref.watch(isConnectedProvider.notifier);
     return Scaffold(
       body: Container(
@@ -43,9 +42,11 @@ class NoInternetPage extends HookConsumerWidget {
               const SizedBox(height: 40),
               GestureDetector(
                 onTap: () async {
-                  isConnectedNotifier.isInternet();
-                  if (isConnected) {
-                    QR.to(HomeRouter.root);
+                  await isConnectedNotifier.isInternet();
+                  if (ref.read(isConnectedProvider)) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      QR.to(HomeRouter.root);
+                    });
                   }
                 },
                 child: Container(
