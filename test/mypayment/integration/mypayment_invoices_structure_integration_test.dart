@@ -1,0 +1,82 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:titan/generated/openapi.swagger.dart';
+
+import '../mypayment_fixtures.dart';
+import '../../shared/app_scaffold.dart';
+
+Invoice invoice(String id, String reference, Structure structure, int total) =>
+    Invoice.empty().copyWith(
+      id: id,
+      reference: reference,
+      structureId: structure.id,
+      creation: DateTime(2026, 1, 5),
+      startDate: DateTime(2026, 1, 1),
+      endDate: DateTime(2026, 1, 31),
+      total: total,
+      structure: structure,
+    );
+
+void main() {
+  late IntegrationScaffold scaffold;
+
+  setUp(() {
+    scaffold = IntegrationScaffold();
+    scaffold.shellSetUp();
+  });
+
+  testWidgets('structure invoices page lists the invoices of the structure', (
+    tester,
+  ) async {
+    final bde = structureFixture('structure-1', 'BDE', 'user-1');
+    stubInvoicePreviews(scaffold);
+    // The page fetches on mount now (ledger #8), so the list comes from the
+    // stub — no provider pre-seeding.
+    stubStructureInvoiceList(
+      scaffold,
+      invoices: [invoice('inv-1', 'FA-2026-001', bde, 1500)],
+    );
+
+    await scaffold.pumpApp(
+      tester,
+      scaffold.makeContainer(
+        user: CoreUser.empty().copyWith(id: 'user-1'),
+        // Pre-seeded so the async AdminMiddleware gate (the user manages the
+        // structure) resolves before the redirect is evaluated.
+        myStructures: [bde],
+        selectedStructure: bde,
+      ),
+      initialPath: '/mypayment/invoicesStructure',
+      pumpAndSettle: false,
+    );
+    await settle(tester, frames: 30);
+
+    expect(find.text('FA-2026-001'), findsOneWidget);
+    // The invoice is neither paid nor received.
+    expect(find.text('Pending'), findsOneWidget);
+    // The pagination row renders with 20 per page.
+    expect(find.text('20'), findsOneWidget);
+  });
+
+  testWidgets('structure invoices page renders empty with no invoice', (
+    tester,
+  ) async {
+    stubInvoicePreviews(scaffold);
+    stubStructureInvoiceList(scaffold);
+    final bde = structureFixture('structure-1', 'BDE', 'user-1');
+
+    await scaffold.pumpApp(
+      tester,
+      scaffold.makeContainer(
+        user: CoreUser.empty().copyWith(id: 'user-1'),
+        myStructures: [bde],
+        selectedStructure: bde,
+      ),
+      initialPath: '/mypayment/invoicesStructure',
+      pumpAndSettle: false,
+    );
+    await settle(tester, frames: 30);
+
+    expect(find.text('FA-2026-001'), findsNothing);
+    expect(find.text('20'), findsOneWidget);
+  });
+}
