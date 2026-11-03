@@ -2,16 +2,15 @@ import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tickets/providers/ticket_event_provider.dart';
 import 'package:titan/tools/repository/repository.dart';
 
-class MockTicketRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('TicketEventNotifier', () {
-    late MockTicketRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
 
     final eventA = EventAdmin.empty().copyWith(
@@ -33,7 +32,7 @@ void main() {
     }
 
     setUp(() {
-      mockRepository = MockTicketRepository();
+      mockRepository = MockOpenapi();
       container = ProviderContainer(
         overrides: [repositoryProvider.overrideWithValue(mockRepository)],
       );
