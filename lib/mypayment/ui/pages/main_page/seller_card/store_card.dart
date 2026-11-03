@@ -67,7 +67,6 @@ class StoreCard extends HookConsumerWidget {
             colors: buttonGradient,
             icon: HeroIcons.userGroup,
             onPressed: () async {
-              // storeAdminListNotifier.getStoreAdminList(store.id);
               QR.to(PaymentRouter.root + PaymentRouter.storeAdmin);
             },
             title: AppLocalizations.of(context)!.paiementManagement,
