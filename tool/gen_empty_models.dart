@@ -34,7 +34,7 @@ void main() {
     final line = lines[i];
     out.writeln(line);
 
-    final m = RegExp(r'^class (\w+) \{').firstMatch(line);
+    final m = RegExp(r'^class ([\w$]+) \{').firstMatch(line);
     if (m == null) continue;
     final c = byName[m.group(1)!];
     if (c == null) continue;
@@ -102,7 +102,7 @@ List<_Class> _parseClasses(String src) {
   final classes = <_Class>[];
 
   for (var i = 0; i < lines.length; i++) {
-    final m = RegExp(r'^class (\w+) \{').firstMatch(lines[i]);
+    final m = RegExp(r'^class ([\w$]+) \{').firstMatch(lines[i]);
     if (m == null) continue;
     final name = m.group(1)!;
 
@@ -127,7 +127,7 @@ List<_Class> _parseClasses(String src) {
     // Required constructor params, in declaration order.
     final required = <_Field>[];
     final ctor = RegExp(
-      'const $name'
+      'const ${RegExp.escape(name)}'
       r'\(\{([\s\S]*?)\}\);',
     ).firstMatch(body);
     if (ctor != null) {
