@@ -7,13 +7,13 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/admin/providers/all_group_list_provider.dart';
 import 'package:titan/tools/repository/repository.dart';
 
-class MockGroupRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 class MockCoreUserNotifier extends Mock implements Notifier<CoreUser> {}
 
 void main() {
   group('GroupListNotifier', () {
-    late MockGroupRepository mockGroup;
+    late MockOpenapi mockGroup;
     late ProviderContainer container;
     late GroupListNotifier groupNotifier;
     final group = CoreGroupSimple(
@@ -34,7 +34,7 @@ void main() {
     final returnedGroup = CoreGroupSimple.empty().copyWith(id: "2");
 
     setUp(() async {
-      mockGroup = MockGroupRepository();
+      mockGroup = MockOpenapi();
       // Default stub for the build()-time auto-load.
       when(() => mockGroup.groupsGet()).thenAnswer(
         (_) async =>
@@ -157,7 +157,7 @@ void main() {
           body: any(named: 'body'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(http.Response('[]', 200), true),
+        (_) async => chopper.Response(http.Response('[]', 200), null),
       );
       await groupNotifier.loadGroups();
       expect(await groupNotifier.updateGroup(returnedGroup), true);
@@ -183,7 +183,7 @@ void main() {
       );
       when(() => mockGroup.groupsGroupIdDelete(groupId: any(named: 'groupId')))
           .thenAnswer(
-            (_) async => chopper.Response(http.Response('[]', 200), true),
+            (_) async => chopper.Response(http.Response('[]', 200), null),
           );
       await groupNotifier.loadGroups();
       expect(await groupNotifier.deleteGroup(returnedGroup), true);
