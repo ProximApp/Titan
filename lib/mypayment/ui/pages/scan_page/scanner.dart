@@ -54,6 +54,13 @@ class ScannerState extends ConsumerState<Scanner> with WidgetsBindingObserver {
   }
 
   void _handleBarcode(BarcodeCapture barcodes) async {
+    // A frame can carry no decoded payload at all: `firstOrNull!.rawValue!`
+    // turned that ordinary frame into a null-check crash inside the stream
+    // listener, and — because the anti-double-scan stamp was written before
+    // the payload was read — it also armed the 5s gate and swallowed the next
+    // real code. Neither is a scan, so neither may reach the gate.
+    final rawValue = barcodes.barcodes.firstOrNull?.rawValue;
+    if (rawValue == null) return;
     final lastTimeScanned = ref.watch(lastTimeScannedProvider);
     final lastTimeScannedNotifier = ref.read(lastTimeScannedProvider.notifier);
     if (lastTimeScanned != null &&
@@ -71,10 +78,8 @@ class ScannerState extends ConsumerState<Scanner> with WidgetsBindingObserver {
       ongoingTransactionProvider.notifier,
     );
 
-    if (mounted && barcodes.barcodes.isNotEmpty && barcode == null) {
-      final data = barcodeNotifier.updateBarcode(
-        barcodes.barcodes.firstOrNull!.rawValue!,
-      );
+    if (mounted && barcode == null) {
+      final data = barcodeNotifier.updateBarcode(rawValue);
       if (!bypass) {
         final canScan = await scanNotifier.canScan(store.id, data);
         if (!canScan) {
@@ -90,10 +95,13 @@ class ScannerState extends ConsumerState<Scanner> with WidgetsBindingObserver {
         }
       }
       final value = await scanNotifier.scan(store.id, data);
-      setState(() {
-        scannedValue = barcodes.barcodes.firstOrNull?.rawValue;
-      });
       ongoingTransactionNotifier.updateOngoingTransaction(value);
+      // The scan POST outlives the sheet: a seller who closes the modal while
+      // the backend answers used to hit setState() on a disposed state.
+      if (!mounted) return;
+      setState(() {
+        scannedValue = rawValue;
+      });
     }
   }
 
