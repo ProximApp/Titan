@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qlevar_router/qlevar_router.dart';
+import 'package:titan/tools/providers/rendered_path_provider.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/phonebook/extensions/members.dart';
@@ -52,7 +53,9 @@ class MemberEditionModal extends HookConsumerWidget {
                 Navigator.of(context).pop();
                 completeMemberNotifier.setCompleteMember(member);
                 membershipNotifier.setMembership(membership);
-                if (QR.currentPath.contains(PhonebookRouter.admin)) {
+                if (ref
+                    .read(renderedPathProvider)
+                    .contains(PhonebookRouter.admin)) {
                   QR.to(
                     PhonebookRouter.root +
                         PhonebookRouter.admin +
@@ -73,7 +76,11 @@ class MemberEditionModal extends HookConsumerWidget {
             Button.danger(
               text: localizeWithContext.phonebookDeleteRole,
               onPressed: () {
-                Navigator.of(context).pop();
+                final navigator = Navigator.of(context);
+                // Keep the edition sheet open UNDER the confirm sheet: its
+                // context must stay mounted until the async onYes result
+                // toast renders, and Cancel/Confirm each need one extra pop
+                // (this sheet) — ConfirmModal already pops itself.
                 showCustomBottomModal(
                   context: context,
                   ref: ref,
@@ -99,8 +106,10 @@ class MemberEditionModal extends HookConsumerWidget {
                           localizeWithContext.phonebookDeletingError,
                         );
                       }
+                      // Close the edition sheet once the toast has rendered.
+                      navigator.pop();
                     },
-                    onNo: () => Navigator.of(context).pop(),
+                    onNo: navigator.pop,
                   ),
                 );
               },
