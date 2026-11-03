@@ -2,16 +2,15 @@ import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/amap/providers/delivery_product_list_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 
-class MockDeliveryProductListRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('DeliveryProductListNotifier', () {
-    late MockDeliveryProductListRepository productListRepository;
+    late MockOpenapi productListRepository;
     late ProviderContainer container;
     late DeliveryProductListNotifier notifier;
 
@@ -40,7 +39,7 @@ void main() {
     final productToAdd = DeliveryProductsUpdate(productsIds: [product.id]);
 
     setUp(() async {
-      productListRepository = MockDeliveryProductListRepository();
+      productListRepository = MockOpenapi();
       container = ProviderContainer(
         overrides: [
           repositoryProvider.overrideWithValue(productListRepository),
@@ -110,7 +109,7 @@ void main() {
             body: any(named: 'body'),
           ),
         ).thenAnswer(
-          (_) async => chopper.Response(http.Response('[]', 200), true),
+          (_) async => chopper.Response(http.Response('[]', 200), null),
         );
 
         final result = await notifier.deleteProduct(product, 'deliveryId');

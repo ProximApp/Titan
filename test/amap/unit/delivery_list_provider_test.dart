@@ -3,15 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:titan/amap/providers/delivery_list_provider.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 
-class MockDeliveryListRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('DeliveryListNotifier', () {
-    late MockDeliveryListRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late DeliveryListNotifier notifier;
 
@@ -38,7 +37,7 @@ void main() {
     ];
 
     setUp(() async {
-      mockRepository = MockDeliveryListRepository();
+      mockRepository = MockOpenapi();
       when(() => mockRepository.amapDeliveriesGet()).thenAnswer(
         (_) async =>
             chopper.Response(http.Response('[]', 200), <DeliveryReturn>[]),
@@ -105,8 +104,7 @@ void main() {
             body: any(named: 'body'),
           ),
         ).thenAnswer(
-          (_) async =>
-              chopper.Response(http.Response('[]', 200), updatedDelivery),
+          (_) async => chopper.Response(http.Response('[]', 200), null),
         );
         notifier.state = AsyncValue.data(deliveries);
 
@@ -135,10 +133,7 @@ void main() {
             deliveryId: any(named: 'deliveryId'),
           ),
         ).thenAnswer(
-          (_) async => chopper.Response(
-            http.Response('[]', 200),
-            delivery.copyWith(status: DeliveryStatusType.orderable),
-          ),
+          (_) async => chopper.Response(http.Response('[]', 200), null),
         );
         final deliveries = [delivery];
         notifier.state = AsyncValue.data(deliveries);
@@ -172,10 +167,7 @@ void main() {
             deliveryId: any(named: 'deliveryId'),
           ),
         ).thenAnswer(
-          (_) async => chopper.Response(
-            http.Response('[]', 200),
-            delivery.copyWith(status: DeliveryStatusType.locked),
-          ),
+          (_) async => chopper.Response(http.Response('[]', 200), null),
         );
         notifier.state = AsyncValue.data(deliveries);
 
@@ -208,10 +200,7 @@ void main() {
             deliveryId: any(named: 'deliveryId'),
           ),
         ).thenAnswer(
-          (_) async => chopper.Response(
-            http.Response('[]', 200),
-            delivery.copyWith(status: DeliveryStatusType.delivered),
-          ),
+          (_) async => chopper.Response(http.Response('[]', 200), null),
         );
         notifier.state = AsyncValue.data(deliveries);
 
@@ -242,7 +231,7 @@ void main() {
           deliveryId: any(named: 'deliveryId'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(http.Response('[]', 200), true),
+        (_) async => chopper.Response(http.Response('[]', 200), null),
       );
       notifier.state = AsyncValue.data(deliveries);
 
@@ -269,7 +258,7 @@ void main() {
           deliveryId: any(named: 'deliveryId'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(http.Response('[]', 200), true),
+        (_) async => chopper.Response(http.Response('[]', 200), null),
       );
       notifier.state = AsyncValue.data(deliveries);
 
