@@ -6,25 +6,45 @@ import 'package:titan/tools/logs/log.dart';
 import 'package:titan/tools/logs/logger_output.dart';
 import 'package:titan/tools/logs/print_logger_output.dart';
 
+/// Where a [Logger] writes.
+///
+/// Split out from the `kIsWeb` branch for the same reason `downloadChannelFor`
+/// exists: the choice is made by a compile-time constant, so a VM run can only
+/// ever take the file arm and the console arm is never executed by anything.
+enum LoggerDestination { console, file }
+
+/// The destination for a build with [isWeb].
+///
+/// A browser has no log file, so the console is the only option there; every
+/// native target keeps the file log the settings page reads.
+LoggerDestination loggerDestinationFor({required bool isWeb}) =>
+    isWeb ? LoggerDestination.console : LoggerDestination.file;
+
 class Logger {
   LoggerOutput? loggerOutput;
-  Future<void>? _initFuture;
+  final List<Log> _pending = <Log>[];
   bool _initialized = false;
 
-  /// The log level of the logger
-  /// Only logs with a level equal to or higher than this level will be written
-  LogLevel minimalLogLevel = LogLevel.warning;
+  LogLevel minimalLogLevel = LogLevel.info;
 
   Logger() {
-    _initFuture = init();
+    init().whenComplete(_flushPending);
+  }
+
+  void _flushPending() {
+    _initialized = true;
+    final queued = List<Log>.of(_pending);
+    _pending.clear();
+    for (final log in queued) {
+      loggerOutput?.writeLog(log);
+    }
   }
 
   Future<void> init() async {
-    if (kIsWeb) {
-      loggerOutput = PrintLoggerOutput();
-    } else {
-      loggerOutput = FileLoggerOutput();
-    }
+    loggerOutput = switch (loggerDestinationFor(isWeb: kIsWeb)) {
+      LoggerDestination.console => PrintLoggerOutput(),
+      LoggerDestination.file => FileLoggerOutput(),
+    };
     await loggerOutput!.init();
     _initialized = true;
   }
@@ -35,7 +55,7 @@ class Logger {
     }
 
     if (!_initialized) {
-      _initFuture?.then((_) => writeLog(log));
+      _pending.add(log);
       return;
     }
 
