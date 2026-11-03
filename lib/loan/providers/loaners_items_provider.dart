@@ -7,8 +7,7 @@ class LoanersItemsNotifier extends MapNotifier<Loaner, Item> {
   @override
   Map<Loaner, AsyncValue<List<Item>>?> build() {
     final loaners = ref.watch(loanerList);
-    loadTList(loaners);
-    return state;
+    return {for (final loaner in loaners) loaner: null};
   }
 }
 

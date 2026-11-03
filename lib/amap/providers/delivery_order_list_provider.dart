@@ -7,8 +7,7 @@ class AdminDeliveryOrderListNotifier extends MapNotifier<String, OrderReturn> {
   @override
   Map<String, AsyncValue<List<OrderReturn>>?> build() {
     final deliveries = ref.watch(deliveryList);
-    loadTList(deliveries.map((e) => e.id).toList());
-    return state;
+    return {for (final delivery in deliveries) delivery.id: null};
   }
 }
 

@@ -7,10 +7,11 @@ class SimpleGroupsGroupsNotifier extends MapNotifier<String, CoreGroupSimple> {
   @override
   Map<String, AsyncValue<List<CoreGroupSimple>>?> build() {
     final simpleGroups = ref.watch(allGroupListProvider);
-    simpleGroups.whenData((value) {
-      loadTList(value.map((e) => e.id).toList());
-    });
-    return state;
+    final loaded = simpleGroups.maybeWhen(
+      data: (value) => value,
+      orElse: () => <CoreGroupSimple>[],
+    );
+    return {for (final group in loaded) group.id: null};
   }
 }
 
