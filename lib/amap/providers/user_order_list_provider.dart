@@ -12,7 +12,7 @@ class UserOrderListNotifier extends ListNotifierAPI<OrderReturn> {
   AsyncValue<List<OrderReturn>> build() {
     final userId = ref.watch(idProvider);
     userId.whenData((value) async => await loadOrderList(value));
-    return state;
+    return const AsyncValue.loading();
   }
 
   Future<AsyncValue<List<OrderReturn>>> loadOrderList(String userId) async {
