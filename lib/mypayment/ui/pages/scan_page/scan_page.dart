@@ -56,8 +56,8 @@ class ScanPage extends HookConsumerWidget {
               ? Positioned(
                   top: 10,
                   left: 20,
+                  right: 20,
                   child: SizedBox(
-                    width: MediaQuery.of(context).size.width - 40,
                     child: Row(
                       children: [
                         GestureDetector(

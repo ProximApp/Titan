@@ -90,7 +90,12 @@ class ConfirmButton extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 20),
-                const Padding(padding: EdgeInsets.all(10.0), child: QrCode()),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: QrCode(),
+                  ),
+                ),
                 const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),

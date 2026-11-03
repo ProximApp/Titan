@@ -55,16 +55,27 @@ class PermissionTile extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
+                  // Flexible, not fixed: the two counts set their own width
+                  // and their sum passed the available box by 26px once this
+                  // tile sat in a 280px viewport (`125000/125000` twice).
+                  // Loose fit keeps each chip at its intrinsic size whenever
+                  // it fits — identical layout at 360 and 320 — and lets it
+                  // shrink to its share below that, where the label then
+                  // ellipsizes inside the chip.
                   Row(
                     children: [
-                      _SummaryChip(
-                        icon: HeroIcons.userCircle,
-                        label: '$authorizedAccountTypes/$totalAccountTypes',
+                      Flexible(
+                        child: _SummaryChip(
+                          icon: HeroIcons.userCircle,
+                          label: '$authorizedAccountTypes/$totalAccountTypes',
+                        ),
                       ),
                       const SizedBox(width: 8),
-                      _SummaryChip(
-                        icon: HeroIcons.userGroup,
-                        label: '$authorizedGroups/$totalGroups',
+                      Flexible(
+                        child: _SummaryChip(
+                          icon: HeroIcons.userGroup,
+                          label: '$authorizedGroups/$totalGroups',
+                        ),
                       ),
                     ],
                   ),
@@ -102,12 +113,16 @@ class _SummaryChip extends StatelessWidget {
         children: [
           HeroIcon(icon, size: 14, color: ColorConstants.tertiary),
           const SizedBox(width: 4),
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: ColorConstants.tertiary,
+          Flexible(
+            child: Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: ColorConstants.tertiary,
+              ),
             ),
           ),
         ],

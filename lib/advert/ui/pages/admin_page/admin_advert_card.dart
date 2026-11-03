@@ -32,31 +32,35 @@ class AdminAdvertCard extends HookConsumerWidget {
           children: [
             Row(
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      advert.title,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        advert.title,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                    Text(
-                      advert.date != null
-                          ? _capitalizeFirst(
-                              timeago.format(advert.date!, locale: 'fr_short'),
-                            )
-                          : '',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: ColorConstants.tertiary,
+                      Text(
+                        advert.date != null
+                            ? _capitalizeFirst(
+                                timeago.format(
+                                  advert.date!,
+                                  locale: 'fr_short',
+                                ),
+                              )
+                            : '',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: ColorConstants.tertiary,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-                const Spacer(),
                 if (myAssociationIdList.contains(advert.advertiserId))
                   CustomIconButton.secondary(
                     onPressed: onEdit,

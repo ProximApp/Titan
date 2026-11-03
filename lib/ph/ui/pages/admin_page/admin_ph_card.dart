@@ -25,30 +25,44 @@ class AdminPhCard extends StatelessWidget {
         margin: const EdgeInsets.all(5),
         child: Row(
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.phNameField,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.left,
-                    ),
-                    Text(shortenText(ph.name, 28)),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.phDateField,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.left,
-                    ),
-                    Text(shortenText(phFormatDate(ph.releaseDate, locale), 28)),
-                  ],
-                ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!.phNameField,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.left,
+                      ),
+                      Expanded(
+                        child: Text(
+                          shortenText(ph.name, 28),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!.phDateField,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.left,
+                      ),
+                      Expanded(
+                        child: Text(
+                          shortenText(phFormatDate(ph.releaseDate, locale), 28),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
             const Spacer(),
             GestureDetector(
