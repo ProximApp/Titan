@@ -10,37 +10,37 @@ import 'package:titan/tools/logs/log.dart';
 import 'package:titan/tools/logs/logger.dart';
 import 'package:titan/user/providers/user_provider.dart';
 
-void setUpNotification(WidgetRef ref) {
+Future<void> setUpNotification(WidgetRef ref) async {
   final LocalNotificationService localNotificationService =
       LocalNotificationService();
-  localNotificationService.init();
+  await localNotificationService.init();
 
   final user = ref.watch(userProvider);
-  final firebaseToken = ref.watch(firebaseTokenProvider);
-  final topicsNotifier = ref.watch(topicsProvider.notifier);
   final logger = ref.watch(loggerProvider);
 
-  FirebaseMessaging.instance.requestPermission().then((value) {
-    if (value.authorizationStatus == AuthorizationStatus.authorized) {
-      final firebaseTokenExpiration = ref.watch(
-        firebaseTokenExpirationProvider,
-      );
-      final firebaseTokenExpirationNotifier = ref.read(
-        firebaseTokenExpirationProvider.notifier,
-      );
-      final now = DateTime.now();
-      if (firebaseTokenExpiration.userId != user.id ||
-          firebaseTokenExpiration.expiration != null ||
-          firebaseTokenExpiration.expiration!.isBefore(now)) {
-        firebaseToken.then((value) {
-          firebaseTokenExpirationNotifier.saveDate(
-            user.id,
-            now.add(const Duration(days: 30)),
-          );
-          logger.info("Firebase messaging token registered");
-          topicsNotifier.getTopics();
-        });
-      }
+  FirebaseMessaging.instance.requestPermission().then((value) async {
+    if (value.authorizationStatus != AuthorizationStatus.authorized) {
+      return;
+    }
+    final firebaseTokenExpirationNotifier = ref.read(
+      firebaseTokenExpirationProvider.notifier,
+    );
+    await firebaseTokenExpirationNotifier.ready();
+    final firebaseTokenExpiration = ref.read(firebaseTokenExpirationProvider);
+    final topicsNotifier = ref.read(topicsProvider.notifier);
+    final now = DateTime.now();
+    final expiration = firebaseTokenExpiration.expiration;
+    if (firebaseTokenExpiration.userId != user.id ||
+        expiration == null ||
+        expiration.isBefore(now)) {
+      ref.read(firebaseTokenProvider).then((_) {
+        firebaseTokenExpirationNotifier.saveDate(
+          user.id,
+          now.add(const Duration(days: 30)),
+        );
+        logger.info("Firebase messaging token registered");
+        topicsNotifier.getTopics();
+      });
     }
   });
 
@@ -65,9 +65,8 @@ void setUpNotification(WidgetRef ref) {
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  await FirebaseMessaging.instance.getToken();
-  await LocalNotificationService().init();
+  await FirebaseMessaging.instance.register();
   final LocalNotificationService localNotificationService =
       LocalNotificationService();
-  localNotificationService.init();
+  await localNotificationService.init();
 }

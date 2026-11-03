@@ -35,7 +35,7 @@ class LocalNotificationService {
           iOS: initializationSettingsDarwin,
           linux: initializationSettingsLinux,
         );
-    _localNotificationService.initialize(
+    await _localNotificationService.initialize(
       settings: initializationSettings,
       onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
       onDidReceiveBackgroundNotificationResponse:

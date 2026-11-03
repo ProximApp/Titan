@@ -16,7 +16,6 @@ class HasAcceptedTosNotifier extends Notifier<bool> {
   }
 }
 
-final hasAcceptedTosProvider =
-    NotifierProvider.autoDispose<HasAcceptedTosNotifier, bool>(
-      HasAcceptedTosNotifier.new,
-    );
+final hasAcceptedTosProvider = NotifierProvider<HasAcceptedTosNotifier, bool>(
+  HasAcceptedTosNotifier.new,
+);
