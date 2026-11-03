@@ -38,10 +38,9 @@ class AddEditEventPage extends HookConsumerWidget {
     final event = ref.watch(eventProvider);
     final eventNotifier = ref.watch(eventProvider.notifier);
     final rooms = ref.watch(roomListProvider);
-    final isEdit = event.id != EventCompleteTicketUrl.fromJson({}).id;
+    final isEdit = event.id != EventCompleteTicketUrl.empty().id;
     final key = GlobalKey<FormState>();
     final eventListNotifier = ref.watch(eventEventListProvider.notifier);
-    // final eventType = useState(event.type);
     final name = useTextEditingController(text: event.name);
     final organizer = useTextEditingController(text: event.associationId);
     final description = useTextEditingController(text: event.description);
@@ -50,7 +49,7 @@ class AddEditEventPage extends HookConsumerWidget {
     final location = useTextEditingController(text: event.location);
 
     final recurrent = useState(
-      event.recurrenceRule != ""
+      event.recurrenceRule != null && event.recurrenceRule != ""
           ? (event.recurrenceRule as String).contains("BYDAY")
           : false,
     );
@@ -112,28 +111,6 @@ class AddEditEventPage extends HookConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 color: Colors.grey,
               ),
-              // const SizedBox(height: 30),
-              // HorizontalListView.builder(
-              //   key: eventTypeScrollKey,
-              //   height: 40,
-              //   items: getEnumValues(CalendarEventType.values),
-              //   itemBuilder: (context, value, index) {
-              //     final selected = eventType.value == value;
-              //     return ItemChip(
-              //       selected: selected,
-              //       onTap: () async {
-              //         eventType.value = value;
-              //       },
-              //       child: Text(
-              //         value.name,
-              //         style: TextStyle(
-              //           color: selected ? Colors.white : Colors.black,
-              //           fontWeight: FontWeight.bold,
-              //         ),
-              //       ),
-              //     );
-              //   },
-              // ),
               Column(
                 children: [
                   const SizedBox(height: 20),
