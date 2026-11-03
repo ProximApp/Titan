@@ -2,16 +2,15 @@ import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/admin/providers/group_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 
-class MockGroupRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('GroupNotifier', () {
-    late MockGroupRepository mockGroup;
+    late MockOpenapi mockGroup;
     late ProviderContainer container;
     late GroupNotifier groupNotifier;
     final group = CoreGroup(
@@ -29,7 +28,7 @@ void main() {
     );
 
     setUp(() async {
-      mockGroup = MockGroupRepository();
+      mockGroup = MockOpenapi();
       container = ProviderContainer(
         overrides: [repositoryProvider.overrideWithValue(mockGroup)],
       );
@@ -84,7 +83,7 @@ void main() {
     test('Should delete a member from the group', () async {
       when(() => mockGroup.groupsMembershipDelete(body: any(named: 'body')))
           .thenAnswer(
-            (_) async => chopper.Response(http.Response('[]', 200), true),
+            (_) async => chopper.Response(http.Response('[]', 200), null),
           );
       groupNotifier.setGroup(group);
       final result = await groupNotifier.deleteMember(group, user);
