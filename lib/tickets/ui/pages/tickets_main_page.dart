@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qlevar_router/qlevar_router.dart';
+import 'package:titan/tools/providers/rendered_path_provider.dart';
 import 'package:titan/advert/ui/components/special_action_button.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tickets/providers/can_manage_ticket_events_provider.dart';
@@ -34,7 +35,7 @@ class TicketsMainPage extends HookConsumerWidget {
     useEffect(() {
       final code = pathForwarding.queryParameters?['code'];
       final isSuccess = code == 'succeeded';
-      final currentPath = QR.currentPath;
+      final currentPath = ref.read(renderedPathProvider);
       final isOnTicketsPage = currentPath.startsWith(TicketsRouter.root);
       if (isSuccess && isOnTicketsPage) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -54,15 +55,18 @@ class TicketsMainPage extends HookConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             child: Row(
               children: [
-                Text(
-                  l10n.ticketsTitle,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: ColorConstants.title,
+                Expanded(
+                  child: Text(
+                    l10n.ticketsTitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: ColorConstants.title,
+                    ),
                   ),
                 ),
-                const Spacer(),
                 if (canManageTicketEvents) ...[
                   const SizedBox(width: 10),
                   SpecialActionButton(

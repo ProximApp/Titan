@@ -71,7 +71,7 @@ class UserCashUi extends HookConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 4),
                         AutoSizeText(
                           cash.user.nickname ?? cash.user.firstname,
                           maxLines: 1,
@@ -99,15 +99,17 @@ class UserCashUi extends HookConsumerWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            AutoSizeText(
-                              '${cash.balance.toStringAsFixed(2)} €',
-                              maxLines: 1,
-                              minFontSize: 10,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: AMAPColorConstants.green3,
+                            Expanded(
+                              child: AutoSizeText(
+                                '${(cash.balance / 100).toStringAsFixed(2)} €',
+                                maxLines: 1,
+                                minFontSize: 10,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: AMAPColorConstants.green3,
+                                ),
                               ),
                             ),
                             const HeroIcon(
@@ -117,7 +119,7 @@ class UserCashUi extends HookConsumerWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 10),
+                        const Spacer(),
                       ],
                     ),
                   )
@@ -157,14 +159,19 @@ class UserCashUi extends HookConsumerWidget {
                                   context,
                                 )!.amapUpdatingError;
                                 if (key.currentState!.validate()) {
+                                  final deltaCents =
+                                      (double.parse(
+                                                amount.text.replaceAll(
+                                                  ',',
+                                                  '.',
+                                                ),
+                                              ) *
+                                              100)
+                                          .round();
                                   await ref
                                       .read(cashListProvider.notifier)
                                       .updateCash(
-                                        cash.copyWith(
-                                          balance: double.parse(
-                                            amount.text.replaceAll(',', '.'),
-                                          ).round(),
-                                        ),
+                                        cash.copyWith(balance: deltaCents),
                                         cash.balance.toDouble(),
                                       )
                                       .then((value) {

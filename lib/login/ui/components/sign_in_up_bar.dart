@@ -39,12 +39,16 @@ class SignInUpBar extends StatelessWidget {
           builder: (child) => Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w800,
-                  color: isLoading ? Colors.grey : color,
+              Expanded(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w800,
+                    color: isLoading ? Colors.grey : color,
+                  ),
                 ),
               ),
               child,

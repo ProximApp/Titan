@@ -27,8 +27,7 @@ class SpeciesCard extends HookConsumerWidget {
         child: Row(
           children: [
             SizedBox(width: 10),
-            SizedBox(
-              width: 100,
+            Expanded(
               child: Column(
                 children: [
                   Text(species.name, textAlign: TextAlign.center),
@@ -36,12 +35,14 @@ class SpeciesCard extends HookConsumerWidget {
                 ],
               ),
             ),
-            const Spacer(),
-            SizedBox(
-              width: 100,
+            const SizedBox(width: 10),
+            Expanded(
               child: Column(
                 children: [
-                  Text(species.speciesType.name, textAlign: TextAlign.center),
+                  Text(
+                    function.getSpeciesTypeLabel(species.speciesType),
+                    textAlign: TextAlign.center,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -59,7 +60,7 @@ class SpeciesCard extends HookConsumerWidget {
                 ],
               ),
             ),
-            const Spacer(),
+            const SizedBox(width: 8),
             EditionButton(onEdition: onEdit, deactivated: false),
             const SizedBox(width: 5),
             DeleteButton(
