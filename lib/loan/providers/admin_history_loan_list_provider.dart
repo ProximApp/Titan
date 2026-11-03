@@ -11,12 +11,12 @@ class AdminHistoryLoanListNotifier extends MapNotifier<Loaner, Loan> {
     final loaners = ref.watch(loanerList);
     final loaner = ref.watch(loanerProvider);
     final loanListNotifier = ref.watch(historyLoanerLoanListProvider.notifier);
-    loadTList(loaners);
-    if (loaner.id == Loaner.empty().id) return state;
-    loanListNotifier.loadLoan(loaner.id).then((value) {
-      setTData(loaner, value);
-    });
-    return state;
+    if (loaner.id != Loaner.empty().id) {
+      loanListNotifier.loadLoan(loaner.id).then((value) {
+        setTData(loaner, value);
+      });
+    }
+    return {for (final l in loaners) l: null};
   }
 }
 
