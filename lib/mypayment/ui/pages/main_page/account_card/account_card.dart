@@ -27,14 +27,23 @@ import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 class AccountCard extends HookConsumerWidget {
   final Function? toggle;
   final Function resetHandledKeys;
+
+  /// Whether the browser flow is in play. Defaults to [kIsWeb]; the override
+  /// exists so the VM test run can reach the web arm — the Pay button, which
+  /// the browser does not offer because there is no wallet device to sign
+  /// with — which a compile-time `kIsWeb` makes unreachable there.
+  final bool? isWeb;
+
   const AccountCard({
     super.key,
     required this.toggle,
     required this.resetHandledKeys,
+    this.isWeb,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isWebPlatform = isWeb ?? kIsWeb;
     final locale = ref.watch(localeProvider);
     final myWallet = ref.watch(myWalletProvider);
     final keyService = ref.read(keyServiceProvider);
@@ -119,7 +128,7 @@ class AccountCard extends HookConsumerWidget {
             QR.to(PaymentRouter.root + PaymentRouter.devices);
           },
         ),
-        if (!kIsWeb)
+        if (!isWebPlatform)
           MainCardButton(
             colors: buttonGradient,
             icon: HeroIcons.qrCode,

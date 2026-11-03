@@ -21,15 +21,23 @@ class InvoiceCard extends HookConsumerWidget {
   final bool isAdmin;
   final Function invoicesRefresher;
 
+  /// Whether the browser flow is in play. Defaults to [kIsWeb]; the override
+  /// exists so the VM test run can reach the web arm — the amount and billing
+  /// period column, and the wider trailing slot it needs — which a
+  /// compile-time `kIsWeb` makes unreachable there.
+  final bool? isWeb;
+
   const InvoiceCard({
     super.key,
     required this.invoice,
     required this.isAdmin,
     required this.invoicesRefresher,
+    this.isWeb,
   }) : super();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isWebPlatform = isWeb ?? kIsWeb;
     final localizeWithContext = AppLocalizations.of(context)!;
     final invoicesNotifier = ref.read(invoiceListProvider.notifier);
     final invoicePdf = ref.watch(invoicePdfProvider(invoice.id).future);
@@ -182,30 +190,38 @@ class InvoiceCard extends HookConsumerWidget {
           ref: ref,
         ),
         trailing: Expanded(
-          flex: kIsWeb ? 2 : 1,
+          flex: isWebPlatform ? 2 : 1,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (kIsWeb)
-                Column(
-                  children: [
-                    Text(
-                      '${(invoice.total / 100).toStringAsFixed(2)} €',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: ColorConstants.tertiary,
+              if (isWebPlatform)
+                // Flexible, not a bare Column: a Column takes its widest child's
+                // intrinsic width, so the amount and period kept their full size
+                // and the row overflowed by ~7px on a narrow window (measured
+                // with real fonts at 360). Shrinking here also covers a long
+                // amount, which the fixed-size Text could never do.
+                Flexible(
+                  child: Column(
+                    children: [
+                      AutoSizeText(
+                        '${(invoice.total / 100).toStringAsFixed(2)} €',
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: ColorConstants.tertiary,
+                        ),
                       ),
-                    ),
-                    AutoSizeText(
-                      localizeWithContext.paiementFromTo(
-                        invoice.startDate,
-                        invoice.endDate,
+                      AutoSizeText(
+                        localizeWithContext.paiementFromTo(
+                          invoice.startDate,
+                          invoice.endDate,
+                        ),
+                        maxLines: 2,
+                        style: TextStyle(fontSize: 12),
                       ),
-                      maxLines: 2,
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               Text(
                 invoice.received == true
