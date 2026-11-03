@@ -86,6 +86,12 @@ class FakeMobileScannerPlatform extends MobileScannerPlatform {
     _barcodes.add(BarcodeCapture(barcodes: [Barcode(rawValue: rawValue)]));
   }
 
+  /// A frame the camera really emits: a `Barcode` whose value never decoded,
+  /// so `rawValue` is null. The scanner must skip it, not dereference it.
+  void emitUndecodedFrame() {
+    _barcodes.add(BarcodeCapture(barcodes: [Barcode()]));
+  }
+
   @override
   Stream<BarcodeCapture?> get barcodesStream => _barcodes.stream;
 
@@ -1446,9 +1452,15 @@ class IntegrationScaffold {
   /// state so AppSignIn's data-wait logic never blocks on a repo call.
   /// [authRepository] replaces the default repository-backed one — pass a
   /// real AuthRepository wired to [repository] to exercise the actual
-  /// sign-in flow (Riverpod 3 does not export its Override type, so an
-  /// overrides list parameter is not possible here).
-  ProviderContainer makeLoggedOutContainer({AuthRepository? authRepository}) {
+  /// sign-in flow (Riverpod 3 does not export its Override type, so
+  /// [providerOverrides] is untyped, exactly like [makeContainer]'s).
+  /// [providerOverrides] go last, so a test can pin the one provider its
+  /// signed-out page branches on (the login screen's loading check, say)
+  /// without rebuilding the rest of the boot state by hand.
+  ProviderContainer makeLoggedOutContainer({
+    AuthRepository? authRepository,
+    List<dynamic> providerOverrides = const [],
+  }) {
     return ProviderContainer(
       overrides: [
         if (_loggerOutput != null)
@@ -1470,6 +1482,7 @@ class IntegrationScaffold {
         permissionsProvider.overrideWith(FakePermissionsNotifier.new),
         firebaseTokenProvider.overrideWithValue(Future<void>.value()),
         shouldSetupProvider.overrideWith(FakeShouldSetupNotifier.new),
+        ...providerOverrides,
       ],
     );
   }
