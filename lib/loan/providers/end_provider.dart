@@ -16,8 +16,22 @@ class EndNotifier extends Notifier<String> {
   }
 
   void setEndFromSelected(String start, List<Item> selected, String locale) {
+    if (start.isEmpty) return;
+    // No selection has no lending duration: `reduce(min)` threw `Bad state:
+    // No element` on it. The UI callers already clear the end in that case,
+    // so the notifier mirrors them instead of relying on that guard.
+    if (selected.isEmpty) {
+      state = "";
+      return;
+    }
+    final DateTime base;
+    try {
+      base = DateTime.parse(processDateBack(start, locale));
+    } on FormatException {
+      return;
+    }
     state = DateFormat.yMd(locale).format(
-      DateTime.parse(processDateBack(start, locale)).add(
+      base.add(
         Duration(
           days: selected
               .map((item) => item.suggestedLendingDuration)

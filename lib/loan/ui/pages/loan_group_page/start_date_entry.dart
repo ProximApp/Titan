@@ -48,7 +48,8 @@ class StartDateEntry extends HookConsumerWidget {
         initialDate: start.isNotEmpty
             ? DateTime.parse(processDateBack(start, locale.toString()))
             : now,
-        firstDate: DateTime(now.year - 1, now.month, now.day),
+        // Clamped: a bare year offset turns 29 February into 1 March.
+        firstDate: sameDayYearsFrom(now, -1),
       ),
       label: AppLocalizations.of(context)!.loanBeginDate,
       controller: TextEditingController(text: start),

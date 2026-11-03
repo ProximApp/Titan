@@ -19,10 +19,16 @@ String formatDate(DateTime date) {
   return "${date.day.toString().padLeft(2, "0")}/${date.month.toString().padLeft(2, "0")}/${date.year} - ${date.hour.toString().padLeft(2, "0")}h${date.minute.toString().padLeft(2, "0")}";
 }
 
+/// Parses the form's `hours:minutes` duration.
+///
+/// The controller can be blank or half-typed when Save is tapped, and the
+/// old `int.parse` turned that into a `FormatException` from an `onTap` —
+/// a button that does nothing. An unreadable duration is 0 minutes; the
+/// server-side validation is what rejects an empty film length.
 int parseDuration(String duration) {
   final parts = duration.split(":");
-  final hours = int.parse(parts[0]);
-  final minutes = int.parse(parts[1]);
+  final hours = int.tryParse(parts[0].trim()) ?? 0;
+  final minutes = parts.length > 1 ? int.tryParse(parts[1].trim()) ?? 0 : 0;
   return hours * 60 + minutes;
 }
 
