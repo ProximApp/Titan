@@ -2,16 +2,15 @@ import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/auth/providers/is_connected_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 
-class MockRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('IsConnectedProvider', () {
-    late MockRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
 
     final information = CoreInformation(
@@ -25,7 +24,7 @@ void main() {
     // its own, so the repository has to be stubbed the same way that provider's
     // own test stubs it.
     setUp(() {
-      mockRepository = MockRepository();
+      mockRepository = MockOpenapi();
       container = ProviderContainer(
         overrides: [repositoryProvider.overrideWithValue(mockRepository)],
       );
