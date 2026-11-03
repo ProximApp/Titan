@@ -2,16 +2,15 @@ import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/booking/providers/manager_booking_list_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 
-class MockBookingRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('ManagerBookingListProvider', () {
-    late MockBookingRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late ManagerBookingListProvider provider;
     final bookings = [
@@ -22,7 +21,7 @@ void main() {
     final booking = bookings.first.copyWith(decision: Decision.approved);
 
     setUp(() async {
-      mockRepository = MockBookingRepository();
+      mockRepository = MockOpenapi();
       when(() => mockRepository.bookingBookingsUsersMeManageGet())
           .thenThrow(Exception('Failed to load bookings'));
       container = ProviderContainer(
@@ -68,8 +67,7 @@ void main() {
           body: any(named: 'body'),
         ),
       ).thenAnswer(
-        (_) async =>
-            chopper.Response(http.Response('body', 200), updatedBooking),
+        (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
       provider.state = AsyncValue.data(bookings);
@@ -105,7 +103,7 @@ void main() {
           decision: any(named: 'decision'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(http.Response('body', 200), booking),
+        (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
       provider.state = AsyncValue.data(bookings);
