@@ -49,7 +49,7 @@ class StoreSellerListNotifier extends ListNotifierAPI<Seller> {
             sellerUserId: seller.userId,
           ),
       (seller) => seller.userId,
-      seller.storeId,
+      seller.userId,
     );
   }
 
