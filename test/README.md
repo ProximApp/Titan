@@ -1156,6 +1156,7 @@ render, and the test pins those resolved asset names. |
 | `loan/integration/loan_add_edit_item_integration_test.dart` | `/loan/admin/add_edit_item` edit form (own file: 3 stacked deferred libraries need a long frame budget) |
 | `cinema/integration/cinema_integration_test.dart` | `/cinema` session cards (wide web layout: name/date/overview) + empty state |
 | `cinema/integration/cinema_detail_integration_test.dart` | `/cinema/detail` pre-selected session renders |
+| `cinema/integration/cinema_admin_detail_route_integration_test.dart` | the SECOND detail route, `/cinema/admin/detail`, nested under the admin page: nothing navigates to it (both callers build `/cinema/detail`), so only a typed URL can arrive there — which is how a bookmarked web URL does. Same file pins `CinemaRouter.module.getName`/`getDescription` against the real bundle (`getName` is the navbar label; `getDescription` has no caller in `lib/` at all, so a missing l10n key would only surface here) |
 | `cinema/integration/cinema_add_session_integration_test.dart` | admin + card → add-session form, create round-trip through the real `cinemaSessionsPost` (poster gate pre-seeded via `sessionPosterMapProvider`, AdminSessionCard's 1px overflow absorbed) |
 | `cinema/integration/cinema_edit_session_integration_test.dart` | admin card pencil → prefilled edit form → real `cinemaSessionsSessionIdPatch` (duration is minutes: 120 renders "02:00") |
 | `recommendation/integration/recommendation_integration_test.dart` | `/recommendation` recommendation cards from the real endpoint |

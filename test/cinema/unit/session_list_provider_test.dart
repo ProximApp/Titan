@@ -2,17 +2,16 @@ import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/cinema/adapters/session.dart';
 import 'package:titan/cinema/providers/session_list_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 
-class MockSessionRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('SessionListNotifier', () {
-    late MockSessionRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late SessionListNotifier provider;
     final sessions = [
@@ -23,7 +22,7 @@ void main() {
     final updatedSession = sessions.first.copyWith(name: 'Updated Session');
 
     setUp(() async {
-      mockRepository = MockSessionRepository();
+      mockRepository = MockOpenapi();
       // Default stub for the build()-time auto-load.
       when(() => mockRepository.cinemaSessionsGet()).thenAnswer(
         (_) async =>

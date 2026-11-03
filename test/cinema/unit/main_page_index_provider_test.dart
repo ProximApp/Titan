@@ -2,17 +2,16 @@ import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/cinema/providers/main_page_index_provider.dart';
 import 'package:titan/cinema/providers/session_list_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 
-class MockSessionRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('MainPageIndexNotifier', () {
-    late MockSessionRepository mockRepository;
+    late MockOpenapi mockRepository;
     // Sessions crafted so that the central element index is 2:
     // two past sessions then a future one => indexWhere(...future) == 2.
     final sessions = [
@@ -30,7 +29,7 @@ void main() {
     }
 
     ProviderContainer makeContainer() {
-      mockRepository = MockSessionRepository();
+      mockRepository = MockOpenapi();
       when(() => mockRepository.cinemaSessionsGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), sessions),
       );

@@ -2,16 +2,15 @@ import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/cinema/providers/the_movie_db_genre_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 
-class MockTheMovieDBRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('TheMovieDBGenreNotifier', () {
-    late MockTheMovieDBRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late TheMovieDBGenreNotifier provider;
     final movie = TheMovieDB(
@@ -24,7 +23,7 @@ void main() {
     );
 
     setUp(() async {
-      mockRepository = MockTheMovieDBRepository();
+      mockRepository = MockOpenapi();
       container = ProviderContainer(
         overrides: [repositoryProvider.overrideWithValue(mockRepository)],
       );
