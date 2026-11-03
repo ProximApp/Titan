@@ -1,20 +1,22 @@
-import 'package:chopper/chopper.dart' as chopper;
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
+import 'package:titan/auth/providers/openid_provider.dart';
 import 'package:titan/event/adapters/event_complete_ticket_url.dart';
-import 'package:titan/event/providers/event_list_provider.dart';
-import 'package:mocktail/mocktail.dart';
+import 'package:titan/event/providers/user_event_list_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
+import 'package:chopper/chopper.dart' as chopper;
+import 'package:http/http.dart' as http;
 import 'package:titan/tools/repository/repository.dart';
 
-class MockEventRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
-  group('EventListNotifier', () {
-    late MockEventRepository mockRepository;
+  group('EventEventListProvider', () {
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
-    late EventListNotifier provider;
+    late EventEventListProvider provider;
     final events = [
       EventCompleteTicketUrl.empty().copyWith(id: '1'),
       EventCompleteTicketUrl.empty().copyWith(id: '2'),
@@ -23,38 +25,42 @@ void main() {
     final updatedEvent = events.first.copyWith(name: 'Updated Event');
 
     setUp(() async {
-      mockRepository = MockEventRepository();
-      // Default stub for the build()-time auto-load.
-      when(() => mockRepository.calendarEventsGet()).thenAnswer(
+      mockRepository = MockOpenapi();
+      when(() => mockRepository.calendarEventsConfirmedGet()).thenAnswer(
         (_) async => chopper.Response(
           http.Response('[]', 200),
           <EventCompleteTicketUrl>[],
         ),
       );
       container = ProviderContainer(
-        overrides: [repositoryProvider.overrideWithValue(mockRepository)],
+        overrides: [
+          repositoryProvider.overrideWithValue(mockRepository),
+          // Keep idProvider unresolved so build()'s whenData auto-load
+          // never overwrites the state the tests set manually.
+          idProvider.overrideWith((ref) => Completer<String>().future),
+        ],
       );
-      provider = container.read(eventListProvider.notifier);
-      await Future(() {}); // let build()'s auto-load settle
+      provider = container.read(eventEventListProvider.notifier);
+      await Future(() {});
     });
 
     tearDown(() => container.dispose());
 
-    test('loadEventList returns expected data', () async {
-      when(() => mockRepository.calendarEventsGet()).thenAnswer(
+    test('loadConfirmedEvent returns expected data', () async {
+      when(() => mockRepository.calendarEventsConfirmedGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('body', 200), events),
       );
 
-      final result = await provider.loadEventList();
+      final result = await provider.loadConfirmedEvent();
 
       expect(result.maybeWhen(data: (data) => data, orElse: () => []), events);
     });
 
-    test('loadEventList handles error', () async {
-      when(() => mockRepository.calendarEventsGet())
+    test('loadConfirmedEvent handles error', () async {
+      when(() => mockRepository.calendarEventsConfirmedGet())
           .thenThrow(Exception('Failed to load events'));
 
-      final result = await provider.loadEventList();
+      final result = await provider.loadConfirmedEvent();
 
       expect(
         result.maybeWhen(error: (error, _) => error, orElse: () => null),
@@ -101,7 +107,7 @@ void main() {
           body: any(named: 'body'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(http.Response('body', 200), updatedEvent),
+        (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
       provider.state = AsyncValue.data([...events]);
@@ -159,42 +165,6 @@ void main() {
 
       provider.state = AsyncValue.data([...events]);
       final result = await provider.deleteEvent(events.first);
-
-      expect(result, false);
-    });
-
-    test('toggleConfirmed confirms an event', () async {
-      when(() => mockRepository.calendarEventsGet()).thenAnswer(
-        (_) async => chopper.Response(http.Response('body', 200), events),
-      );
-      when(
-        () => mockRepository.calendarEventsEventIdReplyDecisionPatch(
-          eventId: any(named: 'eventId'),
-          decision: any(named: 'decision'),
-        ),
-      ).thenAnswer(
-        (_) async => chopper.Response(http.Response('body', 200), updatedEvent),
-      );
-
-      provider.state = AsyncValue.data([...events]);
-      final result = await provider.toggleConfirmed(updatedEvent);
-
-      expect(result, true);
-      expect(provider.state.maybeWhen(data: (data) => data, orElse: () => []), [
-        updatedEvent,
-        ...events.skip(1),
-      ]);
-    });
-
-    test('toggleConfirmed handles error', () async {
-      when(
-        () => mockRepository.calendarEventsEventIdReplyDecisionPatch(
-          eventId: any(named: 'eventId'),
-          decision: any(named: 'decision'),
-        ),
-      ).thenThrow(Exception('Failed to confirm event'));
-
-      final result = await provider.toggleConfirmed(updatedEvent);
 
       expect(result, false);
     });

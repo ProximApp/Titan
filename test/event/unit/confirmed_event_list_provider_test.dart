@@ -3,15 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:titan/event/providers/confirmed_event_list_provider.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 
-class MockEventRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('ConfirmedEventListProvider', () {
-    late MockEventRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late ConfirmedEventListProvider provider;
     final events = [
@@ -21,7 +20,7 @@ void main() {
     final newEvent = EventCompleteTicketUrl.empty().copyWith(id: '3');
 
     setUp(() async {
-      mockRepository = MockEventRepository();
+      mockRepository = MockOpenapi();
       when(() => mockRepository.calendarEventsConfirmedGet()).thenAnswer(
         (_) async => chopper.Response(
           http.Response('[]', 200),
