@@ -79,44 +79,7 @@ class StyleGuidePage extends HookConsumerWidget {
                         color: Colors.grey.shade100,
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: FloatingNavbar(
-                        items: [
-                          // FloatingNavbarItem(
-                          //   title: 'Home',
-                          //   onTap: () {
-                          //     ScaffoldMessenger.of(context).showSnackBar(
-                          //       const SnackBar(content: Text('Home tapped')),
-                          //     );
-                          //   },
-                          // ),
-                          // FloatingNavbarItem(
-                          //   title: 'Search',
-                          //   onTap: () {
-                          //     ScaffoldMessenger.of(context).showSnackBar(
-                          //       const SnackBar(content: Text('Search tapped')),
-                          //     );
-                          //   },
-                          // ),
-                          // FloatingNavbarItem(
-                          //   title: 'Favorites',
-                          //   onTap: () {
-                          //     ScaffoldMessenger.of(context).showSnackBar(
-                          //       const SnackBar(
-                          //         content: Text('Favorites tapped'),
-                          //       ),
-                          //     );
-                          //   },
-                          // ),
-                          // FloatingNavbarItem(
-                          //   title: 'Profile',
-                          //   onTap: () {
-                          //     ScaffoldMessenger.of(context).showSnackBar(
-                          //       const SnackBar(content: Text('Profile tapped')),
-                          //     );
-                          //   },
-                          // ),
-                        ],
-                      ),
+                      child: FloatingNavbar(items: []),
                     ),
 
                     // Divider

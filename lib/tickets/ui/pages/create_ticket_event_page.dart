@@ -18,8 +18,6 @@ import 'package:titan/tools/ui/widgets/date_entry.dart';
 import 'package:titan/tools/ui/widgets/text_entry.dart';
 import 'package:titan/tickets/providers/ticket_event_list_provider.dart';
 
-enum QuestionType { tarif, quota }
-
 class CreateTicketEventPage extends HookConsumerWidget {
   const CreateTicketEventPage({super.key});
 
