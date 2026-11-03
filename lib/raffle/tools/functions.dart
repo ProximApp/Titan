@@ -1,18 +1,5 @@
 import 'package:titan/generated/openapi.enums.swagger.dart';
 
-RaffleStatusType stringToRaffleStatusType(String raffleStatusType) {
-  switch (raffleStatusType) {
-    case 'creation':
-      return RaffleStatusType.creation;
-    case 'open':
-      return RaffleStatusType.open;
-    case 'lock':
-      return RaffleStatusType.lock;
-    default:
-      return RaffleStatusType.creation;
-  }
-}
-
 String raffleStatusTypeToString(RaffleStatusType raffleStatusType) {
   switch (raffleStatusType) {
     case RaffleStatusType.creation:
