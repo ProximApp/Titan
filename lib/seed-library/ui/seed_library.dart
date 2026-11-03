@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:titan/tools/ui/heroicons.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/seed-library/router.dart';
+import 'package:titan/tools/providers/rendered_path_provider.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/ui/widgets/top_bar.dart';
 
-class SeedLibraryTemplate extends StatelessWidget {
+class SeedLibraryTemplate extends ConsumerWidget {
   final Widget child;
   const SeedLibraryTemplate({super.key, required this.child});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       color: ColorConstants.background,
       child: SafeArea(
@@ -18,7 +20,8 @@ class SeedLibraryTemplate extends StatelessWidget {
           children: [
             TopBar(
               root: SeedLibraryRouter.root,
-              rightIcon: QR.currentPath == SeedLibraryRouter.root
+              rightIcon:
+                  ref.watch(renderedPathProvider) == SeedLibraryRouter.root
                   ? IconButton(
                       onPressed: () {
                         QR.to(

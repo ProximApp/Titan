@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qlevar_router/qlevar_router.dart';
+import 'package:titan/tools/providers/rendered_path_provider.dart';
 import 'package:titan/feed/providers/news_list_provider.dart';
 import 'package:titan/feed/router.dart';
 import 'package:titan/tools/constants.dart';
@@ -21,7 +22,7 @@ class FeedTemplate extends ConsumerWidget {
             TopBar(
               root: FeedRouter.root,
               onBack: () {
-                if (QR.currentPath ==
+                if (ref.read(renderedPathProvider) ==
                     FeedRouter.root + FeedRouter.eventHandling) {
                   ref.read(newsListProvider.notifier).loadNewsList();
                 }

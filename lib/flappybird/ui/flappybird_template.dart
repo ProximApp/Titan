@@ -7,6 +7,7 @@ import 'package:titan/flappybird/providers/user_score_provider.dart';
 import 'package:titan/flappybird/router.dart';
 import 'package:titan/tools/ui/widgets/top_bar.dart';
 import 'package:qlevar_router/qlevar_router.dart';
+import 'package:titan/tools/providers/rendered_path_provider.dart';
 
 class FlappyBirdTemplate extends HookConsumerWidget {
   final Widget child;
@@ -30,7 +31,8 @@ class FlappyBirdTemplate extends HookConsumerWidget {
                   color: Colors.white,
                 ),
               ),
-              rightIcon: QR.currentPath == FlappyBirdRouter.root
+              rightIcon:
+                  ref.watch(renderedPathProvider) == FlappyBirdRouter.root
                   ? IconButton(
                       onPressed: () {
                         leaderBoardNotifier.getLeaderboard();
