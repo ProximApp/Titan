@@ -11,6 +11,46 @@ import 'package:package_info_plus/package_info_plus.dart';
 // This code was taken from the plugin plausible_analytics and adapted
 // We should switch to a plugin when one will work
 
+/// Which User-Agent [Plausible.event] sends.
+///
+/// Split out from the `kIsWeb`/`Platform` branch so the choice and the string
+/// it produces are testable on a host, where `Platform` is neither Android nor
+/// iOS and the branch is otherwise unreachable.
+enum PlausibleUserAgent { none, android, ios }
+
+/// The branch for a native build.
+///
+/// Do not reach this on the web: a browser already sends its own User-Agent,
+/// and `dart:io`'s `Platform` is only safe to read off the browser.
+PlausibleUserAgent userAgentKindFor({
+  required bool isAndroid,
+  required bool isIOS,
+}) {
+  if (isAndroid) return PlausibleUserAgent.android;
+  if (isIOS) return PlausibleUserAgent.ios;
+  return PlausibleUserAgent.none;
+}
+
+/// The Android User-Agent plausible's dashboard parses.
+@visibleForTesting
+String androidUserAgent({
+  required String appName,
+  required String version,
+  required String release,
+  required int sdkInt,
+  required String model,
+  required String id,
+}) => '$appName/$version Android/$release (SDK $sdkInt; $model Build/$id)';
+
+/// The iOS User-Agent plausible's dashboard parses.
+@visibleForTesting
+String iosUserAgent({
+  required String appName,
+  required String version,
+  required String systemVersion,
+  required String model,
+}) => '$appName/$version iOS/$systemVersion ($model)';
+
 /// Plausible class. Use the constructor to set the parameters.
 class Plausible {
   /// The url of your plausible server e.g. https://plausible.io
@@ -31,19 +71,38 @@ class Plausible {
 
     final Map<String, String> headers = {"Content-Type": "application/json"};
 
-    // browser adds by default the User-Agent header so we should not overwrite it
-    if (!kIsWeb) {
+    // The browser sends its own User-Agent, so it must not be overwritten —
+    // and `Platform` is only safe to read off the web.
+    final userAgentKind = kIsWeb
+        ? PlausibleUserAgent.none
+        : userAgentKindFor(
+            isAndroid: Platform.isAndroid,
+            isIOS: Platform.isIOS,
+          );
+    if (userAgentKind != PlausibleUserAgent.none) {
       final packageInfo = await PackageInfo.fromPlatform();
       final deviceInfoPlugin = DeviceInfoPlugin();
-      if (Platform.isAndroid) {
-        final androidInfo = await deviceInfoPlugin.androidInfo;
-        headers["User-Agent"] =
-            "${packageInfo.appName}/${packageInfo.version} Android/${androidInfo.version.release} (SDK ${androidInfo.version.sdkInt}; ${androidInfo.model} Build/${androidInfo.id})";
-      }
-      if (Platform.isIOS) {
-        final iosInfo = await deviceInfoPlugin.iosInfo;
-        headers["User-Agent"] =
-            "${packageInfo.appName}/${packageInfo.version} iOS/${iosInfo.systemVersion} (${iosInfo.model})";
+      switch (userAgentKind) {
+        case PlausibleUserAgent.android:
+          final androidInfo = await deviceInfoPlugin.androidInfo;
+          headers["User-Agent"] = androidUserAgent(
+            appName: packageInfo.appName,
+            version: packageInfo.version,
+            release: androidInfo.version.release,
+            sdkInt: androidInfo.version.sdkInt,
+            model: androidInfo.model,
+            id: androidInfo.id,
+          );
+        case PlausibleUserAgent.ios:
+          final iosInfo = await deviceInfoPlugin.iosInfo;
+          headers["User-Agent"] = iosUserAgent(
+            appName: packageInfo.appName,
+            version: packageInfo.version,
+            systemVersion: iosInfo.systemVersion,
+            model: iosInfo.model,
+          );
+        case PlausibleUserAgent.none:
+          break;
       }
     }
 

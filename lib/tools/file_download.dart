@@ -17,6 +17,27 @@ import 'package:share_plus/share_plus.dart';
 ///
 /// Returns false when the user backed out, so the caller can stay quiet rather
 /// than announce a download that did not happen.
+/// Which hand-off [downloadFile] uses.
+///
+/// Split out from the call itself so the ROUTING — the part a user notices when
+/// it is wrong, and the part that cannot be reached on a VM when it is decided
+/// by `kIsWeb` and `defaultTargetPlatform` — is testable without a platform or
+/// a plugin channel.
+enum DownloadChannel { shareSheet, saveFile, saveAs }
+
+/// The channel for [platform] and [isWeb].
+///
+/// The browser wins over the platform: a mobile browser is still a browser, and
+/// `saveAs` has no meaning there.
+DownloadChannel downloadChannelFor({
+  required bool isWeb,
+  required TargetPlatform platform,
+}) {
+  if (isWeb) return DownloadChannel.saveFile;
+  if (platform == TargetPlatform.iOS) return DownloadChannel.shareSheet;
+  return DownloadChannel.saveAs;
+}
+
 Future<bool> downloadFile({
   required String name,
   required Uint8List bytes,
@@ -24,34 +45,47 @@ Future<bool> downloadFile({
   required MimeType mimeType,
   Rect? shareOrigin,
 }) async {
-  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) {
-    final fileName = '${_sanitizeFileName(name)}.$fileExtension';
-    final result = await SharePlus.instance.share(
-      ShareParams(
-        files: [XFile.fromData(bytes, mimeType: mimeType.type, name: fileName)],
-        // `XFile.name` is ignored off the web, and share_plus names the
-        // temporary file it shares after the override instead.
-        fileNameOverrides: [fileName],
-        sharePositionOrigin: shareOrigin,
-      ),
-    );
-    return result.status != ShareResultStatus.dismissed;
-  }
+  switch (downloadChannelFor(isWeb: kIsWeb, platform: defaultTargetPlatform)) {
+    case DownloadChannel.shareSheet:
+      final fileName = '${sanitizeFileName(name)}.$fileExtension';
+      final result = await SharePlus.instance.share(
+        ShareParams(
+          files: [
+            XFile.fromData(bytes, mimeType: mimeType.type, name: fileName),
+          ],
+          // `XFile.name` is ignored off the web, and share_plus names the
+          // temporary file it shares after the override instead.
+          fileNameOverrides: [fileName],
+          sharePositionOrigin: shareOrigin,
+        ),
+      );
+      return result.status != ShareResultStatus.dismissed;
 
-  final path = kIsWeb
-      ? await FileSaver.instance.saveFile(
-          name: name,
-          bytes: bytes,
-          fileExtension: fileExtension,
-          mimeType: mimeType,
-        )
-      : await FileSaver.instance.saveAs(
-          name: name,
-          bytes: bytes,
-          fileExtension: fileExtension,
-          mimeType: mimeType,
-        );
-  return path != null;
+    case DownloadChannel.saveFile:
+      await FileSaver.instance.saveFile(
+        name: name,
+        bytes: bytes,
+        fileExtension: fileExtension,
+        mimeType: mimeType,
+      );
+      // `saveFile` answers a NON-nullable `String` — a web download has no
+      // "the user backed out" to report — so a completed call is a save. The
+      // old single ternary hid that: its `String?` came from the `saveAs`
+      // arm, and this null check could never be false.
+      return true;
+
+    case DownloadChannel.saveAs:
+      final path = await FileSaver.instance.saveAs(
+        name: name,
+        bytes: bytes,
+        fileExtension: fileExtension,
+        mimeType: mimeType,
+      );
+      // The one arm that can answer null, and null is the user backing out of
+      // the save dialog — the caller stays quiet instead of announcing a
+      // download that did not happen.
+      return path != null;
+  }
 }
 
 /// The rect an iPad share sheet should point at, read from the widget the user
@@ -68,7 +102,8 @@ Rect? shareOriginOf(BuildContext context) {
 /// Strips what a file name cannot carry into a path — event and invoice names
 /// are free text, and a slash in one would send the shared file to a directory
 /// that does not exist.
-String _sanitizeFileName(String name) {
+@visibleForTesting
+String sanitizeFileName(String name) {
   final sanitized = name.replaceAll(RegExp(r'[\\/:*?"<>|]'), '_').trim();
   return sanitized.isEmpty ? 'file' : sanitized;
 }
