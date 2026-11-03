@@ -36,7 +36,7 @@ class ProductUi extends ConsumerWidget {
                 width: 50,
                 alignment: Alignment.centerRight,
                 child: Text(
-                  "${product.price.toStringAsFixed(2)}€",
+                  "${(product.price / 100).toStringAsFixed(2)}€",
                   style: const TextStyle(fontSize: 13),
                 ),
               ),
