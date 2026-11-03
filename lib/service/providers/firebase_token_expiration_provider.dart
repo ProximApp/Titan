@@ -8,13 +8,22 @@ class FirebaseTokenExpirationNotifier
     extends Notifier<FirebaseTokenExpiration> {
   final String dbDate = "firebaseTokenExpiration";
 
+  Future<void>? _pendingLoad;
+
   @override
   FirebaseTokenExpiration build() {
-    getSavedDate();
+    _pendingLoad = getSavedDate();
     return FirebaseTokenExpiration.empty();
   }
 
-  void getSavedDate() async {
+  Future<void> ready() async {
+    final pending = _pendingLoad;
+    if (pending != null) {
+      await pending;
+    }
+  }
+
+  Future<void> getSavedDate() async {
     final prefs = await SharedPreferences.getInstance();
     final savedDate = prefs.getString(dbDate);
     if (savedDate != null) {
