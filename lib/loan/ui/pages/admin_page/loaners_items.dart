@@ -46,10 +46,9 @@ class LoanersItems extends HookConsumerWidget {
     }
     return AsyncChild(
       value: item,
-      builder: (context, data) {
-        if (data.isNotEmpty) {
-          data.sort((a, b) => a.name.compareTo(b.name));
-        }
+      builder: (context, dataUnsorted) {
+        final data = [...dataUnsorted]
+          ..sort((a, b) => a.name.compareTo(b.name));
         return Column(
           children: [
             StyledSearchBar(

@@ -58,10 +58,8 @@ class OnGoingLoan extends HookConsumerWidget {
     }
     return AsyncChild(
       value: adminLoanList[loaner]!,
-      builder: (context, data) {
-        if (data.isNotEmpty) {
-          data.sort((a, b) => a.end.compareTo(b.end));
-        }
+      builder: (context, dataUnsorted) {
+        final data = [...dataUnsorted]..sort((a, b) => a.end.compareTo(b.end));
         return Column(
           children: [
             StyledSearchBar(

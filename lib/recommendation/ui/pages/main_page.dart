@@ -50,7 +50,9 @@ class RecommendationMainPage extends HookConsumerWidget {
                     child: Center(child: HeroIcon(HeroIcons.plus, size: 50)),
                   ),
                 ),
-              ...(data..sort((a, b) => b.creation.compareTo(a.creation))).map(
+              ...([
+                ...data,
+              ]..sort((a, b) => b.creation.compareTo(a.creation))).map(
                 (e) => RecommendationCard(recommendation: e, isMainPage: true),
               ),
               const SizedBox(height: 30),

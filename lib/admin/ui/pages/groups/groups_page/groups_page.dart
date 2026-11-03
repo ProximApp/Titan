@@ -57,15 +57,18 @@ class GroupsPage extends HookConsumerWidget {
                 const SizedBox(height: 20),
                 Row(
                   children: [
-                    Text(
-                      localizeWithContext.adminGroupsManagement,
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: ColorConstants.title,
+                    Expanded(
+                      child: Text(
+                        localizeWithContext.adminGroupsManagement,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: ColorConstants.title,
+                        ),
                       ),
                     ),
-                    Spacer(),
                     CustomIconButton(
                       icon: const HeroIcon(
                         HeroIcons.plus,
@@ -134,11 +137,13 @@ class GroupsPage extends HookConsumerWidget {
                 const SizedBox(height: 10),
                 AsyncChild(
                   value: groups,
-                  builder: (context, g) {
-                    g.sort(
-                      (a, b) =>
-                          a.name.toLowerCase().compareTo(b.name.toLowerCase()),
-                    );
+                  builder: (context, gUnsorted) {
+                    final g = [...gUnsorted]
+                      ..sort(
+                        (a, b) => a.name.toLowerCase().compareTo(
+                          b.name.toLowerCase(),
+                        ),
+                      );
                     return Column(
                       children: [
                         ...g.map(
