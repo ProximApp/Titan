@@ -6,6 +6,7 @@ extension $ListReturn on ListReturn {
     return ListBase(
       name: name,
       description: description,
+      program: program,
       type: type,
       sectionId: section.id,
       members: members.map((e) => e.toMemberBase()).toList(),
