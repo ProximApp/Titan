@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/vote/adapters/list_return.dart';
 import 'package:titan/vote/providers/list_list_provider.dart';
@@ -8,11 +7,11 @@ import 'package:titan/generated/openapi.swagger.dart';
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:http/http.dart' as http;
 
-class MockListRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('ListListNotifier', () {
-    late MockListRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late ListListNotifier provider;
     final lists = [
@@ -23,7 +22,7 @@ void main() {
     final updatedList = lists.first.copyWith(name: 'Updated List');
 
     setUp(() async {
-      mockRepository = MockListRepository();
+      mockRepository = MockOpenapi();
       when(() => mockRepository.campaignListsGet()).thenAnswer(
         (_) async => chopper.Response(http.Response('[]', 200), <ListReturn>[]),
       );
@@ -97,7 +96,7 @@ void main() {
           body: any(named: 'body'),
         ),
       ).thenAnswer(
-        (_) async => chopper.Response(http.Response('body', 200), updatedList),
+        (_) async => chopper.Response(http.Response('body', 200), null),
       );
 
       provider.state = AsyncValue.data([...lists]);

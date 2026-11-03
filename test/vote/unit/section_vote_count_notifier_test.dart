@@ -1,23 +1,22 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/vote/providers/section_vote_count_provide.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:http/http.dart' as http;
 
-class MockSectionVoteCountRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('SectionVoteCountNotifier', () {
-    late MockSectionVoteCountRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late SectionVoteCountNotifier provider;
     final voteStats = VoteStats(sectionId: '1', count: 0);
 
     setUp(() async {
-      mockRepository = MockSectionVoteCountRepository();
+      mockRepository = MockOpenapi();
       container = ProviderContainer(
         overrides: [repositoryProvider.overrideWithValue(mockRepository)],
       );

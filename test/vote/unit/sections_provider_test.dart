@@ -2,16 +2,15 @@ import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/vote/providers/sections_provider.dart';
 
-class MockSectionRepository extends Mock implements Openapi {}
+import '../../shared/mock_openapi.dart';
 
 void main() {
   group('SectionNotifier', () {
-    late MockSectionRepository mockRepository;
+    late MockOpenapi mockRepository;
     late ProviderContainer container;
     late SectionNotifier provider;
     final sections = [
@@ -25,7 +24,7 @@ void main() {
     );
 
     setUp(() async {
-      mockRepository = MockSectionRepository();
+      mockRepository = MockOpenapi();
       when(() => mockRepository.campaignSectionsGet()).thenAnswer(
         (_) async =>
             chopper.Response(http.Response('[]', 200), <SectionComplete>[]),
