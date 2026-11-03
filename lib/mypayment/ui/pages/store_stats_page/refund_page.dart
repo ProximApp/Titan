@@ -135,6 +135,14 @@ class ReFundPage extends ConsumerWidget {
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: WaitingButton(
                     onTap: () async {
+                      if (!isValid) {
+                        displayToastWithContext(
+                          TypeMsg.error,
+                          AppLocalizations.of(context)!
+                              .paiementPleaseEnterValidAmount,
+                        );
+                        return;
+                      }
                       final value = await transactionNotifier.refundTransaction(
                         history.id,
                         RefundInfo(
@@ -147,6 +155,13 @@ class ReFundPage extends ConsumerWidget {
                       );
                       value.when(
                         data: (value) {
+                          if (!value) {
+                            displayToastWithContext(
+                              TypeMsg.error,
+                              AppLocalizations.of(context)!.adminDeletingError,
+                            );
+                            return;
+                          }
                           displayToastWithContext(
                             TypeMsg.msg,
                             AppLocalizations.of(context)!
