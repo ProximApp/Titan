@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qlevar_router/qlevar_router.dart';
+import 'package:titan/tools/providers/rendered_path_provider.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/phonebook/providers/association_member_list_provider.dart';
@@ -10,6 +11,7 @@ import 'package:titan/phonebook/providers/association_provider.dart';
 import 'package:titan/phonebook/providers/complete_member_provider.dart';
 import 'package:titan/phonebook/providers/membership_provider.dart';
 import 'package:titan/phonebook/router.dart';
+import 'package:titan/phonebook/tools/function.dart';
 import 'package:titan/phonebook/ui/components/member_card.dart';
 import 'package:titan/phonebook/ui/phonebook.dart';
 import 'package:titan/tools/constants.dart';
@@ -82,7 +84,9 @@ class AssociationMembersPage extends HookConsumerWidget {
                         associationId: association.id,
                       ),
                     );
-                    if (QR.currentPath.contains(PhonebookRouter.admin)) {
+                    if (ref
+                        .read(renderedPathProvider)
+                        .contains(PhonebookRouter.admin)) {
                       QR.to(
                         PhonebookRouter.root +
                             PhonebookRouter.admin +
@@ -117,16 +121,15 @@ class AssociationMembersPage extends HookConsumerWidget {
                             final result = await associationMemberListNotifier
                                 .reorderMember(
                                   associationMemberSortedList[oldIndex],
-                                  associationMemberSortedList[oldIndex]
-                                      .memberships
-                                      .firstWhere(
-                                        (element) =>
-                                            element.associationId ==
-                                                association.id &&
-                                            element.mandateYear ==
-                                                association.mandateYear,
-                                      )
-                                      .copyWith(memberOrder: newIndex),
+                                  // The shared lookup carries the
+                                  // `orElse`: a member whose membership for
+                                  // this mandate vanished used to take the
+                                  // whole reorder down on a bare
+                                  // `firstWhere`.
+                                  getMembershipForAssociation(
+                                    associationMemberSortedList[oldIndex],
+                                    association,
+                                  ).copyWith(memberOrder: newIndex),
                                   oldIndex,
                                   newIndex,
                                 );

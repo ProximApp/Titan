@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qlevar_router/qlevar_router.dart';
+import 'package:titan/tools/providers/rendered_path_provider.dart';
 
 class TopBar extends HookConsumerWidget {
   final String root;
@@ -28,7 +29,7 @@ class TopBar extends HookConsumerWidget {
               height: 30,
               child: Builder(
                 builder: (BuildContext appBarContext) {
-                  if (QR.currentPath == root) {
+                  if (ref.watch(renderedPathProvider) == root) {
                     return SizedBox.shrink();
                   }
                   return IconButton(
