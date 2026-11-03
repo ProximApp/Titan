@@ -128,8 +128,16 @@ class RequestCard extends ConsumerWidget {
                     ],
                   ),
                   const SizedBox(height: 5),
+                  // The card height is fixed at 70, so the date may only
+                  // take the lines left under the title row: three at its
+                  // narrowest (the middle column collapses to ~65px at a
+                  // 280px viewport because the amount sets its own width).
+                  // Capped with an ellipsis rather than left to wrap, which
+                  // is what pushed this column 9px past the card bottom.
                   Text(
                     "${localizeWithContext.paiementThe} ${DateFormat.yMMMMEEEEd(Localizations.localeOf(context).toString()).format(request.creation)} ${localizeWithContext.paiementAt} ${DateFormat.Hm(Localizations.localeOf(context).toString()).format(request.creation)}",
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: Color(0xff204550),
                       fontSize: 12,

@@ -59,16 +59,21 @@ class AddDeviceButton extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Spacer(),
-                      Text(
-                        AppLocalizations.of(context)!.paiementAddThisDevice,
-                        style: TextStyle(
-                          color: Color(0xff204550),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            AppLocalizations.of(context)!.paiementAddThisDevice,
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Color(0xff204550),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
-                      Spacer(),
                     ],
                   ),
                 ),

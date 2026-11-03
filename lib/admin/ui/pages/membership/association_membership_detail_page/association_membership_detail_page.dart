@@ -66,15 +66,18 @@ class AssociationMembershipEditorPage extends HookConsumerWidget {
               const SizedBox(height: 30),
               Row(
                 children: [
-                  Text(
-                    "${AppLocalizations.of(context)!.adminMembers} (${associationMembershipFilteredList.length})",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: ColorConstants.title,
+                  Expanded(
+                    child: Text(
+                      "${AppLocalizations.of(context)!.adminMembers} (${associationMembershipFilteredList.length})",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: ColorConstants.title,
+                      ),
                     ),
                   ),
-                  const Spacer(),
                   CustomIconButton(
                     onPressed: () async {
                       userAssociationMembershipNotifier

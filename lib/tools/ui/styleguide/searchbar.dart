@@ -77,18 +77,22 @@ class CustomSearchBar extends HookWidget {
                 ),
               ),
             ),
-            if (textController.text.isNotEmpty)
-              IconButton(
-                icon: HeroIcon(
-                  HeroIcons.xMark,
-                  color: ColorConstants.tertiary,
-                  size: 20,
-                ),
-                onPressed: () {
-                  textController.clear();
-                },
-                splashRadius: 20,
-              ),
+            ValueListenableBuilder<TextEditingValue>(
+              valueListenable: textController,
+              builder: (context, value, child) => value.text.isEmpty
+                  ? const SizedBox.shrink()
+                  : IconButton(
+                      icon: HeroIcon(
+                        HeroIcons.xMark,
+                        color: ColorConstants.tertiary,
+                        size: 20,
+                      ),
+                      onPressed: () {
+                        textController.clear();
+                      },
+                      splashRadius: 20,
+                    ),
+            ),
             if (onFilter != null)
               IconButton(
                 icon: HeroIcon(

@@ -46,15 +46,18 @@ class AssociationPage extends ConsumerWidget {
               const SizedBox(height: 20),
               Row(
                 children: [
-                  Text(
-                    localizeWithContext.adminAssociations,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: ColorConstants.title,
+                  Expanded(
+                    child: Text(
+                      localizeWithContext.adminAssociations,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: ColorConstants.title,
+                      ),
                     ),
                   ),
-                  const Spacer(),
                   CustomIconButton(
                     icon: HeroIcon(
                       HeroIcons.plus,

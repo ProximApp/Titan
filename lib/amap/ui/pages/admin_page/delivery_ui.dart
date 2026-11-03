@@ -69,12 +69,16 @@ class DeliveryUi extends HookConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        '${AppLocalizations.of(context)!.amapThe} ${DateFormat.yMd(locale).format(delivery.deliveryDate)}',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: AMAPColorConstants.textDark,
+                      Expanded(
+                        child: Text(
+                          '${AppLocalizations.of(context)!.amapThe} ${DateFormat.yMd(locale).format(delivery.deliveryDate)}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: AMAPColorConstants.textDark,
+                          ),
                         ),
                       ),
                       GestureDetector(
@@ -96,24 +100,36 @@ class DeliveryUi extends HookConsumerWidget {
                       ),
                     ],
                   ),
-                  AutoLoaderChild(
-                    group: deliveryOrders,
-                    notifier: deliveryOrdersNotifier,
-                    mapKey: delivery.id,
-                    listLoader: (deliveryId) => ordersByDeliveryListNotifier
-                        .loadDeliveryOrderList(deliveryId),
-                    dataBuilder: (context, orders) {
-                      return Text(
-                        orders.isEmpty
-                            ? AppLocalizations.of(context)!.amapNoCurrentOrder
-                            : '${orders.length} ${AppLocalizations.of(context)!.amapOneOrder}${orders.length != 1 ? "s" : ""}',
+                  Flexible(
+                    child: AutoLoaderChild(
+                      group: deliveryOrders,
+                      notifier: deliveryOrdersNotifier,
+                      mapKey: delivery.id,
+                      listLoader: (deliveryId) => ordersByDeliveryListNotifier
+                          .loadDeliveryOrderList(deliveryId),
+                      errorBuilder: (error, stack) => Text(
+                        AppLocalizations.of(context)!.adminError,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: AMAPColorConstants.textDark,
                         ),
-                      );
-                    },
+                      ),
+                      dataBuilder: (context, orders) {
+                        return Text(
+                          orders.isEmpty
+                              ? AppLocalizations.of(context)!.amapNoCurrentOrder
+                              : '${orders.length} ${AppLocalizations.of(context)!.amapOneOrder}${orders.length != 1 ? "s" : ""}',
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: AMAPColorConstants.textDark,
+                          ),
+                        );
+                      },
+                    ),
                   ),
                   Text(
                     "${delivery.products?.length ?? 0} ${AppLocalizations.of(context)!.amapProduct}${delivery.products?.length != 1 ? "s" : ""}",
@@ -226,193 +242,206 @@ class DeliveryUi extends HookConsumerWidget {
                       size: 22,
                     ),
                   ),
-                WaitingButton(
-                  onTap: () async {
-                    await showDialog(
-                      context: context,
-                      builder: ((context) => CustomDialogBox(
-                        title: delivery.status == DeliveryStatusType.creation
-                            ? AppLocalizations.of(context)!.amapOpenDelivery
-                            : delivery.status == DeliveryStatusType.orderable
-                            ? AppLocalizations.of(context)!.amapLock
-                            : delivery.status == DeliveryStatusType.locked
-                            ? AppLocalizations.of(context)!.amapDeliver
-                            : AppLocalizations.of(context)!.amapArchive,
-                        descriptions:
-                            delivery.status == DeliveryStatusType.creation
-                            ? AppLocalizations.of(context)!.amapOpenningDelivery
-                            : delivery.status == DeliveryStatusType.orderable
-                            ? AppLocalizations.of(context)!.amapLockingDelivery
-                            : delivery.status == DeliveryStatusType.locked
-                            ? AppLocalizations.of(context)!
-                                  .amapDeliveringDelivery
-                            : AppLocalizations.of(context)!
-                                  .amapArchivingDelivery,
-                        onYes: () async {
-                          final openedDeliveryMsg = AppLocalizations.of(
-                            context,
-                          )!.amapDeliveryOpened;
-                          final notOpenedDeliveryMsg = AppLocalizations.of(
-                            context,
-                          )!.amapDeliveryNotOpened;
-                          final lockedDeliveryMsg = AppLocalizations.of(
-                            context,
-                          )!.amapDeliveryLocked;
-                          final notLockedDeliveryMsg = AppLocalizations.of(
-                            context,
-                          )!.amapDeliveryNotLocked;
-                          final deliveredDeliveryMsg = AppLocalizations.of(
-                            context,
-                          )!.amapDeliveryDelivered;
-                          final notDeliveredDeliveryMsg = AppLocalizations.of(
-                            context,
-                          )!.amapDeliveryNotDelivered;
-                          final archivedDeliveryMsg = AppLocalizations.of(
-                            context,
-                          )!.amapDeliveryArchived;
-                          final notArchivedDeliveryMsg = AppLocalizations.of(
-                            context,
-                          )!.amapDeliveryNotArchived;
-                          switch (delivery.status) {
-                            case DeliveryStatusType.creation:
-                              final value = await deliveryListNotifier
-                                  .openDelivery(delivery);
-                              if (value) {
-                                displayVoteWithContext(
-                                  TypeMsg.msg,
-                                  openedDeliveryMsg,
-                                );
-                              } else {
-                                displayVoteWithContext(
-                                  TypeMsg.error,
-                                  notOpenedDeliveryMsg,
-                                );
-                              }
-                              break;
-                            case DeliveryStatusType.orderable:
-                              final value = await deliveryListNotifier
-                                  .lockDelivery(delivery);
-                              if (value) {
-                                displayVoteWithContext(
-                                  TypeMsg.msg,
-                                  lockedDeliveryMsg,
-                                );
-                              } else {
-                                displayVoteWithContext(
-                                  TypeMsg.error,
-                                  notLockedDeliveryMsg,
-                                );
-                              }
-                              break;
-                            case DeliveryStatusType.locked:
-                              final value = await deliveryListNotifier
-                                  .deliverDelivery(delivery);
-                              if (value) {
-                                displayVoteWithContext(
-                                  TypeMsg.msg,
-                                  deliveredDeliveryMsg,
-                                );
-                              } else {
-                                displayVoteWithContext(
-                                  TypeMsg.error,
-                                  notDeliveredDeliveryMsg,
-                                );
-                              }
-                              break;
-                            case DeliveryStatusType.delivered:
-                              final value = await deliveryListNotifier
-                                  .archiveDelivery(delivery);
-                              if (value) {
-                                displayVoteWithContext(
-                                  TypeMsg.msg,
-                                  archivedDeliveryMsg,
-                                );
-                              } else {
-                                displayVoteWithContext(
-                                  TypeMsg.error,
-                                  notArchivedDeliveryMsg,
-                                );
-                              }
-                              break;
-                            case DeliveryStatusType.swaggerGeneratedUnknown:
-                              break;
-                            case DeliveryStatusType.archived:
-                              break;
-                          }
-                        },
-                      )),
-                    );
-                  },
-                  builder: (child) => Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8,
-                      horizontal: 15,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      gradient: LinearGradient(
-                        colors:
-                            !(delivery.status == DeliveryStatusType.creation)
-                            ? [
-                                AMAPColorConstants.redGradient1,
-                                AMAPColorConstants.redGradient2,
-                              ]
-                            : [
-                                AMAPColorConstants.greenGradient1,
-                                AMAPColorConstants.greenGradient2,
-                              ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+                Flexible(
+                  child: WaitingButton(
+                    onTap: () async {
+                      await showDialog(
+                        context: context,
+                        builder: ((context) => CustomDialogBox(
+                          title: delivery.status == DeliveryStatusType.creation
+                              ? AppLocalizations.of(context)!.amapOpenDelivery
+                              : delivery.status == DeliveryStatusType.orderable
+                              ? AppLocalizations.of(context)!.amapLock
+                              : delivery.status == DeliveryStatusType.locked
+                              ? AppLocalizations.of(context)!.amapDeliver
+                              : AppLocalizations.of(context)!.amapArchive,
+                          descriptions:
+                              delivery.status == DeliveryStatusType.creation
+                              ? AppLocalizations.of(context)!
+                                    .amapOpenningDelivery
+                              : delivery.status == DeliveryStatusType.orderable
+                              ? AppLocalizations.of(context)!
+                                    .amapLockingDelivery
+                              : delivery.status == DeliveryStatusType.locked
+                              ? AppLocalizations.of(context)!
+                                    .amapDeliveringDelivery
+                              : AppLocalizations.of(context)!
+                                    .amapArchivingDelivery,
+                          onYes: () async {
+                            final openedDeliveryMsg = AppLocalizations.of(
+                              context,
+                            )!.amapDeliveryOpened;
+                            final notOpenedDeliveryMsg = AppLocalizations.of(
+                              context,
+                            )!.amapDeliveryNotOpened;
+                            final lockedDeliveryMsg = AppLocalizations.of(
+                              context,
+                            )!.amapDeliveryLocked;
+                            final notLockedDeliveryMsg = AppLocalizations.of(
+                              context,
+                            )!.amapDeliveryNotLocked;
+                            final deliveredDeliveryMsg = AppLocalizations.of(
+                              context,
+                            )!.amapDeliveryDelivered;
+                            final notDeliveredDeliveryMsg = AppLocalizations.of(
+                              context,
+                            )!.amapDeliveryNotDelivered;
+                            final archivedDeliveryMsg = AppLocalizations.of(
+                              context,
+                            )!.amapDeliveryArchived;
+                            final notArchivedDeliveryMsg = AppLocalizations.of(
+                              context,
+                            )!.amapDeliveryNotArchived;
+                            switch (delivery.status) {
+                              case DeliveryStatusType.creation:
+                                final value = await deliveryListNotifier
+                                    .openDelivery(delivery);
+                                if (value) {
+                                  displayVoteWithContext(
+                                    TypeMsg.msg,
+                                    openedDeliveryMsg,
+                                  );
+                                } else {
+                                  displayVoteWithContext(
+                                    TypeMsg.error,
+                                    notOpenedDeliveryMsg,
+                                  );
+                                }
+                                break;
+                              case DeliveryStatusType.orderable:
+                                final value = await deliveryListNotifier
+                                    .lockDelivery(delivery);
+                                if (value) {
+                                  displayVoteWithContext(
+                                    TypeMsg.msg,
+                                    lockedDeliveryMsg,
+                                  );
+                                } else {
+                                  displayVoteWithContext(
+                                    TypeMsg.error,
+                                    notLockedDeliveryMsg,
+                                  );
+                                }
+                                break;
+                              case DeliveryStatusType.locked:
+                                final value = await deliveryListNotifier
+                                    .deliverDelivery(delivery);
+                                if (value) {
+                                  displayVoteWithContext(
+                                    TypeMsg.msg,
+                                    deliveredDeliveryMsg,
+                                  );
+                                } else {
+                                  displayVoteWithContext(
+                                    TypeMsg.error,
+                                    notDeliveredDeliveryMsg,
+                                  );
+                                }
+                                break;
+                              case DeliveryStatusType.delivered:
+                                final value = await deliveryListNotifier
+                                    .archiveDelivery(delivery);
+                                if (value) {
+                                  displayVoteWithContext(
+                                    TypeMsg.msg,
+                                    archivedDeliveryMsg,
+                                  );
+                                } else {
+                                  displayVoteWithContext(
+                                    TypeMsg.error,
+                                    notArchivedDeliveryMsg,
+                                  );
+                                }
+                                break;
+                              case DeliveryStatusType.swaggerGeneratedUnknown:
+                                break;
+                              case DeliveryStatusType.archived:
+                                break;
+                            }
+                          },
+                        )),
+                      );
+                    },
+                    builder: (child) => Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 15,
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color:
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        gradient: LinearGradient(
+                          colors:
                               !(delivery.status == DeliveryStatusType.creation)
-                              ? AMAPColorConstants.redGradient2.withValues(
-                                  alpha: 0.5,
-                                )
-                              : AMAPColorConstants.greenGradient2.withValues(
-                                  alpha: 0.5,
-                                ),
-                          blurRadius: 10,
-                          offset: const Offset(2, 3),
+                              ? [
+                                  AMAPColorConstants.redGradient1,
+                                  AMAPColorConstants.redGradient2,
+                                ]
+                              : [
+                                  AMAPColorConstants.greenGradient1,
+                                  AMAPColorConstants.greenGradient2,
+                                ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color:
+                                !(delivery.status ==
+                                    DeliveryStatusType.creation)
+                                ? AMAPColorConstants.redGradient2.withValues(
+                                    alpha: 0.5,
+                                  )
+                                : AMAPColorConstants.greenGradient2.withValues(
+                                    alpha: 0.5,
+                                  ),
+                            blurRadius: 10,
+                            offset: const Offset(2, 3),
+                          ),
+                        ],
+                      ),
+                      child: child,
+                    ),
+                    child: Row(
+                      children: [
+                        Flexible(
+                          child: Container(
+                            padding: const EdgeInsets.only(bottom: 2),
+                            child: Text(
+                              delivery.status == DeliveryStatusType.creation
+                                  ? AppLocalizations.of(context)!
+                                        .amapOpenDelivery
+                                  : delivery.status ==
+                                        DeliveryStatusType.orderable
+                                  ? AppLocalizations.of(context)!
+                                        .amapCloseDelivery
+                                  : delivery.status == DeliveryStatusType.locked
+                                  ? AppLocalizations.of(context)!
+                                        .amapEndingDelivery
+                                  : AppLocalizations.of(context)!
+                                        .amapArchiveDelivery,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        HeroIcon(
+                          delivery.status == DeliveryStatusType.creation
+                              ? HeroIcons.lockOpen
+                              : delivery.status == DeliveryStatusType.orderable
+                              ? HeroIcons.lockClosed
+                              : delivery.status == DeliveryStatusType.locked
+                              ? HeroIcons.truck
+                              : HeroIcons.archiveBoxArrowDown,
+                          color: Colors.white,
+                          size: 22,
                         ),
                       ],
                     ),
-                    child: child,
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.only(bottom: 2),
-                        child: Text(
-                          delivery.status == DeliveryStatusType.creation
-                              ? AppLocalizations.of(context)!.amapOpenDelivery
-                              : delivery.status == DeliveryStatusType.orderable
-                              ? AppLocalizations.of(context)!.amapCloseDelivery
-                              : delivery.status == DeliveryStatusType.locked
-                              ? AppLocalizations.of(context)!.amapEndingDelivery
-                              : AppLocalizations.of(context)!
-                                    .amapArchiveDelivery,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      HeroIcon(
-                        delivery.status == DeliveryStatusType.creation
-                            ? HeroIcons.lockOpen
-                            : delivery.status == DeliveryStatusType.orderable
-                            ? HeroIcons.lockClosed
-                            : delivery.status == DeliveryStatusType.locked
-                            ? HeroIcons.truck
-                            : HeroIcons.archiveBoxArrowDown,
-                        color: Colors.white,
-                        size: 22,
-                      ),
-                    ],
                   ),
                 ),
               ],

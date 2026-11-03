@@ -118,15 +118,18 @@ class AdminPage extends HookConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    AppLocalizations.of(context)!.votePretendance,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: ColorConstants.tertiary,
+                  Expanded(
+                    child: Text(
+                      AppLocalizations.of(context)!.votePretendance,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: ColorConstants.tertiary,
+                      ),
                     ),
                   ),
-                  const Spacer(),
                   if (status.status == StatusType.waiting)
                     CustomIconButton(
                       icon: HeroIcon(
@@ -134,7 +137,7 @@ class AdminPage extends HookConsumerWidget {
                         color: ColorConstants.background,
                       ),
                       onPressed: () {
-                        listNotifier.setId(ListReturn.fromJson({}));
+                        listNotifier.setId(ListReturn.empty());
                         membersNotifier.setMembers([]);
                         QR.to(
                           VoteRouter.root +

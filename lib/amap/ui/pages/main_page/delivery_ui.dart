@@ -56,17 +56,20 @@ class DeliveryUi extends HookConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(width: 10),
-              Text(
-                '${AppLocalizations.of(context)!.amapThe} ${DateFormat.yMd(locale).format(delivery.deliveryDate)}',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: (selected && showSelected)
-                      ? Colors.white
-                      : AMAPColorConstants.textDark,
+              Expanded(
+                child: Text(
+                  '${AppLocalizations.of(context)!.amapThe} ${DateFormat.yMd(locale).format(delivery.deliveryDate)}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: (selected && showSelected)
+                        ? Colors.white
+                        : AMAPColorConstants.textDark,
+                  ),
                 ),
               ),
-              const Spacer(),
               Text(
                 "${delivery.products?.length ?? 0} ${AppLocalizations.of(context)!.amapProduct}${delivery.products?.length != 1 ? "s" : ""}",
                 style: TextStyle(

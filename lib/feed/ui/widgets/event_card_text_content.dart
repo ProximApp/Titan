@@ -23,27 +23,34 @@ class EventCardTextContent extends ConsumerWidget {
         children: [
           Row(
             children: [
-              Text(
-                item.title.length > 30
-                    ? '${item.title.substring(0, 30)}...'
-                    : item.title,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.black,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              if (item.location != null && item.location!.isNotEmpty)
-                Expanded(
-                  child: Text(
-                    ' | ${item.location}',
-                    style: TextStyle(fontSize: 14, color: Colors.black),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+              Expanded(
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: item.title.length > 30
+                            ? '${item.title.substring(0, 30)}...'
+                            : item.title,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.black,
+                        ),
+                      ),
+                      if (item.location != null && item.location!.isNotEmpty)
+                        TextSpan(
+                          text: ' | ${item.location}',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                          ),
+                        ),
+                    ],
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
+              ),
             ],
           ),
           AutoSizeText(

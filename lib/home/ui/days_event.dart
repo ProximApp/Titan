@@ -106,13 +106,22 @@ class DaysEvent extends HookConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        event.location,
-                        style: TextStyle(color: textColor, fontSize: 15),
+                      Expanded(
+                        child: Text(
+                          event.location,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: textColor, fontSize: 15),
+                        ),
                       ),
-                      Text(
-                        event.association.name,
-                        style: TextStyle(color: textColor, fontSize: 15),
+                      const SizedBox(width: 10),
+                      Flexible(
+                        child: Text(
+                          event.association.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: textColor, fontSize: 15),
+                        ),
                       ),
                     ],
                   ),
