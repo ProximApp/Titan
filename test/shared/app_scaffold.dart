@@ -86,6 +86,12 @@ class FakeMobileScannerPlatform extends MobileScannerPlatform {
     _barcodes.add(BarcodeCapture(barcodes: [Barcode(rawValue: rawValue)]));
   }
 
+  /// A frame the camera really emits: a `Barcode` whose value never decoded,
+  /// so `rawValue` is null. The scanner must skip it, not dereference it.
+  void emitUndecodedFrame() {
+    _barcodes.add(BarcodeCapture(barcodes: [Barcode()]));
+  }
+
   @override
   Stream<BarcodeCapture?> get barcodesStream => _barcodes.stream;
 
