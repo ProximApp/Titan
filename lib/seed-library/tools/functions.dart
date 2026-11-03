@@ -48,6 +48,9 @@ PropagationMethod getPropagationMethodByValue(String value) {
   }
 }
 
+String getSpeciesTypeLabel(SpeciesType speciesType) =>
+    speciesType.value ?? speciesType.name;
+
 String getPropagationMethodValue(PropagationMethod propagationMethod) {
   switch (propagationMethod) {
     case PropagationMethod.bouture:
