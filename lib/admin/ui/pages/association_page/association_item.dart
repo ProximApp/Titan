@@ -17,8 +17,15 @@ class AssociationItem extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final localizeWithContext = AppLocalizations.of(context)!;
     final groups = ref.watch(allGroupList);
-    final group = groups.firstWhere((group) => group.id == association.groupId);
+    final group = groups.firstWhere(
+      (group) => group.id == association.groupId,
+      orElse: () => CoreGroupSimple(
+        name: localizeWithContext.adminNoGroup,
+        id: association.groupId,
+      ),
+    );
     final associationLogo = ref.watch(
       associationLogoMapProvider.select((value) => value[association.id]),
     );
@@ -26,8 +33,6 @@ class AssociationItem extends HookConsumerWidget {
       associationLogoMapProvider.notifier,
     );
     final associationLogoNotifier = ref.watch(associationLogoProvider.notifier);
-
-    final localizeWithContext = AppLocalizations.of(context)!;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),

@@ -22,9 +22,19 @@ class CentralisationMainPage extends HookConsumerWidget {
         final modules = sections
             .map((section) => section.moduleList)
             .expand((element) => element);
-        return favoritesName
-            .map((name) => modules.firstWhere((module) => module.name == name))
-            .toList();
+        // Favourites are persisted (SharedPreferences) while the module list
+        // comes from the server, so a renamed or removed module leaves a
+        // name nothing resolves any more. The bare `firstWhere` that used to
+        // run here threw `Bad state: No element` out of build and killed
+        // every section on the page; an unresolvable name is now dropped and
+        // the strip simply keeps the favourites that still exist.
+        final moduleByName = {
+          for (final module in modules) module.name: module,
+        };
+        return [
+          for (final name in favoritesName)
+            if (moduleByName.containsKey(name)) moduleByName[name]!,
+        ];
       },
       orElse: () => [],
     );

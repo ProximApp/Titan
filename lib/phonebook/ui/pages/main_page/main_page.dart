@@ -3,6 +3,7 @@ import 'package:titan/tools/ui/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/admin/providers/is_admin_provider.dart';
 import 'package:titan/advert/ui/components/special_action_button.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/phonebook/providers/association_filtered_list_provider.dart';
 import 'package:titan/phonebook/providers/association_groupement_provider.dart';
 import 'package:titan/phonebook/providers/association_groupement_list_provider.dart';
@@ -89,6 +90,7 @@ class PhonebookMainPage extends HookConsumerWidget {
                                 groupement: associationGroupements.firstWhere(
                                   (groupement) =>
                                       groupement.id == association.groupementId,
+                                  orElse: () => AssociationGroupement.empty(),
                                 ),
                               )
                             : const SizedBox.shrink(),
