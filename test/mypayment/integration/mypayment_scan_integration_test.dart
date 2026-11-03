@@ -235,6 +235,31 @@ void main() {
       },
     );
 
+    testWidgets('a second frame inside five seconds never reaches the backend', (
+      tester,
+    ) async {
+      stubScanFlow(scaffold);
+      final container = await openScanModal(tester);
+
+      fakePlatform.emitScan(scanPayload(tot: 2500));
+      await settle(tester, frames: 10);
+      expect(find.text('Amount'), findsOneWidget);
+
+      // Keep the anti-double-scan stamp but clear the decoded payload, so the
+      // next frame is a genuine candidate: the 5s gate is the only thing that
+      // can drop it. It must drop it before the membership check and the POST.
+      container.read(barcodeProvider.notifier).clearBarcode();
+      fakePlatform.emitScan(scanPayload(tot: 9000));
+      await settle(tester, frames: 10);
+
+      verify(
+        () => scaffold.repository.mypaymentStoresStoreIdScanPost(
+          storeId: 'store-1',
+          body: any(named: 'body'),
+        ),
+      ).called(1);
+    });
+
     testWidgets('Next resets the scan surface for the next sale', (
       tester,
     ) async {

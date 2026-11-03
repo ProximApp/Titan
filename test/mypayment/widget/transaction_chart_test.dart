@@ -9,6 +9,7 @@ import 'package:titan/mypayment/providers/selected_transactions_provider.dart';
 import 'package:titan/mypayment/ui/pages/stats_page/transaction_chart.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../mypayment_fixtures.dart';
 
 /// Behaviour tests for [TransactionChart] — the per-store pie the stats page
 /// draws under `SumUpChart`.
@@ -17,15 +18,6 @@ import '../../shared/app_scaffold.dart';
 /// no test reached the empty-month placeholder, the colour-variation branch
 /// for the second wallet, or the touch callback that reseeds
 /// `selectedTransactionsProvider`. Those are the three things this file pins.
-class _FakeHistoryNotifier extends MyHistoryNotifier {
-  _FakeHistoryNotifier(this.histories);
-
-  final List<History> histories;
-
-  @override
-  AsyncValue<List<History>> build() => AsyncValue.data(histories);
-}
-
 void main() {
   late IntegrationScaffold scaffold;
   final month = DateTime(2026, 10, 1);
@@ -52,7 +44,7 @@ void main() {
   ProviderContainer containerWith(List<History> histories) {
     final container = ProviderContainer(
       overrides: [
-        myHistoryProvider.overrideWith(() => _FakeHistoryNotifier(histories)),
+        myHistoryProvider.overrideWith(() => FakeHistoryNotifier(histories)),
       ],
     );
     addTearDown(container.dispose);

@@ -9,15 +9,7 @@ import 'package:titan/mypayment/ui/pages/stats_page/month_bar.dart';
 import 'package:titan/tools/providers/locale_notifier.dart';
 
 import '../../shared/app_scaffold.dart';
-
-class _FakeHistoryNotifier extends MyHistoryNotifier {
-  _FakeHistoryNotifier(this.histories);
-
-  final List<History> histories;
-
-  @override
-  AsyncValue<List<History>> build() => AsyncValue.data(histories);
-}
+import '../mypayment_fixtures.dart';
 
 /// The stats page's month header: it folds the month's confirmed history into
 /// one signed total. Three term kinds feed the sum (a direct transaction and a
@@ -53,7 +45,7 @@ void main() {
   ProviderContainer containerWithHistory(List<History> histories) {
     final container = ProviderContainer(
       overrides: [
-        myHistoryProvider.overrideWith(() => _FakeHistoryNotifier(histories)),
+        myHistoryProvider.overrideWith(() => FakeHistoryNotifier(histories)),
       ],
     );
     addTearDown(container.dispose);

@@ -8,6 +8,9 @@ import 'package:titan/tools/ui/heroicons.dart';
 
 import '../../shared/app_scaffold.dart';
 import '../mypayment_fixtures.dart';
+import 'dart:ui' as ui;
+import 'package:titan/tools/ui/layouts/refresher.dart';
+import 'package:titan/mypayment/ui/pages/main_page/main_page.dart';
 
 Structure managerStructure(String userId) => Structure.empty().copyWith(
   managerUserId: userId,
@@ -161,5 +164,35 @@ void main() {
       expect(find.text('Store balance'), findsOneWidget);
       expect(find.text('Personal balance'), findsNothing);
     });
+  });
+
+  testWidgets('pull to refresh reloads the stores and the wallet', (
+    tester,
+  ) async {
+    stubMainPage(scaffold);
+    when(
+      () => scaffold.repository.mypaymentUsersMeStoresGet(),
+    ).thenAnswer((_) async => chopperListResponse(<UserStore>[]));
+
+    final container = scaffold.makeContainer(
+      user: CoreUser.empty().copyWith(id: 'user-1'),
+    );
+    addTearDown(container.dispose);
+    await scaffold.pumpWidgetApp(
+      tester,
+      const PaymentMainPage(),
+      container,
+      surface: const ui.Size(1920, 1080),
+    );
+    await settle(tester, frames: 20);
+
+    clearInteractions(scaffold.repository);
+    await tester.drag(find.byType(Refresher).first, const Offset(0, 400));
+    await settle(tester, frames: 24);
+
+    verify(() => scaffold.repository.mypaymentUsersMeStoresGet()).called(1);
+    verify(
+      () => scaffold.repository.mypaymentUsersMeWalletGet(),
+    ).called(greaterThan(0));
   });
 }

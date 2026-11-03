@@ -6,17 +6,6 @@ import 'package:titan/raffle/providers/raffle_list_provider.dart';
 
 import '../raffle_fixtures.dart';
 
-/// A raffle list pinned to one state, so the id provider's build is exercised
-/// without a repository (the real notifier fires `tombolaRafflesGet`).
-class FixedRaffleList extends RaffleListNotifier {
-  FixedRaffleList(this.value);
-
-  final AsyncValue<List<RaffleComplete>> value;
-
-  @override
-  AsyncValue<List<RaffleComplete>> build() => value;
-}
-
 void main() {
   group('raffleIdProvider', () {
     test('an empty raffle list yields no id instead of throwing', () {

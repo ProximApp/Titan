@@ -18,19 +18,13 @@ import 'package:titan/tools/ui/styleguide/button.dart';
 
 import '../../shared/app_scaffold.dart';
 import '../../shared/mock_openapi.dart';
+import '../mypayment_fixtures.dart';
+import 'dart:ui' as ui;
+import 'package:titan/mypayment/ui/pages/store_stats_page/summary_card.dart';
 
 /// Widget-level tests for the mypayment surfaces the page shells never
 /// render directly: the month chart, the interval picker and the invoice
 /// card's admin/user flows.
-class _FakeHistoryNotifier extends MyHistoryNotifier {
-  _FakeHistoryNotifier(this.histories);
-
-  final List<History> histories;
-
-  @override
-  AsyncValue<List<History>> build() => AsyncValue.data(histories);
-}
-
 void main() {
   late IntegrationScaffold scaffold;
 
@@ -110,7 +104,7 @@ void main() {
       // the fake history on top of the locale/prefs defaults.
       final container = ProviderContainer(
         overrides: [
-          myHistoryProvider.overrideWith(() => _FakeHistoryNotifier(histories)),
+          myHistoryProvider.overrideWith(() => FakeHistoryNotifier(histories)),
         ],
       );
       addTearDown(container.dispose);
@@ -531,5 +525,46 @@ void main() {
       expect(find.text('Pending'), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
+  });
+
+  testWidgets('the summary card adds transfers and skips unknown types', (
+    tester,
+  ) async {
+    History tx(String id, enums.HistoryType type, int total) => History.empty()
+        .copyWith(
+          id: id,
+          type: type,
+          status: enums.TransactionStatus.confirmed,
+          total: total,
+        );
+
+    final container = scaffold.makeContainer(
+      user: CoreUser.empty().copyWith(id: 'user-1'),
+    );
+    addTearDown(container.dispose);
+
+    await scaffold.pumpWidgetApp(
+      tester,
+      SummaryCard(
+        history: [
+          tx('h-1', enums.HistoryType.requestTransfer, 100),
+          tx('h-2', enums.HistoryType.directTransfer, 200),
+          tx('h-3', enums.HistoryType.directTransaction, 50),
+          tx('h-4', enums.HistoryType.swaggerGeneratedUnknown, 999),
+        ],
+      ),
+      container,
+      surface: const ui.Size(1920, 1080),
+    );
+
+    // Totals are cents and the mean divides by the counted transactions:
+    // +100 +200 -50 = 250 over one purchase, so 2.50. The app locale formats
+    // with a comma, so match the number, not the separator.
+    expect(
+      anyVisibleTextContains(tester, '2,50') ||
+          anyVisibleTextContains(tester, '2.50'),
+      isTrue,
+      reason: 'visible: ${visibleTexts(tester)}',
+    );
   });
 }

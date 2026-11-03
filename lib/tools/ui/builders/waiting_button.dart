@@ -40,6 +40,12 @@ class WaitingButton extends HookWidget {
               clicked.value = true;
               shrinkButtonSize();
               onTap?.call().then((_) {
+                // The flow may unmount this button before its future lands —
+                // DevicesPage hides the add-device row the moment the
+                // registration succeeds and only then awaits the dialog.
+                // reverse() on the disposed controller asserts in debug and
+                // dereferences a dead ticker in release.
+                if (!context.mounted) return;
                 restoreButtonSize();
                 clicked.value = false;
               });

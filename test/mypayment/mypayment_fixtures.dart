@@ -1,9 +1,23 @@
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:http/http.dart' as http;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/mypayment/providers/my_history_provider.dart';
 
 import '../shared/app_scaffold.dart';
+
+/// The user's payment history pinned to a list, so the stats widgets and
+/// their derived totals build without a repository call. Four stats widget
+/// files carried identical copies.
+class FakeHistoryNotifier extends MyHistoryNotifier {
+  FakeHistoryNotifier(this.histories);
+
+  final List<History> histories;
+
+  @override
+  AsyncValue<List<History>> build() => AsyncValue.data(histories);
+}
 
 /// A registered wallet device with a predictable wallet and creation stamp;
 /// two device files carried identical copies.
@@ -126,7 +140,13 @@ TOSSignatureResponse tos() => TOSSignatureResponse.empty().copyWith(
 /// stores, TOS, requests, structures and the wallet history behind its
 /// refresh. (These seven `stub*` helpers used to be seven same-named
 /// `stubMyPayment` copies, one per file.)
-void stubMainPage(IntegrationScaffold scaffold, {List<History>? historyList}) {
+void stubMainPage(
+  IntegrationScaffold scaffold, {
+  List<History>? historyList,
+  List<Request$>? requests,
+  List<Structure>? structures,
+  Structure? bankAccountHolder,
+}) {
   when(() => scaffold.repository.mypaymentUsersMeWalletGet())
       .thenAnswer((_) async => chopperResponse(wallet(2510)));
   when(() => scaffold.repository.mypaymentUsersMeStoresGet())
@@ -134,11 +154,33 @@ void stubMainPage(IntegrationScaffold scaffold, {List<History>? historyList}) {
   when(() => scaffold.repository.mypaymentUsersMeTosGet())
       .thenAnswer((_) async => chopperResponse(tos()));
   when(() => scaffold.repository.mypaymentRequestsGet())
-      .thenAnswer((_) async => chopperListResponse(<Request$>[]));
+      .thenAnswer((_) async => chopperListResponse(requests ?? <Request$>[]));
   when(() => scaffold.repository.mypaymentStructuresGet())
-      .thenAnswer((_) async => chopperListResponse(<Structure>[]));
+      .thenAnswer(
+        (_) async => chopperListResponse(structures ?? <Structure>[]),
+      );
   when(() => scaffold.repository.mypaymentUsersMeWalletHistoryGet())
       .thenAnswer((_) async => chopperListResponse(historyList ?? <History>[]));
+  if (bankAccountHolder != null) {
+    when(() => scaffold.repository.mypaymentBankAccountHolderGet())
+        .thenAnswer((_) async => chopperResponse(bankAccountHolder));
+  }
+}
+
+/// The wallet-device read the account card performs for the key id this
+/// install holds: answers the one device, in [status].
+void stubWalletDevice(
+  IntegrationScaffold scaffold,
+  WalletDeviceStatus status, {
+  String id = 'device-1',
+}) {
+  when(
+    () => scaffold.repository.mypaymentUsersMeWalletDevicesWalletDeviceIdGet(
+      walletDeviceId: any(named: 'walletDeviceId'),
+    ),
+  ).thenAnswer(
+    (_) async => chopperResponse(device(id, 'Phone', status: status)),
+  );
 }
 
 /// The devices page's one read.

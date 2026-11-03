@@ -192,4 +192,22 @@ void main() {
     expect(scan.store, isTrue);
     expect(scan.signature, isNotEmpty);
   });
+
+  test('a colour variation that would shift brightness is moderated', () {
+    // A near-black base with a seed that lightens: the raw move would change
+    // the brightness by far more than the correction threshold, so the damped
+    // branch is the one taken. The result must stay a valid, opaque colour.
+    final variations = generateColorVariations(
+      const [Color(0xFF050505), Color(0xFF202020)],
+      'a-seed-that-lightens',
+    );
+
+    expect(variations, hasLength(2));
+    for (final color in variations) {
+      expect(color.a, closeTo(1.0, 0.001));
+      expect(color.r, inInclusiveRange(0.0, 1.0));
+      expect(color.g, inInclusiveRange(0.0, 1.0));
+      expect(color.b, inInclusiveRange(0.0, 1.0));
+    }
+  });
 }

@@ -36,37 +36,6 @@ void main() {
 
   final bdeStructure = structureFixture('structure-1', 'BDE', 'user-1');
 
-  /// Every read the payment main page performs on boot, plus the bank
-  /// account holder: returning `bdeStructure` flips
-  /// `isBankAccountHolderProvider` to true so `StoreList` also renders its
-  /// `InvoiceAdminCard` branch (store_list.dart:58).
-  void stubMainPage(IntegrationScaffold scaffold, {List<Request$>? requests}) {
-    when(() => scaffold.repository.mypaymentUsersMeWalletGet()).thenAnswer(
-      (_) async => chopperResponse(
-        Wallet.empty().copyWith(id: 'wallet-1', balance: 2510),
-      ),
-    );
-    when(() => scaffold.repository.mypaymentUsersMeStoresGet())
-        .thenAnswer((_) async => chopperListResponse(<UserStore>[]));
-    when(() => scaffold.repository.mypaymentUsersMeTosGet()).thenAnswer(
-      (_) async => chopperResponse(
-        TOSSignatureResponse.empty().copyWith(
-          acceptedTosVersion: 0,
-          latestTosVersion: 0,
-          tosContent: 'Some terms',
-        ),
-      ),
-    );
-    when(() => scaffold.repository.mypaymentRequestsGet())
-        .thenAnswer((_) async => chopperListResponse(requests ?? <Request$>[]));
-    when(() => scaffold.repository.mypaymentStructuresGet())
-        .thenAnswer((_) async => chopperListResponse([bdeStructure]));
-    when(() => scaffold.repository.mypaymentUsersMeWalletHistoryGet())
-        .thenAnswer((_) async => chopperListResponse(<History>[]));
-    when(() => scaffold.repository.mypaymentBankAccountHolderGet())
-        .thenAnswer((_) async => chopperResponse(bdeStructure));
-  }
-
   /// Flips the account card to the store card (and back): both faces share
   /// the SAME `toggle` closure, so each tap lands on whichever face is on
   /// top and still advances `flipped`.
@@ -91,7 +60,11 @@ void main() {
       // NAVIGATION TEST FIRST: qlevar_router 1.12.4 silently drops the first
       // mid-test QR.to() to a not-yet-mounted route once an earlier test has
       // run in the same isolate, so this is the file's only path assertion.
-      stubMainPage(scaffold);
+      stubMainPage(
+        scaffold,
+        structures: [bdeStructure],
+        bankAccountHolder: bdeStructure,
+      );
 
       final container = scaffold.makeContainer(
         user: CoreUser.empty().copyWith(id: 'user-1'),
@@ -133,7 +106,11 @@ void main() {
   testWidgets(
     "the admin card's Invoices button selects the structure and loads its invoices",
     (tester) async {
-      stubMainPage(scaffold);
+      stubMainPage(
+        scaffold,
+        structures: [bdeStructure],
+        bankAccountHolder: bdeStructure,
+      );
       when(
         () => scaffold.repository.mypaymentInvoicesStructuresStructureIdGet(
           structureId: 'structure-1',
@@ -207,6 +184,8 @@ void main() {
       // and the nextPending filter (the live one that must survive).
       stubMainPage(
         scaffold,
+        structures: [bdeStructure],
+        bankAccountHolder: bdeStructure,
         requests: [
           request(
             id: 'req-live-main-admin',

@@ -16,23 +16,7 @@ import 'package:titan/tools/repository/repository.dart';
 import 'package:titan/user/providers/user_provider.dart';
 
 import '../../shared/mock_openapi.dart';
-
-class FakeTicketsListNotifier extends TicketsListNotifier {
-  FakeTicketsListNotifier(this.tickets);
-  final List<AppModulesRaffleSchemasRaffleTicketComplete> tickets;
-
-  @override
-  AsyncValue<List<AppModulesRaffleSchemasRaffleTicketComplete>> build() =>
-      AsyncValue.data(tickets);
-}
-
-class FakeRaffleIdNotifier extends RaffleIdProvider {
-  FakeRaffleIdNotifier(this.id);
-  final String id;
-
-  @override
-  String build() => id;
-}
+import '../raffle_fixtures.dart';
 
 class _LoadingRaffleListNotifier extends RaffleListNotifier {
   @override

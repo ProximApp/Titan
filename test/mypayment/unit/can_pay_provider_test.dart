@@ -155,5 +155,24 @@ void main() {
       expect(result.success, true);
       expect(result.error, null);
     });
+
+    test('a status the backend adds later still allows paying', () async {
+      when(() => keyService.getKeyId()).thenAnswer((_) async => 'device-1');
+      when(
+        () => repository.mypaymentUsersMeWalletDevicesWalletDeviceIdGet(
+          walletDeviceId: 'device-1',
+        ),
+      ).thenAnswer(
+        (_) async => chopper.Response(
+          http.Response('body', 200),
+          _device(WalletDeviceStatus.swaggerGeneratedUnknown),
+        ),
+      );
+
+      final result = await container.read(canPayProvider.future);
+
+      expect(result.success, isTrue);
+      expect(result.error, isNull);
+    });
   });
 }

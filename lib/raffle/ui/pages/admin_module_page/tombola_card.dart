@@ -47,8 +47,12 @@ class TombolaCard extends HookConsumerWidget {
                 raffle.name,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
+                // Explicit line height: the theme's inherited body height
+                // (~1.43) overflows this fixed 100px card whenever the
+                // texts render at full size instead of shrinking.
                 style: const TextStyle(
                   fontSize: 18,
+                  height: 1.1,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -61,6 +65,7 @@ class TombolaCard extends HookConsumerWidget {
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   fontSize: 13,
+                  height: 1.1,
                   fontWeight: FontWeight.bold,
                   color: RaffleColorConstants.textDark,
                 ),
@@ -75,6 +80,7 @@ class TombolaCard extends HookConsumerWidget {
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   fontSize: 18,
+                  height: 1.1,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),

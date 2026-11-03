@@ -20,7 +20,7 @@ class AppointmentDataSource extends CalendarDataSource<BookingReturn> {
 
   @override
   String getSubject(int index) {
-    BookingReturn bookingReturn = appointments![index];
+    final bookingReturn = appointments![index] as BookingReturnSimpleApplicant;
     return '${bookingReturn.room.name} - ${bookingReturn.reason}';
   }
 
@@ -38,7 +38,7 @@ class AppointmentDataSource extends CalendarDataSource<BookingReturn> {
 
   @override
   String? getRecurrenceRule(int index) {
-    BookingReturn bookingReturn = appointments![index];
+    final bookingReturn = appointments![index] as BookingReturnSimpleApplicant;
     return bookingReturn.recurrenceRule != null &&
             bookingReturn.recurrenceRule!.isNotEmpty
         ? bookingReturn.recurrenceRule

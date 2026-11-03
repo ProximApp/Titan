@@ -11,16 +11,6 @@ import 'package:titan/raffle/ui/pages/main_page/ticket_card.dart';
 import '../../shared/app_scaffold.dart';
 import '../raffle_fixtures.dart';
 
-/// A raffle list pinned to one state, so the cards build without a repository.
-class FixedRaffleList extends RaffleListNotifier {
-  FixedRaffleList(this.value);
-
-  final AsyncValue<List<RaffleComplete>> value;
-
-  @override
-  AsyncValue<List<RaffleComplete>> build() => value;
-}
-
 /// The empty halves of the raffle cards: neither `ticket[0]` nor
 /// `stats.first` has anything to return when the list it reads is empty, and
 /// both used to throw during build.

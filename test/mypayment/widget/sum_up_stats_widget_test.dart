@@ -11,19 +11,12 @@ import 'package:titan/tools/providers/locale_notifier.dart';
 import 'package:titan/tools/repository/repository.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../mypayment_fixtures.dart';
+import 'package:titan/mypayment/ui/pages/stats_page/description_shape.dart';
 
 /// Widget-level coverage for the stats-page summary: `SumUpCard` (the
 /// pinned bubble with its one-line title) and `SumUpChart` (the monthly
 /// received/spent split fed by the wallet history).
-class _HistoryNotifier extends MyHistoryNotifier {
-  _HistoryNotifier(this.histories);
-
-  final List<History> histories;
-
-  @override
-  AsyncValue<List<History>> build() => AsyncValue.data(histories);
-}
-
 void main() {
   late IntegrationScaffold scaffold;
 
@@ -58,7 +51,7 @@ void main() {
     final container = ProviderContainer(
       overrides: [
         repositoryProvider.overrideWithValue(scaffold.repository),
-        myHistoryProvider.overrideWith(() => _HistoryNotifier(histories)),
+        myHistoryProvider.overrideWith(() => FakeHistoryNotifier(histories)),
       ],
     );
     addTearDown(container.dispose);
@@ -171,5 +164,20 @@ void main() {
 
     expect(find.text('No transactions for this month'), findsOneWidget);
     expect(tester.takeException(), isNull);
+  });
+
+  test('the message border draws a bubble with and without padding', () {
+    const padded = MessageBorder();
+    const unpadded = MessageBorder(usePadding: false);
+    const rect = Rect.fromLTWH(0, 0, 200, 80);
+
+    expect(padded.dimensions, const EdgeInsets.only(bottom: 20));
+    expect(unpadded.dimensions, EdgeInsets.zero);
+
+    expect(padded.getInnerPath(rect).getBounds(), rect);
+    final outer = padded.getOuterPath(rect);
+    expect(outer.getBounds().isEmpty, isFalse);
+    expect(outer.getBounds().bottom, greaterThan(rect.height - 20));
+    expect(padded.scale(2), same(padded));
   });
 }

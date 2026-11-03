@@ -3,6 +3,10 @@ import 'package:titan/generated/openapi.swagger.dart';
 
 import '../mypayment_fixtures.dart';
 import '../../shared/app_scaffold.dart';
+import 'dart:ui' as ui;
+import 'package:mocktail/mocktail.dart';
+import 'package:titan/tools/ui/layouts/refresher.dart';
+import 'package:titan/mypayment/ui/pages/invoices_admin_page/invoices_admin_page.dart';
 
 void main() {
   late IntegrationScaffold scaffold;
@@ -41,5 +45,36 @@ void main() {
     // and the invoice query resolved.
     expect(find.textContaining('invoices/page'), findsOneWidget);
     expect(find.text('Create new invoice'), findsOneWidget);
+  });
+
+  testWidgets('pull to refresh reloads the page of invoices', (tester) async {
+    stubInvoicePreviews(scaffold);
+    stubInvoiceList(scaffold);
+
+    final bde = structureFixture('s-1', 'BDE', 'user-1');
+    final container = scaffold.makeContainer(
+      user: CoreUser.empty().copyWith(id: 'user-1'),
+      myStructures: [bde],
+      bankAccountHolder: bde,
+    );
+    addTearDown(container.dispose);
+    await scaffold.pumpWidgetApp(
+      tester,
+      const InvoicesAdminPage(),
+      container,
+      surface: const ui.Size(1920, 1080),
+    );
+    await settle(tester, frames: 20);
+
+    clearInteractions(scaffold.repository);
+    await tester.drag(find.byType(Refresher).first, const Offset(0, 400));
+    await settle(tester, frames: 24);
+
+    verify(
+      () => scaffold.repository.mypaymentInvoicesGet(
+        page: any(named: 'page'),
+        pageSize: any(named: 'pageSize'),
+      ),
+    ).called(greaterThan(0));
   });
 }

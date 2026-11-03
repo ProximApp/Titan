@@ -4,7 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.enums.swagger.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/raffle/providers/raffle_id_provider.dart';
 import 'package:titan/raffle/providers/raffle_list_provider.dart';
+import 'package:titan/raffle/providers/ticket_list_provider.dart';
 
 import '../shared/app_scaffold.dart';
 import '../shared/fixtures.dart' show adminGroupId;
@@ -126,4 +128,27 @@ class FixedRaffleList extends RaffleListNotifier {
 
   @override
   AsyncValue<List<RaffleComplete>> build() => value;
+}
+
+/// A raffle id pinned to one value, so a provider that derives from the
+/// selected raffle resolves without a list load.
+class FakeRaffleIdNotifier extends RaffleIdProvider {
+  FakeRaffleIdNotifier(this.id);
+
+  final String id;
+
+  @override
+  String build() => id;
+}
+
+/// The current user's tickets pinned to a list, so the winning-ticket
+/// derivations and strips build without a repository call.
+class FakeTicketsListNotifier extends TicketsListNotifier {
+  FakeTicketsListNotifier(this.tickets);
+
+  final List<AppModulesRaffleSchemasRaffleTicketComplete> tickets;
+
+  @override
+  AsyncValue<List<AppModulesRaffleSchemasRaffleTicketComplete>> build() =>
+      AsyncValue.data(tickets);
 }
