@@ -34,13 +34,17 @@ class CashListProvider
     AppModulesAmapSchemasAmapCashComplete addedCash,
     double previousCashAmount,
   ) async {
+    final deltaCents = addedCash.balance;
+    final resultingCash = addedCash.copyWith(
+      balance: (previousCashAmount + deltaCents).round(),
+    );
     return await update(
       () => cashRepository.amapUsersUserIdCashPatch(
         userId: addedCash.userId,
-        body: CashEdit(balance: addedCash.balance),
+        body: CashEdit(balance: deltaCents),
       ),
       (cash) => cash.userId,
-      addedCash,
+      resultingCash,
     );
   }
 
