@@ -29,7 +29,13 @@ class IsLoggedInProvider extends Notifier<bool> {
   }
 
   bool _isValid(AsyncValue<models.TokenResponse> token) => token.maybeWhen(
-    data: (tokens) => !JwtDecoder.isExpired(tokens.accessToken),
+    data: (tokens) {
+      try {
+        return !JwtDecoder.isExpired(tokens.accessToken);
+      } catch (_) {
+        return false;
+      }
+    },
     orElse: () => false,
   );
 }
@@ -39,7 +45,7 @@ class IsCachingProvider extends Notifier<bool> {
   bool build() {
     final isConnected = ref.watch(isConnectedProvider);
     CacheManager().readCache("id").then((value) {
-      set(!isConnected && value != "");
+      if (ref.mounted) set(!isConnected && value != "");
     });
     return false;
   }
@@ -103,13 +109,14 @@ class OpenIdTokenProvider extends Notifier<AsyncValue<models.TokenResponse>> {
     state = const AsyncValue.loading();
     try {
       final tokenResponse = await userRepository.getTokenFromRequest();
+      if (!ref.mounted) return;
       if (tokenResponse.accessToken.isNotEmpty) {
         state = AsyncValue.data(tokenResponse);
       } else {
         state = const AsyncValue.error("Error", StackTrace.empty);
       }
     } catch (e, s) {
-      state = AsyncValue.error(e, s);
+      if (ref.mounted) state = AsyncValue.error(e, s);
     }
   }
 
@@ -117,13 +124,14 @@ class OpenIdTokenProvider extends Notifier<AsyncValue<models.TokenResponse>> {
     state = const AsyncValue.loading();
     try {
       final tokenResponse = await userRepository.getTokenFromStorage();
+      if (!ref.mounted) return;
       if (tokenResponse.accessToken.isNotEmpty) {
         state = AsyncValue.data(tokenResponse);
       } else {
         state = const AsyncValue.error("Error", StackTrace.empty);
       }
     } catch (e, s) {
-      state = AsyncValue.error(e, s);
+      if (ref.mounted) state = AsyncValue.error(e, s);
     }
   }
 
@@ -133,10 +141,10 @@ class OpenIdTokenProvider extends Notifier<AsyncValue<models.TokenResponse>> {
       if (tokenResponse.accessToken.isEmpty) {
         throw Exception('Received an empty access token');
       }
-      state = AsyncValue.data(tokenResponse);
+      if (ref.mounted) state = AsyncValue.data(tokenResponse);
       return tokenResponse.accessToken;
     } catch (e, s) {
-      state = AsyncValue.error(e, s);
+      if (ref.mounted) state = AsyncValue.error(e, s);
       rethrow;
     }
   }
