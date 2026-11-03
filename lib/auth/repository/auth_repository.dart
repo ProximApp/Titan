@@ -13,11 +13,35 @@ import 'package:titan/tools/cache/cache_manager.dart';
 import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/web-window-callback/web_window_with_callback.dart';
 
+/// Signature of the popup launcher used by [AuthRepository.getTokenFromRequest].
+///
+/// The shim is a conditional import: off the browser it is `else.dart`, whose
+/// only statement is a throw. So the web grant — the code exchange, the
+/// "closed after success is not a cancellation" guard, the blocked-popup
+/// error — could never run in a VM test. This typedef is the seam those tests
+/// inject through; production keeps passing the real shim.
+typedef WebWindowOpener = void Function(
+  String windowUrl,
+  String windowName, {
+  required void Function() completerFutureCallback,
+  required Future<void> Function(String) loginCallback,
+  void Function()? popupBlockedCallback,
+});
+
 class AuthRepository {
   final Openapi openIdRepository;
   final FlutterAppAuth appAuth = const FlutterAppAuth();
   final CacheManager cacheManager = CacheManager();
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
+
+  /// Whether the browser flow is in play. Defaults to [kIsWeb]; the override
+  /// exists so the VM test run can reach the web grant, which `kIsWeb` makes
+  /// unreachable there — the reason its tests were skipped instead of run.
+  final bool isWeb;
+
+  /// Opens the login popup. Defaults to the real conditional-import shim.
+  final WebWindowOpener openWindow;
+
   Future<models.TokenResponse>? _refreshInProgress;
   final Base64Codec base64 = const Base64Codec.urlSafe();
   final String tokenName = "my_ecl_auth_token";
@@ -31,7 +55,12 @@ class AuthRepository {
       );
   final List<String> scopes = ["API"];
 
-  AuthRepository({required this.openIdRepository});
+  AuthRepository({
+    required this.openIdRepository,
+    bool? isWeb,
+    WebWindowOpener? openWindow,
+  }) : isWeb = isWeb ?? kIsWeb,
+       openWindow = openWindow ?? webWindowWithCallback;
 
   String generateRandomString(int len) {
     var r = Random.secure();
@@ -51,7 +80,7 @@ class AuthRepository {
     final authUrl =
         "${getTitanHost()}auth/authorize?client_id=$clientId&response_type=code&scope=${scopes.join(" ")}&redirect_uri=$redirectURL&code_challenge=${hash(codeVerifier)}&code_challenge_method=S256";
 
-    if (kIsWeb) {
+    if (isWeb) {
       Future<models.TokenResponse> login(String data) async {
         final receivedUri = Uri.parse(data);
         final token = receivedUri.queryParameters["code"];
@@ -90,7 +119,7 @@ class AuthRepository {
       // that must not be mistaken for the user giving up.
       var receivedCode = false;
 
-      webWindowWithCallback(
+      openWindow(
         authUrl,
         "Hyperion",
         completerFutureCallback: () {
@@ -166,7 +195,7 @@ class AuthRepository {
 
     try {
       late final models.TokenResponse tokenResponse;
-      if (kIsWeb) {
+      if (isWeb) {
         final response = await openIdRepository.authTokenPost(
           body: {
             "client_id": clientId,
