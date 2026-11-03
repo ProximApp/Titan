@@ -32,6 +32,19 @@ void main() {
       expect(endNotifier.state, '08/01/2022');
     });
 
+    test('setEndFromSelected with an empty selection clears the end', () {
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+      final endNotifier = container.read(endProvider.notifier);
+      endNotifier.setEnd('08/01/2022');
+
+      // `selected.map(...).reduce(min)` threw `Bad state: No element` on an
+      // empty selection. The steppers guard with `isNotEmpty`, but the
+      // notifier now mirrors their else branch (clear the end) itself.
+      endNotifier.setEndFromSelected('01/01/2022', const [], 'fr');
+      expect(endNotifier.state, '');
+    });
+
     test('resetEnd should reset state', () {
       final container = ProviderContainer();
       addTearDown(container.dispose);
