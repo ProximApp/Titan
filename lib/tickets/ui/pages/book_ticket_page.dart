@@ -29,6 +29,32 @@ import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/tools/web-window-callback/web_window_with_callback.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+/// Signature of the popup launcher the booking page hands the HelloAsso
+/// payment URL to.
+///
+/// The shim is a conditional import: off the browser it resolves to
+/// `else.dart`, whose only statement is a throw. So `helloAssoCallback` — the
+/// entire web booking arm, success and refused alike — could never run in a
+/// VM test. These two providers are the seam those tests override; production
+/// keeps `kIsWeb` and the real shim.
+typedef BookWebWindowOpener = void Function(
+  String windowUrl,
+  String windowName, {
+  required void Function() completerFutureCallback,
+  required Future<void> Function(String) loginCallback,
+  void Function()? popupBlockedCallback,
+});
+
+/// Whether the browser flow is in play. Defaults to [kIsWeb]; the override
+/// exists so the VM test run can reach the web booking arm — the site redirect
+/// URL and the HelloAsso popup — which `kIsWeb` makes unreachable there.
+final bookingIsWebProvider = Provider<bool>((ref) => kIsWeb);
+
+/// Opens the HelloAsso payment popup. Defaults to the real shim.
+final bookingWebWindowOpenerProvider = Provider<BookWebWindowOpener>(
+  (ref) => webWindowWithCallback,
+);
+
 class BookTicketPage extends HookConsumerWidget {
   const BookTicketPage({super.key});
 
@@ -78,17 +104,20 @@ class _TicketEventContent extends HookConsumerWidget {
     final checkoutState = ref.watch(checkoutProvider);
     final walletAsync = ref.watch(myWalletProvider);
     final canPayAsync = ref.watch(canPayProvider);
+    final isWebPlatform = ref.watch(bookingIsWebProvider);
+    final openWindowShim = ref.watch(bookingWebWindowOpenerProvider);
     final l10n = AppLocalizations.of(context)!;
 
     // Hide navbar when page loads
     useEffect(() {
+      final navbarNotifier = ref.read(navbarVisibilityProvider.notifier);
       // Use a microtask to avoid modifying provider during build
       Future.microtask(() {
-        ref.read(navbarVisibilityProvider.notifier).hide();
+        navbarNotifier.hide();
       });
       return () {
         // Show navbar again when leaving the page
-        ref.read(navbarVisibilityProvider.notifier).show();
+        navbarNotifier.show();
       };
     }, []);
 
@@ -110,7 +139,7 @@ class _TicketEventContent extends HookConsumerWidget {
 
     // Helper to get redirect URL
     String getRedirectUrl() {
-      return kIsWeb
+      return isWebPlatform
           ? "${getTitanURL()}tickets"
           : "${getTitanURLScheme()}://tickets";
     }
@@ -206,7 +235,7 @@ class _TicketEventContent extends HookConsumerWidget {
     }
 
     void helloAssoCallback(String paymentUrl) async {
-      webWindowWithCallback(
+      openWindowShim(
         paymentUrl,
         "HelloAsso",
         completerFutureCallback: () {
@@ -245,10 +274,17 @@ class _TicketEventContent extends HookConsumerWidget {
           if (checkout.paymentUrl != null && checkout.paymentUrl!.isNotEmpty) {
             // CAS HELLOASSO - URL externe à ouvrir
             ref.read(checkoutProvider.notifier).reset();
-            QR.to(TicketsRouter.root);
-            if (kIsWeb) {
+            if (isWebPlatform) {
+              // The page stays put while the HelloAsso popup is open. Its
+              // callbacks answer the payment LATER — after a navigation the
+              // page would already be gone, and both `displayToast`'s
+              // localization lookup and its overlay lookup need a live
+              // context, so a completed payment reported nothing at all (it
+              // threw instead). The popup's completer navigates to /tickets
+              // once it closes.
               helloAssoCallback(checkout.paymentUrl!);
             } else {
+              QR.to(TicketsRouter.root);
               try {
                 await tryLaunchUrl(checkout.paymentUrl!);
               } catch (e) {
@@ -1049,35 +1085,7 @@ class _QuestionAnswerField extends StatelessWidget {
             }
             return null;
           },
-          decoration: InputDecoration(
-            hintText: l10n.ticketsAnswerTypeNumber,
-            filled: true,
-            fillColor: ColorConstants.background2.withValues(alpha: 0.05),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: ColorConstants.mainBorder.withValues(alpha: 0.3),
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: ColorConstants.mainBorder.withValues(alpha: 0.3),
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: ColorConstants.main),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: ColorConstants.error),
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
-            ),
-          ),
+          decoration: _answerDecoration(l10n.ticketsAnswerTypeNumber),
           onChanged: (val) => onChanged(val.isEmpty ? null : num.tryParse(val)),
         );
 
@@ -1092,35 +1100,7 @@ class _QuestionAnswerField extends StatelessWidget {
             }
             return null;
           },
-          decoration: InputDecoration(
-            hintText: l10n.ticketsAnswerTypeText,
-            filled: true,
-            fillColor: ColorConstants.background2.withValues(alpha: 0.05),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: ColorConstants.mainBorder.withValues(alpha: 0.3),
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: ColorConstants.mainBorder.withValues(alpha: 0.3),
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: ColorConstants.main),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: ColorConstants.error),
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
-            ),
-          ),
+          decoration: _answerDecoration(l10n.ticketsAnswerTypeText),
           onChanged: onChanged,
         );
       case AnswerType.swaggerGeneratedUnknown:
@@ -1128,3 +1108,25 @@ class _QuestionAnswerField extends StatelessWidget {
     }
   }
 }
+
+/// The shared decoration of the free-text and number answer fields. They
+/// differ only in their hint, and the two hand-written copies had already
+/// drifted (one had a different error border) — one source is what keeps them
+/// identical.
+InputDecoration _answerDecoration(String hintText) => InputDecoration(
+  hintText: hintText,
+  filled: true,
+  fillColor: ColorConstants.background2.withValues(alpha: 0.05),
+  border: _answerBorder(ColorConstants.mainBorder.withValues(alpha: 0.3)),
+  enabledBorder: _answerBorder(
+    ColorConstants.mainBorder.withValues(alpha: 0.3),
+  ),
+  focusedBorder: _answerBorder(ColorConstants.main),
+  errorBorder: _answerBorder(ColorConstants.error),
+  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+);
+
+OutlineInputBorder _answerBorder(Color color) => OutlineInputBorder(
+  borderRadius: BorderRadius.circular(8),
+  borderSide: BorderSide(color: color),
+);
