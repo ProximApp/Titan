@@ -32,7 +32,9 @@ class AddEditProduct extends HookConsumerWidget {
     final categories = ref.watch(categoryListProvider);
     final nameController = useTextEditingController(text: product.name);
     final priceController = useTextEditingController(
-      text: isEdit ? product.price.toStringAsFixed(2).replaceAll('.', ',') : "",
+      text: isEdit
+          ? (product.price / 100).toStringAsFixed(2).replaceAll('.', ',')
+          : "",
     );
     final beginState = isEdit
         ? product.category
@@ -178,9 +180,15 @@ class AddEditProduct extends HookConsumerWidget {
                               AppModulesAmapSchemasAmapProductComplete(
                                 id: isEdit ? product.id : "",
                                 name: nameController.text,
-                                price: double.parse(
-                                  priceController.text.replaceAll(',', '.'),
-                                ).round(),
+                                price:
+                                    (double.parse(
+                                              priceController.text.replaceAll(
+                                                ',',
+                                                '.',
+                                              ),
+                                            ) *
+                                            100)
+                                        .round(),
                                 category: cate,
                               );
                           final updatedProductMsg = isEdit
