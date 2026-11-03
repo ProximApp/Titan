@@ -22,6 +22,18 @@ import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/l10n/app_localizations.dart';
 
+/// The association an advert was published for, or null when the catalog no
+/// longer holds it (deleted, or created before the association existed).
+///
+/// The Edit action's bare `firstWhere` threw `Bad state: No element` on that
+/// advert, taking the whole admin page's tap down with it.
+Association? advertiserOf(
+  AdvertComplete advert,
+  List<Association> associations,
+) => associations.firstWhereOrNull(
+  (element) => element.id == advert.advertiserId,
+);
+
 class AdvertAdminPage extends HookConsumerWidget {
   const AdvertAdminPage({super.key});
 
@@ -135,11 +147,15 @@ class AdvertAdminPage extends HookConsumerWidget {
                             );
                             advertNotifier.setAdvert(advert);
                             selectedAssociationsNotifier.clearAssociation();
-                            selectedAssociationsNotifier.addAssociation(
-                              myAssociationList.firstWhere(
-                                (element) => element.id == advert.advertiserId,
-                              ),
+                            final advertiser = advertiserOf(
+                              advert,
+                              myAssociationList,
                             );
+                            if (advertiser != null) {
+                              selectedAssociationsNotifier.addAssociation(
+                                advertiser,
+                              );
+                            }
                           },
                           onDelete: () async {
                             await showDialog(

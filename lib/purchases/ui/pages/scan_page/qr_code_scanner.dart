@@ -38,7 +38,13 @@ class QRCodeScannerScreen extends StatelessWidget {
         );
       },
       onDetect: (BarcodeCapture capture) async {
-        onScan(capture.barcodes.first.rawValue!);
+        // A frame can carry no decoded barcode, and a barcode can carry no
+        // raw value: `first` threw on the first and `!` on the second. Both
+        // are ordinary frames the camera emits; only a real payload scans.
+        if (capture.barcodes.isEmpty) return;
+        final rawValue = capture.barcodes.first.rawValue;
+        if (rawValue == null || rawValue.isEmpty) return;
+        onScan(rawValue);
       },
     );
   }

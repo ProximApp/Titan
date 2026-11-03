@@ -55,7 +55,11 @@ final sectionList = Provider<List<SectionComplete>>((ref) {
 final sectionProvider = Provider<SectionComplete>((ref) {
   final sections = ref.watch(sectionList);
   final sectionId = ref.watch(sectionIdProvider);
-  return sections.isEmpty
-      ? SectionComplete.empty()
-      : sections.where((element) => element.id == sectionId).first;
+  // The id can name a section the list no longer holds (deleted, or a stale
+  // selection): `where(...).first` threw `Bad state: No element` there.
+  if (sections.isEmpty) return SectionComplete.empty();
+  return sections.firstWhere(
+    (element) => element.id == sectionId,
+    orElse: () => SectionComplete.empty(),
+  );
 });
