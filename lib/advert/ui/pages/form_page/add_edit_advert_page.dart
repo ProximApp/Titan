@@ -233,9 +233,9 @@ class AdvertAddEditAdvertPage extends HookConsumerWidget {
                 child: CheckBoxEntry(
                   title: AppLocalizations.of(context)!.advertPublishToFeed,
                   valueNotifier: postToFeed,
-                  onChanged: () {
-                    postToFeed.value = !postToFeed.value;
-                  },
+                  // CheckBoxEntry owns the flip and calls this to report it;
+                  // flipping here as well cancelled the widget's own flip.
+                  onChanged: () {},
                 ),
               ),
               const SizedBox(height: 10),
@@ -244,9 +244,7 @@ class AdvertAddEditAdvertPage extends HookConsumerWidget {
                 child: CheckBoxEntry(
                   title: AppLocalizations.of(context)!.advertNotification,
                   valueNotifier: notification,
-                  onChanged: () {
-                    notification.value = !notification.value;
-                  },
+                  onChanged: () {},
                 ),
               ),
               const SizedBox(height: 30),
