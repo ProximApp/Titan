@@ -57,6 +57,8 @@ class LinkCard extends HookConsumerWidget {
                 children: [
                   Text(
                     link.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: 18, color: Colors.black),
                   ),
                 ],

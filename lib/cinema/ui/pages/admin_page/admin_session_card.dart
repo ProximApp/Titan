@@ -71,7 +71,7 @@ class AdminSessionCard extends HookConsumerWidget {
               Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,
-                  vertical: 7,
+                  vertical: 5,
                 ),
                 height: 95,
                 child: Column(

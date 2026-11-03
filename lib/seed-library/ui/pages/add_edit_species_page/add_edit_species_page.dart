@@ -147,47 +147,49 @@ class AddEditSpeciesPage extends HookConsumerWidget {
                     ),
                     Row(
                       children: [
-                        const Spacer(),
-                        Column(
-                          children: [
-                            Text(SeedLibraryTextConstants.startMonth),
-                            DropdownButton(
-                              items: ["", ...SeedLibraryTextConstants.months]
-                                  .map(
-                                    (e) => DropdownMenuItem<String>(
-                                      value: e,
-                                      child: Text(e),
-                                    ),
-                                  )
-                                  .toList(),
-                              onChanged: (String? value) {
-                                startMonthNotifier.setString(value!);
-                              },
-                              value: startMonth,
-                            ),
-                          ],
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(SeedLibraryTextConstants.startMonth),
+                              DropdownButton(
+                                items: ["", ...SeedLibraryTextConstants.months]
+                                    .map(
+                                      (e) => DropdownMenuItem<String>(
+                                        value: e,
+                                        child: Text(e),
+                                      ),
+                                    )
+                                    .toList(),
+                                onChanged: (String? value) {
+                                  startMonthNotifier.setString(value!);
+                                },
+                                value: startMonth,
+                              ),
+                            ],
+                          ),
                         ),
                         const SizedBox(width: 20),
-                        Column(
-                          children: [
-                            Text(SeedLibraryTextConstants.endMonth),
-                            DropdownButton(
-                              items: ["", ...SeedLibraryTextConstants.months]
-                                  .map(
-                                    (e) => DropdownMenuItem<String>(
-                                      value: e,
-                                      child: Text(e),
-                                    ),
-                                  )
-                                  .toList(),
-                              onChanged: (String? value) {
-                                endMonthNotifier.setString(value!);
-                              },
-                              value: endMonth,
-                            ),
-                          ],
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(SeedLibraryTextConstants.endMonth),
+                              DropdownButton(
+                                items: ["", ...SeedLibraryTextConstants.months]
+                                    .map(
+                                      (e) => DropdownMenuItem<String>(
+                                        value: e,
+                                        child: Text(e),
+                                      ),
+                                    )
+                                    .toList(),
+                                onChanged: (String? value) {
+                                  endMonthNotifier.setString(value!);
+                                },
+                                value: endMonth,
+                              ),
+                            ],
+                          ),
                         ),
-                        const Spacer(),
                       ],
                     ),
                     const SizedBox(height: 20),
