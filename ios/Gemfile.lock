@@ -278,7 +278,7 @@ GEM
       og-corefoundation (~> 0.2.0)
     ruby-macho (2.5.1)
     ruby2_keywords (0.0.5)
-    rubyzip (3.4.0)
+    rubyzip (3.7.0)
     securerandom (0.4.1)
     security (0.1.5)
     signet (0.22.0)
