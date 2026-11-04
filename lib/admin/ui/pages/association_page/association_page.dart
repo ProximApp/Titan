@@ -84,6 +84,11 @@ class AssociationPage extends ConsumerWidget {
                                 TypeMsg.msg,
                                 localizeWithContext.adminAssociationCreated,
                               );
+                              // Only a created association closes the sheet:
+                              // a refusal has to leave the typed name and the
+                              // chosen group in place, the way the edit modal
+                              // already does.
+                              popWithContext();
                             } else {
                               displayToastWithContext(
                                 TypeMsg.error,
@@ -91,7 +96,6 @@ class AssociationPage extends ConsumerWidget {
                                     .adminAssociationCreationError,
                               );
                             }
-                            popWithContext();
                           },
                           ref: ref,
                         ),
