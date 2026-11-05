@@ -5,27 +5,31 @@ import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 import '../../shared/app_scaffold.dart';
 
 /// Drives every dismissal path of [CustomDialogBox]: absorb taps on the
-/// card, the black backdrop pop, the No button with and without `onNo`, and
-/// the Yes button's two arms.
-Widget _opener({required Future<void> Function() onYes, Function()? onNo}) =>
-    Builder(
-      builder: (context) => Center(
-        child: ElevatedButton(
-          onPressed: () => showDialog<void>(
-            context: context,
-            builder: (_) => CustomDialogBox(
-              title: 'Delete?',
-              descriptions: 'This cannot be undone.',
-              yesText: 'YES',
-              noText: 'NO',
-              onYes: onYes,
-              onNo: onNo,
-            ),
-          ),
-          child: const Text('open'),
+/// card, the black backdrop pop (and its `onBarrierTap` override), the No
+/// button with and without `onNo`, and the Yes button's two arms.
+Widget _opener({
+  required Future<void> Function() onYes,
+  Function()? onNo,
+  VoidCallback? onBarrierTap,
+}) => Builder(
+  builder: (context) => Center(
+    child: ElevatedButton(
+      onPressed: () => showDialog<void>(
+        context: context,
+        builder: (_) => CustomDialogBox(
+          title: 'Delete?',
+          descriptions: 'This cannot be undone.',
+          yesText: 'YES',
+          noText: 'NO',
+          onYes: onYes,
+          onNo: onNo,
+          onBarrierTap: onBarrierTap,
         ),
       ),
-    );
+      child: const Text('open'),
+    ),
+  ),
+);
 
 void main() {
   testWidgets('backdrop tap and the default No/Yes arms dismiss the dialog', (
@@ -61,6 +65,34 @@ void main() {
     expect(find.text('Delete?'), findsNothing);
     expect(yesCalls, 1);
   });
+
+  testWidgets(
+    'onBarrierTap replaces the backdrop pop instead of adding to it',
+    (tester) async {
+      var barrierCalls = 0;
+      await pumpWidgetAt(
+        tester,
+        _opener(onYes: () async {}, onBarrierTap: () => barrierCalls++),
+      );
+
+      await tester.tap(find.text('open'));
+      await tester.pumpAndSettle();
+
+      await tester.tapAt(const Offset(10, 620));
+      await tester.pumpAndSettle();
+
+      expect(barrierCalls, 1);
+      // The route is still there: the call site owns what a backdrop tap means,
+      // which is the whole point of the override for an inline box.
+      expect(find.text('Delete?'), findsOneWidget);
+
+      // The card still swallows its own taps rather than counting them.
+      await tester.tap(find.text('Delete?'));
+      await tester.pumpAndSettle();
+      expect(barrierCalls, 1);
+      expect(find.text('Delete?'), findsOneWidget);
+    },
+  );
 
   testWidgets('with onNo provided, No calls back and Yes never pops', (
     tester,

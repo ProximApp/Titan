@@ -18,12 +18,19 @@ class CustomDialogBox extends StatelessWidget {
   final Function() onYes;
   final Function()? onNo;
 
+  /// What a tap on the dimmed area does. The default closes the route, which
+  /// is right for the `showDialog` call sites this box was written for; a box
+  /// mounted inline (the navigation shell's logout prompt) passes its own, so
+  /// tapping behind it does not pop the page it sits on.
+  final VoidCallback? onBarrierTap;
+
   const CustomDialogBox({
     super.key,
     required this.title,
     required this.descriptions,
     required this.onYes,
     this.onNo,
+    this.onBarrierTap,
     this.yesText,
     this.noText,
   });
@@ -31,9 +38,7 @@ class CustomDialogBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context).pop();
-      },
+      onTap: onBarrierTap ?? () => Navigator.of(context).pop(),
       child: Container(
         color: Colors.black54,
         child: GestureDetector(

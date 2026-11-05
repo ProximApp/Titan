@@ -102,15 +102,18 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('a backdrop tap never logs out', (tester) async {
-    await pumpQuit(tester);
+  testWidgets('a backdrop tap closes the prompt without leaving the page', (
+    tester,
+  ) async {
+    final container = await pumpQuit(tester);
 
-    // The dialog's own full-screen backdrop handler wins the hit test here;
-    // either it closes the flag or pops the route the dialog sits on — both
-    // are "dismissed", and neither may touch the session.
+    // The prompt sits inside the routed page, not on its own route: a tap on
+    // the dim must clear the flag, and popping the page underneath (the box's
+    // showDialog default) would have thrown the reader out of their screen.
     await tester.tapAt(const Offset(8, 8));
     await settle(tester, frames: 6);
 
+    expect(container.read(displayQuitProvider), isFalse);
     expect(deletedSecureKeys, isEmpty);
     expect(mock.navigated, isEmpty);
     expect(tester.takeException(), isNull);

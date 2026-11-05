@@ -20,41 +20,34 @@ class QuitDialog extends HookConsumerWidget {
     final auth = ref.watch(authTokenProvider.notifier);
     final isCachingNotifier = ref.watch(isCachingProvider.notifier);
     final displayQuitNotifier = ref.watch(displayQuitProvider.notifier);
-    return GestureDetector(
-      onTap: () {
+    // The box already paints the dim and its own full-screen detector, so the
+    // wrappers this used to carry were never hit: the only live action on the
+    // backdrop is closing the prompt, and it must not pop the page under it.
+    return CustomDialogBox(
+      onBarrierTap: () => displayQuitNotifier.setDisplay(false),
+      descriptions: AppLocalizations.of(context)!.drawerLoginOut,
+      title: AppLocalizations.of(context)!.drawerLogOut,
+      onYes: () async {
+        await auth.deleteToken();
+        if (!context.mounted) return;
+        if (!kIsWeb) {
+          ref.watch(firebaseTokenExpirationProvider.notifier).reset();
+        }
+        isCachingNotifier.set(false);
+        // Invalidate user and profile picture providers to clear cached data
+        ref.invalidate(asyncUserProvider);
+        ref.invalidate(profilePictureProvider);
+        displayToast(
+          context,
+          TypeMsg.msg,
+          AppLocalizations.of(context)!.drawerLogOut,
+        );
+        displayQuitNotifier.setDisplay(false);
+        QR.to(LoginRouter.root);
+      },
+      onNo: () {
         displayQuitNotifier.setDisplay(false);
       },
-      child: Container(
-        color: Colors.black54,
-        child: GestureDetector(
-          onTap: () {},
-          child: CustomDialogBox(
-            descriptions: AppLocalizations.of(context)!.drawerLoginOut,
-            title: AppLocalizations.of(context)!.drawerLogOut,
-            onYes: () async {
-              await auth.deleteToken();
-              if (!context.mounted) return;
-              if (!kIsWeb) {
-                ref.watch(firebaseTokenExpirationProvider.notifier).reset();
-              }
-              isCachingNotifier.set(false);
-              // Invalidate user and profile picture providers to clear cached data
-              ref.invalidate(asyncUserProvider);
-              ref.invalidate(profilePictureProvider);
-              displayToast(
-                context,
-                TypeMsg.msg,
-                AppLocalizations.of(context)!.drawerLogOut,
-              );
-              displayQuitNotifier.setDisplay(false);
-              QR.to(LoginRouter.root);
-            },
-            onNo: () {
-              displayQuitNotifier.setDisplay(false);
-            },
-          ),
-        ),
-      ),
     );
   }
 }
