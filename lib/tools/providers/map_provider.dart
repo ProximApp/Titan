@@ -86,9 +86,17 @@ class MapNotifier<T, E> extends Notifier<Map<T, AsyncValue<List<E>>?>> {
 
   Future<void> autoLoad(T t, Future<E> Function(T t) loader) async {
     setTData(t, const AsyncLoading());
-    loader(t).then((value) {
+    try {
+      final value = await loader(t);
       setTData(t, AsyncData([value]));
-    });
+    } catch (error, stackTrace) {
+      // A load that fails has to answer FOR ITS KEY. Handing the future to
+      // `then` alone left the entry on AsyncLoading for ever, so the card
+      // reading it spun on a spinner no answer would ever clear, its
+      // errorBuilder was unreachable, and the exception escaped to the zone
+      // as an unhandled async error.
+      setTData(t, AsyncError<List<E>>(error, stackTrace));
+    }
   }
 
   Future<void> autoLoadList(
@@ -96,8 +104,10 @@ class MapNotifier<T, E> extends Notifier<Map<T, AsyncValue<List<E>>?>> {
     Future<AsyncValue<List<E>>> Function(T t) loader,
   ) async {
     setTData(t, const AsyncLoading());
-    loader(t).then((value) {
-      setTData(t, value);
-    });
+    try {
+      setTData(t, await loader(t));
+    } catch (error, stackTrace) {
+      setTData(t, AsyncError<List<E>>(error, stackTrace));
+    }
   }
 }
