@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -26,7 +28,8 @@ class SuperAdminsPage extends HookConsumerWidget {
 
     useEffect(() {
       return () {
-        usersNotifier.clear();
+        final notifier = usersNotifier;
+        scheduleMicrotask(notifier.clear);
       };
     }, const []);
 
@@ -48,7 +51,6 @@ class SuperAdminsPage extends HookConsumerWidget {
               ? l10n.adminSuperAdminConfirmDemote(userDisplayName)
               : l10n.adminSuperAdminConfirmPromote(userDisplayName),
           onYes: () async {
-            Navigator.of(dialogContext).pop();
             final ok = await repo.usersUserIdSuperAdminPatch(userId: userId);
             if (!context.mounted) return;
             if (ok.isSuccessful) {
