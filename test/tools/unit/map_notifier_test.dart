@@ -408,6 +408,51 @@ void main() {
       expect(notifier.state['a']!.value, hasLength(3));
     });
 
+    test('a loader that throws puts its key on AsyncError', () async {
+      final notifier = watchingContainer().read(
+        keyedMapNotifierProvider.notifier,
+      );
+      await notifier.autoLoad('poster', (t) async => throw StateError('boom'));
+      await pumpEventQueue();
+
+      // The entry used to stay AsyncLoading for ever: autoLoad handed the
+      // loader future to `then` with no error handler at all, so a failed
+      // fetch both escaped to the zone and left every card that reads the map
+      // (`AutoLoaderChild`) spinning on a spinner no answer would ever clear,
+      // with its errorBuilder unreachable.
+      final entry = notifier.state['poster'];
+      expect(entry, isA<AsyncValue<List<MockE>>>());
+      expect(entry!.hasError, isTrue);
+      expect(entry.error, isA<StateError>());
+      expect(entry.isLoading, isFalse);
+    });
+
+    test('a list loader that throws puts its key on AsyncError', () async {
+      final notifier = watchingContainer().read(
+        keyedMapNotifierProvider.notifier,
+      );
+      await notifier.autoLoadList(
+        'list',
+        (t) async => throw ArgumentError('no list'),
+      );
+      await pumpEventQueue();
+
+      final entry = notifier.state['list'];
+      expect(entry!.hasError, isTrue);
+      expect(entry.error, isA<ArgumentError>());
+    });
+
+    test('a loader that succeeds still lands on AsyncData', () async {
+      final notifier = watchingContainer().read(
+        keyedMapNotifierProvider.notifier,
+      );
+      final e = MockE();
+      await notifier.autoLoad('poster', (t) async => e);
+      await pumpEventQueue();
+
+      expect(notifier.state['poster']!.value, [e]);
+    });
+
     test('the map object itself is replaced, never mutated', () {
       // The identity check is the real invariant: if `state` is still the
       // same Map object after a mutation, some caller still holds the old
