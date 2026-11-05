@@ -54,9 +54,16 @@ class HorizontalListView<T> extends StatelessWidget {
              (firstChild != null ? 1 : 0) +
              (lastChild != null ? 1 : 0),
          itemBuilder: (context, index) {
+           // The list is non-null by construction; the local also keeps the
+           // index math readable below.
+           final itemList = items!;
+           // `length` truncates the list, so the closing spacer has to follow
+           // it rather than the full `items`: counting with `items.length`
+           // left the spacer past the end and leaked one extra item into the
+           // row (home's calendar passed `length: numberDay`).
            if (index == 0 ||
                index ==
-                   items!.length +
+                   (length ?? itemList.length) +
                        1 +
                        (firstChild != null ? 1 : 0) +
                        (lastChild != null ? 1 : 0)) {
@@ -65,13 +72,16 @@ class HorizontalListView<T> extends StatelessWidget {
            if (index == 1 && firstChild != null) {
              return firstChild;
            }
-           if (index == items.length + (firstChild != null ? 1 : 0) + 1 &&
+           if (index ==
+                   (length ?? itemList.length) +
+                       (firstChild != null ? 1 : 0) +
+                       1 &&
                lastChild != null) {
              return lastChild;
            }
            return itemBuilder?.call(
              context,
-             items[index - 1 - (firstChild != null ? 1 : 0)],
+             itemList[index - 1 - (firstChild != null ? 1 : 0)],
              index - 1 - (firstChild != null ? 1 : 0),
            );
          },
