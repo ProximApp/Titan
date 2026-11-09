@@ -549,6 +549,14 @@ bool isNotStaff(String email) {
   return !regex.hasMatch(email);
 }
 
+// Unreachable under `flutter test`, kept for the builds that do pass a flavor:
+// `appFlavor` is a `const` filled from `--flavor` (null in a test build), the
+// fallback `flavor` comes from `--dart-define` (none in a test build), and
+// `isFlutterTestEnv` is `FLUTTER_TEST`, which the runner sets for every test
+// process — so every test takes the `"prod"` return and the throw above it,
+// the `flavor.toLowerCase()` below it, `getPlausible`'s non-empty host/domain
+// arm and `getTitanPackageSuffix`'s unknown-flavor `StateError` all stay out
+// of reach.
 String getAppFlavor() {
   if (appFlavor != null) {
     return appFlavor!.toLowerCase();
@@ -589,6 +597,10 @@ Plausible? getPlausible() {
   return null;
 }
 
+// Every `StateError` from here to the end of the file guards a config value
+// that a `--dart-define` or `config.json` would supply. A test build passes
+// none of them while `isFlutterTestEnv` is true, so the pinned fallbacks on
+// these getters are always the branch taken and no throw can fire.
 String getTitanHost() {
   const definedHost = String.fromEnvironment("BACKEND_HOST");
   // Under `flutter test` (no dart-defines) fall back to the host CI pins.

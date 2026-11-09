@@ -61,6 +61,8 @@ Future<bool> downloadFile({
       );
       return result.status != ShareResultStatus.dismissed;
 
+    // Only the web build picks `saveFile` (`file_download_web`); on the VM the
+    // tests run on, the channel is always `share`, so this arm is dead here.
     case DownloadChannel.saveFile:
       await FileSaver.instance.saveFile(
         name: name,

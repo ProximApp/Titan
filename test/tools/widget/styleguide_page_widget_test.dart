@@ -17,10 +17,10 @@ import '../../shared/app_scaffold.dart';
 /// tall-surface mount executes the whole static tree; the extra drag scrolls
 /// the tail into the paint region so the lower sections render end to end.
 ///
-/// Three arms of the page stay dark on purpose: the disabled demo button's
-/// `onPressed`, the searchbar demo's filter sheet and the highlighted colour
-/// of an already-selected member row. Reaching them means driving this demo
-/// tree through a second navigation level, which costs more than it proves.
+/// Two arms of the page stay dark on purpose, both documented in place: the
+/// disabled demo button's `onPressed` (a disabled Button never invokes it) and
+/// the selected colour of the long-press member rows (that demo strip passes
+/// no `selectedItem`, so `HorizontalMultiSelect` can never mark a row).
 void main() {
   late IntegrationScaffold scaffold;
 
@@ -88,10 +88,24 @@ void main() {
       find.descendant(of: firstBar, matching: find.byType(TextField)),
       'fleurs',
     );
-    await drainSnackbars(tester);
-    await tester.tap(
-      find.descendant(of: firstBar, matching: find.byType(IconButton)).first,
+    await drainSnackbars(
+      tester,
+    ); // Typing made the clear button appear, so the filter is the SECOND
+    // IconButton — target it by its icon instead of by position.
+    final firstFilter = find.descendant(
+      of: firstBar,
+      matching: find.byWidgetPredicate(
+        (w) => w is HeroIcon && w.icon == HeroIcons.adjustmentsHorizontal,
+      ),
     );
+    // The typing snackbar is still on screen and ScaffoldMessenger queues
+    // behind it, so let it finish before the filter's own snackbar is read.
+    await drainSnackbars(tester);
+    await tester.ensureVisible(firstFilter);
+    await settle(tester, frames: 4);
+    await tester.tap(firstFilter);
+    await settle(tester, frames: 6);
+    expect(find.text('Filter button clicked'), findsOneWidget);
     await drainSnackbars(tester);
 
     // The second bar opens the filter dialog; every option pops with its
@@ -166,6 +180,8 @@ void main() {
       'picker adds', (tester) async {
     await mountPage(tester);
 
+    await tester.ensureVisible(find.text('Apple'));
+    await settle(tester, frames: 4);
     await tester.tap(find.text('Apple'));
     await settle(tester, frames: 4);
     expect(
@@ -187,8 +203,11 @@ void main() {
     );
     await drainSnackbars(tester);
 
+    await tester.ensureVisible(find.text('John'));
+    await settle(tester, frames: 4);
     await tester.tap(find.text('John'));
     await settle(tester, frames: 4);
+    await drainSnackbars(tester);
     expect(tester.takeException(), isNull);
   });
 

@@ -20,6 +20,8 @@ class ColumnRefresher extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // The web arm never runs here: `kIsWeb` is a compile-time constant that is
+    // false for the VM the test suite runs on, so only a web build reaches it.
     if (kIsWeb) {
       return ScrollToHideNavbar(
         controller: controller,

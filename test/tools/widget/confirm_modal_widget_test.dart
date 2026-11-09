@@ -117,4 +117,57 @@ void main() {
     expect(no, 1);
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('the sheet runs its onCloseCallback once it is dismissed', (
+    tester,
+  ) async {
+    var closes = 0;
+    final container = scaffold.makeContainer();
+    addTearDown(container.dispose);
+    await scaffold.pumpWidgetApp(
+      tester,
+      _ClosingLauncher(onClose: () => closes++),
+      container,
+    );
+
+    await tester.tap(find.text('open modal'));
+    await pumpFrames(tester);
+    // Still open: the callback only fires from the sheet's `finally`.
+    expect(closes, 0);
+
+    await tester.tap(find.text('Close'));
+    await pumpFrames(tester);
+    expect(closes, 1);
+    expect(tester.takeException(), isNull);
+  });
+}
+
+class _ClosingLauncher extends ConsumerWidget {
+  const _ClosingLauncher({required this.onClose});
+
+  final VoidCallback onClose;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Center(
+      child: ElevatedButton(
+        onPressed: () => showCustomBottomModal(
+          context: context,
+          ref: ref,
+          onCloseCallback: onClose,
+          modal: BottomModalTemplate(
+            title: 'Closable',
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('Close'),
+              ),
+            ],
+            child: const SizedBox(height: 40),
+          ),
+        ),
+        child: const Text('open modal'),
+      ),
+    );
+  }
 }

@@ -79,6 +79,10 @@ class Plausible {
             isAndroid: Platform.isAndroid,
             isIOS: Platform.isIOS,
           );
+    // Only a device build ever reads this: off the web `userAgentKindFor`
+    // answers `android`/`ios` from `Platform`, and the test suite runs on the
+    // host VM, where both are false and the kind is `none` — so the whole
+    // device-info block below is unreachable from `flutter test`.
     if (userAgentKind != PlausibleUserAgent.none) {
       final packageInfo = await PackageInfo.fromPlatform();
       final deviceInfoPlugin = DeviceInfoPlugin();

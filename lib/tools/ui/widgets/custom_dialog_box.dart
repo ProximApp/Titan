@@ -4,6 +4,8 @@ import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 
 class Consts {
+  // Private and uncalled: the dialog only ever reads the constants below, and
+  // nothing can construct it, so this initialiser is dead by construction.
   Consts._();
 
   static const double padding = 20.0;

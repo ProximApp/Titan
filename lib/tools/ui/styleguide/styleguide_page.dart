@@ -178,6 +178,9 @@ class StyleGuidePage extends HookConsumerWidget {
                           Button(
                             text: "Disabled",
                             disabled: true,
+                            // The demo exists to show the disabled look; a
+                            // disabled button never invokes its callback, so
+                            // no test can reach this closure.
                             onPressed: () {},
                           ),
                         ],
@@ -847,6 +850,11 @@ class StyleGuidePage extends HookConsumerWidget {
                                       user["role"],
                                       style: TextStyle(
                                         fontSize: 12,
+                                        // Dead by construction: the demo
+                                        // strip passes no `selectedItem`, and
+                                        // `HorizontalMultiSelect` computes
+                                        // `item == selectedItem`, so `selected`
+                                        // is always false for these rows.
                                         color: selected
                                             ? Colors.blue.shade700
                                             : Colors.grey.shade600,
