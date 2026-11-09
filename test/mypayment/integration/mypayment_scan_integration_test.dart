@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:ui' as ui;
 
 import 'package:chopper/chopper.dart' as chopper;
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,12 +14,18 @@ import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/mypayment/providers/barcode_provider.dart';
 import 'package:titan/mypayment/providers/last_time_scanned.dart';
+import 'package:titan/mypayment/providers/ongoing_transaction.dart';
+import 'package:titan/mypayment/providers/transaction_provider.dart';
+import 'package:titan/mypayment/ui/pages/scan_page/scan_overlay_shape.dart';
 import 'package:titan/mypayment/ui/pages/scan_page/scan_page.dart';
 import 'package:titan/mypayment/ui/pages/scan_page/scanner.dart';
 import 'package:titan/tools/exception.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
+import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
+
 import '../../shared/app_scaffold.dart';
+import '../mypayment_fixtures.dart';
 
 /// The scan flow's QR payload: ScanInfo.fromJson consumes these keys
 /// (tot is in cents, like every money field in the app; iat must be a
@@ -77,12 +84,15 @@ void main() {
   Future<ProviderContainer> openScanModal(
     WidgetTester tester, {
     double width = 800,
+    List<dynamic> providerOverrides = const [],
   }) async {
     tester.view.physicalSize = ui.Size(width, 2000);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.reset);
 
-    final container = scaffold.makeContainer();
+    final container = scaffold.makeContainer(
+      providerOverrides: providerOverrides,
+    );
     await scaffold.pumpApp(
       tester,
       container,
@@ -637,4 +647,229 @@ void main() {
   // of reach: the test above proves an undecoded frame never scans or crashes,
   // but mobile_scanner's own controller drops null-payload captures before the
   // widget's listener runs, so the guard itself cannot be entered from here.
+
+  testWidgets('a camera the app may not use explains how to grant it', (
+    tester,
+  ) async {
+    // The platform answers the real way it does without a grant: a
+    // permissionDenied exception, which leaves `hasCameraPermission` false and
+    // is exactly what the page's own dialog is gated on.
+    MobileScannerPlatform.instance = FakeMobileScannerPlatform(
+      permissionDenied: true,
+    );
+    stubScanFlow(scaffold);
+
+    tester.view.physicalSize = const ui.Size(800, 2000);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+
+    final container = scaffold.makeContainer();
+    addTearDown(container.dispose);
+    await scaffold.pumpApp(
+      tester,
+      container,
+      initialPath: '/mypayment',
+      pumpAndSettle: false,
+    );
+    await settle(tester);
+    await tester.tap(
+      find.byWidgetPredicate(
+        (w) => w is HeroIcon && w.icon == HeroIcons.arrowsRightLeft,
+      ),
+    );
+    await settle(tester, frames: 16);
+    await tester.tap(
+      find.byWidgetPredicate(
+        (w) => w is HeroIcon && w.icon == HeroIcons.viewfinderCircle,
+      ),
+    );
+    await settle(tester, frames: 12);
+
+    // No camera means no scan: the dialog names the requirement instead.
+    expect(find.byType(CustomDialogBox), findsOneWidget);
+    // Both the title and the description name the requirement.
+    expect(find.textContaining('Camera permission'), findsWidgets);
+
+    await tester.tap(find.text('Settings'));
+    await settle(tester, frames: 12);
+
+    expect(find.byType(CustomDialogBox), findsNothing);
+    await scaffold.drainToast(tester);
+  });
+
+  testWidgets('bypassing the membership gate skips the check and scans', (
+    tester,
+  ) async {
+    stubScanFlow(
+      scaffold,
+      store: sellerStore(
+        membership: MembershipSimple.empty().copyWith(
+          id: 'membership-1',
+          name: 'BDE members',
+        ),
+      ),
+      membershipAllowed: false,
+    );
+    await openScanModal(tester);
+
+    // The row reads "Limited to <association>", and its checkbox shows the
+    // INVERSE of the bypass flag: dialled on, the gate is off.
+    expect(find.textContaining('Limited to'), findsOneWidget);
+    expect(tester.widget<Checkbox>(find.byType(Checkbox).first).value, isTrue);
+
+    await tester.tap(find.textContaining('Limited to'));
+    await settle(tester, frames: 8);
+    expect(tester.widget<Checkbox>(find.byType(Checkbox).first).value, isFalse);
+
+    clearInteractions(scaffold.repository);
+    fakePlatform.emitScan(scanPayload(tot: 2500));
+    await settle(tester, frames: 10);
+
+    // The bypass skips the membership question entirely and takes the code.
+    verifyNever(
+      () => scaffold.repository.mypaymentStoresStoreIdScanCheckPost(
+        storeId: any(named: 'storeId'),
+        body: any(named: 'body'),
+      ),
+    );
+    verify(
+      () => scaffold.repository.mypaymentStoresStoreIdScanPost(
+        storeId: 'store-1',
+        body: any(named: 'body'),
+      ),
+    ).called(1);
+  });
+
+  testWidgets('Next after a refused scan clears the error surface', (
+    tester,
+  ) async {
+    stubScanFlow(
+      scaffold,
+      scanAnswer: (_) async => chopper.Response(
+        http.Response('refused', 500),
+        null,
+        error: 'refused',
+      ),
+    );
+    await openScanModal(tester);
+
+    fakePlatform.emitScan(scanPayload(tot: 2500));
+    await settle(tester, frames: 10);
+
+    // A refusal that is not an AppException (the raw backend body) still shows
+    // its message instead of crashing the card on a cast.
+    expect(find.text('refused'), findsOneWidget);
+
+    // The refused scan leaves the error card, whose Next is what wipes the
+    // surface for the next customer.
+    await tester.tap(find.text('Next'));
+    await settle(tester, frames: 10);
+
+    expect(find.text('Scan a code'), findsOneWidget);
+    expect(find.text('Next'), findsNothing);
+    verifyNever(
+      () => scaffold.repository.mypaymentTransactionsTransactionIdCancelPost(
+        transactionId: any(named: 'transactionId'),
+      ),
+    );
+  });
+
+  testWidgets('a cancel answered in an error state reports the failure', (
+    tester,
+  ) async {
+    stubScanFlow(scaffold);
+    // `cancelTransaction` stores the HTTP success, so the sheet's `orElse`
+    // arm (an answer that is neither data nor a throw) cannot come from the
+    // repository. It is the arm that must read as a FAILED cancel, not a
+    // silent success, because the tenant's hold was never released.
+    await openScanModal(
+      tester,
+      providerOverrides: [
+        transactionProvider.overrideWith(
+          () => FakeTransactionNotifier(
+            cancelAnswer: AsyncValue.error(
+              'cancel did not answer',
+              StackTrace.current,
+            ),
+          ),
+        ),
+      ],
+    );
+
+    fakePlatform.emitScan(scanPayload(tot: 2500));
+    await settle(tester, frames: 10);
+    expect(find.text('Amount'), findsOneWidget);
+
+    await tester.tap(find.textContaining('Cancel ('));
+    await settle(tester, frames: 6);
+    await tester.tap(find.text('Confirm'));
+    await settle(tester, frames: 10);
+
+    expect(
+      anyVisibleTextContains(tester, 'Error while cancelling'),
+      isTrue,
+      reason: 'toasts on screen: ${visibleTexts(tester)}',
+    );
+    expect(find.text('Transaction cancelled'), findsNothing);
+    await scaffold.drainToast(tester);
+  });
+
+  /// The border colour the scan overlay is painting right now.
+  Color? overlayBorder(WidgetTester tester) {
+    final painters = tester
+        .widgetList<CustomPaint>(find.byType(CustomPaint))
+        .map((paint) => paint.painter)
+        .whereType<ScannerOverlayPainter>();
+    return painters.isEmpty ? null : painters.first.borderColor;
+  }
+
+  testWidgets('a pending transaction keeps the overlay clear behind the code', (
+    tester,
+  ) async {
+    stubScanFlow(scaffold);
+    // The scanner's echo branch: an answered transaction paints the code's
+    // frame green, but the arm for a still-pending one is kept for the frame
+    // where the answer has not landed. The notifier's own resets are what
+    // normally clear the code, so the pairing needs a notifier that keeps the
+    // transaction pending while the echo is on screen.
+    await openScanModal(
+      tester,
+      providerOverrides: [
+        ongoingTransactionProvider.overrideWith(
+          () => FakeOngoingTransaction(const AsyncValue.loading()),
+        ),
+      ],
+    );
+
+    fakePlatform.emitScan(scanPayload(tot: 2500));
+    await settle(tester, frames: 10);
+
+    expect(find.byType(QrImageView), findsOneWidget);
+    expect(
+      overlayBorder(tester),
+      Colors.white,
+      reason: 'a pending transaction must not be painted as answered',
+    );
+  });
+
+  testWidgets('a failed transaction tints the live camera frame red', (
+    tester,
+  ) async {
+    stubScanFlow(scaffold);
+    // Same overlay, camera branch: the previous sale failed, so the frame is
+    // red before the next code is read.
+    await openScanModal(
+      tester,
+      providerOverrides: [
+        ongoingTransactionProvider.overrideWith(
+          () => FakeOngoingTransaction(
+            AsyncValue.error('last sale failed', StackTrace.current),
+          ),
+        ),
+      ],
+    );
+
+    expect(find.byType(MobileScanner), findsOneWidget);
+    expect(overlayBorder(tester), const Color(0xff720000));
+  });
 }

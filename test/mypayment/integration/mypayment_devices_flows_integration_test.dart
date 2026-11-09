@@ -233,6 +233,64 @@ void main() {
     await scaffold.drainToast(tester);
   });
 
+  testWidgets('the activation dialog ignores a tap inside and pops on a '
+      'backdrop tap', (tester) async {
+    stubTos(scaffold, accepted: true);
+    stubDevices(scaffold, initial: <WalletDevice>[]);
+    stubRegister(
+      scaffold,
+      device('dev-1', 'Pixel 8', status: WalletDeviceStatus.inactive),
+    );
+    await mockDeviceInfo(tester, info: _androidInfo);
+
+    await pumpDevices(tester);
+    await tester.tap(find.text('Add this device'));
+    await settle(tester, frames: 40);
+
+    expect(find.text('Device activation request'), findsOneWidget);
+
+    // A tap on the card itself is swallowed: only the Ok button (or the
+    // backdrop) closes it.
+    await tester.tap(find.text('Device activation request'));
+    await settle(tester, frames: 10);
+    expect(find.text('Device activation request'), findsOneWidget);
+
+    await tester.tapAt(const Offset(4, 4));
+    await settle(tester, frames: 20);
+    expect(find.text('Device activation request'), findsNothing);
+  });
+
+  testWidgets('revoking a device before accepting the ToS is refused', (
+    tester,
+  ) async {
+    stubTos(scaffold, accepted: false);
+    stubDevices(scaffold, initial: [device('dev-1', 'MacBook')]);
+
+    await pumpDevices(tester, deviceKeyId: 'dev-2');
+
+    await tester.tap(
+      find
+          .byWidgetPredicate((w) => w is HeroIcon && w.icon == HeroIcons.trash)
+          .first,
+    );
+    await settle(tester, frames: 20);
+
+    // The same gate the add-device row uses, on the revoke path: no confirm
+    // dialog, no request, just the reason.
+    expect(find.text('Revoke device?'), findsNothing);
+    expect(
+      find.text('Please accept the Terms of Service.'),
+      findsOneWidget,
+    );
+    verifyNever(
+      () => scaffold.repository
+          .mypaymentUsersMeWalletDevicesWalletDeviceIdRevokePost(
+            walletDeviceId: any(named: 'walletDeviceId'),
+          ),
+    );
+    await scaffold.drainToast(tester);
+  });
+
   testWidgets('on iOS the device is named from the utsname machine', (
     tester,
   ) async {

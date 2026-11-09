@@ -193,7 +193,9 @@ class ScanPage extends HookConsumerWidget {
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     child: Text(
-                                      (error as AppException).message,
+                                      error is AppException
+                                          ? error.message
+                                          : error.toString(),
                                       style: TextStyle(
                                         fontSize: 15,
                                         color: Colors.white,
@@ -300,14 +302,6 @@ class ScanPage extends HookConsumerWidget {
                                         descriptions:
                                             "${AppLocalizations.of(context)!.paiementTransactionCancelledDescription} ${formatter.format(transaction.total / 100)} ?",
                                         onYes: () async {
-                                          // `cancelTransaction` awaits the POST
-                                          // before it builds an AsyncValue, so a
-                                          // throwing call reached neither `when`
-                                          // arm: the exception escaped this
-                                          // dialog and the barcode stayed set,
-                                          // which gates every later scan behind
-                                          // "Next". Every outcome therefore
-                                          // clears the surface explicitly.
                                           var cancelled = false;
                                           try {
                                             final value =

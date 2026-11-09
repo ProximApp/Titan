@@ -14,6 +14,9 @@ import 'package:titan/tools/ui/styleguide/button.dart';
 
 import '../../shared/app_scaffold.dart';
 import '../mypayment_fixtures.dart';
+import 'package:titan/mypayment/providers/selected_store_provider.dart';
+import 'package:titan/mypayment/ui/pages/main_page/seller_card/admin_invoice_card.dart';
+import 'package:titan/mypayment/ui/pages/main_page/seller_card/store_seller_card.dart';
 
 /// The three main-page surfaces no other mypayment test drives:
 ///
@@ -268,4 +271,78 @@ void main() {
       await scaffold.drainToast(tester);
     },
   );
+
+  testWidgets('tapping another store in the list selects it', (tester) async {
+    stubMainPage(
+      scaffold,
+      structures: [bdeStructure],
+      userStores: [
+        managedStoreFixture(),
+        managedStoreFixture(id: 'store-2', name: 'Cafe'),
+      ],
+    );
+
+    final container = scaffold.makeContainer(
+      user: CoreUser.empty().copyWith(id: 'user-1'),
+    );
+    addTearDown(container.dispose);
+    await scaffold.pumpApp(
+      tester,
+      container,
+      initialPath: '/mypayment',
+      pumpAndSettle: false,
+    );
+    await settle(tester, frames: 30);
+    await flipCard(tester);
+
+    expect(find.byType(StoreSellerCard), findsNWidgets(2));
+    final before = container.read(selectedStoreProvider).id;
+    final row = tester.widget<StoreSellerCard>(
+      find.byType(StoreSellerCard).first,
+    );
+    expect(row.store.id, isNot(before));
+
+    await tester.ensureVisible(find.byType(StoreSellerCard).first);
+    await settle(tester, frames: 8);
+    await tester.tap(find.byType(StoreSellerCard).first);
+    await settle(tester, frames: 12);
+
+    // The row hands its own store to the selected-store provider, which is
+    // what the store card above it renders.
+    expect(container.read(selectedStoreProvider).id, row.store.id);
+  });
+
+  testWidgets('the invoice card loads the ledger and opens it', (tester) async {
+    stubMainPage(
+      scaffold,
+      structures: [bdeStructure],
+      bankAccountHolder: bdeStructure,
+    );
+    stubInvoiceList(scaffold);
+
+    await scaffold.pumpApp(
+      tester,
+      scaffold.makeContainer(user: CoreUser.empty().copyWith(id: 'user-1')),
+      initialPath: '/mypayment',
+      pumpAndSettle: false,
+    );
+    await settle(tester, frames: 30);
+    await flipCard(tester);
+
+    expect(find.byType(InvoiceAdminCard), findsOneWidget);
+    clearInteractions(scaffold.repository);
+
+    await tester.tap(find.byType(InvoiceAdminCard));
+    await settle(tester, frames: 16);
+
+    // The card refreshes the ledger before routing to it.
+    verify(
+      () => scaffold.repository.mypaymentInvoicesGet(
+        page: any(named: 'page'),
+        pageSize: any(named: 'pageSize'),
+      ),
+    ).called(1);
+    expect(QR.currentPath, '/mypayment/invoicesAdmin');
+  });
+
 }

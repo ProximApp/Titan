@@ -193,14 +193,13 @@ void main() {
     expect(scan.signature, isNotEmpty);
   });
 
-  test('a colour variation that would shift brightness is moderated', () {
-    // A near-black base with a seed that lightens: the raw move would change
-    // the brightness by far more than the correction threshold, so the damped
-    // branch is the one taken. The result must stay a valid, opaque colour.
-    final variations = generateColorVariations(
-      const [Color(0xFF050505), Color(0xFF202020)],
-      'a-seed-that-lightens',
-    );
+  test('a near-black base comes out a valid, opaque variation', () {
+    // A near-black base with a seed that lightens: whatever the vector, the
+    // result must stay a valid, opaque colour.
+    final variations = generateColorVariations(const [
+      Color(0xFF050505),
+      Color(0xFF202020),
+    ], 'a-seed-that-lightens');
 
     expect(variations, hasLength(2));
     for (final color in variations) {
@@ -209,5 +208,75 @@ void main() {
       expect(color.g, inInclusiveRange(0.0, 1.0));
       expect(color.b, inInclusiveRange(0.0, 1.0));
     }
+  });
+
+  test('a white base darkens in order but stays bright', () {
+    final variations = generateColorVariations(const [
+      Color(0xFFFFFFFF),
+      Color(0xFFEEEEEE),
+    ], 'z');
+
+    expect(variations, hasLength(2));
+    for (final color in variations) {
+      expect(color.a, closeTo(1.0, 0.001));
+      expect(
+        color.r * 0.299 + color.g * 0.587 + color.b * 0.114,
+        greaterThan(0.8),
+      );
+    }
+  });
+
+  test('the brightness-correction arm can never fire', () {
+    // The proof that `_applyColorVector`'s correction arm (functions.dart
+    // 228-231) is dead, rather than merely untested. Every channel moves by at
+    // most `25 * 1.2 = 30` — the seeded vector's cap times the largest damping
+    // `generateColorVariations` hands it — and brightness is a convex
+    // combination of the three channels, so it cannot move by more than 30/255
+    // ≈ 0.118. The arm fires above 0.2. `generateColorVariations` is the
+    // function's only caller, so no input can cross it; this measures the
+    // worst actual shift across extreme bases and seeds to show the bound is
+    // real, not theoretical.
+    const channelMove = 25 * 1.2; // 30 of 255
+    const maxBrightnessMove = channelMove / 255;
+    expect(maxBrightnessMove, lessThan(0.2));
+
+    double brightness(Color color) =>
+        color.r * 0.299 + color.g * 0.587 + color.b * 0.114;
+
+    const bases = [
+      Color(0xFF000000),
+      Color(0xFFFFFFFF),
+      Color(0xFF050505),
+      Color(0xFFFAFAFA),
+      Color(0xFF808080),
+      Color(0xFF0000FF),
+      Color(0xFFFF0000),
+      Color(0xFF00FF00),
+    ];
+    const seeds = [
+      'z',
+      'a-seed-that-lightens',
+      'store-1',
+      'Gala',
+      '0',
+      '-',
+      'ffffffff',
+      'la boutique du coin',
+    ];
+
+    var worst = 0.0;
+    for (final seed in seeds) {
+      final varied = generateColorVariations(bases, seed);
+      for (var i = 0; i < bases.length; i++) {
+        final moved = (brightness(varied[i]) - brightness(bases[i])).abs();
+        if (moved > worst) worst = moved;
+      }
+    }
+
+    expect(
+      worst,
+      lessThanOrEqualTo(maxBrightnessMove),
+      reason: 'the widest shift seen was $worst',
+    );
   });
 }

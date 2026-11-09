@@ -3,6 +3,8 @@ import 'package:titan/generated/openapi.swagger.dart';
 
 import '../../shared/app_scaffold.dart';
 import '../mypayment_fixtures.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:titan/tools/ui/layouts/refresher.dart';
 
 void main() {
   late IntegrationScaffold scaffold;
@@ -65,5 +67,27 @@ void main() {
     await settle(tester, frames: 30);
 
     expect(find.text('Ada Lovelace'), findsOneWidget);
+  });
+
+  testWidgets('pull to refresh reloads the seller roster', (tester) async {
+    stubStoreAdmin(scaffold);
+
+    await scaffold.pumpApp(
+      tester,
+      scaffold.makeContainer(user: CoreUser.empty().copyWith(id: 'user-1')),
+      initialPath: '/mypayment/storeAdmin',
+      pumpAndSettle: false,
+    );
+    await settle(tester, frames: 30);
+
+    clearInteractions(scaffold.repository);
+    await tester.drag(find.byType(Refresher).first, const Offset(0, 400));
+    await settle(tester, frames: 24);
+
+    verify(
+      () => scaffold.repository.mypaymentStoresStoreIdSellersGet(
+        storeId: 'store-1',
+      ),
+    ).called(1);
   });
 }

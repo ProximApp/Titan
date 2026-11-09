@@ -183,4 +183,29 @@ void main() {
     expect(find.text('Store name'), findsOneWidget);
     await scaffold.drainToast(tester);
   });
+
+  testWidgets('editing a store that has an association starts on it', (
+    tester,
+  ) async {
+    stubStorePages(
+      scaffold,
+      stores: [fridge.copyWith(associationId: 'assoc-1')],
+    );
+
+    await pumpStores(tester);
+    expect(find.text('Fridge'), findsOneWidget);
+    await tester.tap(
+      find.byWidgetPredicate(
+        (w) => w is HeroIcon && w.icon == HeroIcons.pencilSquare,
+      ),
+    );
+    await settle(tester, frames: 30);
+
+    // The form's association row starts on the store's own association (the
+    // effect that maps associationId back to the picker's list) instead of the
+    // "Select an association" prompt.
+    expect(find.text('Coop'), findsOneWidget);
+    expect(find.text('Select an association'), findsNothing);
+  });
+
 }

@@ -1,12 +1,24 @@
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/mypayment/providers/invoice_pdf_provider.dart';
 import 'package:titan/mypayment/ui/components/invoice_card.dart';
 
 import '../../shared/app_scaffold.dart';
+
+/// A preview that could not be fetched: the card's download handler catches
+/// the throw and toasts it instead of handing a NULL to the file saver.
+class _UnavailableInvoicePdf extends InvoicePdfNotifier {
+  _UnavailableInvoicePdf(super.invoiceId);
+
+  @override
+  Future<Uint8List> build() async =>
+      throw Exception('the PDF is not available');
+}
 
 /// [InvoiceCard]'s action sheet — the three things an invoice can actually do,
 /// none of which any invoice test reached: an admin marks it paid/unpaid, an
@@ -75,9 +87,15 @@ void main() {
     WidgetTester tester,
     Invoice theInvoice, {
     bool isAdmin = true,
+    List<dynamic> providerOverrides = const [],
+    Duration? Function(int retryCount, Object error)? retry,
   }) async {
     final refreshes = <int>[];
-    final container = scaffold.makeContainer(invoices: [theInvoice]);
+    final container = scaffold.makeContainer(
+      invoices: [theInvoice],
+      providerOverrides: providerOverrides,
+      retry: retry,
+    );
     addTearDown(container.dispose);
     await scaffold.pumpWidgetApp(
       tester,
@@ -280,6 +298,126 @@ void main() {
       reason: 'toasts on screen: ${visibleTexts(tester)}',
     );
     expect(anyVisibleTextContains(tester, 'Successfully modified'), isFalse);
+    await scaffold.drainToast(tester);
+  });
+
+  // -------------------------------------------------------------------------
+  // Download: the one hand-off that leaves Dart
+  // -------------------------------------------------------------------------
+  //
+  // `downloadFile` decides its route from `kIsWeb`/`defaultTargetPlatform`
+  // (macOS here) and then calls `FileSaver.instance.saveAs`, which is a pigeon
+  // channel — `dev.flutter.pigeon.file_saver.FileSaverHostApi.saveAs`. Answering
+  // that channel is the seam: the real handler runs, the real routing runs, and
+  // the plugin's reply is the only thing replaced.
+  const saveAsChannel = 'dev.flutter.pigeon.file_saver.FileSaverHostApi.saveAs';
+
+  /// Answers the save dialog with [path] (null = the user backed out) and
+  /// returns the list the hand-off appends to, so a test can assert how many
+  /// times it asked.
+  List<int> answerSaveDialog(WidgetTester tester, String? path) {
+    final calls = <int>[];
+    tester.binding.defaultBinaryMessenger.setMockMessageHandler(saveAsChannel, (
+      message,
+    ) async {
+      calls.add(1);
+      return const StandardMessageCodec().encodeMessage(<Object?>[path]);
+    });
+    addTearDown(
+      () => tester.binding.defaultBinaryMessenger.setMockMessageHandler(
+        saveAsChannel,
+        null,
+      ),
+    );
+    return calls;
+  }
+
+  testWidgets('the download button hands the invoice PDF to the save dialog', (
+    tester,
+  ) async {
+    stubInvoice(scaffold);
+    var saveCalls = 0;
+    tester.binding.defaultBinaryMessenger.setMockMessageHandler(saveAsChannel, (
+      message,
+    ) async {
+      saveCalls++;
+      return const StandardMessageCodec().encodeMessage(<Object?>[
+        '/tmp/FAC-2026-001.pdf',
+      ]);
+    });
+    addTearDown(
+      () => tester.binding.defaultBinaryMessenger.setMockMessageHandler(
+        saveAsChannel,
+        null,
+      ),
+    );
+
+    await mount(tester, invoice());
+    await scaffold.openModal(tester, find.text('FAC-2026-001'));
+    await scaffold.tapInModal(tester, find.text('Download'));
+    await settle(tester, frames: 6);
+
+    // One save, and the user is told it landed.
+    expect(saveCalls, 1);
+    expect(
+      anyVisibleTextContains(tester, 'Successfully downloaded'),
+      isTrue,
+      reason: 'toasts on screen: ${visibleTexts(tester)}',
+    );
+    await scaffold.drainToast(tester);
+  });
+
+  testWidgets('a cancelled save dialog announces nothing', (tester) async {
+    stubInvoice(scaffold);
+    // `saveAs` answers null when the user backs out; the card must stay quiet
+    // rather than announce a download that never happened.
+    answerSaveDialog(tester, null);
+    await mount(tester, invoice());
+
+    await scaffold.openModal(tester, find.text('FAC-2026-001'));
+    await scaffold.tapInModal(tester, find.text('Download'));
+    await settle(tester, frames: 6);
+
+    expect(
+      anyVisibleTextContains(tester, 'Successfully downloaded'),
+      isFalse,
+      reason: 'toasts on screen: ${visibleTexts(tester)}',
+    );
+  });
+
+  testWidgets('a PDF that could not be fetched is reported, not saved', (
+    tester,
+  ) async {
+    stubInvoice(scaffold);
+    final saveCalls = answerSaveDialog(tester, '/tmp/FAC-2026-001.pdf');
+
+    // The preview fails: Riverpod's default retry would keep `.future`
+    // pending instead of letting the throw reach the handler, so this
+    // container opts out of it.
+    await mount(
+      tester,
+      invoice(),
+      providerOverrides: [
+        invoicePdfProvider('inv-1')
+            .overrideWith(() => _UnavailableInvoicePdf('inv-1')),
+      ],
+      retry: (int count, Object error) => null,
+    );
+
+    await scaffold.openModal(tester, find.text('FAC-2026-001'));
+    await scaffold.tapInModal(tester, find.text('Download'));
+    await settle(tester, frames: 6);
+
+    expect(
+      anyVisibleTextContains(tester, 'the PDF is not available'),
+      isTrue,
+      reason: 'toasts on screen: ${visibleTexts(tester)}',
+    );
+    expect(
+      saveCalls,
+      isEmpty,
+      reason: 'nothing is written for a PDF that is empty',
+    );
     await scaffold.drainToast(tester);
   });
 }

@@ -527,7 +527,7 @@ void main() {
     });
   });
 
-  testWidgets('the summary card adds transfers and skips unknown types', (
+  testWidgets('the summary card nets transfers, purchases and refunds', (
     tester,
   ) async {
     History tx(String id, enums.HistoryType type, int total) => History.empty()
@@ -551,6 +551,9 @@ void main() {
           tx('h-2', enums.HistoryType.directTransfer, 200),
           tx('h-3', enums.HistoryType.directTransaction, 50),
           tx('h-4', enums.HistoryType.swaggerGeneratedUnknown, 999),
+          // A refund is money leaving the store, so it is subtracted without
+          // counting as a transaction of its own.
+          tx('h-5', enums.HistoryType.refund, 30),
         ],
       ),
       container,
@@ -558,11 +561,11 @@ void main() {
     );
 
     // Totals are cents and the mean divides by the counted transactions:
-    // +100 +200 -50 = 250 over one purchase, so 2.50. The app locale formats
-    // with a comma, so match the number, not the separator.
+    // +100 +200 -50 -30 = 220 over one purchase, so 2.20. The app locale
+    // formats with a comma, so match the number, not the separator.
     expect(
-      anyVisibleTextContains(tester, '2,50') ||
-          anyVisibleTextContains(tester, '2.50'),
+      anyVisibleTextContains(tester, '2,20') ||
+          anyVisibleTextContains(tester, '2.20'),
       isTrue,
       reason: 'visible: ${visibleTexts(tester)}',
     );

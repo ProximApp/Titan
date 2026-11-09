@@ -1,9 +1,11 @@
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/mypayment/providers/transaction_provider.dart';
 import 'package:titan/mypayment/ui/components/digit_fade_in_animation.dart';
 import 'package:titan/mypayment/ui/components/transaction_card.dart';
 import 'package:titan/mypayment/ui/pages/store_stats_page/refund_page.dart';
@@ -104,14 +106,31 @@ void main() {
     scaffold.shellSetUp();
   });
 
-  Future<void> openStoreStats(WidgetTester tester) async {
+  Future<void> openStoreStats(
+    WidgetTester tester, {
+    List<dynamic> providerOverrides = const [],
+  }) async {
     await scaffold.pumpApp(
       tester,
-      scaffold.makeContainer(user: CoreUser.empty().copyWith(id: 'user-1')),
+      scaffold.makeContainer(
+        user: CoreUser.empty().copyWith(id: 'user-1'),
+        providerOverrides: providerOverrides,
+      ),
       initialPath: '/mypayment/storeStats',
       pumpAndSettle: false,
     );
     await settle(tester, frames: 30);
+  }
+
+  /// Opens the refund sheet for the one refundable transaction, types `1` and
+  /// presses the sheet's confirm button.
+  Future<void> refundOneEuro(WidgetTester tester) async {
+    await tester.tap(find.byType(TransactionCard).first);
+    await settle(tester, frames: 30);
+    await tester.tap(find.widgetWithText(InkWell, '1').first);
+    await settle(tester, frames: 4);
+    await tester.tap(find.widgetWithText(WaitingButton, 'Refund'));
+    await settle(tester, frames: 40);
   }
 
   /// displayToast arms a 2.5s PausableTimer; a test that ends while it is
@@ -354,5 +373,93 @@ void main() {
     }
 
     expect(find.byType(ReFundPage), findsNothing);
+  });
+
+  testWidgets('a refund answered in an error state is reported, sheet open', (
+    tester,
+  ) async {
+    stubRefund(scaffold, storeHistory: [refundableTransaction()]);
+    // The sheet's `error` arm. `refundTransaction` stores the HTTP success and
+    // throws out of a transport failure, so this answer cannot come from the
+    // repository — but it is the arm that must still tell the user the refund
+    // did not happen, and must leave the sheet up for the retry.
+    await openStoreStats(
+      tester,
+      providerOverrides: [
+        transactionProvider.overrideWith(
+          () => FakeTransactionNotifier(
+            refundAnswer: AsyncValue.error(
+              'the refund was not accepted',
+              StackTrace.current,
+            ),
+          ),
+        ),
+      ],
+    );
+    await refundOneEuro(tester);
+
+    expect(
+      anyVisibleTextContains(tester, 'the refund was not accepted'),
+      isTrue,
+      reason: 'toasts on screen: ${visibleTexts(tester)}',
+    );
+    expect(find.byType(ReFundPage), findsOneWidget);
+    await drainToast(tester);
+  });
+
+  testWidgets('a refund still in flight neither closes the sheet nor toasts', (
+    tester,
+  ) async {
+    stubRefund(scaffold, storeHistory: [refundableTransaction()]);
+    // The `loading` arm: no toast, no pop, no history refresh — the user is
+    // left exactly where they were, which is the only honest thing to draw
+    // while the answer is still out.
+    await openStoreStats(
+      tester,
+      providerOverrides: [
+        transactionProvider.overrideWith(
+          () =>
+              FakeTransactionNotifier(refundAnswer: const AsyncValue.loading()),
+        ),
+      ],
+    );
+    await refundOneEuro(tester);
+
+    expect(find.byType(ReFundPage), findsOneWidget);
+    expect(find.text('Transaction completed'), findsNothing);
+    expect(
+      anyVisibleTextContains(tester, 'Error'),
+      isFalse,
+      reason: 'toasts on screen: ${visibleTexts(tester)}',
+    );
+  });
+
+  testWidgets('a leading comma becomes 0, and backspace clears it all', (
+    tester,
+  ) async {
+    stubRefund(scaffold, storeHistory: [refundableTransaction()]);
+    await openStoreStats(tester);
+    await tester.tap(find.byType(TransactionCard).first);
+    await settle(tester, frames: 30);
+
+    // A comma on an empty amount has to start "0," — otherwise the sheet would
+    // show a bare separator and parse "" as the value.
+    await tester.tap(find.widgetWithText(InkWell, ',').first);
+    await settle(tester, frames: 6);
+    // The amount is painted one Text per character, plus the currency marker.
+    expect(find.text('0'), findsNWidgets(2), reason: 'keypad key + amount');
+    expect(find.text(','), findsNWidgets(2), reason: 'keypad key + amount');
+    expect(find.text(' ʍ'), findsOneWidget);
+
+    // Erasing the placeholder drops the whole thing instead of leaving "0".
+    await tester.tap(
+      find.byWidgetPredicate(
+        (w) => w is HeroIcon && w.icon == HeroIcons.backspace,
+      ),
+    );
+    await settle(tester, frames: 6);
+    // The whole placeholder went: no digits, so no currency marker either.
+    expect(find.text('0'), findsOneWidget, reason: 'only the keypad key left');
+    expect(find.text(' ʍ'), findsNothing);
   });
 }

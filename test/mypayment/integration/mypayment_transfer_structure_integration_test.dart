@@ -180,4 +180,33 @@ void main() {
     await scaffold.unmountApp(tester);
     await scaffold.drainToast(tester);
   });
+
+  testWidgets('clearing the search empties the result list', (tester) async {
+    stubTransferStructure(scaffold);
+    when(() => scaffold.repository.usersSearchGet(query: 'Ada')).thenAnswer(
+      (_) async => chopperListResponse([
+        CoreUserSimple.empty().copyWith(firstname: 'Ada', name: 'Lovelace'),
+      ]),
+    );
+
+    await scaffold.pumpApp(
+      tester,
+      scaffold.makeContainer(user: CoreUser.empty().copyWith(id: 'user-1')),
+      initialPath: '/mypayment/transferStructure',
+      pumpAndSettle: false,
+    );
+    await settle(tester, frames: 30);
+
+    await tester.enterText(find.byType(TextField), 'Ada');
+    await settle(tester, frames: 8);
+    expect(find.text('Ada Lovelace'), findsOneWidget);
+
+    // Emptying the field drops the previous query's rows instead of leaving
+    // the user to hand over a structure to someone they no longer see.
+    await tester.enterText(find.byType(TextField), '');
+    await settle(tester, frames: 8);
+
+    expect(find.text('Ada Lovelace'), findsNothing);
+  });
+
 }

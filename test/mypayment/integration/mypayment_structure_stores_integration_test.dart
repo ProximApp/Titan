@@ -9,6 +9,7 @@ import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 
 import '../../shared/app_scaffold.dart';
 import '../mypayment_fixtures.dart';
+import 'package:titan/tools/ui/layouts/refresher.dart';
 
 final bdeStructure = structureFixture('structure-1', 'BDE', 'user-1');
 
@@ -166,4 +167,28 @@ void main() {
       await scaffold.drainToast(tester);
     },
   );
+
+  testWidgets('pull to refresh reloads the structure store list', (
+    tester,
+  ) async {
+    stubStructureStores(scaffold);
+
+    await scaffold.pumpApp(
+      tester,
+      scaffold.makeContainer(
+        user: CoreUser.empty().copyWith(id: 'user-1'),
+        myStructures: [bdeStructure],
+        selectedStructure: bdeStructure,
+      ),
+      initialPath: '/mypayment/structureStores',
+      pumpAndSettle: false,
+    );
+    await settle(tester, frames: 30);
+
+    clearInteractions(scaffold.repository);
+    await tester.drag(find.byType(Refresher).first, const Offset(0, 400));
+    await settle(tester, frames: 24);
+
+    verify(() => scaffold.repository.mypaymentUsersMeStoresGet()).called(1);
+  });
 }

@@ -320,4 +320,248 @@ void main() {
       reason: 'the add-seller row stays reachable',
     );
   });
+
+  /// The signed-in member's own seller row: the rights checkboxes only render
+  /// for someone who may manage the store's sellers, and the card they open
+  /// must belong to somebody else.
+  final managingSeller = sellerFor('user-1', 'Alex', 'Seller').copyWith(
+    canManageSellers: true,
+  );
+  final colleague = sellerFor('user-2', 'Alice', 'Martin');
+
+  Future<void> openRightsOf(WidgetTester tester, String displayName) async {
+    await tester.ensureVisible(find.text(displayName));
+    await settle(tester, frames: 8);
+    await tester.tap(find.text(displayName), warnIfMissed: false);
+    await settle(tester, frames: 16);
+  }
+
+  testWidgets('toggling a right on a seller card PATCHes the new rights and '
+      'says so', (tester) async {
+    stubSellerRights(
+      scaffold,
+      sellers: [managingSeller, colleague],
+      searchResults: [],
+    );
+    when(
+      () => scaffold.repository.mypaymentStoresStoreIdSellersSellerUserIdPatch(
+        storeId: any(named: 'storeId'),
+        sellerUserId: any(named: 'sellerUserId'),
+        body: any(named: 'body'),
+      ),
+    ).thenAnswer((_) async => chopperResponseVoid());
+
+    await openStoreAdmin(tester);
+    await openRightsOf(tester, 'Alice Martin');
+
+    expect(find.text('Rights of Alice Martin'), findsOneWidget);
+    // The shipped rights of a colleague: bank only.
+    expect(
+      tester.widgetList<Checkbox>(find.byType(Checkbox)).map((c) => c.value),
+      [true, false, false, false, false],
+    );
+
+    // i == 1: every other right keeps its own value, which is the arm the
+    // five per-right ternaries take when they are not the one being flipped.
+    await tester.tap(find.byType(Checkbox).at(1));
+    await settle(tester, frames: 24);
+
+    final body =
+        verify(
+              () => scaffold.repository
+                  .mypaymentStoresStoreIdSellersSellerUserIdPatch(
+                    storeId: 'store-1',
+                    sellerUserId: 'user-2',
+                    body: captureAny(named: 'body'),
+                  ),
+            ).captured.single
+            as SellerUpdate;
+    expect(body.canBank, isTrue);
+    expect(body.canSeeHistory, isTrue);
+    expect(body.canCancel, isFalse);
+    expect(find.text('Rights updated'), findsOneWidget);
+    await drainToast(tester);
+  });
+
+  testWidgets('flipping the bank right turns the others off the same way', (
+    tester,
+  ) async {
+    stubSellerRights(
+      scaffold,
+      sellers: [managingSeller, colleague],
+      searchResults: [],
+    );
+    when(
+      () => scaffold.repository.mypaymentStoresStoreIdSellersSellerUserIdPatch(
+        storeId: any(named: 'storeId'),
+        sellerUserId: any(named: 'sellerUserId'),
+        body: any(named: 'body'),
+      ),
+    ).thenAnswer((_) async => chopperResponseVoid());
+
+    await openStoreAdmin(tester);
+    await openRightsOf(tester, 'Alice Martin');
+
+    // i == 0 — the only index whose own arm is the true one, so this covers the
+    // "keep the other four" companion of the previous test.
+    await tester.tap(find.byType(Checkbox).at(0));
+    await settle(tester, frames: 24);
+
+    final body =
+        verify(
+              () => scaffold.repository
+                  .mypaymentStoresStoreIdSellersSellerUserIdPatch(
+                    storeId: 'store-1',
+                    sellerUserId: 'user-2',
+                    body: captureAny(named: 'body'),
+                  ),
+            ).captured.single
+            as SellerUpdate;
+    expect(body.canBank, isFalse);
+    expect(body.canSeeHistory, isFalse);
+    await drainToast(tester);
+  });
+
+  testWidgets('a refused rights update says so and keeps the sheet', (
+    tester,
+  ) async {
+    stubSellerRights(
+      scaffold,
+      sellers: [managingSeller, colleague],
+      searchResults: [],
+    );
+    when(
+      () => scaffold.repository.mypaymentStoresStoreIdSellersSellerUserIdPatch(
+        storeId: any(named: 'storeId'),
+        sellerUserId: any(named: 'sellerUserId'),
+        body: any(named: 'body'),
+      ),
+    ).thenAnswer(
+      (_) async => chopper.Response(http.Response('{"detail": "no"}', 500), null),
+    );
+
+    await openStoreAdmin(tester);
+    await openRightsOf(tester, 'Alice Martin');
+
+    await tester.tap(find.byType(Checkbox).at(1));
+    await settle(tester, frames: 30);
+
+    expect(find.text('Error while updating rights'), findsOneWidget);
+    // Nothing was recorded as changed, so the sheet stays open on the old
+    // rights for a retry.
+    expect(find.text('Rights of Alice Martin'), findsOneWidget);
+    await drainToast(tester);
+  });
+
+  testWidgets('a refused seller delete says so', (tester) async {
+    stubSellerRights(
+      scaffold,
+      sellers: [managingSeller, colleague],
+      searchResults: [],
+    );
+    when(
+      () => scaffold.repository.mypaymentStoresStoreIdSellersSellerUserIdDelete(
+        storeId: any(named: 'storeId'),
+        sellerUserId: any(named: 'sellerUserId'),
+      ),
+    ).thenAnswer(
+      (_) async => chopper.Response(http.Response('{"detail": "no"}', 500), null),
+    );
+
+    await openStoreAdmin(tester);
+    await openRightsOf(tester, 'Alice Martin');
+
+    await tester.tap(find.text('Delete seller').last);
+    await settle(tester, frames: 16);
+    expect(find.text('Are you sure you want to delete this seller?'), findsOneWidget);
+    await tester.tap(find.widgetWithText(WaitingButton, 'Confirm'));
+    await settle(tester, frames: 30);
+
+    expect(find.text('Error while deleting seller'), findsOneWidget);
+    await drainToast(tester);
+  });
+
+
+  testWidgets('the rights dialog survives a tap inside and closes on the '
+      'backdrop', (tester) async {
+    stubSellerRights(
+      scaffold,
+      sellers: [managingSeller],
+      searchResults: [candidate('user-2', 'Alice', 'Martin')],
+    );
+    await openStoreAdmin(tester);
+    await openSearch(tester);
+    await tester.enterText(find.byType(TextFormField), 'ali');
+    await settle(tester, frames: 20);
+    await tapAddFor(tester, 'Alice Martin');
+
+    expect(find.text('Seller rights'), findsOneWidget);
+
+    // Tapping the sheet's own body is swallowed by the inner detector.
+    await tester.tap(find.text('Seller rights'));
+    await settle(tester, frames: 8);
+    expect(find.text('Seller rights'), findsOneWidget);
+
+    // The dimmed area behind it dismisses without adding anyone.
+    await tester.tapAt(const Offset(4, 4));
+    await settle(tester, frames: 16);
+    expect(find.text('Seller rights'), findsNothing);
+    verifyNever(
+      () => scaffold.repository.mypaymentStoresStoreIdSellersPost(
+        storeId: any(named: 'storeId'),
+        body: any(named: 'body'),
+      ),
+    );
+  });
+
+
+  testWidgets('the other three rights each flip only their own flag', (
+    tester,
+  ) async {
+    stubSellerRights(
+      scaffold,
+      sellers: [managingSeller, colleague],
+      searchResults: [],
+    );
+    final bodies = <SellerUpdate>[];
+    when(
+      () => scaffold.repository.mypaymentStoresStoreIdSellersSellerUserIdPatch(
+        storeId: any(named: 'storeId'),
+        sellerUserId: any(named: 'sellerUserId'),
+        body: any(named: 'body'),
+      ),
+    ).thenAnswer((invocation) async {
+      bodies.add(invocation.namedArguments[#body] as SellerUpdate);
+      return chopperResponseVoid();
+    });
+
+    await openStoreAdmin(tester);
+    // The sheet closes after each save, so every right is flipped in its own
+    // visit — which is exactly how a seller admin changes them.
+    for (final index in [2, 3, 4]) {
+      await openRightsOf(tester, 'Alice Martin');
+      await tester.tap(find.byType(Checkbox).at(index));
+      await settle(tester, frames: 24);
+      await drainToast(tester);
+    }
+
+    expect(bodies, hasLength(3));
+    // Each visit turns exactly one more right on. The list keeps the earlier
+    // changes, so the bodies accumulate — and the two rights nobody touched
+    // (bank, history) never move.
+    expect(bodies[0].canCancel, isTrue);
+    expect(bodies[0].canManageSellers, isFalse);
+    expect(bodies[0].canManageEvents, isFalse);
+    expect(bodies[1].canCancel, isTrue);
+    expect(bodies[1].canManageSellers, isTrue);
+    expect(bodies[1].canManageEvents, isFalse);
+    expect(bodies[2].canCancel, isTrue);
+    expect(bodies[2].canManageSellers, isTrue);
+    expect(bodies[2].canManageEvents, isTrue);
+    for (final body in bodies) {
+      expect(body.canBank, isTrue);
+      expect(body.canSeeHistory, isFalse);
+    }
+  });
+
 }

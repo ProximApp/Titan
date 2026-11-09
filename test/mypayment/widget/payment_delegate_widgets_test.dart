@@ -436,6 +436,34 @@ void main() {
       expect(find.byType(ConfirmButton), findsOneWidget);
     });
 
+    testWidgets('a request that runs out while open refuses the tap', (
+      tester,
+    ) async {
+      stubWallet(scaffold, 5000);
+      var confirmed = 0;
+      await pumpModal(
+        tester,
+        PaimentDelegateModal(
+          itemTitle: 'Cafe des Arts',
+          itemDescription: '2 cafe',
+          itemPrice: 1250,
+          itemExpirationDate: DateTime.now().add(const Duration(seconds: 2)),
+          onConfirm: () => confirmed++,
+        ),
+      );
+      expect(find.byType(CountdownTimer), findsOneWidget);
+
+      // The countdown reaches zero while the sheet is still up: the modal
+      // marks itself expired, and a later tap must not confirm anything.
+      await tester.pump(const Duration(seconds: 3));
+      await tester.tap(find.text('Confirm Payment'), warnIfMissed: false);
+      await tester.pump();
+
+      expect(confirmed, 0);
+      expect(find.byType(FeedbackOverlay), findsNothing);
+      expect(find.text('Confirm your purchase'), findsOneWidget);
+    });
+
     testWidgets('confirming runs loading then success then pops', (
       tester,
     ) async {
@@ -581,6 +609,26 @@ void main() {
       );
       expect(find.text('Refused'), findsOneWidget);
     });
+
+    testWidgets(
+      'a status the client does not know reads as pending, not blank',
+      (tester) async {
+        // The generated client answers `swaggerGeneratedUnknown` for a status
+        // this build has never heard of — a backend that ships a fourth state
+        // before this app does. The modal must still draw a status line (the
+        // pending one) rather than an empty chip, which is why the enum member
+        // shares the `proposed` arm.
+        await pumpModal(
+          tester,
+          RequestDetailModal(
+            request: requestWith(status: RequestStatus.swaggerGeneratedUnknown),
+          ),
+        );
+
+        expect(find.text('Pending'), findsOneWidget);
+        expect(find.text('Request details'), findsOneWidget);
+      },
+    );
 
     testWidgets('close dismisses the modal', (tester) async {
       await pumpModal(

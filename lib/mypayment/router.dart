@@ -147,6 +147,9 @@ class PaymentRouter {
       ),
       QRoute(
         path: PaymentRouter.fund,
+        // Web-only: this builder instantiates the WebView page, whose
+        // controller needs a `WebViewPlatform` (see web_view_modal.dart);
+        // `web_view_modal_widget_test.dart` walks this route with a fake.
         builder: () => fund_page.WebViewExample(),
         middleware: [DeferredLoadingMiddleware(fund_page.loadLibrary)],
       ),

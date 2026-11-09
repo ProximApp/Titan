@@ -150,4 +150,61 @@ void main() {
     expect(selected.map((t) => t.id), containsAll(['h1', 'h2']));
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('touching a slice narrows the selection to that store', (
+    tester,
+  ) async {
+    final bde = history(id: 'h1', total: 1500);
+    final alice = history(
+      id: 'h2',
+      wallet: 'Alice',
+      total: 500,
+      type: enums.HistoryType.directTransfer,
+    );
+    final container = containerWith([bde, alice]);
+
+    await scaffold.pumpWidgetApp(
+      tester,
+      TransactionChart(
+        currentMonth: month,
+        transactionPerStore: {
+          'BDE': [bde],
+          'Alice': [alice],
+        },
+      ),
+      container,
+      locale: const Locale('en', 'US'),
+      appFonts: true,
+    );
+
+    final chart = find.byType(PieChart);
+    final center = tester.getCenter(chart);
+
+    // The ring runs from the 60px hole out to 100px, and the slices start at
+    // 12 o'clock: a touch 75px out at 45 degrees is inside BDE's 270-degree
+    // slice (the exact top is the seam, and seams answer "no section").
+    expect(
+      tester.widget<PieChart>(chart).data.sections.every((s) => s.radius == 40),
+      isTrue,
+      reason: 'nothing is selected before the touch',
+    );
+    await tester.tapAt(center + const Offset(53, -53));
+    await tester.pumpAndSettle();
+
+    final selected = container.read(selectedTransactionsProvider(month));
+    expect(selected, isNotEmpty);
+    expect(selected, hasLength(1), reason: 'one store, not the whole month');
+    expect(selected.single.id, anyOf('h1', 'h2'));
+    // The touched slice is drawn 10px further out.
+    expect(
+      tester
+          .widget<PieChart>(chart)
+          .data
+          .sections
+          .where((s) => s.radius == 50),
+      hasLength(1),
+    );
+    expect(tester.takeException(), isNull);
+  });
+
 }

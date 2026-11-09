@@ -57,8 +57,6 @@ class InvoiceCard extends HookConsumerWidget {
             title: invoice.reference,
             child: Column(
               children: [
-                // The share sheet is a popover on iPad, so it has to be anchored
-                // to the button rather than to the whole modal.
                 Builder(
                   builder: (buttonContext) => Button(
                     text: localizeWithContext.paiementDownload,

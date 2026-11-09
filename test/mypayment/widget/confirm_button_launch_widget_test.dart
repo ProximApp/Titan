@@ -2,15 +2,18 @@ import 'dart:ui' as ui;
 
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/mypayment/providers/fund_amount_provider.dart';
+import 'package:titan/mypayment/providers/funding_url_provider.dart';
 import 'package:titan/mypayment/ui/pages/fund_page/confirm_button.dart';
 import 'package:titan/mypayment/ui/pages/fund_page/fund_page.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../mypayment_fixtures.dart';
 
 /// The CONFIRM path of the top-up sheet, which the existing fund tests never
 /// take: they all stop at a refused amount (missing TOS, missing wallet, over
@@ -128,4 +131,48 @@ void main() {
     expect(container.read(fundAmountProvider), '10');
     await scaffold.drainToast(tester);
   });
+
+  testWidgets(
+    'a transfer still in flight draws no hand-off and drops nothing',
+    (tester) async {
+      stubLoadedWallet();
+      // The button's `loading` arm. `getFundingUrl` always answers a settled
+      // AsyncValue, so this is the arm no repository reply can produce — and it
+      // is exactly the state the user stands in for the round-trip: the amount
+      // must stay on screen (they may still retry), no browser may be opened
+      // for a URL that does not exist yet, and no second transfer may be
+      // created.
+      final container = scaffold.makeContainer(
+        providerOverrides: [
+          fundingUrlProvider.overrideWith(
+            () => FakeFundingUrlNotifier(const AsyncValue.loading()),
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+      await scaffold.pumpWidgetApp(
+        tester,
+        const Scaffold(body: FundPage()),
+        container,
+        surface: const ui.Size(560, 1000),
+      );
+      await settle(tester, frames: 20);
+
+      for (final key in '10'.split('')) {
+        await tester.tap(find.text(key).last, warnIfMissed: false);
+        await tester.pump();
+      }
+      await tester.tap(find.byType(ConfirmFundButton), warnIfMissed: false);
+      await settle(tester, frames: 20);
+
+      verifyNever(
+        () => scaffold.repository.mypaymentTransferInitPost(
+          body: any(named: 'body'),
+        ),
+      );
+      expect(transfers, isEmpty);
+      expect(container.read(fundAmountProvider), '10');
+      expect(find.byType(ConfirmFundButton), findsOneWidget);
+    },
+  );
 }

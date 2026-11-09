@@ -159,13 +159,6 @@ class ConfirmFundButton extends ConsumerWidget {
         value.when(
           data: (fundingUrl) async {
             if (isWebPlatform) {
-              // The sheet stays up while HelloAsso's popup is open. Popping it
-              // here, before the popup answered, is what broke the web flow:
-              // the callback below fires later, on a deactivated element, so
-              // its success/cancelled toast could not be built (displayToast
-              // resolves its strings from that context) and its
-              // `pop(context, code)` was popping a dead element. It now pops
-              // once, with the code, when the popup answers.
               helloAssoCallback(fundingUrl.url);
               fundAmountNotifier.setFundAmount("");
               return;

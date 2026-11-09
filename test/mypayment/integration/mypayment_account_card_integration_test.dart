@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/generated/openapi.enums.swagger.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/mypayment/providers/device_provider.dart';
 import 'package:titan/mypayment/providers/pay_amount_provider.dart';
 import 'package:titan/mypayment/ui/pages/main_page/account_card/device_dialog_box.dart';
 import 'package:titan/mypayment/ui/pages/pay_page/pay_page.dart';
@@ -35,18 +36,19 @@ void main() {
 
   /// The pay button is the QR icon, the devices button the phone icon; both
   /// are `WaitingButton`s whose tap target is that icon alone.
-  Finder iconButton(HeroIcons icon) => find.byWidgetPredicate(
-    (w) => w is HeroIcon && w.icon == icon,
-  );
+  Finder iconButton(HeroIcons icon) =>
+      find.byWidgetPredicate((w) => w is HeroIcon && w.icon == icon);
 
   Future<ProviderContainer> bootPaymentPage(
     WidgetTester tester, {
     String? deviceKeyId = 'device-1',
+    List<dynamic> providerOverrides = const [],
   }) async {
     stubMainPage(scaffold);
     final container = scaffold.makeContainer(
       user: CoreUser.empty().copyWith(id: 'user-1'),
       deviceKeyId: deviceKeyId,
+      providerOverrides: providerOverrides,
     );
     addTearDown(container.dispose);
     await scaffold.pumpApp(tester, container, initialPath: '/mypayment');
@@ -68,26 +70,40 @@ void main() {
     expect(QR.currentPath, '/mypayment/devices');
   });
 
-  testWidgets('an active device opens the pay sheet and closing it clears the amount', (
+  testWidgets('the request-history button routes to the activity page', (
     tester,
   ) async {
-    final container = await bootPaymentPage(tester);
-    stubWalletDevice(scaffold, WalletDeviceStatus.active);
-    container.read(payAmountProvider.notifier).setPayAmount('12');
-    await settle(tester, frames: 4);
+    stubUsedRequests(scaffold, requests: []);
+    await bootPaymentPage(tester);
 
-    await tester.tap(iconButton(HeroIcons.qrCode), warnIfMissed: false);
+    await tester.tap(iconButton(HeroIcons.listBullet), warnIfMissed: false);
     await settle(tester, frames: 20);
 
-    expect(find.byType(PayPage), findsOneWidget);
-
-    // The sheet's onCloseCallback clears the typed amount, so a reopened
-    // sheet never starts from the previous payment's total.
-    await tester.tapAt(const Offset(6, 6));
-    await settle(tester, frames: 20);
-
-    expect(container.read(payAmountProvider), '');
+    expect(QR.currentPath, '/mypayment/requestHistory');
+    expect(find.text('Activities'), findsOneWidget);
   });
+
+  testWidgets(
+    'an active device opens the pay sheet and closing it clears the amount',
+    (tester) async {
+      final container = await bootPaymentPage(tester);
+      stubWalletDevice(scaffold, WalletDeviceStatus.active);
+      container.read(payAmountProvider.notifier).setPayAmount('12');
+      await settle(tester, frames: 4);
+
+      await tester.tap(iconButton(HeroIcons.qrCode), warnIfMissed: false);
+      await settle(tester, frames: 20);
+
+      expect(find.byType(PayPage), findsOneWidget);
+
+      // The sheet's onCloseCallback clears the typed amount, so a reopened
+      // sheet never starts from the previous payment's total.
+      await tester.tapAt(const Offset(6, 6));
+      await settle(tester, frames: 20);
+
+      expect(container.read(payAmountProvider), '');
+    },
+  );
 
   testWidgets('an inactive device explains itself before any payment', (
     tester,
@@ -139,5 +155,30 @@ void main() {
     await settle(tester, frames: 20);
 
     expect(find.byType(DeviceDialogBox), findsNothing);
+  });
+
+  testWidgets('a device read that never answers opens nothing', (tester) async {
+    // The card's `loading` arm: `getDevice` always answers a settled
+    // AsyncValue (data for every HTTP reply, a throw for a transport
+    // failure), so no stubbed endpoint can hold it pending. It is what the
+    // user sees during the round-trip, though — and the arm must stay silent
+    // rather than guess a device state: no pay sheet, no "not activated"
+    // dialog, and no error toast for a read that has not failed.
+    await bootPaymentPage(
+      tester,
+      providerOverrides: [
+        deviceProvider.overrideWith(
+          () => FakeDeviceNotifier(const AsyncValue.loading()),
+        ),
+      ],
+    );
+
+    await tester.tap(iconButton(HeroIcons.qrCode), warnIfMissed: false);
+    await settle(tester, frames: 20);
+
+    expect(find.byType(PayPage), findsNothing);
+    expect(find.byType(DeviceDialogBox), findsNothing);
+    expect(anyVisibleTextContains(tester, 'Error'), isFalse);
+    expect(QR.currentPath, '/mypayment');
   });
 }

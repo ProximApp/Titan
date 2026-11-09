@@ -7,13 +7,6 @@ import 'package:titan/tools/repository/repository.dart';
 
 import '../../shared/mock_openapi.dart';
 
-// The invoices endpoints' load calls are the only ones this file exercises
-// through build(); everything else drives a notifier already in data.
-class _InvoiceListNotifier extends InvoiceListNotifier {
-  @override
-  AsyncValue<List<Invoice>> build() => const AsyncValue.loading();
-}
-
 void main() {
   group('InvoiceListNotifier', () {
     late MockOpenapi repo;
@@ -30,10 +23,7 @@ void main() {
     setUp(() {
       repo = MockOpenapi();
       container = ProviderContainer(
-        overrides: [
-          repositoryProvider.overrideWithValue(repo),
-          invoiceListProvider.overrideWith(_InvoiceListNotifier.new),
-        ],
+        overrides: [repositoryProvider.overrideWithValue(repo)],
       );
       notifier = container.read(invoiceListProvider.notifier);
       // Every CRUD arm runs through handleState, which needs data state.
@@ -187,5 +177,45 @@ void main() {
       expect(ok, isTrue);
       expect(notifier.state.value, isEmpty);
     });
+    test('a fresh notifier starts loading until a page is asked for', () {
+      // The real build() (no override): the pages render their spinner from
+      // this state before the first request lands.
+      final fresh = ProviderContainer(
+        overrides: [repositoryProvider.overrideWithValue(repo)],
+      );
+      addTearDown(fresh.dispose);
+
+      expect(fresh.read(invoiceListProvider), const AsyncValue<List<Invoice>>.loading());
+    });
+
+    test('getStructureInvoices passes the date window as day strings', () async {
+      when(
+        () => repo.mypaymentInvoicesStructuresStructureIdGet(
+          structureId: 'structure-1',
+          page: 1,
+          pageSize: 20,
+          startDate: '2026-01-05',
+          endDate: '2026-02-06',
+        ),
+      ).thenAnswer((_) async => repo.okList<Invoice>());
+
+      final result = await notifier.getStructureInvoices(
+        'structure-1',
+        startDate: DateTime(2026, 1, 5, 12, 30),
+        endDate: DateTime(2026, 2, 6, 18),
+      );
+
+      expect(result.hasError, isFalse);
+      verify(
+        () => repo.mypaymentInvoicesStructuresStructureIdGet(
+          structureId: 'structure-1',
+          page: 1,
+          pageSize: 20,
+          startDate: '2026-01-05',
+          endDate: '2026-02-06',
+        ),
+      ).called(1);
+    });
+
   });
 }
