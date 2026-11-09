@@ -11,17 +11,23 @@ import '../../shared/app_scaffold.dart';
 ///  - `router.dart`'s two `kIsWeb && ...` branches: a host test never runs on
 ///    web, so the web sign-in page and its deferred library are unreachable —
 ///    `login_web_panels_widget_test.dart` mounts those widgets directly
-///    instead of pretending the route took them;
-///  - `app_sign_in.dart`'s `renderedPath != root && != AppRouter.root` early
-///    return, which needs the navigator to have SHOWN another path and then
-///    come back to `/login` — qlevar runs one deep link per isolate
-///    (convention 19), so no single-link test can produce that history;
-///  - `controller.reverse()` in the template callback and the empty
-///    `loading: () {}` arm of the token `.when`: both fire only mid-transition
-///    (intro finished, token still in flight), which the shell's fakes settle
-///    past;
-///  - `background_painter.dart`'s `points.length < 3` guard: the painter's own
-///    point lists are literals of four or more.
+///    instead of pretending the route took them, and
+///    `login_web_redirect_integration_test.dart` drives the page's hand-off;
+///  - `app_sign_in.dart`'s `controller.reverse()` in the template callback:
+///    `LoginTemplate` animates nothing on its own (`useAnimationController`
+///    starts at 0 and no call site forwards it), and the only controller that
+///    could arrive completed — `backgroundAnimationProvider` — is never set
+///    anywhere in `lib/` (its sole writer, `setController`, has no caller), so
+///    `isCompleted` is always false;
+///  - the empty `loading: () {}` arm of the token `.when` in both sign-in
+///    pages: `getTokenFromRequest()` sets `loading` and then, in the same
+///    awaited call, overwrites it with `data` or `error` before returning, so
+///    the `.when` that runs after the `await` can never observe loading (its
+///    one early return leaves the state loading only when the notifier's own
+///    ref is gone, and then the widget reading it is gone too);
+///  - `background_painter.dart`'s `points.length < 3` guard: the method is
+///    private and all four call sites pass literal lists of three or more
+///    points.
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

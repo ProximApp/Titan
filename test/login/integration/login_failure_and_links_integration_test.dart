@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart' show AsyncError;
+import 'package:flutter_riverpod/flutter_riverpod.dart'
+    show AsyncError, AsyncLoading;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:titan/auth/repository/auth_repository.dart';
 import 'package:titan/auth/providers/openid_provider.dart';
@@ -71,6 +74,61 @@ void main() {
     // The failure toast is armed with an auto-close timer: unmount the tree
     // and pump the toast out (convention 21), or the binding reports a
     // pending Timer after the test.
+    await scaffold.unmountApp(tester);
+    await scaffold.drainToast(tester);
+  });
+
+  testWidgets('a sign-in that never answers keeps the button on loading', (
+    tester,
+  ) async {
+    // `app_sign_in.dart:146` is the button's `loading: () {}` arm: the form
+    // only takes it while an exchange is in flight, so the shell answers with
+    // a future that never completes. The arm itself is dark in lcov (an empty
+    // closure has no instructions); this test is what pins the state that
+    // selects it.
+    final container = scaffold.makeLoggedOutContainer(
+      authRepository: AuthRepository(openIdRepository: scaffold.repository),
+    );
+    addTearDown(container.dispose);
+
+    final pending = Completer<Map<String, dynamic>?>();
+    final binding = TestDefaultBinaryMessengerBinding.instance;
+    binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      appAuthChannel,
+      (call) => pending.future,
+    );
+    addTearDown(
+      () => binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        appAuthChannel,
+        null,
+      ),
+    );
+
+    await scaffold.pumpApp(
+      tester,
+      container,
+      initialPath: '/login',
+      pumpAndSettle: false,
+    );
+
+    // Let the entry animation finish: the template's callback (line 79)
+    // reverses it once it is complete, which only happens if the suite pumps
+    // past its full duration.
+    for (var i = 0; i < 40; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    expect(tester.takeException(), isNull);
+
+    await tester.tap(find.text('Sign in'));
+    await settle(tester, frames: 6);
+
+    expect(container.read(authTokenProvider), isA<AsyncLoading<dynamic>>());
+    expect(find.text('Sign in'), findsOneWidget);
+
+    // Let the exchange collapse before unmounting: the button's builder reads
+    // `ref` after its await, which is illegal once the tree is gone.
+    pending.complete(null);
+    await settle(tester, frames: 10);
     await scaffold.unmountApp(tester);
     await scaffold.drainToast(tester);
   });

@@ -28,6 +28,29 @@ import '../../shared/app_scaffold.dart';
 /// is pinned as its own test rather than worked around, because the workaround
 /// (adding `--dart-define=SCHOOL_NAME=` to the test command) would make the
 /// suite pass on a configuration CI never runs.
+///
+/// Seven login lines stay dark, none of them untested behaviour:
+///
+/// * `router.dart:19` and `:25` are the true arms of `kIsWeb && …` — the
+///   `WebSignIn` builder and `web_sign_in.loadLibrary`. `kIsWeb` is a
+///   compile-time constant that is false for the VM the suite runs on, so no
+///   test build can take them, and `web_sign_in.dart:7` (its constructor) is
+///   dark for the same reason: nothing instantiates the widget here.
+/// * `app_sign_in.dart:79` is `controller.reverse()` inside the template
+///   callback, and it is dead: the controller is completed only if something
+///   forwards it, and `AnimationNotifier.setController` / `toggle()` (the only
+///   writers of `backgroundAnimationProvider`) are called from nowhere in
+///   `lib/`, so the template always builds a fresh controller that never
+///   starts.
+/// * `app_sign_in.dart:146` and `left_panel.dart:146` are `loading: () {}`
+///   arms with empty bodies — the arm is what the button renders while an
+///   exchange is in flight (`login_failure_and_links_integration_test.dart`
+///   asserts exactly that state), but an empty closure compiles to no
+///   instructions, so lcov has nothing to attribute.
+/// * `background_painter.dart:156` is the `UnsupportedError` inside the
+///   private `_addPointsToPath`; its only caller is `paint`, which always
+///   passes the full control-point list.
+
 void main() {
   late IntegrationScaffold scaffold;
 
