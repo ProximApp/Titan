@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/purchases/providers/scanner_provider.dart';
 import 'package:titan/purchases/ui/pages/scan_page/ticket_card.dart'
     as purchases_scan_ticket;
 import 'package:titan/tools/exception.dart';
@@ -46,6 +48,31 @@ AppModulesCdrSchemasCdrTicket scannedTicket() =>
 /// zero widgets once the dialog is open, so the tag field never appears and
 /// with it neither the scanner `loading` arm nor the refused-validation toast
 /// behind Valider. Asserting them as no-ops would fake coverage.
+///
+/// `scanned.when(… loading: () {})` after the scan call is mounted instead of
+/// argued about. `SingleNotifierAPI.load` only ever assigns data or error and
+/// returns that same value, so the awaited `scanned` cannot be loading in
+/// production; the dialog reads the value `ScannerNotifier.scanTicket`
+/// answers, and that method is public and overridable. The last test overrides
+/// `scannerProvider` with a notifier whose `scanTicket` answers
+/// `AsyncLoading`, drives a real barcode through the fake platform, and
+/// observes: the scanned secret reached the notifier, and the arm announces
+/// nothing — no success toast, no error toast, the dialog unchanged.
+/// A scanner whose scan answers `AsyncLoading`: the one value the dialog's
+/// third `when` arm reacts to, and the one `load()` cannot return.
+class _LoadingScanNotifier extends ScannerNotifier {
+  @override
+  AsyncValue<AppModulesCdrSchemasCdrTicket> build() =>
+      const AsyncValue.loading();
+
+  @override
+  Future<AsyncValue<AppModulesCdrSchemasCdrTicket>> scanTicket(
+    String sellerId,
+    String productId,
+    String generatorId,
+  ) async => const AsyncValue.loading();
+}
+
 void main() {
   late IntegrationScaffold scaffold;
   late FakeMobileScannerPlatform fakePlatform;
@@ -336,5 +363,97 @@ void main() {
             ),
       );
     });
+  });
+
+  testWidgets('the pencil brings the tag field back after scanning', (
+    tester,
+  ) async {
+    stubScanFlow(scaffold);
+    await openScanDialog(tester);
+
+    // "Scanner" swaps the tag field for the scanner view...
+    await tester.tap(find.text('Scanner'));
+    await settle(tester, frames: 10);
+    expect(find.text('Ajouter un tag pour les scans'), findsNothing);
+
+    // ...and the pencil beside the tag row swaps it back, so the operator
+    // can fix a tag after having started the scanner.
+    await tester.tap(
+      find.byWidgetPredicate(
+        (widget) => widget is HeroIcon && widget.icon == HeroIcons.pencil,
+      ),
+    );
+    await settle(tester, frames: 6);
+    expect(find.text('Ajouter un tag pour les scans'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('a refused validation says so and keeps the scan', (
+    tester,
+  ) async {
+    stubScanFlow(scaffold);
+    await openScanDialog(tester);
+
+    // The dialog's Valider PATCHes the ticket; a refusal must not claim the
+    // scan went through. (The `loading:` arm of the same `when` is dead: the
+    // awaited value is the notifier's `update`, which answers AsyncData or
+    // AsyncError, so nothing can select it.)
+    when(
+      () => scaffold.repository
+          .cdrSellersSellerIdProductsProductIdTicketsGeneratorIdSecretPatch(
+            sellerId: any(named: 'sellerId'),
+            productId: any(named: 'productId'),
+            generatorId: any(named: 'generatorId'),
+            secret: any(named: 'secret'),
+            body: any(named: 'body'),
+          ),
+    ).thenAnswer((_) async => scaffold.repository.fail<void>(500));
+
+    await tester.enterText(find.byType(TextField), 'VIP');
+    await tester.tap(find.text('Scanner'));
+    await settle(tester, frames: 10);
+    fakePlatform.emitScan('secret-abc');
+    await settle(tester, frames: 12);
+    await revealInDialog(tester, find.text('Valider'));
+    await tester.tap(find.text('Valider'));
+    await settle(tester, frames: 12);
+
+    expect(find.text('Erreur lors de la validation'), findsOneWidget);
+    expect(find.text('Scan validé'), findsNothing);
+    await scaffold.drainToast(tester);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('a scan still in flight announces nothing', (tester) async {
+    stubScanFlow(scaffold);
+
+    final container = scaffold.makeContainer(
+      purchasesSellers: [seller()],
+      providerOverrides: [
+        scannerProvider.overrideWith(_LoadingScanNotifier.new),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    await scaffold.pumpApp(tester, container, initialPath: '/purchases/scan');
+    await tester.tap(find.text('BDE Bar'));
+    await settle(tester, frames: 6);
+    await tester.tap(find.textContaining('10 scans maximun'));
+    await settle(tester, frames: 10);
+
+    await tester.tap(find.text('Scanner'));
+    await settle(tester, frames: 10);
+
+    fakePlatform.emitScan('secret-abc');
+    await settle(tester, frames: 12);
+
+    // The scan reached the notifier through the real barcode callback...
+    expect(container.read(scannerProvider.notifier).secret, 'secret-abc');
+    // ...and an in-flight answer says nothing and resets nothing: neither the
+    // success toast nor the error one (which would print the exception).
+    expect(find.text('Scan validé'), findsNothing);
+    expect(find.textContaining('Exception'), findsNothing);
+    expect(find.text('Waiting for scan'), findsOneWidget);
+    expect(tester.takeException(), isNull);
   });
 }

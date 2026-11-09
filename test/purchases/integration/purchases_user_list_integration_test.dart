@@ -3,7 +3,9 @@ import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/purchases/providers/product_id_provider.dart';
+import 'package:titan/purchases/providers/tag_list_provider.dart';
 import 'package:titan/purchases/providers/ticket_id_provider.dart';
+import 'package:titan/purchases/ui/pages/user_list_page/user_list_page.dart';
 import 'package:titan/tools/ui/layouts/refresher.dart';
 
 import '../../shared/app_scaffold.dart';
@@ -16,9 +18,15 @@ CoreUserSimple scannedUser(String id, String firstname, String name) =>
 /// pull-to-refresh loads the tags, and a chip tap loads the tag's users.
 /// One router-pushing test per file (convention 19) — the remaining tests
 /// only assert on branches that need no navigation.
-/// Coverage note: the chip onTap fallbacks (productId/ticketId orElse) are
-/// unreachable — a chip only exists after tags load, and tags load only when
-/// both ids are set. The refresh fallback is covered by the no-ids test.
+/// Coverage note: the refresher's two id guards are `productId.maybeWhen`
+/// (walked by the no-ids drag below) and the INNER `ticketId.maybeWhen`, which
+/// needs a product id with no ticket id behind it. A drag cannot arm the
+/// Cupertino control in this harness (it springs back), so the test awaits the
+/// `onRefresh` closure the control is handed — the page's own public wiring —
+/// and asserts it asks for no tags.
+/// The two chip onTap fallbacks ARE reachable, and the last two tests walk
+/// them: tags are kept in a module provider while the ids live in their own,
+/// so a page entered after the ids were dropped still shows the chips.
 void main() {
   late IntegrationScaffold scaffold;
 
@@ -161,6 +169,130 @@ void main() {
     await settle(tester, frames: 8);
 
     // No tags were requested, so the loader state stands and nothing throws.
+    verifyNever(
+      () => scaffold.repository
+          .cdrSellersSellerIdProductsProductIdTagsGeneratorIdGet(
+            sellerId: any(named: 'sellerId'),
+            productId: any(named: 'productId'),
+            generatorId: any(named: 'generatorId'),
+          ),
+    );
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('a chip tapped without the ticket ids loads no users', (
+    tester,
+  ) async {
+    // Tags are loaded ONCE and kept in a module-level provider, while the two
+    // ids live in their own providers and are only set when the scan page
+    // hands them over. A user who scanned earlier and comes back to this page
+    // by its own route therefore sees the chips with no ids behind them: both
+    // nested `maybeWhen` fall through instead of asking for a tag's users.
+    stubTags(['VIP']);
+    final container = scaffold.makeContainer();
+    await container
+        .read(tagListProvider.notifier)
+        .loadTags('seller-1', 'prod-1', 'gen-1');
+    await scaffold.pumpApp(
+      tester,
+      container,
+      initialPath: '/purchases/user_list',
+      pumpAndSettle: false,
+    );
+    for (var i = 0; i < 15; i++) {
+      await tester.pump(const Duration(milliseconds: 80));
+    }
+    await settle(tester, frames: 8);
+
+    expect(find.text('VIP'), findsOneWidget);
+
+    await tester.tap(find.text('VIP'));
+    await settle(tester, frames: 10);
+
+    verifyNever(
+      () => scaffold.repository
+          .cdrSellersSellerIdProductsProductIdTicketsGeneratorIdListsTagGet(
+            sellerId: any(named: 'sellerId'),
+            productId: any(named: 'productId'),
+            generatorId: any(named: 'generatorId'),
+            tag: any(named: 'tag'),
+          ),
+    );
+    // The chip still turns selected: the fallback guards the request only.
+    expect(find.text('VIP'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('a chip tapped with a product but no ticket loads no users', (
+    tester,
+  ) async {
+    stubTags(['VIP']);
+    final container = scaffold.makeContainer();
+    await container
+        .read(tagListProvider.notifier)
+        .loadTags('seller-1', 'prod-1', 'gen-1');
+    // Only half the hand-over happened: the scan page sets the product id
+    // first, so the inner fallback (the ticket id) is the one that answers.
+    container.read(productIdProvider.notifier).setProductId('prod-1');
+    await scaffold.pumpApp(
+      tester,
+      container,
+      initialPath: '/purchases/user_list',
+      pumpAndSettle: false,
+    );
+    for (var i = 0; i < 15; i++) {
+      await tester.pump(const Duration(milliseconds: 80));
+    }
+    await settle(tester, frames: 8);
+
+    await tester.tap(find.text('VIP'));
+    await settle(tester, frames: 10);
+
+    verifyNever(
+      () => scaffold.repository
+          .cdrSellersSellerIdProductsProductIdTicketsGeneratorIdListsTagGet(
+            sellerId: any(named: 'sellerId'),
+            productId: any(named: 'productId'),
+            generatorId: any(named: 'generatorId'),
+            tag: any(named: 'tag'),
+          ),
+    );
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('a pull with a product but no ticket id reloads nothing', (
+    tester,
+  ) async {
+    stubTags(['VIP']);
+    final container = scaffold.makeContainer();
+
+    // Both ids are set by the scan page's list bullet, but nothing keeps them
+    // in step: a page rebuilt after only the product was chosen reaches the
+    // inner guard with no ticket id, and must not ask for tags without it.
+    container.read(productIdProvider.notifier).setProductId('prod-1');
+    await scaffold.pumpApp(
+      tester,
+      container,
+      initialPath: '/purchases/user_list',
+      pumpAndSettle: false,
+    );
+    for (var i = 0; i < 15; i++) {
+      await tester.pump(const Duration(milliseconds: 80));
+    }
+    await settle(tester, frames: 8);
+
+    final refresher = tester.widget<Refresher>(
+      find.descendant(
+        of: find.byType(UserListPage),
+        matching: find.byType(Refresher),
+      ),
+    );
+    await tester.runAsync(() async {
+      await refresher.onRefresh();
+    });
+    await settle(tester, frames: 8);
+
+    // The pull fell through both id guards instead of asking for the tags.
     verifyNever(
       () => scaffold.repository
           .cdrSellersSellerIdProductsProductIdTagsGeneratorIdGet(
