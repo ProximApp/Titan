@@ -24,6 +24,14 @@ import '../loan_fixtures.dart';
 ///
 /// loan_admin_integration_test covers the admin shell render — nothing
 /// overlaps. The steppers' plus icon is the only one on the page.
+///
+/// `item_bar.dart:192-193` stay dark: that `else` clears the end date and the
+/// caution when nothing is selected, but it sits in the plus handler AFTER
+/// `selectedItemsNotifier.set(index, currentValue + 1)`, and `selected` is
+/// computed from that same map — the increment it just made guarantees a
+/// non-zero entry, so `selected.isNotEmpty` is true on every path through the
+/// handler. Driving the stepper (these tests do) is the closest a mount gets;
+/// the branch would need an index `set` that silently refuses to land.
 void main() {
   late IntegrationScaffold scaffold;
 

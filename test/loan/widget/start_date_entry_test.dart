@@ -139,4 +139,35 @@ void main() {
     expect(container.read(initialDateProvider).day, picked.day);
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('a seeded start is parsed into the picker initial date', (
+    tester,
+  ) async {
+    // The other branch of `initialDate:` — reached when the form is opened on
+    // an existing loan — runs the picker shape back through
+    // `processDateBack`, which used to throw for every locale.
+    final container = containerWith([0, 0]);
+    container.read(startProvider.notifier).setStart('Nov 15, 2026');
+
+    await scaffold.pumpWidgetApp(
+      tester,
+      const Scaffold(body: StartDateEntry()),
+      container,
+      locale: const Locale('en', 'US'),
+      appFonts: true,
+    );
+
+    // The row echoes the seeded string, and the parse did not throw.
+    expect(find.text('Nov 15, 2026'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+
+    // Opening the picker with that seed proves the initialDate expression
+    // evaluated: the dialog is up.
+    await tester.tap(find.byType(DateEntry));
+    await tester.pumpAndSettle();
+    expect(find.byType(DatePickerDialog), findsOneWidget);
+    await tester.tap(find.text('Cancel'));
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+  });
 }

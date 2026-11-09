@@ -15,8 +15,8 @@ import '../loan_fixtures.dart';
 /// The in-page interactions of `loaners_items` that no mount test reaches:
 /// the search bar's filter-and-clear round trip (which swaps the loaners
 /// map entry for a filtered copy and restores the full list) and the delete
-/// confirmation dialog with its real DELETE round trip. No navigation, so
-/// the whole file rides on one deep link.
+/// confirmation dialog with its real DELETE round trip — accepted and
+/// refused. No navigation, so the whole file rides on one deep link.
 void main() {
   late IntegrationScaffold scaffold;
 
@@ -171,5 +171,63 @@ void main() {
     expect(find.textContaining('Perceuse'), findsNothing);
     expect(find.textContaining('Tente 2 places'), findsOneWidget);
     await scaffold.drainToast(tester);
+  });
+
+  testWidgets('a refused delete says so and keeps the card', (tester) async {
+    // `deleteItem` answers false on a rejected response: the card must stay
+    // and the error toast must be the one that appears, not the success one.
+    final container = scaffold.makeContainer(myLoaners: [loaner]);
+    addTearDown(container.dispose);
+    scaffold.setWideSurface(tester);
+    when(() => scaffold.repository.loansUsersMeLoanersGet())
+        .thenAnswer((_) async => chopperListResponse([loaner]));
+    when(
+      () => scaffold.repository.loansLoanersLoanerIdItemsGet(
+        loanerId: any(named: 'loanerId'),
+      ),
+    ).thenAnswer((_) async => chopperListResponse([tent, drill]));
+    when(
+      () => scaffold.repository.loansLoanersLoanerIdLoansGet(
+        loanerId: any(named: 'loanerId'),
+        returned: any(named: 'returned'),
+      ),
+    ).thenAnswer((_) async => chopperListResponse(<Loan>[]));
+    when(
+      () => scaffold.repository.loansLoanersLoanerIdItemsItemIdDelete(
+        loanerId: any(named: 'loanerId'),
+        itemId: any(named: 'itemId'),
+      ),
+    ).thenAnswer((_) async => scaffold.repository.fail<void>(500));
+
+    await scaffold.pumpApp(
+      tester,
+      container,
+      initialPath: '${LoanRouter.root}${LoanRouter.admin}',
+      pumpAndSettle: false,
+    );
+    await settle(tester, frames: 40);
+
+    final drillCard = find.ancestor(
+      of: find.textContaining('Perceuse'),
+      matching: find.byType(ItemCard),
+    );
+    await tester.tap(
+      find.descendant(of: drillCard, matching: heroIcon(HeroIcons.trash)),
+    );
+    await settle(tester, frames: 4);
+    await tester.tap(
+      find.descendant(
+        of: find.byType(CustomDialogBox),
+        matching: find.text('Confirm'),
+      ),
+    );
+    await settle(tester, frames: 10);
+
+    expect(find.text('Error while deleting'), findsOneWidget);
+    expect(find.text('Object deleted'), findsNothing);
+    // The list was not rewritten: the card is still on screen.
+    expect(find.textContaining('Perceuse'), findsOneWidget);
+    await scaffold.drainToast(tester);
+    expect(tester.takeException(), isNull);
   });
 }
