@@ -100,26 +100,30 @@ void main() {
       expect(saved, isEmpty);
     });
 
-    test('reorderFavorites follows ReorderableListView semantics', () async {
+    test('reorderFavorites lands the item in the slot it is given', () async {
       final notifier = container.read(favoritesNameProvider.notifier);
       notifier.toggleFavorite('a');
       notifier.toggleFavorite('b');
       notifier.toggleFavorite('c');
       expect(container.read(favoritesNameProvider), ['a', 'b', 'c']);
 
-      // Dragging index 0 to index 2 lands it at index 1 (newIndex -= 1).
+      // The index arrives from `onReorderItem`, which already accounts for
+      // the dragged item leaving its own slot: index 0 into slot 2 is "after
+      // b", so `a` lands last. (The list no longer re-corrects it — a
+      // correction there made a one-slot downward drag a no-op and the strip
+      // sprang back.)
       notifier.reorderFavorites(0, 2);
-      expect(container.read(favoritesNameProvider), ['b', 'a', 'c']);
+      expect(container.read(favoritesNameProvider), ['b', 'c', 'a']);
 
-      // Dragging downwards without adjustment.
+      // Dragging upwards is the mirror image.
       notifier.reorderFavorites(2, 0);
-      expect(container.read(favoritesNameProvider), ['c', 'b', 'a']);
+      expect(container.read(favoritesNameProvider), ['a', 'b', 'c']);
 
       await Future<void>.delayed(Duration.zero);
       final saved = (await SharedPreferences.getInstance()).getStringList(
         'favorites',
       );
-      expect(saved, ['c', 'b', 'a']);
+      expect(saved, ['a', 'b', 'c']);
     });
 
     test('reorderFavorites clamps out-of-range indices into a crash (insert range)', () {

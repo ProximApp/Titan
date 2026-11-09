@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -122,16 +123,9 @@ void main() {
       expect(CentralisationRouter.module.getDescription(context), isNotEmpty);
       expect(CentralisationRouter.module.root, CentralisationRouter.root);
 
-      // NOT attempted here: dragging a LikedCard to reorder. The items carry
-      // their `ReorderableDelayedDragStartListener`, but under the test
-      // binding the long-press drag never engages (started with
-      // `startGesture` + a 600ms hold + `moveTo`, the same recipe as
-      // Flutter's own reorderable tests, the state never moves — three
-      // attempts, no swap and no proxyDecorator build). That leaves exactly
-      // two lines uncovered in the module: `main_page.dart`'s proxyDecorator
-      // closure, which only executes on an active drag frame. The reorder
-      // PIPELINE itself is covered: `reorderFavorites` by its unit test, the
-      // `onReorderItem:` wiring by the row above being present.
+      // The drag that reorders the strip has its own test below: it starts on
+      // the platform's drag handle, because a long press on the CARD opens
+      // the link details instead.
     },
   );
 
@@ -153,5 +147,48 @@ void main() {
     expect(find.byType(ModuleCard), findsNWidgets(2));
     expect(find.text('Billets'), findsOneWidget);
     expect(find.text('Print'), findsOneWidget);
+  });
+
+  testWidgets('dragging a favourite by its handle reorders the strip', (
+    tester,
+  ) async {
+    // The list only builds drag handles on a desktop platform: on a phone the
+    // whole card is the long-press target, and its own long press opens the
+    // link details first. Desktop is therefore where a reorder starts, and a
+    // desktop build is what this test renders.
+    debugDefaultTargetPlatformOverride = TargetPlatform.macOS;
+
+    await pumpCentralisation(tester, favorites: ['Billets', 'Print']);
+    expect(find.byType(LikedCard), findsNWidgets(2));
+    expect(find.byIcon(Icons.drag_handle), findsNWidgets(2));
+
+    // Drag the first favourite past the second one's midpoint. Each step needs
+    // its own frame: the list only re-evaluates the drop slot on a drag update
+    // frame, and a single large move coalesces into one.
+    final gesture = await tester.startGesture(
+      tester.getCenter(find.byIcon(Icons.drag_handle).first),
+    );
+    await tester.pump();
+    for (var i = 0; i < 8; i++) {
+      await gesture.moveBy(const Offset(20, 0));
+      await tester.pump(const Duration(milliseconds: 16));
+    }
+    await tester.pumpAndSettle();
+    await gesture.up();
+    await tester.pumpAndSettle();
+
+    // The strip followed the drag: the second favourite is now first, and the
+    // persisted order moved with it.
+    expect(
+      tester
+          .widgetList<LikedCard>(find.byType(LikedCard))
+          .map((card) => card.module.name),
+      ['Print', 'Billets'],
+    );
+    expect(tester.takeException(), isNull);
+
+    // Foundation's debug hooks are verified after the body, so the platform
+    // override has to be handed back before the test ends.
+    debugDefaultTargetPlatformOverride = null;
   });
 }
