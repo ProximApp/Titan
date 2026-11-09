@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/admin/providers/all_group_list_provider.dart';
+import 'package:titan/admin/providers/user_invitation_provider.dart';
 import 'package:titan/admin/ui/pages/users_management_page/users_management_page.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tools/repository/repository.dart';
@@ -23,6 +24,32 @@ import '../admin_fixtures.dart';
 /// The page pops the sheet it lives in BEFORE opening its own modal (that is
 /// the production wiring in `AdminMainPage`), so these tests mount it inside
 /// a bottom sheet exactly like the main page does.
+///
+/// `value.when(… loading: () {})` after `createUsers` was recorded as dark
+/// because the notifier returns the `AsyncValue` it settled to — `load()` only
+/// assigns data or error and hands that same value back. What the form reads
+/// is `UserInvitationNotifier.createUsers`, which is public and overridable, so
+/// the arm is mounted: `userInvitationProvider` is overridden with a notifier
+/// whose `createUsers` answers `AsyncLoading`, a real CSV is picked, Invite is
+/// pressed, and the observed state is that the form stays open with no toast
+/// and no dialog — the arm announces nothing.
+///
+/// `users_management_page.dart:49` is the other dark line: the danger modal's
+/// confirm `onPressed: () {}`. `Button` wires `onTap: disabled == true ? null :
+/// onPressed`, so with `disabled: true` the closure is built and never called;
+/// the delete test taps it and asserts nothing happens at all.
+/// An invitation notifier whose batch answers `AsyncLoading`: the one value
+/// the form's third `when` arm reacts to, and the one `load()` cannot return.
+class _LoadingInviteNotifier extends UserInvitationNotifier {
+  @override
+  AsyncValue<BatchResult> build() => const AsyncValue.loading();
+
+  @override
+  Future<AsyncValue<BatchResult>> createUsers(
+    List<CoreBatchUserCreateRequest> mailList,
+  ) async => const AsyncValue.loading();
+}
+
 void main() {
   late IntegrationScaffold scaffold;
   late FilePickerPlatform realPicker;
@@ -35,11 +62,15 @@ void main() {
 
   tearDown(() => FilePickerPlatform.instance = realPicker);
 
-  ProviderContainer containerWith({List<CoreGroupSimple> groups = const []}) {
+  ProviderContainer containerWith({
+    List<CoreGroupSimple> groups = const [],
+    List<dynamic> providerOverrides = const [],
+  }) {
     final container = ProviderContainer(
       overrides: [
         repositoryProvider.overrideWithValue(scaffold.repository),
         allGroupListProvider.overrideWith(() => GroupListFake(groups)),
+        ...providerOverrides,
       ],
     );
     addTearDown(container.dispose);
@@ -127,6 +158,13 @@ void main() {
       find.widgetWithText(Button, 'Delete'),
     );
     expect(confirm.disabled, isTrue);
+
+    // Tapping it reaches nothing: `Button` hands the gesture a null `onTap`
+    // when it is disabled, so the handler the modal declares never runs and
+    // the modal stays exactly where it is.
+    await tester.tap(find.widgetWithText(Button, 'Delete'));
+    await tester.pumpAndSettle();
+    expect(find.text('Delete users'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
@@ -264,6 +302,57 @@ void main() {
     // (that is what the pre-dismiss assertion above pins); this is the
     // dialog widget's double-pop, on screen.
     expect(find.text('Invite users'), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('a failed batch reports the error and keeps the form', (
+    tester,
+  ) async {
+    when(
+      () =>
+          scaffold.repository.usersBatchCreationPost(body: any(named: 'body')),
+    ).thenAnswer((_) async => throw Exception('boom'));
+
+    fakePick('ada@lovelace.fr\n');
+    final container = containerWith();
+    await openInviteForm(tester, container);
+
+    await tester.tap(find.text('Import a list'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Invite'));
+    await tester.pumpAndSettle();
+
+    // The error arm reports the thrown error verbatim and does not pop: only
+    // a clean batch closes the form. (`value.when`'s `loading:` arm beside it
+    // is not reachable from `load(...)`, which answers data or error — the
+    // last test mounts it through the notifier instead.)
+    expect(find.textContaining('boom'), findsOneWidget);
+    expect(find.text('Invite users'), findsOneWidget);
+
+    await scaffold.drainToast(tester);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('a batch still in flight announces nothing', (tester) async {
+    fakePick('ada@lovelace.fr\n');
+    final container = containerWith(
+      providerOverrides: [
+        userInvitationProvider.overrideWith(_LoadingInviteNotifier.new),
+      ],
+    );
+    await openInviteForm(tester, container);
+
+    await tester.tap(find.text('Import a list'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Invite'));
+    await tester.pumpAndSettle();
+
+    // Nothing to report and nothing to close: no success toast, no per-email
+    // dialog, no error, and the form is still up.
+    expect(find.text('Invite users'), findsOneWidget);
+    expect(find.text('Invited users'), findsNothing);
+    expect(find.textContaining('boom'), findsNothing);
+    expect(find.text('Invite'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }

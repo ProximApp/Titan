@@ -316,4 +316,31 @@ void main() {
     await drainToast(tester);
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('a refused add toasts the adding error', (tester) async {
+    stubSearch(results: [zoe]);
+    when(
+      () => scaffold.repository.groupsMembershipPost(body: any(named: 'body')),
+    ).thenAnswer((_) async => scaffold.repository.fail<CoreGroup>(500));
+
+    final container = containerWith();
+    await pumpSearchUser(tester, container);
+
+    await tester.tap(find.byType(CustomIconButton));
+    await tester.pump();
+    await settle(tester, frames: 14);
+    await tester.enterText(find.byType(TextField).last, 'zoe');
+    await settle(tester, frames: 8);
+    await tester.tap(find.text('Zoe Zern'));
+    await settle(tester, frames: 8);
+
+    // The row keeps its place and the failure is reported; the group's slot
+    // marker is only written by the success arm, so it stays empty here.
+    expect(find.text('Error while adding'), findsOneWidget);
+    expect(find.text('Zoe Zern'), findsOneWidget);
+    expect(container.read(simpleGroupsGroupsProvider)['g-1'], isNull);
+
+    await drainToast(tester);
+    expect(tester.takeException(), isNull);
+  });
 }

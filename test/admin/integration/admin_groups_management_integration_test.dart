@@ -286,4 +286,31 @@ void main() {
     expect(find.text('Group deleted'), findsOneWidget);
     await scaffold.drainToast(tester);
   });
+
+  testWidgets('a refused delete keeps the group and reports it', (
+    tester,
+  ) async {
+    await pumpGroups(tester);
+
+    when(
+      () => scaffold.repository.groupsGroupIdDelete(
+        groupId: any(named: 'groupId'),
+      ),
+    ).thenAnswer((_) async => scaffold.repository.fail<void>(500));
+
+    await tester.tap(find.byType(ListItem).first);
+    await tester.pump();
+    await settle(tester, frames: 14);
+    await tester.tap(find.text('Delete group?'));
+    await settle(tester, frames: 14);
+    await tester.tap(find.text('Confirm'));
+    await settle(tester, frames: 14);
+
+    // The row survives a refused delete; only the success arm says "Group
+    // deleted".
+    expect(find.text('Failed to delete group'), findsOneWidget);
+    expect(find.text('Group deleted'), findsNothing);
+    await scaffold.drainToast(tester);
+    expect(tester.takeException(), isNull);
+  });
 }

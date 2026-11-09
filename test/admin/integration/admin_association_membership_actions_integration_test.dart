@@ -6,6 +6,7 @@ import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/admin/ui/pages/membership/association_membership_page/association_membership_page.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/ui/heroicons.dart';
+import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 import 'package:titan/tools/ui/styleguide/button.dart';
 import 'package:titan/tools/ui/styleguide/icon_button.dart';
@@ -19,6 +20,12 @@ import '../../shared/app_scaffold.dart';
 /// unexercised. Each test re-pumps the same path (the groups-management
 /// pattern); qlevar's init-path rule only bites on a second, DIFFERENT
 /// deep link.
+///
+/// The page's `Refresher.onRefresh` closure is awaited the way the
+/// association page's is (`admin_association_refresh_arms`): a gesture cannot
+/// arm the Cupertino control in this harness (the sliver accepts the drag and
+/// springs back), but the callback the control would call is the page's own
+/// wiring, so awaiting it is exactly the reload a pull performs.
 const adminGroupId = '0a25cb76-4b63-4fd3-b939-da6d9feabf28';
 
 void main() {
@@ -203,6 +210,33 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('a refused delete keeps the membership and says so', (
+    tester,
+  ) async {
+    when(
+      () => scaffold.repository.membershipsAssociationMembershipIdDelete(
+        associationMembershipId: any(named: 'associationMembershipId'),
+      ),
+    ).thenAnswer((_) async => scaffold.repository.fail<void>(500));
+
+    await pumpMemberships(tester, memberships: [membership('m-1', 'Zeta')]);
+
+    await tester.tap(find.text('Zeta'));
+    await settle(tester, frames: 14);
+    await tester.tap(find.widgetWithText(Button, 'Delete'));
+    await settle(tester, frames: 8);
+    await tester.tap(find.text('Confirm'));
+    await settle(tester, frames: 14);
+
+    // Only the success arm drops the row and says "Membership deleted".
+    expect(find.text('Error while deleting'), findsOneWidget);
+    expect(find.text('Membership deleted'), findsNothing);
+    await scaffold.drainToast(tester);
+    await settle(tester, frames: 8);
+    expect(find.text('Zeta'), findsWidgets);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('the row sheet Edit loads members and routes to the detail', (
     tester,
   ) async {
@@ -229,6 +263,35 @@ void main() {
       QR.currentPath,
       '/admin/association_memberships/detail_association_membership',
     );
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('pulling the membership list reloads it', (tester) async {
+    await pumpMemberships(tester, memberships: [membership('m-a', 'Alpha')]);
+    expect(find.text('Alpha'), findsOneWidget);
+
+    // Count only what the pull asks for: the mount's own GET already ran
+    // through the helper's stub.
+    var requests = 0;
+    when(() => scaffold.repository.membershipsGet()).thenAnswer((_) async {
+      requests++;
+      return scaffold.repository.ok([membership('m-a', 'Alpha')]);
+    });
+
+    final refresher = tester.widget<Refresher>(
+      find.descendant(
+        of: find.byType(AssociationMembershipsPage),
+        matching: find.byType(Refresher),
+      ),
+    );
+    await tester.runAsync(() async {
+      await refresher.onRefresh();
+    });
+    await settle(tester, frames: 24);
+
+    // The reload the pull performs: one list GET, list intact.
+    expect(requests, 1);
+    expect(find.text('Alpha'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }

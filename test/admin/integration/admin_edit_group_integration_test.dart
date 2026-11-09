@@ -1,9 +1,16 @@
+import 'package:chopper/chopper.dart' as chopper;
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/admin/providers/group_id_provider.dart';
+import 'package:titan/admin/ui/components/user_ui.dart';
+import 'package:titan/admin/ui/pages/groups/edit_group_page/edit_group_page.dart';
 import 'package:titan/admin/ui/pages/groups/edit_group_page/search_user.dart';
 import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
+import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/tools/ui/styleguide/icon_button.dart';
 
 import '../../shared/app_scaffold.dart';
@@ -15,6 +22,19 @@ import '../../shared/app_scaffold.dart';
 /// `groups_page`'s "Manage members" button sets it, and
 /// `SingleAutoLoaderChild` pulls the group through `groupsGroupIdGet` before
 /// `SearchUser` renders.
+///
+/// The page's `Refresher.onRefresh` closure is driven the way the
+/// association page's is (`admin_association_refresh_arms`): the widget is
+/// read off the tree and its callback awaited. A gesture cannot arm the
+/// Cupertino control (the sliver accepts the drag and springs back), but the
+/// closure the platform control would call is the page's own public wiring,
+/// so awaiting it is the reload the user gets.
+///
+/// `SearchUser`'s trailing `?? []` is the group MEMBER list falling back when
+/// the group carries no members — not the async value (the outer
+/// `SingleAutoLoaderChild` guarantees data). A `CoreGroup` without a `members`
+/// key is what the backend sends for a group nobody joined yet, so the last
+/// test loads one and asserts the page renders with no member rows.
 const adminGroupId = '0a25cb76-4b63-4fd3-b939-da6d9feabf28';
 
 void main() {
@@ -118,6 +138,132 @@ void main() {
     await settle(tester, frames: 14);
 
     expect(find.text('Add member'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('the add-member sheet resets its search when cleared', (
+    tester,
+  ) async {
+    // The sheet's own bar: a query filters through usersSearchGet with the
+    // group excluded, and emptying the field clears the list instead of
+    // leaving the previous results on screen.
+    when(
+      () => scaffold.repository.usersSearchGet(
+        query: any(named: 'query'),
+        excludedGroups: any(named: 'excludedGroups'),
+      ),
+    ).thenAnswer(
+      (_) async =>
+          chopper.Response(http.Response('body', 200), <CoreUserSimple>[
+            CoreUserSimple.empty().copyWith(id: 'u-9', name: 'Alice Elsewhere'),
+          ]),
+    );
+
+    await pumpEditGroup(tester);
+    await tester.tap(
+      find.descendant(
+        of: find.byType(SearchUser),
+        matching: find.byType(CustomIconButton),
+      ),
+    );
+    await tester.pump();
+    await settle(tester, frames: 14);
+    expect(find.text('Add member'), findsOneWidget);
+
+    final sheetField = find
+        .descendant(
+          of: find.byType(BottomModalTemplate),
+          matching: find.byType(TextField),
+        )
+        .last;
+    await tester.enterText(sheetField, 'Ali');
+    await tester.pump();
+    await settle(tester, frames: 10);
+    // The result row pads its label, so match on the content.
+    expect(find.textContaining('Alice Elsewhere'), findsOneWidget);
+
+    await tester.enterText(sheetField, '');
+    await tester.pump();
+    await settle(tester, frames: 10);
+    expect(find.textContaining('Alice Elsewhere'), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('the refresher reloads the group it is showing', (tester) async {
+    var groupRequests = 0;
+    when(
+      () =>
+          scaffold.repository.groupsGroupIdGet(groupId: any(named: 'groupId')),
+    ).thenAnswer((_) async {
+      groupRequests++;
+      return scaffold.repository.ok(
+        CoreGroup.empty().copyWith(
+          id: 'g-1',
+          name: 'BDE',
+          members: [
+            CoreUserSimple.empty().copyWith(
+              id: 'u1',
+              firstname: 'Alice',
+              name: 'Durand',
+            ),
+          ],
+        ),
+      );
+    });
+
+    await pumpEditGroup(tester);
+    expect(find.text('Alice Durand'), findsOneWidget);
+    expect(
+      groupRequests,
+      1,
+      reason: 'the auto-load is the only request so far',
+    );
+
+    // The callback the platform refresh control is handed, awaited directly:
+    // a drag only springs the sliver back in this harness.
+    final refresher = tester.widget<Refresher>(
+      find.descendant(
+        of: find.byType(EditGroupPage),
+        matching: find.byType(Refresher),
+      ),
+    );
+    await tester.runAsync(() async {
+      await refresher.onRefresh();
+    });
+    await settle(tester, frames: 24);
+
+    // One more group GET, and the members it answers with stay on screen.
+    expect(groupRequests, 2);
+    expect(find.text('Alice Durand'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('a group with no members renders without member rows', (
+    tester,
+  ) async {
+    // `CoreGroup.empty()` carries no `members` key at all — what the backend
+    // sends for a group nobody has joined. The page has to fall back to an
+    // empty list instead of dropping the whole members section.
+    when(
+      () =>
+          scaffold.repository.groupsGroupIdGet(groupId: any(named: 'groupId')),
+    ).thenAnswer(
+      (_) async => scaffold.repository.ok(
+        CoreGroup.empty().copyWith(id: 'g-1', name: 'BDE'),
+      ),
+    );
+
+    await pumpEditGroup(tester);
+    var polls = 0;
+    while (polls < 120 && find.byType(SearchUser).evaluate().isEmpty) {
+      await tester.pump(const Duration(milliseconds: 60));
+      polls++;
+    }
+
+    expect(find.byType(SearchUser), findsOneWidget);
+    // No member rows at all, and the page still builds around them.
+    expect(find.byType(UserUi), findsNothing);
+    expect(find.text('Alice Durand'), findsNothing);
     expect(tester.takeException(), isNull);
   });
 }

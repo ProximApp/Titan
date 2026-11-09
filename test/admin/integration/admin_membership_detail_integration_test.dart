@@ -217,6 +217,41 @@ void main() {
     container.dispose();
   });
 
+  testWidgets('a refused member delete keeps the member and says so', (
+    tester,
+  ) async {
+    final target = member(
+      id: 'membership-2',
+      firstname: 'Grace',
+      name: 'Hopper',
+    );
+    final container = await pumpDetail(tester, members: [target]);
+    when(
+      () => scaffold.repository.membershipsUsersMembershipIdDelete(
+        membershipId: any(named: 'membershipId'),
+      ),
+    ).thenAnswer((_) async => scaffold.repository.fail<void>(500));
+
+    await tester.tap(
+      find
+          .descendant(
+            of: find.byType(MemberEditableCard),
+            matching: find.byType(CustomIconButton),
+          )
+          .last,
+    );
+    await settle(tester, frames: 4);
+    await tester.tap(find.text('Confirm'));
+    await settle(tester, frames: 12);
+
+    // Only the success arm drops the row from the list.
+    expect(find.text('Grace Hopper'), findsOneWidget);
+    expect(find.text('Error deleting'), findsOneWidget);
+    await scaffold.drainToast(tester);
+    await scaffold.unmountApp(tester);
+    container.dispose();
+  });
+
   testWidgets('group manager and date filters query the membership API', (
     tester,
   ) async {
