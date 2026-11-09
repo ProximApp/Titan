@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/feed/router.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/navigation/class/module.dart';
 import 'package:titan/navigation/providers/display_quit_popup.dart';
 import 'package:titan/navigation/providers/navbar_animation.dart';
@@ -35,9 +36,13 @@ import '../../shared/route_mock_stub.dart';
 ///    that arm end to end in `test/service/integration/
 ///    setup_notification_integration_test.dart`, which renders this same
 ///    template with `runNotificationSetup: true` and its own Firebase fakes;
-///  * the synthetic "Others" item's `getDescription` is never called at all:
+///  * the synthetic "Others" item's `getDescription` is never PAINTED:
 ///    `FloatingNavbar` reads only `getName`, and the one reader of a module
-///    description, `all_module_page`, lists the user's real modules.
+///    description, `all_module_page`, lists the user's real modules. The
+///    closure is still part of the item the shell hands over, so the last
+///    test below reads it off that item and asserts it answers with the
+///    localized description — a renamed ARB key would otherwise only show up
+///    the day something starts rendering it.
 class _FakeModulesNotifier extends ModulesNotifier {
   _FakeModulesNotifier(this.all);
 
@@ -176,5 +181,38 @@ void main() {
     await settle(tester, frames: 4);
     expect(find.text('Do you want to log out?'), findsNothing);
     expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('every navbar entry advertises a localized name and root', (
+    tester,
+  ) async {
+    // The items are the shell's data: each one carries the module it opens
+    // and the two label callbacks the navbar (and any future surface) reads.
+    // The name is on screen, the description is not painted anywhere today —
+    // both are asserted so a broken ARB key cannot hide in an entry only the
+    // shell ever builds.
+    final container = await pumpShell(tester);
+    final navbar = tester.widget<FloatingNavbar>(find.byType(FloatingNavbar));
+    final context = tester.element(find.byType(FloatingNavbar));
+    final l10n = AppLocalizations.of(context)!;
+
+    expect(navbar.items, hasLength(4));
+    final roots = navbar.items.map((item) => item.module.root).toList();
+    expect(roots.first, FeedRouter.root);
+    expect(roots.last, AppRouter.allModules);
+    // The middle entries are the user's chosen modules, in list order.
+    expect(roots.sublist(1, 3).every((root) => root.isNotEmpty), isTrue);
+    expect(roots.sublist(1, 3), isNot(contains(AppRouter.allModules)));
+    for (final item in navbar.items) {
+      expect(item.module.getName(context), isNotEmpty);
+      expect(item.module.getDescription(context), isNotEmpty);
+    }
+
+    final others = navbar.items.last.module;
+    expect(others.getName(context), l10n.moduleOthers);
+    expect(others.getName(context), 'Others');
+    expect(others.getDescription(context), l10n.moduleOthersDescription);
+    expect(tester.takeException(), isNull);
+    container.dispose();
   });
 }
