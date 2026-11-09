@@ -164,6 +164,23 @@ void main() {
       expect(result.maybeWhen(data: (data) => data, orElse: () => []), lists);
     });
 
+    test('copy keeps a failed read as a failure and a pending one as '
+        'pending', () async {
+      // `copy()` mirrors the state it copies: a failed list read must stay
+      // failed (the section map that reads this never silently empties), and
+      // a read that has not answered yet must stay pending.
+      when(() => mockRepository.campaignListsGet())
+          .thenThrow(Exception('Failed to load lists'));
+      await provider.loadListList();
+      final failed = await provider.copy();
+      expect(failed.hasError, isTrue);
+
+      final pending = container.read(listListProvider.notifier);
+      pending.state = const AsyncValue.loading();
+      final loading = await pending.copy();
+      expect(loading.isLoading, isTrue);
+    });
+
     test('shuffle shuffles the lists', () {
       provider.state = AsyncValue.data([...lists]);
 

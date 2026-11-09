@@ -6,6 +6,7 @@ import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/vote/router.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../../shared/repository_test_support.dart' show chopperError;
 import '../vote_fixtures.dart';
 
 void main() {
@@ -69,4 +70,42 @@ void main() {
       await tester.pump();
     },
   );
+
+  testWidgets('a refused create keeps the form open and reports the failure', (
+    tester,
+  ) async {
+    final container = scaffold.makeContainer(user: voteAdminUserFixture());
+    addTearDown(container.dispose);
+    scaffold.setWideSurface(tester);
+    stubVoteAdmin(
+      scaffold,
+      status: enums.StatusType.waiting,
+      sections: const [],
+    );
+    when(
+      () => scaffold.repository.campaignSectionsPost(body: any(named: 'body')),
+    ).thenAnswer((_) async => chopperError(500));
+
+    await scaffold.pumpApp(
+      tester,
+      container,
+      initialPath:
+          '${VoteRouter.root}${VoteRouter.admin}${VoteRouter.addSection}',
+      pumpAndSettle: false,
+    );
+    await settle(tester);
+
+    await tester.enterText(find.byType(TextField).first, 'Culture');
+    await tester.enterText(find.byType(TextField).last, 'Everything culture');
+    await settle(tester, frames: 4);
+    await tester.tap(find.text('Add'));
+    await settle(tester, frames: 12);
+
+    // The section was not created, so the page stays put and says so.
+    expect(find.text('Error adding'), findsOneWidget);
+    expect(find.text('Section added'), findsNothing);
+    expect(find.text('Add a section'), findsOneWidget);
+    await scaffold.drainToast(tester);
+    expect(tester.takeException(), isNull);
+  });
 }
