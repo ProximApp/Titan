@@ -8,6 +8,15 @@ import 'package:titan/generated/openapi.swagger.dart';
 
 import '../../shared/app_scaffold.dart';
 
+/// The one arm of the form no test can reach: the empty `orElse: () {}` of
+/// the two `advertList.maybeWhen(...)` blocks that re-upload the poster.
+/// `advertList` is the AsyncValue snapshot read before the submit
+/// (`ref.watch(advertListProvider)` at the top of the handler), and both
+/// blocks sit inside `if (value)` — `value` comes from
+/// `addAdvert()`/`updateAdvert()`, whose `add`/`update` answer true only from
+/// a `data` state. A snapshot that is NOT data would have made the save
+/// answer false and skipped the blocks entirely, so the `maybeWhen` is always
+/// handed a data value and its orElse has nothing to answer.
 void main() {
   late IntegrationScaffold scaffold;
   final myAssociation = Association.empty().copyWith(id: 'asso-1', name: 'BDE');
