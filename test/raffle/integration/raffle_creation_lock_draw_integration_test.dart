@@ -1,13 +1,16 @@
 import 'package:chopper/chopper.dart' as chopper;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/raffle/providers/raffle_id_provider.dart';
+import 'package:titan/raffle/providers/winning_ticket_list_provider.dart';
 import 'package:titan/raffle/ui/pages/creation_edit_page/winning_ticket_card.dart';
 
 import '../../shared/app_scaffold.dart';
+import '../raffle_fixtures.dart';
 
 /// The creation page's LOCK half (`/tombola/detail/creation` with a locked
 /// or open raffle): the winning-ticket strip (`WinningTicketUI` had zero
@@ -18,12 +21,12 @@ import '../../shared/app_scaffold.dart';
 /// raffle_creation_integration_test covers the creation-status half of
 /// the same page (open dialog, delete prize); this file owns lock/open.
 ///
-/// NOTE: two arms of the winning strip stay uncovered. Its ERROR arm
-/// (`winning_ticket_handler.dart` 54-56) is unreachable because
-/// `WinningTicketNotifier.build` always resolves the ticket list to data (an
-/// error upstream becomes an empty list), so the provider never reaches
-/// AsyncError. Its `onEdit`/`onDelete` closures (47-48) are passed as no-ops
-/// and the card exposes no tappable icon that would fire them.
+/// NOTE: two arms of the winning strip used to stay uncovered. Its ERROR arm
+/// (`winning_ticket_handler.dart` 54-56) needs the list held in AsyncError
+/// (the real `build` turns an upstream failure into an empty list), and its
+/// `onEdit`/`onDelete` closures (47-48) are passed as no-ops that the card
+/// never fires — the test calls them off the widget to pin that they stay
+/// inert. Both are exercised below.
 final adminUser = CoreUser.empty().copyWith(
   id: 'user-1',
   groups: [
@@ -162,9 +165,13 @@ void main() {
     WidgetTester tester, {
     RaffleStatusType status = RaffleStatusType.lock,
     List<AppModulesRaffleSchemasRaffleTicketComplete> raffleTickets = const [],
+    List<dynamic> providerOverrides = const [],
   }) async {
     stubLockData(scaffold, status: status, raffleTickets: raffleTickets);
-    final container = scaffold.makeContainer(user: adminUser);
+    final container = scaffold.makeContainer(
+      user: adminUser,
+      providerOverrides: providerOverrides,
+    );
     container.read(raffleIdProvider.notifier).setId('r-1');
     scaffold.setWideSurface(tester);
     await scaffold.pumpApp(
@@ -276,5 +283,71 @@ void main() {
           scaffold.repository.tombolaPrizesPrizeIdDrawPost(prizeId: 'prize-1'),
     ).called(1);
     expect(QR.currentPath, '/tombola/detail');
+  });
+
+  testWidgets('the winning card hands out inert edit and delete callbacks', (
+    tester,
+  ) async {
+    await pumpCreation(tester, raffleTickets: [winner('w-1')]);
+
+    // The card declares both callbacks and wires neither to a button: a drawn
+    // winner is changed through the prize, not the ticket. Calling them must
+    // stay a no-op rather than half-navigating to an editor for a ticket that
+    // has none.
+    final card = tester.widget<WinningTicketUI>(find.byType(WinningTicketUI));
+    card.onEdit();
+    await card.onDelete();
+    await settle(tester, frames: 4);
+
+    expect(QR.currentPath, '/tombola/detail/creation');
+    expect(find.byType(WinningTicketUI), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('a failed winning list says so instead of an empty strip', (
+    tester,
+  ) async {
+    // `WinningTicketNotifier.build` turns an upstream failure into an empty
+    // list, so this arm needs the list held in its error state: the strip must
+    // name the failure rather than pretend nobody has won.
+    await pumpCreation(
+      tester,
+      providerOverrides: [
+        winningTicketListProvider.overrideWith(
+          () => HeldWinningTickets(
+            AsyncError('the winners never loaded', StackTrace.current),
+          ),
+        ),
+      ],
+    );
+
+    expect(find.text('Error: the winners never loaded'), findsOneWidget);
+    expect(find.byType(WinningTicketUI), findsNothing);
+  });
+
+  testWidgets('a draw still in flight leaves the prize undrawn', (
+    tester,
+  ) async {
+    await pumpCreation(
+      tester,
+      raffleTickets: [winner('w-1')],
+      providerOverrides: [
+        winningTicketListProvider.overrideWith(
+          () => FakeDrawWinningTickets(draw: const AsyncValue.loading()),
+        ),
+      ],
+    );
+
+    await tester.tap(find.text('Tirer'));
+    await settle(tester, frames: 16);
+    await tester.tap(find.text('Confirm'));
+    await settle(tester, frames: 24);
+
+    // The draw's `loading` arm draws nothing: no winners dialog, no error
+    // toast, and the prize keeps its quantity so it can be drawn again.
+    expect(find.text('Gagnant'), findsNothing);
+    expect(find.text('Error during drawing'), findsNothing);
+    expect(find.text('Tirer'), findsOneWidget);
+    expect(find.text('Tiré'), findsNothing);
   });
 }

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart' show AsyncData;
+import 'package:flutter_riverpod/flutter_riverpod.dart'
+    show AsyncData, AsyncError, AsyncValue;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/raffle/providers/raffle_id_provider.dart';
+import 'package:titan/raffle/providers/raffle_list_provider.dart';
+import 'package:titan/raffle/providers/raffle_provider.dart';
 import 'package:titan/raffle/providers/tombola_logos_provider.dart';
 import 'package:titan/tools/functions.dart' show getTitanLogo;
 import 'package:titan/raffle/ui/pages/creation_edit_page/ticket_ui.dart';
@@ -46,6 +49,7 @@ void main() {
     WidgetTester tester, {
     RaffleStatusType status = RaffleStatusType.creation,
     List<PackTicketSimple> packTickets = const [],
+    List<dynamic> providerOverrides = const [],
   }) async {
     stubCreationData(
       scaffold,
@@ -54,7 +58,10 @@ void main() {
       withRaffleTickets: true,
     );
     scaffold.setWideSurface(tester);
-    final container = scaffold.makeContainer(user: adminUser);
+    final container = scaffold.makeContainer(
+      user: adminUser,
+      providerOverrides: providerOverrides,
+    );
     addTearDown(container.dispose);
     container.read(raffleIdProvider.notifier).setId('r-1');
     // Seed the logo map as loaded with a logo: the edit page's build-time
@@ -210,5 +217,61 @@ void main() {
     expect(find.text('Tickets gagnants'), findsOneWidget);
     expect(find.text("Il n'y a pas de ticket gagnant"), findsOneWidget);
     expect(find.byType(TicketUI), findsNothing);
+  });
+
+  /// Taps the Edit button after filling the name, with the list the page
+  /// watched held in [state]. The edit itself always answers success, so the
+  /// only thing deciding the outcome is the arm that runs afterwards.
+  Future<void> editWithListIn(
+    WidgetTester tester,
+    AsyncValue<List<RaffleComplete>> state,
+  ) async {
+    await pumpCreation(
+      tester,
+      providerOverrides: [
+        // The page renders its form from `raffleProvider`; pin that so the
+        // form is a real creation-status raffle while the LIST stays in the
+        // state under test.
+        raffleProvider.overrideWithValue(
+          raffleFixture('r-1', 'Gala', RaffleStatusType.creation),
+        ),
+        raffleListProvider.overrideWith(() => FixedRaffleListWithWrite(state)),
+      ],
+    );
+
+    await tester.enterText(find.byType(TextFormField), 'Gala 2026');
+    await settle(tester, frames: 2);
+    await scaffold.unfocus(tester);
+    await scaffold.ensureOnScreen(tester, find.text('Edit'));
+    await tester.tap(find.text('Edit'));
+    await settle(tester, frames: 20);
+  }
+
+  testWidgets('an edit that lands while the list is loading keeps the form', (
+    tester,
+  ) async {
+    // The `loading` arm: the raffle was saved, but the list the page reads to
+    // decide where to go next has not answered, so the page stays put instead
+    // of routing on a list it does not have.
+    await editWithListIn(tester, const AsyncValue.loading());
+
+    expect(find.byType(TextFormField), findsOneWidget);
+    expect(QR.currentPath, '/tombola/detail/creation');
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('an edit that lands on a failed list keeps the form', (
+    tester,
+  ) async {
+    // The `error` arm, same contract: the save happened, the list did not
+    // load, so nothing is routed and nothing is redrawn as if it had.
+    await editWithListIn(
+      tester,
+      AsyncError('the list never loaded', StackTrace.current),
+    );
+
+    expect(find.byType(TextFormField), findsOneWidget);
+    expect(QR.currentPath, '/tombola/detail/creation');
+    expect(tester.takeException(), isNull);
   });
 }

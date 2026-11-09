@@ -44,7 +44,9 @@ void main() {
               AsyncValue.data([raffleFixture('r-1', 'Gala', null)]),
             ),
           ),
-          raffleIdProvider.overrideWith(() => FakeRaffleIdNotifier('r-missing')),
+          raffleIdProvider.overrideWith(
+            () => FakeRaffleIdNotifier('r-missing'),
+          ),
         ],
       );
       addTearDown(container.dispose);
@@ -113,7 +115,13 @@ void main() {
         () => scaffold.repository.tombolaUsersUserIdCashGet(
           userId: any(named: 'userId'),
         ),
-      ).thenAnswer((_) => Completer<chopper.Response<AppModulesRaffleSchemasRaffleCashComplete>>().future);
+      ).thenAnswer(
+        (_) =>
+            Completer<
+                  chopper.Response<AppModulesRaffleSchemasRaffleCashComplete>
+                >()
+                .future,
+      );
 
       final container = ProviderContainer(
         overrides: [
@@ -129,7 +137,10 @@ void main() {
       await notifier.updateCash(50);
 
       final state = container.read(userAmountProvider);
-      expect(state, isA<AsyncError<AppModulesRaffleSchemasRaffleCashComplete>>());
+      expect(
+        state,
+        isA<AsyncError<AppModulesRaffleSchemasRaffleCashComplete>>(),
+      );
       expect((state.error as Object).toString(), contains('while loading'));
     });
 
@@ -139,7 +150,8 @@ void main() {
           userId: any(named: 'userId'),
         ),
       ).thenAnswer(
-        (_) async => chopperError<AppModulesRaffleSchemasRaffleCashComplete>(500),
+        (_) async =>
+            chopperError<AppModulesRaffleSchemasRaffleCashComplete>(500),
       );
 
       final container = ProviderContainer(
@@ -152,12 +164,18 @@ void main() {
 
       final notifier = container.read(userAmountProvider.notifier);
       final loaded = await notifier.loadCashByUser('user-1');
-      expect(loaded, isA<AsyncError<AppModulesRaffleSchemasRaffleCashComplete>>());
+      expect(
+        loaded,
+        isA<AsyncError<AppModulesRaffleSchemasRaffleCashComplete>>(),
+      );
 
       await notifier.updateCash(50);
 
       final state = container.read(userAmountProvider);
-      expect(state, isA<AsyncError<AppModulesRaffleSchemasRaffleCashComplete>>());
+      expect(
+        state,
+        isA<AsyncError<AppModulesRaffleSchemasRaffleCashComplete>>(),
+      );
       expect((state.error as Object).toString(), isNot(contains('while')));
     });
   });
@@ -184,56 +202,146 @@ void main() {
       );
 
       expect(deleted, isTrue);
-      expect(
-        container.read(raffleListProvider).value!.map((r) => r.id),
-        ['r-2'],
-      );
+      expect(container.read(raffleListProvider).value!.map((r) => r.id), [
+        'r-2',
+      ]);
       // No network call: the raffle was already deleted server-side when the
       // list answered without it.
-      verifyNever(() => scaffold.repository.tombolaRafflesRaffleIdDelete(
-        raffleId: any(named: 'raffleId'),
-      ));
+      verifyNever(
+        () => scaffold.repository.tombolaRafflesRaffleIdDelete(
+          raffleId: any(named: 'raffleId'),
+        ),
+      );
     });
   });
 
   group('drawPrize state arms', () {
     // `drawPrize` reads its own state through `when` AFTER awaiting the draw
-    // call. Both remaining arms need that state to be error/loading at that
-    // instant, and they cannot be: `build()` schedules `setData` in a
-    // microtask, so a rebuild's pending setData always lands before the
-    // awaited draw resumes, and nothing in the notifier ever assigns an
-    // error. The assertions below pin the reachable half — data and the
-    // failure return — so this stays honest if the state machine changes.
-    test('a failing draw leaves the list untouched and answers an error', () async {
+    // call, and its loading/error arms answer a list that was still loading
+    // or had failed at that instant. `build()` seeds the list from a microtask
+    // and nothing ever assigns an error, so the arms are only reachable by
+    // holding the state (see `HeldWinningTickets`); the draw itself is the
+    // real one, so these run the production body.
+    test(
+      'a failing draw leaves the list untouched and answers an error',
+      () async {
+        when(
+          () => scaffold.repository.tombolaPrizesPrizeIdDrawPost(
+            prizeId: any(named: 'prizeId'),
+          ),
+        ).thenAnswer(
+          (_) async =>
+              chopperError<List<AppModulesRaffleSchemasRaffleTicketComplete>>(
+                500,
+              ),
+        );
+
+        final container = ProviderContainer(
+          overrides: [
+            repositoryProvider.overrideWithValue(scaffold.repository),
+            ticketsListProvider.overrideWith(() => FakeTicketsListNotifier([])),
+          ],
+        );
+        addTearDown(container.dispose);
+
+        final notifier = container.read(winningTicketListProvider.notifier);
+        await Future<void>.delayed(Duration.zero);
+
+        final result = await notifier.drawPrize(
+          PrizeSimple.empty().copyWith(id: 'p-1'),
+        );
+
+        expect(
+          result,
+          isA<AsyncError<List<AppModulesRaffleSchemasRaffleTicketComplete>>>(),
+        );
+      },
+    );
+
+    /// The draw endpoint answering one ticket (the drawn list).
+    void stubDraw() {
       when(
         () => scaffold.repository.tombolaPrizesPrizeIdDrawPost(
           prizeId: any(named: 'prizeId'),
         ),
       ).thenAnswer(
-        (_) async => chopperError<List<AppModulesRaffleSchemasRaffleTicketComplete>>(
-          500,
-        ),
+        (_) async => chopperListResponse([
+          raffleTicketFixture(
+            'drawn-1',
+            'r-1',
+            prize: PrizeSimple.empty().copyWith(id: 'p-1', name: 'PS5'),
+          ),
+        ]),
       );
+    }
 
-      final container = ProviderContainer(
-        overrides: [
-          repositoryProvider.overrideWithValue(scaffold.repository),
-          ticketsListProvider.overrideWith(() => FakeTicketsListNotifier([])),
-        ],
-      );
-      addTearDown(container.dispose);
+    test(
+      'a draw landing on a loading list seeds it with the drawn tickets',
+      () async {
+        stubDraw();
+        final container = ProviderContainer(
+          overrides: [
+            repositoryProvider.overrideWithValue(scaffold.repository),
+            winningTicketListProvider.overrideWith(
+              () => HeldWinningTickets(const AsyncValue.loading()),
+            ),
+          ],
+        );
+        addTearDown(container.dispose);
 
-      final notifier = container.read(winningTicketListProvider.notifier);
-      await Future<void>.delayed(Duration.zero);
+        final notifier = container.read(winningTicketListProvider.notifier);
+        final result = await notifier.drawPrize(
+          PrizeSimple.empty().copyWith(id: 'p-1'),
+        );
 
-      final result = await notifier.drawPrize(
-        PrizeSimple.empty().copyWith(id: 'p-1'),
-      );
+        expect(
+          result,
+          isA<AsyncData<List<AppModulesRaffleSchemasRaffleTicketComplete>>>(),
+        );
+        // The loading arm replaces the pending list with the drawn tickets, so
+        // the strip shows the winners even though the list never loaded.
+        final state = container.read(winningTicketListProvider);
+        expect(
+          state,
+          isA<AsyncData<List<AppModulesRaffleSchemasRaffleTicketComplete>>>(),
+        );
+        expect((state as AsyncData).value, hasLength(1));
+        expect(state.value!.single.id, 'drawn-1');
+      },
+    );
 
-      expect(
-        result,
-        isA<AsyncError<List<AppModulesRaffleSchemasRaffleTicketComplete>>>(),
-      );
-    });
+    test(
+      'a draw landing on a failed list answers it and keeps the failure',
+      () async {
+        stubDraw();
+        final container = ProviderContainer(
+          overrides: [
+            repositoryProvider.overrideWithValue(scaffold.repository),
+            winningTicketListProvider.overrideWith(
+              () => HeldWinningTickets(
+                AsyncError('the list never loaded', StackTrace.current),
+              ),
+            ),
+          ],
+        );
+        addTearDown(container.dispose);
+
+        final notifier = container.read(winningTicketListProvider.notifier);
+        final result = await notifier.drawPrize(
+          PrizeSimple.empty().copyWith(id: 'p-1'),
+        );
+
+        // The caller still gets the drawn tickets (the winners dialog opens),
+        // and the failed list is left as it was rather than half-rewritten.
+        expect(
+          result,
+          isA<AsyncData<List<AppModulesRaffleSchemasRaffleTicketComplete>>>(),
+        );
+        expect(
+          container.read(winningTicketListProvider),
+          isA<AsyncError<List<AppModulesRaffleSchemasRaffleTicketComplete>>>(),
+        );
+      },
+    );
   });
 }
