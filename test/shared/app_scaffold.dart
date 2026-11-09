@@ -24,6 +24,7 @@ import 'package:titan/generated/openapi.models.swagger.dart' as models;
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/mypayment/providers/bank_account_holder_provider.dart';
+import 'package:titan/tools/ui/layouts/refresher.dart';
 import 'package:titan/mypayment/providers/invoice_list_provider.dart';
 import 'package:titan/mypayment/providers/key_service_provider.dart';
 import 'package:titan/mypayment/providers/my_stores_provider.dart';
@@ -78,6 +79,14 @@ export 'url_launcher_stub.dart';
 /// (wall clock, unaffected by fake-async pumps) — clear
 /// lastTimeScannedProvider instead of pumping time.
 class FakeMobileScannerPlatform extends MobileScannerPlatform {
+  FakeMobileScannerPlatform({this.permissionDenied = false});
+
+  /// When true, `start()` answers the way the real platform does without a
+  /// camera grant: a `permissionDenied` [MobileScannerException]. The
+  /// controller then reports `hasCameraPermission == false`, which is what the
+  /// scan page's own permission dialog waits for.
+  final bool permissionDenied;
+
   final _barcodes = StreamController<BarcodeCapture?>.broadcast();
   int startCount = 0;
   int stopCount = 0;
@@ -104,6 +113,12 @@ class FakeMobileScannerPlatform extends MobileScannerPlatform {
   @override
   Future<MobileScannerViewAttributes> start(StartOptions options) async {
     startCount++;
+    if (permissionDenied) {
+      throw const MobileScannerException(
+        errorCode: MobileScannerErrorCode.permissionDenied,
+        errorDetails: MobileScannerErrorDetails(message: 'denied in test'),
+      );
+    }
     return MobileScannerViewAttributes(
       cameraDirection: CameraFacing.back,
       currentTorchMode: TorchState.unavailable,
@@ -358,6 +373,32 @@ Future<void> settle(WidgetTester tester, {int frames = 12}) async {
   for (var i = 0; i < frames; i++) {
     await tester.pump(const Duration(milliseconds: 60));
   }
+}
+
+/// Pulls a `Refresher` down far enough to arm its refresh control and waits
+/// for the callback to finish.
+///
+/// [tester.drag] will not do: it moves the whole distance in one jump, the
+/// sliver springs back before the Cupertino control reaches its arm threshold
+/// and `onRefresh` never runs (which is why several pages used to claim their
+/// refresh body was untestable). Moving in small steps with a real frame
+/// between them arms it. Pass [finder] to pick a specific `Refresher` when a
+/// page nests more than one.
+Future<void> pullToRefresh(
+  WidgetTester tester, {
+  Finder? finder,
+  int steps = 24,
+  double step = 24,
+}) async {
+  final gesture = await tester.startGesture(
+    tester.getCenter(finder ?? find.byType(Refresher).first),
+  );
+  for (var i = 0; i < steps; i++) {
+    await gesture.moveBy(Offset(0, step));
+    await tester.pump(const Duration(milliseconds: 16));
+  }
+  await gesture.up();
+  await tester.pumpAndSettle();
 }
 
 /// Every string on screen, in tree order — for assertions whose point is that
@@ -1277,6 +1318,12 @@ class IntegrationScaffold {
     String? selectedLoanerId,
     List<dynamic> providerOverrides = const [],
 
+    /// Riverpod 3 retries a failing provider by default, which keeps its
+    /// `.future` pending instead of letting the widget see the throw. Pass a
+    /// policy here (`(count, error) => null`) to opt out for the tests that
+    /// need the failure to reach the widget.
+    Duration? Function(int retryCount, Object error)? retry,
+
     /// Opt-in for the ONE test surface the harness normally gates shut:
     /// NavigationTemplate only calls setUpNotification for a non-empty user
     /// while shouldSetupProvider is true, and both Firebase providers hit
@@ -1342,6 +1389,7 @@ class IntegrationScaffold {
       minimal: minimalTitanVersionCode,
     );
     return ProviderContainer(
+      retry: retry,
       overrides: [
         if (_loggerOutput != null)
           loggerProvider.overrideWith((ref) => _StubLogger(_loggerOutput!)),
