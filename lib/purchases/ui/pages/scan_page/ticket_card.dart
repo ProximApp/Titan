@@ -38,13 +38,14 @@ class TicketCard extends HookConsumerWidget {
           width: double.infinity,
           child: Row(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+              Flexible(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       ticket.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -52,6 +53,8 @@ class TicketCard extends HookConsumerWidget {
                     ),
                     Text(
                       "${ticket.maxUse} scan${ticket.maxUse > 1 ? 's' : ""} maximun - Valide jusqu'au ${DateFormat.yMd(locale).format(ticket.expiration)}",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,

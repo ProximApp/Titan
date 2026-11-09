@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:titan/admin/adapters/core_group.dart';
 import 'package:titan/admin/providers/group_provider.dart';
 import 'package:titan/admin/providers/simple_groups_groups_provider.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
@@ -51,9 +50,8 @@ class MemberResults extends HookConsumerWidget {
                         if (result) {
                           simpleGroupGroupsNotifier.setTData(
                             newGroup.id,
-                            AsyncData([newGroup.toCoreGroupSimple()]),
+                            const AsyncData([]),
                           );
-                          value.remove(e);
                           displayToastWithContext(TypeMsg.msg, addedMemberMsg);
                         } else {
                           displayToastWithContext(

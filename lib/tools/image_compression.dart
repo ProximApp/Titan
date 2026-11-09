@@ -75,6 +75,12 @@ Uint8List? _compress(Uint8List bytes) {
     keep(encoded);
   }
 
+  // Only a step list whose last attempt still exceeds `_targetSize` gets here.
+  // Today the last attempt is a quality-50 JPEG capped at 640 px, and pure
+  // noise — about as hard as content gets for a JPEG — measures 341 KB at
+  // that size, well under the 900 KB target, so the loop always returns above.
+  // This guard stays as the answer if a future step list ends above the
+  // target: the smallest attempt is then the best the app can offer.
   final best = smallest;
   return best != null && best.length <= maxUploadedImageSize ? best : null;
 }

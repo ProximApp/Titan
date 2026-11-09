@@ -37,8 +37,13 @@ class AssociationAdminEditionModal extends HookConsumerWidget {
       associationPictureProvider.notifier,
     );
 
+    final hostContext = Navigator.of(
+      context,
+      rootNavigator: true,
+    ).overlay!.context;
+
     void displayToastWithContext(TypeMsg type, String msg) {
-      displayToast(context, type, msg);
+      displayToast(hostContext, type, msg);
     }
 
     AppLocalizations localizeWithContext = AppLocalizations.of(context)!;
@@ -111,7 +116,7 @@ class AssociationAdminEditionModal extends HookConsumerWidget {
                 onPressed: () {
                   Navigator.of(context).pop();
                   showCustomBottomModal(
-                    context: context,
+                    context: hostContext,
                     ref: ref,
                     modal: ConfirmModal.danger(
                       title: localizeWithContext.phonebookChangeTermYear(
@@ -149,7 +154,7 @@ class AssociationAdminEditionModal extends HookConsumerWidget {
                 onPressed: () async {
                   Navigator.of(context).pop();
                   showCustomBottomModal(
-                    context: context,
+                    context: hostContext,
                     ref: ref,
                     modal: ConfirmModal.danger(
                       title: association.deactivated == true
@@ -165,8 +170,29 @@ class AssociationAdminEditionModal extends HookConsumerWidget {
                           ? localizeWithContext
                                 .phonebookDeleteAssociationDescription
                           : localizeWithContext.globalIrreversibleAction,
+                      // The button (and the title above) offer DELETE for an
+                      // association that is already deactivated and
+                      // DEACTIVATE for a live one — the actions used to be
+                      // wired the other way round, so confirming "deactivate"
+                      // on a live association DELETEd it.
                       onYes: association.deactivated == true
                           ? () async {
+                              final result = await associationListNotifier
+                                  .deleteAssociation(association);
+                              if (result) {
+                                displayToastWithContext(
+                                  TypeMsg.msg,
+                                  localizeWithContext
+                                      .phonebookDeletedAssociation,
+                                );
+                              } else {
+                                displayToastWithContext(
+                                  TypeMsg.error,
+                                  localizeWithContext.phonebookDeletingError,
+                                );
+                              }
+                            }
+                          : () async {
                               final result = await associationListNotifier
                                   .deactivateAssociation(association);
                               if (result) {
@@ -180,22 +206,6 @@ class AssociationAdminEditionModal extends HookConsumerWidget {
                                   TypeMsg.error,
                                   localizeWithContext
                                       .phonebookDeactivatingError,
-                                );
-                              }
-                            }
-                          : () async {
-                              final result = await associationListNotifier
-                                  .deleteAssociation(association);
-                              if (result) {
-                                displayToastWithContext(
-                                  TypeMsg.msg,
-                                  localizeWithContext
-                                      .phonebookDeletedAssociation,
-                                );
-                              } else {
-                                displayToastWithContext(
-                                  TypeMsg.error,
-                                  localizeWithContext.phonebookDeletingError,
                                 );
                               }
                             },

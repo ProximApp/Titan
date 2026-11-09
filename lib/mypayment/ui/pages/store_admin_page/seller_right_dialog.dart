@@ -4,6 +4,11 @@ import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 
 class Consts {
+  // Dark to coverage, and provably so: the constructor is private to this
+  // library, so nothing outside the file can name it, and nothing inside it
+  // constructs `Consts` — the type is only a namespace for the dialog's
+  // metrics. (The line cannot become reachable without making the type
+  // instantiable, which nothing needs.)
   Consts._();
 
   static const double padding = 20.0;
@@ -75,7 +80,7 @@ class SellerRightDialog extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 12.0),
-                      if (child != null) child!,
+                      ?child,
                       const SizedBox(height: 30.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

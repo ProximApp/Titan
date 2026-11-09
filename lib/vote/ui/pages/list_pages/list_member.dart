@@ -37,15 +37,18 @@ class ListMember extends HookConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            AppLocalizations.of(context)!.voteMembers,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: ColorConstants.tertiary,
+          Expanded(
+            child: Text(
+              AppLocalizations.of(context)!.voteMembers,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: ColorConstants.tertiary,
+              ),
             ),
           ),
-          const Spacer(),
           CustomIconButton(
             icon: HeroIcon(HeroIcons.plus, color: ColorConstants.background),
             onPressed: () async {

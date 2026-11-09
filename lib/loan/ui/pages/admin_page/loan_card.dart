@@ -67,13 +67,15 @@ class LoanCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(width: 25),
-                      AutoSizeText(
-                        capitalize(loan.loaner.name),
-                        maxLines: 1,
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: shouldReturn ? Colors.white : Colors.black,
+                      Flexible(
+                        child: AutoSizeText(
+                          capitalize(loan.loaner.name),
+                          maxLines: 1,
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: shouldReturn ? Colors.white : Colors.black,
+                          ),
                         ),
                       ),
                       !isDetail
@@ -127,32 +129,42 @@ class LoanCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  loan.returned
-                      ? AppLocalizations.of(context)!.loanReturned
-                      : shouldReturn
-                      ? AppLocalizations.of(context)!.loanToReturn
-                      : AppLocalizations.of(context)!.loanOnGoing,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                    color: shouldReturn
-                        ? LoanColorConstants.urgentRed
-                        : Colors.grey.shade400,
+                Flexible(
+                  child: Text(
+                    loan.returned
+                        ? AppLocalizations.of(context)!.loanReturned
+                        : shouldReturn
+                        ? AppLocalizations.of(context)!.loanToReturn
+                        : AppLocalizations.of(context)!.loanOnGoing,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: shouldReturn
+                          ? LoanColorConstants.urgentRed
+                          : Colors.grey.shade400,
+                    ),
                   ),
                 ),
-                Text(
-                  (loan.returned)
-                      ? loan.returnedDate != null
-                            ? DateFormat.yMd(locale).format(loan.returnedDate!)
-                            : AppLocalizations.of(context)!.loanNoReturnedDate
-                      : DateFormat.yMd(locale).format(loan.end),
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                    color: shouldReturn
-                        ? Colors.white.withValues(alpha: 0.8)
-                        : Colors.grey.shade400,
+                Flexible(
+                  child: Text(
+                    (loan.returned)
+                        ? loan.returnedDate != null
+                              ? DateFormat.yMd(locale)
+                                    .format(loan.returnedDate!)
+                              : AppLocalizations.of(context)!.loanNoReturnedDate
+                        : DateFormat.yMd(locale).format(loan.end),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.end,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: shouldReturn
+                          ? Colors.white.withValues(alpha: 0.8)
+                          : Colors.grey.shade400,
+                    ),
                   ),
                 ),
               ],

@@ -130,6 +130,15 @@ class DetailPage extends HookConsumerWidget {
                                 child: Wrap(
                                   children: list.members
                                       .map(
+                                        // Dark to the suite by construction:
+                                        // this page mounts the card without
+                                        // `isAdmin`, and the card only wires
+                                        // these callbacks to buttons inside
+                                        // its sheet, which that flag gates.
+                                        // A read-only view offers no edit, so
+                                        // neither closure can ever be called —
+                                        // the admin detail deep-link test pins
+                                        // that by finding no Edit/Delete.
                                         (e) => MemberCard(
                                           member: e,
                                           onEdit: () {},
@@ -159,6 +168,8 @@ class DetailPage extends HookConsumerWidget {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Center(
+                // Same as the member cards above: no `isAdmin`, so the sheet
+                // that would call these two never opens.
                 child: ListCard(
                   list: list,
                   onDelete: () async {},

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/generated/openapi.enums.swagger.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/seed-library/adapters/plant_complete.dart';
 import 'package:titan/seed-library/providers/my_plants_list_provider.dart';
 import 'package:titan/seed-library/providers/plant_complete_provider.dart';
@@ -43,6 +44,7 @@ class PlantDetailPage extends HookConsumerWidget {
             builder: (context, plantComplete) {
               final plantSpecies = species.firstWhere(
                 (element) => element.id == plantComplete.speciesId,
+                orElse: SpeciesComplete.empty,
               );
               return Container(
                 width: double.infinity,
@@ -67,7 +69,8 @@ class PlantDetailPage extends HookConsumerWidget {
                       style: const TextStyle(fontSize: 15),
                     ),
                     Text(
-                      '${SeedLibraryTextConstants.type} ${plantSpecies.speciesType.name}',
+                      '${SeedLibraryTextConstants.type} '
+                      '${function.getSpeciesTypeLabel(plantSpecies.speciesType)}',
                       style: const TextStyle(fontSize: 15),
                     ),
                     Row(

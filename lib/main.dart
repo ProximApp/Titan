@@ -18,6 +18,7 @@ import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/plausible/plausible_observer.dart';
 import 'package:titan/tools/providers/locale_notifier.dart';
 import 'package:titan/tools/providers/path_forwarding_provider.dart';
+import 'package:titan/tools/providers/rendered_path_provider.dart';
 import 'package:titan/tools/trads/en_timeago.dart';
 import 'package:titan/tools/trads/fr_timeago.dart';
 import 'package:titan/tools/ui/layouts/app_template.dart';
@@ -27,6 +28,10 @@ import 'package:app_links/app_links.dart';
 
 void main() async {
   QR.setUrlStrategy();
+  // Track the rendered path before any navigation happens: widgets watch
+  // `renderedPathProvider` instead of reading `QR.currentPath`, which is
+  // only correct at the moment a navigation commits
+  startRenderedPathTracking();
   // We set the default page type to QMaterialPage
   // See https://pub.dev/packages/qlevar_router#page-transition
   // We should not use a combination of QMaterialPage and QCupertinoPage

@@ -141,14 +141,17 @@ class SellerRightCard extends ConsumerWidget {
                               children: [
                                 icons[i],
                                 const SizedBox(width: 15),
-                                Text(
-                                  labels[i],
-                                  style: const TextStyle(
-                                    color: Color.fromARGB(255, 0, 29, 29),
-                                    fontSize: 14,
+                                Expanded(
+                                  child: Text(
+                                    labels[i],
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      color: Color.fromARGB(255, 0, 29, 29),
+                                      fontSize: 14,
+                                    ),
                                   ),
                                 ),
-                                const Spacer(),
                                 if (me.canManageSellers &&
                                     !isStructureAdmin &&
                                     i < sellerRights.length)
@@ -283,13 +286,17 @@ class SellerRightCard extends ConsumerWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Center(
-              child: Text(
-                storeSeller.user.nickname ??
-                    ("${storeSeller.user.firstname} ${storeSeller.user.name}"),
-                style: const TextStyle(
-                  color: Color.fromARGB(255, 0, 29, 29),
-                  fontSize: 14,
+            Flexible(
+              child: Center(
+                child: Text(
+                  storeSeller.user.nickname ??
+                      ("${storeSeller.user.firstname} ${storeSeller.user.name}"),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Color.fromARGB(255, 0, 29, 29),
+                    fontSize: 14,
+                  ),
                 ),
               ),
             ),

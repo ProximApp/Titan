@@ -47,10 +47,13 @@ class AssociationEventsListNotifier
   }
 
   Future<bool> deleteEvent(EventCompleteTicketUrl event) async {
-    return await update(
+    // `delete`, not `update`: the DELETE endpoint answers with an empty body,
+    // and updating the list in place would put the event back at its own
+    // index — the card stayed on screen after a successful deletion.
+    return await delete(
       () => eventsRepository.calendarEventsEventIdDelete(eventId: event.id),
       (event) => event.id,
-      event,
+      event.id,
     );
   }
 }

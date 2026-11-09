@@ -17,7 +17,16 @@ class EventImageNotifier extends SingleNotifier<Image> {
   }
 
   Future<bool> addEventImage(String id, Uint8List bytes) async {
-    await repository.calendarEventsEventIdImagePost(eventId: id, image: bytes);
+    // The response used to be discarded, so this ALWAYS answered true: a 4xx or
+    // 5xx from the upload was reported as a success by its caller, and the
+    // event kept a missing poster while the UI claimed everything was saved.
+    final response = await repository.calendarEventsEventIdImagePost(
+      eventId: id,
+      image: bytes,
+    );
+    if (!response.isSuccessful) {
+      return false;
+    }
     state = AsyncData(Image.memory(bytes));
     return true;
   }

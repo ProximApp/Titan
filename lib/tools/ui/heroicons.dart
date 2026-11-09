@@ -73,7 +73,9 @@ class HeroIcon extends StatelessWidget {
           child: SvgPicture.string(
             // Falling back to the outline drawing keeps a missing variant from
             // becoming a blank hole in a release build; the assertion above is
-            // what surfaces it during development.
+            // what surfaces it during development. Only a release build ever
+            // evaluates this fallback: `flutter test` runs with asserts on, so
+            // a null `source` trips the assertion first.
             source ?? icon.outline,
             colorFilter: ColorFilter.mode(
               color ?? IconTheme.of(context).color ?? Colors.black,

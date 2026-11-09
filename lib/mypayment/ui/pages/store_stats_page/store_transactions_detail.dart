@@ -6,6 +6,7 @@ import 'package:titan/mypayment/providers/refund_amount_provider.dart';
 import 'package:titan/mypayment/providers/selected_store_provider.dart';
 import 'package:titan/mypayment/ui/components/transaction_card.dart';
 import 'package:titan/mypayment/ui/pages/store_stats_page/refund_page.dart';
+import 'package:titan/navigation/providers/navbar_visibility_provider.dart';
 
 class StoreTransactionsDetail extends ConsumerWidget {
   final List<History> history;
@@ -15,8 +16,12 @@ class StoreTransactionsDetail extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedStore = ref.watch(selectedStoreProvider);
     final refundAmountNotifier = ref.watch(refundAmountProvider.notifier);
+    final navbarVisibilityNotifier = ref.read(
+      navbarVisibilityProvider.notifier,
+    );
 
     void showCancelModal(History history) {
+      navbarVisibilityNotifier.hide();
       showModalBottomSheet(
         context: context,
         backgroundColor: Colors.transparent,
@@ -25,6 +30,7 @@ class StoreTransactionsDetail extends ConsumerWidget {
         builder: (context) => ReFundPage(history: history),
       ).then((_) {
         refundAmountNotifier.setRefundAmount("");
+        navbarVisibilityNotifier.show();
       });
     }
 

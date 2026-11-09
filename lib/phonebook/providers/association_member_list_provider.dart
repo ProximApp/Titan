@@ -1,8 +1,22 @@
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/phonebook/providers/association_provider.dart';
 import 'package:titan/tools/providers/list_notifier_api.dart';
 import 'package:titan/tools/repository/repository.dart';
+
+/// The member's order for THIS mandate, or 0 when the membership is absent
+/// (they left, or the mandate rolled over). The bare `firstWhere` that used
+/// to run inside the sort comparator threw `Bad state: No element` there.
+int _membershipOrder(MemberComplete member, MembershipComplete membership) =>
+    member.memberships
+        .firstWhereOrNull(
+          (e) =>
+              e.associationId == membership.associationId &&
+              e.mandateYear == membership.mandateYear,
+        )
+        ?.memberOrder ??
+    0;
 
 class AssociationMemberListNotifier extends ListNotifierAPI<MemberComplete> {
   Openapi get associationMemberRepository => ref.watch(repositoryProvider);
@@ -34,9 +48,11 @@ class AssociationMemberListNotifier extends ListNotifierAPI<MemberComplete> {
     final res = await associationMemberRepository
         .phonebookAssociationsMembershipsPost(body: membership);
     if (!res.isSuccessful || res.body == null) return false;
-    member.memberships.add(res.body!);
+    final storedMember = member.copyWith(
+      memberships: [...member.memberships, res.body!],
+    );
     state.whenData((members) {
-      state = AsyncValue.data([...members, member]);
+      state = AsyncValue.data([...members, storedMember]);
     });
     return true;
   }
@@ -77,45 +93,39 @@ class AssociationMemberListNotifier extends ListNotifierAPI<MemberComplete> {
         );
     if (!response.isSuccessful) return false;
     state.whenData((current) {
+      // Everything below works on copies: `current` and each member's
+      // `memberships` list belong to the state being replaced, and mutating
+      // them in place would leak half-applied reorders to other readers.
       final members = [...current];
       members.sort(
-        (a, b) => a.memberships
-            .firstWhere(
-              (e) =>
-                  e.associationId == membership.associationId &&
-                  e.mandateYear == membership.mandateYear,
-            )
-            .memberOrder
-            .compareTo(
-              b.memberships
-                  .firstWhere(
-                    (e) =>
-                        e.associationId == membership.associationId &&
-                        e.mandateYear == membership.mandateYear,
-                  )
-                  .memberOrder,
-            ),
+        (a, b) => _membershipOrder(
+          a,
+          membership,
+        ).compareTo(_membershipOrder(b, membership)),
       );
       members.remove(member);
       if (oldIndex < newIndex) newIndex--;
       members.insert(newIndex, member);
 
       for (int i = 0; i < members.length; i++) {
-        List<MembershipComplete> memberships = members[i].memberships;
-        MembershipComplete oldMembership = memberships.firstWhere(
+        // Copy the memberships list before editing it: it is the list object
+        // the pre-reorder state (and every other reader) still holds.
+        final memberships = [...members[i].memberships];
+        final oldMembership = memberships.firstWhereOrNull(
           (e) =>
               e.associationId == membership.associationId &&
               e.mandateYear == membership.mandateYear,
         );
-        memberships.remove(
-          memberships.firstWhere(
+        if (oldMembership == null) continue;
+        final reordered = [
+          ...memberships.where(
             (e) =>
-                e.associationId == membership.associationId &&
-                e.mandateYear == membership.mandateYear,
+                !(e.associationId == membership.associationId &&
+                    e.mandateYear == membership.mandateYear),
           ),
-        );
-        memberships.add(oldMembership.copyWith(memberOrder: i));
-        members[i].copyWith(memberships: memberships);
+          oldMembership.copyWith(memberOrder: i),
+        ];
+        members[i] = members[i].copyWith(memberships: reordered);
       }
       state = AsyncValue.data(members);
     });

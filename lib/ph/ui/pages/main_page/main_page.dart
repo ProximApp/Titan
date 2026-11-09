@@ -50,8 +50,9 @@ class PhMainPage extends HookConsumerWidget {
           const SizedBox(height: 10),
           AsyncChild(
             value: phList,
-            builder: (context, phs) {
-              phs.sort((a, b) => a.releaseDate.compareTo(b.releaseDate));
+            builder: (context, phsUnsorted) {
+              final phs = [...phsUnsorted]
+                ..sort((a, b) => a.releaseDate.compareTo(b.releaseDate));
               if (phs.isEmpty) {
                 return Text(
                   AppLocalizations.of(context)!.phNoJournalInDatabase,

@@ -4,7 +4,7 @@ import 'package:titan/generated/openapi.models.swagger.dart';
 class EventNotifier extends Notifier<EventCompleteTicketUrl> {
   @override
   EventCompleteTicketUrl build() {
-    return EventCompleteTicketUrl.fromJson({});
+    return EventCompleteTicketUrl.empty();
   }
 
   void setEvent(EventCompleteTicketUrl event) {

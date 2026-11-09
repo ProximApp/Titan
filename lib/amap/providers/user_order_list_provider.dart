@@ -12,7 +12,7 @@ class UserOrderListNotifier extends ListNotifierAPI<OrderReturn> {
   AsyncValue<List<OrderReturn>> build() {
     final userId = ref.watch(idProvider);
     userId.whenData((value) async => await loadOrderList(value));
-    return state;
+    return const AsyncValue.loading();
   }
 
   Future<AsyncValue<List<OrderReturn>>> loadOrderList(String userId) async {
@@ -114,6 +114,10 @@ class UserOrderListNotifier extends ListNotifierAPI<OrderReturn> {
 
   Future<double> getPrice(int indexOrder) async {
     double price = 0;
+    // The catch below is dead: every arm of `when` is either a plain
+    // assignment or an async closure, whose throw (a bad index raises
+    // RangeError inside `data:`) is captured by that closure's Future and
+    // never reaches this synchronous try. `when` itself cannot throw.
     try {
       state.when(
         data: (orders) async {

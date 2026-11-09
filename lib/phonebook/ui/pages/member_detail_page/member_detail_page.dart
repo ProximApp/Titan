@@ -81,10 +81,15 @@ class MemberDetailPage extends HookConsumerWidget {
                         ),
                       ),
                     const SizedBox(height: 5),
-                    if (member.promo != 0)
+                    // A member with no promotion has a NULL promo, and
+                    // `null != 0` is true in Dart: the bare `!= 0` let it
+                    // through and the `member.promo!` below threw a
+                    // null-check out of build, blanking the whole page for
+                    // any member without a promo.
+                    if (member.promo != null && member.promo != 0)
                       Text(
                         localizeWithContext.phonebookPromotion(
-                          (member.promo ?? 0) < 100
+                          member.promo! < 100
                               ? member.promo! + 2000
                               : member.promo!,
                         ),
@@ -109,20 +114,32 @@ class MemberDetailPage extends HookConsumerWidget {
               const SizedBox(height: 10),
               AsyncChild(
                 value: associationList,
-                builder: (context, associations) => Column(
-                  children: [
-                    ...sortedMemberships.map((membership) {
-                      final membershipAssociation = associations.firstWhere(
-                        (association) =>
-                            association.id == membership.associationId,
-                      );
-                      return MembershipCard(
-                        association: membershipAssociation,
-                        membership: membership,
-                      );
-                    }),
-                  ],
-                ),
+                builder: (context, associations) {
+                  // A membership can outlive its association (deleted
+                  // server-side, or a mandate left behind). There is no card
+                  // to build without the association, so the orphan is
+                  // skipped: the bare `firstWhere` that used to run here
+                  // threw `Bad state: No element` out of build and killed
+                  // the page — the same orphan shape as the groupement
+                  // lookup on the association cards.
+                  final associationById = {
+                    for (final association in associations)
+                      association.id: association,
+                  };
+                  return Column(
+                    children: [
+                      for (final membership in sortedMemberships)
+                        if (associationById.containsKey(
+                          membership.associationId,
+                        ))
+                          MembershipCard(
+                            association:
+                                associationById[membership.associationId]!,
+                            membership: membership,
+                          ),
+                    ],
+                  );
+                },
               ),
               const SizedBox(height: 20),
             ],

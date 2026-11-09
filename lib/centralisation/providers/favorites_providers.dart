@@ -29,10 +29,16 @@ class FavoritesNameNotifier extends Notifier<List<String>> {
     saveFavoritesToSharedPreferences(state);
   }
 
+  /// Moves the favourite at [oldIndex] to [newIndex].
+  ///
+  /// [newIndex] is the slot the item lands in, which is what this Flutter's
+  /// `ReorderableListView.onReorderItem` hands over: it already accounts for
+  /// the dragged item no longer occupying its old slot. The previous
+  /// `if (oldIndex < newIndex) newIndex -= 1` re-applied that correction, so
+  /// dragging a favourite one place down subtracted its own move and the
+  /// strip sprang back (a test that drags the first card past the second
+  /// pinned it).
   void reorderFavorites(int oldIndex, int newIndex) {
-    if (oldIndex < newIndex) {
-      newIndex -= 1;
-    }
     final copy = state.sublist(0);
     final String item = copy.removeAt(oldIndex);
     copy.insert(newIndex, item);

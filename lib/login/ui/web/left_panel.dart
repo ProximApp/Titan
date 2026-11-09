@@ -13,6 +13,7 @@ import 'package:titan/tools/functions.dart';
 import 'package:titan/tools/providers/path_forwarding_provider.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
 import 'package:qlevar_router/qlevar_router.dart';
+import 'package:titan/tools/providers/rendered_path_provider.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/user/providers/user_provider.dart';
 import 'package:titan/version/providers/version_verifier_provider.dart';
@@ -49,8 +50,9 @@ class LeftPanel extends HookConsumerWidget {
             isPermissionsLoaded &&
             isModulesLoaded) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (QR.currentPath != LoginRouter.root &&
-                QR.currentPath != AppRouter.root) {
+            final renderedPath = ref.read(renderedPathProvider);
+            if (renderedPath != LoginRouter.root &&
+                renderedPath != AppRouter.root) {
               return;
             }
             final currentPath = ref.read(pathForwardingProvider);

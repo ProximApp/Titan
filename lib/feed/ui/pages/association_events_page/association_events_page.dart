@@ -27,6 +27,14 @@ class ManageAssociationEventPage extends HookConsumerWidget {
       myAssociations.isNotEmpty ? myAssociations.first : null,
     );
 
+    useEffect(() {
+      final association = selectedAssociation.value;
+      if (association != null) {
+        associationEventsListNotifier.loadAssociationEventList(association.id);
+      }
+      return null;
+    }, [selectedAssociation.value]);
+
     final localizeWithContext = AppLocalizations.of(context)!;
 
     return FeedTemplate(
@@ -50,9 +58,6 @@ class ManageAssociationEventPage extends HookConsumerWidget {
                 selectedItem: selectedAssociation.value,
                 onItemSelected: (association) {
                   selectedAssociation.value = association;
-                  associationEventsListNotifier.loadAssociationEventList(
-                    association.id,
-                  );
                 },
                 itemBuilder: (context, association, index, selected) => Text(
                   association.name,

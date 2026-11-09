@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/admin/providers/is_admin_provider.dart';
+import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/phonebook/providers/association_filtered_list_provider.dart';
 import 'package:titan/phonebook/providers/association_groupement_list_provider.dart';
 import 'package:titan/phonebook/providers/association_groupement_provider.dart';
@@ -57,15 +58,18 @@ class AdminPage extends HookConsumerWidget {
               const SizedBox(height: 20),
               Row(
                 children: [
-                  Text(
-                    AppLocalizations.of(context)!.phonebookAssociations,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: ColorConstants.title,
+                  Expanded(
+                    child: Text(
+                      AppLocalizations.of(context)!.phonebookAssociations,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: ColorConstants.title,
+                      ),
                     ),
                   ),
-                  const Spacer(),
                   if (isPhonebookAdmin)
                     CustomIconButton(
                       icon: HeroIcon(
@@ -107,6 +111,7 @@ class AdminPage extends HookConsumerWidget {
                             groupement: associationGroupements.firstWhere(
                               (groupement) =>
                                   groupement.id == association.groupementId,
+                              orElse: () => AssociationGroupement.empty(),
                             ),
                             isPhonebookAdmin: isPhonebookAdmin,
                             isAdmin: isAdmin,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:qlevar_router/qlevar_router.dart';
+import 'package:titan/tools/providers/rendered_path_provider.dart';
 import 'package:titan/phonebook/providers/association_groupement_provider.dart';
 import 'package:titan/phonebook/router.dart';
 import 'package:titan/tools/constants.dart';
@@ -38,7 +38,9 @@ class PhonebookTemplate extends HookConsumerWidget {
             TopBar(
               root: PhonebookRouter.root,
               onBack: () {
-                if (pathGroupementClearing.contains(QR.currentPath)) {
+                if (pathGroupementClearing.contains(
+                  ref.read(renderedPathProvider),
+                )) {
                   associationGroupementNotifer.resetAssociationGroupement();
                 }
               },

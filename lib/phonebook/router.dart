@@ -128,6 +128,20 @@ class PhonebookRouter {
               AdminMiddleware(ref, isAssociationPresidentProvider),
             ],
             children: [
+              // UNREACHABLE: nothing pushes this association-side copy of the
+              // groupement editor. Both in-app entries live in
+              // `ui/components/groupement_bar.dart` (the "+" chip and the
+              // sheet's edit action) and route to
+              // `root + admin + addEditAssociation + addEditGroupement`, the
+              // copy under `admin` above. The only other way in is a deep
+              // link, and this route sits under
+              // `AdminMiddleware(isAssociationPresidentProvider)`: the
+              // middleware is evaluated before the members list resolves
+              // (`maybeWhen` has no `data:` yet, so it answers false) and the
+              // chain redirects to /feed — a deep link here logs
+              // "redirect from [/phonebook/association_detail/add_edit_association]
+              // to [/feed]". Even a successful push would mount the same
+              // `AssociationGroupementAddEditPage`.
               QRoute(
                 path: addEditGroupement,
                 builder: () =>

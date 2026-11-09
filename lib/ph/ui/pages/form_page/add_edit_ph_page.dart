@@ -107,11 +107,9 @@ class PhAddEditPhPage extends HookConsumerWidget {
                           final phList = ref.watch(phListProvider);
                           PaperComplete newPh = PaperComplete(
                             id: isEdit ? ph.id : '',
-                            releaseDate: DateTime.parse(
-                              processDateBack(
-                                dateController.text,
-                                locale.toString(),
-                              ),
+                            releaseDate: phParseDateEntry(
+                              dateController.text,
+                              locale,
                             ),
                             name: name.text,
                           );

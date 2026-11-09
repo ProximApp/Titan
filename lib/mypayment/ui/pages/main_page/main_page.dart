@@ -137,15 +137,17 @@ class PaymentMainPage extends HookConsumerWidget {
       return null;
     }, [paymentRequests]);
 
-    tos.maybeWhen(
-      orElse: () {},
-      error: (e, s) async {
+    final tosFailed = tos.hasError;
+    useEffect(() {
+      if (!tosFailed) return null;
+      Future.microtask(() async {
         final value = await registerNotifier.register();
         if (value) {
           tosNotifier.getTOS();
         }
-      },
-    );
+      });
+      return null;
+    }, [tosFailed]);
 
     return PaymentTemplate(
       child: shouldDisplayTosDialog
