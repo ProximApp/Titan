@@ -19,6 +19,15 @@ import '../ph_fixtures.dart';
 /// so the page boots straight into edit mode — isEdit flips the button
 /// labels, the submit path to `phPaperIdPatch`, and the picked-PDF branch
 /// that re-uploads through `phPaperIdPdfPost`.
+///
+/// The one arm no test can reach: the empty `orElse: () {}` of the
+/// `phList.maybeWhen(...)` that re-uploads the PDF. `phList` is the
+/// AsyncValue snapshot read before the submit (`ref.watch(phListProvider)` at
+/// the top of the handler), and the branch only runs inside `if (value)` —
+/// `value` comes from `editPh()`/`addPh()`, whose `update`/`add` answer true
+/// only from a `data` state. A snapshot that is NOT data would have made the
+/// save answer false and skipped the block entirely, so the `maybeWhen` is
+/// always handed a data value and its orElse has nothing to answer.
 
 void main() {
   late IntegrationScaffold scaffold;
