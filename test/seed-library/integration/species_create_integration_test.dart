@@ -14,6 +14,12 @@ import '../seed_library_fixtures.dart';
 /// gates → create with both months set (the create branch's
 /// DateTime(2021, …) arms) → back to the list → second round where the
 /// POST returns 400 and the form stays up with addingError.
+///
+/// `add_edit_species_page.dart:220-224` stay dark and are dead: the guard is
+/// `type.name == SeedLibraryTextConstants.all`, but `type` is a `SpeciesType`
+/// and `.name` is the enum's Dart identifier (`plantesAromatiques`, …), which
+/// can never equal the localised label "Toutes" the constant holds. The
+/// dropdown's own "Toutes" entry is a String in the list, not a SpeciesType.
 SpeciesComplete persil() => SpeciesComplete.empty().copyWith(
   id: 'sp-9',
   name: 'Persil',
