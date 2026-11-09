@@ -356,4 +356,33 @@ void main() {
 
     await scaffold.unmountApp(tester);
   });
+
+  testWidgets('tapping the row hands the flipped value to onChanged', (
+    tester,
+  ) async {
+    // The whole row is the switch's second target: a thumb-only target is a
+    // poor one, so the row tap reports the value the switch would flip to.
+    bool? received;
+    final container = scaffold.makeContainer();
+    addTearDown(container.dispose);
+
+    await scaffold.pumpWidgetApp(
+      tester,
+      Scaffold(
+        body: SwitchRow(
+          title: 'Manage scans',
+          value: false,
+          onChanged: (value) => received = value,
+        ),
+      ),
+      container,
+    );
+
+    await tester.tap(find.text('Manage scans'));
+    await tester.pump();
+
+    expect(received, isTrue);
+    expect(tester.takeException(), isNull);
+    await scaffold.unmountApp(tester);
+  });
 }

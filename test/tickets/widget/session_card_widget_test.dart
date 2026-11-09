@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tickets/ui/components/session_card.dart';
+import 'package:titan/tools/ui/widgets/date_entry.dart';
 
 import '../../shared/app_scaffold.dart';
 
@@ -127,6 +128,35 @@ void main() {
       DateTime.now().year,
       reason: 'an unparseable field must fall back, never throw inside notify',
     );
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('tapping the date entry opens the picker and writes the choice', (
+    tester,
+  ) async {
+    await pumpCard(tester);
+
+    // The DateEntry absorbs its own field's gestures so the tap lands on its
+    // GestureDetector: pressing the entry is what opens the picker.
+    await tester.tap(find.byType(DateEntry).first);
+    await tester.pumpAndSettle();
+    expect(find.byType(DatePickerDialog), findsOneWidget);
+
+    // The date first, then the time: two dialogs, each confirmed.
+    await tester.tap(find.text('OK'));
+    await tester.pumpAndSettle();
+    expect(find.byType(TimePickerDialog), findsOneWidget);
+    await tester.tap(find.text('OK'));
+    await tester.pumpAndSettle();
+
+    // The pickers wrote a locale-formatted date and time into the field and
+    // the card re-emitted its sessions.
+    final written = tester
+        .widget<EditableText>(find.byType(EditableText).at(1))
+        .controller
+        .text;
+    expect(written, isNotEmpty);
+    expect(emissions, isNotEmpty);
     expect(tester.takeException(), isNull);
   });
 }

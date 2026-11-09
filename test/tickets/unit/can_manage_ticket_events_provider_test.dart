@@ -65,6 +65,15 @@ class _FakeMyStoresNotifier extends MyStoresNotifier {
   AsyncValue<List<UserStore>> build() => AsyncValue.data(stores);
 }
 
+/// Stands in for the real [StoreSellerListNotifier] while its fetch is still
+/// running: the stores are known, the sellers of one of them are not.
+class LoadingSellerListNotifier extends StoreSellerListNotifier {
+  LoadingSellerListNotifier(super.storeId);
+
+  @override
+  AsyncValue<List<Seller>> build() => const AsyncValue.loading();
+}
+
 class _LoadingMyStoresNotifier extends MyStoresNotifier {
   @override
   AsyncValue<List<UserStore>> build() => const AsyncValue.loading();
@@ -227,5 +236,25 @@ void main() {
         );
       },
     );
+  });
+
+  test('is false while one store\'s sellers are still loading', () {
+    // The stores arrived, so the loop reaches the seller lookup — and the
+    // sellers of that store have not. Nothing may be assumed about the
+    // permission until they do.
+    final container = ProviderContainer(
+      overrides: [
+        userProvider.overrideWithValue(CoreUser.empty().copyWith(id: 'me')),
+        myStoresProvider.overrideWith(
+          () => _FakeMyStoresNotifier([storeFor('store-1')]),
+        ),
+        sellerStoreProvider.overrideWith2(
+          (storeId) => LoadingSellerListNotifier(storeId),
+        ),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    expect(container.read(canManageTicketEventsProvider), isFalse);
   });
 }

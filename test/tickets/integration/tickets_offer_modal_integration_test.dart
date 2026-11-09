@@ -7,6 +7,8 @@ import 'package:titan/generated/openapi.models.swagger.dart' as models;
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tickets/ui/components/offer_ticket_modal.dart';
 
+import 'package:titan/tickets/providers/ticket_change_over_provider.dart';
+
 import '../../shared/app_scaffold.dart';
 
 /// The transfer sheet (`offer_ticket_modal.dart`, 49 executable lines):
@@ -14,9 +16,25 @@ import '../../shared/app_scaffold.dart';
 /// reload) and the three backend error mappings — the not-owner, the
 /// not-found and the generic failure.
 ///
+/// The fallback beside the error message (`error != null ? _errorMessage : …`)
+/// cannot be produced by the REAL notifier: `requestChangeOver` answers false
+/// only from its own `catch`, which has just stored `AsyncValue.error`. The
+/// last test therefore drives the sheet's own contract instead — it overrides
+/// `ticketChangeOverProvider` with a notifier that refuses without storing an
+/// error, which is what the sheet's `success == false` branch has to cope
+/// with, and observes the generic message rather than a blank toast.
+///
 /// Mounted through the real journey: `/tickets` lists one transferable
 /// ticket (not scanned, session in the future) whose card opens the
 /// sheet. Every test deep-links the SAME path (convention 10).
+/// A refusal that stores no error: the sheet's `success == false` branch with
+/// an empty `ticketChangeOverProvider`, which the real notifier never leaves
+/// behind (its only false answer comes from the `catch` that fills it).
+class _SilentRefusalNotifier extends TicketChangeOverNotifier {
+  @override
+  Future<bool> requestChangeOver(String ticketId, String email) async => false;
+}
+
 void main() {
   late IntegrationScaffold scaffold;
 
@@ -38,8 +56,13 @@ void main() {
         ),
       );
 
-  Future<void> pumpTickets(WidgetTester tester) async {
-    final container = scaffold.makeContainer();
+  Future<void> pumpTickets(
+    WidgetTester tester, {
+    List<dynamic> providerOverrides = const [],
+  }) async {
+    final container = scaffold.makeContainer(
+      providerOverrides: providerOverrides,
+    );
     addTearDown(container.dispose);
     // The real MyStoresNotifier.build fires this endpoint; a plain user
     // has no stores, which also keeps the admin button off the page.
@@ -172,5 +195,27 @@ void main() {
 
     // A refusal never closes the sheet.
     expect(scaffold.isModalOpen(tester), isTrue);
+  });
+
+  testWidgets('a refusal without a stored error says the send failed', (
+    tester,
+  ) async {
+    await pumpTickets(
+      tester,
+      providerOverrides: [
+        ticketChangeOverProvider.overrideWith(_SilentRefusalNotifier.new),
+      ],
+    );
+
+    await scaffold.openModal(tester, find.text('Transfer this ticket'));
+    await tester.enterText(modalEmailField(), 'ada@example.com');
+    await scaffold.tapInModal(tester, modalButton());
+
+    // No error to translate, so the sheet falls back to its generic message
+    // instead of rendering an empty one — and, being a refusal, it stays open.
+    expect(find.text('Failed to send transfer invitation'), findsOneWidget);
+    expect(scaffold.isModalOpen(tester), isTrue);
+    expect(tester.takeException(), isNull);
+    await scaffold.drainToast(tester);
   });
 }

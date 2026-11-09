@@ -12,6 +12,24 @@ import '../tickets_fixtures.dart';
 /// chips, its event-card list and its empty state — plus `TicketEventCard`
 /// (22 uncovered lines), which only this page mounts in a list.
 ///
+/// Two spots are out of a ROUTE test's reach because the gate — not the
+/// harness — decides the page's first store:
+///
+///  * the `useEffect` that adopts the first store once the list arrives
+///    (`selectedStore == null && myStores.hasValue && …`), and
+///  * the refresher's `return Future.value()` no-store guard.
+///
+/// Both need `selectedStore == null`, and this page only ever renders under
+/// `AdminMiddleware(ref, canManageTicketEventsProvider)`: that gate answers
+/// `false` while `myStores` is loading or empty (`can_manage_ticket_events_
+/// provider.dart`), so a navigation either bounces to the feed or arrives with
+/// a NON-empty store list, and the page initialises `selectedStore` from it.
+/// Both arms ARE driven at widget level with a controlled store list —
+/// `test/tickets/widget/tickets_manage_page_widget_test.dart` mounts the page
+/// with an empty list, then publishes the stores the way the real notifier
+/// does, and pulls with no store selected. This file keeps the route
+/// behaviour; that one owns the two guards.
+///
 /// The route sits behind AdminMiddleware(canManageTicketEventsProvider):
 /// the seller row must carry canManageEvents, so the scaffold's
 /// myStores/storeSellers fakes pin the gate (same as the create file).

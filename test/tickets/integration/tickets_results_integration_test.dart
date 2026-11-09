@@ -19,10 +19,11 @@ import '../tickets_fixtures.dart';
 /// branch, a pre-seeded id drives the loads. Every test deep-links the
 /// SAME path (convention 10).
 ///
-/// The CSV SUCCESS path is deliberately not driven: downloadFile hands
-/// off to file_saver's native save dialog, which does not exist in tests
-/// (same limit as the ph download test — it throws UnimplementedError on
-/// the Linux CI host), so only the bytes==null error branch is reachable.
+/// Only the bytes==null error branch is driven here. The SUCCESS path — the
+/// bytes handed to `downloadFile`, the save dialog and its toast — is
+/// `tickets_results_csv_download_integration_test.dart`: it answers the
+/// file_saver pigeon channel, which is the same seam the ph download test
+/// uses, so the real routing runs and only the plugin's reply is replaced.
 void main() {
   late IntegrationScaffold scaffold;
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/tickets/ui/components/user_ticket_card.dart';
+import 'package:titan/tools/ui/styleguide/bottom_modal_template.dart';
 
 import '../../shared/app_scaffold.dart';
 
@@ -12,6 +13,29 @@ import '../../shared/app_scaffold.dart';
 /// `transferBlockReason`. Those decide whether a user can hand a ticket over,
 /// which is the one thing this card actually enforces — the text on screen is
 /// the only signal a user gets.
+///
+/// One arm of that message builder cannot be selected, and it was tried by
+/// mounting the card, not by reading it. The third case is
+/// `TicketTransferBlockReason.transferable`, and the block is rendered inside
+/// `if (!isTransferable)`; `isTransferable` is *defined* as
+/// `transferBlockReason == TicketTransferBlockReason.transferable`
+/// (`user_ticket.dart`), so the only value that selects that case is the one
+/// value that suppresses the call. The first test mounts exactly that ticket
+/// and asserts what renders: the live button (a non-null `onTap`), no block
+/// text at all, and specifically no "This ticket cannot be transferred".
+///
+/// The other direction is mounted too, because the argument above only holds
+/// if blocked tickets really do get their explanation — the two tests below
+/// assert the sentence AND the dead control (a null `onTap`) a scanned ticket
+/// and a past session render, so no blocked user is left with a button that
+/// silently does nothing.
+///
+/// The live direction is an interaction, not a field check: the transferable
+/// test taps the button and asserts the transfer sheet is on screen. That is
+/// the observable difference the guard makes, and it is also why the third
+/// arm's text is dead twice over — `ticketsOfferNotTransferable` is referenced
+/// by that arm and by nothing else in `lib/`, so the localized string has no
+/// screen on which to appear.
 void main() {
   late IntegrationScaffold scaffold;
 
@@ -67,6 +91,9 @@ void main() {
     expect(find.text('Transfer this ticket'), findsOneWidget);
     // No block message when the ticket is transferable.
     expect(find.textContaining('can no longer be transferred'), findsNothing);
+    // Not even the `transferable` case's own message can appear: the guard
+    // that would render it is the one that excludes it.
+    expect(find.text('This ticket cannot be transferred'), findsNothing);
     // 1250 cents is printed in euros, without a trailing zero.
     expect(find.text('12.5€'), findsOneWidget);
 
@@ -81,6 +108,13 @@ void main() {
           .first,
     );
     expect(gesture.onTap, isNotNull);
+
+    // And the callback really opens the transfer sheet: the guard's effect is
+    // a sheet on screen, not just a non-null field.
+    await tester.tap(find.text('Transfer this ticket'));
+    await tester.pumpAndSettle();
+    expect(find.byType(BottomModalTemplate), findsOneWidget);
+    expect(find.text('This ticket cannot be transferred'), findsNothing);
     expect(tester.takeException(), isNull);
   });
 
@@ -95,6 +129,18 @@ void main() {
       ),
       findsOneWidget,
     );
+
+    // And the control is not tappable: the explanation sits under a disabled
+    // button rather than a live one that would fail on the server.
+    final gesture = tester.widget<GestureDetector>(
+      find
+          .ancestor(
+            of: find.text('Transfer this ticket'),
+            matching: find.byType(GestureDetector),
+          )
+          .first,
+    );
+    expect(gesture.onTap, isNull);
     expect(tester.takeException(), isNull);
   });
 
@@ -109,6 +155,16 @@ void main() {
       find.textContaining('already passed (04/03/2020 at 05:06)'),
       findsOneWidget,
     );
+    // The expired case blocks the same way the used one does.
+    final gesture = tester.widget<GestureDetector>(
+      find
+          .ancestor(
+            of: find.text('Transfer this ticket'),
+            matching: find.byType(GestureDetector),
+          )
+          .first,
+    );
+    expect(gesture.onTap, isNull);
     expect(tester.takeException(), isNull);
   });
 

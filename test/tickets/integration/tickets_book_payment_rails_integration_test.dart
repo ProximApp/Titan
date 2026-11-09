@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.enums.swagger.dart' as enums;
 import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/mypayment/providers/can_pay_provider.dart';
+import 'package:titan/mypayment/tools/can_pay.dart';
 import 'package:titan/tools/providers/path_forwarding_provider.dart';
 
 import '../../shared/app_scaffold.dart';
@@ -21,7 +23,15 @@ import '../../shared/app_scaffold.dart';
 ///
 /// The balance arm is different in kind: `canPayProvider` deliberately
 /// excludes the balance (it depends on the amount), so the page compares it
-/// against the selected category's price itself. That comparison is what
+/// against the selected category's price itself — and that is also why the
+/// tile's `CanPayError.insufficientBalance` switch arm is NOT produced by the
+/// real chain: the provider that yields `CanPayError` answers only
+/// tosNotAccepted / noDevice / deviceInactive / deviceRevoked / ok, and the
+/// shortfall normally reaches the tile through `hasInsufficientBalance` on the
+/// branch below the switch. That arm is still part of the tile's contract, so
+/// the last test drives it by overriding `canPayProvider` with
+/// `CanPayResult.fail(CanPayError.insufficientBalance)` and observes the
+/// rendered reason — the only way that value can reach the widget today. That comparison is what
 /// makes the tile unselectable AND what flips the selection back to
 /// HelloAsso afterwards.
 EventPublic bookableEvent() => EventPublic.empty().copyWith(
@@ -109,9 +119,13 @@ void main() {
   Future<void> pumpBook(
     WidgetTester tester, {
     String? deviceKeyId = 'key-1',
+    List<dynamic> providerOverrides = const [],
   }) async {
     scaffold.setWideSurface(tester);
-    final container = scaffold.makeContainer(deviceKeyId: deviceKeyId);
+    final container = scaffold.makeContainer(
+      deviceKeyId: deviceKeyId,
+      providerOverrides: providerOverrides,
+    );
     addTearDown(container.dispose);
     container
         .read(pathForwardingProvider.notifier)
@@ -229,6 +243,38 @@ void main() {
             'the auto-switch exists so the user is never left on a payment '
             'method that cannot go through',
       );
+    },
+  );
+
+  testWidgets(
+    'a readiness answer of insufficient balance names the shortfall',
+    (tester) async {
+      // The enum value exists and the tile renders it; nothing in the provider
+      // chain emits it (the page compares the balance itself when the wallet is
+      // payable), so this arm is driven through the provider's own type.
+      stubPaymentChain();
+      await pumpBook(
+        tester,
+        providerOverrides: [
+          canPayProvider.overrideWith(
+            (ref) async =>
+                const CanPayResult.fail(CanPayError.insufficientBalance),
+          ),
+        ],
+      );
+      await pickCategory(tester, 'Normal');
+
+      expect(find.text('myempay'), findsOneWidget);
+      expect(find.text('Insufficient Funds'), findsOneWidget);
+      // It is the balance arm's message, not another reason's.
+      expect(find.text('Please accept the Terms of Service.'), findsNothing);
+      expect(find.text('Device not registered'), findsNothing);
+
+      // And the tile stays unselectable: the warning is not the selected one.
+      await tester.tap(find.text('myempay'));
+      await settle(tester, frames: 4);
+      expect(find.text(helloAssoSelected), findsOneWidget);
+      expect(tester.takeException(), isNull);
     },
   );
 }

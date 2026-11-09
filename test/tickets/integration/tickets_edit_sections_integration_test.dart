@@ -202,9 +202,15 @@ void main() {
             ).captured.single
             as SessionCreate;
     expect(captured.name, 'Sunday');
-    // Today's picker round-trip (now-based defaults), parsed back from the
-    // formatted controller text by processDateBackWithHourMaybe.
-    expect(captured.startDatetime, isA<DateTime>());
+    // The pickers open on now, so the date the POST carries is today: the
+    // day survives the trip out through `DateFormat.yMd(locale).add_Hm()` and
+    // back through `processDateBackWithHourMaybe`. Day-level because the time
+    // picker's default is a separate `TimeOfDay.now()`.
+    final now = DateTime.now();
+    final posted = captured.startDatetime;
+    expect(posted.year, now.year);
+    expect(posted.month, now.month);
+    expect(posted.day, now.day);
     await scaffold.drainToast(tester);
   });
 
