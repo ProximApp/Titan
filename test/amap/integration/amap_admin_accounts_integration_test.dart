@@ -263,4 +263,44 @@ void main() {
     await tester.pump(const Duration(seconds: 3));
     await tester.pump();
   });
+
+  testWidgets('a refused balance edit keeps the old amount and says so', (
+    tester,
+  ) async {
+    stubAdminLoads(
+      scaffold,
+      cashes: [cashOf('u-1', 'Ada', 'Lovelace', nickname: 'Ada', balance: 0)],
+    );
+    // The PATCH blows up: the card must stay on 0.00 € and report the failure
+    // instead of printing a balance the server never stored.
+    when(
+      () => scaffold.repository.amapUsersUserIdCashPatch(
+        userId: any(named: 'userId'),
+        body: any(named: 'body'),
+      ),
+    ).thenThrow(Exception('network down'));
+
+    final container = scaffold.makeContainer(
+      user: amapAdminUser,
+      userId: 'user-1',
+    );
+    addTearDown(container.dispose);
+    scaffold.setWideSurface(tester);
+    await pumpAdmin(tester, container);
+
+    await tester.tap(find.text('Ada Lovelace'));
+    await settle(tester, frames: 30);
+    await tester.enterText(find.byType(TextField).last, '7,50');
+    await settle(tester, frames: 4);
+    await tester.tap(find.byIcon(Icons.add));
+    await settle(tester, frames: 20);
+
+    expect(find.text('Update failed'), findsOneWidget);
+    expect(find.text('Balance updated'), findsNothing);
+    expect(find.text('7.50 €'), findsNothing);
+    // Drain the toast timer.
+    await tester.pump(const Duration(seconds: 3));
+    await tester.pump();
+    expect(tester.takeException(), isNull);
+  });
 }

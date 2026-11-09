@@ -1,8 +1,13 @@
+import 'dart:async';
+
+import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
+import 'package:titan/amap/providers/delivery_id_provider.dart';
 import 'package:titan/tools/ui/heroicons.dart';
+import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
 
 import '../amap_fixtures.dart';
 import '../../shared/app_scaffold.dart';
@@ -355,6 +360,153 @@ void main() {
       failureToast: 'Delivery not archived',
       successToast: 'Delivery archived',
     );
+  });
+
+  testWidgets('a delivery already archived advances nowhere', (tester) async {
+    // The advance button renders for every status, but the switch behind the
+    // dialog has nothing to do for a delivery that is already archived: the
+    // confirm closes without a request and without a toast.
+    stubAdminLoads(
+      scaffold,
+      deliveries: [delivery('d-1', DeliveryStatusType.archived, products: 1)],
+      withDeliveryOrders: true,
+    );
+
+    final container = scaffold.makeContainer(
+      user: amapAdminUser,
+      userId: 'user-1',
+    );
+    addTearDown(container.dispose);
+    scaffold.setWideSurface(tester);
+    await pumpAdmin(tester, container);
+
+    await tester.tap(find.text('Archive'));
+    await tester.pump();
+    await settle(tester, frames: 8);
+    expect(find.text('Confirm'), findsOneWidget);
+    await tester.tap(find.text('Confirm'));
+    await settle(tester, frames: 12);
+
+    expect(find.byType(CustomDialogBox), findsNothing);
+    verifyNever(
+      () => scaffold.repository.amapDeliveriesDeliveryIdArchivePost(
+        deliveryId: any(named: 'deliveryId'),
+      ),
+    );
+    // The card is still there, still archived.
+    expect(find.text('The 12/31/2100'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('an unknown status is inert when confirmed', (tester) async {
+    stubAdminLoads(
+      scaffold,
+      deliveries: [
+        delivery(
+          'd-1',
+          DeliveryStatusType.swaggerGeneratedUnknown,
+          products: 1,
+        ),
+      ],
+      withDeliveryOrders: true,
+    );
+
+    final container = scaffold.makeContainer(
+      user: amapAdminUser,
+      userId: 'user-1',
+    );
+    addTearDown(container.dispose);
+    scaffold.setWideSurface(tester);
+    await pumpAdmin(tester, container);
+
+    await tester.tap(find.text('Archive'));
+    await tester.pump();
+    await settle(tester, frames: 8);
+    await tester.tap(find.text('Confirm'));
+    await settle(tester, frames: 12);
+
+    expect(find.byType(CustomDialogBox), findsNothing);
+    expect(find.text('The 12/31/2100'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('a failed open keeps the delivery in creation', (tester) async {
+    stubAdminLoads(
+      scaffold,
+      deliveries: [delivery('d-1', DeliveryStatusType.creation, products: 1)],
+      withDeliveryOrders: true,
+    );
+    when(
+      () => scaffold.repository.amapDeliveriesDeliveryIdOpenorderingPost(
+        deliveryId: any(named: 'deliveryId'),
+      ),
+    ).thenThrow(Exception('open failed'));
+
+    final container = scaffold.makeContainer(
+      user: amapAdminUser,
+      userId: 'user-1',
+    );
+    addTearDown(container.dispose);
+    scaffold.setWideSurface(tester);
+    await pumpAdmin(tester, container);
+
+    await tester.tap(find.text('Open'));
+    await tester.pump();
+    await settle(tester, frames: 8);
+    await tester.tap(find.text('Confirm'));
+    await settle(tester, frames: 12);
+
+    expect(find.text('Delivery not opened'), findsOneWidget);
+    // Still a creation delivery, so its advance button still says Open.
+    expect(find.text('Open'), findsOneWidget);
+    await tester.pump(const Duration(seconds: 3));
+    await tester.pump();
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('editing a delivery with no products and no list opens cleanly', (
+    tester,
+  ) async {
+    stubAdminLoads(
+      scaffold,
+      deliveries: [
+        DeliveryReturn(
+          name: 'Delivery d-1',
+          deliveryDate: DateTime(2100, 12, 31),
+          id: 'd-1',
+          status: DeliveryStatusType.creation,
+        ),
+      ],
+      withDeliveryOrders: true,
+    );
+    // The product catalogue never answers, so the pencil's pre-selection runs
+    // with a delivery that carries no product ids and a list that is not data:
+    // both fallbacks have to hold.
+    when(() => scaffold.repository.amapProductsGet()).thenAnswer(
+      (_) =>
+          Completer<
+                chopper.Response<List<AppModulesAmapSchemasAmapProductComplete>>
+              >()
+              .future,
+    );
+
+    final container = scaffold.makeContainer(
+      user: amapAdminUser,
+      userId: 'user-1',
+    );
+    addTearDown(container.dispose);
+    scaffold.setWideSurface(tester);
+    await pumpAdmin(tester, container);
+
+    await tester.tap(
+      find.byWidgetPredicate(
+        (w) => w is HeroIcon && w.icon == HeroIcons.pencil,
+      ),
+    );
+    await settle(tester, frames: 12);
+
+    expect(container.read(deliveryIdProvider), 'd-1');
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets('the trash dialog reports a failed delete', (tester) async {

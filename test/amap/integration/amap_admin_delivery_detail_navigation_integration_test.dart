@@ -20,10 +20,9 @@ import '../amap_fixtures.dart';
 /// harness' font metrics, and the card's own rendering is covered by
 /// test/amap/widget/amap_detail_pages_widget_test.dart.
 ///
-/// The page's pull-to-refresh (its `Refresher` onRefresh body) is NOT
-/// exercised here: a product-less delivery renders a page shorter than the
-/// viewport, so the sliver never overscrolls and the drag cannot arm the
-/// refresh control.
+/// The page's pull-to-refresh (`detail_page.dart:44-48`) is driven by
+/// `amap_delivery_detail_refresh_integration_test.dart`: a slow stepped drag
+/// arms the Cupertino control, which a single-jump `tester.drag` does not.
 void main() {
   late IntegrationScaffold scaffold;
 

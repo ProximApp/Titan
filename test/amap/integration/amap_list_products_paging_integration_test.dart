@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' show PageView;
+import 'package:flutter/material.dart' show PageView, SingleChildScrollView;
 import 'package:flutter_riverpod/flutter_riverpod.dart' show ProviderContainer;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -140,6 +140,36 @@ void main() {
     await settle(tester, frames: 40);
     expect(_container!.read(amapPageControllerProvider).page, closeTo(0, 0.05));
     expect(_container!.read(scrollProvider), closeTo(0, 0.05));
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('a long category scrolls, and a far page collapses', (
+    tester,
+  ) async {
+    stubOrders();
+    _container = scaffold.makeContainer(userId: 'user-1');
+    addTearDown(_container!.dispose);
+    // Four categories, the first one long enough to overflow the viewport: only
+    // then does the category page attach the shared scroll controller, which is
+    // what the page-change reset acts on. The last category is far enough from
+    // the current page to take the collapsed-scale branch.
+    await _container!
+        .read(deliveryProductListProvider.notifier)
+        .loadProductList([
+          for (var i = 0; i < 25; i++) product(i),
+          product(0, category: 'snacks'),
+          product(0, category: 'surgeles'),
+          product(0, category: 'desserts'),
+        ]);
+
+    await pumpList(tester);
+    final pages = find.byType(PageView);
+    expect(find.byType(SingleChildScrollView), findsWidgets);
+
+    await tester.fling(pages, const Offset(-500, 0), 1200);
+    await settle(tester, frames: 40);
+
+    expect(_container!.read(amapPageControllerProvider).page, closeTo(1, 0.05));
     expect(tester.takeException(), isNull);
   });
 }

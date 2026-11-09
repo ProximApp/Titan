@@ -275,7 +275,10 @@ void main() {
       ).thenAnswer((_) async => chopperResponse(cash));
     }
 
-    Future<ProviderContainer> pumpDeliveryPage(WidgetTester tester) async {
+    Future<ProviderContainer> pumpDeliveryPage(
+      WidgetTester tester, {
+      bool waitForOrders = true,
+    }) async {
       final container = scaffold.makeContainer(userId: 'user-1');
       addTearDown(container.dispose);
       // Seed the delivery id and the product list BEFORE mount so the page's
@@ -295,6 +298,7 @@ void main() {
       // dialog's delete-index lookup reads that snapshot): wait for the load
       // BEFORE any card exists, or the card captures a loading state, the
       // index comes back -1 and the slot map never drops the order.
+      if (!waitForOrders) return container;
       for (
         var i = 0;
         i < 20 && !container.read(userOrderListProvider).hasValue;
@@ -442,6 +446,147 @@ void main() {
       // No row to read a balance from: the card shows the empty balance
       // (0.00€) instead of taking the page down.
       expect(find.text('Balance : 0.00€'), findsOneWidget);
+    });
+
+    testWidgets('orders that failed to load leave the rollup at zero', (
+      tester,
+    ) async {
+      stubAmapLoads();
+      final container = await pumpDeliveryPage(tester);
+      // The delivery's order slot is in its error state, not data: the
+      // quantity rollup has nothing to count and has to skip it instead of
+      // throwing on the way to the product cards.
+      container
+          .read(adminDeliveryOrderListProvider.notifier)
+          .setTData(
+            'd-1',
+            AsyncError<List<OrderReturn>>(
+              Exception('orders down'),
+              StackTrace.empty,
+            ),
+          );
+      await tester.pump();
+
+      expect(find.byType(DetailOrderUI), findsNothing);
+      // Both product cards still render, with their rollup at zero.
+      expect(autoText('Honey jar'), findsOneWidget);
+      expect(autoText('Jam jar'), findsOneWidget);
+      expect(autoText('Quantity : 0'), findsNWidgets(2));
+      expect(autoText('0.00 €'), findsNWidgets(2));
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('a refused delete keeps the order and reports the error', (
+      tester,
+    ) async {
+      stubAmapLoads();
+      when(
+        () => scaffold.repository.amapOrdersOrderIdDelete(
+          orderId: any(named: 'orderId'),
+        ),
+      ).thenThrow(Exception('network down'));
+      final container = await pumpDeliveryPage(tester);
+      container
+          .read(adminDeliveryOrderListProvider.notifier)
+          .setTData('d-1', AsyncValue.data([order]));
+      await tester.pump();
+
+      await tester.tap(
+        find.byWidgetPredicate(
+          (w) => w is HeroIcon && w.icon == HeroIcons.trash,
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
+      await tester.tap(find.text('Confirm'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 600));
+
+      expect(
+        find.text('Error while deleting', skipOffstage: false),
+        findsOneWidget,
+      );
+      expect(find.text('Order deleted', skipOffstage: false), findsNothing);
+      // Nothing was refunded: the order never left the slot.
+      final balances = container
+          .read(cashListProvider)
+          .maybeWhen(
+            data: (l) => l.map((c) => c.balance).toList(),
+            orElse: () => const <int>[],
+          );
+      expect(balances, [42]);
+      expect(find.byType(DetailOrderUI), findsOneWidget);
+
+      await tester.pump(const Duration(seconds: 3));
+      await tester.pump();
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('deleting before the order list resolves is refused cleanly', (
+      tester,
+    ) async {
+      stubAmapLoads();
+      // The user's own order list never answers: the card snapshots a
+      // loading state, so the dialog's index lookup comes back -1 and the
+      // notifier then refuses the delete outright (it needs a loaded list),
+      // which the card has to report instead of refunding.
+      when(
+        () => scaffold.repository.amapUsersUserIdOrdersGet(
+          userId: any(named: 'userId'),
+        ),
+      ).thenAnswer(
+        (_) => Completer<chopper.Response<List<OrderReturn>>>().future,
+      );
+      when(
+        () => scaffold.repository.amapOrdersOrderIdDelete(
+          orderId: any(named: 'orderId'),
+        ),
+      ).thenAnswer((_) async => chopperResponseVoid());
+
+      final container = await pumpDeliveryPage(tester, waitForOrders: false);
+      expect(container.read(userOrderListProvider).hasValue, isFalse);
+      // Nothing waits for the user order list here, so the page is still
+      // building: give it its frames before the slot gets an order.
+      await settle(tester, frames: 12);
+      container
+          .read(adminDeliveryOrderListProvider.notifier)
+          .setTData('d-1', AsyncValue.data([order]));
+      await tester.pump();
+      expect(find.byType(DetailOrderUI), findsOneWidget);
+
+      await tester.tap(
+        find.byWidgetPredicate(
+          (w) => w is HeroIcon && w.icon == HeroIcons.trash,
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(find.text('Delete order?'), findsOneWidget);
+      await tester.tap(find.text('Confirm'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 600));
+      verifyNever(
+        () => scaffold.repository.amapOrdersOrderIdDelete(
+          orderId: any(named: 'orderId'),
+        ),
+      );
+      expect(
+        find.text('Error while deleting', skipOffstage: false),
+        findsOneWidget,
+      );
+      // Nothing was refunded and the slot map was not swept.
+      final balances = container
+          .read(cashListProvider)
+          .maybeWhen(
+            data: (l) => l.map((c) => c.balance).toList(),
+            orElse: () => const <int>[],
+          );
+      expect(balances, [42]);
+      expect(find.byType(DetailOrderUI), findsOneWidget);
+
+      await tester.pump(const Duration(seconds: 3));
+      await tester.pump();
+      expect(tester.takeException(), isNull);
     });
   });
 

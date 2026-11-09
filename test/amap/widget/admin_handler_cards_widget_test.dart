@@ -6,6 +6,10 @@ import 'package:titan/amap/ui/pages/admin_page/account_handler.dart';
 import 'package:titan/amap/ui/pages/admin_page/delivery_handler.dart';
 import 'package:titan/amap/ui/pages/admin_page/product_handler.dart';
 import 'package:chopper/chopper.dart' as chopper;
+import 'package:titan/generated/openapi.models.swagger.dart';
+import 'package:titan/tools/ui/heroicons.dart';
+import 'package:titan/tools/ui/layouts/card_layout.dart';
+import 'package:titan/tools/ui/widgets/styled_search_bar.dart';
 
 import '../../shared/app_scaffold.dart';
 import '../../tools/fixed_size_card_fixtures.dart' show seedSharedMaps;
@@ -79,6 +83,53 @@ void main() {
     await mountApp(tester, const AccountHandler());
 
     expect(find.byType(AccountHandler), findsOneWidget);
+  });
+
+  testWidgets('switching back to the user tab re-filters the typed query', (
+    tester,
+  ) async {
+    when(
+      () => scaffold.repository.usersSearchGet(
+        query: any(named: 'query'),
+        includedAccountTypes: any(named: 'includedAccountTypes'),
+        excludedAccountTypes: any(named: 'excludedAccountTypes'),
+        includedGroups: any(named: 'includedGroups'),
+        excludedGroups: any(named: 'excludedGroups'),
+      ),
+    ).thenAnswer((_) async => chopperListResponse(<CoreUserSimple>[]));
+    await mountApp(tester, const AccountHandler());
+
+    // The strip starts on the cash side (a plus card): the search field filters
+    // the cash list by name there, with no request of its own.
+    final tab = find.byType(CardLayout).first;
+    expect(
+      find.byWidgetPredicate((w) => w is HeroIcon && w.icon == HeroIcons.plus),
+      findsOneWidget,
+    );
+    await tester.enterText(find.byType(StyledSearchBar), 'auber');
+    await settle(tester, frames: 4);
+
+    // Flipping back to the accounts side re-runs the user search with the text
+    // still in the field instead of only relabelling the card.
+    await tester.tap(tab);
+    await settle(tester, frames: 4);
+    expect(
+      find.byWidgetPredicate((w) => w is HeroIcon && w.icon == HeroIcons.xMark),
+      findsOneWidget,
+    );
+    expect(
+      verify(
+        () => scaffold.repository.usersSearchGet(
+          query: captureAny(named: 'query'),
+          includedAccountTypes: any(named: 'includedAccountTypes'),
+          excludedAccountTypes: any(named: 'excludedAccountTypes'),
+          includedGroups: any(named: 'includedGroups'),
+          excludedGroups: any(named: 'excludedGroups'),
+        ),
+      ).captured,
+      ['auber'],
+    );
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets('DeliveryHandler mounts clean at 360px', (tester) async {

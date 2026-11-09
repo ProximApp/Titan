@@ -1,4 +1,9 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:qlevar_router/qlevar_router.dart';
+import 'package:titan/amap/providers/delivery_product_list_provider.dart';
+import 'package:titan/amap/router.dart';
+import 'package:titan/amap/ui/pages/main_page/delivery_ui.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/ui/heroicons.dart';
@@ -31,6 +36,46 @@ void main() {
         userId: any(named: 'userId'),
       ),
     ).thenAnswer((_) async => chopperListResponse([order('o-1', 'd-1', 500)]));
+  });
+
+  testWidgets('Next step carries the selected delivery into the product list', (
+    tester,
+  ) async {
+    final container = scaffold.makeContainer(
+      user: CoreUser.empty().copyWith(id: 'user-1'),
+      userId: 'user-1',
+    );
+    addTearDown(container.dispose);
+    await scaffold.pumpApp(tester, container, initialPath: '/amap');
+    await settle(tester, frames: 16);
+
+    // The "+" card seeds an empty order and slides the panel up; picking a
+    // delivery there is what makes it available to the order.
+    await tester.tap(
+      find.byWidgetPredicate((w) => w is HeroIcon && w.icon == HeroIcons.plus),
+    );
+    await settle(tester, frames: 12);
+
+    // The page renders its own read-only strip above the panel, so the panel's
+    // card is the LAST one in the tree.
+    await tester.tap(find.byType(DeliveryUi).last);
+    await settle(tester, frames: 8);
+
+    await tester.ensureVisible(find.text('Next step'));
+    await tester.tap(find.text('Next step'));
+    await settle(tester, frames: 12);
+
+    // The guard let it through: the panel handed that delivery's products to
+    // the product list and navigated there.
+    expect(QR.currentPath, contains(AmapRouter.listProduct));
+    final products = switch (container.read(deliveryProductListProvider)) {
+      AsyncData(:final value) => value.length,
+      _ => -1,
+    };
+    expect(products, 2);
+
+    await scaffold.unmountApp(tester);
+    await scaffold.drainToast(tester);
   });
 
   testWidgets('Next step refuses when no delivery is selected', (tester) async {

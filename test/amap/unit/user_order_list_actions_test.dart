@@ -7,6 +7,13 @@ import 'package:titan/tools/repository/repository.dart';
 
 import '../../shared/mock_openapi.dart';
 
+/// `user_order_list_provider.dart:142` is the `catch` body of `getPrice` and
+/// stays dark: every arm of `state.when` is either a plain assignment or an
+/// async closure, and a throw inside `data:` (a bad index raises RangeError)
+/// is captured by that closure's Future instead of propagating into the
+/// synchronous `try`. Driving the catch would need `when` itself to throw,
+/// which it cannot.
+
 class _UserOrderListNotifier extends UserOrderListNotifier {
   @override
   AsyncValue<List<OrderReturn>> build() => const AsyncValue.loading();

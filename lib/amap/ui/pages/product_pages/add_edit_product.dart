@@ -125,6 +125,10 @@ class AddEditProduct extends HookConsumerWidget {
                               );
                             }).toList(),
                         onChanged: (value) {
+                          // The `?? createCategory` arm is dead: every
+                          // DropdownMenuItem above carries a non-null String
+                          // and DropdownButton only ever reports the value of
+                          // the item that was tapped.
                           categoryNotifier.setText(
                             value ??
                                 AppLocalizations.of(context)!

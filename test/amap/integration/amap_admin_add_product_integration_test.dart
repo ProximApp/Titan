@@ -1,6 +1,12 @@
+import 'dart:async';
+
+import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:titan/amap/providers/product_list_provider.dart';
+import 'package:titan/amap/providers/selected_list_provider.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 
 import '../amap_fixtures.dart';
@@ -87,6 +93,105 @@ void main() {
     // Drain the toast timer.
     await tester.pump(const Duration(seconds: 3));
     await tester.pump();
+  });
+
+  testWidgets('creating while the catalogue is still loading resets to empty', (
+    tester,
+  ) async {
+    // The catalogue's answer is held back until after the form was built and
+    // filled, so the submit button the user taps was built while the list was
+    // still loading: its rebuild of the product selection has no data to read
+    // and falls back to an empty list, even though the POST itself goes
+    // through (the notifier gates on the CURRENT state, which by then is
+    // data).
+    stubAdminLoads(scaffold, products: []);
+    final catalogue =
+        Completer<
+          chopper.Response<List<AppModulesAmapSchemasAmapProductComplete>>
+        >();
+    when(() => scaffold.repository.amapProductsGet())
+        .thenAnswer((_) => catalogue.future);
+
+    ProductSimple? captured;
+    when(
+      () => scaffold.repository.amapProductsPost(body: any(named: 'body')),
+    ).thenAnswer((inv) async {
+      captured = inv.namedArguments[#body] as ProductSimple;
+      return chopperResponse(
+        AppModulesAmapSchemasAmapProductComplete.empty().copyWith(id: 'p-new'),
+      );
+    });
+
+    final container = scaffold.makeContainer(
+      user: amapAdminUser,
+      userId: 'user-1',
+    );
+    addTearDown(container.dispose);
+    scaffold.setWideSurface(tester);
+
+    await scaffold.pumpApp(
+      tester,
+      container,
+      initialPath: '/amap/admin/add_edit_product',
+      pumpAndSettle: false,
+    );
+    await settle(tester, frames: 16);
+
+    // Still loading: the form renders its fields, the extra category field
+    // included, and nothing is selected yet.
+    expect(switch (container.read(productListProvider)) {
+      AsyncLoading() => true,
+      _ => false,
+    }, isTrue);
+
+    await tester.enterText(
+      find.widgetWithText(TextField, 'Name').first,
+      'Cheese',
+    );
+    await tester.enterText(
+      find.widgetWithText(TextField, 'Price').first,
+      '4,50',
+    );
+    await tester.enterText(find.byType(TextField).last, 'Dairy');
+    await settle(tester, frames: 4);
+
+    // The catalogue answers now, but without a frame: the notifier holds the
+    // loaded list (so the add goes through) while the mounted button is still
+    // the one built against the loading state.
+    catalogue.complete(
+      chopperListResponse([
+        AppModulesAmapSchemasAmapProductComplete.empty().copyWith(
+          id: 'p-1',
+          name: 'Honey jar',
+          price: 350,
+          category: 'Grocery',
+        ),
+      ]),
+    );
+    await tester.idle();
+    // The notifier holds the loaded catalogue...
+    expect(
+      switch (container.read(productListProvider)) {
+        AsyncData(:final value) => value.map((p) => p.name).toList(),
+        _ => <String>[],
+      },
+      ['Honey jar'],
+    );
+    // ...and the selection has one entry to start from.
+    expect(container.read(selectedListProvider), [true]);
+
+    await tester.tap(find.text('Add'));
+    await settle(tester, frames: 16);
+
+    expect(captured?.name, 'Cheese');
+    expect(captured?.price, 450);
+    expect(find.text('Product added'), findsOneWidget);
+    // The empty fallback replaced the loaded selection (1 -> 0).
+    expect(container.read(selectedListProvider), isEmpty);
+
+    await tester.pump(const Duration(seconds: 3));
+    await tester.pump();
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets('an existing category is sent as-is, without the extra field', (

@@ -11,6 +11,8 @@ import 'package:titan/generated/openapi.enums.swagger.dart' as enums;
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 import 'package:titan/tools/ui/layouts/horizontal_list_view.dart';
+import 'package:titan/tools/ui/widgets/custom_dialog_box.dart';
+import 'package:titan/tools/ui/builders/waiting_button.dart';
 
 import '../../shared/app_scaffold.dart';
 
@@ -132,6 +134,46 @@ void main() {
     // The card keeps its designed proportions: the height fix below scales
     // with the text, it does not resize the card at the default scale.
     expect(tester.getSize(find.byType(OrderUI)).height, 150);
+  });
+
+  testWidgets('a refused delete keeps the order and reports the error', (
+    tester,
+  ) async {
+    stubCardLoads();
+    // The delete call blows up: the notifier swallows it into a false, and the
+    // card has to report the failure instead of quietly succeeding.
+    when(
+      () => scaffold.repository.amapOrdersOrderIdDelete(
+        orderId: any(named: 'orderId'),
+      ),
+    ).thenThrow(Exception('network down'));
+    await scaffold.pumpWidgetApp(
+      tester,
+      OrderUI(order: order()),
+      cardContainer(),
+    );
+    await settle(tester, frames: 6);
+
+    await tester.tap(find.byType(WaitingButton));
+    await settle(tester, frames: 8);
+    expect(find.byType(CustomDialogBox), findsOneWidget);
+
+    await tester.tap(
+      find.descendant(
+        of: find.byType(CustomDialogBox),
+        matching: find.byType(WaitingButton),
+      ),
+    );
+    await settle(tester, frames: 12);
+
+    expect(find.text('Error while deleting'), findsOneWidget);
+    expect(find.text('Order deleted'), findsNothing);
+
+    // Toastification arms a 2.5 s dismiss timer: let it run out so the test
+    // does not end with a pending timer.
+    await tester.pump(const Duration(seconds: 3));
+    await settle(tester, frames: 4);
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets(

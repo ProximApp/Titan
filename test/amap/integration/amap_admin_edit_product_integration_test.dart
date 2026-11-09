@@ -11,6 +11,12 @@ import '../amap_fixtures.dart';
 /// Own file because the tap navigates mid-test: qlevar 1.12.4 only honours
 /// the first such QR.to() in an isolate, so this is the file's first (and
 /// only) test.
+///
+/// `add_edit_product.dart:134-135` stay dark: they are the right operand of
+/// `value ?? AppLocalizations.of(context)!.amapCreateCategory` on the
+/// category dropdown, and every `DropdownMenuItem` above them carries a
+/// non-null String, so a tap always reports that value and the create arm is
+/// unreachable from the UI.
 void main() {
   late IntegrationScaffold scaffold;
 
