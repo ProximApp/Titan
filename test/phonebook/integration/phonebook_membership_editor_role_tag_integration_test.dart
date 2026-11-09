@@ -7,6 +7,7 @@ import 'package:titan/phonebook/providers/association_provider.dart';
 import 'package:titan/phonebook/providers/membership_provider.dart';
 import 'package:titan/phonebook/providers/roles_tags_provider.dart';
 import 'package:titan/phonebook/router.dart';
+import 'package:titan/tools/ui/styleguide/list_item_toggle.dart';
 
 import '../../shared/app_scaffold.dart';
 import '../../shared/fixtures.dart';
@@ -106,5 +107,11 @@ void main() {
     await tester.tap(find.text('Treasurer'));
     await settle(tester, frames: 4);
     expect(field().controller!.text, 'Treasurer');
+
+    // Tapping the same tag chip again removes it from the selection (and
+    // the apparent name, which still mirrored the tag list, follows).
+    await tester.tap(find.widgetWithText(ToggleListItem, 'Treasurer'));
+    await settle(tester, frames: 4);
+    expect(field().controller!.text, '');
   });
 }

@@ -97,6 +97,18 @@ void main() {
     // The result card carries the real CoreUserSimple data.
     expect(find.text('Ada Lovelace'), findsOneWidget);
 
+    // Emptying the field clears the results without querying again: the
+    // modal's own clear() arm.
+    await tester.enterText(find.byType(TextField).last, '');
+    await settle(tester, frames: 8);
+    expect(find.text('Ada Lovelace'), findsNothing);
+    verify(() => scaffold.repository.usersSearchGet(query: 'ada')).called(1);
+
+    // Search again for the selection below.
+    await tester.enterText(find.byType(TextField).last, 'ada');
+    await settle(tester, frames: 8);
+    expect(find.text('Ada Lovelace'), findsOneWidget);
+
     // Tapping it selects the member, closes the sheet, and kicks the
     // complete-member fetch.
     when(() => scaffold.repository.phonebookMemberUserIdGet(userId: 'u-9'))

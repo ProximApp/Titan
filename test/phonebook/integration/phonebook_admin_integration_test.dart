@@ -36,6 +36,9 @@ void main() {
         (_) async => chopperListResponse([
           association('a-1', 'Robot Club'),
           association('a-2', 'Ghost Assoc').copyWith(deactivated: true),
+          // Its groupement is not in the catalog: the card falls back to an
+          // empty groupement instead of throwing on `firstWhere`.
+          association('a-3', 'Orphan Assoc', groupementId: 'grp-gone'),
         ]),
       );
       when(() => scaffold.repository.phonebookGroupementsGet()).thenAnswer(
@@ -57,6 +60,7 @@ void main() {
       // card for the live association.
       expect(find.text('Associations'), findsOneWidget);
       expect(find.text('Robot Club'), findsOneWidget);
+      expect(find.text('Orphan Assoc'), findsOneWidget);
     },
   );
 

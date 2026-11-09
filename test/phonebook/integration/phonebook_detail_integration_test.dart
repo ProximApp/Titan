@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/phonebook/providers/association_provider.dart';
+import 'package:titan/phonebook/providers/complete_member_provider.dart';
 import 'package:titan/phonebook/router.dart';
 
 import '../../shared/app_scaffold.dart';
@@ -55,6 +56,18 @@ void main() {
       expect(find.textContaining('2026 term'), findsOneWidget);
       // MemberCard title: "nickname - roleName".
       expect(find.textContaining('Bolt - President'), findsOneWidget);
+
+      // The card itself is the way into the member's page: it stores the
+      // member and routes to /phonebook/member_detail.
+      await tester.tap(find.textContaining('Bolt - President'));
+      await settle(tester);
+
+      expect(container.read(completeMemberProvider).id, 'u-1');
+      expect(find.text('Bolt'), findsOneWidget);
+      expect(find.text('u-1@myem.fr'), findsOneWidget);
+      // This member has no promo; the row is skipped instead of throwing on
+      // the null (see the null-guard comment on the page).
+      expect(find.textContaining('Promotion'), findsNothing);
     },
   );
 

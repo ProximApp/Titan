@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,11 +9,13 @@ import 'package:image_picker_platform_interface/image_picker_platform_interface.
 import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/phonebook/providers/association_groupement_provider.dart';
+import 'package:titan/phonebook/providers/association_list_provider.dart';
 import 'package:titan/phonebook/providers/association_picture_provider.dart';
 import 'package:titan/phonebook/providers/association_provider.dart';
 import 'package:titan/phonebook/router.dart';
 import 'package:titan/phonebook/ui/pages/association_add_edit_page/association_add_edit_page.dart';
 import 'package:titan/settings/ui/pages/main_page/picture_button.dart';
+import 'package:titan/tools/image_compression.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 import 'package:titan/tools/ui/styleguide/button.dart';
 
@@ -61,6 +65,7 @@ void main() {
   Future<ProviderContainer> pumpAddEdit(
     WidgetTester tester, {
     List<AssociationComplete>? initialAssociations,
+    List<dynamic> providerOverrides = const [],
   }) async {
     final container = scaffold.makeContainer(
       user: CoreUser.empty().copyWith(
@@ -71,6 +76,7 @@ void main() {
           ),
         ],
       ),
+      providerOverrides: providerOverrides,
     );
     addTearDown(container.dispose);
     scaffold.setWideSurface(tester);
@@ -164,6 +170,78 @@ void main() {
     ).called(1);
     await expectToast(tester, 'Association added');
     // The success arm routes on to the same admin form — no exception.
+    expect(find.byType(AssociationAddEditPage), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('a create that lands while the list is broken still toasts the '
+      'loading error', (tester) async {
+    when(
+      () => scaffold.repository.phonebookAssociationsPost(
+        body: any(named: 'body'),
+      ),
+    ).thenAnswer(
+      (_) async => scaffold.repository.ok(association('a-9', 'Robotics')),
+    );
+    // The POST succeeds, but the cached list never loaded: the handler's
+    // `data:` arm cannot run, so it says so instead of routing into a page
+    // built from nothing.
+    final container = await pumpAddEdit(
+      tester,
+      providerOverrides: [
+        associationListProvider.overrideWith(_BrokenList.new),
+      ],
+    );
+    container
+        .read(associationGroupementProvider.notifier)
+        .setAssociationGroupement(groupement('grp-1', 'Clubs'));
+    await settle(tester);
+
+    await tester.enterText(find.byType(TextFormField).at(0), 'Robotics Club');
+    await tester.ensureVisible(submitButton('Add'));
+    await tester.tap(submitButton('Add'));
+    await settle(tester, frames: 8);
+
+    // Both toasts are staged in the same frame: the success one, then the
+    // list-state one that replaces the route the `data:` arm would take.
+    expect(find.text('Association added', skipOffstage: false), findsOneWidget);
+    expect(
+      find.text('Error loading association', skipOffstage: false),
+      findsOneWidget,
+    );
+    await tester.pump(const Duration(seconds: 3));
+    await tester.pump();
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('a create that lands while the list is still loading is a '
+      'no-op past the toast', (tester) async {
+    when(
+      () => scaffold.repository.phonebookAssociationsPost(
+        body: any(named: 'body'),
+      ),
+    ).thenAnswer(
+      (_) async => scaffold.repository.ok(association('a-9', 'Robotics')),
+    );
+    final container = await pumpAddEdit(
+      tester,
+      providerOverrides: [
+        associationListProvider.overrideWith(_HoldingList.new),
+      ],
+    );
+    container
+        .read(associationGroupementProvider.notifier)
+        .setAssociationGroupement(groupement('grp-1', 'Clubs'));
+    await settle(tester);
+
+    await tester.enterText(find.byType(TextFormField).at(0), 'Robotics Club');
+    await tester.ensureVisible(submitButton('Add'));
+    await tester.tap(submitButton('Add'));
+    await settle(tester, frames: 8);
+
+    // The loading arm does nothing: only the success toast shows and the
+    // form stays put.
+    await expectToast(tester, 'Association added');
     expect(find.byType(AssociationAddEditPage), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
@@ -320,13 +398,24 @@ void main() {
     ).called(1);
     await expectToast(tester, 'Profile picture updated');
 
-    // 2. Camera: cancelled pick → the null arm → "error".
+    // 2. Camera: the same pick + upload, taken from the camera button.
+    picker.next = XFile.fromData(png);
+    await tester.tap(camera);
+    await settle(tester, frames: 8);
+    await expectToast(tester, 'Profile picture updated');
+
+    // 3. Gallery: a cancelled pick → the null arm → "error".
     picker.next = null;
+    await tester.tap(gallery);
+    await settle(tester, frames: 8);
+    await expectToast(tester, 'Error editing profile picture');
+
+    // 4. Camera: a cancelled pick → the same null arm.
     await tester.tap(camera);
     await settle(tester, frames: 8);
     await expectToast(tester, 'Error editing profile picture');
 
-    // 3. Gallery: upload throws → the false arm → "too large".
+    // 5. Camera: upload throws → the false arm → "too large".
     when(
       () => scaffold.repository.phonebookAssociationsAssociationIdPicturePost(
         associationId: any(named: 'associationId'),
@@ -334,10 +423,64 @@ void main() {
       ),
     ).thenThrow(Exception('upload failed'));
     picker.next = XFile.fromData(png);
+    await tester.tap(camera);
+    await settle(tester, frames: 8);
+    await expectToast(tester, 'Image is too large (max 4MB)');
+
+    // 6. Gallery: the same failing upload through the other button.
     await tester.tap(gallery);
+    await settle(tester, frames: 8);
+    await expectToast(tester, 'Image is too large (max 4MB)');
+
+    // 7. A pick the compressor cannot decode (over the upload limit and not
+    // an image) is refused before any POST: `compressImageForUpload` answers
+    // null, so the notifier puts the previous state back and says false.
+    when(
+      () => scaffold.repository.phonebookAssociationsAssociationIdPicturePost(
+        associationId: any(named: 'associationId'),
+        image: any(named: 'image'),
+      ),
+    ).thenAnswer(
+      (_) async =>
+          scaffold.repository.ok(AppTypesStandardResponsesResult.empty()),
+    );
+    await tester.runAsync(() async {
+      picker.next = XFile.fromData(
+        Uint8List(maxUploadedImageSize + 1),
+        mimeType: 'application/octet-stream',
+      );
+      await tester.tap(gallery);
+      await tester.pump();
+      // The compression runs on an isolate: give it real time to answer.
+      await Future<void>.delayed(const Duration(milliseconds: 600));
+    });
     await settle(tester, frames: 8);
     await expectToast(tester, 'Image is too large (max 4MB)');
 
     expect(tester.takeException(), isNull);
   });
+}
+
+/// The association catalog in its `error:` state, with a create that still
+/// answers true — the shape the handler's `error:` arm exists for.
+class _BrokenList extends AssociationListNotifier {
+  @override
+  AsyncValue<List<AssociationComplete>> build() =>
+      AsyncError(Exception('offline'), StackTrace.empty);
+
+  @override
+  Future<bool> createAssociation(
+    AppModulesPhonebookSchemasPhonebookAssociationBase association,
+  ) async => true;
+}
+
+/// The same, but the catalog never resolves.
+class _HoldingList extends AssociationListNotifier {
+  @override
+  AsyncValue<List<AssociationComplete>> build() => const AsyncValue.loading();
+
+  @override
+  Future<bool> createAssociation(
+    AppModulesPhonebookSchemasPhonebookAssociationBase association,
+  ) async => true;
 }

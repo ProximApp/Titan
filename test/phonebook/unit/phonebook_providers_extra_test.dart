@@ -69,6 +69,11 @@ class _LoadingMembersListNotifier extends AssociationMemberListNotifier {
   AsyncValue<List<MemberComplete>> build() => const AsyncValue.loading();
 }
 
+class _LoadingRolesTagsNotifier extends RolesTagsNotifier {
+  @override
+  AsyncValue<RoleTagsReturn> build() => const AsyncValue.loading();
+}
+
 class FakeRolesTagsNotifier extends RolesTagsNotifier {
   FakeRolesTagsNotifier(this.tags);
   final List<String> tags;
@@ -570,6 +575,35 @@ void main() {
         ],
       );
 
+      expect(container.read(isAssociationPresidentProvider), isFalse);
+
+      container.dispose();
+    });
+
+    test('is false while the role tags are still loading', () {
+      final user = CoreUser.empty().copyWith(id: 'u-1');
+      final container = ProviderContainer(
+        overrides: [
+          userProvider.overrideWithValue(user),
+          associationProvider.overrideWith(
+            () => FakeAssociationNotifier(association),
+          ),
+          rolesTagsProvider.overrideWith(_LoadingRolesTagsNotifier.new),
+          associationMemberListProvider.overrideWith(
+            () => FakeMembersNotifier([
+              memberWithMembership(
+                'u-1',
+                'a-1',
+                mandateYear: 2024,
+                roleTags: 'president',
+              ),
+            ]),
+          ),
+        ],
+      );
+
+      // The member matches, but the tag catalog is not there yet: the
+      // provider's `orElse` answers false rather than assuming.
       expect(container.read(isAssociationPresidentProvider), isFalse);
 
       container.dispose();

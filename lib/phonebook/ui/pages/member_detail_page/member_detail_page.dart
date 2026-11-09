@@ -81,10 +81,15 @@ class MemberDetailPage extends HookConsumerWidget {
                         ),
                       ),
                     const SizedBox(height: 5),
-                    if (member.promo != 0)
+                    // A member with no promotion has a NULL promo, and
+                    // `null != 0` is true in Dart: the bare `!= 0` let it
+                    // through and the `member.promo!` below threw a
+                    // null-check out of build, blanking the whole page for
+                    // any member without a promo.
+                    if (member.promo != null && member.promo != 0)
                       Text(
                         localizeWithContext.phonebookPromotion(
-                          (member.promo ?? 0) < 100
+                          member.promo! < 100
                               ? member.promo! + 2000
                               : member.promo!,
                         ),

@@ -128,6 +128,46 @@ void main() {
     await scaffold.drainToast(tester);
   });
 
+  testWidgets('a rejected reorder toasts the error and keeps the order', (
+    tester,
+  ) async {
+    final container = adminContainer();
+    addTearDown(container.dispose);
+    scaffold.setWideSurface(tester);
+    stubMembers(scaffold);
+    when(
+      () =>
+          scaffold.repository.phonebookAssociationsMembershipsMembershipIdPatch(
+            membershipId: any(named: 'membershipId'),
+            body: any(named: 'body'),
+          ),
+    ).thenAnswer((_) async => chopperError<MembershipComplete>(500));
+
+    container
+        .read(associationProvider.notifier)
+        .setAssociation(association('a-1', 'Robot Club'));
+    await pumpMembers(tester, container);
+
+    expect(find.textContaining('Bolt - President'), findsOneWidget);
+
+    final gesture = await tester.startGesture(
+      tester.getCenter(find.textContaining('Nut - President')),
+    );
+    await tester.pump(const Duration(milliseconds: 600));
+    await gesture.moveBy(const Offset(0, -400));
+    await tester.pump(const Duration(milliseconds: 600));
+    await gesture.up();
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
+    await settle(tester, frames: 6);
+
+    // The else arm of the reorder handler: the toast names the failure.
+    expect(find.text('Error during reordering'), findsOneWidget);
+    await scaffold.drainToast(tester);
+    expect(find.textContaining('Bolt - President'), findsOneWidget);
+    expect(find.textContaining('Nut - President'), findsOneWidget);
+  });
+
   testWidgets('the member-edition modal deletes a role, or not', (
     tester,
   ) async {

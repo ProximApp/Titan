@@ -4,7 +4,9 @@ import 'package:mocktail/mocktail.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 import 'package:titan/phonebook/providers/association_groupement_provider.dart';
 import 'package:titan/phonebook/providers/association_picture_provider.dart';
+import 'package:titan/phonebook/providers/association_member_list_provider.dart';
 import 'package:titan/phonebook/providers/association_provider.dart';
+import 'package:titan/phonebook/providers/roles_tags_provider.dart';
 import 'package:titan/phonebook/router.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
@@ -128,5 +130,55 @@ void main() {
     await tester.tap(find.text('Add a member'));
     await pumpDeferred(tester);
     expect(find.text('Search a user'), findsOneWidget);
+  });
+
+  testWidgets('the member sheet edit-role hop stays under the detail tree', (
+    tester,
+  ) async {
+    final container = scaffold.makeContainer(
+      user: CoreUser.empty().copyWith(id: 'u-1'),
+    );
+    addTearDown(container.dispose);
+    scaffold.setWideSurface(tester);
+    stubPresidentDetail(scaffold);
+
+    container
+        .read(associationProvider.notifier)
+        .setAssociation(association('a-1', 'Robot Club'));
+    container
+        .read(associationGroupementProvider.notifier)
+        .setAssociationGroupement(groupement('grp-1', 'Clubs'));
+    await container
+        .read(associationPictureProvider.notifier)
+        .getAssociationPicture('a-1');
+    // The deep link crosses AdminMiddleware(isAssociationPresidentProvider)
+    // before the page loads anything: seed the two repository-backed
+    // providers the gate reads, or it bounces to /feed on loading.
+    await container.read(rolesTagsProvider.notifier).loadRolesTags();
+    await container
+        .read(associationMemberListProvider.notifier)
+        .loadMembers('a-1', 2026);
+
+    await scaffold.pumpApp(
+      tester,
+      container,
+      initialPath:
+          '${PhonebookRouter.root}${PhonebookRouter.associationDetail}'
+          '${PhonebookRouter.editAssociationMembers}',
+      pumpAndSettle: false,
+    );
+    await settle(tester);
+
+    // The member sheet's "Edit role" is the ELSE arm of the modal's admin
+    // check: this path has no /admin, so the editor opens under the detail.
+    await scaffold.openModal(tester, find.text('Bolt - President'));
+    await scaffold.tapInModal(tester, find.text('Edit role'));
+    await pumpDeferred(tester);
+
+    // The editor opened on the tapped member's membership (edit mode, so the
+    // search entry is already replaced by the selected member).
+    expect(find.textContaining("Modify Bolt's role"), findsOneWidget);
+    expect(scaffold.isModalOpen(tester), isFalse);
+    expect(tester.takeException(), isNull);
   });
 }
