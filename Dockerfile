@@ -2,8 +2,8 @@
 # visit — but nginx ships without it, so the module is built here against the
 # exact version we serve with. `--with-compat` is already part of the official
 # image's configure line, which is what makes the module loadable.
-FROM nginx:1.28.0-alpine3.21-slim AS brotli-module
-ARG NGINX_VERSION=1.28.0
+FROM nginx:1.31.9-alpine3.24-slim AS brotli-module
+ARG NGINX_VERSION=1.31.9
 RUN apk add --no-cache build-base git cmake curl linux-headers \
       pcre-dev zlib-dev openssl-dev \
  && git clone --depth=1 --recursive https://github.com/google/ngx_brotli.git /ngx_brotli \
@@ -19,7 +19,7 @@ RUN apk add --no-cache build-base git cmake curl linux-headers \
 
 # Compressing once at build time keeps every request cheap: nginx only has to
 # pick the right pre-built file, never to compress on the fly.
-FROM alpine:3.21 AS assets
+FROM alpine:3.24 AS assets
 RUN apk add --no-cache brotli gzip findutils
 COPY ./build/web/ /app/html
 # `*.symbols` are the renderer's debug symbol maps — 11 MB of them, used only to
@@ -34,9 +34,9 @@ RUN find /app/html/ -type f -size +512c \
       -regex '.*\.\(html\|css\|js\|json\|svg\|ttf\|otf\|woff2\|wasm\|mjs\|yaml\|env\|bin\)' \
       -exec brotli -q 11 -k {} +
 
-FROM nginx:1.28.0-alpine3.21-slim
+FROM nginx:1.31.9-alpine3.24-slim
 COPY --from=brotli-module \
-     /tmp/nginx-1.28.0/objs/ngx_http_brotli_static_module.so \
+     /tmp/nginx-1.31.9/objs/ngx_http_brotli_static_module.so \
      /usr/lib/nginx/modules/
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=assets /app/html /app/html
