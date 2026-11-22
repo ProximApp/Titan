@@ -215,7 +215,7 @@ Color _applyColorVector(
   int finalG = newG;
   int finalB = newB;
 
-  // If brightness has changed too dramatically, moderate the change
+  // If brightness has changed too dramatically, moderate the change.
   if ((newBrightness - originalBrightness).abs() > 0.2) {
     double correction = (originalBrightness - newBrightness) * 0.5;
     finalR = (newR + correction * 255).round().clamp(0, 255);

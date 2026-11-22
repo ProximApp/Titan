@@ -18,7 +18,7 @@ class VotedSectionProvider extends ListNotifierAPI<String> {
   void addVote(String id) {
     state.maybeWhen(
       data: (value) {
-        state = AsyncData(value..add(id));
+        state = AsyncData([...value, id]);
       },
       orElse: () {},
     );

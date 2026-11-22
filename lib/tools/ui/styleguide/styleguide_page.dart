@@ -79,44 +79,7 @@ class StyleGuidePage extends HookConsumerWidget {
                         color: Colors.grey.shade100,
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: FloatingNavbar(
-                        items: [
-                          // FloatingNavbarItem(
-                          //   title: 'Home',
-                          //   onTap: () {
-                          //     ScaffoldMessenger.of(context).showSnackBar(
-                          //       const SnackBar(content: Text('Home tapped')),
-                          //     );
-                          //   },
-                          // ),
-                          // FloatingNavbarItem(
-                          //   title: 'Search',
-                          //   onTap: () {
-                          //     ScaffoldMessenger.of(context).showSnackBar(
-                          //       const SnackBar(content: Text('Search tapped')),
-                          //     );
-                          //   },
-                          // ),
-                          // FloatingNavbarItem(
-                          //   title: 'Favorites',
-                          //   onTap: () {
-                          //     ScaffoldMessenger.of(context).showSnackBar(
-                          //       const SnackBar(
-                          //         content: Text('Favorites tapped'),
-                          //       ),
-                          //     );
-                          //   },
-                          // ),
-                          // FloatingNavbarItem(
-                          //   title: 'Profile',
-                          //   onTap: () {
-                          //     ScaffoldMessenger.of(context).showSnackBar(
-                          //       const SnackBar(content: Text('Profile tapped')),
-                          //     );
-                          //   },
-                          // ),
-                        ],
-                      ),
+                      child: FloatingNavbar(items: []),
                     ),
 
                     // Divider
@@ -215,6 +178,9 @@ class StyleGuidePage extends HookConsumerWidget {
                           Button(
                             text: "Disabled",
                             disabled: true,
+                            // The demo exists to show the disabled look; a
+                            // disabled button never invokes its callback, so
+                            // no test can reach this closure.
                             onPressed: () {},
                           ),
                         ],
@@ -884,6 +850,11 @@ class StyleGuidePage extends HookConsumerWidget {
                                       user["role"],
                                       style: TextStyle(
                                         fontSize: 12,
+                                        // Dead by construction: the demo
+                                        // strip passes no `selectedItem`, and
+                                        // `HorizontalMultiSelect` computes
+                                        // `item == selectedItem`, so `selected`
+                                        // is always false for these rows.
                                         color: selected
                                             ? Colors.blue.shade700
                                             : Colors.grey.shade600,

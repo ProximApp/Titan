@@ -19,6 +19,7 @@ class SmallPlantCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final plantSpecies = species.firstWhere(
       (element) => element.id == plant.speciesId,
+      orElse: SpeciesComplete.empty,
     );
 
     return GestureDetector(

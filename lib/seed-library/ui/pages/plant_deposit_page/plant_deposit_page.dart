@@ -32,7 +32,6 @@ class PlantDepositPage extends HookConsumerWidget {
     final key = GlobalKey<FormState>();
     final scrollController = useScrollController();
     final species = ref.watch(syncSpeciesListProvider);
-    final plantList = ref.watch(syncPlantListProvider);
     final plantListNotifier = ref.watch(plantListProvider.notifier);
     final plantNotifier = ref.watch(plantProvider.notifier);
     final myPlants = ref.watch(syncMyPlantListProvider);
@@ -51,6 +50,7 @@ class PlantDepositPage extends HookConsumerWidget {
     final plantSpecies = selectedAncestor.id != ""
         ? species.firstWhere(
             (element) => element.id == selectedAncestor.speciesId,
+            orElse: SpeciesComplete.empty,
           )
         : selectedSpecies;
 
@@ -241,6 +241,12 @@ class PlantDepositPage extends HookConsumerWidget {
                                   TypeMsg.msg,
                                   SeedLibraryTextConstants.addedPlant,
                                 );
+                                final freshPlants = ref.read(
+                                  syncPlantListProvider,
+                                );
+                                final newReference = freshPlants.isEmpty
+                                    ? ''
+                                    : freshPlants.last.reference;
                                 showDialog(
                                   context: context.mounted ? context : context,
                                   builder: (context) {
@@ -248,7 +254,7 @@ class PlantDepositPage extends HookConsumerWidget {
                                       title: Text(
                                         SeedLibraryTextConstants
                                                 .writeReference +
-                                            plantList.last.reference,
+                                            newReference,
                                       ),
                                       actions: [
                                         TextButton(

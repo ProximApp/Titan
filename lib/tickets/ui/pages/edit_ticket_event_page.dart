@@ -140,6 +140,12 @@ class _EditTicketEventForm extends HookConsumerWidget {
     /// the previous one, so the stale [ticketEvent] must not be reused.
     EventAdmin? latestEvent() => ref.read(ticketEventProvider).asData?.value;
 
+    Future<void> pickDate(TextEditingController controller) async {
+      final picked = await pickFullDate(context);
+      if (picked == null || !context.mounted) return;
+      controller.text = dateFormatter.format(picked);
+    }
+
     Future<void> save() async {
       if (titleController.text.trim().isEmpty) {
         displayToast(context, TypeMsg.error, l10n.ticketsTitleRequired);
@@ -154,19 +160,9 @@ class _EditTicketEventForm extends HookConsumerWidget {
       DateTime? closeDatetime;
       final int quota;
       try {
-        openDatetime = DateTime.parse(
-          processDateBackWithHourMaybe(
-            startDateController.text,
-            locale.toString(),
-          ),
-        );
+        openDatetime = dateFormatter.parse(startDateController.text);
         if (endDateController.text.trim().isNotEmpty) {
-          closeDatetime = DateTime.parse(
-            processDateBackWithHourMaybe(
-              endDateController.text,
-              locale.toString(),
-            ),
-          );
+          closeDatetime = dateFormatter.parse(endDateController.text);
         }
         quota = placesController.text.trim().isEmpty
             ? 0
@@ -362,12 +358,12 @@ class _EditTicketEventForm extends HookConsumerWidget {
                 subtitle: startDate.isEmpty
                     ? l10n.ticketsDateNotSet
                     : startDate,
-                onTap: () => getFullDate(context, startDateController),
+                onTap: () => pickDate(startDateController),
               ),
               DateEntry(
                 title: l10n.ticketsEndDateLabel,
                 subtitle: endDate.isEmpty ? l10n.ticketsDateNotSet : endDate,
-                onTap: () => getFullDate(context, endDateController),
+                onTap: () => pickDate(endDateController),
               ),
               const SizedBox(height: 8),
               SwitchRow(

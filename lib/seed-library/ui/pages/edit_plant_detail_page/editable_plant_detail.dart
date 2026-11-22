@@ -37,6 +37,7 @@ class EditablePlantDetail extends HookConsumerWidget {
 
     final plantSpecies = species.firstWhere(
       (element) => element.id == plant.speciesId,
+      orElse: SpeciesComplete.empty,
     );
 
     void displayToastWithContext(TypeMsg type, String msg) {
@@ -72,7 +73,8 @@ class EditablePlantDetail extends HookConsumerWidget {
               style: const TextStyle(fontSize: 16),
             ),
             Text(
-              '${SeedLibraryTextConstants.type} ${plantSpecies.speciesType.name}',
+              '${SeedLibraryTextConstants.type} '
+              '${function.getSpeciesTypeLabel(plantSpecies.speciesType)}',
               style: const TextStyle(fontSize: 16),
             ),
             Row(

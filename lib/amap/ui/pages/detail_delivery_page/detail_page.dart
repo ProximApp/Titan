@@ -149,12 +149,16 @@ class DetailDeliveryPage extends HookConsumerWidget {
                               spacing: 20,
                               runSpacing: 20,
                               children: data.map((e) {
-                                final userCash = cash.firstWhere(
-                                  (element) => element.user.id == e.user.id,
-                                );
+                                final userCash = cash
+                                    .where(
+                                      (element) => element.user.id == e.user.id,
+                                    )
+                                    .firstOrNull;
                                 return DetailOrderUI(
                                   order: e,
-                                  userCash: userCash,
+                                  userCash:
+                                      userCash ??
+                                      AppModulesAmapSchemasAmapCashComplete.empty(),
                                   deliveryId: delivery.id,
                                 );
                               }).toList(),

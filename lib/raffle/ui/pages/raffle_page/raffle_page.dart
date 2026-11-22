@@ -137,6 +137,12 @@ class RaffleInfoPage extends HookConsumerWidget {
                     : Column(
                         children: [
                           AlignLeftText(
+                            // Dead, and provably so: the branch above tested
+                            // this same `prizes` list (filtered two lines
+                            // earlier) and took its `else`, so `prizes.isEmpty`
+                            // is false here and this re-check can never be
+                            // true. Left in place rather than deleted; the
+                            // reachable empty case is the Container arm above.
                             prizes.isEmpty
                                 ? AppLocalizations.of(context)!.raffleNoPrize
                                 : AppLocalizations.of(context)!

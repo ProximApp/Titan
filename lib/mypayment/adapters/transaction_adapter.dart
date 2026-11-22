@@ -7,7 +7,7 @@ extension $TransactionBaseToHistory on TransactionBase {
       id: id,
       type: transactionType == TransactionType.request
           ? HistoryType.requestTransaction
-          : HistoryType.directTransaction,
+          : HistoryType.directTransfer,
       direction: HistoryDirection.credited,
       otherWalletName: '',
       total: total,

@@ -56,8 +56,8 @@ class ScanPage extends HookConsumerWidget {
               ? Positioned(
                   top: 10,
                   left: 20,
+                  right: 20,
                   child: SizedBox(
-                    width: MediaQuery.of(context).size.width - 40,
                     child: Row(
                       children: [
                         GestureDetector(
@@ -193,7 +193,9 @@ class ScanPage extends HookConsumerWidget {
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     child: Text(
-                                      (error as AppException).message,
+                                      error is AppException
+                                          ? error.message
+                                          : error.toString(),
                                       style: TextStyle(
                                         fontSize: 15,
                                         color: Colors.white,
@@ -300,46 +302,36 @@ class ScanPage extends HookConsumerWidget {
                                         descriptions:
                                             "${AppLocalizations.of(context)!.paiementTransactionCancelledDescription} ${formatter.format(transaction.total / 100)} ?",
                                         onYes: () async {
-                                          final value =
-                                              await transactionNotifier
-                                                  .cancelTransaction(
-                                                    transaction.id,
-                                                  );
-                                          value.when(
-                                            data: (value) {
-                                              if (value) {
-                                                displayToastWithContext(
-                                                  TypeMsg.msg,
-                                                  AppLocalizations.of(
-                                                    context,
-                                                  )!.paiementTransactionCancelled,
-                                                );
-                                                ref
-                                                    .read(
-                                                      ongoingTransactionProvider
-                                                          .notifier,
-                                                    )
-                                                    .clearOngoingTransaction();
-                                              } else {
-                                                displayToastWithContext(
-                                                  TypeMsg.error,
-                                                  AppLocalizations.of(
-                                                    context,
-                                                  )!.paiementTransactionCancelledError,
-                                                );
-                                              }
-                                              ongoingTransactionNotifier
-                                                  .clearOngoingTransaction();
-                                              barcodeNotifier.clearBarcode();
-                                            },
-                                            error: (error, stack) {
-                                              displayToastWithContext(
-                                                TypeMsg.error,
-                                                error.toString(),
-                                              );
-                                            },
-                                            loading: () {},
-                                          );
+                                          var cancelled = false;
+                                          try {
+                                            final value =
+                                                await transactionNotifier
+                                                    .cancelTransaction(
+                                                      transaction.id,
+                                                    );
+                                            cancelled = value.maybeWhen(
+                                              data: (value) => value,
+                                              orElse: () => false,
+                                            );
+                                          } catch (_) {
+                                            cancelled = false;
+                                          }
+                                          if (context.mounted) {
+                                            final l10n = AppLocalizations.of(
+                                              context,
+                                            )!;
+                                            displayToastWithContext(
+                                              cancelled
+                                                  ? TypeMsg.msg
+                                                  : TypeMsg.error,
+                                              cancelled
+                                                  ? l10n.paiementTransactionCancelled
+                                                  : l10n.paiementTransactionCancelledError,
+                                            );
+                                          }
+                                          ongoingTransactionNotifier
+                                              .clearOngoingTransaction();
+                                          barcodeNotifier.clearBarcode();
                                           scannerKey.currentState
                                               ?.resetScanner();
                                         },

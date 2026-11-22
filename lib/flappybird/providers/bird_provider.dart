@@ -15,15 +15,15 @@ class BirdNotifier extends Notifier<Bird> {
     final birdImage = ref.watch(birdImageProvider);
     final birdImageNotifier = ref.watch(birdImageProvider.notifier);
 
-    setUser(user.toCoreUserSimple());
+    final bird = Bird.empty().copyWith(user: user.toCoreUserSimple());
     if (birdImage.isNotEmpty) {
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-      birdImageNotifier.switchColor(state.color).then((value) {
+      birdImageNotifier.switchColor(bird.color).then((value) {
         setBirdImage(Image.memory(value));
       });
     }
 
-    return Bird.empty();
+    return bird;
   }
 
   void setBird(Bird bird) {

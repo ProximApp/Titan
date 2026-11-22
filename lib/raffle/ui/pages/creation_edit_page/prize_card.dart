@@ -50,7 +50,11 @@ class PrizeCard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 10),
+              // Compact spacers: the card is pinned at 125px and the name,
+              // the two-line quantity and a 40px action row measured past
+              // the 120px the old spacers left (an 8px overflow, and the
+              // Expanded branch below then overflowed again).
+              const SizedBox(height: 4),
               AutoSizeText(
                 lot.name,
                 maxLines: 1,
@@ -149,9 +153,11 @@ class PrizeCard extends StatelessWidget {
                         ? Center(
                             child: WaitingButton(
                               builder: (child) => Container(
-                                width: 40,
                                 height: 40,
-                                padding: const EdgeInsets.all(7),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 7,
+                                  horizontal: 12,
+                                ),
                                 decoration: BoxDecoration(
                                   gradient: const LinearGradient(
                                     colors: [
@@ -174,21 +180,25 @@ class PrizeCard extends StatelessWidget {
                                 child: child,
                               ),
                               onTap: onDraw,
-                              child: const Row(
-                                children: [
-                                  HeroIcon(
-                                    HeroIcons.envelopeOpen,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(width: 15),
-                                  Text(
-                                    "Tirer",
-                                    style: TextStyle(
+                              child: const FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    HeroIcon(
+                                      HeroIcons.envelopeOpen,
                                       color: Colors.white,
-                                      fontWeight: FontWeight.bold,
                                     ),
-                                  ),
-                                ],
+                                    SizedBox(width: 15),
+                                    Text(
+                                      "Tirer",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           )
@@ -198,18 +208,25 @@ class PrizeCard extends StatelessWidget {
                               vertical: 7,
                               horizontal: 12,
                             ),
-                            child: const Row(
-                              children: [
-                                HeroIcon(HeroIcons.check, color: Colors.white),
-                                SizedBox(width: 15),
-                                Text(
-                                  "Tiré",
-                                  style: TextStyle(
+                            child: const FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  HeroIcon(
+                                    HeroIcons.check,
                                     color: Colors.white,
-                                    fontWeight: FontWeight.bold,
                                   ),
-                                ),
-                              ],
+                                  SizedBox(width: 15),
+                                  Text(
+                                    "Tiré",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           )
                   : const Expanded(
@@ -218,7 +235,10 @@ class PrizeCard extends StatelessWidget {
                           Center(
                             child: Text(
                               "En Attente",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
+                                fontSize: 14,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -228,7 +248,7 @@ class PrizeCard extends StatelessWidget {
                         ],
                       ),
                     ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 4),
             ],
           ),
         ),

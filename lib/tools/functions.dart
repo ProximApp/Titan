@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:titan/l10n/app_localizations.dart';
+import 'package:titan/tools/config_env.dart';
 import 'package:titan/tools/constants.dart';
 import 'package:titan/tools/plausible/plausible.dart';
 import 'package:toastification/toastification.dart';
@@ -192,23 +193,65 @@ String processDatePrint(String d) {
 }
 
 String processDateBack(String d, String locale) {
-  return DateFormat.yMd(locale).parse(d).toIso8601String().split("T")[0];
+  final trimmed = d.trim();
+  try {
+    return DateFormat.yMd(locale)
+        .parse(trimmed)
+        .toIso8601String()
+        .split("T")[0];
+  } on FormatException {
+    // `getOnlyDayDateFunction` writes DateFormat.yMMMd ("Nov 15, 2026"), the
+    // shape a date straight from the picker carries — every caller that
+    // round-trips a picker value (loan's start date, its end derivation,
+    // booking's range) was failing this parse and either blanking the field
+    // or throwing. The picker shape is the second accepted form, not a
+    // replacement: forms still write yMd.
+    return DateFormat.yMMMd(locale)
+        .parse(trimmed)
+        .toIso8601String()
+        .split("T")[0];
+  }
 }
 
 String processDateBackWithHour(String d, String locale) {
   return DateFormat.yMd(locale).add_Hm().parse(d).toIso8601String();
 }
 
+/// The locale date-time back to ISO, accepting a date-only string too.
+///
+/// Both parses are guarded: the old fallback re-parsed the SAME input, so a
+/// cleared or half-typed field threw `FormatException` from the "maybe"
+/// helper as well. An unreadable field answers with an empty string — the
+/// caller's form validation is what refuses the save.
 String processDateBackWithHourMaybe(String d, String locale) {
+  if (d.trim().isEmpty) return "";
   try {
     return DateFormat.yMd(locale).add_Hm().parse(d).toIso8601String();
-  } catch (e) {
-    return DateFormat.yMd(locale).parse(d).toIso8601String();
+  } on FormatException {
+    try {
+      return DateFormat.yMd(locale).parse(d).toIso8601String();
+    } on FormatException {
+      return "";
+    }
   }
 }
 
 DateTime normalizedDate(DateTime date) {
   return DateTime(date.year, date.month, date.day, 0, 0, 0, 0, 0);
+}
+
+/// The same day-of-month [years] away, clamped to the target month's length.
+///
+/// `DateTime(date.year + years, date.month, date.day)` NORMALIZES instead of
+/// failing: 29 February plus one year becomes 1 March, so a "one year from
+/// today" bound silently drifts into the next month. The day is clamped the
+/// same way [HistoryInterval] clamps its month-end arithmetic, which is the
+/// only fix that keeps 31 December on 31 December.
+DateTime sameDayYearsFrom(DateTime date, int years) {
+  final year = date.year + years;
+  // Day 0 of the next month is the last day of this one.
+  final lastDay = DateTime(year, date.month + 1, 0).day;
+  return DateTime(year, date.month, date.day <= lastDay ? date.day : lastDay);
 }
 
 String processDateToAPI(DateTime date) {
@@ -373,7 +416,7 @@ Future<DateTime?> _getDate(
     context: context,
     initialDate: initialDate ?? now,
     firstDate: firstDate ?? now,
-    lastDate: lastDate ?? DateTime(now.year + 1, now.month, now.day),
+    lastDate: lastDate ?? sameDayYearsFrom(now, 1),
     builder: (BuildContext context, Widget? child) {
       return Theme(
         data: ThemeData.light().copyWith(
@@ -485,6 +528,9 @@ Future getFullDate(
 }
 
 int generateIntFromString(String s) {
+  // An empty id has no code units: `reduce` threw `Bad state: No element` on
+  // it. Guarded instead of folded so every non-empty id keeps its exact id.
+  if (s.isEmpty) return 0;
   return s.codeUnits.reduce((value, element) => value + 100 * element);
 }
 
@@ -503,6 +549,14 @@ bool isNotStaff(String email) {
   return !regex.hasMatch(email);
 }
 
+// Unreachable under `flutter test`, kept for the builds that do pass a flavor:
+// `appFlavor` is a `const` filled from `--flavor` (null in a test build), the
+// fallback `flavor` comes from `--dart-define` (none in a test build), and
+// `isFlutterTestEnv` is `FLUTTER_TEST`, which the runner sets for every test
+// process — so every test takes the `"prod"` return and the throw above it,
+// the `flavor.toLowerCase()` below it, `getPlausible`'s non-empty host/domain
+// arm and `getTitanPackageSuffix`'s unknown-flavor `StateError` all stay out
+// of reach.
 String getAppFlavor() {
   if (appFlavor != null) {
     return appFlavor!.toLowerCase();
@@ -517,7 +571,12 @@ String getAppFlavor() {
   );
 
   if (flavor.isEmpty) {
-    throw StateError("App flavor not set");
+    if (!isFlutterTestEnv) {
+      throw StateError("App flavor not set");
+    }
+    // `flutter test` passes no --flavor/--dart-define: fall back to the flavor
+    // CI runs the suite with (tool/ci_test_session.sh) so a bare run matches.
+    return "prod";
   }
 
   return flavor.toLowerCase();
@@ -538,8 +597,16 @@ Plausible? getPlausible() {
   return null;
 }
 
+// Every `StateError` from here to the end of the file guards a config value
+// that a `--dart-define` or `config.json` would supply. A test build passes
+// none of them while `isFlutterTestEnv` is true, so the pinned fallbacks on
+// these getters are always the branch taken and no throw can fire.
 String getTitanHost() {
-  const backendHost = String.fromEnvironment("BACKEND_HOST");
+  const definedHost = String.fromEnvironment("BACKEND_HOST");
+  // Under `flutter test` (no dart-defines) fall back to the host CI pins.
+  final backendHost = definedHost.isEmpty && isFlutterTestEnv
+      ? "https://myemapp.com/"
+      : definedHost;
   if (backendHost.isEmpty) {
     throw StateError("Could not find BACKEND_HOST in config.json");
   }
@@ -567,7 +634,12 @@ String getCentralisationHost() {
 }
 
 String getBaseSchoolName() {
-  const schoolName = String.fromEnvironment("SCHOOL_NAME");
+  const definedSchool = String.fromEnvironment("SCHOOL_NAME");
+  // The suite passes no SCHOOL_NAME: fall back to the school folder shipped
+  // in assets/, so the school-specific images still resolve in tests.
+  final schoolName = definedSchool.isEmpty && isFlutterTestEnv
+      ? "emlyon"
+      : definedSchool;
   if (schoolName.isEmpty) {
     throw StateError("Could not find SCHOOL_NAME in config.json");
   }
@@ -575,7 +647,11 @@ String getBaseSchoolName() {
 }
 
 String getTitanURL() {
-  const titanUrl = String.fromEnvironment("TITAN_URL");
+  const definedUrl = String.fromEnvironment("TITAN_URL");
+  // Under `flutter test` (no dart-defines) fall back to the host CI pins.
+  final titanUrl = definedUrl.isEmpty && isFlutterTestEnv
+      ? "https://myemapp.com/"
+      : definedUrl;
   if (titanUrl.isEmpty) {
     throw StateError("Could not find TITAN_URL in config.json");
   }
@@ -599,7 +675,11 @@ String getTitanPackageSuffix() {
 }
 
 String getTitanPackageName() {
-  const appIdPrefix = String.fromEnvironment("APP_ID_PREFIX");
+  const definedPrefix = String.fromEnvironment("APP_ID_PREFIX");
+  // Under `flutter test` fall back to the prefix CI pins (…`test.titan`).
+  final appIdPrefix = definedPrefix.isEmpty && isFlutterTestEnv
+      ? "test"
+      : definedPrefix;
   if (appIdPrefix.isEmpty) {
     throw StateError("Could not find APP_ID_PREFIX in config.json");
   }
@@ -611,7 +691,11 @@ String getTitanURLScheme() {
 }
 
 String getAppName() {
-  const appName = String.fromEnvironment("APP_NAME");
+  const definedName = String.fromEnvironment("APP_NAME");
+  // Under `flutter test` fall back to the app name CI pins.
+  final appName = definedName.isEmpty && isFlutterTestEnv
+      ? "MyEMApp"
+      : definedName;
   if (appName.isEmpty) {
     throw StateError("Could not find APP_NAME in config.json");
   }

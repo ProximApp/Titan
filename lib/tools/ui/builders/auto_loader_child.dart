@@ -37,8 +37,8 @@ class AutoLoaderChild<MapKey, MapValue> extends ConsumerWidget {
     if (group == null) {
       Future.microtask(() {
         loader == null
-            ? notifier.autoLoadList(ref, mapKey, listLoader!)
-            : notifier.autoLoad(ref, mapKey, loader!);
+            ? notifier.autoLoadList(mapKey, listLoader!)
+            : notifier.autoLoad(mapKey, loader!);
       });
       return nonNullLoadingBuilder(context);
     }

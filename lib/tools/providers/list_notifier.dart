@@ -27,8 +27,8 @@ abstract class ListNotifier<T> extends Notifier<AsyncValue<List<T>>> {
       data: (d) async {
         try {
           final newT = await f(t);
-          d.add(newT);
-          state = AsyncValue.data(d);
+          final next = List<T>.of(d)..add(newT);
+          state = AsyncValue.data(next);
           return true;
         } catch (error) {
           state = AsyncValue.data(d);
@@ -65,8 +65,8 @@ abstract class ListNotifier<T> extends Notifier<AsyncValue<List<T>>> {
       data: (d) async {
         try {
           final newT = await f(listT);
-          d.addAll(newT);
-          state = AsyncValue.data(d);
+          final next = List<T>.of(d)..addAll(newT);
+          state = AsyncValue.data(next);
           return true;
         } catch (error) {
           state = AsyncValue.data(d);

@@ -34,30 +34,35 @@ class DeviceItem extends ConsumerWidget {
               child: Row(
                 children: [
                   const SizedBox(width: 20),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        device.name,
-                        style: const TextStyle(
-                          color: Color(0xff204550),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      if (isActual)
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
                         Text(
-                          AppLocalizations.of(context)!.paiementThisDevice,
-                          style: TextStyle(
+                          device.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
                             color: Color(0xff204550),
-                            fontSize: 15,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                    ],
+                        if (isActual)
+                          Text(
+                            AppLocalizations.of(context)!.paiementThisDevice,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Color(0xff204550),
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
                   const SizedBox(width: 10),
-                  Spacer(),
                   getStatusTag(device.status),
                   if (device.status != WalletDeviceStatus.revoked) ...[
                     const SizedBox(width: 20),

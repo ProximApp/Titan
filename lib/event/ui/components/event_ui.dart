@@ -150,9 +150,13 @@ class EventUi extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  Text(
-                    event.association.name,
-                    style: TextStyle(color: textColor, fontSize: 15),
+                  Flexible(
+                    child: Text(
+                      event.association.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(color: textColor, fontSize: 15),
+                    ),
                   ),
                 ],
               ),

@@ -22,11 +22,16 @@ List<MemberComplete> sortedMembers(
   List<MemberComplete> members,
   AssociationComplete association,
 ) {
-  return members..sort(
+  return [...members]..sort(
     (a, b) =>
         getPosition(a, association).compareTo(getPosition(b, association)),
   );
 }
+
+int _byName(AssociationComplete a, AssociationComplete b) =>
+    removeDiacritics(a.name)
+        .toLowerCase()
+        .compareTo(removeDiacritics(b.name).toLowerCase());
 
 List<AssociationComplete> sortedAssociationByKind(
   List<AssociationComplete> associations,
@@ -35,17 +40,23 @@ List<AssociationComplete> sortedAssociationByKind(
   Map<String, List<AssociationComplete>> sortedByGroupement = {
     for (var groupement in groupements) groupement.id: [],
   };
+  // An association whose groupement is missing from the catalog (deleted
+  // server-side, or created before any groupement existed) used to take the
+  // whole phonebook down on the `!` below. It goes in a bucket of its own,
+  // appended after the known groupements, so the card still renders.
+  final ungrouped = <AssociationComplete>[];
   for (AssociationComplete association in associations) {
-    sortedByGroupement[association.groupementId]!.add(association);
+    final bucket = sortedByGroupement[association.groupementId];
+    if (bucket == null) {
+      ungrouped.add(association);
+    } else {
+      bucket.add(association);
+    }
   }
   for (List<AssociationComplete> list in sortedByGroupement.values) {
-    list.sort(
-      (a, b) =>
-          removeDiacritics(a.name)
-              .toLowerCase()
-              .compareTo(removeDiacritics(b.name).toLowerCase()),
-    );
+    list.sort(_byName);
   }
-  // Flatten the sorted map values into a single list
-  return sortedByGroupement.values.expand((list) => list).toList();
+  ungrouped.sort(_byName);
+  // Flatten the sorted map values into a single list, orphans last.
+  return [...sortedByGroupement.values.expand((list) => list), ...ungrouped];
 }

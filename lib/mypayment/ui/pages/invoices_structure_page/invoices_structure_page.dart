@@ -31,6 +31,13 @@ class StructureInvoicesPage extends HookConsumerWidget {
       );
     }
 
+    useEffect(() {
+      if (selectedStructure.id != '') {
+        Future.microtask(refreshInvoices);
+      }
+      return null;
+    }, const []);
+
     return PaymentTemplate(
       child: Refresher(
         controller: controller,

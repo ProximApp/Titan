@@ -34,7 +34,7 @@ class SingleAutoLoaderChild<T, E> extends ConsumerWidget {
         loadingBuilder ?? (context) => Loader(color: loaderColor);
     if (item == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        notifier.autoLoad(ref, mapKey, loader);
+        notifier.autoLoad(mapKey, loader);
       });
       return nonNullLoadingBuilder(context);
     }

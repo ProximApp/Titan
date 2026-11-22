@@ -60,8 +60,9 @@ class DeliveryHandler extends HookConsumerWidget {
             ),
             AsyncChild(
               value: deliveries,
-              builder: (context, data) {
-                data.sort((a, b) => a.deliveryDate.compareTo(b.deliveryDate));
+              builder: (context, dataUnsorted) {
+                final data = [...dataUnsorted]
+                  ..sort((a, b) => a.deliveryDate.compareTo(b.deliveryDate));
                 return Row(
                   children: data.map((e) => DeliveryUi(delivery: e)).toList(),
                 );

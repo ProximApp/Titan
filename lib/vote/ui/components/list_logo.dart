@@ -21,12 +21,17 @@ class ListLogo extends HookConsumerWidget {
       notifier: listLogosNotifier,
       mapKey: list.id,
       loader: (listId) => logoNotifier.getLogo(list.id),
+      // An empty logo group has no first image: `logo.first` threw
+      // `Bad state: No element`. The circle keeps its size so the list row
+      // does not jump while the logo reloads.
       dataBuilder: (context, logo) => Container(
         width: 40,
         height: 40,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          image: DecorationImage(image: logo.first.image, fit: BoxFit.cover),
+          image: logo.isEmpty
+              ? null
+              : DecorationImage(image: logo.first.image, fit: BoxFit.cover),
         ),
       ),
     );

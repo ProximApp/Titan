@@ -45,6 +45,8 @@ class SumUpCard extends StatelessWidget {
           children: [
             Text(
               title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: Colors.white.withValues(alpha: 0.8),
                 fontWeight: FontWeight.bold,
@@ -54,6 +56,8 @@ class SumUpCard extends StatelessWidget {
             // const SizedBox(height: 3),
             Text(
               amount,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,

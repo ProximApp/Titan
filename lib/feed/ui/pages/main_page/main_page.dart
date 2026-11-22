@@ -50,17 +50,16 @@ class FeedMainPage extends HookConsumerWidget {
       if (news.hasValue && news.value!.isNotEmpty) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           final now = DateTime.now();
-          final newsList = news.value!;
-
-          newsList.sort((a, b) {
-            if (a.start == b.start) {
-              if (a.end == null && b.end == null) return 0;
-              if (a.end == null) return -1;
-              if (b.end == null) return 1;
-              return a.end!.compareTo(b.end!);
-            }
-            return a.start.compareTo(b.start);
-          });
+          final newsList = [...news.value!]
+            ..sort((a, b) {
+              if (a.start == b.start) {
+                if (a.end == null && b.end == null) return 0;
+                if (a.end == null) return -1;
+                if (b.end == null) return 1;
+                return a.end!.compareTo(b.end!);
+              }
+              return a.start.compareTo(b.start);
+            });
 
           final upcomingIndex = newsList.indexWhere(
             (item) =>
@@ -104,15 +103,18 @@ class FeedMainPage extends HookConsumerWidget {
 
                 Row(
                   children: [
-                    Text(
-                      localizeWithContext.feedNews,
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: ColorConstants.title,
+                    Expanded(
+                      child: Text(
+                        localizeWithContext.feedNews,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: ColorConstants.title,
+                        ),
                       ),
                     ),
-                    Spacer(),
                     IconButton(
                       icon: HeroIcon(
                         HeroIcons.adjustmentsHorizontal,
