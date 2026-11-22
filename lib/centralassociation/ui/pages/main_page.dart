@@ -1,6 +1,6 @@
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:titan/navigation/ui/scroll_to_hide_navbar.dart';
 import 'package:titan/tools/ui/builders/async_child.dart';
 import 'package:titan/centralassociation/ui/centralassociation.dart';

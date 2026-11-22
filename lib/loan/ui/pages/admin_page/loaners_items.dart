@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:titan/generated/openapi.swagger.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:titan/tools/ui/heroicons.dart';

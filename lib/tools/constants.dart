@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class ColorConstants {
   static const Color gradient1 = Color(0xFFfb6d10);

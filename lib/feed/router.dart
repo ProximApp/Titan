@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:titan/feed/providers/is_feed_admin_provider.dart';
 import 'package:titan/feed/providers/is_user_a_member_of_an_association.dart';

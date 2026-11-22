@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:titan/generated/openapi.swagger.dart';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/ph/providers/file_picker_result_provider.dart';
 import 'package:titan/ph/providers/ph_provider.dart';

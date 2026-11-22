@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:titan/login/ui/web/left_panel.dart';
 import 'package:titan/login/ui/web/right_panel.dart';
 import 'package:titan/tools/functions.dart';

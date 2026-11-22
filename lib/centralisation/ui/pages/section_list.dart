@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:titan/centralisation/class/section.dart';
 import 'package:titan/centralisation/ui/pages/module_card.dart';
 

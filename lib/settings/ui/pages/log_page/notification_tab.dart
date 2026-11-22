@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/settings/providers/logs_provider.dart';
 import 'package:titan/settings/ui/pages/log_page/log_card.dart';

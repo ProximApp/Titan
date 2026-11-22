@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -21,7 +21,7 @@ class IntervalSelector extends ConsumerWidget {
       selectedIntervalProvider.notifier,
     );
 
-    Future<void> _updateHistory(
+    Future<void> updateHistory(
       String storeId,
       DateTime startDate,
       DateTime endDate,
@@ -108,7 +108,7 @@ class IntervalSelector extends ConsumerWidget {
                   final date = await getDate(selectedInterval.start);
                   if (date != null) {
                     selectedIntervalNotifier.updateStart(date);
-                    await _updateHistory(
+                    await updateHistory(
                       selectedStore.id,
                       date,
                       selectedInterval.end,
@@ -148,7 +148,7 @@ class IntervalSelector extends ConsumerWidget {
                       time.minute,
                     );
                     selectedIntervalNotifier.updateStart(date);
-                    await _updateHistory(
+                    await updateHistory(
                       selectedStore.id,
                       date,
                       selectedInterval.end,
@@ -191,7 +191,7 @@ class IntervalSelector extends ConsumerWidget {
                   final date = await getDate(selectedInterval.end);
                   if (date != null) {
                     selectedIntervalNotifier.updateEnd(date);
-                    await _updateHistory(
+                    await updateHistory(
                       selectedStore.id,
                       selectedInterval.start,
                       date,
@@ -231,7 +231,7 @@ class IntervalSelector extends ConsumerWidget {
                       time.minute,
                     );
                     selectedIntervalNotifier.updateEnd(date);
-                    await _updateHistory(
+                    await updateHistory(
                       selectedStore.id,
                       selectedInterval.start,
                       date,

@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:titan/flappybird/tools/functions.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
 

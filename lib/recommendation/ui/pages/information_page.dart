@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/recommendation/providers/recommendation_provider.dart';
 import 'package:titan/recommendation/ui/components/recommendation_card.dart';

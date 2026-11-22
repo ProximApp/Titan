@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/super_admin/router.dart';
 import 'package:titan/tools/ui/widgets/top_bar.dart';

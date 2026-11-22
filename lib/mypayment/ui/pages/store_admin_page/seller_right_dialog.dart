@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 import 'package:titan/l10n/app_localizations.dart';
 import 'package:titan/tools/ui/builders/waiting_button.dart';
@@ -75,7 +75,7 @@ class SellerRightDialog extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 12.0),
-                      if (child != null) child!,
+                      ?child,
                       const SizedBox(height: 30.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

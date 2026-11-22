@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:titan/feed/ui/pages/main_page/pagination_footer.dart';
 import 'package:titan/feed/ui/pages/main_page/time_line_item.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
