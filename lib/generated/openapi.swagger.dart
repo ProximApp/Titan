@@ -12757,8 +12757,7 @@ Only accessible to raid admins.''',
     @Query('start_before') String? startBefore,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Return published news from the feed, paginated.\n\nThe results are ordered on (start, end, id) — ascending by default, or newest first with `order=desc` — so that consecutive pages are stable and can be fetched with limit/offset.\n\nThe optional `start_after` / `start_before` bounds window the query on the news start date (`start >= start_after`, `start <= start_before`), letting clients page backwards and forwards around a given datetime (e.g. "today") with `limit`/`offset`.',
+      description: 'Return published news from the feed, paginated.\n\nThe results are ordered on (start, end, id) — ascending by default, or newest first with `order=desc` — so that consecutive pages are stable and can be fetched with limit/offset.\n\nThe optional `start_after` / `start_before` bounds window the query on the news start date (`start >= start_after`, `start <= start_before`), letting clients page backwards and forwards around a given datetime (e.g. "today") with `limit`/`offset`.',
       summary: 'Get Published News',
       operationId: 'get_feed_news',
       consumes: [],

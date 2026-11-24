@@ -37,9 +37,8 @@ ScrollController useFeedPagination(WidgetRef ref) {
     final itemContext = GlobalObjectKey(item).currentContext;
     if (itemContext == null || !scrollController.hasClients) return;
     final itemBox = itemContext.findRenderObject();
-    final viewport = Scrollable.maybeOf(
-      itemContext,
-    )?.context.findRenderObject();
+    final viewport = Scrollable.maybeOf(itemContext)?.context
+        .findRenderObject();
     if (itemBox is! RenderBox || viewport is! RenderBox) return;
 
     final relativeTop = itemBox
