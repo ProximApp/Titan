@@ -1,5 +1,4 @@
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:titan/l10n/app_localizations.dart';
@@ -362,6 +361,14 @@ Future<TimeOfDay?> _getTime(BuildContext context) async {
   );
 }
 
+DateTime _combineDateAndTime(DateTime date, TimeOfDay? time) => DateTime(
+  date.year,
+  date.month,
+  date.day,
+  time?.hour ?? 0,
+  time?.minute ?? 0,
+);
+
 Future<DateTime?> _getDate(
   BuildContext context,
   DateTime now,
@@ -443,7 +450,7 @@ Future getOnlyHourDate(
   final TimeOfDay? time = await _getTime(context);
 
   dateController.text = DateFormat.Hm(locale)
-      .format(DateTimeField.combine(now, time));
+      .format(_combineDateAndTime(now, time));
 }
 
 Future<DateTime?> pickFullDate(
@@ -463,7 +470,7 @@ Future<DateTime?> pickFullDate(
   if (date == null || !context.mounted) return null;
   final TimeOfDay? time = await _getTime(context);
   if (time == null) return null;
-  return DateTimeField.combine(date, time);
+  return _combineDateAndTime(date, time);
 }
 
 Future getFullDate(

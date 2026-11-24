@@ -1,6 +1,6 @@
 // From https://github.com/huextrat/numeric_keyboard/blob/master/lib/numeric_keyboard.dart
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 
 class NumericKeyboard extends StatelessWidget {

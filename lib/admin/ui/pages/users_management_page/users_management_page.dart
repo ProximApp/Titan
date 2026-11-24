@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/admin/ui/pages/users_management_page/add_user_modal.dart';
 import 'package:titan/l10n/app_localizations.dart';

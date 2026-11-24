@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/seed-library/providers/plant_complete_provider.dart';
 import 'package:titan/seed-library/ui/pages/edit_plant_detail_page/editable_plant_detail.dart';

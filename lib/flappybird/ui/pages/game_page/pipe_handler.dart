@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:titan/flappybird/providers/pipe_list_provider.dart';
 import 'package:titan/flappybird/ui/pages/game_page/pipe.dart';

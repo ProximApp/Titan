@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:titan/mypayment/ui/pages/stats_page/description_shape.dart';
 
 class SumUpCard extends StatelessWidget {

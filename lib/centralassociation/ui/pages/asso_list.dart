@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:titan/centralassociation/class/asso.dart';
 import 'package:titan/centralassociation/ui/pages/link_card.dart';
 

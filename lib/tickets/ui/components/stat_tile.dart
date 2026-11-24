@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:titan/tools/constants.dart';
 
 class StatTile extends StatelessWidget {

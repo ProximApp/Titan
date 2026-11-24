@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:titan/tools/ui/heroicons.dart';
 import 'package:titan/booking/ui/calendar/calendar_dialog_button.dart';
 import 'package:titan/generated/openapi.models.swagger.dart';
