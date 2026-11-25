@@ -8,10 +8,9 @@
          splash icon slot (see `values/styles.xml`), so one file serves both the
          system splash and this window; nothing else may be drawn on that canvas
          because the platform only paints its inner 192 dp circle.
-       * `launch_partner_splash` — the app name with "Proposé par" and the logo of
-         the entity that serves this app under it. The real logo is not known yet,
-         so the mark is a neutral placeholder: replacing it replaces the logo
-         everywhere. Overridden per flavour because the block carries the name.
+       * `launch_partner_splash` — the app name with "Proposé par" and the
+         Plug'n'Play logo, the association that serves this app. Overridden per
+         flavour because the block carries the name.
 
      Both are overridden per flavour in `src/<flavor>/res/drawable-nodpi/`; the
      copies in `main` are the prod art and only serve non-flavoured builds.
