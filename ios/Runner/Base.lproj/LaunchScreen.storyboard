@@ -15,14 +15,19 @@
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <!-- The app icon in the middle of the screen, and the app name with "Proposé par" and the logo of the entity that serves the app 60 pt above the bottom edge. This is the app's only splash: Flutter's first frame replaces it directly. -->
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="LaunchImage" translatesAutoresizingMaskIntoConstraints="NO" id="YRO-k0-Ey4">
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="LaunchPartner" translatesAutoresizingMaskIntoConstraints="NO" id="paT-n3-Lg0">
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="1a2-6s-vTC"/>
                             <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="4X2-HB-R7a"/>
+                            <constraint firstItem="paT-n3-Lg0" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="paC-nX-7t1"/>
+                            <constraint firstItem="paT-n3-Lg0" firstAttribute="bottom" secondItem="Ze5-6b-2t3" secondAttribute="bottom" constant="-60" id="paC-Bt-7t2"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -32,6 +37,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="LaunchImage" width="168" height="185"/>
+        <image name="LaunchImage" width="288" height="288"/>
+        <image name="LaunchPartner" width="200" height="80"/>
     </resources>
 </document>

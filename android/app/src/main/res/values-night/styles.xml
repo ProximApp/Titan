@@ -1,10 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Theme applied to the Android Window while the process is starting when the OS's Dark Mode setting is on -->
-    <style name="LaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">
+    <!-- Theme applied to the Android Window while the process is starting.
+         The native splash is white in both appearances, so the launch window
+         is too, and it uses the light parent to get dark status bar icons over
+         that white background. NormalTheme stays dark: it is what the OS paints
+         behind Flutter once the process has started. -->
+    <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <!-- Show a splash screen on the activity. Automatically removed when
              Flutter draws its first frame -->
         <item name="android:windowBackground">@drawable/launch_background</item>
+        <!-- Android 12 (API 31) and later draw a splash of their own before the
+             window is shown, and they size the art themselves: the icon is laid
+             out in a 288 dp slot and the branding image in a 200 x 80 dp one.
+             The `_splash` drawables are the same artwork padded to those slots,
+             so the icon still reads as 180 dp and the partner logo keeps its
+             aspect instead of being stretched. Releases before 31 ignore these
+             three attributes and only use `windowBackground` above. -->
+        <item name="android:windowSplashScreenBackground">@android:color/white</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/launch_icon_splash</item>
+        <item name="android:windowSplashScreenBrandingImage">@drawable/launch_partner_splash</item>
     </style>
     <!-- Theme applied to the Android Window as soon as the process has started.
          This theme determines the color of the Android Window while your

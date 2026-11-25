@@ -1,3 +1,5 @@
 #include "Flutter/Debug.xcconfig"
 
 PRODUCT_BUNDLE_IDENTIFIER = $(APP_ID_PREFIX).titan.dev
+
+LAUNCH_SCREEN_STORYBOARD = LaunchScreen-Dev
