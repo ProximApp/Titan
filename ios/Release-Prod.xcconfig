@@ -1,3 +1,5 @@
 #include "Flutter/Release.xcconfig"
 
 PRODUCT_BUNDLE_IDENTIFIER = $(APP_ID_PREFIX).titan
+
+LAUNCH_SCREEN_STORYBOARD = LaunchScreen

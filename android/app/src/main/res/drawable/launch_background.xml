@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Modify this file to customize your launch splash screen -->
+<!-- The window Android shows while the process starts. This is the app's only
+     splash: Flutter's first frame replaces it directly.
+
+     Two things are drawn on the white background:
+       * `launch_icon_splash` — the flavour's app icon on a 288 dp white canvas,
+         centred in a 180 dp box. 288 dp is the size of the Android 12+ system
+         splash icon slot (see `values/styles.xml`), so one file serves both the
+         system splash and this window; nothing else may be drawn on that canvas
+         because the platform only paints its inner 192 dp circle.
+       * `launch_partner_splash` — the app name with "Proposé par" and the
+         Plug'n'Play logo, the association that serves this app. Overridden per
+         flavour because the block carries the name.
+
+     Both are overridden per flavour in `src/<flavor>/res/drawable-nodpi/`; the
+     copies in `main` are the prod art and only serve non-flavoured builds.
+
+     The partner line sits at the bottom in the same 200 x 80 dp box, 60 dp above
+     the edge, that Android 12 and later use for
+     `windowSplashScreenBrandingImage` (see `values/styles.xml`): the system
+     splash is drawn first and this window can be drawn straight after it, so
+     sharing the geometry is what keeps it still in between. -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@android:color/white" />
 
-    <!-- You can insert your own image assets here -->
-    <!-- <item>
+    <item
+        android:width="288dp"
+        android:height="288dp"
+        android:gravity="center">
         <bitmap
-            android:gravity="center"
-            android:src="@mipmap/launch_image" />
-    </item> -->
+            android:gravity="fill"
+            android:src="@drawable/launch_icon_splash" />
+    </item>
+
+    <item
+        android:width="200dp"
+        android:height="80dp"
+        android:gravity="bottom|center_horizontal"
+        android:bottom="60dp">
+        <bitmap
+            android:gravity="fill"
+            android:src="@drawable/launch_partner_splash" />
+    </item>
 </layer-list>
